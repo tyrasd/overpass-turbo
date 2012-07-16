@@ -1,0 +1,154 @@
+html,body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  background-color: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial;
+  font-size: 13px;
+}
+#editor {
+  background-color: #FFFFFF;
+  padding: 0;
+  margin: 0;
+  position:absolute;
+  top:51px;bottom:0;left:0;right:55%;
+}
+#dataviewer {
+  background-color: #FFFFFF;
+  padding: 0;
+  margin: 0;
+  position:absolute;
+  top:51px;bottom:0;left:45%;right:0;
+}
+#map {
+  width:100%;
+  height:100%;
+}
+#data {
+  background-color:white;
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  z-index:-99;
+}
+
+.CodeMirror {
+  height:100%;
+  line-height:1.2em;
+}
+#editor .CodeMirror-scroll {
+  height: 100%;
+  overflow-x: auto;
+}
+#data .CodeMirror-scroll {
+  height: 100%;
+  overflow-x: auto;
+}
+.CodeMirror-gutter, .CodeMirror-lines {
+  padding:12px;
+  padding-top:20px;
+}
+.CodeMirror-gutter-text {
+  padding-top:0;
+  padding-bottom:0;
+}
+
+#navs {
+  width:100%;
+  position: absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:51px;
+  background: #eeeeee; /* Old browsers */
+  background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+}
+.nav {
+  padding:13px 10px;
+}
+#navs > *, a {
+  color: #232323;
+  text-shadow: #fff 1px 1px 1px;
+}
+a:not(.disabled):not(.active):hover {
+  text-shadow: #fff -1px -1px 3px;
+}
+a {
+  font-weight: bold;
+}
+.buttons {
+  float: left;
+  display: block;
+  margin-right: 10px;
+}
+.tabs {
+  display: block;
+  position: absolute;
+  top:25px;
+  right:5px;
+}
+.button {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  height: 12px;
+  line-height: 12px;
+  padding: 6px 10px;
+  display: block;
+  float: left;
+  text-decoration: none;
+  margin: 0px 0px;
+  background: #fff;
+  background: rgba(255, 255, 255, 0.3);
+}
+a.button:not(.disabled):not(.active):hover {
+  box-shadow: #fff 0px 0px 5px;
+  background: rgba(0, 0, 0, 0.05);
+}
+a.button:not(.disabled):not(.active):active /*, a.button:focus*/ {
+  box-shadow: #C8C8C8 0px 0px 3px;
+  border-color: #fff;
+  outline: 0;
+  text-shadow: none;
+}
+.gap {
+  margin-right: 10px;
+}
+.group {
+  border-radius: 0;
+  border-left: 0;
+}
+.left {
+  border-left: 1px solid #ccc;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.right {
+  border-right: 1px solid #ccc;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.tabs a.button {
+  margin-right:5px;
+  border-bottom:0;
+  border-bottom-left-radius:0;
+  border-bottom-right-radius:0;
+}
+.tabs a.button.active {
+  background: rgba(255,255,255, 0.6);
+}
+a.button.disabled, a.button.active {
+  pointer-events: none;
+  cursor: default;
+}
+a.button.disabled {
+  color: #888;
+}

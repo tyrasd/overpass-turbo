@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" lang="en"></meta>
+  <title>Overpass IDE</title>
+  <!--jQuery-->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <!--jQuery UI->
+  <link type="text/css" href="jquery-ui.css" rel="Stylesheet" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>-->
+  <!--CodeMirror-->
+  <script src="libs/CodeMirror/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="libs/CodeMirror/lib/codemirror.css">
+  <script src="libs/CodeMirror/mode/javascript/javascript.js"></script>
+  <!--leaflet-->
+  <script src="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.css" />
+  <!--own scripts & styles-->
+  <script src="ide.js?1"></script>
+  <link rel="stylesheet" href="default.css" />
+</head>
+<body>
+  <div id="navs">
+    <div class="nav">
+      <div class="buttons">
+        <a class="button disabled group left" accesskey="1" href="#save">Save</a>
+        <a class="button disabled group right gap" accesskey="2" href="#load">Load</a>
+        <a class="button group left" accesskey="3" href="#run" onclick="update_map();">Run</a>
+        <a class="button disabled group" accesskey="4" href="#share">Share</a>
+        <a class="button disabled group right gap" accesskey="5" href="#export">Export</a>
+        <a class="button disabled" accesskey="0" href="#settings">Settings</a>
+      </div>
+      <div class="tabs">
+        <a class="button active" href="#map">Map</a>
+        <a class="button" href="#data">Data</a>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <div id="editor">
+    <!--CodeMirror goes here-->
+  </div>
+  <div id="dataviewer">
+    <div id="map"></div>
+    <div id="data"></div>
+  </div>
+
+
+</body>
+</html>
