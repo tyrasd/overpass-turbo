@@ -9,9 +9,16 @@ var geojsonLayer = null;
 function init() {
   // init codemirror
   codeEditor = CodeMirror($("#editor")[0], {
-    value:'[out:json];\n(\n  node\n    ["amenity"="drinking_water"]\n    (<bbox>)\n);\nout body;', 
+    //value:'[out:json];\n(\n  node\n    ["amenity"="drinking_water"]\n    (<bbox>)\n);\nout body;', 
+    value:'<osm-script output="json">\n'+
+          '  <query type="node">\n'+
+          '    <has-kv k="amenity" v="drinking_water"/>\n'+
+          '    <bbox-query/>\n'+
+          '  </query>\n'+
+          '  <print mode="body" order="quadtile"/>\n'+
+          '</osm-script>\n',
     lineNumbers: true,
-    mode: "none"
+    mode: "xml"
   });
   dataViewer = CodeMirror($("#data")[0], {
     value:'no data loaded yet', 
@@ -188,13 +195,20 @@ function overpassJSON2geoJSON(json) {
 
   return geojson;
 }
-function map2bbox() {
-  return map.getBounds().getSouthWest().lat+','+map.getBounds().getSouthWest().lng+','+map.getBounds().getNorthEast().lat+','+map.getBounds().getNorthEast().lng;
+function map2bbox(lang) {
+  if (lang=="ql")
+    return "("+map.getBounds().getSouthWest().lat+','+map.getBounds().getSouthWest().lng+','+map.getBounds().getNorthEast().lat+','+map.getBounds().getNorthEast().lng+")";
+  else (lang=="xml")
+    return '<bbox-query s="'+map.getBounds().getSouthWest().lat+'" w="'+map.getBounds().getSouthWest().lng+'" n="'+map.getBounds().getNorthEast().lat+'" e="'+map.getBounds().getNorthEast().lng+'"/>';
 }
 
 function update_map() {
   // 1. get overpass json data
-  var query = codeEditor.getValue().replace(/<bbox>/g,map2bbox()).replace(/(\n|\r)/g," ").replace(/\s+/g," ");
+  var query = codeEditor.getValue();
+  query = query.replace(/\(bbox\)/g,map2bbox("ql"));
+  query = query.replace(/<bbox-query\/>/g,map2bbox("xml"));
+  query = query.replace(/(\n|\r)/g," ");
+  query = query.replace(/\s+/g," ");
   // if json:
   $.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     function(json, textStatus, jqXHR) {
