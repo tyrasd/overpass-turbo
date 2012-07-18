@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.css" />
   <!--own scripts & styles-->
   <script src="ide.js"></script>
+  <script src="overpass.js"></script>
   <link rel="stylesheet" href="default.css" />
 </head>
 <body>
@@ -26,7 +27,7 @@
       <div class="buttons">
         <a class="button disabled group left" accesskey="1" href="#save">Save</a>
         <a class="button disabled group right gap" accesskey="2" href="#load">Load</a>
-        <a class="button group left" accesskey="3" href="#run" onclick="update_map();">Run</a>
+        <a class="button group left" accesskey="3" href="#run" onclick="overpass.update_map();">Run</a>
         <a class="button disabled group" accesskey="4" href="#share">Share</a>
         <a class="button disabled group right gap" accesskey="5" href="#export">Export</a>
         <a class="button disabled" accesskey="0" href="#settings">Settings</a>
