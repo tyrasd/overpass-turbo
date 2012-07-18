@@ -47,3 +47,19 @@
         (bbox)
     );
     out body;
+
+## find and show ways with "Straße" misspelled
+    <osm-script output="json">
+      <query type="way">
+        <has-kv k="highway"/>
+        <has-kv k="name" regv="[Ss]trasse"/>
+        <bbox-query/>
+      </query>
+      <union>
+        <item />
+        <recurse type="down" />
+      </union>
+      <print mode="body" order="quadtile"/>
+    </osm-script>
+
+
