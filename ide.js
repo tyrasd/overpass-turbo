@@ -33,9 +33,18 @@ var ide = new(function() {
     ide.map = new L.Map("map");
     var osmUrl="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
     var osmAttrib="Map data © openstreetmap contributors";
-    var osm = new L.TileLayer(osmUrl,{minZoom:8,maxZoom:18,attribution:osmAttrib});
-    var pos = new L.LatLng(46.48,11.32);
+    var osm = new L.TileLayer(osmUrl,{minZoom:4,maxZoom:18,attribution:osmAttrib});
+    var pos = new L.LatLng(46.48,11.32); // todo
     ide.map.setView(pos,12).addLayer(osm);
+    // One-shot position request.
+    try {
+      navigator.geolocation.getCurrentPosition(function (position){
+        var pos = new L.LatLng(position.coords.latitude,position.coords.longitude);
+        ide.map.setView(pos,13);
+      });
+    } catch(e) {}
+
+
 
     // tabs
     $("#dataviewer > div#data")[0].style.zIndex = -99;
