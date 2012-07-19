@@ -1,0 +1,53 @@
+/* Widgets */
+.ui-widget .ui-widget { font-size: 1em; }
+.ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff; color: #222222; }
+.ui-widget-content a { color: #222222; }
+.ui-widget-header { border: 1px solid #aaaaaa; background: #cccccc; color: #222222; font-weight: bold; }
+.ui-widget-header a { color: #222222; }
+
+/* Overlays */
+.ui-widget-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.ui-widget-overlay { background: #aaaaaa; opacity: .30; }
+.ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; opacity: .30;}
+
+/* Dialogs */
+.ui-dialog-titlebar {
+  display: block;
+  height: 30px;
+  background: #eeeeee; /* Old browsers */
+  background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
+}
+.ui-dialog-titlebar .ui-dialog-title {
+  display: block;
+  float:left;
+  margin-top: 10px;
+  margin-left: 14px;
+}
+.ui-dialog-titlebar .ui-icon-closethick {
+  content: "x";
+  display: block;
+  float: right;
+  margin-top: 8px;
+  margin-right:14px;
+}
+
+.ui-dialog-content {
+  padding: 10px;
+  line-height: 1.2em;
+}
+
+.ui-dialog ul {
+  list-style-type: none;
+  padding-left:0;
+}
+.ui-dialog ul li {
+  line-height:1.4em;
+}
+.ui-dialog ul li input {
+  margin-right:5px;
+}

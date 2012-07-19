@@ -33,9 +33,17 @@ var ide = new(function() {
     ide.map = new L.Map("map");
     var osmUrl="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
     var osmAttrib="Map data © openstreetmap contributors";
-    var osm = new L.TileLayer(osmUrl,{minZoom:8,maxZoom:18,attribution:osmAttrib});
-    var pos = new L.LatLng(46.48,11.32);
+    var osm = new L.TileLayer(osmUrl,{minZoom:4,maxZoom:18,attribution:osmAttrib});
+    var pos = new L.LatLng(46.48,11.32); // todo
     ide.map.setView(pos,12).addLayer(osm);
+    // One-shot position request.
+    try {
+      navigator.geolocation.getCurrentPosition(function (position){
+        var pos = new L.LatLng(position.coords.latitude,position.coords.longitude);
+        ide.map.setView(pos,13);
+      });
+    } catch(e) {}
+
 
     // tabs
     $("#dataviewer > div#data")[0].style.zIndex = -99;
@@ -207,6 +215,32 @@ var ide = new(function() {
   }
   this.getQuery = function() {
     return codeEditor.getValue();
+  }
+  this.setQuery = function(query) {
+    codeEditor.setValue(query);
+  }
+
+
+  // Event handlers
+  this.onLoadClick = function() {
+    var ex_html = "";
+    for(var example in examples)
+      ex_html += '<li><input type="radio" name="ex_list" value="'+example+'" />'+example+'</li>';
+    $('<div title="Load"><p>Select example to load:</p><ul>'+ex_html+'</ul></div>').dialog({
+      modal:true,
+      height:250,
+      buttons: {
+        "Load" : function() {
+          $("input",this).each(function(i,inp) {
+            if (inp.checked)
+              ide.setQuery(examples[inp.value].overpass);
+          });
+          $(this).dialog("close");
+        },
+        "Cancel" : function() {$(this).dialog("close");}
+      }
+    });
+    
   }
 
   // == initializations ==

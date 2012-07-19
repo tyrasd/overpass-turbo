@@ -70,7 +70,6 @@ body {
   background: -o-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
   background: -ms-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* IE10+ */
   background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
 .nav {
   padding:13px 10px;

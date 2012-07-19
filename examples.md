@@ -1,7 +1,6 @@
 # Some examples
 
 ## Platforms in Bozen
-
     <osm-script output="json">
       <area-query ref="3600047207"/>
       <recurse type="node-way" />
@@ -17,7 +16,6 @@
     </osm-script>
 
 ## Turn Restrictions in bbox
-
     <osm-script output="json">
       <union into="r">
         <query type="relation">
