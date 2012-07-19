@@ -45,7 +45,6 @@ var ide = new(function() {
     } catch(e) {}
 
 
-
     // tabs
     $("#dataviewer > div#data")[0].style.zIndex = -99;
     $(".tabs a.button").bind("click",function(e) {
@@ -216,6 +215,32 @@ var ide = new(function() {
   }
   this.getQuery = function() {
     return codeEditor.getValue();
+  }
+  this.setQuery = function(query) {
+    codeEditor.setValue(query);
+  }
+
+
+  // Event handlers
+  this.onLoadClick = function() {
+    var ex_html = "";
+    for(var example in examples)
+      ex_html += '<li><input type="radio" name="ex_list" value="'+example+'" />'+example+'</li>';
+    $('<div title="Load"><p>Select example to load:</p><ul>'+ex_html+'</ul></div>').dialog({
+      modal:true,
+      height:250,
+      buttons: {
+        "Load" : function() {
+          $("input",this).each(function(i,inp) {
+            if (inp.checked)
+              ide.setQuery(examples[inp.value].overpass);
+          });
+          $(this).dialog("close");
+        },
+        "Cancel" : function() {$(this).dialog("close");}
+      }
+    });
+    
   }
 
   // == initializations ==
