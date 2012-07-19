@@ -1,5 +1,5 @@
 examples = {
-  "Drinking Water in bbox (overpass QL)":  {
+  "Drinking Water in bbox":  {
     "overpass": '<osm-script output="json">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query/>\n  </query>\n  <print mode="body" order="quadtile"/>\n</osm-script>',
   },
   "Drinking Water in bbox (overpass QL)":  {
