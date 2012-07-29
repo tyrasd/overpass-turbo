@@ -10,11 +10,12 @@ var ide = new(function() {
 
   // == private methods ==
   var init = function() {
+    // load settings
+    settings.load();
+
     // init codemirror
     codeEditor = CodeMirror($("#editor")[0], {
-      value: (settings.code["overpass"] !== null) ?
-        settings.code["overpass"] :
-        examples[examples_initial_example]["overpass"],
+      value: settings.code["overpass"],
       lineNumbers: true,
       mode: "xml",
       onChange: function(e) {
@@ -242,7 +243,7 @@ var ide = new(function() {
   // Event handlers
   this.onLoadClick = function() {
     var ex_html = "";
-    for(var example in examples)
+    for(var example in settings.saves)
       ex_html += '<li><input type="radio" name="ex_list" value="'+example+'" />'+example+'</li>';
     $('<div title="Load"><p>Select example to load:</p><ul>'+ex_html+'</ul></div>').dialog({
       modal:true,
@@ -251,7 +252,7 @@ var ide = new(function() {
         "Load" : function() {
           $("input",this).each(function(i,inp) {
             if (inp.checked)
-              ide.setQuery(examples[inp.value].overpass);
+              ide.setQuery(settings.saves[inp.value].overpass);
           });
           $(this).dialog("close");
         },
@@ -259,6 +260,23 @@ var ide = new(function() {
       }
     });
     
+  }
+  this.onSaveClick = function() {
+    $('<div title="Save"><p>Select name</p><p><input name="save" type="text" /></p></div>').dialog({
+      modal:true,
+      height:150,
+      buttons: {
+        "Save" : function() {
+          var name = $("input",this)[0].value;
+          settings.saves[name] = {
+            "overpass": ide.getQuery()
+          };
+          settings.save();
+          $(this).dialog("close");
+        },
+        "Cancel": function() {$(this).dialog("close");}
+      }
+    });
   }
   this.onRunClick = function() {
     overpass.update_map();
