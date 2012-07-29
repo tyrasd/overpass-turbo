@@ -29,6 +29,7 @@ var ide = new(function() {
       readonly: true,
       mode: "javascript"
     });
+
     // init leaflet
     ide.map = new L.Map("map");
     var osmUrl="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -44,6 +45,8 @@ var ide = new(function() {
       });
     } catch(e) {}
 
+    // disabled buttons
+    $("a.disabled").bind("click",function() { return false; });
 
     // tabs
     $("#dataviewer > div#data")[0].style.zIndex = -99;
@@ -56,8 +59,15 @@ var ide = new(function() {
       }
     });
 
-    // disabled buttons
-    $("a.disabled").bind("click",function() { return false; });
+    // wait spinner
+    $("body").on({
+      ajaxStart: function() {
+        $(this).addClass("loading");
+      },
+      ajaxStop: function() {
+        $(this).removeClass("loading");
+      },
+    });
   }
   var overpassJSON2geoJSON = function(json) {
     // 2. sort elements
@@ -241,6 +251,9 @@ var ide = new(function() {
       }
     });
     
+  }
+  this.onRunClick = function() {
+    overpass.update_map();
   }
 
   // == initializations ==
