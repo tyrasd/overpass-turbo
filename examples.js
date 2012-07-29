@@ -27,3 +27,4 @@ examples = {
     "overpass": '<osm-script output="json">\n  <query type="way">\n    <has-kv k="highway"/>\n    <has-kv k="name" regv="[Ss]trasse"/>\n    <bbox-query/>\n  </query>\n  <union>\n    <item />\n    <recurse type="down" />\n  </union>\n  <print mode="body" order="quadtile"/>\n</osm-script>',
   },
 }
+examples_initial_example = "Drinking Water in bbox";

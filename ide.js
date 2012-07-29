@@ -12,14 +12,7 @@ var ide = new(function() {
   var init = function() {
     // init codemirror
     codeEditor = CodeMirror($("#editor")[0], {
-      //value:'[out:json];\n(\n  node\n    ["amenity"="drinking_water"]\n    (<bbox>)\n);\nout body;', 
-      value:'<osm-script output="json">\n'+
-            '  <query type="node">\n'+
-            '    <has-kv k="amenity" v="drinking_water"/>\n'+
-            '    <bbox-query/>\n'+
-            '  </query>\n'+
-            '  <print mode="body" order="quadtile"/>\n'+
-            '</osm-script>\n',
+      value:examples[examples_initial_example]["overpass"],
       lineNumbers: true,
       mode: "xml"
     });
