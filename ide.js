@@ -28,15 +28,23 @@ var ide = new(function() {
     var osmUrl="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
     var osmAttrib="Map data © openstreetmap contributors";
     var osm = new L.TileLayer(osmUrl,{minZoom:4,maxZoom:18,attribution:osmAttrib});
-    var pos = new L.LatLng(46.48,11.32); // todo
-    ide.map.setView(pos,12).addLayer(osm);
-    // One-shot position request.
-    try {
-      navigator.geolocation.getCurrentPosition(function (position){
-        var pos = new L.LatLng(position.coords.latitude,position.coords.longitude);
-        ide.map.setView(pos,13);
-      });
-    } catch(e) {}
+    var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
+    ide.map.setView(pos,settings.coords_zoom).addLayer(osm);
+    if (settings.use_html5_coords) {
+      // One-shot position request.
+      try {
+        navigator.geolocation.getCurrentPosition(function (position){
+          var pos = new L.LatLng(position.coords.latitude,position.coords.longitude);
+          ide.map.setView(pos,settings.coords_zoom);
+        });
+      } catch(e) {}
+    }
+    ide.map.on('moveend', function() {
+      settings.coords_lat = ide.map.getCenter().lat;
+      settings.coords_lon = ide.map.getCenter().lng;
+      settings.coords_zoom = ide.map.getZoom();
+      settings.save(); // save settings
+    });
 
     // disabled buttons
     $("a.disabled").bind("click",function() { return false; });
@@ -61,6 +69,7 @@ var ide = new(function() {
         $(this).removeClass("loading");
       },
     });
+
   }
   var overpassJSON2geoJSON = function(json) {
     // 2. sort elements
