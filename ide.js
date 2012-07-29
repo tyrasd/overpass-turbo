@@ -12,38 +12,48 @@ var ide = new(function() {
   var init = function() {
     // init codemirror
     codeEditor = CodeMirror($("#editor")[0], {
-      //value:'[out:json];\n(\n  node\n    ["amenity"="drinking_water"]\n    (<bbox>)\n);\nout body;', 
-      value:'<osm-script output="json">\n'+
-            '  <query type="node">\n'+
-            '    <has-kv k="amenity" v="drinking_water"/>\n'+
-            '    <bbox-query/>\n'+
-            '  </query>\n'+
-            '  <print mode="body" order="quadtile"/>\n'+
-            '</osm-script>\n',
+      value: (settings.code["overpass"] !== null) ?
+        settings.code["overpass"] :
+        examples[examples_initial_example]["overpass"],
       lineNumbers: true,
-      mode: "xml"
+      mode: "xml",
+      onChange: function(e) {
+        settings.code["overpass"] = e.getValue();
+        settings.save();
+      },
     });
     ide.dataViewer = CodeMirror($("#data")[0], {
       value:'no data loaded yet', 
       lineNumbers: true, 
       readonly: true,
-      mode: "javascript"
+      mode: "javascript",
     });
+
     // init leaflet
     ide.map = new L.Map("map");
     var osmUrl="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
     var osmAttrib="Map data © openstreetmap contributors";
     var osm = new L.TileLayer(osmUrl,{minZoom:4,maxZoom:18,attribution:osmAttrib});
-    var pos = new L.LatLng(46.48,11.32); // todo
-    ide.map.setView(pos,12).addLayer(osm);
-    // One-shot position request.
-    try {
-      navigator.geolocation.getCurrentPosition(function (position){
-        var pos = new L.LatLng(position.coords.latitude,position.coords.longitude);
-        ide.map.setView(pos,13);
-      });
-    } catch(e) {}
+    var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
+    ide.map.setView(pos,settings.coords_zoom).addLayer(osm);
+    if (settings.use_html5_coords) {
+      // One-shot position request.
+      try {
+        navigator.geolocation.getCurrentPosition(function (position){
+          var pos = new L.LatLng(position.coords.latitude,position.coords.longitude);
+          ide.map.setView(pos,settings.coords_zoom);
+        });
+      } catch(e) {}
+    }
+    ide.map.on('moveend', function() {
+      settings.coords_lat = ide.map.getCenter().lat;
+      settings.coords_lon = ide.map.getCenter().lng;
+      settings.coords_zoom = ide.map.getZoom();
+      settings.save(); // save settings
+    });
 
+    // disabled buttons
+    $("a.disabled").bind("click",function() { return false; });
 
     // tabs
     $("#dataviewer > div#data")[0].style.zIndex = -99;
@@ -56,8 +66,16 @@ var ide = new(function() {
       }
     });
 
-    // disabled buttons
-    $("a.disabled").bind("click",function() { return false; });
+    // wait spinner
+    $("body").on({
+      ajaxStart: function() {
+        $(this).addClass("loading");
+      },
+      ajaxStop: function() {
+        $(this).removeClass("loading");
+      },
+    });
+
   }
   var overpassJSON2geoJSON = function(json) {
     // 2. sort elements
@@ -241,6 +259,9 @@ var ide = new(function() {
       }
     });
     
+  }
+  this.onRunClick = function() {
+    overpass.update_map();
   }
 
   // == initializations ==
