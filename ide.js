@@ -247,7 +247,7 @@ var ide = new(function() {
       ex_html += '<li><input type="radio" name="ex_list" value="'+example+'" />'+example+'</li>';
     $('<div title="Load"><p>Select example to load:</p><ul>'+ex_html+'</ul></div>').dialog({
       modal:true,
-      height:250,
+      //height:250,
       buttons: {
         "Load" : function() {
           $("input",this).each(function(i,inp) {
@@ -264,7 +264,7 @@ var ide = new(function() {
   this.onSaveClick = function() {
     $('<div title="Save"><p>Select name</p><p><input name="save" type="text" /></p></div>').dialog({
       modal:true,
-      height:150,
+      //height:150,
       buttons: {
         "Save" : function() {
           var name = $("input",this)[0].value;
