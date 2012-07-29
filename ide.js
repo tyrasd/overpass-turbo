@@ -12,15 +12,21 @@ var ide = new(function() {
   var init = function() {
     // init codemirror
     codeEditor = CodeMirror($("#editor")[0], {
-      value:examples[examples_initial_example]["overpass"],
+      value: (settings.code["overpass"] !== null) ?
+        settings.code["overpass"] :
+        examples[examples_initial_example]["overpass"],
       lineNumbers: true,
-      mode: "xml"
+      mode: "xml",
+      onChange: function(e) {
+        settings.code["overpass"] = e.getValue();
+        settings.save();
+      },
     });
     ide.dataViewer = CodeMirror($("#data")[0], {
       value:'no data loaded yet', 
       lineNumbers: true, 
       readonly: true,
-      mode: "javascript"
+      mode: "javascript",
     });
 
     // init leaflet
