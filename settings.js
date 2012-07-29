@@ -10,8 +10,9 @@ var settings = new(function() {
   this.coords_lat = 46.48;
   this.coords_lon = 11.32;
   this.coords_zoom = 12;
-  // example
+  // saved
   this.code = {"overpass": null};
+  this.saves;// = examples;
 
   // == public methods ==
   this.load = function() {
@@ -26,6 +27,12 @@ var settings = new(function() {
       this.coords_zoom = tmp*1;
     if ((tmp = localStorage.getItem(prefix+"code")) !== null)
       this.code = JSON.parse(tmp);
+    else
+      this.code = examples[examples_initial_example];
+    if ((tmp = localStorage.getItem(prefix+"saves")) !== null)
+      this.saves = JSON.parse(tmp);
+    else
+      this.saves = examples;
     this.save(); // this saves any new, yet unsaved, settings
   }
   this.save = function() {
@@ -34,8 +41,8 @@ var settings = new(function() {
     localStorage.setItem(prefix+"coords_lon",this.coords_lon);
     localStorage.setItem(prefix+"coords_zoom",this.coords_zoom);
     localStorage.setItem(prefix+"code",JSON.stringify(this.code));
+    localStorage.setItem(prefix+"saves",JSON.stringify(this.saves));
     //localStorage.setItem(prefix+"",this.);
   }
   
-  this.load();
 })(); // end create settings object
