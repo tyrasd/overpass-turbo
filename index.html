@@ -16,6 +16,8 @@
   <!--leaflet-->
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+  <!--misc libraries-->
+  <script src="libs/misc.js"></script>
   <!--own scripts & styles-->
   <link rel="stylesheet" href="default.css" />
   <script src="settings.js"></script>
@@ -28,7 +30,7 @@
     <div class="nav">
       <div class="buttons">
         <a class="button group left" accesskey="1" href="#run" onclick="ide.onRunClick();">Run</a>
-        <a class="button disabled group" accesskey="2" href="#share">Share</a>
+        <a class="button group" accesskey="2" href="#share" onclick="ide.onShareClick();">Share</a>
         <a class="button disabled group right gap" accesskey="3" href="#export">Export</a>
         <a class="button group left" accesskey="4" href="#save" onclick="ide.onSaveClick();">Save</a>
         <a class="button group right gap" accesskey="5" href="#load" onclick="ide.onLoadClick();">Load</a>
