@@ -18,7 +18,7 @@ var ide = new(function() {
       for (var i=0; i<get.length; i++) {
         var kv = get[i].split("=");
         if (kv[0] == "q") // query set in url
-          settings.code["overpass"] = lzw_decode(Base64.decode(kv[1]));
+          settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(kv[1])));
       }
       settings.save();
     }
@@ -293,7 +293,7 @@ var ide = new(function() {
   }
   this.onShareClick = function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
-    var share_link = baseurl+"?q="+Base64.encode(lzw_encode(codeEditor.getValue()));
+    var share_link = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(codeEditor.getValue())));
     $('<div title="Share"><p>Copy this <a href="'+share_link+'">link</a> to share the current code:</p><p><textarea rows=4 style="width:100%" readonly>'+share_link+'</textarea></p></div>').dialog({
       modal:true,
       buttons: {
