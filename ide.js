@@ -12,6 +12,16 @@ var ide = new(function() {
   var init = function() {
     // load settings
     settings.load();
+    // check for any get-parameters
+    if (location.search != "") {
+      var get = location.search.substring(1).split("&");
+      for (var i=0; i<get.length; i++) {
+        var kv = get[i].split("=");
+        if (kv[0] == "q") // query set in url
+          settings.code["overpass"] = lzw_decode(Base64.decode(kv[1]));
+      }
+      settings.save();
+    }
 
     // init codemirror
     codeEditor = CodeMirror($("#editor")[0], {
@@ -281,16 +291,22 @@ var ide = new(function() {
   this.onRunClick = function() {
     overpass.update_map();
   }
+  this.onShareClick = function() {
+    var baseurl=location.protocol+"//"+location.host+location.pathname;
+    var share_link = baseurl+"?q="+Base64.encode(lzw_encode(codeEditor.getValue()));
+    $('<div title="Share"><p>Copy this <a href="'+share_link+'">link</a> to share the current code:</p><p><textarea rows=4 style="width:100%" readonly>'+share_link+'</textarea></p></div>').dialog({
+      modal:true,
+      buttons: {
+        "OK": function() {$(this).dialog("close");}
+      }
+    });
+  }
 
   // == initializations ==
   // initialize on document ready
   $(document).ready(init);
 
 })(); // end create ide object
-
-
-
-
 
 
 
