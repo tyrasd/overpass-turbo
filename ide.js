@@ -296,9 +296,15 @@ var ide = new(function() {
   }
   this.onShareClick = function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
-    var share_link_compressed = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(codeEditor.getValue())));
-    var share_link_uncompressed = baseurl+"?Q="+encodeURIComponent(codeEditor.getValue());
-    var share_link = share_link_uncompressed.length <= 500 ? share_link_uncompressed : share_link_compressed;
+    var shared_code = codeEditor.getValue();
+    var share_link_uncompressed = baseurl+"?Q="+encodeURIComponent(shared_code);
+    var share_link;
+    if (shared_code.length <= 300) // todo: more options for this in the settings (auto / compressed / uncompressed)
+      share_link = share_link_uncompressed;
+    else {
+      var share_link_compressed = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(shared_code)));
+      share_link = share_link_compressed;
+    }
     var warning = '';
     if (share_link.length >= 2000)
       warning = '<p style="color:orange">Warning: This share-link is quite long. It may not work under certain circumstances</a> (browsers, webservers).</p>';
