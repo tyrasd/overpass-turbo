@@ -23,7 +23,7 @@ var overpass = new(function() {
           rels.push(json.elements[i]);
           break;
         default:
-          alert("???");
+          // type=area (from coord-query) is an example for this case.
       }
     }
     // 3. some data processing (e.g. filter nodes only used for ways)
@@ -153,8 +153,9 @@ var overpass = new(function() {
   this.update_map = function () {
     // 1. get overpass json data
     var query = ide.getQuery();
-    query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox
+    query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
     query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
+    query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
     query = query.replace(/(\n|\r)/g," "); // remove newlines
     query = query.replace(/\s+/g," "); // remove some whitespace
     // if json: //TODO

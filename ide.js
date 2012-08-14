@@ -238,12 +238,17 @@ var ide = new(function() {
 
   // == public methods ==
 
-  // returns the current visible bbox
+  // returns the current visible bbox as a bbox-query
   this.map2bbox = function(lang) {
     if (lang=="ql")
       return "("+this.map.getBounds().getSouthWest().lat+','+this.map.getBounds().getSouthWest().lng+','+this.map.getBounds().getNorthEast().lat+','+this.map.getBounds().getNorthEast().lng+")";
     else (lang=="xml")
       return '<bbox-query s="'+this.map.getBounds().getSouthWest().lat+'" w="'+this.map.getBounds().getSouthWest().lng+'" n="'+this.map.getBounds().getNorthEast().lat+'" e="'+this.map.getBounds().getNorthEast().lng+'"/>';
+  }
+  // returns the current visible map center as a coord-query
+  this.map2coord = function(lang) {
+    if (lang=="xml")
+      return '<coord-query lat="'+this.map.getCenter().lat+'" lon="'+this.map.getCenter().lng+'"/>';
   }
   this.getQuery = function() {
     return codeEditor.getValue();
