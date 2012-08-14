@@ -189,7 +189,7 @@ var overpass = new(function() {
           },
           onEachFeature : function (feature, layer) {
             var popup = "";
-            if (feature.geometryType == "Point")
+            if (feature.geometry.type == "Point")
               popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
             else
               popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
@@ -208,7 +208,7 @@ var overpass = new(function() {
               });
               popup += "</ul>";
             }
-            switch (feature.geometryType) {
+            switch (feature.geometry.type) {
             case "LineString":
             case "Polygon": 
             case "Multipolygon":
@@ -217,7 +217,7 @@ var overpass = new(function() {
                 layer.options.opacity *= 0.5;
               }
             }
-            switch (feature.geometryType) {
+            switch (feature.geometry.type) {
             case "Polygon": 
             case "Multipolygon":
               layer.options.fillColor = "#90DE3C";
