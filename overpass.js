@@ -168,6 +168,10 @@ var overpass = new(function() {
         // 5. add geojson to map - profit :)
         if (geojsonLayer != null) 
           ide.map.removeLayer(geojsonLayer);
+        // if there is only non map-visible data, show it directly
+        if ((geojson[0].features.length + geojson[1].features.length == 0) &&
+            (json.elements.length > 0))
+          ide.switchTab("Data");
         geojsonLayer = new L.GeoJSON(geojson[0], {
           style: function(feature) {
             return { // todo

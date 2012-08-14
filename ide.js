@@ -70,7 +70,7 @@ var ide = new(function() {
     $("a.disabled").bind("click",function() { return false; });
 
     // tabs
-    $("#dataviewer > div#data")[0].style.zIndex = -99;
+    $("#dataviewer > div#data")[0].style.zIndex = -9999;
     $(".tabs a.button").bind("click",function(e) {
       if ($(e.target).hasClass("active")) {
         return;
@@ -257,6 +257,9 @@ var ide = new(function() {
     codeEditor.setValue(query);
   }
 
+  this.switchTab = function(tab) {
+    $("#navs .tabs a:contains('"+tab+"')").click();
+  }
 
   // Event handlers
   this.onLoadClick = function() {
