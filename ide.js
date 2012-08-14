@@ -70,7 +70,7 @@ var ide = new(function() {
     $("a.disabled").bind("click",function() { return false; });
 
     // tabs
-    $("#dataviewer > div#data")[0].style.zIndex = -9999;
+    $("#dataviewer > div#data")[0].style.zIndex = -1001;
     $(".tabs a.button").bind("click",function(e) {
       if ($(e.target).hasClass("active")) {
         return;
