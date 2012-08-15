@@ -236,8 +236,14 @@ var overpass = new(function() {
         }
         ide.map.addLayer(geojsonLayer);
 
-    });
-    
+    }).error(function(jqXHR, textStatus, errorThrown) {
+      // todo: better error handling (add more cases, e.g. server unreachable, etc.)
+      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+jqXHR.responseText.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")).dialog({
+        modal:true,
+        buttons: {"ok": function() {$(this).dialog("close");}},
+      }); // dialog
+    }); // getJSON
+
   }
 
   // == initializations ==
