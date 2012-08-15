@@ -158,19 +158,38 @@ var overpass = new(function() {
     query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
     query = query.replace(/(\n|\r)/g," "); // remove newlines
     query = query.replace(/\s+/g," "); // remove some whitespace
-    // if json: //TODO
-    $.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
-      function(json, textStatus, jqXHR) {
+    //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
+    $.post("http://overpass-api.de/api/interpreter", {data: query},
+      function(data, textStatus, jqXHR) {
         // print raw data
         ide.dataViewer.setValue(jqXHR.responseText);
-        // convert to geoJSON
-        var geojson = overpassJSON2geoJSON(json);
+        // different cases of loaded data: json data, xml data or error message?
+        if (typeof data == "string") { // maybe an error message
+          if (data.indexOf("Error") != -1 &&
+              data.indexOf("<script") == -1 &&
+              data.indexOf("<h2>Public Transport Stops</h2>") == -1) 
+            // this really looks like an error message, so lets open an additional modal error message
+            $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")+"</div>").dialog({
+              modal:true,
+              buttons:{"ok": function(){$(this).dialog("close");}},
+            });
+          ide.dataViewer.setOption("mode","xml");
+          geojson = [{features:[]}, {features:[]}];
+        } else if (typeof data == "object" && data instanceof XMLDocument) { // xml data
+          ide.dataViewer.setOption("mode","xml");
+          // todo: write parser for xml data, too
+          geojson = [{features:[]}, {features:[]}];
+        } else { // maybe json data
+          ide.dataViewer.setOption("mode","javascript");
+          // convert to geoJSON
+          var geojson = overpassJSON2geoJSON(data);
+        }
         // 5. add geojson to map - profit :)
         if (geojsonLayer != null) 
           ide.map.removeLayer(geojsonLayer);
         // if there is only non map-visible data, show it directly
         if ((geojson[0].features.length + geojson[1].features.length == 0) &&
-            (json.elements.length > 0))
+            true)//(json.elements.length > 0))
           ide.switchTab("Data");
         geojsonLayer = new L.GeoJSON(geojson[0], {
           style: function(feature) {
@@ -237,8 +256,10 @@ var overpass = new(function() {
         ide.map.addLayer(geojsonLayer);
 
     }).error(function(jqXHR, textStatus, errorThrown) {
-      // todo: better error handling (add more cases, e.g. server unreachable, etc.)
-      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+jqXHR.responseText.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")).dialog({
+      // todo: better error handling (add more details, e.g. server unreachable, redirection, etc.)
+      //$('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+jqXHR.responseText.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")+"</div>").dialog({
+      ide.dataViewer.setValue("");
+      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p></div>').dialog({
         modal:true,
         buttons: {"ok": function() {$(this).dialog("close");}},
       }); // dialog
