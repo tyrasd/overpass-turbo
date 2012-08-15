@@ -23,7 +23,7 @@ var overpass = new(function() {
           rels.push(json.elements[i]);
           break;
         default:
-          alert("???");
+          // type=area (from coord-query) is an example for this case.
       }
     }
     // 3. some data processing (e.g. filter nodes only used for ways)
@@ -153,8 +153,9 @@ var overpass = new(function() {
   this.update_map = function () {
     // 1. get overpass json data
     var query = ide.getQuery();
-    query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox
+    query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
     query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
+    query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
     query = query.replace(/(\n|\r)/g," "); // remove newlines
     query = query.replace(/\s+/g," "); // remove some whitespace
     // if json: //TODO
@@ -167,8 +168,16 @@ var overpass = new(function() {
         // 5. add geojson to map - profit :)
         if (geojsonLayer != null) 
           ide.map.removeLayer(geojsonLayer);
-        geojsonLayer = new L.GeoJSON(null, {
-          pointToLayer: function (latlng) {
+        // if there is only non map-visible data, show it directly
+        if ((geojson[0].features.length + geojson[1].features.length == 0) &&
+            (json.elements.length > 0))
+          ide.switchTab("Data");
+        geojsonLayer = new L.GeoJSON(geojson[0], {
+          style: function(feature) {
+            return { // todo
+            };
+          },
+          pointToLayer: function (feature, latlng) {
             return new L.CircleMarker(latlng, {
               radius      : 8,
               fillColor   : "#ff7800",
@@ -177,58 +186,64 @@ var overpass = new(function() {
               opacity     : 0.8,
               fillOpacity : 0.4
             });
-          }
-        });
-        geojsonLayer.on("featureparse", function (e) {
-          var popup = "";
-          if (e.geometryType == "Point")
-            popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+e.id+"'>"+e.id+"</a></h2>";
-          else
-            popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+e.id+"'>"+e.id+"</a></h2>";
-          if (e.properties && e.properties.tags) {
-            popup += "<h3>Tags:</h3><ul>";
-            $.each(e.properties.tags, function(k,v) {popup += "<li>"+k+"="+v+"</li>"});
-            popup += "</ul>";
-          }
-          if (e.properties && (typeof e.properties.relations != "undefined")) {
-            popup += "<h3>Relations:</h3><ul>";
-            $.each(e.properties.relations, function (k,v) {
-              popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
-              if (v["role"]) 
-                popup += " (as "+v["role"]+")";
-              popup += "</li>";
-            });
-            popup += "</ul>";
-          }
-          switch (e.geometryType) {
-          case "LineString":
-          case "Polygon": 
-          case "Multipolygon":
-            if (e.properties && e.properties.tainted==true) {
-              popup += "<strong>Attention: uncomplete way (some nodes missing)</strong>";
-              e.layer.options.opacity *= 0.5;
+          },
+          onEachFeature : function (feature, layer) {
+            var popup = "";
+            if (feature.geometry.type == "Point")
+              popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
+            else
+              popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
+            if (feature.properties && feature.properties.tags) {
+              popup += "<h3>Tags:</h3><ul>";
+              $.each(feature.properties.tags, function(k,v) {popup += "<li>"+k+"="+v+"</li>"});
+              popup += "</ul>";
             }
-          }
-          switch (e.geometryType) {
-          case "Polygon": 
-          case "Multipolygon":
-            e.layer.options.fillColor = "#90DE3C";
-            e.layer.options.fillOpacity = 0.4;
-            e.layer.options.color = "#90DE3C";
-          }
-          if (e.properties && e.properties.relations && e.properties.relations.length>0) {
-            e.layer.options.color = "#f13";
-          }
-          if (popup != "")
-            e.layer.bindPopup(popup);
+            if (feature.properties && (typeof feature.properties.relations != "undefined")) {
+              popup += "<h3>Relations:</h3><ul>";
+              $.each(feature.properties.relations, function (k,v) {
+                popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
+                if (v["role"]) 
+                  popup += " (as "+v["role"]+")";
+                popup += "</li>";
+              });
+              popup += "</ul>";
+            }
+            switch (feature.geometry.type) {
+            case "LineString":
+            case "Polygon": 
+            case "Multipolygon":
+              if (feature.properties && feature.properties.tainted==true) {
+                popup += "<strong>Attention: uncomplete way (some nodes missing)</strong>";
+                layer.options.opacity *= 0.5;
+              }
+            }
+            switch (feature.geometry.type) {
+            case "Polygon": 
+            case "Multipolygon":
+              layer.options.fillColor = "#90DE3C";
+              layer.options.fillOpacity = 0.4;
+              layer.options.color = "#90DE3C";
+            }
+            if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
+              layer.options.color = "#f13";
+            }
+            if (popup != "")
+              layer.bindPopup(popup);
+          },
         });
         for (i=0;i<geojson.length;i++) {
-          geojsonLayer.addGeoJSON(geojson[i]);
+          geojsonLayer.addData(geojson[i]);
         }
         ide.map.addLayer(geojsonLayer);
 
-    });
-    
+    }).error(function(jqXHR, textStatus, errorThrown) {
+      // todo: better error handling (add more cases, e.g. server unreachable, etc.)
+      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+jqXHR.responseText.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")).dialog({
+        modal:true,
+        buttons: {"ok": function() {$(this).dialog("close");}},
+      }); // dialog
+    }); // getJSON
+
   }
 
   // == initializations ==
