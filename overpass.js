@@ -230,10 +230,16 @@ var overpass = new(function() {
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     $.post("http://overpass-api.de/api/interpreter", {data: query},
       function(data, textStatus, jqXHR) {
-        // print raw data
-        ide.dataViewer.setValue(jqXHR.responseText);
+        // clear dataviewer (set a few lines later, after the content type is determined)
+        ide.dataViewer.setValue("");
         // different cases of loaded data: json data, xml data or error message?
         var geojson;
+        // hacky firefox hack :( (it is not properly detecting json from the content-type header)
+        if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
+          try {
+            data = $.parseJSON(data);
+          } catch (e) {}
+        }
         if (typeof data == "string") { // maybe an error message
           if (data.indexOf("Error") != -1 &&
               data.indexOf("<script") == -1 &&
@@ -255,6 +261,8 @@ var overpass = new(function() {
           // convert to geoJSON
           geojson = overpassJSON2geoJSON(data);
         }
+        // print raw data
+        ide.dataViewer.setValue(jqXHR.responseText);
         // 5. add geojson to map - profit :)
         if (geojsonLayer != null) 
           ide.map.removeLayer(geojsonLayer);
@@ -328,6 +336,7 @@ var overpass = new(function() {
 
     }).error(function(jqXHR, textStatus, errorThrown) {
       // todo: better error handling (add more details, e.g. server unreachable, redirection, etc.)
+      // note to me: jqXHR.status should give http status codes
       //$('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+jqXHR.responseText.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")+"</div>").dialog({
       ide.dataViewer.setValue("");
       $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p></div>').dialog({
