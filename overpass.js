@@ -26,6 +26,75 @@ var overpass = new(function() {
           // type=area (from coord-query) is an example for this case.
       }
     }
+    return convert2geoJSON(nodes,ways,rels);
+  }
+  var overpassXML2geoJSON = function(xml) {
+    // 2. sort elements
+    var nodes = new Array();
+    var ways  = new Array();
+    var rels  = new Array();
+    // nodes
+    $("node",xml).each(function(i) {
+      var tags = new Object();
+      $(this).find("tag").each(function(i) {
+        tags[$(this).attr("k")] = $(this).attr("v");
+      });
+      nodes[i] = {
+        "id":   $(this).attr("id"),
+        "lat":  $(this).attr("lat"),
+        "lon":  $(this).attr("lon"),
+        "type": "node",
+      };
+      if (!$.isEmptyObject(tags))
+        nodes[i].tags = tags;
+    });
+    // ways
+    $("way",xml).each(function(i) {
+      var tags = new Object();
+      var wnodes = new Array();
+      $(this).find("tag").each(function(i) {
+        tags[$(this).attr("k")] = $(this).attr("v");
+      });
+      $(this).find("nd").each(function(i) {
+        wnodes[i] = $(this).attr("ref");
+      });
+      ways[i] = {
+        "id":   $(this).attr("id"),
+        "tags": tags,
+        "type": "way",
+      };
+      if (wnodes.length > 0)
+        ways[i].nodes = wnodes;
+      if (!$.isEmptyObject(tags))
+        ways[i].tags = tags;
+    });
+    // relations
+    $("relation",xml).each(function(i) {
+      var tags = new Object();
+      var members = new Array();
+      $(this).find("tag").each(function(i) {
+        tags[$(this).attr("k")] = $(this).attr("v");
+      });
+      $(this).find("member").each(function(i) {
+        members[i] = {
+          "ref":  $(this).attr("ref"),
+          "role": $(this).attr("role"),
+          "type": $(this).attr("type"),
+        };
+      });
+      rels[i] = {
+        "id":   $(this).attr("id"),
+        "tags": tags,
+        "type": "relation",
+      };
+      if (members.length > 0)
+        rels[i].members = members;
+      if (!$.isEmptyObject(tags))
+        ways[i].tags = tags;
+    });
+    return convert2geoJSON(nodes,ways,rels);
+  }
+  var convert2geoJSON = function(nodes,ways,rels) {
     // 3. some data processing (e.g. filter nodes only used for ways)
     var nids = new Object();
     var nodeids = new Array();
@@ -161,9 +230,16 @@ var overpass = new(function() {
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     $.post("http://overpass-api.de/api/interpreter", {data: query},
       function(data, textStatus, jqXHR) {
-        // print raw data
-        ide.dataViewer.setValue(jqXHR.responseText);
+        // clear dataviewer (set a few lines later, after the content type is determined)
+        ide.dataViewer.setValue("");
         // different cases of loaded data: json data, xml data or error message?
+        var geojson;
+        // hacky firefox hack :( (it is not properly detecting json from the content-type header)
+        if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
+          try {
+            data = $.parseJSON(data);
+          } catch (e) {}
+        }
         if (typeof data == "string") { // maybe an error message
           if (data.indexOf("Error") != -1 &&
               data.indexOf("<script") == -1 &&
@@ -177,13 +253,16 @@ var overpass = new(function() {
           geojson = [{features:[]}, {features:[]}];
         } else if (typeof data == "object" && data instanceof XMLDocument) { // xml data
           ide.dataViewer.setOption("mode","xml");
-          // todo: write parser for xml data, too
-          geojson = [{features:[]}, {features:[]}];
+          // convert to geoJSON
+          geojson = overpassXML2geoJSON(data);
+            [{features:[]}, {features:[]}];
         } else { // maybe json data
           ide.dataViewer.setOption("mode","javascript");
           // convert to geoJSON
-          var geojson = overpassJSON2geoJSON(data);
+          geojson = overpassJSON2geoJSON(data);
         }
+        // print raw data
+        ide.dataViewer.setValue(jqXHR.responseText);
         // 5. add geojson to map - profit :)
         if (geojsonLayer != null) 
           ide.map.removeLayer(geojsonLayer);
@@ -257,6 +336,7 @@ var overpass = new(function() {
 
     }).error(function(jqXHR, textStatus, errorThrown) {
       // todo: better error handling (add more details, e.g. server unreachable, redirection, etc.)
+      // note to me: jqXHR.status should give http status codes
       //$('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+jqXHR.responseText.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")+"</div>").dialog({
       ide.dataViewer.setValue("");
       $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p></div>').dialog({

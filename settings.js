@@ -28,7 +28,8 @@ var settings = new(function() {
     if ((tmp = localStorage.getItem(prefix+"code")) !== null)
       this.code = JSON.parse(tmp);
     else
-      this.code = examples[examples_initial_example];
+      // copy initial example from examples when loading the IDE for the first time (copying to prevent unwanted rewrites)
+      this.code = $.extend({},examples[examples_initial_example]);
     if ((tmp = localStorage.getItem(prefix+"saves")) !== null)
       this.saves = JSON.parse(tmp);
     else
