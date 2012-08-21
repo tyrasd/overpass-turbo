@@ -110,6 +110,8 @@ var overpass = new(function() {
     var waynids = new Array();
     var wayids = new Array();
     for (var i=0;i<ways.length;i++) {
+      if (!(ways[i].nodes instanceof Array))
+        continue; // ignore ways without nodes (e.g. returned by an ids_only query)
       wayids.push(ways[i].id);
       for (var j=0;j<ways[i].nodes.length;j++) {
         waynids.push(ways[i].nodes[j]);
@@ -159,6 +161,8 @@ var overpass = new(function() {
       "type"     : "FeatureCollection",
       "features" : new Array()};
     for (i=0;i<pois.length;i++) {
+      if (typeof pois[i].lon == "undefined" || typeof pois[i].lat == "undefined")
+        continue; // lon and lat are required for showing a point
       geojsonnodes.features.push({
         "type"       : "Feature",
         "properties" : {
@@ -177,6 +181,8 @@ var overpass = new(function() {
       "type"     : "FeatureCollection",
       "features" : new Array()};
     for (var i=0;i<ways.length;i++) {
+      if (!(ways[i].nodes instanceof Array))
+        continue; // ignore ways without nodes (e.g. returned by an ids_only query)
       ways[i].tainted = false;
       coords = new Array();
       for (j=0;j<ways[i].nodes.length;j++) {
@@ -267,9 +273,11 @@ var overpass = new(function() {
         if (geojsonLayer != null) 
           ide.map.removeLayer(geojsonLayer);
         // if there is only non map-visible data, show it directly
-        if ((geojson[0].features.length + geojson[1].features.length == 0) &&
-            true)//(json.elements.length > 0))
-          ide.switchTab("Data");
+        // todo: more intelligent auto-tab-switching
+        if (geojson[0].features.length == 0) { // no visible nodes => consider auto-tab-switching
+          if (geojson[1].features.length > 0)
+            ide.switchTab("Data");
+        }
         geojsonLayer = new L.GeoJSON(geojson[0], {
           style: function(feature) {
             return { // todo
