@@ -236,9 +236,13 @@ var overpass = new(function() {
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     $.post("http://overpass-api.de/api/interpreter", {data: query},
       function(data, textStatus, jqXHR) {
-        // clear dataviewer (set a few lines later, after the content type is determined)
+        // clear previous data and messages
         ide.dataViewer.setValue("");
+        if (geojsonLayer != null) 
+          ide.map.removeLayer(geojsonLayer);
+        $("#map_blank").remove();
         // different cases of loaded data: json data, xml data or error message?
+        var data_mode = null;
         var geojson;
         // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
@@ -255,28 +259,39 @@ var overpass = new(function() {
               modal:true,
               buttons:{"ok": function(){$(this).dialog("close");}},
             });
+          // the html error message returned by overpass API looks goods also in xml mode ^^
           ide.dataViewer.setOption("mode","xml");
+          data_mode = "error";
           geojson = [{features:[]}, {features:[]}];
         } else if (typeof data == "object" && data instanceof XMLDocument) { // xml data
           ide.dataViewer.setOption("mode","xml");
+          data_mode = "xml";
           // convert to geoJSON
           geojson = overpassXML2geoJSON(data);
             [{features:[]}, {features:[]}];
         } else { // maybe json data
           ide.dataViewer.setOption("mode","javascript");
+          data_mode = "json";
           // convert to geoJSON
           geojson = overpassJSON2geoJSON(data);
         }
         // print raw data
         ide.dataViewer.setValue(jqXHR.responseText);
         // 5. add geojson to map - profit :)
-        if (geojsonLayer != null) 
-          ide.map.removeLayer(geojsonLayer);
-        // if there is only non map-visible data, show it directly
-        // todo: more intelligent auto-tab-switching
-        if (geojson[0].features.length == 0) { // no visible nodes => consider auto-tab-switching
-          if (geojson[1].features.length > 0)
+        // auto-tab-switching: if there is only non map-visible data, show it directly
+        if (geojson[0].features.length == 0 && geojson[1].features.length == 0) { // no visible data
+          // switch only if there is some unplottable data in the returned json/xml.
+          if ((data_mode == "json" && data.elements.length > 0) ||
+              (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
             ide.switchTab("Data");
+            empty_msg = "no visible data";
+          } else if(data_mode == "error") {
+            empty_msg = "an error occured";
+          } else {
+            empty_msg = "recieved empty dataset";
+          }
+          // show why there is an empty map
+          $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:10px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
         }
         geojsonLayer = new L.GeoJSON(geojson[0], {
           style: function(feature) {
