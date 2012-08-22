@@ -130,7 +130,6 @@ var ide = new(function() {
         return container;
       },
     });
-    ide.map.addControl(new MyControl());
   }
   var overpassJSON2geoJSON = function(json) {
     // 2. sort elements
