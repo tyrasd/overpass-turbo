@@ -3,7 +3,6 @@
 
 var overpass = new(function() {
   // == private members ==
-  var geojsonLayer = null;
 
   // == private methods ==
   var overpassJSON2geoJSON = function(json) {
@@ -110,6 +109,8 @@ var overpass = new(function() {
     var waynids = new Array();
     var wayids = new Array();
     for (var i=0;i<ways.length;i++) {
+      if (!(ways[i].nodes instanceof Array))
+        continue; // ignore ways without nodes (e.g. returned by an ids_only query)
       wayids.push(ways[i].id);
       for (var j=0;j<ways[i].nodes.length;j++) {
         waynids.push(ways[i].nodes[j]);
@@ -159,6 +160,8 @@ var overpass = new(function() {
       "type"     : "FeatureCollection",
       "features" : new Array()};
     for (i=0;i<pois.length;i++) {
+      if (typeof pois[i].lon == "undefined" || typeof pois[i].lat == "undefined")
+        continue; // lon and lat are required for showing a point
       geojsonnodes.features.push({
         "type"       : "Feature",
         "properties" : {
@@ -177,6 +180,8 @@ var overpass = new(function() {
       "type"     : "FeatureCollection",
       "features" : new Array()};
     for (var i=0;i<ways.length;i++) {
+      if (!(ways[i].nodes instanceof Array))
+        continue; // ignore ways without nodes (e.g. returned by an ids_only query)
       ways[i].tainted = false;
       coords = new Array();
       for (j=0;j<ways[i].nodes.length;j++) {
@@ -230,9 +235,13 @@ var overpass = new(function() {
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     $.post("http://overpass-api.de/api/interpreter", {data: query},
       function(data, textStatus, jqXHR) {
-        // clear dataviewer (set a few lines later, after the content type is determined)
+        // clear previous data and messages
         ide.dataViewer.setValue("");
+        if (typeof ide.map.geojsonLayer != "undefined") 
+          ide.map.removeLayer(ide.map.geojsonLayer);
+        $("#map_blank").remove();
         // different cases of loaded data: json data, xml data or error message?
+        var data_mode = null;
         var geojson;
         // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
@@ -249,28 +258,41 @@ var overpass = new(function() {
               modal:true,
               buttons:{"ok": function(){$(this).dialog("close");}},
             });
+          // the html error message returned by overpass API looks goods also in xml mode ^^
           ide.dataViewer.setOption("mode","xml");
+          data_mode = "error";
           geojson = [{features:[]}, {features:[]}];
         } else if (typeof data == "object" && data instanceof XMLDocument) { // xml data
           ide.dataViewer.setOption("mode","xml");
+          data_mode = "xml";
           // convert to geoJSON
           geojson = overpassXML2geoJSON(data);
             [{features:[]}, {features:[]}];
         } else { // maybe json data
           ide.dataViewer.setOption("mode","javascript");
+          data_mode = "json";
           // convert to geoJSON
           geojson = overpassJSON2geoJSON(data);
         }
         // print raw data
         ide.dataViewer.setValue(jqXHR.responseText);
         // 5. add geojson to map - profit :)
-        if (geojsonLayer != null) 
-          ide.map.removeLayer(geojsonLayer);
-        // if there is only non map-visible data, show it directly
-        if ((geojson[0].features.length + geojson[1].features.length == 0) &&
-            true)//(json.elements.length > 0))
-          ide.switchTab("Data");
-        geojsonLayer = new L.GeoJSON(geojson[0], {
+        // auto-tab-switching: if there is only non map-visible data, show it directly
+        if (geojson[0].features.length == 0 && geojson[1].features.length == 0) { // no visible data
+          // switch only if there is some unplottable data in the returned json/xml.
+          if ((data_mode == "json" && data.elements.length > 0) ||
+              (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
+            ide.switchTab("Data");
+            empty_msg = "no visible data";
+          } else if(data_mode == "error") {
+            empty_msg = "an error occured";
+          } else {
+            empty_msg = "recieved empty dataset";
+          }
+          // show why there is an empty map
+          $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:10px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+        }
+        ide.map.geojsonLayer = new L.GeoJSON(geojson[0], {
           style: function(feature) {
             return { // todo
             };
@@ -330,9 +352,9 @@ var overpass = new(function() {
           },
         });
         for (i=0;i<geojson.length;i++) {
-          geojsonLayer.addData(geojson[i]);
+          ide.map.geojsonLayer.addData(geojson[i]);
         }
-        ide.map.addLayer(geojsonLayer);
+        ide.map.addLayer(ide.map.geojsonLayer);
 
     }).error(function(jqXHR, textStatus, errorThrown) {
       // todo: better error handling (add more details, e.g. server unreachable, redirection, etc.)
