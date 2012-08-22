@@ -3,7 +3,6 @@
 
 var overpass = new(function() {
   // == private members ==
-  var geojsonLayer = null;
 
   // == private methods ==
   var overpassJSON2geoJSON = function(json) {
@@ -238,8 +237,8 @@ var overpass = new(function() {
       function(data, textStatus, jqXHR) {
         // clear previous data and messages
         ide.dataViewer.setValue("");
-        if (geojsonLayer != null) 
-          ide.map.removeLayer(geojsonLayer);
+        if (typeof ide.map.geojsonLayer != "undefined") 
+          ide.map.removeLayer(ide.map.geojsonLayer);
         $("#map_blank").remove();
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
@@ -293,7 +292,7 @@ var overpass = new(function() {
           // show why there is an empty map
           $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:10px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
         }
-        geojsonLayer = new L.GeoJSON(geojson[0], {
+        ide.map.geojsonLayer = new L.GeoJSON(geojson[0], {
           style: function(feature) {
             return { // todo
             };
@@ -353,9 +352,9 @@ var overpass = new(function() {
           },
         });
         for (i=0;i<geojson.length;i++) {
-          geojsonLayer.addData(geojson[i]);
+          ide.map.geojsonLayer.addData(geojson[i]);
         }
-        ide.map.addLayer(geojsonLayer);
+        ide.map.addLayer(ide.map.geojsonLayer);
 
     }).error(function(jqXHR, textStatus, errorThrown) {
       // todo: better error handling (add more details, e.g. server unreachable, redirection, etc.)
