@@ -100,6 +100,37 @@ var ide = new(function() {
       }
       // todo: more shortcuts
     });
+
+    // leaflet extension
+    var MyControl = L.Control.extend({
+      options: {
+        position:'topleft',
+      },
+      onAdd: function(map) {
+        // create the control container with a particular class name
+        var container = L.DomUtil.create('div', 'leaflet-control-buttons');
+        var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
+        link.href = '#';
+        link.title = "fit zoom to data";
+        L.DomEvent.addListener(link, 'click', function() {
+          try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
+        }, ide.map);
+        var link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
+        link.href = '#';
+        link.title = "pan to current location";
+        L.DomEvent.addListener(link, 'click', function() {
+          // One-shot position request.
+          try {
+            navigator.geolocation.getCurrentPosition(function (position){
+              var pos = new L.LatLng(position.coords.latitude,position.coords.longitude);
+              ide.map.setView(pos,settings.coords_zoom);
+            });
+          } catch(e) {}
+        }, ide.map);
+        return container;
+      },
+    });
+    ide.map.addControl(new MyControl());
   }
   var overpassJSON2geoJSON = function(json) {
     // 2. sort elements
