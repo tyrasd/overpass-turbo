@@ -168,3 +168,34 @@ a.button.disabled {
 body.loading .modal {
   display:block;
 }
+
+.leaflet-control-buttons {
+  background: rgba(0, 0, 0, 0.251);
+  padding: 5px;
+  border-radius: 7px;
+}
+
+.leaflet-control-buttons a:hover { 
+  background-color: #FFFFFF;
+}
+.leaflet-control-buttons a {
+  background-color:rgba(255, 255, 255, 0.749);
+  border-radius: 4px;
+  height: 19px;
+  width: 19px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  display: block;
+  text-align:center;
+  text-decoration: none;
+  color: black;
+  line-height:19px;
+  font-size:11px;
+}
+.leaflet-control-buttons-fitdata {
+  content:"d";
+  margin-bottom:4px;
+}
+.leaflet-control-buttons-myloc {
+  content:"m";
+}
