@@ -91,6 +91,7 @@ var ide = new(function() {
     });
 
     // keyboard event listener
+    // todo: make function "onKeyPress()" out of this
     $("body").keypress(function(event) {
       if ((event.keyCode == 120 && event.which == 0) || // F9
           ((event.which == 13 || event.which == 10) && (event.ctrlKey || event.metaKey))) { // Ctrl+Enter
