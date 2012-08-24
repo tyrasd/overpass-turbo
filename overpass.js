@@ -233,7 +233,7 @@ var overpass = new(function() {
     query = query.replace(/(\n|\r)/g," "); // remove newlines
     query = query.replace(/\s+/g," "); // remove some whitespace
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
-    $.post("http://overpass-api.de/api/interpreter", {data: query},
+    $.post("http://2overpass-api.de/api/interpreter", {data: query},
       function(data, textStatus, jqXHR) {
         // clear previous data and messages
         ide.dataViewer.setValue("");
@@ -357,11 +357,13 @@ var overpass = new(function() {
         ide.map.addLayer(ide.map.geojsonLayer);
 
     }).error(function(jqXHR, textStatus, errorThrown) {
-      // todo: better error handling (add more details, e.g. server unreachable, redirection, etc.)
-      // note to me: jqXHR.status should give http status codes
-      //$('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+jqXHR.responseText.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")+"</div>").dialog({
       ide.dataViewer.setValue("");
-      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p></div>').dialog({
+      var errmsg = "";
+      if (jqXHR.state() == "rejected")
+        errmsg += "<p>Overpass API Server not found</p>";
+      if (jqXHR.status != 0) // note to me: jqXHR.status "should" give http status codes
+        errmsg += "<p>Error-Code: "+jqXHR.status+" ("+jqXHR.statusText+")</p>";
+      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
         modal:true,
         buttons: {"ok": function() {$(this).dialog("close");}},
       }); // dialog
