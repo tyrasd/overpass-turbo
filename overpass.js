@@ -233,7 +233,7 @@ var overpass = new(function() {
     query = query.replace(/(\n|\r)/g," "); // remove newlines
     query = query.replace(/\s+/g," "); // remove some whitespace
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
-    $.post("http://2overpass-api.de/api/interpreter", {data: query},
+    $.post("http://overpass-api.de/api/interpreter", {data: query},
       function(data, textStatus, jqXHR) {
         // clear previous data and messages
         ide.dataViewer.setValue("");
@@ -292,7 +292,7 @@ var overpass = new(function() {
           // show why there is an empty map
           $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:10px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
         }
-        ide.map.geojsonLayer = new L.GeoJSON(geojson[0], {
+        ide.map.geojsonLayer = new L.GeoJSON(null, {
           style: function(feature) {
             return { // todo
             };
