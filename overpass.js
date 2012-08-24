@@ -233,7 +233,7 @@ var overpass = new(function() {
     query = query.replace(/(\n|\r)/g," "); // remove newlines
     query = query.replace(/\s+/g," "); // remove some whitespace
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
-    $.post("http://overpass-api.de/api/interpreter", {data: query},
+    $.post(settings.server, {data: query},
       function(data, textStatus, jqXHR) {
         // clear previous data and messages
         ide.dataViewer.setValue("");

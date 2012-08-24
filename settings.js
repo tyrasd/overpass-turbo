@@ -4,7 +4,10 @@
 var settings = new(function() {
   // == private members ==
   var prefix = "overpass-ide_";
+  var settings_version = 1;
   // == public properties with defaults ==
+  // version of settings.
+  this.version;
   // map coordinates
   this.use_html5_coords = true;
   this.coords_lat = 46.48;
@@ -13,28 +16,26 @@ var settings = new(function() {
   // saved
   this.code = {"overpass": null};
   this.saves;// = examples;
+  // api server
+  this.server = "http://overpass-api.de/api/interpreter";
 
   // == public methods ==
   this.load = function() {
-    var tmp;
-    if ((tmp = localStorage.getItem(prefix+"use_html5_coords")) !== null)
-      this.use_html5_coords = tmp=="true";
-    if ((tmp = localStorage.getItem(prefix+"coords_lat")) !== null)
-      this.coords_lat = tmp*1.;
-    if ((tmp = localStorage.getItem(prefix+"coords_lon")) !== null)
-      this.coords_lon = tmp*1.;
-    if ((tmp = localStorage.getItem(prefix+"coords_zoom")) !== null)
-      this.coords_zoom = tmp*1;
-    if ((tmp = localStorage.getItem(prefix+"code")) !== null)
-      this.code = JSON.parse(tmp);
-    else
-      // copy initial example from examples when loading the IDE for the first time (copying to prevent unwanted rewrites)
-      this.code = $.extend({},examples[examples_initial_example]);
-    if ((tmp = localStorage.getItem(prefix+"saves")) !== null)
-      this.saves = JSON.parse(tmp);
-    else
-      this.saves = examples;
-    this.save(); // this saves any new, yet unsaved, settings
+    // check if settings are up to date
+    this.version = localStorage.getItem(prefix+"version") * 1;
+    if (this.version < settings_version) {
+      update_settings(this.version,this);
+      this.version = localStorage.getItem(prefix+"version") * 1; // reload version
+    }
+    // load settings
+    this.use_html5_coords = localStorage.getItem(prefix+"use_html5_coords") == "true";
+    this.coords_lat = localStorage.getItem(prefix+"coords_lat") * 1;
+    this.coords_lon = localStorage.getItem(prefix+"coords_lon") * 1;
+    this.coords_zoom = localStorage.getItem(prefix+"coords_zoom") * 1;
+    this.code = JSON.parse(localStorage.getItem(prefix+"code"));
+    this.saves = JSON.parse(localStorage.getItem(prefix+"saves"));
+    this.server = localStorage.getItem(prefix+"server");
+    // this. = localStorage.getItem(prefix+"");
   }
   this.save = function() {
     localStorage.setItem(prefix+"use_html5_coords",this.use_html5_coords);
@@ -43,7 +44,22 @@ var settings = new(function() {
     localStorage.setItem(prefix+"coords_zoom",this.coords_zoom);
     localStorage.setItem(prefix+"code",JSON.stringify(this.code));
     localStorage.setItem(prefix+"saves",JSON.stringify(this.saves));
+    localStorage.setItem(prefix+"server",this.server);
     //localStorage.setItem(prefix+"",this.);
+  }
+
+  // == private methods ==
+  var update_settings = function(v,self) {
+    if (v < 1)
+      update_settings_1(self);
+    localStorage.setItem(prefix+"version",settings_version);
+  }
+  var update_settings_1 = function(self) {
+    // load initial code example(s)
+    self.code = $.extend({},examples[examples_initial_example]);
+    self.saves = examples;
+    // save all initial settings for the first time
+    self.save();
   }
   
 })(); // end create settings object
