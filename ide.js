@@ -358,6 +358,24 @@ var ide = new(function() {
       }
     });
   }
+  this.onExportClick = function() {
+    var expo = "<ul>";
+    var query = ide.getQuery();
+    query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
+    query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
+    query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
+    query = query.replace(/(\n|\r)/g," "); // remove newlines
+    query = query.replace(/\s+/g," "); // remove some whitespace
+    expo += '<li><a href="'+settings.server+'interpreter?data='+encodeURIComponent(query)+'">raw API interpreter link</a></li>';
+    expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">OpenLayers overlay</a></li>';
+    expo += "</ul>";
+    $('<div title="Export">'+expo+'</div>').dialog({
+      modal:true,
+      buttons: {
+        "OK": function() {$(this).dialog("close");}
+      }
+    });
+  }
   this.onSettingsClick = function() {
     var set = "";
     //set += '<p><label>Server:</label><br /><select style="width:100%;"><option>http://www.overpass-api.de/api</option><option>http://overpass.osm.rambler.ru/cgi</option></select></p>';
