@@ -89,7 +89,7 @@ var overpass = new(function() {
       if (members.length > 0)
         rels[i].members = members;
       if (!$.isEmptyObject(tags))
-        ways[i].tags = tags;
+        rels[i].tags = tags;
     });
     return convert2geoJSON(nodes,ways,rels);
   }
