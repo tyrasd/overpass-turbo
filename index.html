@@ -35,7 +35,7 @@
         <a class="button group left" accesskey="4" href="#save" onclick="ide.onSaveClick();">Save</a>
         <a class="button group right gap" accesskey="5" href="#load" onclick="ide.onLoadClick();">Load</a>
         <a class="button group left" accesskey="9" href="#settings" onclick="ide.onSettingsClick();">Settings</a>
-        <a class="button group right disabled" accesskey="0" href="#help">Help</a>
+        <a class="button group right" accesskey="0" href="#help" onclick="ide.onHelpClick();">Help</a>
       </div>
       <div class="tabs">
         <a class="button active" href="#map">Map</a>
@@ -53,6 +53,26 @@
     <div id="data"></div>
   </div>
 
+  <!--wait spinner-->
   <div class="modal"></div>
+  <!--help-->
+  <div id="help" title="Help">
+    <h3>Introduction</h3>
+    <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
+    <p>You can run xml styled or overpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
+    <p>One can use the following shortcuts in the query: <ul>
+      <li><i>&lt;bbox-query/&gt;</i> translates to a bbox-query with from currently visible map.</li>
+      <li><i>(bbox-query)</i> translates to a operpassQL bbox-query from the currently visible map.</li>
+      <li><i>&lt;coord-query/&gt;</i> translates to a coord-query from the current map center point.</li>
+    </ul></p>
+    <h3>Attribution</h3>
+    <ul>
+      <li>powered by <a href="http://overpass-api.de/">Overpass API</a></li>
+      <li>Data &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
+      <li>Map powered by <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
+      <li>Map tiles &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
+      <li>Editor powered by <a href="http://codemirror.net/">CodeMirror</a></li>
+    </ul>
+  </div>
 </body>
 </html>

@@ -43,10 +43,16 @@ var ide = new(function() {
     });
 
     // init leaflet
-    ide.map = new L.Map("map");
+    ide.map = new L.Map("map", {
+      attributionControl:false,
+      minZoom:4,
+      maxZoom:18,
+    });
     var osmUrl="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
     var osmAttrib="Map data © openstreetmap contributors";
-    var osm = new L.TileLayer(osmUrl,{minZoom:4,maxZoom:18,attribution:osmAttrib});
+    var osm = new L.TileLayer(osmUrl,{
+      attribution:osmAttrib,
+    });
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
     ide.map.setView(pos,settings.coords_zoom).addLayer(osm);
     L.control.scale().addTo(ide.map);
@@ -394,6 +400,17 @@ var ide = new(function() {
         /*"Reset": function() {
           alert("not jet implemented"); // todo: reset all settings
         },*/
+      }
+    });
+  }
+  this.onHelpClick = function() {
+    $("#help").dialog({
+      modal:false,
+      width:450,
+      buttons: {
+        "Close": function() {
+          $(this).dialog("close");
+        },
       }
     });
   }
