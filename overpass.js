@@ -136,6 +136,7 @@ var overpass = new(function() {
             nodes[n].relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
+              "relname" : rels[i].tags && rels[i].tags.name ? rels[i].tags.name : undefined,
             });
           }
         break;
@@ -147,6 +148,7 @@ var overpass = new(function() {
             ways[w].relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
+              "relname" : rels[i].tags && rels[i].tags.name ? rels[i].tags.name : undefined,
             });
           }
         break;
@@ -328,8 +330,10 @@ var overpass = new(function() {
               popup += "<h3>Relations:</h3><ul>";
               $.each(feature.properties.relations, function (k,v) {
                 popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
+                if (v["relname"])
+                  popup += " ("+v["relname"]+")"
                 if (v["role"]) 
-                  popup += " (as "+v["role"]+")";
+                  popup += " as "+v["role"]+"";
                 popup += "</li>";
               });
               popup += "</ul>";
