@@ -250,17 +250,19 @@ var overpass = new(function() {
           } catch (e) {}
         }
         if (typeof data == "string") { // maybe an error message
+          data_mode = "unknown";
           if (data.indexOf("Error") != -1 &&
               data.indexOf("<script") == -1 &&
-              data.indexOf("<h2>Public Transport Stops</h2>") == -1) 
+              data.indexOf("<h2>Public Transport Stops</h2>") == -1) {
             // this really looks like an error message, so lets open an additional modal error message
             $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")+"</div>").dialog({
               modal:true,
               buttons:{"ok": function(){$(this).dialog("close");}},
             });
+            data_mode = "error";
+          }
           // the html error message returned by overpass API looks goods also in xml mode ^^
           ide.dataViewer.setOption("mode","xml");
-          data_mode = "error";
           geojson = [{features:[]}, {features:[]}];
         } else if (typeof data == "object" && data instanceof XMLDocument) { // xml data
           ide.dataViewer.setOption("mode","xml");
@@ -286,6 +288,10 @@ var overpass = new(function() {
             empty_msg = "no visible data";
           } else if(data_mode == "error") {
             empty_msg = "an error occured";
+          } else if(data_mode == "unknown") {
+            // switch also if some unstructured data is returned (e.g. output="popup"/"custom")
+            ide.switchTab("Data");
+            empty_msg = "unstructured data returned";
           } else {
             empty_msg = "recieved empty dataset";
           }
