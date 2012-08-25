@@ -358,6 +358,27 @@ var ide = new(function() {
       }
     });
   }
+  this.onSettingsClick = function() {
+    var set = "";
+    //set += '<p><label>Server:</label><br /><select style="width:100%;"><option>http://www.overpass-api.de/api</option><option>http://overpass.osm.rambler.ru/cgi</option></select></p>';
+    set += '<p><label>Server:</label><br /><input type="text" style="width:100%;" name="server" value="'+settings.server+'"/></p>';
+    set += '<p><input type="checkbox" name="use_html5_coords" '+(settings.use_html5_coords ? "checked" : "")+'/>&nbsp;Start at current location (html5 geolocation)</p>';
+    $('<div title="Settings">'+set+'</div>').dialog({
+      modal:true,
+      buttons: {
+        "Save": function() {
+          // save settings
+          settings.server = $("input[name=server]").last()[0].value;
+          settings.use_html5_coords = $("input[name=use_html5_coords]").last()[0].checked;
+          settings.save();
+          $(this).dialog("close");
+        },
+        /*"Reset": function() {
+          alert("not jet implemented"); // todo: reset all settings
+        },*/
+      }
+    });
+  }
   this.onKeyPress = function(event) {
     if ((event.keyCode == 120 && event.which == 0) || // F9
         ((event.which == 13 || event.which == 10) && (event.ctrlKey || event.metaKey))) { // Ctrl+Enter

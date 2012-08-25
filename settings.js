@@ -4,7 +4,7 @@
 var settings = new(function() {
   // == private members ==
   var prefix = "overpass-ide_";
-  var settings_version = 1;
+  var settings_version = 2;
   // == public properties with defaults ==
   // version of settings.
   this.version;
@@ -52,6 +52,8 @@ var settings = new(function() {
   var update_settings = function(v,self) {
     if (v < 1)
       update_settings_1(self);
+    if (v < 2)
+      update_settings_2(self);
     localStorage.setItem(prefix+"version",settings_version);
   }
   var update_settings_1 = function(self) {
@@ -60,6 +62,11 @@ var settings = new(function() {
     self.saves = examples;
     // save all initial settings for the first time
     self.save();
+  }
+  var update_settings_2 = function(self) {
+    self.server = localStorage.getItem(prefix+"server");
+    self.server = self.server.replace("interpreter","");
+    localStorage.setItem(prefix+"server",self.server);
   }
   
 })(); // end create settings object
