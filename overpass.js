@@ -370,7 +370,7 @@ var overpass = new(function() {
       ide.dataViewer.setValue("");
       var errmsg = "";
       if (jqXHR.state() == "rejected")
-        errmsg += "<p>Overpass API Server not found</p>";
+        errmsg += "<p>Request rejected. (e.g. server not found, redirection, etc.)</p>";
       if (jqXHR.status != 0) // note to me: jqXHR.status "should" give http status codes
         errmsg += "<p>Error-Code: "+jqXHR.status+" ("+jqXHR.statusText+")</p>";
       $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
