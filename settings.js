@@ -4,7 +4,7 @@
 var settings = new(function() {
   // == private members ==
   var prefix = "overpass-ide_";
-  var settings_version = 2;
+  var settings_version = 3;
   // == public properties with defaults ==
   // version of settings.
   this.version;
@@ -18,6 +18,9 @@ var settings = new(function() {
   this.saves;// = examples;
   // api server
   this.server = "http://overpass-api.de/api/interpreter";
+  // sharing options
+  this.share_compression = "auto";
+  this.share_include_pos = false;
 
   // == public methods ==
   this.load = function() {
@@ -35,6 +38,8 @@ var settings = new(function() {
     this.code = JSON.parse(localStorage.getItem(prefix+"code"));
     this.saves = JSON.parse(localStorage.getItem(prefix+"saves"));
     this.server = localStorage.getItem(prefix+"server");
+    this.share_compression = localStorage.getItem(prefix+"share_compression");
+    this.share_include_pos = localStorage.getItem(prefix+"share_include_pos") == "true";
     // this. = localStorage.getItem(prefix+"");
   }
   this.save = function() {
@@ -45,6 +50,8 @@ var settings = new(function() {
     localStorage.setItem(prefix+"code",JSON.stringify(this.code));
     localStorage.setItem(prefix+"saves",JSON.stringify(this.saves));
     localStorage.setItem(prefix+"server",this.server);
+    localStorage.setItem(prefix+"share_compression",this.share_compression);
+    localStorage.setItem(prefix+"share_include_pos",this.share_include_pos);
     //localStorage.setItem(prefix+"",this.);
   }
 
@@ -54,6 +61,8 @@ var settings = new(function() {
       update_settings_1(self);
     if (v < 2)
       update_settings_2(self);
+    if (v < 3)
+      update_settings_3(self);
     localStorage.setItem(prefix+"version",settings_version);
   }
   var update_settings_1 = function(self) {
@@ -67,6 +76,11 @@ var settings = new(function() {
     self.server = localStorage.getItem(prefix+"server");
     self.server = self.server.replace("interpreter","");
     localStorage.setItem(prefix+"server",self.server);
+  }
+  var update_settings_3 = function(self) {
+    // add new variables
+    localStorage.setItem(prefix+"share_compression",self.share_compression);
+    localStorage.setItem(prefix+"share_include_pos",self.share_include_pos);
   }
   
 })(); // end create settings object

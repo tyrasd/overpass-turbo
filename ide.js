@@ -367,13 +367,16 @@ var ide = new(function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
     var shared_code = codeEditor.getValue();
     var share_link_uncompressed = baseurl+"?Q="+encodeURIComponent(shared_code);
-    share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+"-"+L.Util.formatNum(ide.map.getCenter().lng)+"-"+ide.map.getZoom();
+    if (settings.share_include_pos)
+      share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+"-"+L.Util.formatNum(ide.map.getCenter().lng)+"-"+ide.map.getZoom();
     var share_link;
-    if (shared_code.length <= 300) // todo: more options for this in the settings (auto / compressed / uncompressed)
+    if ((settings.share_compression == "auto" && shared_code.length <= 300) ||
+        (settings.share_compression == "off"))
       share_link = share_link_uncompressed;
     else {
       var share_link_compressed = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(shared_code)));
-      share_link_compressed += "&c="+Base64.encodeNum(ide.map.getCenter().lat*100000)+"."+Base64.encodeNum(ide.map.getCenter().lng*100000)+"."+Base64.encodeNum(ide.map.getZoom());
+      if (settings.share_include_pos)
+        share_link_compressed += "&c="+Base64.encodeNum(ide.map.getCenter().lat*100000)+"."+Base64.encodeNum(ide.map.getCenter().lng*100000)+"."+Base64.encodeNum(ide.map.getZoom());
       share_link = share_link_compressed;
     }
 
@@ -405,9 +408,15 @@ var ide = new(function() {
   }
   this.onSettingsClick = function() {
     var set = "";
+    set += "<h3>General settings</h3>";
     //set += '<p><label>Server:</label><br /><select style="width:100%;"><option>http://www.overpass-api.de/api</option><option>http://overpass.osm.rambler.ru/cgi</option></select></p>';
     set += '<p><label>Server:</label><br /><input type="text" style="width:100%;" name="server" value="'+settings.server+'"/></p>';
     set += '<p><input type="checkbox" name="use_html5_coords" '+(settings.use_html5_coords ? "checked" : "")+'/>&nbsp;Start at current location (html5 geolocation)</p>';
+    // sharing options
+    set += "<h3>Sharing</h3>";
+    set += '<p><input type="checkbox" name="share_include_pos" '+(settings.share_include_pos ? "checked" : "")+'/>&nbsp;Include current map state in shared links</p>';
+    set += '<p><label>compression in shared links</label>&nbsp;<input type="text" style="width:30%;" name="share_compression" value="'+settings.share_compression+'"/></p>';
+    // open dialog
     $('<div title="Settings">'+set+'</div>').dialog({
       modal:true,
       buttons: {
@@ -415,6 +424,8 @@ var ide = new(function() {
           // save settings
           settings.server = $("input[name=server]").last()[0].value;
           settings.use_html5_coords = $("input[name=use_html5_coords]").last()[0].checked;
+          settings.share_include_pos = $("input[name=share_include_pos]").last()[0].checked;
+          settings.share_compression = $("input[name=share_compression]").last()[0].value;
           settings.save();
           $(this).dialog("close");
         },
