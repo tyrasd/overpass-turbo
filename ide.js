@@ -13,6 +13,7 @@ var ide = new(function() {
     // load settings
     settings.load();
     // check for any get-parameters
+    var override_use_html5_coords = false;
     if (location.search != "") {
       var get = location.search.substring(1).split("&");
       for (var i=0; i<get.length; i++) {
@@ -21,6 +22,20 @@ var ide = new(function() {
           settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(kv[1])));
         if (kv[0] == "Q") // uncompressed query set in url
           settings.code["overpass"] = decodeURIComponent(kv[1]);
+        if (kv[0] == "c") { // map center & zoom (compressed)
+          var tmp = kv[1].match(/([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)/);
+          settings.coords_lat = Base64.decodeNum(tmp[1])/100000;
+          settings.coords_lon = Base64.decodeNum(tmp[2])/100000;
+          settings.coords_zoom = Base64.decodeNum(tmp[3])*1;
+          override_use_html5_coords = true;
+        }
+        if (kv[0] == "C") { // map center & zoom (uncompressed)
+          var tmp = kv[1].match(/([\d.]+)-([\d.]+)-(\d+)/);
+          settings.coords_lat = tmp[1]*1;
+          settings.coords_lon = tmp[2]*1;
+          settings.coords_zoom = tmp[3]*1;
+          override_use_html5_coords = true;
+        }
       }
       settings.save();
     }
@@ -56,7 +71,7 @@ var ide = new(function() {
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
     ide.map.setView(pos,settings.coords_zoom).addLayer(osm);
     L.control.scale().addTo(ide.map);
-    if (settings.use_html5_coords) {
+    if (settings.use_html5_coords && !override_use_html5_coords) {
       // One-shot position request.
       try {
         navigator.geolocation.getCurrentPosition(function (position){
@@ -352,13 +367,16 @@ var ide = new(function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
     var shared_code = codeEditor.getValue();
     var share_link_uncompressed = baseurl+"?Q="+encodeURIComponent(shared_code);
+    share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+"-"+L.Util.formatNum(ide.map.getCenter().lng)+"-"+ide.map.getZoom();
     var share_link;
     if (shared_code.length <= 300) // todo: more options for this in the settings (auto / compressed / uncompressed)
       share_link = share_link_uncompressed;
     else {
       var share_link_compressed = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(shared_code)));
+      share_link_compressed += "&c="+Base64.encodeNum(ide.map.getCenter().lat*100000)+"."+Base64.encodeNum(ide.map.getCenter().lng*100000)+"."+Base64.encodeNum(ide.map.getZoom());
       share_link = share_link_compressed;
     }
+
     var warning = '';
     if (share_link.length >= 2000)
       warning = '<p style="color:orange">Warning: This share-link is quite long. It may not work under certain circumstances</a> (browsers, webservers).</p>';
