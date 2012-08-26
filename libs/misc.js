@@ -3,7 +3,9 @@
 var Base64 = {
 
 	// private property
-	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+	//_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+        // modified keyStr to be more url friendly
+	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_~",
 
 	// public method for encoding
 	encode : function (input) {
@@ -36,7 +38,7 @@ var Base64 = {
 
 		}
 
-		return output;
+		return output.replace(/~/g,"");
 	},
 
 	// public method for decoding
@@ -46,7 +48,10 @@ var Base64 = {
 		var enc1, enc2, enc3, enc4;
 		var i = 0;
 
-		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+		//input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+		input = input.replace(/[^A-Za-z0-9\-_]/g, "");
+                //append the trimmed padding
+                input = input + "~~".substring(0,(4-input.length%4)%4);
 
 		while (i < input.length) {
 
@@ -75,6 +80,12 @@ var Base64 = {
 		return output;
 
 	},
+
+        encodeNum : function(num) {
+        },        
+
+        decodeNum : function(input) {
+        },        
 
 	// private method for UTF-8 encoding
 	_utf8_encode : function (string) {
