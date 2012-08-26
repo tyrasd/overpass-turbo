@@ -82,9 +82,21 @@ var Base64 = {
 	},
 
         encodeNum : function(num) {
+          var output = "";
+          while (num > 0) {
+            output += this._keyStr.charAt(num%64);
+            num -= num%64;
+            num /= 64;
+          }
+          return output;
         },        
 
         decodeNum : function(input) {
+          var num = 0;
+          for (var i=0; i<input.length; i++) {
+            num += this._keyStr.indexOf(input.charAt(i)) * Math.pow(64,i);
+          }
+          return num;
         },        
 
 	// private method for UTF-8 encoding
