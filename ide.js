@@ -288,8 +288,16 @@ var ide = new(function() {
     if (lang=="xml")
       return '<coord-query lat="'+this.map.getCenter().lat+'" lon="'+this.map.getCenter().lng+'"/>';
   }
-  this.getQuery = function() {
-    return codeEditor.getValue();
+  this.getQuery = function(processed) {
+    var query = codeEditor.getValue();
+    if (processed) {
+      query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
+      query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
+      query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
+      query = query.replace(/(\n|\r)/g," "); // remove newlines
+      query = query.replace(/\s+/g," "); // remove some whitespace
+    }
+    return query;
   }
   this.setQuery = function(query) {
     codeEditor.setValue(query);
@@ -366,12 +374,7 @@ var ide = new(function() {
   }
   this.onExportClick = function() {
     var expo = "<ul>";
-    var query = ide.getQuery();
-    query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
-    query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
-    query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
-    query = query.replace(/(\n|\r)/g," "); // remove newlines
-    query = query.replace(/\s+/g," "); // remove some whitespace
+    var query = ide.getQuery(true);
     expo += '<li><a href="'+settings.server+'interpreter?data='+encodeURIComponent(query)+'">raw API interpreter link</a></li>';
     expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">OpenLayers overlay</a></li>';
     expo += "</ul>";

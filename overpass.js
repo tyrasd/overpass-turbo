@@ -228,12 +228,7 @@ var overpass = new(function() {
   // updates the map
   this.update_map = function () {
     // 1. get overpass json data
-    var query = ide.getQuery();
-    query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
-    query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
-    query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
-    query = query.replace(/(\n|\r)/g," "); // remove newlines
-    query = query.replace(/\s+/g," "); // remove some whitespace
+    var query = ide.getQuery(true);
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     $.post(settings.server+"interpreter", {data: query},
       function(data, textStatus, jqXHR) {
