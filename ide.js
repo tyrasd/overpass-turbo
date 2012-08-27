@@ -397,7 +397,7 @@ var ide = new(function() {
     var expo = "<ul>";
     var query = ide.getQuery(true);
     expo += '<li><a href="'+settings.server+'interpreter?data='+encodeURIComponent(query)+'">raw API interpreter link</a></li>';
-    expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">OpenLayers overlay</a></li>';
+    expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>';
     //expo += '<li><a href="data:text/plain,'+encodeURI(ide.getQuery())+'" download="query.txt">query as raw text</a></li>';
     expo += "<li><a href='data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true)+"' download='query.txt'>query as raw text</a></li>";
     expo += "</ul>";
