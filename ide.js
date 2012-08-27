@@ -400,6 +400,7 @@ var ide = new(function() {
     expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">OpenLayers overlay</a></li>';
     //expo += '<li><a href="data:text/plain,'+encodeURI(ide.getQuery())+'" download="query.txt">query as raw text</a></li>';
     expo += "<li><a href='data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true)+"' download='query.txt'>query as raw text</a></li>";
+    expo += '<li><a href="#" class="disabled">Export current map view as image</a></li>';
     expo += "</ul>";
     $('<div title="Export">'+expo+'</div>').dialog({
       modal:true,
