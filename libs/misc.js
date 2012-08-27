@@ -1,5 +1,8 @@
 /* Base64 encode / decode
-* fom http://www.webtoolkit.info/ */
+ * fom http://www.webtoolkit.info/ 
+ * modified to support more url friendly variant "base64url".
+ * modified to include Base64 for decimal numbers.
+ */
 var Base64 = {
 
 	// private property
