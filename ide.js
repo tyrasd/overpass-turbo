@@ -13,6 +13,7 @@ var ide = new(function() {
     // load settings
     settings.load();
     // check for any get-parameters
+    var override_use_html5_coords = false;
     if (location.search != "") {
       var get = location.search.substring(1).split("&");
       for (var i=0; i<get.length; i++) {
@@ -21,6 +22,20 @@ var ide = new(function() {
           settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(kv[1])));
         if (kv[0] == "Q") // uncompressed query set in url
           settings.code["overpass"] = decodeURIComponent(kv[1]);
+        if (kv[0] == "c") { // map center & zoom (compressed)
+          var tmp = kv[1].match(/([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)/);
+          settings.coords_lat = Base64.decodeNum(tmp[1])/100000;
+          settings.coords_lon = Base64.decodeNum(tmp[2])/100000;
+          settings.coords_zoom = Base64.decodeNum(tmp[3])*1;
+          override_use_html5_coords = true;
+        }
+        if (kv[0] == "C") { // map center & zoom (uncompressed)
+          var tmp = kv[1].match(/([\d.]+)-([\d.]+)-(\d+)/);
+          settings.coords_lat = tmp[1]*1;
+          settings.coords_lon = tmp[2]*1;
+          settings.coords_zoom = tmp[3]*1;
+          override_use_html5_coords = true;
+        }
       }
       settings.save();
     }
@@ -43,14 +58,20 @@ var ide = new(function() {
     });
 
     // init leaflet
-    ide.map = new L.Map("map");
+    ide.map = new L.Map("map", {
+      attributionControl:false,
+      minZoom:4,
+      maxZoom:18,
+    });
     var osmUrl="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
     var osmAttrib="Map data © openstreetmap contributors";
-    var osm = new L.TileLayer(osmUrl,{minZoom:4,maxZoom:18,attribution:osmAttrib});
+    var osm = new L.TileLayer(osmUrl,{
+      attribution:osmAttrib,
+    });
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
     ide.map.setView(pos,settings.coords_zoom).addLayer(osm);
     L.control.scale().addTo(ide.map);
-    if (settings.use_html5_coords) {
+    if (settings.use_html5_coords && !override_use_html5_coords) {
       // One-shot position request.
       try {
         navigator.geolocation.getCurrentPosition(function (position){
@@ -91,15 +112,7 @@ var ide = new(function() {
     });
 
     // keyboard event listener
-    // todo: make function "onKeyPress()" out of this
-    $("body").keypress(function(event) {
-      if ((event.keyCode == 120 && event.which == 0) || // F9
-          ((event.which == 13 || event.which == 10) && (event.ctrlKey || event.metaKey))) { // Ctrl+Enter
-        ide.onRunClick(); // run query
-        event.preventDefault();
-      }
-      // todo: more shortcuts
-    });
+    $("body").keypress(ide.onKeyPress);
 
     // leaflet extension
     var MyControl = L.Control.extend({
@@ -290,8 +303,16 @@ var ide = new(function() {
     if (lang=="xml")
       return '<coord-query lat="'+this.map.getCenter().lat+'" lon="'+this.map.getCenter().lng+'"/>';
   }
-  this.getQuery = function() {
-    return codeEditor.getValue();
+  this.getQuery = function(processed) {
+    var query = codeEditor.getValue();
+    if (processed) {
+      query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
+      query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
+      query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
+      query = query.replace(/(\n|\r)/g," "); // remove newlines
+      query = query.replace(/\s+/g," "); // remove some whitespace
+    }
+    return query;
   }
   this.setQuery = function(query) {
     codeEditor.setValue(query);
@@ -346,13 +367,19 @@ var ide = new(function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
     var shared_code = codeEditor.getValue();
     var share_link_uncompressed = baseurl+"?Q="+encodeURIComponent(shared_code);
+    if (settings.share_include_pos)
+      share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+"-"+L.Util.formatNum(ide.map.getCenter().lng)+"-"+ide.map.getZoom();
     var share_link;
-    if (shared_code.length <= 300) // todo: more options for this in the settings (auto / compressed / uncompressed)
+    if ((settings.share_compression == "auto" && shared_code.length <= 300) ||
+        (settings.share_compression == "off"))
       share_link = share_link_uncompressed;
     else {
       var share_link_compressed = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(shared_code)));
+      if (settings.share_include_pos)
+        share_link_compressed += "&c="+Base64.encodeNum(ide.map.getCenter().lat*100000)+"."+Base64.encodeNum(ide.map.getCenter().lng*100000)+"."+Base64.encodeNum(ide.map.getZoom());
       share_link = share_link_compressed;
     }
+
     var warning = '';
     if (share_link.length >= 2000)
       warning = '<p style="color:orange">Warning: This share-link is quite long. It may not work under certain circumstances</a> (browsers, webservers).</p>';
@@ -365,6 +392,69 @@ var ide = new(function() {
         "OK": function() {$(this).dialog("close");}
       }
     });
+  }
+  this.onExportClick = function() {
+    var expo = "<ul>";
+    var query = ide.getQuery(true);
+    expo += '<li><a href="'+settings.server+'interpreter?data='+encodeURIComponent(query)+'">raw API interpreter link</a></li>';
+    expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>';
+    //expo += '<li><a href="data:text/plain,'+encodeURI(ide.getQuery())+'" download="query.txt">query as raw text</a></li>';
+    expo += "<li><a href='data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true)+"' download='query.txt'>query as raw text</a></li>";
+    expo += "</ul>";
+    $('<div title="Export">'+expo+'</div>').dialog({
+      modal:true,
+      buttons: {
+        "OK": function() {$(this).dialog("close");}
+      }
+    });
+  }
+  this.onSettingsClick = function() {
+    var set = "";
+    set += "<h3>General settings</h3>";
+    //set += '<p><label>Server:</label><br /><select style="width:100%;"><option>http://www.overpass-api.de/api</option><option>http://overpass.osm.rambler.ru/cgi</option></select></p>';
+    set += '<p><label>Server:</label><br /><input type="text" style="width:100%;" name="server" value="'+settings.server+'"/></p>';
+    set += '<p><input type="checkbox" name="use_html5_coords" '+(settings.use_html5_coords ? "checked" : "")+'/>&nbsp;Start at current location (html5 geolocation)</p>';
+    // sharing options
+    set += "<h3>Sharing</h3>";
+    set += '<p><input type="checkbox" name="share_include_pos" '+(settings.share_include_pos ? "checked" : "")+'/>&nbsp;Include current map state in shared links</p>';
+    set += '<p><label>compression in shared links</label>&nbsp;<input type="text" style="width:30%;" name="share_compression" value="'+settings.share_compression+'"/></p>';
+    // open dialog
+    $('<div title="Settings">'+set+'</div>').dialog({
+      modal:true,
+      buttons: {
+        "Save": function() {
+          // save settings
+          settings.server = $("input[name=server]").last()[0].value;
+          settings.use_html5_coords = $("input[name=use_html5_coords]").last()[0].checked;
+          settings.share_include_pos = $("input[name=share_include_pos]").last()[0].checked;
+          settings.share_compression = $("input[name=share_compression]").last()[0].value;
+          settings.save();
+          $(this).dialog("close");
+        },
+        /*"Reset": function() {
+          alert("not jet implemented"); // todo: reset all settings
+        },*/
+      }
+    });
+  }
+  this.onHelpClick = function() {
+    $("#help").dialog({
+      modal:false,
+      width:450,
+      buttons: {
+        "Close": function() {
+          $(this).dialog("close");
+        },
+      }
+    });
+  }
+  this.onKeyPress = function(event) {
+    if ((event.keyCode == 120 && event.which == 0) || // F9
+        ((event.which == 13 || event.which == 10) && (event.ctrlKey || event.metaKey))) { // Ctrl+Enter
+      ide.onRunClick(); // run query
+      event.preventDefault();
+    }
+    // todo: more shortcuts
   }
 
   // == initializations ==

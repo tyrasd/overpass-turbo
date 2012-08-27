@@ -199,3 +199,7 @@ body.loading .modal {
 .leaflet-control-buttons-myloc {
   content:"m";
 }
+#help {
+  display:none;
+}
+

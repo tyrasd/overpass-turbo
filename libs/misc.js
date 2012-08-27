@@ -3,10 +3,15 @@
 var Base64 = {
 
 	// private property
-	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+	_keyStr_compat : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+        // modified keyStr to be more url friendly
+	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_~",
 
 	// public method for encoding
-	encode : function (input) {
+	encode : function (input, compat_mode) {
+                var keyStr = this._keyStr;
+                if (compat_mode)
+                  keyStr = this._keyStr_compat;
 		var output = "";
 		var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
 		var i = 0;
@@ -31,12 +36,14 @@ var Base64 = {
 			}
 
 			output = output +
-			this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
-			this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+			keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+			keyStr.charAt(enc3) + keyStr.charAt(enc4);
 
 		}
 
-		return output;
+                if (compat_mode)
+                  return output;
+		return output.replace(/~/g,"");
 	},
 
 	// public method for decoding
@@ -46,7 +53,10 @@ var Base64 = {
 		var enc1, enc2, enc3, enc4;
 		var i = 0;
 
-		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+		//input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+		input = input.replace(/[^A-Za-z0-9\-_]/g, "");
+                //append the trimmed padding
+                input = input + "~~".substring(0,(4-input.length%4)%4);
 
 		while (i < input.length) {
 
@@ -75,6 +85,24 @@ var Base64 = {
 		return output;
 
 	},
+
+        encodeNum : function(num) {
+          var output = "";
+          while (num > 0) {
+            output += this._keyStr.charAt(num%64);
+            num -= num%64;
+            num /= 64;
+          }
+          return output;
+        },        
+
+        decodeNum : function(input) {
+          var num = 0;
+          for (var i=0; i<input.length; i++) {
+            num += this._keyStr.indexOf(input.charAt(i)) * Math.pow(64,i);
+          }
+          return num;
+        },        
 
 	// private method for UTF-8 encoding
 	_utf8_encode : function (string) {
