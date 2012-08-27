@@ -3,12 +3,15 @@
 var Base64 = {
 
 	// private property
-	//_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+	_keyStr_compat : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
         // modified keyStr to be more url friendly
 	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_~",
 
 	// public method for encoding
-	encode : function (input) {
+	encode : function (input, compat_mode) {
+                var keyStr = this._keyStr;
+                if (compat_mode)
+                  keyStr = this._keyStr_compat;
 		var output = "";
 		var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
 		var i = 0;
@@ -33,11 +36,13 @@ var Base64 = {
 			}
 
 			output = output +
-			this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
-			this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+			keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+			keyStr.charAt(enc3) + keyStr.charAt(enc4);
 
 		}
 
+                if (compat_mode)
+                  return output;
 		return output.replace(/~/g,"");
 	},
 
