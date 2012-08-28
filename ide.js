@@ -411,10 +411,12 @@ var ide = new(function() {
   this.onExportClick = function() {
     var expo = "<ul>";
     var query = ide.getQuery(true);
-    expo += '<li><a href="'+settings.server+'interpreter?data='+encodeURIComponent(query)+'">raw API interpreter link</a></li>';
-    expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>';
-    //expo += '<li><a href="data:text/plain,'+encodeURI(ide.getQuery())+'" download="query.txt">query as raw text</a></li>';
-    expo += "<li><a href='data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true)+"' download='query.txt'>query as raw text</a></li>";
+    expo += "<h2>Map</h2>";
+    expo += '<li><a href="#Export-Image" class="disabled" onclick="ide.onExportImageClick();">as png image</a></li>';
+    expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">as interactive OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>';
+    expo += "<h2>Query</h2>";
+    expo += '<li><a href="'+settings.server+'interpreter?data='+encodeURIComponent(query)+'">as raw link to API interpreter</a></li>';
+    expo += "<li><a href='data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true)+"' download='query.txt'>as text</a></li>";
     expo += "</ul>";
     $('<div title="Export">'+expo+'</div>').dialog({
       modal:true,
@@ -422,6 +424,44 @@ var ide = new(function() {
         "OK": function() {$(this).dialog("close");}
       }
     });
+  }
+  this.onExportImageClick = function() {
+    $("body").addClass("loading");
+    // 1. render canvas from map tiles
+    // hide map controlls in this step :/ 
+    // todo? (also: hide map overlay data somehow, if possible to speed things up)
+    $("#map .leaflet-control-container .leaflet-top").hide();
+    $("#map").html2canvas({onrendered: function(canvas) {
+      $("#map .leaflet-control-container .leaflet-top").show();
+      // 2. render overlay data onto canvas
+      canvas.id = "render_canvas";
+      var ctx = canvas.getContext("2d");
+      // get geometry for svg rendering
+      var height = $("#map .leaflet-overlay-pane svg").height();
+      var width  = $("#map .leaflet-overlay-pane svg").width();
+      var tmp = $("#map .leaflet-map-pane")[0].style.cssText.match(/.*?(-?\d+)px.*?(-?\d+)px.*/);
+      var offx   = tmp[1]*1;
+      var offy   = tmp[2]*1;
+      if ($("#map .leaflet-overlay-pane").html().length > 0)
+        ctx.drawSvg($("#map .leaflet-overlay-pane").html(),offx,offy,width,height);
+      // 3. export canvas as html image
+      var imgstr = canvas.toDataURL("image/png");
+      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p></div>').dialog({
+        modal:true,
+        width:500,
+        position:["center",60],
+        open: function() {
+          $("body").removeClass("loading");
+        },
+        buttons: {
+          "OK": function() {
+            $(this).dialog("close");
+            // free dialog from DOM
+            $("#export_image_dialog").remove();
+          }
+        }
+      });
+    }});
   }
   this.onSettingsClick = function() {
     var set = "";
