@@ -43,6 +43,12 @@ body {
   height: 100%;
   overflow-x: auto;
 }
+#editor textarea {
+  padding:20px;
+  height:100%;
+  width:100%;
+  font-family:monospace;
+}
 #data .CodeMirror-scroll {
   height: 100%;
   overflow-x: auto;

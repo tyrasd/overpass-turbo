@@ -193,14 +193,14 @@ var overpass = new(function() {
           ways[i].tainted = true;
       }
       var way_type = "LineString"; // default
-      if (ways[i].nodes[0] == ways[i].nodes[ways[i].nodes.length-1]) {
+      if (typeof ways[i].nodes[0] != "undefined" && ways[i].nodes[0] == ways[i].nodes[ways[i].nodes.length-1]) {
         if (typeof ways[i].tags != "undefined")
           if ((typeof ways[i].tags["landuse"] != "undefined") ||
               (typeof ways[i].tags["building"] != "undefined") ||
               (typeof ways[i].tags["leisure"] != "undefined") ||
-              (typeof ways[i].tags["area"] == "yes") ||
-              ($.inArray(ways[i].tags["natural"], new Array("forest","wood","water"))) ||
-              false) {
+              (ways[i].tags["area"] == "yes") ||
+              ($.inArray(ways[i].tags["natural"], new Array("forest","wood","water")) != -1) ||
+              !false) {
              way_type="Polygon";
              coords = [coords];
            }
@@ -338,7 +338,7 @@ var overpass = new(function() {
             case "Polygon": 
             case "Multipolygon":
               if (feature.properties && feature.properties.tainted==true) {
-                popup += "<strong>Attention: uncomplete way (some nodes missing)</strong>";
+                popup += "<strong>Attention: incomplete way geometry (some nodes missing)</strong>";
                 layer.options.opacity *= 0.5;
               }
             }

@@ -4,7 +4,7 @@
 var settings = new(function() {
   // == private members ==
   var prefix = "overpass-ide_";
-  var settings_version = 3;
+  var settings_version = 4;
   // == public properties with defaults ==
   // version of settings.
   this.version;
@@ -21,6 +21,8 @@ var settings = new(function() {
   // sharing options
   this.share_compression = "auto";
   this.share_include_pos = false;
+  // code editor
+  this.use_rich_editor = true;
 
   // == public methods ==
   this.load = function() {
@@ -40,6 +42,7 @@ var settings = new(function() {
     this.server = localStorage.getItem(prefix+"server");
     this.share_compression = localStorage.getItem(prefix+"share_compression");
     this.share_include_pos = localStorage.getItem(prefix+"share_include_pos") == "true";
+    this.use_rich_editor = localStorage.getItem(prefix+"use_rich_editor") == "true";
     // this. = localStorage.getItem(prefix+"");
   }
   this.save = function() {
@@ -52,6 +55,7 @@ var settings = new(function() {
     localStorage.setItem(prefix+"server",this.server);
     localStorage.setItem(prefix+"share_compression",this.share_compression);
     localStorage.setItem(prefix+"share_include_pos",this.share_include_pos);
+    localStorage.setItem(prefix+"use_rich_editor",this.use_rich_editor);
     //localStorage.setItem(prefix+"",this.);
   }
 
@@ -63,6 +67,8 @@ var settings = new(function() {
       update_settings_2(self);
     if (v < 3)
       update_settings_3(self);
+    if (v < 4)
+      update_settings_4(self);
     localStorage.setItem(prefix+"version",settings_version);
   }
   var update_settings_1 = function(self) {
@@ -81,6 +87,10 @@ var settings = new(function() {
     // add new variables
     localStorage.setItem(prefix+"share_compression",self.share_compression);
     localStorage.setItem(prefix+"share_include_pos",self.share_include_pos);
+  }
+  var update_settings_4 = function(self) {
+    // add new variable
+    localStorage.setItem(prefix+"use_rich_editor",self.use_rich_editor);
   }
   
 })(); // end create settings object
