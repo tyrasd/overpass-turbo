@@ -41,15 +41,30 @@ var ide = new(function() {
     }
 
     // init codemirror
-    codeEditor = CodeMirror($("#editor")[0], {
-      value: settings.code["overpass"],
-      lineNumbers: true,
-      mode: "xml",
-      onChange: function(e) {
-        settings.code["overpass"] = e.getValue();
+    $("#editor textarea")[0].value = settings.code["overpass"];
+    if (settings.use_rich_editor) {
+      codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
+        //value: settings.code["overpass"],
+        lineNumbers: true,
+        mode: "xml",
+        onChange: function(e) {
+          settings.code["overpass"] = e.getValue();
+          settings.save();
+        },
+      });
+    } else {
+      codeEditor = $("#editor textarea")[0];
+      codeEditor.getValue = function() {
+        return this.value;
+      };
+      codeEditor.setValue = function(v) {
+        this.value = v;
+      };
+      $("#editor textarea").bind("input change", function(e) {
+        settings.code["overpass"] = e.target.getValue();
         settings.save();
-      },
-    });
+      });
+    }
     ide.dataViewer = CodeMirror($("#data")[0], {
       value:'no data loaded yet', 
       lineNumbers: true, 
@@ -414,6 +429,7 @@ var ide = new(function() {
     //set += '<p><label>Server:</label><br /><select style="width:100%;"><option>http://www.overpass-api.de/api</option><option>http://overpass.osm.rambler.ru/cgi</option></select></p>';
     set += '<p><label>Server:</label><br /><input type="text" style="width:100%;" name="server" value="'+settings.server+'"/></p>';
     set += '<p><input type="checkbox" name="use_html5_coords" '+(settings.use_html5_coords ? "checked" : "")+'/>&nbsp;Start at current location (html5 geolocation)</p>';
+    set += '<p><input type="checkbox" name="use_rich_editor" '+(settings.use_rich_editor ? "checked" : "")+'/>&nbsp;Enable rich code editor (disable this on mobile devices; requires a page-reload to take effect).</p>';
     // sharing options
     set += "<h3>Sharing</h3>";
     set += '<p><input type="checkbox" name="share_include_pos" '+(settings.share_include_pos ? "checked" : "")+'/>&nbsp;Include current map state in shared links</p>';
@@ -426,6 +442,7 @@ var ide = new(function() {
           // save settings
           settings.server = $("input[name=server]").last()[0].value;
           settings.use_html5_coords = $("input[name=use_html5_coords]").last()[0].checked;
+          settings.use_rich_editor  = $("input[name=use_rich_editor]").last()[0].checked;
           settings.share_include_pos = $("input[name=share_include_pos]").last()[0].checked;
           settings.share_compression = $("input[name=share_compression]").last()[0].value;
           settings.save();
