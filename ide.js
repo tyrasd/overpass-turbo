@@ -158,6 +158,54 @@ var ide = new(function() {
         return container;
       },
     });
+    // leaflet extension: search box
+    var SearchBox = L.Control.extend({
+      options: {
+        position:'topleft',
+      },
+      onAdd: function(map) {
+        var container = L.DomUtil.create('div', 'ui-widget');
+        container.style.opacity = "0.6";
+        container.style.position = "absolute";
+        container.style.left = "40px";
+        var inp = L.DomUtil.create('input', '', container);
+        inp.id = "search";
+        // hack against focus stealing leaflet :/
+        inp.onclick = function() {this.focus();}
+        // autocomplete functionality
+        $(inp).autocomplete({
+          source: function(request,response) {
+            $.ajax({
+              url:"http://nominatim.openstreetmap.org/search",
+              data:{
+                format:"json",
+                q: request.term
+              },
+              success: function(data) {
+                response($.map(data,function(item) {
+                  return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
+                }));
+              },
+            });
+          },
+          minLength: 2,
+          dalay: 200,
+          select: function(event,ui) {
+            ide.map.panTo(new L.LatLng(ui.item.lat,ui.item.lon));
+            this.value="";
+            return false;
+          },
+          open: function() {
+            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+          },
+          close: function() {
+            $(this).addClass("ui-corner-all").removeClass("ui-corner-top");
+          },
+        });
+        return container;
+      },
+    });
+    ide.map.addControl(new SearchBox());
   }
   var overpassJSON2geoJSON = function(json) {
     // 2. sort elements
