@@ -15,6 +15,9 @@
   <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
   <!--misc libraries-->
   <script src="libs/misc.js"></script>
+  <!--jQuery UI-->
+  <link type="text/css" href="jquery-ui.css" rel="Stylesheet" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
   <!--own scripts & styles-->
   <link rel="stylesheet" href="default.css" />
   <script src="settings.js"></script>
@@ -22,9 +25,6 @@
   <script src="overpass.js"></script>
   <script src="examples.js"></script>
   <!--more optional libraries-->
-  <!--jQuery UI-->
-  <link type="text/css" href="jquery-ui.css" rel="Stylesheet" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
   <!--others-->
   <script src="libs/html2canvas/html2canvas.min.js"></script>
   <script src="libs/html2canvas/jquery.plugin.html2canvas.js"></script>
@@ -63,7 +63,7 @@
   <!--wait spinner-->
   <div class="modal"></div>
   <!--help-->
-  <div id="help" title="Help">
+  <div id="help-dialog" title="Help">
     <h3>Introduction</h3>
     <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
     <p>You can run xml styled or overpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>

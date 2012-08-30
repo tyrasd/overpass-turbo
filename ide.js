@@ -543,7 +543,7 @@ var ide = new(function() {
     });
   }
   this.onHelpClick = function() {
-    $("#help").dialog({
+    $("#help-dialog").dialog({
       modal:false,
       width:450,
       buttons: {
