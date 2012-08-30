@@ -136,7 +136,7 @@ var overpass = new(function() {
             nodes[n].relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
-              "relname" : rels[i].tags && rels[i].tags.name ? rels[i].tags.name : undefined,
+              "reltags" : rels[i].tags,
             });
           }
         break;
@@ -148,7 +148,7 @@ var overpass = new(function() {
             ways[w].relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
-              "relname" : rels[i].tags && rels[i].tags.name ? rels[i].tags.name : undefined,
+              "reltags" : rels[i].tags,
             });
           }
         break;
@@ -296,7 +296,7 @@ var overpass = new(function() {
             empty_msg = "recieved empty dataset";
           }
           // show why there is an empty map
-          $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:10px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+          $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
         }
         ide.map.geojsonLayer = new L.GeoJSON(null, {
           style: function(feature) {
@@ -328,10 +328,15 @@ var overpass = new(function() {
               popup += "<h3>Relations:</h3><ul>";
               $.each(feature.properties.relations, function (k,v) {
                 popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
-                if (v["relname"])
-                  popup += " ("+v["relname"]+")"
+                if (v.reltags && 
+                    (v.reltags.name || v.reltags.ref || v.reltags.type))
+                  popup += " <i>" + 
+                           ((v.reltags.type ? v.reltags.type+" " : "") +
+                            (v.reltags.ref ? v.reltags.ref+" " : "") +
+                            (v.reltags.name ? v.reltags.name+" " : "")).trim() +
+                           "</i>";
                 if (v["role"]) 
-                  popup += " as "+v["role"]+"";
+                  popup += " as <i>"+v["role"]+"</i>";
                 popup += "</li>";
               });
               popup += "</ul>";
