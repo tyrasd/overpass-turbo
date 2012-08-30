@@ -181,6 +181,9 @@ var ide = new(function() {
                 format:"json",
                 q: request.term
               },
+              headers: {
+                "application":"overpass-ide",
+              },
               success: function(data) {
                 response($.map(data,function(item) {
                   return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
@@ -189,7 +192,7 @@ var ide = new(function() {
             });
           },
           minLength: 2,
-          dalay: 200,
+          dalay: 600,
           select: function(event,ui) {
             ide.map.panTo(new L.LatLng(ui.item.lat,ui.item.lon));
             this.value="";
