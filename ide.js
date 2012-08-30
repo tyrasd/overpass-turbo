@@ -5,6 +5,7 @@ var ide = new(function() {
   // == private members ==
   var codeEditor = null;
   // == public members ==
+  this.appname = "overpass-ide";
   this.dataViewer = null;
   this.map = null;
 
@@ -175,20 +176,18 @@ var ide = new(function() {
         // autocomplete functionality
         $(inp).autocomplete({
           source: function(request,response) {
-            $.ajax({
-              url:"http://nominatim.openstreetmap.org/search",
+            // ajax (GET) request to nominatim
+            $.ajax("http://nominatim.openstreetmap.org/search"+"?app="+ide.appname, {
               data:{
                 format:"json",
                 q: request.term
-              },
-              headers: {
-                "application":"overpass-ide",
               },
               success: function(data) {
                 response($.map(data,function(item) {
                   return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
                 }));
               },
+              // todo: error handling
             });
           },
           minLength: 2,

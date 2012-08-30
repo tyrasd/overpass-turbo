@@ -230,8 +230,11 @@ var overpass = new(function() {
     // 1. get overpass json data
     var query = ide.getQuery(true);
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
-    $.post(settings.server+"interpreter", {data: query},
-      function(data, textStatus, jqXHR) {
+    //$.post(settings.server+"interpreter", {data: query},
+    $.ajax(settings.server+"interpreter"+"?app="+ide.appname, {
+      type: 'POST',
+      data: {data:query},
+      success: function(data, textStatus, jqXHR) {
         // clear previous data and messages
         ide.dataViewer.setValue("");
         if (typeof ide.map.geojsonLayer != "undefined") 
@@ -360,18 +363,19 @@ var overpass = new(function() {
           ide.map.geojsonLayer.addData(geojson[i]);
         }
         ide.map.addLayer(ide.map.geojsonLayer);
-
-    }).error(function(jqXHR, textStatus, errorThrown) {
-      ide.dataViewer.setValue("");
-      var errmsg = "";
-      if (jqXHR.state() == "rejected")
-        errmsg += "<p>Request rejected. (e.g. server not found, redirection, etc.)</p>";
-      if (jqXHR.status != 0) // note to me: jqXHR.status "should" give http status codes
-        errmsg += "<p>Error-Code: "+jqXHR.status+" ("+jqXHR.statusText+")</p>";
-      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
-        modal:true,
-        buttons: {"ok": function() {$(this).dialog("close");}},
-      }); // dialog
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        ide.dataViewer.setValue("");
+        var errmsg = "";
+        if (jqXHR.state() == "rejected")
+          errmsg += "<p>Request rejected. (e.g. server not found, redirection, etc.)</p>";
+        if (jqXHR.status != 0) // note to me: jqXHR.status "should" give http status codes
+          errmsg += "<p>Error-Code: "+jqXHR.status+" ("+jqXHR.statusText+")</p>";
+        $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
+          modal:true,
+          buttons: {"ok": function() {$(this).dialog("close");}},
+        }); // dialog
+      },
     }); // getJSON
 
   }
