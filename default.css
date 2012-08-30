@@ -205,7 +205,7 @@ body.loading .modal {
 .leaflet-control-buttons-myloc {
   content:"m";
 }
-#help {
+#help-dialog {
   display:none;
 }
 
