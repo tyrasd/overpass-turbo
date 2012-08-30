@@ -314,6 +314,9 @@ var overpass = new(function() {
             });
           },
           onEachFeature : function (feature, layer) {
+            var htmlentities = function(str) {
+              return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
             var popup = "";
             if (feature.geometry.type == "Point")
               popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
@@ -321,7 +324,11 @@ var overpass = new(function() {
               popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
             if (feature.properties && feature.properties.tags) {
               popup += "<h3>Tags:</h3><ul>";
-              $.each(feature.properties.tags, function(k,v) {popup += "<li>"+k+"="+v+"</li>"});
+              $.each(feature.properties.tags, function(k,v) {
+                k = htmlentities(k); // escaping strings!
+                v = htmlentities(v);
+                popup += "<li>"+k+"="+v+"</li>"
+              });
               popup += "</ul>";
             }
             if (feature.properties && (typeof feature.properties.relations != "undefined")) {
@@ -331,12 +338,12 @@ var overpass = new(function() {
                 if (v.reltags && 
                     (v.reltags.name || v.reltags.ref || v.reltags.type))
                   popup += " <i>" + 
-                           ((v.reltags.type ? v.reltags.type+" " : "") +
-                            (v.reltags.ref ? v.reltags.ref+" " : "") +
-                            (v.reltags.name ? v.reltags.name+" " : "")).trim() +
+                           ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
+                            (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
+                            (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
                            "</i>";
                 if (v["role"]) 
-                  popup += " as <i>"+v["role"]+"</i>";
+                  popup += " as <i>"+htmlentities(v["role"])+"</i>";
                 popup += "</li>";
               });
               popup += "</ul>";
