@@ -461,7 +461,7 @@ var ide = new(function() {
     var expo = "<ul>";
     var query = ide.getQuery(true);
     expo += "<h2>Map</h2>";
-    expo += '<li><a href="#Export-Image" class="disabled" onclick="ide.onExportImageClick();">as png image</a></li>';
+    expo += '<li><a href="#Export-Image" class="disabled" onclick="ide.onExportImageClick(); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">as png image</a></li>';
     expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">as interactive OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>';
     expo += "<h2>Query</h2>";
     expo += '<li><a href="'+settings.server+'interpreter?data='+encodeURIComponent(query)+'">as raw link to API interpreter</a></li>';
