@@ -387,22 +387,21 @@ var ide = new(function() {
     $("#navs .tabs a:contains('"+tab+"')").click();
   }
 
+  this.loadExample = function(ex) {
+    if (typeof settings.saves[ex] != "undefined")
+      ide.setQuery(settings.saves[ex].overpass);
+  }
+
   // Event handlers
   this.onLoadClick = function() {
     var ex_html = "";
     for(var example in settings.saves)
-      ex_html += '<li><input type="radio" name="ex_list" value="'+example+'" />'+example+'</li>';
+      //ex_html += '<li><input type="radio" name="ex_list" value="'+example+'" />'+example+'</li>';
+      ex_html += '<li><a href="#load-example" onclick="ide.loadExample(\''+example+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">'+example+'</a></li>';
     $('<div title="Load"><p>Select example to load:</p><ul>'+ex_html+'</ul></div>').dialog({
       modal:true,
       //height:250,
       buttons: {
-        "Load" : function() {
-          $("input",this).each(function(i,inp) {
-            if (inp.checked)
-              ide.setQuery(settings.saves[inp.value].overpass);
-          });
-          $(this).dialog("close");
-        },
         "Cancel" : function() {$(this).dialog("close");}
       }
     });
