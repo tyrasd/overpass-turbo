@@ -65,7 +65,7 @@
 
   <!--some dialogs-->
   <!--help-->
-  <div id="help-dialog" title="Help">
+  <div id="help-dialog" title="Help" class="dialog">
     <h3>Introduction</h3>
     <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
     <p>You can run xml styled or overpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
@@ -89,7 +89,7 @@
     </ul>
   </div>
   <!--settings-->
-  <div title="Settings" id="settings-dialog">
+  <div title="Settings" id="settings-dialog" class="dialog">
     <h3>General Settings</h3>
     <p><label>Server:</label> <input type="text" name="server" value="" style="width:180px;"/></p>
     <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location (html5 geolocation)</p>
@@ -99,17 +99,17 @@
     <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
   </div>
   <!--save-->
-  <div title="Save" id="save-dialog">
+  <div title="Save" id="save-dialog" class="dialog">
     <p>Enter a name for this query</p>
     <p><input name="save" type="text" /></p>
   </div>
   <!--load-->
-  <div title="Load" id="load-dialog">
+  <div title="Load" id="load-dialog" class="dialog">
     <p>Select example to load:</p>
     <ul></ul>
   </div>
   <!--export-->
-  <div title="Export" id="export-dialog">
+  <div title="Export" id="export-dialog" class="dialog">
     <ul>
     <h2>Map</h2>
       <li><a href="#Export-Image" class="disabled" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">as png image</a></li>

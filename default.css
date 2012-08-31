@@ -204,7 +204,7 @@ body.loading .modal {
 }
 .leaflet-control-buttons-myloc {
 }
-#help-dialog {
+.dialog {
   display:none;
 }
 .ui-autocomplete a{
