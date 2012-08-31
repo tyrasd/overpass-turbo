@@ -86,7 +86,7 @@ var ide = new(function() {
     });
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
     ide.map.setView(pos,settings.coords_zoom).addLayer(osm);
-    L.control.scale().addTo(ide.map);
+    L.control.scale({metric:true,imperial:false,}).addTo(ide.map);
     if (settings.use_html5_coords && !override_use_html5_coords) {
       // One-shot position request.
       try {
