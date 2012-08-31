@@ -353,6 +353,28 @@ var ide = new(function() {
 
     return geojson;
   }
+  var make_combobox = function(input, options) {
+    if (input[0].is_combobox)
+      return;
+    var wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
+    input.autocomplete({
+      source: options,
+      minLength: 0,
+    }).addClass("ui-widget ui-widget-content ui-corner-left ui-state-default");
+    $( "<a>" ).attr("tabIndex", -1).attr("title","show all items").appendTo(wrapper).button({
+      icons: {primary: "ui-icon-triangle-1-s"}, text:false
+    }).removeClass( "ui-corner-all" ).addClass( "ui-corner-right ui-combobox-toggle" ).click(function() {
+      // close if already visible
+      if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
+        input.autocomplete( "close" );
+        return;
+      }
+      // pass empty string as value to search for, displaying all results
+      input.autocomplete( "search", "" );
+      input.focus();
+    });
+    input[0].is_combobox = true;
+  }
 
   // == public methods ==
 
@@ -513,27 +535,28 @@ var ide = new(function() {
     }});
   }
   this.onSettingsClick = function() {
-    var set = "";
-    set += "<h3>General settings</h3>";
-    //set += '<p><label>Server:</label><br /><select style="width:100%;"><option>http://www.overpass-api.de/api</option><option>http://overpass.osm.rambler.ru/cgi</option></select></p>';
-    set += '<p><label>Server:</label><br /><input type="text" style="width:100%;" name="server" value="'+settings.server+'"/></p>';
-    set += '<p><input type="checkbox" name="use_html5_coords" '+(settings.use_html5_coords ? "checked" : "")+'/>&nbsp;Start at current location (html5 geolocation)</p>';
-    set += '<p><input type="checkbox" name="use_rich_editor" '+(settings.use_rich_editor ? "checked" : "")+'/>&nbsp;Enable rich code editor (disable this on mobile devices; requires a page-reload to take effect).</p>';
+    $("#settings-dialog input[name=server]")[0].value = settings.server;
+    make_combobox($("#settings-dialog input[name=server]"), [
+      "http://www.overpass-api.de/api/",
+      "http://overpass.osm.rambler.ru/cgi/",
+    ]);
+    $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
+    $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
     // sharing options
-    set += "<h3>Sharing</h3>";
-    set += '<p><input type="checkbox" name="share_include_pos" '+(settings.share_include_pos ? "checked" : "")+'/>&nbsp;Include current map state in shared links</p>';
-    set += '<p><label>compression in shared links</label>&nbsp;<input type="text" style="width:30%;" name="share_compression" value="'+settings.share_compression+'"/></p>';
+    $("#settings-dialog input[name=share_include_pos]")[0].checked = settings.share_include_pos;
+    $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
+    make_combobox($("#settings-dialog input[name=share_compression]"),["auto","on","off"]);
     // open dialog
-    $('<div title="Settings">'+set+'</div>').dialog({
+    $("#settings-dialog").dialog({
       modal:true,
       buttons: {
         "Save": function() {
           // save settings
-          settings.server = $("input[name=server]").last()[0].value;
-          settings.use_html5_coords = $("input[name=use_html5_coords]").last()[0].checked;
-          settings.use_rich_editor  = $("input[name=use_rich_editor]").last()[0].checked;
-          settings.share_include_pos = $("input[name=share_include_pos]").last()[0].checked;
-          settings.share_compression = $("input[name=share_compression]").last()[0].value;
+          settings.server = $("#settings-dialog input[name=server]")[0].value;
+          settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
+          settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
+          settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
+          settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
           settings.save();
           $(this).dialog("close");
         },

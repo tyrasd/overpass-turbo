@@ -208,4 +208,21 @@ body.loading .modal {
 #help-dialog {
   display:none;
 }
-
+.ui-autocomplete a{
+  font-weight:normal;
+}
+.ui-combobox-toggle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-left: -1px;
+  padding: 0;
+}
+.ui-combobox {
+  position: relative;
+  display: inline-block;
+}
+.ui-combobox input {
+  margin: 0;
+  padding: 0.3em;
+}
