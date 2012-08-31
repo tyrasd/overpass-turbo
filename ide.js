@@ -5,6 +5,7 @@ var ide = new(function() {
   // == private members ==
   var codeEditor = null;
   // == public members ==
+  this.appname = "overpass-ide";
   this.dataViewer = null;
   this.map = null;
 
@@ -85,7 +86,7 @@ var ide = new(function() {
     });
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
     ide.map.setView(pos,settings.coords_zoom).addLayer(osm);
-    L.control.scale().addTo(ide.map);
+    L.control.scale({metric:true,imperial:false,}).addTo(ide.map);
     if (settings.use_html5_coords && !override_use_html5_coords) {
       // One-shot position request.
       try {
@@ -129,8 +130,8 @@ var ide = new(function() {
     // keyboard event listener
     $("body").keypress(ide.onKeyPress);
 
-    // leaflet extension
-    var MyControl = L.Control.extend({
+    // leaflet extension: more map controls
+    var MapButtons = L.Control.extend({
       options: {
         position:'topleft',
       },
@@ -138,12 +139,14 @@ var ide = new(function() {
         // create the control container with a particular class name
         var container = L.DomUtil.create('div', 'leaflet-control-buttons');
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
+        $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = '#';
         link.title = "fit zoom to data";
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
         var link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
+        $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = '#';
         link.title = "pan to current location";
         L.DomEvent.addListener(link, 'click', function() {
@@ -158,151 +161,82 @@ var ide = new(function() {
         return container;
       },
     });
-  }
-  var overpassJSON2geoJSON = function(json) {
-    // 2. sort elements
-    var nodes = new Array();
-    var ways  = new Array();
-    var rels  = new Array();
-    for (var i=0;i<json.elements.length;i++) {
-      switch (json.elements[i].type) {
-        case "node":
-          nodes.push(json.elements[i]);
-          break;
-        case "way":
-          ways.push(json.elements[i]);
-          break;
-        case "relation":
-          rels.push(json.elements[i]);
-          break;
-        default:
-          alert("???");
-      }
-    }
-
-    // 3. some data processing (e.g. filter nodes only used for ways)
-    var nids = new Object();
-    var nodeids = new Array();
-    for (var i=0;i<nodes.length;i++) {
-      nids[nodes[i].id] = nodes[i];
-      nodeids.push(nodes[i].id);
-    }
-    var poinids = new Array();
-    for (var i=0;i<nodes.length;i++) {
-      if (typeof nodes[i].tags != 'undefined')
-        poinids.push(nodes[i].id);
-    }
-    var waynids = new Array();
-    var wayids = new Array();
-    for (var i=0;i<ways.length;i++) {
-      wayids.push(ways[i].id);
-      for (var j=0;j<ways[i].nodes.length;j++) {
-        waynids.push(ways[i].nodes[j]);
-        ways[i].nodes[j] = nids[ways[i].nodes[j]];
-      }
-    }
-    var pois = new Array();
-    for (var i=0;i<nodes.length;i++) {
-      if ((waynids.indexOf(nodes[i].id) == -1) || // not related to any way
-          (poinids.indexOf(nodes[i].id) != -1))   // or has tags
-        pois.push(nodes[i]);
-    }
-    var relids = new Array();
-    for (var i=0;i<rels.length;i++) {
-      relids.push(rels[i].id);
-      for (var j=0;j<rels[i].members.length;j++) {
-        switch (rels[i].members[j].type) {
-        case "node":
-          n = nodeids.indexOf(rels[i].members[j].ref);
-          if (n != -1) {
-            if (typeof nodes[n].relations == "undefined")
-              nodes[n].relations = new Array();
-            nodes[n].relations.push({
-              "rel" : rels[i].id,
-              "role" : rels[i].members[j].role,
+    ide.map.addControl(new MapButtons());
+    // leaflet extension: search box
+    var SearchBox = L.Control.extend({
+      options: {
+        position:'topleft',
+      },
+      onAdd: function(map) {
+        var container = L.DomUtil.create('div', 'ui-widget');
+        container.style.opacity = "0.6";
+        container.style.position = "absolute";
+        container.style.left = "40px";
+        var inp = L.DomUtil.create('input', '', container);
+        inp.id = "search";
+        // hack against focus stealing leaflet :/
+        inp.onclick = function() {this.focus();}
+        // autocomplete functionality
+        $(inp).autocomplete({
+          source: function(request,response) {
+            // ajax (GET) request to nominatim
+            $.ajax("http://nominatim.openstreetmap.org/search"+"?app="+ide.appname, {
+              data:{
+                format:"json",
+                q: request.term
+              },
+              success: function(data) {
+                response($.map(data,function(item) {
+                  return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
+                }));
+              },
+              // todo: error handling
             });
-          }
-        break;
-        case "way":
-          w = wayids.indexOf(rels[i].members[j].ref);
-          if (w != -1) {
-            if (typeof ways[w].relations == "undefined")
-              ways[w].relations = new Array();
-            ways[w].relations.push({
-              "rel" : rels[i].id,
-              "role" : rels[i].members[j].role,
-            });
-          }
-        break;
-        default:
-        }
-      }
-    }
+          },
+          minLength: 2,
+          dalay: 600,
+          select: function(event,ui) {
+            ide.map.panTo(new L.LatLng(ui.item.lat,ui.item.lon));
+            this.value="";
+            return false;
+          },
+          open: function() {
+            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+          },
+          close: function() {
+            $(this).addClass("ui-corner-all").removeClass("ui-corner-top");
+          },
+        });
+        return container;
+      },
+    });
+    ide.map.addControl(new SearchBox());
+  } // init()
 
-    // 4. construct geojson
-    var geojson = new Array();
-    var geojsonnodes = {
-      "type"     : "FeatureCollection",
-      "features" : new Array()};
-    for (i=0;i<pois.length;i++) {
-      geojsonnodes.features.push({
-        "type"       : "Feature",
-        "properties" : {
-          "tags" : pois[i].tags,
-          "relations" : pois[i].relations,
-        },
-        "id"         : pois[i].id,
-        "geometry"   : {
-          "type" : "Point",
-          "coordinates" : [pois[i].lon, pois[i].lat],
-        }
-      });
+  var make_combobox = function(input, options) {
+    if (input[0].is_combobox) {
+      input.autocomplete("option", {source:options});
+      return;
     }
-    geojson.push(geojsonnodes);
-    var geojsonways = {
-      "type"     : "FeatureCollection",
-      "features" : new Array()};
-    for (var i=0;i<ways.length;i++) {
-      ways[i].tainted = false;
-      coords = new Array();
-      for (j=0;j<ways[i].nodes.length;j++) {
-        if (typeof ways[i].nodes[j] == "object")
-          coords.push([ways[i].nodes[j].lon, ways[i].nodes[j].lat]);
-        else
-          ways[i].tainted = true;
+    var wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
+    input.autocomplete({
+      source: options,
+      minLength: 0,
+    }).addClass("ui-widget ui-widget-content ui-corner-left ui-state-default");
+    $( "<a>" ).attr("tabIndex", -1).attr("title","show all items").appendTo(wrapper).button({
+      icons: {primary: "ui-icon-triangle-1-s"}, text:false
+    }).removeClass( "ui-corner-all" ).addClass( "ui-corner-right ui-combobox-toggle" ).click(function() {
+      // close if already visible
+      if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
+        input.autocomplete( "close" );
+        return;
       }
-
-      var way_type = "LineString"; // default
-      if (ways[i].nodes[0] == ways[i].nodes[ways[i].nodes.length-1]) {
-        if (typeof ways[i].tags != "undefined")
-          if ((typeof ways[i].tags["landuse"] != "undefined") ||
-              (typeof ways[i].tags["building"] != "undefined") ||
-              (typeof ways[i].tags["leisure"] != "undefined") ||
-              (typeof ways[i].tags["area"] == "yes") ||
-              ($.inArray(ways[i].tags["natural"], new Array("forest","wood","water"))) ||
-              false) {
-             way_type="Polygon";
-             coords = [coords];
-           }
-      }
-      geojsonways.features.push({
-        "type"       : "Feature",
-        "properties" : {
-          "tainted" : ways[i].tainted,
-          "tags" : ways[i].tags,
-          "relations" : ways[i].relations,
-        },
-        "id"         : ways[i].id,
-        "geometry"   : {
-          "type" : way_type,
-          "coordinates" : coords,
-        }
-      });
-    }
-    geojson.push(geojsonways);
-
-    return geojson;
-  }
+      // pass empty string as value to search for, displaying all results
+      input.autocomplete( "search", "" );
+      input.focus();
+    });
+    input[0].is_combobox = true;
+  } // make_combobox()
 
   // == public methods ==
 
@@ -337,34 +271,31 @@ var ide = new(function() {
     $("#navs .tabs a:contains('"+tab+"')").click();
   }
 
+  this.loadExample = function(ex) {
+    if (typeof settings.saves[ex] != "undefined")
+      ide.setQuery(settings.saves[ex].overpass);
+  }
+
   // Event handlers
   this.onLoadClick = function() {
-    var ex_html = "";
+    $("#load-dialog ul").html(""); // reset example list
+    // load example list
     for(var example in settings.saves)
-      ex_html += '<li><input type="radio" name="ex_list" value="'+example+'" />'+example+'</li>';
-    $('<div title="Load"><p>Select example to load:</p><ul>'+ex_html+'</ul></div>').dialog({
+      $('<li><a href="#load-example" onclick="ide.loadExample(\''+example+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">'+example+'</a></li>').appendTo("#load-dialog ul");
+    $("#load-dialog").dialog({
       modal:true,
-      //height:250,
       buttons: {
-        "Load" : function() {
-          $("input",this).each(function(i,inp) {
-            if (inp.checked)
-              ide.setQuery(settings.saves[inp.value].overpass);
-          });
-          $(this).dialog("close");
-        },
         "Cancel" : function() {$(this).dialog("close");}
       }
     });
     
   }
   this.onSaveClick = function() {
-    $('<div title="Save"><p>Select name</p><p><input name="save" type="text" /></p></div>').dialog({
+    $("#save-dialog").dialog({
       modal:true,
-      //height:150,
       buttons: {
         "Save" : function() {
-          var name = $("input",this)[0].value;
+          var name = $("input[name=save]",this)[0].value;
           settings.saves[name] = {
             "overpass": ide.getQuery()
           };
@@ -409,16 +340,11 @@ var ide = new(function() {
     });
   }
   this.onExportClick = function() {
-    var expo = "<ul>";
     var query = ide.getQuery(true);
-    expo += "<h2>Map</h2>";
-    expo += '<li><a href="#Export-Image" class="disabled" onclick="ide.onExportImageClick();">as png image</a></li>';
-    expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">as interactive OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>';
-    expo += "<h2>Query</h2>";
-    expo += '<li><a href="'+settings.server+'interpreter?data='+encodeURIComponent(query)+'">as raw link to API interpreter</a></li>';
-    expo += "<li><a href='data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true)+"' download='query.txt'>as text</a></li>";
-    expo += "</ul>";
-    $('<div title="Export">'+expo+'</div>').dialog({
+    $("#export-dialog a")[1].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
+    $("#export-dialog a")[2].href = settings.server+"interpreter?data="+encodeURIComponent(query);
+    $("#export-dialog a")[3].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
+    $("#export-dialog").dialog({
       modal:true,
       buttons: {
         "OK": function() {$(this).dialog("close");}
@@ -464,27 +390,28 @@ var ide = new(function() {
     }});
   }
   this.onSettingsClick = function() {
-    var set = "";
-    set += "<h3>General settings</h3>";
-    //set += '<p><label>Server:</label><br /><select style="width:100%;"><option>http://www.overpass-api.de/api</option><option>http://overpass.osm.rambler.ru/cgi</option></select></p>';
-    set += '<p><label>Server:</label><br /><input type="text" style="width:100%;" name="server" value="'+settings.server+'"/></p>';
-    set += '<p><input type="checkbox" name="use_html5_coords" '+(settings.use_html5_coords ? "checked" : "")+'/>&nbsp;Start at current location (html5 geolocation)</p>';
-    set += '<p><input type="checkbox" name="use_rich_editor" '+(settings.use_rich_editor ? "checked" : "")+'/>&nbsp;Enable rich code editor (disable this on mobile devices; requires a page-reload to take effect).</p>';
+    $("#settings-dialog input[name=server]")[0].value = settings.server;
+    make_combobox($("#settings-dialog input[name=server]"), [
+      "http://www.overpass-api.de/api/",
+      "http://overpass.osm.rambler.ru/cgi/",
+    ]);
+    $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
+    $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
     // sharing options
-    set += "<h3>Sharing</h3>";
-    set += '<p><input type="checkbox" name="share_include_pos" '+(settings.share_include_pos ? "checked" : "")+'/>&nbsp;Include current map state in shared links</p>';
-    set += '<p><label>compression in shared links</label>&nbsp;<input type="text" style="width:30%;" name="share_compression" value="'+settings.share_compression+'"/></p>';
+    $("#settings-dialog input[name=share_include_pos]")[0].checked = settings.share_include_pos;
+    $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
+    make_combobox($("#settings-dialog input[name=share_compression]"),["auto","on","off"]);
     // open dialog
-    $('<div title="Settings">'+set+'</div>').dialog({
+    $("#settings-dialog").dialog({
       modal:true,
       buttons: {
         "Save": function() {
           // save settings
-          settings.server = $("input[name=server]").last()[0].value;
-          settings.use_html5_coords = $("input[name=use_html5_coords]").last()[0].checked;
-          settings.use_rich_editor  = $("input[name=use_rich_editor]").last()[0].checked;
-          settings.share_include_pos = $("input[name=share_include_pos]").last()[0].checked;
-          settings.share_compression = $("input[name=share_compression]").last()[0].value;
+          settings.server = $("#settings-dialog input[name=server]")[0].value;
+          settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
+          settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
+          settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
+          settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
           settings.save();
           $(this).dialog("close");
         },
@@ -495,7 +422,7 @@ var ide = new(function() {
     });
   }
   this.onHelpClick = function() {
-    $("#help").dialog({
+    $("#help-dialog").dialog({
       modal:false,
       width:450,
       buttons: {

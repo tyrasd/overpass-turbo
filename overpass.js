@@ -136,7 +136,7 @@ var overpass = new(function() {
             nodes[n].relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
-              "relname" : rels[i].tags && rels[i].tags.name ? rels[i].tags.name : undefined,
+              "reltags" : rels[i].tags,
             });
           }
         break;
@@ -148,7 +148,7 @@ var overpass = new(function() {
             ways[w].relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
-              "relname" : rels[i].tags && rels[i].tags.name ? rels[i].tags.name : undefined,
+              "reltags" : rels[i].tags,
             });
           }
         break;
@@ -230,8 +230,11 @@ var overpass = new(function() {
     // 1. get overpass json data
     var query = ide.getQuery(true);
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
-    $.post(settings.server+"interpreter", {data: query},
-      function(data, textStatus, jqXHR) {
+    //$.post(settings.server+"interpreter", {data: query},
+    $.ajax(settings.server+"interpreter"+"?app="+ide.appname, {
+      type: 'POST',
+      data: {data:query},
+      success: function(data, textStatus, jqXHR) {
         // clear previous data and messages
         ide.dataViewer.setValue("");
         if (typeof ide.map.geojsonLayer != "undefined") 
@@ -293,7 +296,7 @@ var overpass = new(function() {
             empty_msg = "recieved empty dataset";
           }
           // show why there is an empty map
-          $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:10px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+          $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
         }
         ide.map.geojsonLayer = new L.GeoJSON(null, {
           style: function(feature) {
@@ -311,6 +314,9 @@ var overpass = new(function() {
             });
           },
           onEachFeature : function (feature, layer) {
+            var htmlentities = function(str) {
+              return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
             var popup = "";
             if (feature.geometry.type == "Point")
               popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
@@ -318,17 +324,26 @@ var overpass = new(function() {
               popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
             if (feature.properties && feature.properties.tags) {
               popup += "<h3>Tags:</h3><ul>";
-              $.each(feature.properties.tags, function(k,v) {popup += "<li>"+k+"="+v+"</li>"});
+              $.each(feature.properties.tags, function(k,v) {
+                k = htmlentities(k); // escaping strings!
+                v = htmlentities(v);
+                popup += "<li>"+k+"="+v+"</li>"
+              });
               popup += "</ul>";
             }
             if (feature.properties && (typeof feature.properties.relations != "undefined")) {
               popup += "<h3>Relations:</h3><ul>";
               $.each(feature.properties.relations, function (k,v) {
                 popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
-                if (v["relname"])
-                  popup += " ("+v["relname"]+")"
+                if (v.reltags && 
+                    (v.reltags.name || v.reltags.ref || v.reltags.type))
+                  popup += " <i>" + 
+                           ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
+                            (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
+                            (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
+                           "</i>";
                 if (v["role"]) 
-                  popup += " as "+v["role"]+"";
+                  popup += " as <i>"+htmlentities(v["role"])+"</i>";
                 popup += "</li>";
               });
               popup += "</ul>";
@@ -360,18 +375,19 @@ var overpass = new(function() {
           ide.map.geojsonLayer.addData(geojson[i]);
         }
         ide.map.addLayer(ide.map.geojsonLayer);
-
-    }).error(function(jqXHR, textStatus, errorThrown) {
-      ide.dataViewer.setValue("");
-      var errmsg = "";
-      if (jqXHR.state() == "rejected")
-        errmsg += "<p>Request rejected. (e.g. server not found, redirection, etc.)</p>";
-      if (jqXHR.status != 0) // note to me: jqXHR.status "should" give http status codes
-        errmsg += "<p>Error-Code: "+jqXHR.status+" ("+jqXHR.statusText+")</p>";
-      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
-        modal:true,
-        buttons: {"ok": function() {$(this).dialog("close");}},
-      }); // dialog
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        ide.dataViewer.setValue("");
+        var errmsg = "";
+        if (jqXHR.state() == "rejected")
+          errmsg += "<p>Request rejected. (e.g. server not found, redirection, etc.)</p>";
+        if (jqXHR.status != 0) // note to me: jqXHR.status "should" give http status codes
+          errmsg += "<p>Error-Code: "+jqXHR.status+" ("+jqXHR.statusText+")</p>";
+        $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
+          modal:true,
+          buttons: {"ok": function() {$(this).dialog("close");}},
+        }); // dialog
+      },
     }); // getJSON
 
   }

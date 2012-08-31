@@ -187,8 +187,8 @@ body.loading .modal {
 .leaflet-control-buttons a {
   background-color:rgba(255, 255, 255, 0.749);
   border-radius: 4px;
-  height: 19px;
-  width: 19px;
+  height: 17px;
+  width: 17px;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   display: block;
@@ -197,15 +197,35 @@ body.loading .modal {
   color: black;
   line-height:19px;
   font-size:11px;
+  padding:1px;
 }
 .leaflet-control-buttons-fitdata {
-  content:"d";
   margin-bottom:4px;
 }
 .leaflet-control-buttons-myloc {
-  content:"m";
 }
-#help {
+#help-dialog {
   display:none;
 }
-
+.ui-autocomplete a{
+  font-weight:normal;
+}
+.ui-combobox-toggle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-left: -1px;
+  padding: 0;
+}
+.ui-combobox {
+  position: relative;
+  display: inline-block;
+}
+.ui-combobox input.ui-autocomplete-input {
+  margin: 0;
+  padding: 0.3em;
+  background:white;
+}
+.ui-widget {
+  font-size: 1em; !important
+}

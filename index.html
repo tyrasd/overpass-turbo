@@ -15,6 +15,9 @@
   <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
   <!--misc libraries-->
   <script src="libs/misc.js"></script>
+  <!--jQuery UI-->
+  <link type="text/css" href="jquery-ui.css" rel="Stylesheet" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
   <!--own scripts & styles-->
   <link rel="stylesheet" href="default.css" />
   <script src="settings.js"></script>
@@ -22,9 +25,6 @@
   <script src="overpass.js"></script>
   <script src="examples.js"></script>
   <!--more optional libraries-->
-  <!--jQuery UI-->
-  <link type="text/css" href="jquery-ui.css" rel="Stylesheet" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
   <!--others-->
   <script src="libs/html2canvas/html2canvas.min.js"></script>
   <script src="libs/html2canvas/jquery.plugin.html2canvas.js"></script>
@@ -62,8 +62,10 @@
 
   <!--wait spinner-->
   <div class="modal"></div>
+
+  <!--some dialogs-->
   <!--help-->
-  <div id="help" title="Help">
+  <div id="help-dialog" title="Help">
     <h3>Introduction</h3>
     <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
     <p>You can run xml styled or overpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
@@ -78,6 +80,7 @@
       <li>Data mining by <a href="http://overpass-api.de/">Overpass API</a></li>
       <li>Data &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
       <li>Map tiles &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
+      <li>Search provided by <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a></li>
       <h4>Software & Libraries</h4>
       <li>Map powered by <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
       <li>Editor powered by <a href="http://codemirror.net/">CodeMirror</a></li>
@@ -85,5 +88,37 @@
       <li>Other libraries: <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a></li>
     </ul>
   </div>
+  <!--settings-->
+  <div title="Settings" id="settings-dialog">
+    <h3>General Settings</h3>
+    <p><label>Server:</label> <input type="text" name="server" value="" style="width:180px;"/></p>
+    <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location (html5 geolocation)</p>
+    <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor (disable this on mobile devices; requires a page-reload to take effect).</p>
+    <h3>Sharing</h3>
+    <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
+    <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
+  </div>
+  <!--save-->
+  <div title="Save" id="save-dialog">
+    <p>Enter a name for this query</p>
+    <p><input name="save" type="text" /></p>
+  </div>
+  <!--load-->
+  <div title="Load" id="load-dialog">
+    <p>Select example to load:</p>
+    <ul></ul>
+  </div>
+  <!--export-->
+  <div title="Export" id="export-dialog">
+    <ul>
+    <h2>Map</h2>
+      <li><a href="#Export-Image" class="disabled" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">as png image</a></li>
+      <li><a href="">as interactive OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>
+    <h2>Query</h2>
+      <li><a href="">as raw link to API interpreter</a></li>
+      <li><a href="" download='query.txt'>as text</a></li>
+    </ul>
+  </div>
+
 </body>
 </html>
