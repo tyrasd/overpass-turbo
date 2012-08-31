@@ -130,8 +130,8 @@ var ide = new(function() {
     // keyboard event listener
     $("body").keypress(ide.onKeyPress);
 
-    // leaflet extension
-    var MyControl = L.Control.extend({
+    // leaflet extension: more map controls
+    var MapButtons = L.Control.extend({
       options: {
         position:'topleft',
       },
@@ -139,12 +139,14 @@ var ide = new(function() {
         // create the control container with a particular class name
         var container = L.DomUtil.create('div', 'leaflet-control-buttons');
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
+        $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = '#';
         link.title = "fit zoom to data";
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
         var link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
+        $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = '#';
         link.title = "pan to current location";
         L.DomEvent.addListener(link, 'click', function() {
@@ -159,6 +161,7 @@ var ide = new(function() {
         return container;
       },
     });
+    ide.map.addControl(new MapButtons());
     // leaflet extension: search box
     var SearchBox = L.Control.extend({
       options: {

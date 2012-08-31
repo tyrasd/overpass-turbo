@@ -187,8 +187,8 @@ body.loading .modal {
 .leaflet-control-buttons a {
   background-color:rgba(255, 255, 255, 0.749);
   border-radius: 4px;
-  height: 19px;
-  width: 19px;
+  height: 17px;
+  width: 17px;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   display: block;
@@ -197,13 +197,12 @@ body.loading .modal {
   color: black;
   line-height:19px;
   font-size:11px;
+  padding:1px;
 }
 .leaflet-control-buttons-fitdata {
-  content:"d";
   margin-bottom:4px;
 }
 .leaflet-control-buttons-myloc {
-  content:"m";
 }
 #help-dialog {
   display:none;
