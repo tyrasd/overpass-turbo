@@ -226,3 +226,6 @@ body.loading .modal {
   margin: 0;
   padding: 0.3em;
 }
+.ui-widget {
+  font-size: 1em; !important
+}
