@@ -98,6 +98,27 @@
     <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
     <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
   </div>
+  <!--save-->
+  <div title="Save" id="save-dialog">
+    <p>Enter a name for this query</p>
+    <p><input name="save" type="text" /></p>
+  </div>
+  <!--load-->
+  <div title="Load" id="load-dialog">
+    <p>Select example to load:</p>
+    <ul></ul>
+  </div>
+  <!--export-->
+  <div title="Export" id="export-dialog">
+    <ul>
+    <h2>Map</h2>
+      <li><a href="#Export-Image" class="disabled" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">as png image</a></li>
+      <li><a href="">as interactive OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>
+    <h2>Query</h2>
+      <li><a href="">as raw link to API interpreter</a></li>
+      <li><a href="" download='query.txt'>as text</a></li>
+    </ul>
+  </div>
 
 </body>
 </html>

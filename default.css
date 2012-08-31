@@ -222,9 +222,10 @@ body.loading .modal {
   position: relative;
   display: inline-block;
 }
-.ui-combobox input {
+.ui-combobox input.ui-autocomplete-input {
   margin: 0;
   padding: 0.3em;
+  background:white;
 }
 .ui-widget {
   font-size: 1em; !important

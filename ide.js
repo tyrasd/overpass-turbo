@@ -211,8 +211,10 @@ var ide = new(function() {
   } // init()
 
   var make_combobox = function(input, options) {
-    if (input[0].is_combobox)
+    if (input[0].is_combobox) {
+      input.autocomplete("option", {source:options});
       return;
+    }
     var wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
     input.autocomplete({
       source: options,
@@ -273,13 +275,12 @@ var ide = new(function() {
 
   // Event handlers
   this.onLoadClick = function() {
-    var ex_html = "";
+    $("#load-dialog ul").html(""); // reset example list
+    // load example list
     for(var example in settings.saves)
-      //ex_html += '<li><input type="radio" name="ex_list" value="'+example+'" />'+example+'</li>';
-      ex_html += '<li><a href="#load-example" onclick="ide.loadExample(\''+example+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">'+example+'</a></li>';
-    $('<div title="Load"><p>Select example to load:</p><ul>'+ex_html+'</ul></div>').dialog({
+      $('<li><a href="#load-example" onclick="ide.loadExample(\''+example+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">'+example+'</a></li>').appendTo("#load-dialog ul");
+    $("#load-dialog").dialog({
       modal:true,
-      //height:250,
       buttons: {
         "Cancel" : function() {$(this).dialog("close");}
       }
@@ -287,12 +288,11 @@ var ide = new(function() {
     
   }
   this.onSaveClick = function() {
-    $('<div title="Save"><p>Select name</p><p><input name="save" type="text" /></p></div>').dialog({
+    $("#save-dialog").dialog({
       modal:true,
-      //height:150,
       buttons: {
         "Save" : function() {
-          var name = $("input",this)[0].value;
+          var name = $("input[name=save]",this)[0].value;
           settings.saves[name] = {
             "overpass": ide.getQuery()
           };
@@ -337,16 +337,11 @@ var ide = new(function() {
     });
   }
   this.onExportClick = function() {
-    var expo = "<ul>";
     var query = ide.getQuery(true);
-    expo += "<h2>Map</h2>";
-    expo += '<li><a href="#Export-Image" class="disabled" onclick="ide.onExportImageClick(); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">as png image</a></li>';
-    expo += '<li><a href="'+settings.server+'convert?data='+encodeURIComponent(query)+'&target=openlayers">as interactive OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>';
-    expo += "<h2>Query</h2>";
-    expo += '<li><a href="'+settings.server+'interpreter?data='+encodeURIComponent(query)+'">as raw link to API interpreter</a></li>';
-    expo += "<li><a href='data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true)+"' download='query.txt'>as text</a></li>";
-    expo += "</ul>";
-    $('<div title="Export">'+expo+'</div>').dialog({
+    $("#export-dialog a")[1].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
+    $("#export-dialog a")[2].href = settings.server+"interpreter?data="+encodeURIComponent(query);
+    $("#export-dialog a")[3].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
+    $("#export-dialog").dialog({
       modal:true,
       buttons: {
         "OK": function() {$(this).dialog("close");}
