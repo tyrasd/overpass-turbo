@@ -114,14 +114,13 @@
   </div>
   <!--export-->
   <div title="Export" id="export-dialog" class="dialog">
-    <ul>
-    <h2>Map</h2>
-      <li><a href="#Export-Image" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">as png image</a></li>
-      <li><a href="">as interactive OpenLayers overlay<span class="ui-icon ui-icon-extlink" style="display:inline-block;"/></a> <small>(only for queries returning valid OSM-XML)</small></li>
-    <h2>Query</h2>
-      <li><a href="">raw link to API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"/></a></li>
-      <li><a href="" download='query.txt'>as text</a></li>
-    </ul>
+    <h3>Map</h3>
+    <p><a id="export-image" href="#Export-Image" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">as png image</a></p>
+    <p><a id="export-overpass-openlayers" href="">as interactive OpenLayers overlay<span class="ui-icon ui-icon-extlink" style="display:inline-block;"/></a> <small>(only for queries returning valid OSM-XML)</small></p>
+    <p><a id="export-map-state" href="#Export-Map-State">get current map state</a> <small>bbox, center, etc.</small></p>
+    <h3>Query</h3>
+    <p><a id="export-overpass-api" href="">raw link to API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"/></a></p>
+    <p><a id="export-text" href="" download='query.txt'>as text</a></p>
   </div>
 
 </body>

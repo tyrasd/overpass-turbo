@@ -212,6 +212,15 @@ var ide = new(function() {
       },
     });
     ide.map.addControl(new SearchBox());
+    // add cross hairs to map
+    $('<span class="ui-icon ui-icon-plus" />')
+      .css("position","absolute")
+      .css("top","50%")
+      .css("left","50%")
+      .css("margin-top","-9px")
+      .css("margin-left","-8px")
+      .css("opacity","0.6")
+      .appendTo("#map");
   } // init()
 
   var make_combobox = function(input, options) {
@@ -277,7 +286,7 @@ var ide = new(function() {
       ide.setQuery(settings.saves[ex].overpass);
   }
   this.removeExample = function(ex,self) {
-    $('<div><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>Do you really want to delete &quot;'+ex+'&quot;?</p></div>').dialog({
+    $('<div title="Delete Query?"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>Do you really want to delete &quot;'+ex+'&quot;?</p></div>').dialog({
       modal: true,
       buttons: {
         "Delete": function() {
@@ -358,10 +367,25 @@ var ide = new(function() {
     });
   }
   this.onExportClick = function() {
+    // prepare export dialog
     var query = ide.getQuery(true);
-    $("#export-dialog a")[1].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
-    $("#export-dialog a")[2].href = settings.server+"interpreter?data="+encodeURIComponent(query);
-    $("#export-dialog a")[3].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
+    $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
+    $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
+    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
+    $("#export-dialog a#export-map-state").unbind("click");
+    $("#export-dialog a#export-map-state").bind("click",function() {
+      $('<div title="Current Map State">'+
+        '<p><strong>Center:</strong> </p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>(lat/lon)</small>'+
+        '<p><strong>Bounds:</strong> </p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>(south/west north/east)</small>'+
+        '<p><strong>Zoom:</strong> </p>'+ide.map.getZoom()+
+        '</div>').dialog({
+        modal:true,
+        buttons: {
+          "OK": function() {$(this).dialog("close");}
+        },
+      });
+    });
+    // open the export dialog
     $("#export-dialog").dialog({
       modal:true,
       buttons: {
