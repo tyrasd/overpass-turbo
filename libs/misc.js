@@ -221,5 +221,9 @@ function lzw_decode(s) {
     return out.join("");
 }
 
+// escape strings to show them directly in the html.
+function htmlentities(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
 

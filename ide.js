@@ -47,6 +47,7 @@ var ide = new(function() {
       codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
         //value: settings.code["overpass"],
         lineNumbers: true,
+        lineWrapping: true,
         mode: "xml",
         onChange: function(e) {
           settings.code["overpass"] = e.getValue();
@@ -275,13 +276,30 @@ var ide = new(function() {
     if (typeof settings.saves[ex] != "undefined")
       ide.setQuery(settings.saves[ex].overpass);
   }
+  this.removeExample = function(ex,self) {
+    $('<div><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>Do you really want to delete &quot;'+ex+'&quot;?</p></div>').dialog({
+      modal: true,
+      buttons: {
+        "Delete": function() {
+          delete settings.saves[ex];
+          settings.save();
+          $(self).parent().remove();
+          $(this).dialog( "close" );
+        },
+        "Cancel": function() {$( this ).dialog( "close" );},
+      },
+    });
+  }
 
   // Event handlers
   this.onLoadClick = function() {
     $("#load-dialog ul").html(""); // reset example list
     // load example list
     for(var example in settings.saves)
-      $('<li><a href="#load-example" onclick="ide.loadExample(\''+example+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">'+example+'</a></li>').appendTo("#load-dialog ul");
+      $('<li>'+
+          '<a href="#load-example" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">'+example+'</a>'+
+          '<a href="#delete-example" onclick="ide.removeExample(\''+htmlentities(example)+'\',this);"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
+        '</li>').appendTo("#load-dialog ul");
     $("#load-dialog").dialog({
       modal:true,
       buttons: {
@@ -296,7 +314,7 @@ var ide = new(function() {
       buttons: {
         "Save" : function() {
           var name = $("input[name=save]",this)[0].value;
-          settings.saves[name] = {
+          settings.saves[htmlentities(name)] = {
             "overpass": ide.getQuery()
           };
           settings.save();
@@ -431,6 +449,7 @@ var ide = new(function() {
         },
       }
     });
+    $("#help-dialog").accordion();
   }
   this.onKeyPress = function(event) {
     if ((event.keyCode == 120 && event.which == 0) || // F9
