@@ -192,6 +192,8 @@ var overpass = new(function() {
         else
           ways[i].tainted = true;
       }
+      if (coords.length <= 1) // invalid way geometry
+        continue;
       var way_type = "LineString"; // default
       if (typeof ways[i].nodes[0] != "undefined" && ways[i].nodes[0] == ways[i].nodes[ways[i].nodes.length-1]) {
         if (typeof ways[i].tags != "undefined")
