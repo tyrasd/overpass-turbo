@@ -314,9 +314,6 @@ var overpass = new(function() {
             });
           },
           onEachFeature : function (feature, layer) {
-            var htmlentities = function(str) {
-              return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-            }
             var popup = "";
             if (feature.geometry.type == "Point")
               popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";

@@ -229,3 +229,10 @@ body.loading .modal {
 .ui-widget {
   font-size: 1em; !important
 }
+
+#navs .title {
+  display: inline-block;
+  font-size:1.8em;
+  color: #7A7A7A;
+  padding-left: 10px;
+}

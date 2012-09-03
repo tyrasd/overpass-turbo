@@ -43,6 +43,7 @@
         <a class="button group left" accesskey="9" href="#settings" onclick="ide.onSettingsClick();">Settings</a>
         <a class="button group right" accesskey="0" href="#help" onclick="ide.onHelpClick();">Help</a>
       </div>
+      <div class="title">overpass-ide</div>
       <div class="tabs">
         <a class="button active" href="#map">Map</a>
         <a class="button" href="#data">Data</a>
@@ -66,34 +67,38 @@
   <!--some dialogs-->
   <!--help-->
   <div id="help-dialog" title="Help" class="dialog">
-    <h3>Introduction</h3>
-    <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
-    <p>You can run xml styled or overpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
-    <p>One can use the following shortcuts in the query: <ul>
-      <li><i>&lt;bbox-query/&gt;</i> translates to a bbox-query with from currently visible map.</li>
-      <li><i>(bbox-query)</i> translates to a operpassQL bbox-query from the currently visible map.</li>
-      <li><i>&lt;coord-query/&gt;</i> translates to a coord-query from the current map center point.</li>
-    </ul></p>
-    <h3>Attribution</h3>
-    <ul>
-      <h4>Data Sources</h4>
-      <li>Data mining by <a href="http://overpass-api.de/">Overpass API</a></li>
-      <li>Data &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
-      <li>Map tiles &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
-      <li>Search provided by <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a></li>
-      <h4>Software & Libraries</h4>
-      <li>Map powered by <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
-      <li>Editor powered by <a href="http://codemirror.net/">CodeMirror</a></li>
-      <li>Driven by <a href="http://jquery.com/">jQuery</a></li>
-      <li>Other libraries: <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a></li>
-    </ul>
+    <h3><a href="#">Introduction</a></h3>
+    <div>
+      <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
+      <p>You can run xml styled or overpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
+      <p>One can use the following shortcuts in the query: <ul>
+        <li><i>&lt;bbox-query/&gt;</i> translates to a bbox-query with from currently visible map.</li>
+        <li><i>(bbox-query)</i> translates to a operpassQL bbox-query from the currently visible map.</li>
+        <li><i>&lt;coord-query/&gt;</i> translates to a coord-query from the current map center point.</li>
+      </ul></p>
+    </div>
+    <h3><a href="#">Attribution</a></h3>
+    <div>
+      <ul>
+        <h4>Data Sources</h4>
+        <li>Data mining by <a href="http://overpass-api.de/">Overpass API</a></li>
+        <li>Data &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
+        <li>Map tiles &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
+        <li>Search provided by <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a></li>
+        <h4>Software & Libraries</h4>
+        <li>Map powered by <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
+        <li>Editor powered by <a href="http://codemirror.net/">CodeMirror</a></li>
+        <li>Driven by <a href="http://jquery.com/">jQuery</a></li>
+        <li>Other libraries: <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a></li>
+      </ul>
+    </div>
   </div>
   <!--settings-->
   <div title="Settings" id="settings-dialog" class="dialog">
     <h3>General Settings</h3>
     <p><label>Server:</label> <input type="text" name="server" value="" style="width:180px;"/></p>
-    <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location (html5 geolocation)</p>
-    <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor (disable this on mobile devices; requires a page-reload to take effect).</p>
+    <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location <small>(html5 geolocation)</small></p>
+    <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
     <h3>Sharing</h3>
     <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
     <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
@@ -110,14 +115,13 @@
   </div>
   <!--export-->
   <div title="Export" id="export-dialog" class="dialog">
-    <ul>
-    <h2>Map</h2>
-      <li><a href="#Export-Image" class="disabled" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">as png image</a></li>
-      <li><a href="">as interactive OpenLayers overlay</a> <span style="font-size:smaller;">(only for queries returning valid OSM-XML)</span></li>
-    <h2>Query</h2>
-      <li><a href="">as raw link to API interpreter</a></li>
-      <li><a href="" download='query.txt'>as text</a></li>
-    </ul>
+    <h3>Map</h3>
+    <p><a id="export-image" href="#Export-Image" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">as png image</a></p>
+    <p><a id="export-overpass-openlayers" href="">as interactive OpenLayers overlay<span class="ui-icon ui-icon-extlink" style="display:inline-block;"/></a> <small>(only for queries returning valid OSM-XML)</small></p>
+    <p><a id="export-map-state" href="#Export-Map-State">get current map state</a> <small>bbox, center, etc.</small></p>
+    <h3>Query</h3>
+    <p><a id="export-overpass-api" href="">raw link to API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"/></a></p>
+    <p><a id="export-text" href="" download='query.txt'>as text</a></p>
   </div>
 
 </body>
