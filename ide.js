@@ -316,6 +316,11 @@ var ide = new(function() {
     
   }
   this.onSaveClick = function() {
+    // combobox for existing saves.
+    var saves_names = new Array();
+    for (var key in settings.saves)
+      saves_names.push(key);
+    make_combobox($("#save-dialog input[name=save]"), saves_names);
     $("#save-dialog").dialog({
       modal:true,
       buttons: {

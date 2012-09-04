@@ -245,3 +245,7 @@ body.loading .modal {
   margin-left: -8px;
   opacity: 0.6;
 }
+
+#save-dialog input {
+  min-width: 200px;
+}
