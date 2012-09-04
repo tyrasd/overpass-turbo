@@ -29,6 +29,6 @@ Several UI Improvements
 * map: configurable style for geoJSON elements.
 * map: filter content (tags,?) to be shown in popups?
 * map: make crosshairs not overlap map popups
-* map: make crosshairs optional (default: not visible)
+* ~~map: make crosshairs optional (default: not visible)~~
 * map: make other map controls optional
 

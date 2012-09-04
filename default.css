@@ -236,3 +236,12 @@ body.loading .modal {
   color: #7A7A7A;
   padding-left: 10px;
 }
+
+.crosshairs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -9px;
+  margin-left: -8px;
+  opacity: 0.6;
+}

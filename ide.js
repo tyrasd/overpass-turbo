@@ -214,13 +214,11 @@ var ide = new(function() {
     ide.map.addControl(new SearchBox());
     // add cross hairs to map
     $('<span class="ui-icon ui-icon-plus" />')
-      .css("position","absolute")
-      .css("top","50%")
-      .css("left","50%")
-      .css("margin-top","-9px")
-      .css("margin-left","-8px")
-      .css("opacity","0.6")
+      .addClass("crosshairs")
+      .hide()
       .appendTo("#map");
+    if (settings.enable_crosshairs)
+      $(".crosshairs").show();
   } // init()
 
   var make_combobox = function(input, options) {
@@ -443,6 +441,8 @@ var ide = new(function() {
     $("#settings-dialog input[name=share_include_pos]")[0].checked = settings.share_include_pos;
     $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
     make_combobox($("#settings-dialog input[name=share_compression]"),["auto","on","off"]);
+    // map settings
+    $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
     // open dialog
     $("#settings-dialog").dialog({
       modal:true,
@@ -454,6 +454,8 @@ var ide = new(function() {
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
+          settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
+          $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
           settings.save();
           $(this).dialog("close");
         },
