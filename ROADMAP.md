@@ -48,9 +48,9 @@ Several UI Improvements
 * fullscreen mode
 * editor: better Syntax highlighting (auto detect query language xml/overpassQL, support for overpassQL)
 * editor: code auto completion (with inline help?) and auto tag closing for xml
+* editor: highline lines where an error occured
 * map: configurable style for geoJSON elements.
 * map: filter content (tags,?) to be shown in popups?
 * map: make crosshairs not overlap map popups
 * ~~map: make crosshairs optional (default: not visible)~~
 * map: make other map controls optional
-

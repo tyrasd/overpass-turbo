@@ -230,7 +230,7 @@ var overpass = new(function() {
   // updates the map
   this.update_map = function () {
     // 1. get overpass json data
-    var query = ide.getQuery(true);
+    var query = ide.getQuery(true,false);
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
     $.ajax(settings.server+"interpreter"+"?app="+ide.appname, {

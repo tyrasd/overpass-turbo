@@ -260,14 +260,19 @@ var ide = new(function() {
     if (lang=="xml")
       return '<coord-query lat="'+this.map.getCenter().lat+'" lon="'+this.map.getCenter().lng+'"/>';
   }
-  this.getQuery = function(processed) {
+  /*this returns the current query in the editor.
+   * processed (boolean, optional, default: false): determines weather shortcuts should be expanded or not.
+   * trim_ws (boolean, optional, default: true): if false, newlines and whitespaces are not touched.*/
+  this.getQuery = function(processed,trim_ws) {
     var query = codeEditor.getValue();
     if (processed) {
       query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
       query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
       query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
-      query = query.replace(/(\n|\r)/g," "); // remove newlines
-      query = query.replace(/\s+/g," "); // remove some whitespace
+      if (typeof trim_ws == "undefined" || trim_ws) {
+        query = query.replace(/(\n|\r)/g," "); // remove newlines
+        query = query.replace(/\s+/g," "); // remove some whitespace
+      }
     }
     return query;
   }
