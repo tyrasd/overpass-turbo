@@ -48,10 +48,16 @@ var ide = new(function() {
         //value: settings.code["overpass"],
         lineNumbers: true,
         lineWrapping: true,
-        mode: "xml",
+        mode: "text/html",//"xml",
         onChange: function(e) {
           settings.code["overpass"] = e.getValue();
           settings.save();
+        },
+        closeTagEnabled: true,
+        closeTagIndent: ["osm-script","query","union","foreach"],
+        extraKeys: {
+          "'>'": function(cm) {cm.closeTag(cm, '>');},
+          "'/'": function(cm) {cm.closeTag(cm, '/');},
         },
       });
     } else {
