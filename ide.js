@@ -42,6 +42,7 @@ var ide = new(function() {
     }
 
     // init codemirror
+    pending=0;
     $("#editor textarea")[0].value = settings.code["overpass"];
     if (settings.use_rich_editor) {
       codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
@@ -50,6 +51,14 @@ var ide = new(function() {
         lineWrapping: true,
         mode: "xml",
         onChange: function(e) {
+          clearTimeout(pending);
+          pending = setTimeout(function() {
+            if (e.getValue().trim().match(/^</)) {
+              if (e.getOption("mode") != "xml") e.setOption("mode","xml");
+            } else {
+              if (e.getOption("mode") != "plain") e.setOption("mode","plain");
+            }
+          },500);
           settings.code["overpass"] = e.getValue();
           settings.save();
         },
