@@ -53,13 +53,9 @@ body {
   height: 100%;
   overflow-x: auto;
 }
-.CodeMirror-gutter, .CodeMirror-lines {
+.CodeMirror-gutter-text, .CodeMirror-lines {
   padding:12px;
   padding-top:20px;
-}
-.CodeMirror-gutter-text {
-  padding-top:0;
-  padding-bottom:0;
 }
 
 #navs {

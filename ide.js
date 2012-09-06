@@ -48,7 +48,7 @@ var ide = new(function() {
         //value: settings.code["overpass"],
         lineNumbers: true,
         lineWrapping: true,
-        mode: "text/html",//"xml",
+        mode: "xml",
         onChange: function(e) {
           settings.code["overpass"] = e.getValue();
           settings.save();
