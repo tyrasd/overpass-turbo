@@ -54,9 +54,15 @@ var ide = new(function() {
           clearTimeout(pending);
           pending = setTimeout(function() {
             if (e.getValue().trim().match(/^</)) {
-              if (e.getOption("mode") != "xml") e.setOption("mode","xml");
+              if (e.getOption("mode") != "xml") {
+                e.setOption("mode","xml");
+                e.closeTagEnabled = true;
+              }
             } else {
-              if (e.getOption("mode") != "plain") e.setOption("mode","plain");
+              if (e.getOption("mode") != "plain") {
+                e.closeTagEnabled = false;
+                e.setOption("mode","plain");
+              }
             }
           },500);
           settings.code["overpass"] = e.getValue();
