@@ -53,7 +53,7 @@ var ide = new(function() {
         onChange: function(e) {
           clearTimeout(pending);
           pending = setTimeout(function() {
-            if (e.getValue().trim().match(/^</)) {
+            if (ide.getQueryLang() == "xml") {
               if (e.getOption("mode") != "xml") {
                 e.setOption("mode","xml");
                 e.closeTagEnabled = true;
@@ -299,6 +299,12 @@ var ide = new(function() {
   }
   this.setQuery = function(query) {
     codeEditor.setValue(query);
+  }
+  this.getQueryLang = function() {
+    if (codeEditor.getValue().trim().match(/^</))
+      return "xml";
+    else
+      return "OverpassQL";
   }
   this.highlightError = function(line) {
     codeEditor.setLineClass(line-1,null,"errorline");

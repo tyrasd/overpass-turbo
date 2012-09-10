@@ -231,6 +231,14 @@ var overpass = new(function() {
   this.update_map = function () {
     // 1. get overpass json data
     var query = ide.getQuery(true,false);
+    if (ide.getQueryLang() == "xml") {
+      // beautify not well formed xml queries (workaround for non matching error lines)
+      if (!query.match(/^<\?xml/)) {
+        if (!query.match(/<osm-script/))
+          query = '<osm-script>'+query+'</osm-script>';
+        query = '<?xml version="1.0" encoding="UTF-8"?>'+query;
+      }
+    }
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
     $.ajax(settings.server+"interpreter"+"?app="+ide.appname, {
