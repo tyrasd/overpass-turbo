@@ -300,6 +300,13 @@ var ide = new(function() {
   this.setQuery = function(query) {
     codeEditor.setValue(query);
   }
+  this.highlightError = function(line) {
+    codeEditor.setLineClass(line-1,null,"errorline");
+  }
+  this.resetErrors = function() {
+    for (var i=0; i<codeEditor.lineCount(); i++)
+      codeEditor.setLineClass(i,null,null);
+  }
 
   this.switchTab = function(tab) {
     $("#navs .tabs a:contains('"+tab+"')").click();
@@ -363,6 +370,7 @@ var ide = new(function() {
     });
   }
   this.onRunClick = function() {
+    this.resetErrors();
     overpass.update_map();
   }
   this.onShareClick = function() {

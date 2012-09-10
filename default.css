@@ -245,3 +245,7 @@ body.loading .modal {
 #save-dialog input {
   min-width: 200px;
 }
+
+.errorline {
+  background: #ffe1e1 !important;
+}

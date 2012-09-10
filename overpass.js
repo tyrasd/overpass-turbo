@@ -262,6 +262,11 @@ var overpass = new(function() {
               buttons:{"ok": function(){$(this).dialog("close");}},
             });
             data_mode = "error";
+            // parse errors and highlight error lines
+            var errlines = data.match(/line \d+:/g);
+            for (var i=0; i<errlines.length; i++) {
+              ide.highlightError(1*errlines[i].match(/\d+/)[0]);
+            }
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^
           ide.dataViewer.setOption("mode","xml");
