@@ -91,7 +91,7 @@ var ide = new(function() {
     ide.dataViewer = CodeMirror($("#data")[0], {
       value:'no data loaded yet', 
       lineNumbers: true, 
-      readonly: true,
+      readOnly: true,
       mode: "javascript",
     });
 

@@ -1,0 +1,71 @@
+html,body {
+  height: auto;
+}
+body {
+  /*font-size: 13px;*/
+}
+#editor {
+  position:relative;
+  left:auto;top:auto;right:auto;bottom:auto;
+  width:100%;
+  height: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#dataviewer {
+  border-left:0;
+  border-top: 2px solid #ccc;
+  padding-top: 10px;
+  position:relative;
+  left:auto;top:auto;right:auto;bottom:auto;
+  width:100%;
+  height:500px;
+}
+#map {
+  width:100%;
+  height:100%;
+}
+#data {
+  background-color:white;
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  z-index:-1001;
+}
+
+.CodeMirror {
+  line-height:1.2em;
+}
+#editor .CodeMirror-scroll {
+  height: auto;
+  overflow-x: auto;
+}
+#editor textarea {
+  padding:20px;
+  height:100%;
+  width:100%;
+  font-family:monospace;
+}
+#data .CodeMirror-scroll {
+  height: 100%;
+  overflow-x: auto;
+}
+.CodeMirror-gutter-text, .CodeMirror-lines {
+  padding:0;
+  padding-top:0;
+}
+#navs {
+  width:100%;
+  position: relative;
+  height:auto;
+}
+.tabs {
+  display: block;
+  position: absolute;
+  top:auto;
+  bottom:0;
+  right:12px;
+}
+.button {
+}

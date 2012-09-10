@@ -13,12 +13,13 @@ body {
   padding: 0;
   margin: 0;
   position:absolute;
-  top:51px;bottom:0;left:0;right:55%;
+  top:51px;bottom:0;left:0;width:45%;
 }
 #dataviewer {
   background-color: #FFFFFF;
   padding: 0;
   margin: 0;
+  border-left:1px solid #ccc;
   position:absolute;
   top:51px;bottom:0;left:45%;right:0;
 }
@@ -249,3 +250,4 @@ body.loading .modal {
 .errorline {
   background: #ffe1e1 !important;
 }
+
