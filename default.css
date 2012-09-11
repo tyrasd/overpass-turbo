@@ -45,7 +45,8 @@ body {
   overflow-x: auto;
 }
 #editor textarea {
-  padding:20px;
+  padding:0;
+  border:0;
   height:100%;
   width:100%;
   font-family:monospace;

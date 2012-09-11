@@ -83,6 +83,10 @@ var ide = new(function() {
       codeEditor.setValue = function(v) {
         this.value = v;
       };
+      codeEditor.lineCount = function() {
+        return this.value.split(/\r\n|\r|\n/).length;
+      };
+      codeEditor.setLineClass = function() {};
       $("#editor textarea").bind("input change", function(e) {
         settings.code["overpass"] = e.target.getValue();
         settings.save();
