@@ -56,3 +56,4 @@ Several UI Improvements
 * ~~map: make crosshairs optional (default: not visible)~~
 * map: make other map controls optional
 * map: show coordinates of points (and bbox of ways?) in popup
+* tool: convert overpassql<->xml
