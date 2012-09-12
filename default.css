@@ -252,3 +252,10 @@ body.loading .modal {
   background: #ffe1e1 !important;
 }
 
+ul.plain {
+  padding:0;
+  margin:0;
+}
+ul.plain > li {
+  list-style-type: none;
+}
