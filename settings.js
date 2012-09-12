@@ -4,7 +4,7 @@
 var settings = new(function() {
   // == private members ==
   var prefix = "overpass-ide_";
-  var settings_version = 5;
+  var settings_version = 6;
   // == public properties with defaults ==
   // version of settings.
   this.version;
@@ -24,6 +24,7 @@ var settings = new(function() {
   // code editor
   this.use_rich_editor = true;
   // map appearance
+  this.tile_server = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   this.enable_crosshairs = false;
 
   // == public methods ==
@@ -46,6 +47,7 @@ var settings = new(function() {
     this.share_include_pos = localStorage.getItem(prefix+"share_include_pos") == "true";
     this.use_rich_editor = localStorage.getItem(prefix+"use_rich_editor") == "true";
     this.enable_crosshairs = localStorage.getItem(prefix+"enable_crosshairs") == "true";
+    this.tile_server = localStorage.getItem(prefix+"tile_server");
     // this. = localStorage.getItem(prefix+"");
   }
   this.save = function() {
@@ -60,6 +62,7 @@ var settings = new(function() {
     localStorage.setItem(prefix+"share_include_pos",this.share_include_pos);
     localStorage.setItem(prefix+"use_rich_editor",this.use_rich_editor);
     localStorage.setItem(prefix+"enable_crosshairs",this.enable_crosshairs);
+    localStorage.setItem(prefix+"tile_server",this.tile_server);
     //localStorage.setItem(prefix+"",this.);
   }
 
@@ -69,7 +72,8 @@ var settings = new(function() {
     if (v < 2) update_settings_2(self);
     if (v < 3) update_settings_3(self);
     if (v < 4) update_settings_4(self);
-    if (v < 4) update_settings_5(self);
+    if (v < 5) update_settings_5(self);
+    if (v < 6) update_settings_6(self);
     localStorage.setItem(prefix+"version",settings_version);
   }
   var update_settings_1 = function(self) {
@@ -96,6 +100,10 @@ var settings = new(function() {
   var update_settings_5 = function(self) {
     // add new variable
     localStorage.setItem(prefix+"enable_crosshairs",self.enable_crosshairs);
+  }
+  var update_settings_6 = function(self) {
+    // add new variable
+    localStorage.setItem(prefix+"tile_server",self.tile_server);
   }
   
 })(); // end create settings object

@@ -105,13 +105,13 @@ var ide = new(function() {
       minZoom:4,
       maxZoom:18,
     });
-    var osmUrl="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-    var osmAttrib="Map data © openstreetmap contributors";
-    var osm = new L.TileLayer(osmUrl,{
-      attribution:osmAttrib,
+    var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    var tilesAttrib = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a>';
+    var tiles = new L.TileLayer(tilesUrl,{
+      attribution:tilesAttrib,
     });
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
-    ide.map.setView(pos,settings.coords_zoom).addLayer(osm);
+    ide.map.setView(pos,settings.coords_zoom).addLayer(tiles);
     L.control.scale({metric:true,imperial:false,}).addTo(ide.map);
     if (settings.use_html5_coords && !override_use_html5_coords) {
       // One-shot position request.
@@ -461,7 +461,7 @@ var ide = new(function() {
         ctx.drawSvg($("#map .leaflet-overlay-pane").html(),offx,offy,width,height);
       // 3. export canvas as html image
       var imgstr = canvas.toDataURL("image/png");
-      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p></div>').dialog({
+      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p><p style="font-size:smaller;">Make sure to include proper attributions when distributing this image!</p></div>').dialog({
         modal:true,
         width:500,
         position:["center",60],
@@ -491,10 +491,20 @@ var ide = new(function() {
     $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
     make_combobox($("#settings-dialog input[name=share_compression]"),["auto","on","off"]);
     // map settings
+    $("#settings-dialog input[name=tile_server]")[0].value = settings.tile_server;
+    make_combobox($("#settings-dialog input[name=tile_server]"), [
+      "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+      //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
+      //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
+      //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
+      //"http://oatile1.mqcdn.com/naip/{z}/{x}/{y}.jpg",
+    ]);
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
     // open dialog
     $("#settings-dialog").dialog({
       modal:true,
+      width:400,
       buttons: {
         "Save": function() {
           // save settings
@@ -503,6 +513,15 @@ var ide = new(function() {
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
+          settings.tile_server = $("#settings-dialog input[name=tile_server]")[0].value;
+          // update tile layer (if changed)
+          for (var i in ide.map._layers)
+            if (ide.map._layers[i] instanceof L.TileLayer &&
+              ide.map._layers[i]._url != settings.tile_server) {
+              ide.map._layers[i]._url = settings.tile_server;
+              ide.map._layers[i].redraw();
+              break;
+            }
           settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
           $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
           settings.save();
