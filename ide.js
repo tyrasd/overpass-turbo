@@ -42,26 +42,41 @@ var ide = new(function() {
     }
 
     // init codemirror
-    pending=0;
     $("#editor textarea")[0].value = settings.code["overpass"];
     if (settings.use_rich_editor) {
+      pending=0;
+      CodeMirror.defineMIME("text/x-overpassQL", {
+        name: "clike",
+        keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
+          "out json xml custom popup timeout maxsize" // initial declarations
+          +" relation way node around user uid newer" // queries
+          +" out meta quirks body skel ids qt asc" // actions
+          //+"r w n br bw" // recursors
+          +" bbox" // overpass ide shortcut(s)
+        ),
+      });
+      CodeMirror.defineMIME("text/x-overpassXML", 
+        "xml"
+      );
       codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
         //value: settings.code["overpass"],
         lineNumbers: true,
         lineWrapping: true,
-        mode: "xml",
+        mode: "text/plain",
         onChange: function(e) {
           clearTimeout(pending);
           pending = setTimeout(function() {
             if (ide.getQueryLang() == "xml") {
               if (e.getOption("mode") != "xml") {
-                e.setOption("mode","xml");
                 e.closeTagEnabled = true;
+                e.setOption("matchBrackets",false);
+                e.setOption("mode","xml");
               }
             } else {
-              if (e.getOption("mode") != "plain") {
+              if (e.getOption("mode") != "text/x-overpassQL") {
                 e.closeTagEnabled = false;
-                e.setOption("mode","plain");
+                e.setOption("matchBrackets",true);
+                e.setOption("mode","text/x-overpassQL");
               }
             }
           },500);
@@ -75,6 +90,7 @@ var ide = new(function() {
           "'/'": function(cm) {cm.closeTag(cm, '/');},
         },
       });
+      codeEditor.getOption("onChange")(codeEditor);
     } else {
       codeEditor = $("#editor textarea")[0];
       codeEditor.getValue = function() {
@@ -419,8 +435,7 @@ var ide = new(function() {
     $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
-    $("#export-dialog a#export-map-state").unbind("click");
-    $("#export-dialog a#export-map-state").bind("click",function() {
+    $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="Current Map State">'+
         '<p><strong>Center:</strong> </p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>(lat/lon)</small>'+
         '<p><strong>Bounds:</strong> </p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>(south/west north/east)</small>'+
@@ -431,6 +446,9 @@ var ide = new(function() {
           "OK": function() {$(this).dialog("close");}
         },
       });
+    });
+    $("#export-dialog a#export-convert").unbind("click").bind("click", function() {
+      alert("not yet implemented :(");
     });
     // open the export dialog
     $("#export-dialog").dialog({
