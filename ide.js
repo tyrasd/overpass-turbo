@@ -44,16 +44,53 @@ var ide = new(function() {
     // init codemirror
     $("#editor textarea")[0].value = settings.code["overpass"];
     if (settings.use_rich_editor) {
+      pending=0;
+      CodeMirror.defineMIME("text/x-overpassQL", {
+        name: "clike",
+        keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
+          "out json xml custom popup timeout maxsize" // initial declarations
+          +" relation way node around user uid newer" // queries
+          +" out meta quirks body skel ids qt asc" // actions
+          //+"r w n br bw" // recursors
+          +" bbox" // overpass ide shortcut(s)
+        ),
+      });
+      CodeMirror.defineMIME("text/x-overpassXML", 
+        "xml"
+      );
       codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
         //value: settings.code["overpass"],
         lineNumbers: true,
         lineWrapping: true,
-        mode: "xml",
+        mode: "text/plain",
         onChange: function(e) {
+          clearTimeout(pending);
+          pending = setTimeout(function() {
+            if (ide.getQueryLang() == "xml") {
+              if (e.getOption("mode") != "xml") {
+                e.closeTagEnabled = true;
+                e.setOption("matchBrackets",false);
+                e.setOption("mode","xml");
+              }
+            } else {
+              if (e.getOption("mode") != "text/x-overpassQL") {
+                e.closeTagEnabled = false;
+                e.setOption("matchBrackets",true);
+                e.setOption("mode","text/x-overpassQL");
+              }
+            }
+          },500);
           settings.code["overpass"] = e.getValue();
           settings.save();
         },
+        closeTagEnabled: true,
+        closeTagIndent: ["osm-script","query","union","foreach"],
+        extraKeys: {
+          "'>'": function(cm) {cm.closeTag(cm, '>');},
+          "'/'": function(cm) {cm.closeTag(cm, '/');},
+        },
       });
+      codeEditor.getOption("onChange")(codeEditor);
     } else {
       codeEditor = $("#editor textarea")[0];
       codeEditor.getValue = function() {
@@ -62,6 +99,10 @@ var ide = new(function() {
       codeEditor.setValue = function(v) {
         this.value = v;
       };
+      codeEditor.lineCount = function() {
+        return this.value.split(/\r\n|\r|\n/).length;
+      };
+      codeEditor.setLineClass = function() {};
       $("#editor textarea").bind("input change", function(e) {
         settings.code["overpass"] = e.target.getValue();
         settings.save();
@@ -70,7 +111,7 @@ var ide = new(function() {
     ide.dataViewer = CodeMirror($("#data")[0], {
       value:'no data loaded yet', 
       lineNumbers: true, 
-      readonly: true,
+      readOnly: true,
       mode: "javascript",
     });
 
@@ -80,13 +121,13 @@ var ide = new(function() {
       minZoom:4,
       maxZoom:18,
     });
-    var osmUrl="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-    var osmAttrib="Map data © openstreetmap contributors";
-    var osm = new L.TileLayer(osmUrl,{
-      attribution:osmAttrib,
+    var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    var tilesAttrib = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a>';
+    var tiles = new L.TileLayer(tilesUrl,{
+      attribution:tilesAttrib,
     });
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
-    ide.map.setView(pos,settings.coords_zoom).addLayer(osm);
+    ide.map.setView(pos,settings.coords_zoom).addLayer(tiles);
     L.control.scale({metric:true,imperial:false,}).addTo(ide.map);
     if (settings.use_html5_coords && !override_use_html5_coords) {
       // One-shot position request.
@@ -214,13 +255,11 @@ var ide = new(function() {
     ide.map.addControl(new SearchBox());
     // add cross hairs to map
     $('<span class="ui-icon ui-icon-plus" />')
-      .css("position","absolute")
-      .css("top","50%")
-      .css("left","50%")
-      .css("margin-top","-9px")
-      .css("margin-left","-8px")
-      .css("opacity","0.6")
+      .addClass("crosshairs")
+      .hide()
       .appendTo("#map");
+    if (settings.enable_crosshairs)
+      $(".crosshairs").show();
   } // init()
 
   var make_combobox = function(input, options) {
@@ -262,19 +301,37 @@ var ide = new(function() {
     if (lang=="xml")
       return '<coord-query lat="'+this.map.getCenter().lat+'" lon="'+this.map.getCenter().lng+'"/>';
   }
-  this.getQuery = function(processed) {
+  /*this returns the current query in the editor.
+   * processed (boolean, optional, default: false): determines weather shortcuts should be expanded or not.
+   * trim_ws (boolean, optional, default: true): if false, newlines and whitespaces are not touched.*/
+  this.getQuery = function(processed,trim_ws) {
     var query = codeEditor.getValue();
     if (processed) {
       query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
       query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
       query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
-      query = query.replace(/(\n|\r)/g," "); // remove newlines
-      query = query.replace(/\s+/g," "); // remove some whitespace
+      if (typeof trim_ws == "undefined" || trim_ws) {
+        query = query.replace(/(\n|\r)/g," "); // remove newlines
+        query = query.replace(/\s+/g," "); // remove some whitespace
+      }
     }
     return query;
   }
   this.setQuery = function(query) {
     codeEditor.setValue(query);
+  }
+  this.getQueryLang = function() {
+    if (codeEditor.getValue().trim().match(/^</))
+      return "xml";
+    else
+      return "OverpassQL";
+  }
+  this.highlightError = function(line) {
+    codeEditor.setLineClass(line-1,null,"errorline");
+  }
+  this.resetErrors = function() {
+    for (var i=0; i<codeEditor.lineCount(); i++)
+      codeEditor.setLineClass(i,null,null);
   }
 
   this.switchTab = function(tab) {
@@ -318,6 +375,11 @@ var ide = new(function() {
     
   }
   this.onSaveClick = function() {
+    // combobox for existing saves.
+    var saves_names = new Array();
+    for (var key in settings.saves)
+      saves_names.push(key);
+    make_combobox($("#save-dialog input[name=save]"), saves_names);
     $("#save-dialog").dialog({
       modal:true,
       buttons: {
@@ -334,6 +396,7 @@ var ide = new(function() {
     });
   }
   this.onRunClick = function() {
+    this.resetErrors();
     overpass.update_map();
   }
   this.onShareClick = function() {
@@ -372,8 +435,7 @@ var ide = new(function() {
     $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
-    $("#export-dialog a#export-map-state").unbind("click");
-    $("#export-dialog a#export-map-state").bind("click",function() {
+    $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="Current Map State">'+
         '<p><strong>Center:</strong> </p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>(lat/lon)</small>'+
         '<p><strong>Bounds:</strong> </p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>(south/west north/east)</small>'+
@@ -385,9 +447,13 @@ var ide = new(function() {
         },
       });
     });
+    $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
+    $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
+    $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
     // open the export dialog
     $("#export-dialog").dialog({
       modal:true,
+      width:350,
       buttons: {
         "OK": function() {$(this).dialog("close");}
       }
@@ -414,7 +480,7 @@ var ide = new(function() {
         ctx.drawSvg($("#map .leaflet-overlay-pane").html(),offx,offy,width,height);
       // 3. export canvas as html image
       var imgstr = canvas.toDataURL("image/png");
-      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p></div>').dialog({
+      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p><p style="font-size:smaller;">Make sure to include proper attributions when distributing this image!</p></div>').dialog({
         modal:true,
         width:500,
         position:["center",60],
@@ -443,9 +509,21 @@ var ide = new(function() {
     $("#settings-dialog input[name=share_include_pos]")[0].checked = settings.share_include_pos;
     $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
     make_combobox($("#settings-dialog input[name=share_compression]"),["auto","on","off"]);
+    // map settings
+    $("#settings-dialog input[name=tile_server]")[0].value = settings.tile_server;
+    make_combobox($("#settings-dialog input[name=tile_server]"), [
+      "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+      //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
+      //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
+      //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
+      //"http://oatile1.mqcdn.com/naip/{z}/{x}/{y}.jpg",
+    ]);
+    $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
     // open dialog
     $("#settings-dialog").dialog({
       modal:true,
+      width:400,
       buttons: {
         "Save": function() {
           // save settings
@@ -454,6 +532,17 @@ var ide = new(function() {
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
+          settings.tile_server = $("#settings-dialog input[name=tile_server]")[0].value;
+          // update tile layer (if changed)
+          for (var i in ide.map._layers)
+            if (ide.map._layers[i] instanceof L.TileLayer &&
+              ide.map._layers[i]._url != settings.tile_server) {
+              ide.map._layers[i]._url = settings.tile_server;
+              ide.map._layers[i].redraw();
+              break;
+            }
+          settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
+          $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
           settings.save();
           $(this).dialog("close");
         },

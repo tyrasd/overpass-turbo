@@ -13,12 +13,13 @@ body {
   padding: 0;
   margin: 0;
   position:absolute;
-  top:51px;bottom:0;left:0;right:55%;
+  top:51px;bottom:0;left:0;width:45%;
 }
 #dataviewer {
   background-color: #FFFFFF;
   padding: 0;
   margin: 0;
+  border-left:1px solid #ccc;
   position:absolute;
   top:51px;bottom:0;left:45%;right:0;
 }
@@ -44,7 +45,8 @@ body {
   overflow-x: auto;
 }
 #editor textarea {
-  padding:20px;
+  padding:0;
+  border:0;
   height:100%;
   width:100%;
   font-family:monospace;
@@ -53,13 +55,9 @@ body {
   height: 100%;
   overflow-x: auto;
 }
-.CodeMirror-gutter, .CodeMirror-lines {
+.CodeMirror-gutter-text, .CodeMirror-lines {
   padding:12px;
   padding-top:20px;
-}
-.CodeMirror-gutter-text {
-  padding-top:0;
-  padding-bottom:0;
 }
 
 #navs {
@@ -235,4 +233,29 @@ body.loading .modal {
   font-size:1.8em;
   color: #7A7A7A;
   padding-left: 10px;
+}
+
+.crosshairs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -9px;
+  margin-left: -8px;
+  opacity: 0.6;
+}
+
+#save-dialog input {
+  min-width: 200px;
+}
+
+.errorline {
+  background: #ffe1e1 !important;
+}
+
+ul.plain {
+  padding:0;
+  margin:0;
+}
+ul.plain > li {
+  list-style-type: none;
 }

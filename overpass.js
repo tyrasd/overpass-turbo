@@ -230,7 +230,15 @@ var overpass = new(function() {
   // updates the map
   this.update_map = function () {
     // 1. get overpass json data
-    var query = ide.getQuery(true);
+    var query = ide.getQuery(true,false);
+    if (ide.getQueryLang() == "xml") {
+      // beautify not well formed xml queries (workaround for non matching error lines)
+      if (!query.match(/^<\?xml/)) {
+        if (!query.match(/<osm-script/))
+          query = '<osm-script>'+query+'</osm-script>';
+        query = '<?xml version="1.0" encoding="UTF-8"?>'+query;
+      }
+    }
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
     $.ajax(settings.server+"interpreter"+"?app="+ide.appname, {
@@ -251,17 +259,36 @@ var overpass = new(function() {
             data = $.parseJSON(data);
           } catch (e) {}
         }
-        if (typeof data == "string") { // maybe an error message
+        if ((typeof data == "string") ||
+            (typeof data == "object" && data instanceof XMLDocument && $("remark",data).length > 0)
+           ) { // maybe an error message
           data_mode = "unknown";
-          if (data.indexOf("Error") != -1 &&
-              data.indexOf("<script") == -1 &&
-              data.indexOf("<h2>Public Transport Stops</h2>") == -1) {
+          // todo: detect timeout <remark>s
+          var is_error = false;
+          is_error = is_error || (typeof data == "string" && // html coded error messages
+            data.indexOf("Error") != -1 && 
+            data.indexOf("<script") == -1 && // detect output="custom" content
+            data.indexOf("<h2>Public Transport Stops</h2>") == -1); // detect output="popup" content
+          is_error = is_error || (typeof data == "object" &&
+            data instanceof XMLDocument &&
+            $("remark",data).length > 0);
+          if (is_error) {
             // this really looks like an error message, so lets open an additional modal error message
-            $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")+"</div>").dialog({
+            var errmsg = "?";
+            if (typeof data == "string")
+              errmsg = data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"");
+            if (typeof data == "object")
+              errmsg = "<p>"+$("remark",data).text().trim()+"</p>";
+            $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
               modal:true,
               buttons:{"ok": function(){$(this).dialog("close");}},
             });
             data_mode = "error";
+            // parse errors and highlight error lines
+            var errlines = errmsg.match(/line \d+:/g) || [];
+            for (var i=0; i<errlines.length; i++) {
+              ide.highlightError(1*errlines[i].match(/\d+/)[0]);
+            }
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^
           ide.dataViewer.setOption("mode","xml");
@@ -379,7 +406,7 @@ var overpass = new(function() {
         ide.dataViewer.setValue("");
         var errmsg = "";
         if (jqXHR.state() == "rejected")
-          errmsg += "<p>Request rejected. (e.g. server not found, redirection, etc.)</p>";
+          errmsg += "<p>Request rejected. (e.g. server not found, redirection, internal server errors, etc.)</p>";
         if (jqXHR.status != 0) // note to me: jqXHR.status "should" give http status codes
           errmsg += "<p>Error-Code: "+jqXHR.status+" ("+jqXHR.statusText+")</p>";
         $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({

@@ -10,6 +10,8 @@
   <script src="libs/CodeMirror/lib/codemirror.js"></script>
   <script src="libs/CodeMirror/mode/javascript/javascript.js"></script>
   <script src="libs/CodeMirror/mode/xml/xml.js"></script>
+  <script src="libs/CodeMirror/mode/clike/clike.js"></script>
+  <script src="libs/CodeMirror/lib/util/closetag.js"></script>
   <!--leaflet-->
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
@@ -19,7 +21,8 @@
   <link type="text/css" href="jquery-ui.css" rel="Stylesheet" />
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
   <!--own scripts & styles-->
-  <link rel="stylesheet" href="default.css" />
+  <link rel="stylesheet" type="text/css" href="default.css" />
+  <link rel="stylesheet" type="text/css" media="(max-width: 700px), (max-device-width: 799px)" href="compact.css"/>
   <script src="settings.js"></script>
   <script src="ide.js"></script>
   <script src="overpass.js"></script>
@@ -70,7 +73,7 @@
     <h3><a href="#">Introduction</a></h3>
     <div>
       <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
-      <p>You can run xml styled or overpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
+      <p>You can run xml styled or OverpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
       <p>One can use the following shortcuts in the query: <ul>
         <li><i>&lt;bbox-query/&gt;</i> translates to a bbox-query with from currently visible map.</li>
         <li><i>(bbox-query)</i> translates to a operpassQL bbox-query from the currently visible map.</li>
@@ -79,13 +82,16 @@
     </div>
     <h3><a href="#">Attribution</a></h3>
     <div>
-      <ul>
-        <h4>Data Sources</h4>
+      <h4>Data Sources</h4>
+      <ul class="plain">
         <li>Data mining by <a href="http://overpass-api.de/">Overpass API</a></li>
         <li>Data &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
+        <!--<li>Data &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <span style="font-size:smaller;"><a href="http://opendatacommons.org/licenses/odbl/1-0/">ODbL</a> (<a href="http://www.openstreetmap.org/copyright">Terms</a>)</span></li>-->
         <li>Map tiles &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
         <li>Search provided by <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a></li>
-        <h4>Software & Libraries</h4>
+      </ul>
+      <h4>Software & Libraries</h4>
+      <ul class="plain">
         <li>Map powered by <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
         <li>Editor powered by <a href="http://codemirror.net/">CodeMirror</a></li>
         <li>Driven by <a href="http://jquery.com/">jQuery</a></li>
@@ -96,12 +102,15 @@
   <!--settings-->
   <div title="Settings" id="settings-dialog" class="dialog">
     <h3>General Settings</h3>
-    <p><label>Server:</label> <input type="text" name="server" value="" style="width:180px;"/></p>
+    <p><label>Server:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
     <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location <small>(html5 geolocation)</small></p>
     <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
     <h3>Sharing</h3>
     <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
     <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
+    <h3>Map Settings</h3>
+    <p><label>Tile-Server:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
+    <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;Show crosshairs at the map center.</p>
   </div>
   <!--save-->
   <div title="Save" id="save-dialog" class="dialog">
@@ -111,17 +120,19 @@
   <!--load-->
   <div title="Load" id="load-dialog" class="dialog">
     <p>Select example to load:</p>
-    <ul></ul>
+    <ul class="plain"></ul>
   </div>
   <!--export-->
   <div title="Export" id="export-dialog" class="dialog">
     <h3>Map</h3>
-    <p><a id="export-image" href="#Export-Image" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">as png image</a></p>
-    <p><a id="export-overpass-openlayers" href="">as interactive OpenLayers overlay<span class="ui-icon ui-icon-extlink" style="display:inline-block;"/></a> <small>(only for queries returning valid OSM-XML)</small></p>
-    <p><a id="export-map-state" href="#Export-Map-State">get current map state</a> <small>bbox, center, etc.</small></p>
+    <p>as <a id="export-image" href="#Export-Image" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">png image</a></p>
+    <p>as <a id="export-overpass-openlayers" href="">interactive OpenLayers overlay<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a> <small>(only for queries returning valid OSM-XML)</small></p>
+    <p>get current <a id="export-map-state" href="#Export-Map-State">map state</a> <small>bbox, center, etc.</small></p>
     <h3>Query</h3>
-    <p><a id="export-overpass-api" href="">raw link to API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"/></a></p>
-    <p><a id="export-text" href="" download='query.txt'>as text</a></p>
+    <p>as <a id="export-text" href="" download='query.txt'>text</a></p>
+    <p>raw link to <a id="export-overpass-api" href="">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <p>convert to <a id="export-convert-xml" href="">xml<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <p>convert to (<a id="export-convert-compact" href="">compact<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a>) <a id="export-convert-ql" href="">OverpassQL<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
   </div>
 
 </body>
