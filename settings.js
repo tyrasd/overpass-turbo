@@ -17,7 +17,7 @@ var settings = new(function() {
   this.code = {"overpass": null};
   this.saves;// = examples;
   // api server
-  this.server = "http://overpass-api.de/api/interpreter";
+  this.server = "http://overpass-api.de/api/";
   // sharing options
   this.share_compression = "auto";
   this.share_include_pos = false;
