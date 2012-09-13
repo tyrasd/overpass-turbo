@@ -259,19 +259,33 @@ var overpass = new(function() {
             data = $.parseJSON(data);
           } catch (e) {}
         }
-        if (typeof data == "string") { // maybe an error message
+        if ((typeof data == "string") ||
+            (typeof data == "object" && data instanceof XMLDocument && $("remark",data).length > 0)
+           ) { // maybe an error message
           data_mode = "unknown";
-          if (data.indexOf("Error") != -1 &&
-              data.indexOf("<script") == -1 &&
-              data.indexOf("<h2>Public Transport Stops</h2>") == -1) {
+          // todo: detect timeout <remark>s
+          var is_error = false;
+          is_error = is_error || (typeof data == "string" && // html coded error messages
+            data.indexOf("Error") != -1 && 
+            data.indexOf("<script") == -1 && // detect output="custom" content
+            data.indexOf("<h2>Public Transport Stops</h2>") == -1); // detect output="popup" content
+          is_error = is_error || (typeof data == "object" &&
+            data instanceof XMLDocument &&
+            $("remark",data).length > 0);
+          if (is_error) {
             // this really looks like an error message, so lets open an additional modal error message
-            $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"")+"</div>").dialog({
+            var errmsg = "?";
+            if (typeof data == "string")
+              errmsg = data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"");
+            if (typeof data == "object")
+              errmsg = "<p>"+$("remark",data).text().trim()+"</p>";
+            $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
               modal:true,
               buttons:{"ok": function(){$(this).dialog("close");}},
             });
             data_mode = "error";
             // parse errors and highlight error lines
-            var errlines = data.match(/line \d+:/g);
+            var errlines = errmsg.match(/line \d+:/g) || [];
             for (var i=0; i<errlines.length; i++) {
               ide.highlightError(1*errlines[i].match(/\d+/)[0]);
             }
