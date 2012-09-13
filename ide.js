@@ -447,12 +447,13 @@ var ide = new(function() {
         },
       });
     });
-    $("#export-dialog a#export-convert").unbind("click").bind("click", function() {
-      alert("not yet implemented :(");
-    });
+    $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
+    $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
+    $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
     // open the export dialog
     $("#export-dialog").dialog({
       modal:true,
+      width:350,
       buttons: {
         "OK": function() {$(this).dialog("close");}
       }
