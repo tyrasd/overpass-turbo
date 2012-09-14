@@ -168,8 +168,11 @@ var Base64 = {
 }
 
 
+// lzw_* taken from jsolait library (http://jsolait.net/), LGPL
+// slightly modified to support utf8 strings.
 // LZW-compress a string
 function lzw_encode(s) {
+    s = Base64._utf8_encode(s);
     var dict = {};
     var data = (s + "").split("");
     var out = [];
@@ -218,8 +221,9 @@ function lzw_decode(s) {
         code++;
         oldPhrase = phrase;
     }
-    return out.join("");
+    return Base64._utf8_decode(out.join(""));
 }
+
 
 // escape strings to show them directly in the html.
 function htmlentities(str) {
