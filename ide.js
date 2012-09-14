@@ -402,30 +402,34 @@ var ide = new(function() {
   this.onCompileClick = function() {
     // todo: run query first, and add this as a afterXY() handler
     // todo: if error -> abort
-    var html = "<!DOCTYPE HTML>\n<html>\n";
+    // todo: use a js js-minifier?
+    var html = '<!DOCTYPE HTML>\n<html>\n';
     html += '<head>\n<meta http-equiv="content-type" content="text/html; charset=utf-8" lang="en"></meta>\n<title>Overpass IDE Compiled Query</title>\n<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />\n<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>\n</head>\n';
     html += '<body>\n<div id="map" style="position:absolute; top:10px; bottom:10px; left:10px; right:10px;"></div>\n';
-    html += "<script>\n";
-    html += "  var geojson = JSON.parse('"+JSON.stringify(overpass._gj)+"');\n";
-    html += '  var map = L.map("map").setView(['+ide.map.getCenter().lat+','+ide.map.getCenter().lng+'],'+ide.map.getZoom()+');\n';
-    html += '  var gjl = new L.GeoJSON(null, {\n';
-    html += '    pointToLayer: function (feature, latlng) {\n';
-    html += '      return new L.CircleMarker(latlng, {radius:8,fillColor:"#ff7800",color:"#ff7800",weight:2,opacity:0.8,fillOpacity:0.4,});\n';
-    html += '    },\n';
-    html += '    onEachFeature : function (feature, layer) {\n';
-    html += '      var popup = "todo!";\n';
-    html += '      if (popup != "")\n';
-    html += '        layer.bindPopup(popup);\n';
-    html += '    },\n';
-    html += '  });\n';
-    html += '  for (var i=0;i<geojson.length;i++) {\n';
-    html += '    gjl.addData(geojson[i]);\n';
-    html += '  }\n';
-    html += '  map.addLayer(gjl);\n';
-    html += '  L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {attribution: "TODO"}).addTo(map);\n';
-    html += "</script>\n";
-    html += "</body>\n</html>";
-    alert(html);
+    html += '<script>\n';
+    html += htmlentities.toString()+'\n';
+    html += "var geojson = "+JSON.stringify(overpass._gj)+";\n";
+    html += 'var map = L.map("map").setView(['+ide.map.getCenter().lat+','+ide.map.getCenter().lng+'],'+ide.map.getZoom()+');\n';
+    html += 'var gjl = new L.GeoJSON(null, {\n';
+    html += '  pointToLayer: '+overpass._pointToLayer.toString()+',\n';
+    html += '  onEachFeature : '+overpass._onEachFeature.toString()+',\n';
+    html += '});\n';
+    html += 'for (var i=0;i<geojson.length;i++) {\n';
+    html += '  gjl.addData(geojson[i]);\n';
+    html += '}\n';
+    html += 'map.addLayer(gjl);\n';
+    html += 'L.tileLayer("'+settings.tile_server+'", {attribution: "TODO"}).addTo(map);\n';
+    html += '</script>\n';
+    html += '</body>\n</html>';
+    //alert('data:text/html;charset="utf-8";base64,'+Base64.encode(html,true));
+    // todo: preview optional (default: enabled)
+    $('<div title="Compiled Query"><p>This is the compiled version of your query:</p><p><textarea rows=4 style="width:100%; height:300px;" readonly>'+htmlentities(html)+'</textarea></p><p>Preview: <iframe style="width:100%; height:300px;" src="data:text/html;charset=\'utf-8\';base64,'+Base64.encode(html,true)+'"/></p></div>').dialog({
+      modal:true,
+      width: 500,
+      buttons: {
+        "OK": function() {$(this).dialog("close");}
+      }
+    });
   }
   this.onShareClick = function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;

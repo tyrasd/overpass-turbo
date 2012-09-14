@@ -334,70 +334,8 @@ var overpass = new(function() {
             return { // todo
             };
           },
-          pointToLayer: function (feature, latlng) {
-            return new L.CircleMarker(latlng, {
-              radius      : 8,
-              fillColor   : "#ff7800",
-              color       : "#ff7800",
-              weight      : 2,
-              opacity     : 0.8,
-              fillOpacity : 0.4
-            });
-          },
-          onEachFeature : function (feature, layer) {
-            var popup = "";
-            if (feature.geometry.type == "Point")
-              popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
-            else
-              popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
-            if (feature.properties && feature.properties.tags) {
-              popup += "<h3>Tags:</h3><ul>";
-              $.each(feature.properties.tags, function(k,v) {
-                k = htmlentities(k); // escaping strings!
-                v = htmlentities(v);
-                popup += "<li>"+k+"="+v+"</li>"
-              });
-              popup += "</ul>";
-            }
-            if (feature.properties && (typeof feature.properties.relations != "undefined")) {
-              popup += "<h3>Relations:</h3><ul>";
-              $.each(feature.properties.relations, function (k,v) {
-                popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
-                if (v.reltags && 
-                    (v.reltags.name || v.reltags.ref || v.reltags.type))
-                  popup += " <i>" + 
-                           ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
-                            (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
-                            (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
-                           "</i>";
-                if (v["role"]) 
-                  popup += " as <i>"+htmlentities(v["role"])+"</i>";
-                popup += "</li>";
-              });
-              popup += "</ul>";
-            }
-            switch (feature.geometry.type) {
-            case "LineString":
-            case "Polygon": 
-            case "Multipolygon":
-              if (feature.properties && feature.properties.tainted==true) {
-                popup += "<strong>Attention: incomplete way geometry (some nodes missing)</strong>";
-                layer.options.opacity *= 0.5;
-              }
-            }
-            switch (feature.geometry.type) {
-            case "Polygon": 
-            case "Multipolygon":
-              layer.options.fillColor = "#90DE3C";
-              layer.options.fillOpacity = 0.4;
-              layer.options.color = "#90DE3C";
-            }
-            if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
-              layer.options.color = "#f13";
-            }
-            if (popup != "")
-              layer.bindPopup(popup);
-          },
+          pointToLayer:  overpass._pointToLayer,
+          onEachFeature: overpass._onEachFeature,
         });
         for (i=0;i<geojson.length;i++) {
           ide.map.geojsonLayer.addData(geojson[i]);
@@ -418,6 +356,77 @@ var overpass = new(function() {
       },
     }); // getJSON
 
+  }
+
+  // == protected methods ==
+
+  // todo: description
+  this._pointToLayer = function (feature, latlng) {
+    return new L.CircleMarker(latlng, {
+      radius      : 8,
+      fillColor   : "#ff7800",
+      color       : "#ff7800",
+      weight      : 2,
+      opacity     : 0.8,
+      fillOpacity : 0.4
+    });
+  }
+  // todo: description
+  this._onEachFeature = function (feature, layer) {
+    var popup = "";
+    if (feature.geometry.type == "Point")
+      popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
+    else
+      popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
+    if (feature.properties && feature.properties.tags) {
+      popup += "<h3>Tags:</h3><ul>";
+      //$.each(feature.properties.tags, function(k,v) {
+      for (k in feature.properties.tags) { v=feature.properties.tags[k];
+        k = htmlentities(k); // escaping strings!
+        v = htmlentities(v);
+        popup += "<li>"+k+"="+v+"</li>"
+      }//);
+      popup += "</ul>";
+    }
+    if (feature.properties && (typeof feature.properties.relations != "undefined")) {
+      popup += "<h3>Relations:</h3><ul>";
+      //$.each(feature.properties.relations, function (k,v) {
+      for (k in feature.properties.relations) { v=feature.properties.relations[k];
+        popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
+        if (v.reltags && 
+            (v.reltags.name || v.reltags.ref || v.reltags.type))
+          popup += " <i>" + 
+                   ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
+                    (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
+                    (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
+                   "</i>";
+        if (v["role"]) 
+          popup += " as <i>"+htmlentities(v["role"])+"</i>";
+        popup += "</li>";
+      }//);
+      popup += "</ul>";
+    }
+    switch (feature.geometry.type) {
+    case "LineString":
+    case "Polygon": 
+    case "Multipolygon":
+      if (feature.properties && feature.properties.tainted==true) {
+        popup += "<strong>Attention: incomplete way geometry (some nodes missing)</strong>";
+        layer.options.opacity *= 0.5;
+      }
+    }
+    switch (feature.geometry.type) {
+    case "Polygon": 
+    case "Multipolygon":
+      layer.options.fillColor = "#90DE3C";
+      layer.options.fillOpacity = 0.4;
+      layer.options.color = "#90DE3C";
+    }
+    if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
+      layer.options.color = "#f13";
+    }
+    if (popup != "")
+      layer.bindPopup(popup);
   }
 
   // == initializations ==

@@ -46,7 +46,7 @@ var Base64 = {
 
                 if (compat_mode)
                   return output;
-		return output.replace(/~/g,"");
+		return output.replace(/[~]+$/,"");
 	},
 
 	// public method for decoding
