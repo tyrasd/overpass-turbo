@@ -402,7 +402,7 @@ var ide = new(function() {
   this.onCompileClick = function() {
     // todo: run query first, and add this as a afterXY() handler
     // todo: if error -> abort
-    // todo: use a js js-minifier?
+    // todo: use a js js-minifier? e.g. uglifyJS/browser-uglifyJS maybe with a previous specialized step (htmlentities() -> he(), multiple string literals in geojson -> var a="...."; var geojson=["foo":a,"bar":a];)
     var html = '<!DOCTYPE HTML>\n<html>\n';
     html += '<head>\n<meta http-equiv="content-type" content="text/html; charset=utf-8" lang="en"></meta>\n<title>Overpass IDE Compiled Query</title>\n<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />\n<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>\n</head>\n';
     html += '<body>\n<div id="map" style="position:absolute; top:10px; bottom:10px; left:10px; right:10px;"></div>\n';
