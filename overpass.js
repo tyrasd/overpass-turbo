@@ -2,6 +2,7 @@
 // global overpass object
 
 var overpass = new(function() {
+  this._gj = null;
   // == private members ==
 
   // == private methods ==
@@ -305,6 +306,7 @@ var overpass = new(function() {
           // convert to geoJSON
           geojson = overpassJSON2geoJSON(data);
         }
+        overpass._gj = geojson;
         // print raw data
         ide.dataViewer.setValue(jqXHR.responseText);
         // 5. add geojson to map - profit :)

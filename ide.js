@@ -312,7 +312,7 @@ var ide = new(function() {
       query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
       if (typeof trim_ws == "undefined" || trim_ws) {
         query = query.replace(/(\n|\r)/g," "); // remove newlines
-        query = query.replace(/\s+/g," "); // remove some whitespace
+        query = query.replace(/\s+/g," "); // remove some whitespace // todo:this could be evil??
       }
     }
     return query;
@@ -398,6 +398,34 @@ var ide = new(function() {
   this.onRunClick = function() {
     this.resetErrors();
     overpass.update_map();
+  }
+  this.onCompileClick = function() {
+    // todo: run query first, and add this as a afterXY() handler
+    // todo: if error -> abort
+    var html = "<!DOCTYPE HTML>\n<html>\n";
+    html += '<head>\n<meta http-equiv="content-type" content="text/html; charset=utf-8" lang="en"></meta>\n<title>Overpass IDE Compiled Query</title>\n<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />\n<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>\n</head>\n';
+    html += '<body>\n<div id="map" style="position:absolute; top:10px; bottom:10px; left:10px; right:10px;"></div>\n';
+    html += "<script>\n";
+    html += "  var geojson = JSON.parse('"+JSON.stringify(overpass._gj)+"');\n";
+    html += '  var map = L.map("map").setView(['+ide.map.getCenter().lat+','+ide.map.getCenter().lng+'],'+ide.map.getZoom()+');\n';
+    html += '  var gjl = new L.GeoJSON(null, {\n';
+    html += '    pointToLayer: function (feature, latlng) {\n';
+    html += '      return new L.CircleMarker(latlng, {radius:8,fillColor:"#ff7800",color:"#ff7800",weight:2,opacity:0.8,fillOpacity:0.4,});\n';
+    html += '    },\n';
+    html += '    onEachFeature : function (feature, layer) {\n';
+    html += '      var popup = "todo!";\n';
+    html += '      if (popup != "")\n';
+    html += '        layer.bindPopup(popup);\n';
+    html += '    },\n';
+    html += '  });\n';
+    html += '  for (var i=0;i<geojson.length;i++) {\n';
+    html += '    gjl.addData(geojson[i]);\n';
+    html += '  }\n';
+    html += '  map.addLayer(gjl);\n';
+    html += '  L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {attribution: "TODO"}).addTo(map);\n';
+    html += "</script>\n";
+    html += "</body>\n</html>";
+    alert(html);
   }
   this.onShareClick = function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
@@ -534,7 +562,7 @@ var ide = new(function() {
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
           settings.tile_server = $("#settings-dialog input[name=tile_server]")[0].value;
           // update tile layer (if changed)
-          for (var i in ide.map._layers)
+          for (var i in ide.map._layers) // todo: un-hackify this (add layer var to ide.map - like for ide.map.geojsonLayer)
             if (ide.map._layers[i] instanceof L.TileLayer &&
               ide.map._layers[i]._url != settings.tile_server) {
               ide.map._layers[i]._url = settings.tile_server;
