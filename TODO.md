@@ -57,3 +57,4 @@ Several UI Improvements
 * map: make other map controls optional
 * map: show coordinates of points (and bbox of ways?) in popup
 * ~~tool: convert overpassql<->xml~~
+* better layer management: allow multiple layers to be set up (if #layers>1 show layer switcher). allow also other types of layers (WMS, ImageOverlay?)
