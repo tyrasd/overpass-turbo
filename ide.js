@@ -450,6 +450,26 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
+    $("#export-dialog a#export-josm").click(function() {
+      //$(this).parents("div.ui-dialog-content").first().dialog("close");
+      var export_dialog = $(this).parents("div.ui-dialog-content").first();
+      var JRC_url="http://127.0.0.1:8111/";
+      $.getJSON(JRC_url+"version")
+      .success(function(d,s,xhr) {
+        if (d.protocolversion.major == 1) {
+          $.get(JRC_url+"import", {
+            url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
+          }).error(function(xhr,s,e) {
+            alert("Error: JOSM remote control error.");
+          }).success(function(d,s,xhr) {
+            export_dialog.dialog("close");
+          });
+        } else {
+          alert("Error: incompatible JOSM remote control version: "+d.protocolversion.major+"."+d.protocolversion.minor+" :(");
+        }
+      });
+      return false;
+    });
     // open the export dialog
     $("#export-dialog").dialog({
       modal:true,
