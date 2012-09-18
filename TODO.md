@@ -55,6 +55,6 @@ Several UI Improvements
 * map: make crosshairs not overlap map popups
 * ~~map: make crosshairs optional (default: not visible)~~
 * map: make other map controls optional
-* map: show coordinates of points (and bbox of ways?) in popup
+* map popups: show coordinates of points (and bbox of ways?), show metadata (if present)
 * ~~tool: convert overpassql<->xml~~
 * better layer management: allow multiple layers to be set up (if #layers>1 show layer switcher). allow also other types of layers (WMS, ImageOverlay?)
