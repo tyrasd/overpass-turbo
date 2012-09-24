@@ -104,12 +104,15 @@
     <p><label>Server:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
     <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location <small>(html5 geolocation)</small></p>
     <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
+    <h3>Map</h3>
+    <p><label>Tile-Server:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
+    <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;Show crosshairs at the map center.</p>
     <h3>Sharing</h3>
     <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
     <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
-    <h3>Map Settings</h3>
-    <p><label>Tile-Server:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
-    <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;Show crosshairs at the map center.</p>
+    <h3>Export</h3>
+    <p><input type="checkbox" name="export_image_scale"/>&nbsp;Show scale on exported images.</p>
+    <p><input type="checkbox" name="export_image_attribution"/>&nbsp;Show attribution on exported images.</p>
   </div>
   <!--save-->
   <div title="Save" id="save-dialog" class="dialog">

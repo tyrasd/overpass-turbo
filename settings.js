@@ -4,14 +4,14 @@
 var settings = new(function() {
   // == private members ==
   var prefix = "overpass-ide_";
-  var settings_version = 6;
+  var settings_version = 7;
   // == public properties with defaults ==
   // version of settings.
   this.version;
   // map coordinates
   this.use_html5_coords = true;
-  this.coords_lat = 46.48;
-  this.coords_lon = 11.32;
+  this.coords_lat = 51.478;
+  this.coords_lon = 0.0;
   this.coords_zoom = 12;
   // saved
   this.code = {"overpass": null};
@@ -26,6 +26,9 @@ var settings = new(function() {
   // map appearance
   this.tile_server = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   this.enable_crosshairs = false;
+  // export settings
+  this.export_image_scale = true;
+  this.export_image_attribution = true;
 
   // == public methods ==
   this.load = function() {
@@ -48,6 +51,8 @@ var settings = new(function() {
     this.use_rich_editor = localStorage.getItem(prefix+"use_rich_editor") == "true";
     this.enable_crosshairs = localStorage.getItem(prefix+"enable_crosshairs") == "true";
     this.tile_server = localStorage.getItem(prefix+"tile_server");
+    this.export_image_scale = localStorage.getItem(prefix+"export_image_scale") == "true";
+    this.export_image_attribution = localStorage.getItem(prefix+"export_image_attribution") == "true";
     // this. = localStorage.getItem(prefix+"");
   }
   this.save = function() {
@@ -63,6 +68,8 @@ var settings = new(function() {
     localStorage.setItem(prefix+"use_rich_editor",this.use_rich_editor);
     localStorage.setItem(prefix+"enable_crosshairs",this.enable_crosshairs);
     localStorage.setItem(prefix+"tile_server",this.tile_server);
+    localStorage.setItem(prefix+"export_image_scale",this.export_image_scale);
+    localStorage.setItem(prefix+"export_image_attribution",this.export_image_attribution);
     //localStorage.setItem(prefix+"",this.);
   }
 
@@ -74,6 +81,7 @@ var settings = new(function() {
     if (v < 4) update_settings_4(self);
     if (v < 5) update_settings_5(self);
     if (v < 6) update_settings_6(self);
+    if (v < 7) update_settings_7(self);
     localStorage.setItem(prefix+"version",settings_version);
   }
   var update_settings_1 = function(self) {
@@ -94,16 +102,17 @@ var settings = new(function() {
     localStorage.setItem(prefix+"share_include_pos",self.share_include_pos);
   }
   var update_settings_4 = function(self) {
-    // add new variable
     localStorage.setItem(prefix+"use_rich_editor",self.use_rich_editor);
   }
   var update_settings_5 = function(self) {
-    // add new variable
     localStorage.setItem(prefix+"enable_crosshairs",self.enable_crosshairs);
   }
   var update_settings_6 = function(self) {
-    // add new variable
     localStorage.setItem(prefix+"tile_server",self.tile_server);
+  }
+  var update_settings_7 = function(self) {
+    localStorage.setItem(prefix+"export_image_scale",self.export_image_scale);
+    localStorage.setItem(prefix+"export_image_attribution",self.export_image_attribution);
   }
   
 })(); // end create settings object
