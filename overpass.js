@@ -329,17 +329,48 @@ var overpass = new(function() {
         }
         ide.map.geojsonLayer = new L.GeoJSON(null, {
           style: function(feature) {
-            return { // todo
-            };
+            var stl = {};
+            var color = "#03f";
+            var fillColor = "#fc0";
+            var relColor = "#d0f";
+            // point features
+            if (feature.geometry.type == "Point") {
+              stl.color = color;
+              stl.weight = 2;
+              stl.opacity = 0.7;
+              stl.fillColor = fillColor;
+              stl.fillOpacity = 0.3;
+            }
+            // line features
+            else if (feature.geometry.type == "LineString") {
+              stl.color = color;
+              stl.opacity = 0.6;
+              stl.weight = 5;
+            }
+            // polygon features
+            else if ($.inArray(feature.geometry.type, ["Polygon","Multipolygon"]) != -1) {
+              stl.color = color;
+              stl.opacity = 0.7;
+              stl.weight = 2;
+              stl.fillColor = fillColor;
+              stl.fillOpacity = 0.3;
+            }
+
+            // style modifications
+            // tainted objects
+            if (feature.properties && feature.properties.tainted==true) {
+              stl.dashArray = "5,8";
+            }
+            // objects in relations
+            if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
+              stl.color = relColor;
+            }
+
+            return stl;
           },
           pointToLayer: function (feature, latlng) {
             return new L.CircleMarker(latlng, {
-              radius      : 8,
-              fillColor   : "#ff7800",
-              color       : "#ff7800",
-              weight      : 2,
-              opacity     : 0.8,
-              fillOpacity : 0.4
+              radius: 9,
             });
           },
           onEachFeature : function (feature, layer) {
@@ -374,24 +405,10 @@ var overpass = new(function() {
               });
               popup += "</ul>";
             }
-            switch (feature.geometry.type) {
-            case "LineString":
-            case "Polygon": 
-            case "Multipolygon":
+            if ($.inArray(feature.geometry.type, ["LineString","Polygon","Multipolygon"]) != -1) {
               if (feature.properties && feature.properties.tainted==true) {
                 popup += "<strong>Attention: incomplete way geometry (some nodes missing)</strong>";
-                layer.options.opacity *= 0.5;
               }
-            }
-            switch (feature.geometry.type) {
-            case "Polygon": 
-            case "Multipolygon":
-              layer.options.fillColor = "#90DE3C";
-              layer.options.fillOpacity = 0.4;
-              layer.options.color = "#90DE3C";
-            }
-            if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
-              layer.options.color = "#f13";
             }
             if (popup != "")
               layer.bindPopup(popup);
