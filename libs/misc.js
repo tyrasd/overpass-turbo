@@ -1,169 +1,201 @@
 /* Base64 encode / decode
- * fom http://www.webtoolkit.info/ 
+ * initial version fom http://www.webtoolkit.info/
  * modified to support more url friendly variant "base64url".
  * modified to include Base64 for decimal numbers.
+ * modified to support native (= much faster) base64 encoders
  */
 var Base64 = {
 
-	// private property
-	_keyStr_compat : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-        // modified keyStr to be more url friendly
-	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_~",
+  // private property
+  _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
-	// public method for encoding
-	encode : function (input, compat_mode) {
-                var keyStr = this._keyStr;
-                if (compat_mode)
-                  keyStr = this._keyStr_compat;
-		var output = "";
-		var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-		var i = 0;
+  // public method for encoding
+  encode : function (input, not_base64url) {
+    var output = "";
+    //input = Base64._utf8_encode(input);
+    input = unescape(encodeURIComponent(input));
 
-		input = Base64._utf8_encode(input);
+    if (typeof window.btoa == "function") {
+      output = window.btoa(input);
+    } else {
+      var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+      var i = 0;
 
-		while (i < input.length) {
+      while (i < input.length) {
 
-			chr1 = input.charCodeAt(i++);
-			chr2 = input.charCodeAt(i++);
-			chr3 = input.charCodeAt(i++);
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
 
-			enc1 = chr1 >> 2;
-			enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-			enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-			enc4 = chr3 & 63;
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
 
-			if (isNaN(chr2)) {
-				enc3 = enc4 = 64;
-			} else if (isNaN(chr3)) {
-				enc4 = 64;
-			}
+        if (isNaN(chr2)) {
+          enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+          enc4 = 64;
+        }
 
-			output = output +
-			keyStr.charAt(enc1) + keyStr.charAt(enc2) +
-			keyStr.charAt(enc3) + keyStr.charAt(enc4);
+        output = output +
+        this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+        this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
 
-		}
+      }
+    }
 
-                if (compat_mode)
-                  return output;
-		return output.replace(/~/g,"");
-	},
+    if (!not_base64url)
+      return this._convert_to_base64url(output);
+    else
+      return output;
+  },
 
-	// public method for decoding
-	decode : function (input) {
-		var output = "";
-		var chr1, chr2, chr3;
-		var enc1, enc2, enc3, enc4;
-		var i = 0;
+  // public method for decoding
+  // this decodes base64url as well as standard base64 with or without padding)
+  decode : function (input) {
+    var output = "";
+    input = this._convert_to_base64nopad(input);
+    input = input.replace(/[^A-Za-z0-9\+\/]/g, "");
+    //reappend the padding
+    input = input + "==".substring(0,(4-input.length%4)%4);
 
-		//input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-		input = input.replace(/[^A-Za-z0-9\-_]/g, "");
-                //append the trimmed padding
-                input = input + "~~".substring(0,(4-input.length%4)%4);
+    if (typeof window.btoa == "function") {
+      output = window.atob(input);
+    } else {
+      var chr1, chr2, chr3;
+      var enc1, enc2, enc3, enc4;
+      var i = 0;
 
-		while (i < input.length) {
+      while (i < input.length) {
 
-			enc1 = this._keyStr.indexOf(input.charAt(i++));
-			enc2 = this._keyStr.indexOf(input.charAt(i++));
-			enc3 = this._keyStr.indexOf(input.charAt(i++));
-			enc4 = this._keyStr.indexOf(input.charAt(i++));
+        enc1 = this._keyStr.indexOf(input.charAt(i++));
+        enc2 = this._keyStr.indexOf(input.charAt(i++));
+        enc3 = this._keyStr.indexOf(input.charAt(i++));
+        enc4 = this._keyStr.indexOf(input.charAt(i++));
 
-			chr1 = (enc1 << 2) | (enc2 >> 4);
-			chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-			chr3 = ((enc3 & 3) << 6) | enc4;
+        chr1 = (enc1 << 2) | (enc2 >> 4);
+        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+        chr3 = ((enc3 & 3) << 6) | enc4;
 
-			output = output + String.fromCharCode(chr1);
+        output = output + String.fromCharCode(chr1);
 
-			if (enc3 != 64) {
-				output = output + String.fromCharCode(chr2);
-			}
-			if (enc4 != 64) {
-				output = output + String.fromCharCode(chr3);
-			}
+        if (enc3 != 64) {
+          output = output + String.fromCharCode(chr2);
+        }
+        if (enc4 != 64) {
+          output = output + String.fromCharCode(chr3);
+        }
 
-		}
+      }
+    }
+    
+    //output = Base64._utf8_decode(output);
+    output = decodeURIComponent(escape(output));
+    return output;
+  },
 
-		output = Base64._utf8_decode(output);
+  encodeNum : function(num, not_base64url) {
+    var output = "";
+    if (num == 0)
+      return this._keyStr.icharAt(0);
+    var neg = false;
+    if (num < 0) {
+      neg = true;
+      num = Math.abs(num);
+    }
+    while (num > 0) {
+      output = this._keyStr.charAt(num%64)+output;
+      num -= num%64;
+      num /= 64;
+    }
+    if (neg)
+      output = "."+output;
+    if (!not_base64url)
+      return this._convert_to_base64url(output);
+    else
+      return output;
+  },
 
-		return output;
+  decodeNum : function(input) {
+    input = this._convert_to_base64nopad(input);
+    input = input.replace(/[^A-Za-z0-9\+\/.]/g, "");
+    var num = 0;
+    var neg = false;
+    if (input.charAt(0) == '.') {
+      neg = true;
+      input = input.substr(1);
+    }
+    for (var i=0; i<input.length; i++) {
+      num += this._keyStr.indexOf(input.charAt(input.length-1-i)) * Math.pow(64,i);
+    }
+    return (neg?-1:1) * num;
+  }, 
 
-	},
+  _convert_to_base64url : function(input) {
+    return input.replace(/\+/g,"-").replace(/\//g,"_").replace(/=/g,"");
+  },
+  _convert_to_base64nopad : function(input) {
+    return input.replace(/\-/g,"+").replace(/_/g,"/");
+  },
 
-        encodeNum : function(num) {
-          var output = "";
-          while (num > 0) {
-            output += this._keyStr.charAt(num%64);
-            num -= num%64;
-            num /= 64;
-          }
-          return output;
-        },        
+  // private method for UTF-8 encoding
+  _utf8_encode : function (string) {
+    string = string.replace(/\r\n/g,"\n");
+    var utftext = "";
 
-        decodeNum : function(input) {
-          var num = 0;
-          for (var i=0; i<input.length; i++) {
-            num += this._keyStr.indexOf(input.charAt(i)) * Math.pow(64,i);
-          }
-          return num;
-        },        
+    for (var n = 0; n < string.length; n++) {
 
-	// private method for UTF-8 encoding
-	_utf8_encode : function (string) {
-		string = string.replace(/\r\n/g,"\n");
-		var utftext = "";
+      var c = string.charCodeAt(n);
 
-		for (var n = 0; n < string.length; n++) {
+      if (c < 128) {
+        utftext += String.fromCharCode(c);
+      }
+      else if((c > 127) && (c < 2048)) {
+        utftext += String.fromCharCode((c >> 6) | 192);
+        utftext += String.fromCharCode((c & 63) | 128);
+      }
+      else {
+        utftext += String.fromCharCode((c >> 12) | 224);
+        utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+        utftext += String.fromCharCode((c & 63) | 128);
+      }
 
-			var c = string.charCodeAt(n);
+    }
 
-			if (c < 128) {
-				utftext += String.fromCharCode(c);
-			}
-			else if((c > 127) && (c < 2048)) {
-				utftext += String.fromCharCode((c >> 6) | 192);
-				utftext += String.fromCharCode((c & 63) | 128);
-			}
-			else {
-				utftext += String.fromCharCode((c >> 12) | 224);
-				utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-				utftext += String.fromCharCode((c & 63) | 128);
-			}
+    return utftext;
+  },
 
-		}
+  // private method for UTF-8 decoding
+  _utf8_decode : function (utftext) {
+    var string = "";
+    var i = 0;
+    var c = c1 = c2 = 0;
 
-		return utftext;
-	},
+    while ( i < utftext.length ) {
 
-	// private method for UTF-8 decoding
-	_utf8_decode : function (utftext) {
-		var string = "";
-		var i = 0;
-		var c = c1 = c2 = 0;
+      c = utftext.charCodeAt(i);
 
-		while ( i < utftext.length ) {
+      if (c < 128) {
+        string += String.fromCharCode(c);
+        i++;
+      }
+      else if((c > 191) && (c < 224)) {
+        c2 = utftext.charCodeAt(i+1);
+        string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+        i += 2;
+      }
+      else {
+        c2 = utftext.charCodeAt(i+1);
+        c3 = utftext.charCodeAt(i+2);
+        string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+        i += 3;
+      }
 
-			c = utftext.charCodeAt(i);
+    }
 
-			if (c < 128) {
-				string += String.fromCharCode(c);
-				i++;
-			}
-			else if((c > 191) && (c < 224)) {
-				c2 = utftext.charCodeAt(i+1);
-				string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
-				i += 2;
-			}
-			else {
-				c2 = utftext.charCodeAt(i+1);
-				c3 = utftext.charCodeAt(i+2);
-				string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-				i += 3;
-			}
-
-		}
-
-		return string;
-	}
+    return string;
+  },
 
 }
 
@@ -172,7 +204,8 @@ var Base64 = {
 // slightly modified to support utf8 strings.
 // LZW-compress a string
 function lzw_encode(s) {
-    s = Base64._utf8_encode(s);
+    //s = Base64._utf8_encode(s);
+    s = unescape(encodeURIComponent(s));
     var dict = {};
     var data = (s + "").split("");
     var out = [];
@@ -221,7 +254,8 @@ function lzw_decode(s) {
         code++;
         oldPhrase = phrase;
     }
-    return Base64._utf8_decode(out.join(""));
+    //return Base64._utf8_decode(out.join(""));
+    return decodeURIComponent(escape(out.join("")));
 }
 
 
