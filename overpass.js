@@ -317,7 +317,7 @@ var overpass = new(function() {
         ide.dataViewer.setValue(jqXHR.responseText);
         // 5. add geojson to map - profit :)
         // auto-tab-switching: if there is only non map-visible data, show it directly
-        if (geojson[0].features.length == 0 && geojson[1].features.length == 0) { // no visible data
+        if (geojson[0].features.length == 0 && geojson[1].features.length == 0 && geojson[2].features.length == 0) { // no visible data
           // switch only if there is some unplottable data in the returned json/xml.
           if ((data_mode == "json" && data.elements.length > 0) ||
               (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
