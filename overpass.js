@@ -177,8 +177,10 @@ var overpass = new(function() {
         }
       });
     }
-    geojson.push(geojsonnodes);
-    var geojsonways = {
+    var geojsonlines = {
+      "type"     : "FeatureCollection",
+      "features" : new Array()};
+    var geojsonpolygons = {
       "type"     : "FeatureCollection",
       "features" : new Array()};
     for (var i=0;i<ways.length;i++) {
@@ -207,7 +209,7 @@ var overpass = new(function() {
              coords = [coords];
            }
       }
-      geojsonways.features.push({
+      var feature = {
         "type"       : "Feature",
         "properties" : {
           "tainted" : ways[i].tainted,
@@ -219,9 +221,15 @@ var overpass = new(function() {
           "type" : way_type,
           "coordinates" : coords,
         }
-      });
+      }
+      if (way_type == "LineString")
+        geojsonlines.features.push(feature);
+      else
+        geojsonpolygons.features.push(feature);
     }
-    geojson.push(geojsonways);
+    geojson.push(geojsonpolygons);
+    geojson.push(geojsonlines);
+    geojson.push(geojsonnodes);
     return geojson;
   }
 
