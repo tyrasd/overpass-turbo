@@ -129,7 +129,7 @@ var overpass = new(function() {
       for (var j=0;j<rels[i].members.length;j++) {
         switch (rels[i].members[j].type) {
         case "node":
-          n = nodeids.indexOf(rels[i].members[j].ref);
+          var n = nodeids.indexOf(rels[i].members[j].ref);
           if (n != -1) {
             if (typeof nodes[n].relations == "undefined")
               nodes[n].relations = new Array();
@@ -141,7 +141,7 @@ var overpass = new(function() {
           }
         break;
         case "way":
-          w = wayids.indexOf(rels[i].members[j].ref);
+          var w = wayids.indexOf(rels[i].members[j].ref);
           if (w != -1) {
             if (typeof ways[w].relations == "undefined")
               ways[w].relations = new Array();
@@ -183,10 +183,71 @@ var overpass = new(function() {
     var geojsonpolygons = {
       "type"     : "FeatureCollection",
       "features" : new Array()};
+    // process simple multipolygons
+    for (var i=0;i<rels.length;i++) {
+      if ((typeof rels[i].tags != "undefined") &&
+          (rels[i].tags["type"] == "multipolygon")) {
+        rels[i].tainted = false;
+        var outer_coords = new Array();
+        var inner_coords = new Array();
+        var outer_count = 0;
+        var outer_way;
+        for (var j=0;j<rels[i].members.length;j++)
+          if (rels[i].members[j].role == "outer")
+            outer_count++;
+        if (outer_count != 1)
+          continue; // abort this complex multipolygon
+        for (var j=0;j<rels[i].members.length;j++) {
+          if ((rels[i].members[j].type == "way") &&
+              $.inArray(rels[i].members[j].role, ["outer","inner"]) != -1) {
+            var w = wayids.indexOf(rels[i].members[j].ref);
+            if (w==-1) {
+              rels[i].tainted = true;
+              continue;
+            }
+            var coords = new Array();
+            for (var k=0;k<ways[w].nodes.length;k++) {
+              if (typeof ways[w].nodes[k] == "object")
+                  coords.push([ways[w].nodes[k].lon, ways[w].nodes[k].lat]);
+              else
+                rels[i].tainted = true;
+            }
+            if (rels[i].members[j].role == "outer") {
+              outer_coords.push(coords);
+              ways[w].is_multipolygon = true;
+              outer_way = ways[w];
+            } else if (rels[i].members[j].role == "inner") {
+              inner_coords.push(coords);
+              ways[w].is_multipolygon_inner = true;
+            }
+          }
+        }
+        way_type = "MultiPolygon";
+        var feature = {
+          "type"       : "Feature",
+          "properties" : {
+            "tags" : outer_way.tags,
+            "relations" : outer_way.relations,
+          },
+          "id"         : outer_way.id,
+          "geometry"   : {
+            "type" : way_type,
+            "coordinates" : [[].concat(outer_coords,inner_coords)],
+          }
+        }
+        if (rels[i].tainted)
+          feature.properties["tainted"] = true;
+        geojsonpolygons.features.push(feature);
+      }
+    }
+    // process lines and polygons
     for (var i=0;i<ways.length;i++) {
       if (!(ways[i].nodes instanceof Array))
         continue; // ignore ways without nodes (e.g. returned by an ids_only query)
+      if (ways[i].is_multipolygon)
+        continue; // ignore ways which are already rendered as multipolygons
       ways[i].tainted = false;
+      ways[i].hidden = false;
       coords = new Array();
       for (j=0;j<ways[i].nodes.length;j++) {
         if (typeof ways[i].nodes[j] == "object")
@@ -204,15 +265,14 @@ var overpass = new(function() {
               (typeof ways[i].tags["leisure"] != "undefined") ||
               (ways[i].tags["area"] == "yes") ||
               ($.inArray(ways[i].tags["natural"], new Array("forest","wood","water")) != -1) ||
-              !false) {
+              false) 
              way_type="Polygon";
-             coords = [coords];
-           }
+        if (way_type == "Polygon")
+          coords = [coords];
       }
       var feature = {
         "type"       : "Feature",
         "properties" : {
-          "tainted" : ways[i].tainted,
           "tags" : ways[i].tags,
           "relations" : ways[i].relations,
         },
@@ -222,11 +282,16 @@ var overpass = new(function() {
           "coordinates" : coords,
         }
       }
+      if (ways[i].tainted)
+        feature.properties["tainted"] = true;
+      if (ways[i].is_multipolygon_inner)
+        feature.properties["mp_inner"] = true;
       if (way_type == "LineString")
         geojsonlines.features.push(feature);
       else
         geojsonpolygons.features.push(feature);
     }
+
     geojson.push(geojsonpolygons);
     geojson.push(geojsonlines);
     geojson.push(geojsonnodes);
@@ -356,7 +421,7 @@ var overpass = new(function() {
               stl.weight = 5;
             }
             // polygon features
-            else if ($.inArray(feature.geometry.type, ["Polygon","Multipolygon"]) != -1) {
+            else if ($.inArray(feature.geometry.type, ["Polygon","MultiPolygon"]) != -1) {
               stl.color = color;
               stl.opacity = 0.7;
               stl.weight = 2;
@@ -368,6 +433,13 @@ var overpass = new(function() {
             // tainted objects
             if (feature.properties && feature.properties.tainted==true) {
               stl.dashArray = "5,8";
+            }
+            // multipolygon inner lines without tags
+            if (feature.properties && feature.properties.mp_inner==true)
+              if (typeof feature.properties.tags == "undefined" ||
+                  $.isEmptyObject(feature.properties.tags)) {
+                stl.opacity = 0.7;
+                stl.weight = 2;
             }
             // objects in relations
             if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
@@ -413,9 +485,9 @@ var overpass = new(function() {
               });
               popup += "</ul>";
             }
-            if ($.inArray(feature.geometry.type, ["LineString","Polygon","Multipolygon"]) != -1) {
+            if ($.inArray(feature.geometry.type, ["LineString","Polygon","MultiPolygon"]) != -1) {
               if (feature.properties && feature.properties.tainted==true) {
-                popup += "<strong>Attention: incomplete way geometry (some nodes missing)</strong>";
+                popup += "<strong>Attention: incomplete geometry (e.g. some nodes missing)</strong>";
               }
             }
             if (popup != "")
