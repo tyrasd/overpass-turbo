@@ -187,16 +187,18 @@ var overpass = new(function() {
     for (var i=0;i<rels.length;i++) {
       if ((typeof rels[i].tags != "undefined") &&
           (rels[i].tags["type"] == "multipolygon")) {
-        rels[i].tainted = false;
-        var outer_coords = new Array();
-        var inner_coords = new Array();
+        if (!$.isArray(rels[i].members))
+          continue; // ignore relations without members (e.g. returned by an ids_only query)
         var outer_count = 0;
-        var outer_way;
         for (var j=0;j<rels[i].members.length;j++)
           if (rels[i].members[j].role == "outer")
             outer_count++;
         if (outer_count != 1)
           continue; // abort this complex multipolygon
+        rels[i].tainted = false;
+        var outer_coords = new Array();
+        var inner_coords = new Array();
+        var outer_way = undefined;
         for (var j=0;j<rels[i].members.length;j++) {
           if ((rels[i].members[j].type == "way") &&
               $.inArray(rels[i].members[j].role, ["outer","inner"]) != -1) {
@@ -222,6 +224,10 @@ var overpass = new(function() {
             }
           }
         }
+        if (typeof outer_way == "undefined")
+          continue; // abort if outer way object is not present
+        if (outer_coords[0].length == 0)
+          continue; // abort if coordinates of outer way is not present
         way_type = "MultiPolygon";
         var feature = {
           "type"       : "Feature",
@@ -242,7 +248,7 @@ var overpass = new(function() {
     }
     // process lines and polygons
     for (var i=0;i<ways.length;i++) {
-      if (!(ways[i].nodes instanceof Array))
+      if (!$.isArray(ways[i].nodes))
         continue; // ignore ways without nodes (e.g. returned by an ids_only query)
       if (ways[i].is_multipolygon)
         continue; // ignore ways which are already rendered as multipolygons
