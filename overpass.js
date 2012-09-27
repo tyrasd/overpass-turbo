@@ -300,7 +300,7 @@ var overpass = new(function() {
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^
           ide.dataViewer.setOption("mode","xml");
-          geojson = [{features:[]}, {features:[]}];
+          geojson = [{features:[]}, {features:[]}, {features:[]}];
         } else if (typeof data == "object" && data instanceof XMLDocument) { // xml data
           ide.dataViewer.setOption("mode","xml");
           data_mode = "xml";
