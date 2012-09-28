@@ -95,32 +95,30 @@ var overpass = new(function() {
   }
   var convert2geoJSON = function(nodes,ways,rels) {
     // 3. some data processing (e.g. filter nodes only used for ways)
-    var nids = new Object();
-    var nodeids = new Array();
+    var nodeids = new Object();
     for (var i=0;i<nodes.length;i++) {
-      nids[nodes[i].id] = nodes[i];
-      nodeids.push(nodes[i].id);
+      nodeids[nodes[i].id] = nodes[i];
     }
-    var poinids = new Array();
+    var poinids = new Object();
     for (var i=0;i<nodes.length;i++) {
       if (typeof nodes[i].tags != 'undefined')
-        poinids.push(nodes[i].id);
+        poinids[nodes[i].id] = true;
     }
-    var waynids = new Array();
-    var wayids = new Array();
+    var wayids = new Object();
+    var waynids = new Object();
     for (var i=0;i<ways.length;i++) {
       if (!(ways[i].nodes instanceof Array))
         continue; // ignore ways without nodes (e.g. returned by an ids_only query)
-      wayids.push(ways[i].id);
+      wayids[ways[i].id] = ways[i];
       for (var j=0;j<ways[i].nodes.length;j++) {
-        waynids.push(ways[i].nodes[j]);
-        ways[i].nodes[j] = nids[ways[i].nodes[j]];
+        waynids[ways[i].nodes[j]] = true;
+        ways[i].nodes[j] = nodeids[ways[i].nodes[j]];
       }
     }
     var pois = new Array();
     for (var i=0;i<nodes.length;i++) {
-      if ((waynids.indexOf(nodes[i].id) == -1) || // not related to any way
-          (poinids.indexOf(nodes[i].id) != -1))   // or has tags
+      if ((!waynids[nodes[i].id]) ||
+          (poinids[nodes[i].id]))
         pois.push(nodes[i]);
     }
     var relids = new Array();
@@ -129,11 +127,11 @@ var overpass = new(function() {
       for (var j=0;j<rels[i].members.length;j++) {
         switch (rels[i].members[j].type) {
         case "node":
-          var n = nodeids.indexOf(rels[i].members[j].ref);
-          if (n != -1) {
-            if (typeof nodes[n].relations == "undefined")
-              nodes[n].relations = new Array();
-            nodes[n].relations.push({
+          var n = nodeids[rels[i].members[j].ref];
+          if (n) { // typeof n != "undefined"
+            if (typeof n.relations == "undefined")
+              n.relations = new Array();
+            n.relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
               "reltags" : rels[i].tags,
@@ -141,11 +139,11 @@ var overpass = new(function() {
           }
         break;
         case "way":
-          var w = wayids.indexOf(rels[i].members[j].ref);
-          if (w != -1) {
-            if (typeof ways[w].relations == "undefined")
-              ways[w].relations = new Array();
-            ways[w].relations.push({
+          var w = wayids[rels[i].members[j].ref];
+          if (w) { // typeof w != "undefined"
+            if (typeof w.relations == "undefined")
+              w.relations = new Array();
+            w.relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
               "reltags" : rels[i].tags,
@@ -202,25 +200,25 @@ var overpass = new(function() {
         for (var j=0;j<rels[i].members.length;j++) {
           if ((rels[i].members[j].type == "way") &&
               $.inArray(rels[i].members[j].role, ["outer","inner"]) != -1) {
-            var w = wayids.indexOf(rels[i].members[j].ref);
-            if (w==-1) {
+            var w = wayids[rels[i].members[j].ref];
+            if (typeof w == "undefined") {
               rels[i].tainted = true;
               continue;
             }
             var coords = new Array();
-            for (var k=0;k<ways[w].nodes.length;k++) {
-              if (typeof ways[w].nodes[k] == "object")
-                  coords.push([ways[w].nodes[k].lon, ways[w].nodes[k].lat]);
+            for (var k=0;k<w.nodes.length;k++) {
+              if (typeof w.nodes[k] == "object")
+                  coords.push([w.nodes[k].lon, w.nodes[k].lat]);
               else
                 rels[i].tainted = true;
             }
             if (rels[i].members[j].role == "outer") {
               outer_coords.push(coords);
-              ways[w].is_multipolygon = true;
-              outer_way = ways[w];
+              w.is_multipolygon = true;
+              outer_way = w;
             } else if (rels[i].members[j].role == "inner") {
               inner_coords.push(coords);
-              ways[w].is_multipolygon_inner = true;
+              w.is_multipolygon_inner = true;
             }
           }
         }
