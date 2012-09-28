@@ -122,7 +122,7 @@ var overpass = new(function() {
     var wayids = new Object();
     var waynids = new Object();
     for (var i=0;i<ways.length;i++) {
-      if (!(ways[i].nodes instanceof Array))
+      if (!$.isArray(ways[i].nodes))
         continue; // ignore ways without nodes (e.g. returned by an ids_only query)
       wayids[ways[i].id] = ways[i];
       for (var j=0;j<ways[i].nodes.length;j++) {
@@ -138,6 +138,8 @@ var overpass = new(function() {
     }
     var relids = new Array();
     for (var i=0;i<rels.length;i++) {
+      if (!$.isArray(rels[i].members))
+        continue; // ignore relations without members (e.g. returned by an ids_only query)
       relids.push(rels[i].id);
       for (var j=0;j<rels[i].members.length;j++) {
         switch (rels[i].members[j].type) {
