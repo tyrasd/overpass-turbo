@@ -458,44 +458,46 @@ var overpass = new(function() {
             });
           },
           onEachFeature : function (feature, layer) {
-            var popup = "";
-            if (feature.geometry.type == "Point")
-              popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
-            else
-              popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
-            if (feature.properties && feature.properties.tags) {
-              popup += "<h3>Tags:</h3><ul>";
-              $.each(feature.properties.tags, function(k,v) {
-                k = htmlentities(k); // escaping strings!
-                v = htmlentities(v);
-                popup += "<li>"+k+"="+v+"</li>"
-              });
-              popup += "</ul>";
-            }
-            if (feature.properties && (typeof feature.properties.relations != "undefined")) {
-              popup += "<h3>Relations:</h3><ul>";
-              $.each(feature.properties.relations, function (k,v) {
-                popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
-                if (v.reltags && 
-                    (v.reltags.name || v.reltags.ref || v.reltags.type))
-                  popup += " <i>" + 
-                           ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
-                            (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
-                            (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
-                           "</i>";
-                if (v["role"]) 
-                  popup += " as <i>"+htmlentities(v["role"])+"</i>";
-                popup += "</li>";
-              });
-              popup += "</ul>";
-            }
-            if ($.inArray(feature.geometry.type, ["LineString","Polygon","MultiPolygon"]) != -1) {
-              if (feature.properties && feature.properties.tainted==true) {
-                popup += "<strong>Attention: incomplete geometry (e.g. some nodes missing)</strong>";
+            layer.feature = feature;
+            layer.on('click', function(e) {
+              var popup = "";
+              if (feature.geometry.type == "Point")
+                popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
+              else
+                popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
+              if (feature.properties && feature.properties.tags) {
+                popup += "<h3>Tags:</h3><ul>";
+                $.each(feature.properties.tags, function(k,v) {
+                  k = htmlentities(k); // escaping strings!
+                  v = htmlentities(v);
+                  popup += "<li>"+k+"="+v+"</li>"
+                });
+                popup += "</ul>";
               }
-            }
-            if (popup != "")
-              layer.bindPopup(popup);
+              if (feature.properties && (typeof feature.properties.relations != "undefined")) {
+                popup += "<h3>Relations:</h3><ul>";
+                $.each(feature.properties.relations, function (k,v) {
+                  popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
+                  if (v.reltags && 
+                      (v.reltags.name || v.reltags.ref || v.reltags.type))
+                    popup += " <i>" + 
+                             ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
+                              (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
+                              (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
+                             "</i>";
+                  if (v["role"]) 
+                    popup += " as <i>"+htmlentities(v["role"])+"</i>";
+                  popup += "</li>";
+                });
+                popup += "</ul>";
+              }
+              if ($.inArray(feature.geometry.type, ["LineString","Polygon","MultiPolygon"]) != -1) {
+                if (feature.properties && feature.properties.tainted==true) {
+                  popup += "<strong>Attention: incomplete geometry (e.g. some nodes missing)</strong>";
+                }
+              }
+              L.popup({},this).setLatLng(e.latlng).setContent(popup).openOn(ide.map);
+            });
           },
         });
         for (i=0;i<geojson.length;i++) {
