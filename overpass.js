@@ -42,6 +42,11 @@ var overpass = new(function() {
         "id":   $(this).attr("id"),
         "lat":  $(this).attr("lat"),
         "lon":  $(this).attr("lon"),
+        "version": $(this).attr("version"),
+        "timestamp": $(this).attr("timestamp"),
+        "changeset": $(this).attr("changeset"),
+        "uid": $(this).attr("uid"),
+        "user": $(this).attr("user"),
         "type": "node",
       };
       if (!$.isEmptyObject(tags))
@@ -60,6 +65,11 @@ var overpass = new(function() {
       ways[i] = {
         "id":   $(this).attr("id"),
         "tags": tags,
+        "version": $(this).attr("version"),
+        "timestamp": $(this).attr("timestamp"),
+        "changeset": $(this).attr("changeset"),
+        "uid": $(this).attr("uid"),
+        "user": $(this).attr("user"),
         "type": "way",
       };
       if (wnodes.length > 0)
@@ -84,6 +94,11 @@ var overpass = new(function() {
       rels[i] = {
         "id":   $(this).attr("id"),
         "tags": tags,
+        "version": $(this).attr("version"),
+        "timestamp": $(this).attr("timestamp"),
+        "changeset": $(this).attr("changeset"),
+        "uid": $(this).attr("uid"),
+        "user": $(this).attr("user"),
         "type": "relation",
       };
       if (members.length > 0)
@@ -95,45 +110,45 @@ var overpass = new(function() {
   }
   var convert2geoJSON = function(nodes,ways,rels) {
     // 3. some data processing (e.g. filter nodes only used for ways)
-    var nids = new Object();
-    var nodeids = new Array();
+    var nodeids = new Object();
     for (var i=0;i<nodes.length;i++) {
-      nids[nodes[i].id] = nodes[i];
-      nodeids.push(nodes[i].id);
+      nodeids[nodes[i].id] = nodes[i];
     }
-    var poinids = new Array();
+    var poinids = new Object();
     for (var i=0;i<nodes.length;i++) {
       if (typeof nodes[i].tags != 'undefined')
-        poinids.push(nodes[i].id);
+        poinids[nodes[i].id] = true;
     }
-    var waynids = new Array();
-    var wayids = new Array();
+    var wayids = new Object();
+    var waynids = new Object();
     for (var i=0;i<ways.length;i++) {
-      if (!(ways[i].nodes instanceof Array))
+      if (!$.isArray(ways[i].nodes))
         continue; // ignore ways without nodes (e.g. returned by an ids_only query)
-      wayids.push(ways[i].id);
+      wayids[ways[i].id] = ways[i];
       for (var j=0;j<ways[i].nodes.length;j++) {
-        waynids.push(ways[i].nodes[j]);
-        ways[i].nodes[j] = nids[ways[i].nodes[j]];
+        waynids[ways[i].nodes[j]] = true;
+        ways[i].nodes[j] = nodeids[ways[i].nodes[j]];
       }
     }
     var pois = new Array();
     for (var i=0;i<nodes.length;i++) {
-      if ((waynids.indexOf(nodes[i].id) == -1) || // not related to any way
-          (poinids.indexOf(nodes[i].id) != -1))   // or has tags
+      if ((!waynids[nodes[i].id]) ||
+          (poinids[nodes[i].id]))
         pois.push(nodes[i]);
     }
     var relids = new Array();
     for (var i=0;i<rels.length;i++) {
+      if (!$.isArray(rels[i].members))
+        continue; // ignore relations without members (e.g. returned by an ids_only query)
       relids.push(rels[i].id);
       for (var j=0;j<rels[i].members.length;j++) {
         switch (rels[i].members[j].type) {
         case "node":
-          n = nodeids.indexOf(rels[i].members[j].ref);
-          if (n != -1) {
-            if (typeof nodes[n].relations == "undefined")
-              nodes[n].relations = new Array();
-            nodes[n].relations.push({
+          var n = nodeids[rels[i].members[j].ref];
+          if (n) { // typeof n != "undefined"
+            if (typeof n.relations == "undefined")
+              n.relations = new Array();
+            n.relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
               "reltags" : rels[i].tags,
@@ -141,11 +156,11 @@ var overpass = new(function() {
           }
         break;
         case "way":
-          w = wayids.indexOf(rels[i].members[j].ref);
-          if (w != -1) {
-            if (typeof ways[w].relations == "undefined")
-              ways[w].relations = new Array();
-            ways[w].relations.push({
+          var w = wayids[rels[i].members[j].ref];
+          if (w) { // typeof w != "undefined"
+            if (typeof w.relations == "undefined")
+              w.relations = new Array();
+            w.relations.push({
               "rel" : rels[i].id,
               "role" : rels[i].members[j].role,
               "reltags" : rels[i].tags,
@@ -169,6 +184,7 @@ var overpass = new(function() {
         "properties" : {
           "tags" : pois[i].tags,
           "relations" : pois[i].relations,
+          "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": pois[i].timestamp, "version": pois[i].version, "changeset": pois[i].changeset, "user": pois[i].user, "uid": pois[i].uid}),
         },
         "id"         : pois[i].id,
         "geometry"   : {
@@ -183,10 +199,78 @@ var overpass = new(function() {
     var geojsonpolygons = {
       "type"     : "FeatureCollection",
       "features" : new Array()};
+    // process simple multipolygons
+    for (var i=0;i<rels.length;i++) {
+      if ((typeof rels[i].tags != "undefined") &&
+          (rels[i].tags["type"] == "multipolygon")) {
+        if (!$.isArray(rels[i].members))
+          continue; // ignore relations without members (e.g. returned by an ids_only query)
+        var outer_count = 0;
+        for (var j=0;j<rels[i].members.length;j++)
+          if (rels[i].members[j].role == "outer")
+            outer_count++;
+        if (outer_count != 1)
+          continue; // abort this complex multipolygon
+        rels[i].tainted = false;
+        var outer_coords = new Array();
+        var inner_coords = new Array();
+        var outer_way = undefined;
+        for (var j=0;j<rels[i].members.length;j++) {
+          if ((rels[i].members[j].type == "way") &&
+              $.inArray(rels[i].members[j].role, ["outer","inner"]) != -1) {
+            var w = wayids[rels[i].members[j].ref];
+            if (typeof w == "undefined") {
+              rels[i].tainted = true;
+              continue;
+            }
+            var coords = new Array();
+            for (var k=0;k<w.nodes.length;k++) {
+              if (typeof w.nodes[k] == "object")
+                  coords.push([w.nodes[k].lon, w.nodes[k].lat]);
+              else
+                rels[i].tainted = true;
+            }
+            if (rels[i].members[j].role == "outer") {
+              outer_coords.push(coords);
+              w.is_multipolygon = true;
+              outer_way = w;
+            } else if (rels[i].members[j].role == "inner") {
+              inner_coords.push(coords);
+              w.is_multipolygon_inner = true;
+            }
+          }
+        }
+        if (typeof outer_way == "undefined")
+          continue; // abort if outer way object is not present
+        if (outer_coords[0].length == 0)
+          continue; // abort if coordinates of outer way is not present
+        way_type = "MultiPolygon";
+        var feature = {
+          "type"       : "Feature",
+          "properties" : {
+            "tags" : outer_way.tags,
+            "relations" : outer_way.relations,
+            "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": outer_way.timestamp, "version": outer_way.version, "changeset": outer_way.changeset, "user": outer_way.user, "uid": outer_way.uid}),
+          },
+          "id"         : outer_way.id,
+          "geometry"   : {
+            "type" : way_type,
+            "coordinates" : [[].concat(outer_coords,inner_coords)],
+          }
+        }
+        if (rels[i].tainted)
+          feature.properties["tainted"] = true;
+        geojsonpolygons.features.push(feature);
+      }
+    }
+    // process lines and polygons
     for (var i=0;i<ways.length;i++) {
-      if (!(ways[i].nodes instanceof Array))
+      if (!$.isArray(ways[i].nodes))
         continue; // ignore ways without nodes (e.g. returned by an ids_only query)
+      if (ways[i].is_multipolygon)
+        continue; // ignore ways which are already rendered as multipolygons
       ways[i].tainted = false;
+      ways[i].hidden = false;
       coords = new Array();
       for (j=0;j<ways[i].nodes.length;j++) {
         if (typeof ways[i].nodes[j] == "object")
@@ -204,17 +288,17 @@ var overpass = new(function() {
               (typeof ways[i].tags["leisure"] != "undefined") ||
               (ways[i].tags["area"] == "yes") ||
               ($.inArray(ways[i].tags["natural"], new Array("forest","wood","water")) != -1) ||
-              !false) {
+              false) 
              way_type="Polygon";
-             coords = [coords];
-           }
+        if (way_type == "Polygon")
+          coords = [coords];
       }
       var feature = {
         "type"       : "Feature",
         "properties" : {
-          "tainted" : ways[i].tainted,
           "tags" : ways[i].tags,
           "relations" : ways[i].relations,
+          "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": ways[i].timestamp, "version": ways[i].version, "changeset": ways[i].changeset, "user": ways[i].user, "uid": ways[i].uid}),
         },
         "id"         : ways[i].id,
         "geometry"   : {
@@ -222,11 +306,16 @@ var overpass = new(function() {
           "coordinates" : coords,
         }
       }
+      if (ways[i].tainted)
+        feature.properties["tainted"] = true;
+      if (ways[i].is_multipolygon_inner)
+        feature.properties["mp_inner"] = true;
       if (way_type == "LineString")
         geojsonlines.features.push(feature);
       else
         geojsonpolygons.features.push(feature);
     }
+
     geojson.push(geojsonpolygons);
     geojson.push(geojsonlines);
     geojson.push(geojsonnodes);
@@ -356,7 +445,7 @@ var overpass = new(function() {
               stl.weight = 5;
             }
             // polygon features
-            else if ($.inArray(feature.geometry.type, ["Polygon","Multipolygon"]) != -1) {
+            else if ($.inArray(feature.geometry.type, ["Polygon","MultiPolygon"]) != -1) {
               stl.color = color;
               stl.opacity = 0.7;
               stl.weight = 2;
@@ -368,6 +457,13 @@ var overpass = new(function() {
             // tainted objects
             if (feature.properties && feature.properties.tainted==true) {
               stl.dashArray = "5,8";
+            }
+            // multipolygon inner lines without tags
+            if (feature.properties && feature.properties.mp_inner==true)
+              if (typeof feature.properties.tags == "undefined" ||
+                  $.isEmptyObject(feature.properties.tags)) {
+                stl.opacity = 0.7;
+                stl.weight = 2;
             }
             // objects in relations
             if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
@@ -382,44 +478,57 @@ var overpass = new(function() {
             });
           },
           onEachFeature : function (feature, layer) {
-            var popup = "";
-            if (feature.geometry.type == "Point")
-              popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
-            else
-              popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
-            if (feature.properties && feature.properties.tags) {
-              popup += "<h3>Tags:</h3><ul>";
-              $.each(feature.properties.tags, function(k,v) {
-                k = htmlentities(k); // escaping strings!
-                v = htmlentities(v);
-                popup += "<li>"+k+"="+v+"</li>"
-              });
-              popup += "</ul>";
-            }
-            if (feature.properties && (typeof feature.properties.relations != "undefined")) {
-              popup += "<h3>Relations:</h3><ul>";
-              $.each(feature.properties.relations, function (k,v) {
-                popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
-                if (v.reltags && 
-                    (v.reltags.name || v.reltags.ref || v.reltags.type))
-                  popup += " <i>" + 
-                           ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
-                            (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
-                            (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
-                           "</i>";
-                if (v["role"]) 
-                  popup += " as <i>"+htmlentities(v["role"])+"</i>";
-                popup += "</li>";
-              });
-              popup += "</ul>";
-            }
-            if ($.inArray(feature.geometry.type, ["LineString","Polygon","Multipolygon"]) != -1) {
-              if (feature.properties && feature.properties.tainted==true) {
-                popup += "<strong>Attention: incomplete way geometry (some nodes missing)</strong>";
+            layer.feature = feature;
+            layer.on('click', function(e) {
+              var popup = "";
+              if (feature.geometry.type == "Point")
+                popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
+              else
+                popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
+              if (feature.properties && feature.properties.tags && !$.isEmptyObject(feature.properties.tags)) {
+                popup += '<h3>Tags:</h3><ul class="plain">';
+                $.each(feature.properties.tags, function(k,v) {
+                  k = htmlentities(k); // escaping strings!
+                  v = htmlentities(v);
+                  popup += "<li>"+k+"="+v+"</li>"
+                });
+                popup += "</ul>";
               }
-            }
-            if (popup != "")
-              layer.bindPopup(popup);
+              if (feature.properties && feature.properties.relations && !$.isEmptyObject(feature.properties.relations)) {
+                popup += '<h3>Relations:</h3><ul class="plain">';
+                $.each(feature.properties.relations, function (k,v) {
+                  popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
+                  if (v.reltags && 
+                      (v.reltags.name || v.reltags.ref || v.reltags.type))
+                    popup += " <i>" + 
+                             ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
+                              (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
+                              (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
+                             "</i>";
+                  if (v["role"]) 
+                    popup += " as <i>"+htmlentities(v["role"])+"</i>";
+                  popup += "</li>";
+                });
+                popup += "</ul>";
+              }
+              if (feature.properties && feature.properties.meta && !$.isEmptyObject(feature.properties.meta)) {
+                popup += '<h3>Meta:</h3><ul class="plain">';
+                $.each(feature.properties.meta, function (k,v) {
+                  k = htmlentities(k);
+                  v = htmlentities(v);
+                  popup += "<li>"+k+"="+v+"</li>";
+                });
+                popup += "</ul>";
+              }
+              if (feature.geometry.type == "Point")
+                popup += "<h3>Coordinates:</h3><p>"+feature.geometry.coordinates[1]+" / "+feature.geometry.coordinates[0]+" <small>(lat/lon)</small></p>";
+              if ($.inArray(feature.geometry.type, ["LineString","Polygon","MultiPolygon"]) != -1) {
+                if (feature.properties && feature.properties.tainted==true) {
+                  popup += "<strong>Attention: incomplete geometry (e.g. some nodes missing)</strong>";
+                }
+              }
+              L.popup({},this).setLatLng(e.latlng).setContent(popup).openOn(ide.map);
+            });
           },
         });
         for (i=0;i<geojson.length;i++) {
