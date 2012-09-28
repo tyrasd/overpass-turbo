@@ -42,6 +42,11 @@ var overpass = new(function() {
         "id":   $(this).attr("id"),
         "lat":  $(this).attr("lat"),
         "lon":  $(this).attr("lon"),
+        "version": $(this).attr("version"),
+        "timestamp": $(this).attr("timestamp"),
+        "changeset": $(this).attr("changeset"),
+        "uid": $(this).attr("uid"),
+        "user": $(this).attr("user"),
         "type": "node",
       };
       if (!$.isEmptyObject(tags))
@@ -60,6 +65,11 @@ var overpass = new(function() {
       ways[i] = {
         "id":   $(this).attr("id"),
         "tags": tags,
+        "version": $(this).attr("version"),
+        "timestamp": $(this).attr("timestamp"),
+        "changeset": $(this).attr("changeset"),
+        "uid": $(this).attr("uid"),
+        "user": $(this).attr("user"),
         "type": "way",
       };
       if (wnodes.length > 0)
@@ -84,6 +94,11 @@ var overpass = new(function() {
       rels[i] = {
         "id":   $(this).attr("id"),
         "tags": tags,
+        "version": $(this).attr("version"),
+        "timestamp": $(this).attr("timestamp"),
+        "changeset": $(this).attr("changeset"),
+        "uid": $(this).attr("uid"),
+        "user": $(this).attr("user"),
         "type": "relation",
       };
       if (members.length > 0)
@@ -167,6 +182,7 @@ var overpass = new(function() {
         "properties" : {
           "tags" : pois[i].tags,
           "relations" : pois[i].relations,
+          "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": pois[i].timestamp, "version": pois[i].version, "changeset": pois[i].changeset, "user": pois[i].user, "uid": pois[i].uid}),
         },
         "id"         : pois[i].id,
         "geometry"   : {
@@ -232,6 +248,7 @@ var overpass = new(function() {
           "properties" : {
             "tags" : outer_way.tags,
             "relations" : outer_way.relations,
+            "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": outer_way.timestamp, "version": outer_way.version, "changeset": outer_way.changeset, "user": outer_way.user, "uid": outer_way.uid}),
           },
           "id"         : outer_way.id,
           "geometry"   : {
@@ -279,6 +296,7 @@ var overpass = new(function() {
         "properties" : {
           "tags" : ways[i].tags,
           "relations" : ways[i].relations,
+          "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": ways[i].timestamp, "version": ways[i].version, "changeset": ways[i].changeset, "user": ways[i].user, "uid": ways[i].uid}),
         },
         "id"         : ways[i].id,
         "geometry"   : {
@@ -465,8 +483,8 @@ var overpass = new(function() {
                 popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
               else
                 popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
-              if (feature.properties && feature.properties.tags) {
-                popup += "<h3>Tags:</h3><ul>";
+              if (feature.properties && feature.properties.tags && !$.isEmptyObject(feature.properties.tags)) {
+                popup += '<h3>Tags:</h3><ul class="plain">';
                 $.each(feature.properties.tags, function(k,v) {
                   k = htmlentities(k); // escaping strings!
                   v = htmlentities(v);
@@ -474,8 +492,8 @@ var overpass = new(function() {
                 });
                 popup += "</ul>";
               }
-              if (feature.properties && (typeof feature.properties.relations != "undefined")) {
-                popup += "<h3>Relations:</h3><ul>";
+              if (feature.properties && feature.properties.relations && !$.isEmptyObject(feature.properties.relations)) {
+                popup += '<h3>Relations:</h3><ul class="plain">';
                 $.each(feature.properties.relations, function (k,v) {
                   popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
                   if (v.reltags && 
@@ -491,6 +509,17 @@ var overpass = new(function() {
                 });
                 popup += "</ul>";
               }
+              if (feature.properties && feature.properties.meta && !$.isEmptyObject(feature.properties.meta)) {
+                popup += '<h3>Meta:</h3><ul class="plain">';
+                $.each(feature.properties.meta, function (k,v) {
+                  k = htmlentities(k);
+                  v = htmlentities(v);
+                  popup += "<li>"+k+"="+v+"</li>";
+                });
+                popup += "</ul>";
+              }
+              if (feature.geometry.type == "Point")
+                popup += "<h3>Coordinates:</h3><p>"+feature.geometry.coordinates[1]+" / "+feature.geometry.coordinates[0]+" <small>(lat/lon)</small></p>";
               if ($.inArray(feature.geometry.type, ["LineString","Polygon","MultiPolygon"]) != -1) {
                 if (feature.properties && feature.properties.tainted==true) {
                   popup += "<strong>Attention: incomplete geometry (e.g. some nodes missing)</strong>";
