@@ -4,6 +4,8 @@
 var ide = new(function() {
   // == private members ==
   var codeEditor = null;
+  var attribControl = null;
+  var scaleControl = null;
   // == public members ==
   this.appname = "overpass-ide";
   this.dataViewer = null;
@@ -122,13 +124,16 @@ var ide = new(function() {
       maxZoom:18,
     });
     var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-    var tilesAttrib = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a>';
+    var tilesAttrib = '&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
     });
+    attribControl = new L.Control.Attribution({prefix:""});
+    attribControl.addAttribution(tilesAttrib);
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
     ide.map.setView(pos,settings.coords_zoom).addLayer(tiles);
-    L.control.scale({metric:true,imperial:false,}).addTo(ide.map);
+    scaleControl = new L.Control.Scale({metric:true,imperial:false,});
+    scaleControl.addTo(ide.map);
     if (settings.use_html5_coords && !override_use_html5_coords) {
       // One-shot position request.
       try {
@@ -410,15 +415,19 @@ var ide = new(function() {
     html += '<script>\n';
     html += htmlentities.toString()+'\n';
     if (compression == "on") { // todo: add attribution(s)
-      html += 'Base64 = {_utf8_decode:'+Base64._utf8_decode.toString()+', decode:'+Base64.decode.toString()+',_keyStr:"'+Base64._keyStr+'"};\n';
+      html += 'Base64 = {_convert_to_base64nopad:'+Base64._convert_to_base64nopad.toString()+', decode:'+Base64.decode.toString()+',_keyStr:"'+Base64._keyStr+'"};\n';
       html += lzw_decode.toString()+'\n';
       //html += 'var geojson = JSON.parse(lzw_decode("'+lzw_encode(JSON.stringify(overpass._gj)).replace(/"/g,'\\"')+'"));\n'; // todo: we have to escape more characters here: http://timelessrepo.com/json-isnt-a-javascript-subset ... also a </script> could be evil here! Also to be somehow escaped: "</script>"
       html += 'var geojson = JSON.parse(lzw_decode(Base64.decode("'+Base64.encode(lzw_encode(JSON.stringify(overpass._gj)))+'")));\n';
       //alert(JSON.stringify(overpass._gj).length + " -- " + Base64.encode(lzw_encode(JSON.stringify(overpass._gj))).length);
     } else
       html += 'var geojson = '+JSON.stringify(overpass._gj)+';\n';
+    // jquery compatibility layer.
+    html += 'var $={}; $.isEmptyObject=function(o) {for(var k in o) return false; return true;}; $.inArray=function(v,a) {for (var i in a) if(a[i]===v) return i; return -1;}; $.each=function(a,cb) {for (var k in a) cb(k,a[k]);};';
     html += 'var map = L.map("map").setView(['+ide.map.getCenter().lat+','+ide.map.getCenter().lng+'],'+ide.map.getZoom()+');\n';
+    html += 'var ide={map:map};'
     html += 'var gjl = new L.GeoJSON(null, {\n';
+    html += '  style: '+overpass._geoJSONstyle.toString()+',\n';
     html += '  pointToLayer: '+overpass._pointToLayer.toString()+',\n';
     html += '  onEachFeature : '+overpass._onEachFeature.toString()+',\n';
     html += '});\n';
@@ -431,7 +440,7 @@ var ide = new(function() {
     html += '</body>\n</html>';
     //alert('data:text/html;charset="utf-8";base64,'+Base64.encode(html,true));
     // todo: preview optional (default: enabled)
-    $('<div title="Compiled Query"><p>This is the compiled version of your query:</p><p><textarea rows=4 style="width:100%; height:300px; white-space:nowrap; overflow:auto;" readonly>'+htmlentities(html)+'</textarea></p><p>Preview: <iframe style="width:100%; height:300px;" src="data:text/html;charset=\'utf-8\';base64,'+Base64.encode(html,true)+'"/></p></div>').dialog({
+    $('<div title="Compiled Query"><p>This is the compiled version of your query:</p><p><textarea rows=4 style="width:100%; height:300px; white-space:nowrap; overflow:auto;" readonly>'+htmlentities(html)+'</textarea></p><p>Preview: <iframe style="width:100%; height:300px;" src="data:text/html;base64,'+Base64.encode(html,true)+'"/></p></div>').dialog({
       modal:true,
       width: 500,
       buttons: {
@@ -490,6 +499,26 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
+    $("#export-dialog a#export-josm").click(function() {
+      //$(this).parents("div.ui-dialog-content").first().dialog("close");
+      var export_dialog = $(this).parents("div.ui-dialog-content").first();
+      var JRC_url="http://127.0.0.1:8111/";
+      $.getJSON(JRC_url+"version")
+      .success(function(d,s,xhr) {
+        if (d.protocolversion.major == 1) {
+          $.get(JRC_url+"import", {
+            url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
+          }).error(function(xhr,s,e) {
+            alert("Error: JOSM remote control error.");
+          }).success(function(d,s,xhr) {
+            export_dialog.dialog("close");
+          });
+        } else {
+          alert("Error: incompatible JOSM remote control version: "+d.protocolversion.major+"."+d.protocolversion.minor+" :(");
+        }
+      });
+      return false;
+    });
     // open the export dialog
     $("#export-dialog").dialog({
       modal:true,
@@ -505,7 +534,11 @@ var ide = new(function() {
     // hide map controlls in this step :/ 
     // todo? (also: hide map overlay data somehow, if possible to speed things up)
     $("#map .leaflet-control-container .leaflet-top").hide();
+    if (settings.export_image_attribution) attribControl.addTo(ide.map);
+    if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     $("#map").html2canvas({onrendered: function(canvas) {
+      if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
+      if (!settings.export_image_scale) scaleControl.addTo(ide.map);
       $("#map .leaflet-control-container .leaflet-top").show();
       // 2. render overlay data onto canvas
       canvas.id = "render_canvas";
@@ -520,7 +553,10 @@ var ide = new(function() {
         ctx.drawSvg($("#map .leaflet-overlay-pane").html(),offx,offy,width,height);
       // 3. export canvas as html image
       var imgstr = canvas.toDataURL("image/png");
-      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p><p style="font-size:smaller;">Make sure to include proper attributions when distributing this image!</p></div>').dialog({
+      var attrib_message = "";
+      if (!settings.export_image_attribution)
+        attrib_message = '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
+      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p>'+attrib_message+'</div>').dialog({
         modal:true,
         width:500,
         position:["center",60],
@@ -560,6 +596,8 @@ var ide = new(function() {
       //"http://oatile1.mqcdn.com/naip/{z}/{x}/{y}.jpg",
     ]);
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
+    $("#settings-dialog input[name=export_image_scale]")[0].checked = settings.export_image_scale;
+    $("#settings-dialog input[name=export_image_attribution]")[0].checked = settings.export_image_attribution;
     // open dialog
     $("#settings-dialog").dialog({
       modal:true,
@@ -583,6 +621,8 @@ var ide = new(function() {
             }
           settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
           $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
+          settings.export_image_scale = $("#settings-dialog input[name=export_image_scale]")[0].checked;
+          settings.export_image_attribution = $("#settings-dialog input[name=export_image_attribution]")[0].checked;
           settings.save();
           $(this).dialog("close");
         },

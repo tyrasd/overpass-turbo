@@ -45,15 +45,16 @@ As the scripts are (most probably) not going to be sandboxed, this is going to b
 Several UI Improvements
 -----------------------
 
-* fullscreen mode
 * resizable panels (editor/map)
 * editor: better Syntax highlighting (~~auto detect query language xml/overpassQL~~, ~~support for overpassQL~~)
 * editor: code auto completion (with inline help?) ~~and auto tag closing for xml~~
 * ~~editor: highline lines where an error occured~~
-* map: configurable style for geoJSON elements.
-* map: filter content (tags,?) to be shown in popups?
+* map: configurable style for geoJSON elements. (-> script)
+* map: filter content (tags,?) to be shown in popups? (-> script)
 * map: make crosshairs not overlap map popups
 * ~~map: make crosshairs optional (default: not visible)~~
-* map: make other map controls optional
-* map: show coordinates of points (and bbox of ways?) in popup
+* ? map: make other map controls optional
+* map popups: ~~show coordinates of points~~ (and bbox of ways?), ~~show metadata (if present)~~
 * ~~tool: convert overpassql<->xml~~
+* ? better layer management: allow multiple layers to be set up (if #layers>1 show layer switcher). allow also other types of layers (WMS, ImageOverlay?)
+* ? fullscreen mode
