@@ -1,8 +1,12 @@
-/* Base64 encode / decode
+/* ---
+ * Base64 encode / decode
  * initial version fom http://www.webtoolkit.info/
  * modified to support more url friendly variant "base64url".
  * modified to include Base64 for decimal numbers.
  * modified to support native (= much faster) base64 encoders
+ * ---
+ * lzw_* taken from jsolait library (http://jsolait.net/), LGPL
+ * slightly modified to support utf8 strings.
  */
 var Base64 = {
 
@@ -200,8 +204,6 @@ var Base64 = {
 }
 
 
-// lzw_* taken from jsolait library (http://jsolait.net/), LGPL
-// slightly modified to support utf8 strings.
 // LZW-compress a string
 function lzw_encode(s) {
     //s = Base64._utf8_encode(s);

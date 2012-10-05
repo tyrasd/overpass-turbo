@@ -42,6 +42,10 @@ There is going to be a documented api with functions which can be used within a 
 
 As the scripts are (most probably) not going to be sandboxed, this is going to be an advanced feature, that has to be activated manually by the user. Scripts can be saved and shared together with the query, but a warning will be shown when loading a share-link with a script.
 
+Also to be configurable via scripts:
+* configurable style for geoJSON elements.
+* filter content (tags,...) to be shown in popups.
+
 Several UI Improvements
 -----------------------
 
@@ -49,8 +53,6 @@ Several UI Improvements
 * editor: better Syntax highlighting (~~auto detect query language xml/overpassQL~~, ~~support for overpassQL~~)
 * editor: code auto completion (with inline help?) ~~and auto tag closing for xml~~
 * ~~editor: highline lines where an error occured~~
-* map: configurable style for geoJSON elements. (-> script)
-* map: filter content (tags,?) to be shown in popups? (-> script)
 * map: make crosshairs not overlap map popups
 * ~~map: make crosshairs optional (default: not visible)~~
 * ? map: make other map controls optional
