@@ -407,14 +407,14 @@ var ide = new(function() {
   this.onCompileClick = function() {
     // todo: run query first, and add this as a afterXY() handler
     // todo: if error -> abort
-    // todo: use a js js-minifier? e.g. uglifyJS/browser-uglifyJS maybe with a previous specialized step (htmlentities() -> he(), multiple string literals in geojson -> var a="...."; var geojson=["foo":a,"bar":a];)
+    // todo: print attributions for used libraries (Base64,lzw_*,jquery)
     var compression = "on";
     var html = '<!DOCTYPE HTML>\n<html>\n';
     html += '<head>\n<meta http-equiv="content-type" content="text/html; charset=utf-8" lang="en"></meta>\n<title>Overpass IDE Compiled Query</title>\n<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />\n<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>\n</head>\n';
     html += '<body>\n<div id="map" style="position:absolute; top:10px; bottom:10px; left:10px; right:10px;"></div>\n';
     html += '<script>\n';
     html += htmlentities.toString()+'\n';
-    if (compression == "on") { // todo: add attribution(s)
+    if (compression == "on") {
       html += 'Base64 = {_convert_to_base64nopad:'+Base64._convert_to_base64nopad.toString()+', decode:'+Base64.decode.toString()+',_keyStr:"'+Base64._keyStr+'"};\n';
       html += lzw_decode.toString()+'\n';
       //html += 'var geojson = JSON.parse(lzw_decode("'+lzw_encode(JSON.stringify(overpass._gj)).replace(/"/g,'\\"')+'"));\n'; // todo: we have to escape more characters here: http://timelessrepo.com/json-isnt-a-javascript-subset ... also a </script> could be evil here! Also to be somehow escaped: "</script>"
@@ -422,8 +422,8 @@ var ide = new(function() {
       //alert(JSON.stringify(overpass._gj).length + " -- " + Base64.encode(lzw_encode(JSON.stringify(overpass._gj))).length);
     } else
       html += 'var geojson = '+JSON.stringify(overpass._gj)+';\n';
-    // jquery compatibility layer.
-    html += 'var $={}; $.isEmptyObject=function(o) {for(var k in o) return false; return true;}; $.inArray=function(v,a) {for (var i in a) if(a[i]===v) return i; return -1;}; $.each=function(a,cb) {for (var k in a) cb(k,a[k]);};';
+    // jquery compatibility layer. todo: use jQuerys original functions
+    html += 'var $={}; $.isEmptyObject=function(o) {for(var k in o) return false; return true;}; $.inArray=function(v,a) {for (var i in a) if(a[i]===v) return i; return -1;}; $.each=function(a,cb) {for (var k in a) cb(k,a[k]);};\n';
     html += 'var map = L.map("map").setView(['+ide.map.getCenter().lat+','+ide.map.getCenter().lng+'],'+ide.map.getZoom()+');\n';
     html += 'var ide={map:map};'
     html += 'var gjl = new L.GeoJSON(null, {\n';
