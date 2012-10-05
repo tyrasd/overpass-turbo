@@ -13,13 +13,6 @@ This will still rely on external data for the leaflet library and the map tiles 
 
 Possible extension: Make a version for completely independent use: This would include all js libraries into the html framework and use a L.ImageOverlay instead of dynamically loaded map tiles (the image is rendered using html2canvas and stored in the output as a dataURL).
 
-Interactive Map Export
-----------------------
-
-Just like the current "openlayers overlay" export, but with a leaflet map and clickable geojson objects like in the ide.
-
-There will be a map.html file which takes the (un-shortcuted) query as a GET parameter, executes it, parses the data into geojson and shows it on a map. There should be some error handling and the possibility to provide a fixed map center (and zoom level) or auto zooming to fit the data.
-
 Scripting Engine
 ----------------
 
@@ -42,19 +35,32 @@ There is going to be a documented api with functions which can be used within a 
 
 As the scripts are (most probably) not going to be sandboxed, this is going to be an advanced feature, that has to be activated manually by the user. Scripts can be saved and shared together with the query, but a warning will be shown when loading a share-link with a script.
 
+Also to be configurable via scripts:
+* style for geoJSON elements.
+* content (tags,...) to be shown in popups.
+
+The compiler should be able to support scripts. There has to be a possibility to tell the compiler which (parts of) libraries have to be included "linked" in the output.
+
+Interactive Map Export
+----------------------
+
+Just like the current "openlayers overlay" export, but with a leaflet map and clickable geojson objects like in the ide.
+
+There will be a map.html file which takes the ~~(un-shortcuted)~~ query as a GET parameter, executes it, parses the data into geojson and shows it on a map. There should be some error handling and the possibility to provide a fixed map center (and zoom level) or auto zooming to fit the data.
+
+Implementation: This should be easy to implement once the compiler and scripting engine are ready (the compiler has to explicitly support scripts!). It should be "easy" to write a script that implements this *standalone map* behaviour. Then the compiled version of this script is the map.html.
+
 Several UI Improvements
 -----------------------
 
-* fullscreen mode
 * resizable panels (editor/map)
 * editor: better Syntax highlighting (~~auto detect query language xml/overpassQL~~, ~~support for overpassQL~~)
 * editor: code auto completion (with inline help?) ~~and auto tag closing for xml~~
 * ~~editor: highline lines where an error occured~~
-* map: configurable style for geoJSON elements.
-* map: filter content (tags,?) to be shown in popups?
 * map: make crosshairs not overlap map popups
 * ~~map: make crosshairs optional (default: not visible)~~
-* map: make other map controls optional
-* map popups: show coordinates of points (and bbox of ways?), show metadata (if present)
+* ? map: make other map controls optional
+* map popups: ~~show coordinates of points~~ (and bbox of ways?), ~~show metadata (if present)~~
 * ~~tool: convert overpassql<->xml~~
-* better layer management: allow multiple layers to be set up (if #layers>1 show layer switcher). allow also other types of layers (WMS, ImageOverlay?)
+* ? better layer management: allow multiple layers to be set up (if #layers>1 show layer switcher). allow also other types of layers (WMS, ImageOverlay?)
+* ? fullscreen mode

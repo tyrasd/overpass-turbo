@@ -220,10 +220,12 @@ var ide = new(function() {
         container.style.position = "absolute";
         container.style.left = "40px";
         var inp = L.DomUtil.create('input', '', container);
+        $('<span class="ui-icon ui-icon-search" style="position:absolute; right:3px; top:3px; opacity:0.5;"/>').click(function(e) {$(this).prev().autocomplete("search");}).insertAfter(inp);
         inp.id = "search";
         // hack against focus stealing leaflet :/
         inp.onclick = function() {this.focus();}
         // autocomplete functionality
+        // <span class="ui-icon ui-icon-search"/>
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
@@ -241,7 +243,6 @@ var ide = new(function() {
             });
           },
           minLength: 2,
-          dalay: 600,
           select: function(event,ui) {
             ide.map.panTo(new L.LatLng(ui.item.lat,ui.item.lon));
             this.value="";
@@ -254,6 +255,8 @@ var ide = new(function() {
             $(this).addClass("ui-corner-all").removeClass("ui-corner-top");
           },
         });
+        $(inp).autocomplete("option","delay",1e99); // do not do this at all
+        $(inp).autocomplete().keypress(function(e) {if (e.which==13) $(this).autocomplete("search");});
         return container;
       },
     });
