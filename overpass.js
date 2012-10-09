@@ -360,7 +360,6 @@ var overpass = new(function() {
             (typeof data == "object" && data instanceof XMLDocument && $("remark",data).length > 0)
            ) { // maybe an error message
           data_mode = "unknown";
-          // todo: detect timeout <remark>s
           var is_error = false;
           is_error = is_error || (typeof data == "string" && // html coded error messages
             data.indexOf("Error") != -1 && 
@@ -478,7 +477,6 @@ var overpass = new(function() {
             });
           },
           onEachFeature : function (feature, layer) {
-            layer.feature = feature;
             layer.on('click', function(e) {
               var popup = "";
               if (feature.geometry.type == "Point")

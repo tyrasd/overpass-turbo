@@ -225,7 +225,6 @@ var ide = new(function() {
         // hack against focus stealing leaflet :/
         inp.onclick = function() {this.focus();}
         // autocomplete functionality
-        // <span class="ui-icon ui-icon-search"/>
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
@@ -239,7 +238,10 @@ var ide = new(function() {
                   return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
                 }));
               },
-              // todo: error handling
+              error: function() {
+                // todo: better error handling
+                alert("An error occured while contacting the osm search server nominatim.openstreetmap.org :(");
+              },
             });
           },
           minLength: 2,
@@ -440,6 +442,8 @@ var ide = new(function() {
   this.onExportClick = function() {
     // prepare export dialog
     var query = ide.getQuery(true);
+    var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
+    $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
     $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
