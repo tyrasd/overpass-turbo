@@ -477,7 +477,6 @@ var overpass = new(function() {
             });
           },
           onEachFeature : function (feature, layer) {
-            layer.feature = feature;
             layer.on('click', function(e) {
               var popup = "";
               if (feature.geometry.type == "Point")
