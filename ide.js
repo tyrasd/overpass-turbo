@@ -442,6 +442,8 @@ var ide = new(function() {
   this.onExportClick = function() {
     // prepare export dialog
     var query = ide.getQuery(true);
+    var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
+    $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
     $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
