@@ -225,7 +225,6 @@ var ide = new(function() {
         // hack against focus stealing leaflet :/
         inp.onclick = function() {this.focus();}
         // autocomplete functionality
-        // <span class="ui-icon ui-icon-search"/>
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
@@ -239,7 +238,10 @@ var ide = new(function() {
                   return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
                 }));
               },
-              // todo: error handling
+              error: function() {
+                // todo: better error handling
+                alert("An error occured while contacting the osm search server nominatim.openstreetmap.org :(");
+              },
             });
           },
           minLength: 2,
