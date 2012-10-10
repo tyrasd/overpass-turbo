@@ -286,6 +286,7 @@ var overpass = new(function() {
           if ((typeof ways[i].tags["landuse"] != "undefined") ||
               (typeof ways[i].tags["building"] != "undefined") ||
               (typeof ways[i].tags["leisure"] != "undefined") ||
+              (typeof ways[i].tags["amenity"] != "undefined") ||
               (ways[i].tags["area"] == "yes") ||
               ($.inArray(ways[i].tags["natural"], new Array("forest","wood","water")) != -1) ||
               false) 
