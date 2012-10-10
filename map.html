@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" lang="en"></meta>
   <meta name="viewport" content="width=device-width;" />
-  <title>Overpass IDE</title>
+  <title>Overpass IDE Map</title>
   <!--jQuery-->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <!--leaflet-->
@@ -19,7 +19,8 @@
     body {
       position: absolute;
       top:0; left:0; right:0; bottom:0;
-      padding: 6px;
+      margin:0;
+      padding: 8px;
     }
     #map {
       margin:0; padding:0;
@@ -56,6 +57,7 @@
         tileServer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       };
       ide = {
+        appname: "overpass-ide-map",
         getQuery: function() {return settings.code["overpass"];},
         getQueryLang: function() {return (settings.code["overpass"].trim().match(/^</))?"xml":"OverpassQL";},
         dataViewer: {setValue: function() {}, setOption: function() {},},
@@ -70,7 +72,7 @@
       // init leaflet
       ide.map = new L.Map("map");
       var tilesUrl = settings.tileServer;
-      var tilesAttrib = '&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
+      var tilesAttrib = '&copy; <a href="www.openstreetmap.org/copyright">OpenStreetMap</a> contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
       var tiles = new L.TileLayer(tilesUrl,{attribution:tilesAttrib});
       ide.map.setView([0,0],1).addLayer(tiles);
       scaleControl = new L.Control.Scale({metric:true,imperial:false,});
