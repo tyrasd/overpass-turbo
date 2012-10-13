@@ -46,6 +46,8 @@ Interactive Map Export
 
 Just like the current "openlayers overlay" export, but with a leaflet map and clickable geojson objects like in the ide.
 
+(A prototype of this is already implemented in the master banch. But I will redo it with the following procedure.)
+
 There will be a map.html file which takes the ~~(un-shortcuted)~~ query as a GET parameter, executes it, parses the data into geojson and shows it on a map. There should be some error handling and the possibility to provide a fixed map center (and zoom level) or auto zooming to fit the data.
 
 Implementation: This should be easy to implement once the compiler and scripting engine are ready (the compiler has to explicitly support scripts!). It should be "easy" to write a script that implements this *standalone map* behaviour. Then the compiled version of this script is the map.html.
