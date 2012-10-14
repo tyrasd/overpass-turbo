@@ -526,7 +526,9 @@ var overpass = new(function() {
                   popup += "<strong>Attention: incomplete geometry (e.g. some nodes missing)</strong>";
                 }
               }
-              L.popup({},this).setLatLng(e.latlng).setContent(popup).openOn(ide.map);
+              var p = L.popup({},this).setLatLng(e.latlng).setContent(popup);
+              p.layer = layer;
+              p.openOn(ide.map);
             });
           },
         });

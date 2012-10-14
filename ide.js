@@ -270,6 +270,27 @@ var ide = new(function() {
       .appendTo("#map");
     if (settings.enable_crosshairs)
       $(".crosshairs").show();
+
+
+    ide.map.on("popupopen popupclose",function(e) {
+      if (typeof e.popup.layer != "undefined") {
+        var layer = e.popup.layer;
+        var layer_fun;
+        if (e.type == "popupopen")
+          layer_fun = function(l) {
+            l.setStyle({color:"#f50",_color:l.options["color"]});
+          };
+        else // e.type == "popupclose"
+          layer_fun = function(l) {
+            l.setStyle({color:l.options["_color"]});
+            delete l.options["_color"];
+          };
+        if (typeof layer.eachLayer == "function")
+          layer.eachLayer(layer_fun);
+        else
+          layer_fun(layer);
+      }
+    });
   } // init()
 
   var make_combobox = function(input, options) {
