@@ -188,7 +188,7 @@ var ide = new(function() {
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = '#';
-        link.title = "fit zoom to data";
+        link.title = "zoom onto data";
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
@@ -270,6 +270,27 @@ var ide = new(function() {
       .appendTo("#map");
     if (settings.enable_crosshairs)
       $(".crosshairs").show();
+
+
+    ide.map.on("popupopen popupclose",function(e) {
+      if (typeof e.popup.layer != "undefined") {
+        var layer = e.popup.layer;
+        var layer_fun;
+        if (e.type == "popupopen")
+          layer_fun = function(l) {
+            l.setStyle({color:"#f50",_color:l.options["color"]});
+          };
+        else // e.type == "popupclose"
+          layer_fun = function(l) {
+            l.setStyle({color:l.options["_color"]});
+            delete l.options["_color"];
+          };
+        if (typeof layer.eachLayer == "function")
+          layer.eachLayer(layer_fun);
+        else
+          layer_fun(layer);
+      }
+    });
   } // init()
 
   var make_combobox = function(input, options) {
@@ -446,7 +467,7 @@ var ide = new(function() {
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
     $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
-    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
+    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="Current Map State">'+
         '<p><strong>Center:</strong> </p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>(lat/lon)</small>'+
