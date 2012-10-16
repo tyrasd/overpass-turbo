@@ -188,7 +188,7 @@ var ide = new(function() {
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = '#';
-        link.title = "fit zoom to data";
+        link.title = "zoom onto data";
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
