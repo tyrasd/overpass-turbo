@@ -257,7 +257,7 @@ var ide = new(function() {
             $(this).addClass("ui-corner-all").removeClass("ui-corner-top");
           },
         });
-        $(inp).autocomplete("option","delay",1e99); // do not do this at all
+        $(inp).autocomplete("option","delay",2000000000); // do not do this at all
         $(inp).autocomplete().keypress(function(e) {if (e.which==13) $(this).autocomplete("search");});
         return container;
       },
