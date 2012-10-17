@@ -1,118 +1,81 @@
+// Settings class
+var Settings = function(namespace,version) {
+  // == private members ==
+  var prefix = namespace+"_";
+  var settings_version = version;
+  var version = localStorage.getItem(prefix+"version")*1;
+  var settings = {};
+  var upgrade_callbacks = [];
+  
+  // == public methods ==
+  this.define_setting = function(name,type,preset,version) {
+    settings[name] = {"type":type,"preset":preset,"version":version};
+  };
+  this.define_upgrade_callback = function(version,fun) {
+    upgrade_callbacks[version] = fun;
+  };
+
+  this.set = function(name,value) {
+    if (value === undefined) // use preset if no value is given
+      value = settings[name].preset;
+    if(settings[name].type != "String") // stringify all non-string values.
+      value = JSON.stringify(value);
+    localStorage.setItem(prefix+name, value);
+  };
+  this.get = function(name) {
+    // initialize new settings
+    if (settings[name].version > version)
+      this.set(name,undefined);
+    // load the setting
+    var value = localStorage.getItem(prefix+name);
+    if (settings[name].type != "String") // parse all non-string values.
+      value = JSON.parse(value);
+    return value;
+  };
+
+  this.load = function() {
+    // load all settings into the objects namespace
+    for (var name in settings) {
+      this[name] = this.get(name);
+    }
+    // version upgrade
+    if (version < settings_version) {
+      for (var v = version+1; v<=settings_version; v++) {
+        if (typeof upgrade_callbacks[v] == "function")
+          upgrade_callbacks[v](this);
+      }
+      version = settings_version;
+      localStorage.setItem(prefix+"version",version);
+    }
+  };
+  this.save = function() {
+    // save all settings from the objects namespace
+    for (var name in settings) {
+      this.set(name,this[name]);
+    }
+  };
+};
 
 // global settings object
-
-var settings = new(function() {
-  // == private members ==
-  var prefix = "overpass-ide_";
-  var settings_version = 7;
-  // == public properties with defaults ==
-  // version of settings.
-  this.version;
-  // map coordinates
-  this.use_html5_coords = true;
-  this.coords_lat = 51.478;
-  this.coords_lon = 0.0;
-  this.coords_zoom = 12;
-  // saved
-  this.code = {"overpass": null};
-  this.saves;// = examples;
-  // api server
-  this.server = "http://overpass-api.de/api/";
-  // sharing options
-  this.share_compression = "auto";
-  this.share_include_pos = false;
-  // code editor
-  this.use_rich_editor = true;
-  // map appearance
-  this.tile_server = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-  this.enable_crosshairs = false;
-  // export settings
-  this.export_image_scale = true;
-  this.export_image_attribution = true;
-
-  // == public methods ==
-  this.load = function() {
-    // check if settings are up to date
-    this.version = localStorage.getItem(prefix+"version") * 1;
-    if (this.version < settings_version) {
-      update_settings(this.version,this);
-      this.version = localStorage.getItem(prefix+"version") * 1; // reload version
-    }
-    // load settings
-    this.use_html5_coords = localStorage.getItem(prefix+"use_html5_coords") == "true";
-    this.coords_lat = localStorage.getItem(prefix+"coords_lat") * 1;
-    this.coords_lon = localStorage.getItem(prefix+"coords_lon") * 1;
-    this.coords_zoom = localStorage.getItem(prefix+"coords_zoom") * 1;
-    this.code = JSON.parse(localStorage.getItem(prefix+"code"));
-    this.saves = JSON.parse(localStorage.getItem(prefix+"saves"));
-    this.server = localStorage.getItem(prefix+"server");
-    this.share_compression = localStorage.getItem(prefix+"share_compression");
-    this.share_include_pos = localStorage.getItem(prefix+"share_include_pos") == "true";
-    this.use_rich_editor = localStorage.getItem(prefix+"use_rich_editor") == "true";
-    this.enable_crosshairs = localStorage.getItem(prefix+"enable_crosshairs") == "true";
-    this.tile_server = localStorage.getItem(prefix+"tile_server");
-    this.export_image_scale = localStorage.getItem(prefix+"export_image_scale") == "true";
-    this.export_image_attribution = localStorage.getItem(prefix+"export_image_attribution") == "true";
-    // this. = localStorage.getItem(prefix+"");
-  }
-  this.save = function() {
-    localStorage.setItem(prefix+"use_html5_coords",this.use_html5_coords);
-    localStorage.setItem(prefix+"coords_lat",this.coords_lat);
-    localStorage.setItem(prefix+"coords_lon",this.coords_lon);
-    localStorage.setItem(prefix+"coords_zoom",this.coords_zoom);
-    localStorage.setItem(prefix+"code",JSON.stringify(this.code));
-    localStorage.setItem(prefix+"saves",JSON.stringify(this.saves));
-    localStorage.setItem(prefix+"server",this.server);
-    localStorage.setItem(prefix+"share_compression",this.share_compression);
-    localStorage.setItem(prefix+"share_include_pos",this.share_include_pos);
-    localStorage.setItem(prefix+"use_rich_editor",this.use_rich_editor);
-    localStorage.setItem(prefix+"enable_crosshairs",this.enable_crosshairs);
-    localStorage.setItem(prefix+"tile_server",this.tile_server);
-    localStorage.setItem(prefix+"export_image_scale",this.export_image_scale);
-    localStorage.setItem(prefix+"export_image_attribution",this.export_image_attribution);
-    //localStorage.setItem(prefix+"",this.);
-  }
-
-  // == private methods ==
-  var update_settings = function(v,self) {
-    if (v < 1) update_settings_1(self);
-    if (v < 2) update_settings_2(self);
-    if (v < 3) update_settings_3(self);
-    if (v < 4) update_settings_4(self);
-    if (v < 5) update_settings_5(self);
-    if (v < 6) update_settings_6(self);
-    if (v < 7) update_settings_7(self);
-    localStorage.setItem(prefix+"version",settings_version);
-  }
-  var update_settings_1 = function(self) {
-    // load initial code example(s)
-    self.code = $.extend({},examples[examples_initial_example]);
-    self.saves = examples;
-    // save all initial settings for the first time
-    self.save();
-  }
-  var update_settings_2 = function(self) {
-    self.server = localStorage.getItem(prefix+"server");
-    self.server = self.server.replace("interpreter","");
-    localStorage.setItem(prefix+"server",self.server);
-  }
-  var update_settings_3 = function(self) {
-    // add new variables
-    localStorage.setItem(prefix+"share_compression",self.share_compression);
-    localStorage.setItem(prefix+"share_include_pos",self.share_include_pos);
-  }
-  var update_settings_4 = function(self) {
-    localStorage.setItem(prefix+"use_rich_editor",self.use_rich_editor);
-  }
-  var update_settings_5 = function(self) {
-    localStorage.setItem(prefix+"enable_crosshairs",self.enable_crosshairs);
-  }
-  var update_settings_6 = function(self) {
-    localStorage.setItem(prefix+"tile_server",self.tile_server);
-  }
-  var update_settings_7 = function(self) {
-    localStorage.setItem(prefix+"export_image_scale",self.export_image_scale);
-    localStorage.setItem(prefix+"export_image_attribution",self.export_image_attribution);
-  }
-  
-})(); // end create settings object
+var settings = new Settings("overpass-ide",10);
+//map coordinates
+settings.define_setting("use_html5_coords","Boolean",true,1);
+settings.define_setting("coords_lat","Float",41.890,1);
+settings.define_setting("coords_lon","Float",12.492,1);
+settings.define_setting("coords_zoom","Integer",16,1);
+// saves
+settings.define_setting("code","Object",examples[examples_initial_example],1);
+settings.define_setting("saves","Object",examples,1);
+// api server
+settings.define_setting("server","String","http://overpass-api.de/api/",1);
+// sharing options
+settings.define_setting("share_compression","String","auto",1);
+settings.define_setting("share_include_pos","Boolean",false,1);
+// code editor
+settings.define_setting("use_rich_editor","Boolean",true,1);
+settings.define_setting("tile_server","String","http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",1);
+settings.define_setting("enable_crosshairs","Boolean",false,1);
+// export settings
+settings.define_setting("export_image_scale","Boolean",true,1);
+settings.define_setting("export_image_attribution","Boolean",true,1);
+//settings.define_setting(,,,);
