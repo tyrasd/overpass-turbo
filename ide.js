@@ -17,7 +17,7 @@ var ide = new(function() {
     settings.load();
     // (very raw) compatibility check <- TODO: put this into its own function
     if (jQuery.support.cors != true ||
-        typeof localStorage  != "Object" ||
+        typeof localStorage  != "object" ||
         false) {
       // the currently used browser is not capable of running the IDE. :(
       $('<div title="Your browser is not supported :(">'+
