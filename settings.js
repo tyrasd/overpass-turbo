@@ -3,7 +3,7 @@ var Settings = function(namespace,version) {
   // == private members ==
   var prefix = namespace+"_";
   var settings_version = version;
-  var version = localStorage.getItem(prefix+"version")*1;
+  var version = +localStorage.getItem(prefix+"version");
   var settings = {};
   var upgrade_callbacks = [];
   

@@ -39,14 +39,14 @@ var ide = new(function() {
           var tmp = kv[1].match(/([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)/);
           settings.coords_lat = Base64.decodeNum(tmp[1])/100000;
           settings.coords_lon = Base64.decodeNum(tmp[2])/100000;
-          settings.coords_zoom = Base64.decodeNum(tmp[3])*1;
+          settings.coords_zoom = +Base64.decodeNum(tmp[3]);
           override_use_html5_coords = true;
         }
         if (kv[0] == "C") { // map center & zoom (uncompressed)
           var tmp = kv[1].match(/([\d.]+)-([\d.]+)-(\d+)/);
-          settings.coords_lat = tmp[1]*1;
-          settings.coords_lon = tmp[2]*1;
-          settings.coords_zoom = tmp[3]*1;
+          settings.coords_lat = +tmp[1];
+          settings.coords_lon = +tmp[2];
+          settings.coords_zoom = +tmp[3];
           override_use_html5_coords = true;
         }
       }
@@ -541,8 +541,8 @@ var ide = new(function() {
       var height = $("#map .leaflet-overlay-pane svg").height();
       var width  = $("#map .leaflet-overlay-pane svg").width();
       var tmp = $("#map .leaflet-map-pane")[0].style.cssText.match(/.*?(-?\d+)px.*?(-?\d+)px.*/);
-      var offx   = tmp[1]*1;
-      var offy   = tmp[2]*1;
+      var offx   = +tmp[1];
+      var offy   = +tmp[2];
       if ($("#map .leaflet-overlay-pane").html().length > 0)
         ctx.drawSvg($("#map .leaflet-overlay-pane").html(),offx,offy,width,height);
       // 3. export canvas as html image
