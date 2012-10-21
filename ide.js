@@ -15,6 +15,16 @@ var ide = new(function() {
   var init = function() {
     // load settings
     settings.load();
+    // (very raw) compatibility check <- TODO: put this into its own function
+    if (jQuery.support.cors != true ||
+        typeof localStorage  != "object" ||
+        false) {
+      // the currently used browser is not capable of running the IDE. :(
+      $('<div title="Your browser is not supported :(">'+
+          '<p>The browser you are currently using, is not capable of running this Application. <small>It has to support <a href="http://en.wikipedia.org/wiki/Web_storage#localStorage">Web Storage API</a> and <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>'+
+          '<p>Please update to a more up-to-date version of your browser or switch to a more capable browser! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work. Alternatively, you can still use the <a href="http://overpass-api.de/query_form.html">Overpass_API query form</a>.</p>'+
+        '</div>').dialog({modal:true});
+    }
     // check for any get-parameters
     var override_use_html5_coords = false;
     if (location.search != "") {
@@ -29,14 +39,14 @@ var ide = new(function() {
           var tmp = kv[1].match(/([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)/);
           settings.coords_lat = Base64.decodeNum(tmp[1])/100000;
           settings.coords_lon = Base64.decodeNum(tmp[2])/100000;
-          settings.coords_zoom = Base64.decodeNum(tmp[3])*1;
+          settings.coords_zoom = +Base64.decodeNum(tmp[3]);
           override_use_html5_coords = true;
         }
         if (kv[0] == "C") { // map center & zoom (uncompressed)
           var tmp = kv[1].match(/([\d.]+)-([\d.]+)-(\d+)/);
-          settings.coords_lat = tmp[1]*1;
-          settings.coords_lon = tmp[2]*1;
-          settings.coords_zoom = tmp[3]*1;
+          settings.coords_lat = +tmp[1];
+          settings.coords_lon = +tmp[2];
+          settings.coords_zoom = +tmp[3];
           override_use_html5_coords = true;
         }
       }
@@ -51,7 +61,7 @@ var ide = new(function() {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
           "out json xml custom popup timeout maxsize" // initial declarations
-          +" relation way node around user uid newer" // queries
+          +" relation way node area around user uid newer" // queries
           +" out meta quirks body skel ids qt asc" // actions
           //+"r w n br bw" // recursors
           +" bbox" // overpass ide shortcut(s)
@@ -257,7 +267,7 @@ var ide = new(function() {
             $(this).addClass("ui-corner-all").removeClass("ui-corner-top");
           },
         });
-        $(inp).autocomplete("option","delay",1e99); // do not do this at all
+        $(inp).autocomplete("option","delay",2000000000); // do not do this at all
         $(inp).autocomplete().keypress(function(e) {if (e.which==13) $(this).autocomplete("search");});
         return container;
       },
@@ -531,8 +541,8 @@ var ide = new(function() {
       var height = $("#map .leaflet-overlay-pane svg").height();
       var width  = $("#map .leaflet-overlay-pane svg").width();
       var tmp = $("#map .leaflet-map-pane")[0].style.cssText.match(/.*?(-?\d+)px.*?(-?\d+)px.*/);
-      var offx   = tmp[1]*1;
-      var offy   = tmp[2]*1;
+      var offx   = +tmp[1];
+      var offy   = +tmp[2];
       if ($("#map .leaflet-overlay-pane").html().length > 0)
         ctx.drawSvg($("#map .leaflet-overlay-pane").html(),offx,offy,width,height);
       // 3. export canvas as html image

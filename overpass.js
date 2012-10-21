@@ -543,7 +543,7 @@ var overpass = new(function() {
         var errmsg = "";
         if (jqXHR.state() == "rejected")
           errmsg += "<p>Request rejected. (e.g. server not found, redirection, internal server errors, etc.)</p>";
-        if (jqXHR.status != 0) // note to me: jqXHR.status "should" give http status codes
+        if (jqXHR.status != 0 || jqXHR.statusText != "OK") // note to me: jqXHR.status "should" give http status codes
           errmsg += "<p>Error-Code: "+jqXHR.status+" ("+jqXHR.statusText+")</p>";
         $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
           modal:true,

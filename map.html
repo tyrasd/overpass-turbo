@@ -62,6 +62,15 @@
         getQueryLang: function() {return (settings.code["overpass"].trim().match(/^</))?"xml":"OverpassQL";},
         dataViewer: {setValue: function() {}, setOption: function() {},},
       };
+      // (very raw) compatibility check
+      if (jQuery.support.cors != true ||
+          false) {
+        // the currently used browser is not capable of running the IDE. :(
+        $('<div title="Your browser is not supported :(">'+
+            '<p>The browser you are currently using, is not capable of running this Application. <small>It has to support <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>'+
+            '<p>Please update to a more up-to-date version of your browser or switch to a more capable browser! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work.</p>'+
+          '</div>').dialog({modal:true});
+      }
       // check for any get-parameters
       var get = location.search.substring(1).split("&");
       for (var i=0; i<get.length; i++) {
