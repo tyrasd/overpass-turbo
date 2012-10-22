@@ -102,7 +102,7 @@ var Base64 = {
   encodeNum : function(num, not_base64url) {
     var output = "";
     if (num == 0)
-      return this._keyStr.icharAt(0);
+      return this._keyStr.charAt(0);
     var neg = false;
     if (num < 0) {
       neg = true;
@@ -114,7 +114,7 @@ var Base64 = {
       num /= 64;
     }
     if (neg)
-      output = "."+output;
+      output = "~"+output;
     if (!not_base64url)
       return this._convert_to_base64url(output);
     else
