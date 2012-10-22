@@ -36,14 +36,22 @@ var ide = new(function() {
         if (kv[0] == "Q") // uncompressed query set in url
           settings.code["overpass"] = decodeURIComponent(kv[1]);
         if (kv[0] == "c") { // map center & zoom (compressed)
-          var tmp = kv[1].match(/([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)/);
-          settings.coords_lat = Base64.decodeNum(tmp[1])/100000;
-          settings.coords_lon = Base64.decodeNum(tmp[2])/100000;
-          settings.coords_zoom = +Base64.decodeNum(tmp[3]);
+          var tmp = kv[1].match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
+          var decode_coords = function(str) {
+            var coords_cpr = Base64.decodeNum(str);
+            var res = {};
+            res.lat = coords_cpr % (180*100000) / 100000 - 90;
+            res.lng = Math.floor(coords_cpr / (180*100000)) / 100000 - 180;
+            return res;
+          }
+          var coords = decode_coords(tmp[1]);
+          settings.zoom = tmp[2];
+          settings.coords_lat = coords.lat;
+          settings.coords_lon = coords.lng;
           override_use_html5_coords = true;
         }
         if (kv[0] == "C") { // map center & zoom (uncompressed)
-          var tmp = kv[1].match(/([\d.]+)-([\d.]+)-(\d+)/);
+          var tmp = kv[1].match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
           settings.coords_lat = +tmp[1];
           settings.coords_lon = +tmp[2];
           settings.coords_zoom = +tmp[3];
@@ -445,15 +453,20 @@ var ide = new(function() {
     var shared_code = codeEditor.getValue();
     var share_link_uncompressed = baseurl+"?Q="+encodeURIComponent(shared_code);
     if (settings.share_include_pos)
-      share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+"-"+L.Util.formatNum(ide.map.getCenter().lng)+"-"+ide.map.getZoom();
+      share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+";"+L.Util.formatNum(ide.map.getCenter().lng)+";"+ide.map.getZoom();
     var share_link;
     if ((settings.share_compression == "auto" && shared_code.length <= 300) ||
         (settings.share_compression == "off"))
       share_link = share_link_uncompressed;
     else {
       var share_link_compressed = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(shared_code)));
-      if (settings.share_include_pos)
-        share_link_compressed += "&c="+Base64.encodeNum(ide.map.getCenter().lat*100000)+"."+Base64.encodeNum(ide.map.getCenter().lng*100000)+"."+Base64.encodeNum(ide.map.getZoom());
+      if (settings.share_include_pos) {
+        var encode_coords = function(lat,lng) {
+          var coords_cpr = Base64.encodeNum( Math.round((lat+90)*100000) + Math.round((lng+180)*100000)*180*100000 );
+          return "AAAAAAAA".substring(0,9-coords_cpr.length)+coords_cpr;
+        }
+        share_link_compressed += "&c="+encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng)+Base64.encodeNum(ide.map.getZoom());
+      }
       share_link = share_link_compressed;
     }
 
