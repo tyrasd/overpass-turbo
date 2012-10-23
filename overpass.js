@@ -340,8 +340,9 @@ var overpass = new(function() {
     }
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
-    $.ajax(settings.server+"interpreter"+"?app="+ide.appname, {
+    $.ajax(settings.server+"interpreter", {
       type: 'POST',
+      headers: {"X-Requested-With":ide.appname},
       data: {data:query},
       success: function(data, textStatus, jqXHR) {
         // clear previous data and messages
