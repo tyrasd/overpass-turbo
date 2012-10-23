@@ -18,8 +18,10 @@ body {
   padding-top: 10px;
   position:relative;
   left:auto;top:auto;right:auto;bottom:auto;
-  width:100%;
-  height:500px;
+  left:0;
+  right:0;
+  margin:10px;
+  height:350px;
 }
 #map {
   width:100%;
@@ -28,10 +30,11 @@ body {
 #data {
   background-color:white;
   width:100%;
-  height:100%;
-  position:absolute;
-  top:0;
-  z-index:-1001;
+  height:auto;
+  position:relative;
+  padding-top:12px;
+  padding-bottom:22px;
+  z-index:0;
 }
 
 .CodeMirror {
@@ -70,4 +73,9 @@ body {
   right:12px;
 }
 .button {
+}
+div.ui-dialog {
+  max-width:100%;
+  top:0;
+  left:0;
 }

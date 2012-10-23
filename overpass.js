@@ -117,7 +117,8 @@ var overpass = new(function() {
     }
     var poinids = new Object();
     for (var i=0;i<nodes.length;i++) {
-      if (typeof nodes[i].tags != 'undefined')
+      if (typeof nodes[i].tags != 'undefined' &&
+          (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(nodes[i].tags)) // this checks if the node has any tags other than "created_by"
         poinids[nodes[i].id] = true;
     }
     var wayids = new Object();
@@ -287,6 +288,7 @@ var overpass = new(function() {
           if ((typeof ways[i].tags["landuse"] != "undefined") ||
               (typeof ways[i].tags["building"] != "undefined") ||
               (typeof ways[i].tags["leisure"] != "undefined") ||
+              (typeof ways[i].tags["amenity"] != "undefined") ||
               (ways[i].tags["area"] == "yes") ||
               ($.inArray(ways[i].tags["natural"], new Array("forest","wood","water")) != -1) ||
               false) 
@@ -339,8 +341,9 @@ var overpass = new(function() {
     }
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
-    $.ajax(settings.server+"interpreter"+"?app="+ide.appname, {
+    $.ajax(settings.server+"interpreter", {
       type: 'POST',
+      headers: {"X-Requested-With":ide.appname},
       data: {data:query},
       success: function(data, textStatus, jqXHR) {
         // clear previous data and messages
@@ -361,7 +364,6 @@ var overpass = new(function() {
             (typeof data == "object" && data instanceof XMLDocument && $("remark",data).length > 0)
            ) { // maybe an error message
           data_mode = "unknown";
-          // todo: detect timeout <remark>s
           var is_error = false;
           is_error = is_error || (typeof data == "string" && // html coded error messages
             data.indexOf("Error") != -1 && 
@@ -441,7 +443,7 @@ var overpass = new(function() {
         var errmsg = "";
         if (jqXHR.state() == "rejected")
           errmsg += "<p>Request rejected. (e.g. server not found, redirection, internal server errors, etc.)</p>";
-        if (jqXHR.status != 0) // note to me: jqXHR.status "should" give http status codes
+        if (jqXHR.status != 0 || jqXHR.statusText != "OK") // note to me: jqXHR.status "should" give http status codes
           errmsg += "<p>Error-Code: "+jqXHR.status+" ("+jqXHR.statusText+")</p>";
         $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
           modal:true,

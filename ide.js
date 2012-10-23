@@ -15,6 +15,16 @@ var ide = new(function() {
   var init = function() {
     // load settings
     settings.load();
+    // (very raw) compatibility check <- TODO: put this into its own function
+    if (jQuery.support.cors != true ||
+        typeof localStorage  != "object" ||
+        false) {
+      // the currently used browser is not capable of running the IDE. :(
+      $('<div title="Your browser is not supported :(">'+
+          '<p>The browser you are currently using, is not capable of running this Application. <small>It has to support <a href="http://en.wikipedia.org/wiki/Web_storage#localStorage">Web Storage API</a> and <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>'+
+          '<p>Please update to a more up-to-date version of your browser or switch to a more capable browser! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work. Alternatively, you can still use the <a href="http://overpass-api.de/query_form.html">Overpass_API query form</a>.</p>'+
+        '</div>').dialog({modal:true});
+    }
     // check for any get-parameters
     var override_use_html5_coords = false;
     if (location.search != "") {
@@ -26,17 +36,25 @@ var ide = new(function() {
         if (kv[0] == "Q") // uncompressed query set in url
           settings.code["overpass"] = decodeURIComponent(kv[1]);
         if (kv[0] == "c") { // map center & zoom (compressed)
-          var tmp = kv[1].match(/([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)\.([A-Za-z0-9\-_]+)/);
-          settings.coords_lat = Base64.decodeNum(tmp[1])/100000;
-          settings.coords_lon = Base64.decodeNum(tmp[2])/100000;
-          settings.coords_zoom = Base64.decodeNum(tmp[3])*1;
+          var tmp = kv[1].match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
+          var decode_coords = function(str) {
+            var coords_cpr = Base64.decodeNum(str);
+            var res = {};
+            res.lat = coords_cpr % (180*100000) / 100000 - 90;
+            res.lng = Math.floor(coords_cpr / (180*100000)) / 100000 - 180;
+            return res;
+          }
+          var coords = decode_coords(tmp[1]);
+          settings.zoom = tmp[2];
+          settings.coords_lat = coords.lat;
+          settings.coords_lon = coords.lng;
           override_use_html5_coords = true;
         }
         if (kv[0] == "C") { // map center & zoom (uncompressed)
-          var tmp = kv[1].match(/([\d.]+)-([\d.]+)-(\d+)/);
-          settings.coords_lat = tmp[1]*1;
-          settings.coords_lon = tmp[2]*1;
-          settings.coords_zoom = tmp[3]*1;
+          var tmp = kv[1].match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
+          settings.coords_lat = +tmp[1];
+          settings.coords_lon = +tmp[2];
+          settings.coords_zoom = +tmp[3];
           override_use_html5_coords = true;
         }
       }
@@ -51,7 +69,7 @@ var ide = new(function() {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
           "out json xml custom popup timeout maxsize" // initial declarations
-          +" relation way node around user uid newer" // queries
+          +" relation way node area around user uid newer" // queries
           +" out meta quirks body skel ids qt asc" // actions
           //+"r w n br bw" // recursors
           +" bbox" // overpass ide shortcut(s)
@@ -188,7 +206,7 @@ var ide = new(function() {
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = '#';
-        link.title = "fit zoom to data";
+        link.title = "zoom onto data";
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
@@ -220,6 +238,7 @@ var ide = new(function() {
         container.style.position = "absolute";
         container.style.left = "40px";
         var inp = L.DomUtil.create('input', '', container);
+        $('<span class="ui-icon ui-icon-search" style="position:absolute; right:3px; top:3px; opacity:0.5;"/>').click(function(e) {$(this).prev().autocomplete("search");}).insertAfter(inp);
         inp.id = "search";
         // hack against focus stealing leaflet :/
         inp.onclick = function() {this.focus();}
@@ -237,11 +256,13 @@ var ide = new(function() {
                   return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
                 }));
               },
-              // todo: error handling
+              error: function() {
+                // todo: better error handling
+                alert("An error occured while contacting the osm search server nominatim.openstreetmap.org :(");
+              },
             });
           },
           minLength: 2,
-          dalay: 600,
           select: function(event,ui) {
             ide.map.panTo(new L.LatLng(ui.item.lat,ui.item.lon));
             this.value="";
@@ -254,6 +275,8 @@ var ide = new(function() {
             $(this).addClass("ui-corner-all").removeClass("ui-corner-top");
           },
         });
+        $(inp).autocomplete("option","delay",2000000000); // do not do this at all
+        $(inp).autocomplete().keypress(function(e) {if (e.which==13) $(this).autocomplete("search");});
         return container;
       },
     });
@@ -265,6 +288,27 @@ var ide = new(function() {
       .appendTo("#map");
     if (settings.enable_crosshairs)
       $(".crosshairs").show();
+
+
+    ide.map.on("popupopen popupclose",function(e) {
+      if (typeof e.popup.layer != "undefined") {
+        var layer = e.popup.layer;
+        var layer_fun;
+        if (e.type == "popupopen")
+          layer_fun = function(l) {
+            l.setStyle({color:"#f50",_color:l.options["color"]});
+          };
+        else // e.type == "popupclose"
+          layer_fun = function(l) {
+            l.setStyle({color:l.options["_color"]});
+            delete l.options["_color"];
+          };
+        if (typeof layer.eachLayer == "function")
+          layer.eachLayer(layer_fun);
+        else
+          layer_fun(layer);
+      }
+    });
   } // init()
 
   var make_combobox = function(input, options) {
@@ -453,15 +497,20 @@ var ide = new(function() {
     var shared_code = codeEditor.getValue();
     var share_link_uncompressed = baseurl+"?Q="+encodeURIComponent(shared_code);
     if (settings.share_include_pos)
-      share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+"-"+L.Util.formatNum(ide.map.getCenter().lng)+"-"+ide.map.getZoom();
+      share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+";"+L.Util.formatNum(ide.map.getCenter().lng)+";"+ide.map.getZoom();
     var share_link;
     if ((settings.share_compression == "auto" && shared_code.length <= 300) ||
         (settings.share_compression == "off"))
       share_link = share_link_uncompressed;
     else {
       var share_link_compressed = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(shared_code)));
-      if (settings.share_include_pos)
-        share_link_compressed += "&c="+Base64.encodeNum(ide.map.getCenter().lat*100000)+"."+Base64.encodeNum(ide.map.getCenter().lng*100000)+"."+Base64.encodeNum(ide.map.getZoom());
+      if (settings.share_include_pos) {
+        var encode_coords = function(lat,lng) {
+          var coords_cpr = Base64.encodeNum( Math.round((lat+90)*100000) + Math.round((lng+180)*100000)*180*100000 );
+          return "AAAAAAAA".substring(0,9-coords_cpr.length)+coords_cpr;
+        }
+        share_link_compressed += "&c="+encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng)+Base64.encodeNum(ide.map.getZoom());
+      }
       share_link = share_link_compressed;
     }
 
@@ -481,9 +530,11 @@ var ide = new(function() {
   this.onExportClick = function() {
     // prepare export dialog
     var query = ide.getQuery(true);
+    var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
+    $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
     $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
-    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(),true);
+    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="Current Map State">'+
         '<p><strong>Center:</strong> </p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>(lat/lon)</small>'+
@@ -547,8 +598,8 @@ var ide = new(function() {
       var height = $("#map .leaflet-overlay-pane svg").height();
       var width  = $("#map .leaflet-overlay-pane svg").width();
       var tmp = $("#map .leaflet-map-pane")[0].style.cssText.match(/.*?(-?\d+)px.*?(-?\d+)px.*/);
-      var offx   = tmp[1]*1;
-      var offy   = tmp[2]*1;
+      var offx   = +tmp[1];
+      var offy   = +tmp[2];
       if ($("#map .leaflet-overlay-pane").html().length > 0)
         ctx.drawSvg($("#map .leaflet-overlay-pane").html(),offx,offy,width,height);
       // 3. export canvas as html image

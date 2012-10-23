@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" lang="en"></meta>
+  <meta name="viewport" content="width=device-width;" />
   <title>Overpass IDE</title>
   <!--jQuery-->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -13,8 +14,8 @@
   <script src="libs/CodeMirror/mode/clike/clike.js"></script>
   <script src="libs/CodeMirror/lib/util/closetag.js"></script>
   <!--leaflet-->
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
   <!--misc libraries-->
   <script src="libs/misc.min.js"></script>
   <!--jQuery UI-->
@@ -23,10 +24,10 @@
   <!--own scripts & styles-->
   <link rel="stylesheet" type="text/css" href="default.css" />
   <link rel="stylesheet" type="text/css" media="(max-width: 700px), (max-device-width: 799px)" href="compact.css"/>
+  <script src="examples.js"></script>
   <script src="settings.js"></script>
   <script src="ide.js"></script>
   <script src="overpass.js"></script>
-  <script src="examples.js"></script>
   <!--more optional libraries-->
   <!--others-->
   <script src="libs/html2canvas/html2canvas.min.js"></script>
@@ -81,15 +82,35 @@
         <li><i>&lt;coord-query/&gt;</i> translates to a coord-query from the current map center point.</li>
       </ul></p>
     </div>
-    <h3><a href="#">Attribution</a></h3>
+    <h3><a href="#">IDE</a></h3>
+    <div>
+      <h4>Sharing</h4>
+      <p>It is possible to send the query you are currently working on to someone else. This is found in the <i>Share</i> tool and shows you a link which you can send to a friend or post online. (Note that others will work on their own copy of the query.)</p>
+      <h4>Save and Load</h4>
+      <p>You can also save and load your queries. For a start, there are a few example queries preloaded. Take a look at them for a short glimpse of what overpass can do.</p>
+      <h4>Keyboard shortcuts:</h4>
+      <p><i>Ctrl+Enter</i>: Run the current query.</p>
+    </div>
+    <h3><a href="#">Export</a></h3>
+    <div>
+      <p>The <i>Export</i> tool holds a variety of options to do with the query and/or data loaded by the query.<br />
+      Options with this symbol:<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span> rely on or refer to external (online) tools.</p>
+      <h4>Map</h4>
+      <p>This lets you convert the current map-with-data view to a static png image, or a (fullscreen) interactive map, etc.</p>
+      <h4>Query</h4>
+      <p>This holds some things you can do with the raw query, like converting it between the various query languages. A very usefull option is the possibility to send the query to JOSM.</p>
+    </div>
+    <h3><a href="#">License & Attribution</a></h3>
     <div>
       <h4>Data Sources</h4>
       <ul class="plain">
-        <li>Data mining by <a href="http://overpass-api.de/">Overpass API</a></li>
         <li>Data &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <span style="font-size:smaller;"><a href="http://opendatacommons.org/licenses/odbl/1-0/">ODbL</a> (<a href="http://www.openstreetmap.org/copyright">Terms</a>)</span></li>
+        <li>Data mining by <a href="http://overpass-api.de/">Overpass API</a></li>
         <li>Map tiles &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
         <li>Search provided by <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a></li>
       </ul>
+      <h4>Source Code</h4>
+      <p>The <a href="https://github.com/tyrasd/overpass-ide">source code</a> of this application is released under a MIT-style <a href="LICENSE">license</a>.</p>
       <h4>Software & Libraries</h4>
       <ul class="plain">
         <li>Map powered by <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
@@ -129,7 +150,8 @@
   <div title="Export" id="export-dialog" class="dialog">
     <h3>Map</h3>
     <p>as <a id="export-image" href="#Export-Image" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">png image</a></p>
-    <p>as <a id="export-overpass-openlayers" href="">interactive OpenLayers overlay<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a> <small>(only for queries returning valid OSM-XML)</small></p>
+    <p>as <a id="export-interactive-map" href="">interactive Map</a></p>
+    <p>as <a id="export-overpass-openlayers" href="">interactive OpenLayers Map<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a> <small>(only for queries returning valid OSM-XML)</small></p>
     <p>get current <a id="export-map-state" href="#Export-Map-State">map state</a> <small>bbox, center, etc.</small></p>
     <h3>Query</h3>
     <p>as <a id="export-text" href="" download='query.txt'>text</a></p>
