@@ -309,6 +309,9 @@ var ide = new(function() {
           layer_fun(layer);
       }
     });
+
+    // load optional js libraries asynchronously
+    $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
   } // init()
 
   var make_combobox = function(input, options) {
