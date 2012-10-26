@@ -40,18 +40,18 @@
   <div id="navs">
     <div class="nav">
       <div class="buttons">
-        <a class="button group left" accesskey="1" href="#run" onclick="ide.onRunClick();">Run</a>
-        <a class="button group" accesskey="2" href="#share" onclick="ide.onShareClick();">Share</a>
-        <a class="button group right gap" accesskey="3" href="#export" onclick="ide.onExportClick();">Export</a>
-        <a class="button group left" accesskey="4" href="#save" onclick="ide.onSaveClick();">Save</a>
-        <a class="button group right gap" accesskey="5" href="#load" onclick="ide.onLoadClick();">Load</a>
-        <a class="button group left" accesskey="9" href="#settings" onclick="ide.onSettingsClick();">Settings</a>
-        <a class="button group right" accesskey="0" href="#help" onclick="ide.onHelpClick();">Help</a>
+        <a class="button group left"      accesskey="1" onclick="ide.onRunClick();">Run</a>
+        <a class="button group"           accesskey="2" onclick="ide.onShareClick();">Share</a>
+        <a class="button group right gap" accesskey="3" onclick="ide.onExportClick();">Export</a>
+        <a class="button group left"      accesskey="4" onclick="ide.onSaveClick();">Save</a>
+        <a class="button group right gap" accesskey="5" onclick="ide.onLoadClick();">Load</a>
+        <a class="button group left"      accesskey="9" onclick="ide.onSettingsClick();">Settings</a>
+        <a class="button group right"     accesskey="0" onclick="ide.onHelpClick();">Help</a>
       </div>
       <div class="title">overpass-ide</div>
       <div class="tabs">
-        <a class="button active" href="#map">Map</a>
-        <a class="button" href="#data">Data</a>
+        <a class="button active">Map</a>
+        <a class="button">Data</a>
       </div>
     </div>
   </div>
@@ -72,7 +72,7 @@
   <!--some dialogs-->
   <!--help-->
   <div id="help-dialog" title="Help" class="dialog">
-    <h3><a href="#">Introduction</a></h3>
+    <h3><a>Introduction</a></h3>
     <div>
       <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
       <p>You can run xml styled or OverpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
@@ -82,7 +82,7 @@
         <li><i>&lt;coord-query/&gt;</i> translates to a coord-query from the current map center point.</li>
       </ul></p>
     </div>
-    <h3><a href="#">IDE</a></h3>
+    <h3><a>IDE</a></h3>
     <div>
       <h4>Sharing</h4>
       <p>It is possible to send the query you are currently working on to someone else. This is found in the <i>Share</i> tool and shows you a link which you can send to a friend or post online. (Note that others will work on their own copy of the query.)</p>
@@ -91,7 +91,7 @@
       <h4>Keyboard shortcuts:</h4>
       <p><i>Ctrl+Enter</i>: Run the current query.</p>
     </div>
-    <h3><a href="#">Export</a></h3>
+    <h3><a>Export</a></h3>
     <div>
       <p>The <i>Export</i> tool holds a variety of options to do with the query and/or data loaded by the query.<br />
       Options with this symbol:<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span> rely on or refer to external (online) tools.</p>
@@ -100,7 +100,7 @@
       <h4>Query</h4>
       <p>This holds some things you can do with the raw query, like converting it between the various query languages. A very usefull option is the possibility to send the query to JOSM.</p>
     </div>
-    <h3><a href="#">License & Attribution</a></h3>
+    <h3><a>License & Attribution</a></h3>
     <div>
       <h4>Data Sources</h4>
       <ul class="plain">
@@ -149,10 +149,10 @@
   <!--export-->
   <div title="Export" id="export-dialog" class="dialog">
     <h3>Map</h3>
-    <p>as <a id="export-image" href="#Export-Image" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">png image</a></p>
+    <p>as <a id="export-image" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">png image</a></p>
     <p>as <a id="export-interactive-map" href="">interactive Map</a></p>
     <p>as <a id="export-overpass-openlayers" href="">interactive OpenLayers Map<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a> <small>(only for queries returning valid OSM-XML)</small></p>
-    <p>get current <a id="export-map-state" href="#Export-Map-State">map state</a> <small>bbox, center, etc.</small></p>
+    <p>get current <a id="export-map-state">map state</a> <small>bbox, center, etc.</small></p>
     <h3>Query</h3>
     <p>as <a id="export-text" href="" download='query.txt'>text</a></p>
     <p>raw link to <a id="export-overpass-api" href="">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>

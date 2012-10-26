@@ -148,6 +148,9 @@ a.button:not(.disabled):not(.active):active /*, a.button:focus*/ {
 .tabs a.button.active {
   background: rgba(255,255,255, 0.6);
 }
+a.button {
+  cursor: pointer;
+}
 a.button.disabled, a.button.active {
   pointer-events: none;
   cursor: default;
