@@ -547,6 +547,11 @@ var overpass = new(function() {
         ide.map.addLayer(ide.map.geojsonLayer);
       },
       error: function(jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status == 400) {
+          // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
+          this.success(jqXHR.responseText, textStatus, jqXHR);
+          return;
+        }
         ide.dataViewer.setValue("");
         var errmsg = "";
         if (jqXHR.state() == "rejected")
