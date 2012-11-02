@@ -589,6 +589,7 @@ var ide = new(function() {
       "http://www.overpass-api.de/api/",
       "http://overpass.osm.rambler.ru/cgi/",
     ]);
+    $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
     $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
     // sharing options
@@ -616,6 +617,7 @@ var ide = new(function() {
         "Save": function() {
           // save settings
           settings.server = $("#settings-dialog input[name=server]")[0].value;
+          settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
           settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;

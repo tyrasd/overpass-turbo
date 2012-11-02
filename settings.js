@@ -67,7 +67,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",10);
+var settings = new Settings("overpass-ide",11);
 //map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
 settings.define_setting("coords_lat","Float",41.890,1);
@@ -88,4 +88,7 @@ settings.define_setting("enable_crosshairs","Boolean",false,1);
 // export settings
 settings.define_setting("export_image_scale","Boolean",true,1);
 settings.define_setting("export_image_attribution","Boolean",true,1);
+// CORS/ajax/etc. settings
+settings.define_setting("force_simple_cors_request","Boolean",false,11);
+
 //settings.define_setting(,,,);

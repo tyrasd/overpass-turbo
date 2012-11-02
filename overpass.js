@@ -340,10 +340,17 @@ var overpass = new(function() {
     }
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
-    $.ajax(settings.server+"interpreter", {
+    var request_headers = {};
+    var additional_get_data = "";
+    if (settings.force_simple_cors_request) {
+      additional_get_data = "?X-Requested-With="+ide.appname;
+    } else {
+      request_headers["X-Requested-With"] = ide.appname;
+    }
+    $.ajax(settings.server+"interpreter"+additional_get_data, {
       type: 'POST',
-      headers: {"X-Requested-With":ide.appname},
       data: {data:query},
+      headers: request_headers,
       success: function(data, textStatus, jqXHR) {
         // clear previous data and messages
         ide.dataViewer.setValue("");
