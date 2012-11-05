@@ -69,7 +69,7 @@ var ide = new(function() {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
           "out json xml custom popup timeout maxsize" // initial declarations
-          +" relation way node area around user uid newer" // queries
+          +" relation way node is_in area around user uid newer poly" // queries
           +" out meta quirks body skel ids qt asc" // actions
           //+"r w n br bw" // recursors
           +" bbox" // overpass ide shortcut(s)
