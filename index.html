@@ -13,6 +13,7 @@
   <script src="libs/CodeMirror/mode/javascript/javascript.js"></script>
   <script src="libs/CodeMirror/mode/xml/xml.js"></script>
   <script src="libs/CodeMirror/mode/clike/clike.js"></script>
+  <script src="libs/CodeMirror/lib/util/multiplex.js"></script>
   <script src="libs/CodeMirror/lib/util/closetag.js"></script>
   <!--leaflet-->
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
@@ -76,10 +77,9 @@
     <div>
       <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
       <p>You can run xml styled or OverpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
-      <p>One can use the following shortcuts in the query: <ul>
-        <li><i>&lt;bbox-query/&gt;</i> translates to a bbox-query with from currently visible map.</li>
-        <li><i>(bbox-query)</i> translates to a operpassQL bbox-query from the currently visible map.</li>
-        <li><i>&lt;coord-query/&gt;</i> translates to a coord-query from the current map center point.</li>
+      <p>One can use the following handy shortcuts in the query: <ul>
+        <li><i>{{bbox}}</i> - the bounding box coordinates of the current map view.</li>
+        <li><i>{{center}}</i> - the center coordinates of the current view.</li>
       </ul></p>
     </div>
     <h3><a>IDE</a></h3>

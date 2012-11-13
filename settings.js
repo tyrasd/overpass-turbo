@@ -67,8 +67,9 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",11);
-//map coordinates
+var settings = new Settings("overpass-ide",12);
+
+// map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
 settings.define_setting("coords_lat","Float",41.890,1);
 settings.define_setting("coords_lon","Float",12.492,1);
@@ -92,3 +93,20 @@ settings.define_setting("export_image_attribution","Boolean",true,1);
 settings.define_setting("force_simple_cors_request","Boolean",false,11);
 
 //settings.define_setting(,,,);
+
+// upgrade callbacks
+settings.define_upgrade_callback(12, function(s) {
+  // migrate code and saved examples to new mustache style syntax
+  var migrate = function(code) {
+    code.overpass = code.overpass.replace(/\(bbox\)/g,"({{bbox}})");
+    code.overpass = code.overpass.replace(/<bbox-query\/>/g,"<bbox-query {{bbox}}/>");
+    code.overpass = code.overpass.replace(/<coord-query\/>/g,"<coord-query {{center}}/>");
+    return code;
+  }
+  s.code = migrate(s.code);
+  for (var ex in s.saves) {
+    s.saves[ex] = migrate(s.saves[ex]);
+  }
+  s.save();
+});
+

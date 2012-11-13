@@ -262,3 +262,6 @@ ul.plain {
 ul.plain > li {
   list-style-type: none;
 }
+.cm-mustache {
+  color: #D83;
+}
