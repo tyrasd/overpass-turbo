@@ -69,7 +69,7 @@ var ide = new(function() {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
           "out json xml custom popup timeout maxsize" // initial declarations
-          +" relation way node area around user uid newer" // queries
+          +" relation way node is_in area around user uid newer poly" // queries
           +" out meta quirks body skel ids qt asc" // actions
           //+"r w n br bw" // recursors
           +" bbox" // overpass ide shortcut(s)
@@ -78,6 +78,22 @@ var ide = new(function() {
       CodeMirror.defineMIME("text/x-overpassXML", 
         "xml"
       );
+      CodeMirror.defineMode("xml+mustache", function(config) {
+        return CodeMirror.multiplexingMode(
+          CodeMirror.getMode(config, "xml"),
+          {open: "{{", close: "}}",
+           mode: CodeMirror.getMode(config, "text/plain"),
+           delimStyle: "mustache"}
+        );
+      });
+      CodeMirror.defineMode("ql+mustache", function(config) {
+        return CodeMirror.multiplexingMode(
+          CodeMirror.getMode(config, "text/x-overpassQL"),
+          {open: "{{", close: "}}",
+           mode: CodeMirror.getMode(config, "text/plain"),
+           delimStyle: "mustache"}
+        );
+      });
       codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
         //value: settings.code["overpass"],
         lineNumbers: true,
@@ -87,16 +103,16 @@ var ide = new(function() {
           clearTimeout(pending);
           pending = setTimeout(function() {
             if (ide.getQueryLang() == "xml") {
-              if (e.getOption("mode") != "xml") {
+              if (e.getOption("mode") != "xml+mustache") {
                 e.closeTagEnabled = true;
                 e.setOption("matchBrackets",false);
-                e.setOption("mode","xml");
+                e.setOption("mode","xml+mustache");
               }
             } else {
-              if (e.getOption("mode") != "text/x-overpassQL") {
+              if (e.getOption("mode") != "ql+mustache") {
                 e.closeTagEnabled = false;
                 e.setOption("matchBrackets",true);
-                e.setOption("mode","text/x-overpassQL");
+                e.setOption("mode","ql+mustache");
               }
             }
           },500);
@@ -309,6 +325,9 @@ var ide = new(function() {
           layer_fun(layer);
       }
     });
+
+    // load optional js libraries asynchronously
+    $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
   } // init()
 
   var make_combobox = function(input, options) {
@@ -340,15 +359,19 @@ var ide = new(function() {
 
   // returns the current visible bbox as a bbox-query
   this.map2bbox = function(lang) {
-    if (lang=="ql")
-      return "("+this.map.getBounds().getSouthWest().lat+','+this.map.getBounds().getSouthWest().lng+','+this.map.getBounds().getNorthEast().lat+','+this.map.getBounds().getNorthEast().lng+")";
-    else (lang=="xml")
-      return '<bbox-query s="'+this.map.getBounds().getSouthWest().lat+'" w="'+this.map.getBounds().getSouthWest().lng+'" n="'+this.map.getBounds().getNorthEast().lat+'" e="'+this.map.getBounds().getNorthEast().lng+'"/>';
+    var bbox = this.map.getBounds();
+    if (lang=="OverpassQL")
+      return bbox.getSouthWest().lat+','+bbox.getSouthWest().lng+','+bbox.getNorthEast().lat+','+bbox.getNorthEast().lng;
+    else if (lang=="xml")
+      return 's="'+bbox.getSouthWest().lat+'" w="'+bbox.getSouthWest().lng+'" n="'+bbox.getNorthEast().lat+'" e="'+bbox.getNorthEast().lng+'"';
   }
   // returns the current visible map center as a coord-query
   this.map2coord = function(lang) {
-    if (lang=="xml")
-      return '<coord-query lat="'+this.map.getCenter().lat+'" lon="'+this.map.getCenter().lng+'"/>';
+    var center = this.map.getCenter();
+    if (lang=="OverpassQL")
+      return center.lat+','+center.lng;
+    else if (lang=="xml")
+      return 'lat="'+center.lat+'" lon="'+center.lng+'"';
   }
   /*this returns the current query in the editor.
    * processed (boolean, optional, default: false): determines weather shortcuts should be expanded or not.
@@ -356,9 +379,9 @@ var ide = new(function() {
   this.getQuery = function(processed,trim_ws) {
     var query = codeEditor.getValue();
     if (processed) {
-      query = query.replace(/\(bbox\)/g,ide.map2bbox("ql")); // expand bbox query
-      query = query.replace(/<bbox-query\/>/g,ide.map2bbox("xml")); // -"-
-      query = query.replace(/<coord-query\/>/g,ide.map2coord("xml")); // expand coord query
+      // todo: allow the definition of constants
+      query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang())); // expand bbox
+      query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang())); // expand map center
       if (typeof trim_ws == "undefined" || trim_ws) {
         query = query.replace(/(\n|\r)/g," "); // remove newlines
         query = query.replace(/\s+/g," "); // remove some whitespace
@@ -370,7 +393,8 @@ var ide = new(function() {
     codeEditor.setValue(query);
   }
   this.getQueryLang = function() {
-    if (codeEditor.getValue().trim().match(/^</))
+    // note: cannot use this.getQuery() here, as this function is required by that.
+    if (codeEditor.getValue().replace(/{{.*?}}/g,"").trim().match(/^</))
       return "xml";
     else
       return "OverpassQL";
@@ -586,6 +610,7 @@ var ide = new(function() {
       "http://www.overpass-api.de/api/",
       "http://overpass.osm.rambler.ru/cgi/",
     ]);
+    $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
     $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
     // sharing options
@@ -613,6 +638,7 @@ var ide = new(function() {
         "Save": function() {
           // save settings
           settings.server = $("#settings-dialog input[name=server]")[0].value;
+          settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
           settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;

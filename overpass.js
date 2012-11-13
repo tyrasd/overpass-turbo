@@ -340,9 +340,17 @@ var overpass = new(function() {
     }
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
-    $.ajax(settings.server+"interpreter"+"?app="+ide.appname, {
+    var request_headers = {};
+    var additional_get_data = "";
+    if (settings.force_simple_cors_request) {
+      additional_get_data = "?X-Requested-With="+ide.appname;
+    } else {
+      request_headers["X-Requested-With"] = ide.appname;
+    }
+    $.ajax(settings.server+"interpreter"+additional_get_data, {
       type: 'POST',
       data: {data:query},
+      headers: request_headers,
       success: function(data, textStatus, jqXHR) {
         // clear previous data and messages
         ide.dataViewer.setValue("");
@@ -539,6 +547,11 @@ var overpass = new(function() {
         ide.map.addLayer(ide.map.geojsonLayer);
       },
       error: function(jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status == 400) {
+          // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
+          this.success(jqXHR.responseText, textStatus, jqXHR);
+          return;
+        }
         ide.dataViewer.setValue("");
         var errmsg = "";
         if (jqXHR.state() == "rejected")
