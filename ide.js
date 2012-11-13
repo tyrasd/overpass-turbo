@@ -221,14 +221,14 @@ var ide = new(function() {
         var container = L.DomUtil.create('div', 'leaflet-control-buttons');
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
-        link.href = '#';
+        link.href = 'javascript:return false;';
         link.title = "zoom onto data";
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
         var link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
-        link.href = '#';
+        link.href = 'javascript:return false;';
         link.title = "pan to current location";
         L.DomEvent.addListener(link, 'click', function() {
           // One-shot position request.
@@ -379,7 +379,14 @@ var ide = new(function() {
   this.getQuery = function(processed,trim_ws) {
     var query = codeEditor.getValue();
     if (processed) {
-      // todo: allow the definition of constants
+      // preproces query
+      var const_defs = query.match(/{{[a-zA-Z0-9_]+=.+?}}/gm);
+      if ($.isArray(const_defs))
+        for (var i=0; i<const_defs.length; i++) {
+          var const_def = const_defs[i].match(/{{(.+?)=(.+)}}/);
+          query = query.replace(const_defs[i],""); // remove constant definition
+          query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]); // expand defined constants
+        }
       query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang())); // expand bbox
       query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang())); // expand map center
       if (typeof trim_ws == "undefined" || trim_ws) {
@@ -436,8 +443,8 @@ var ide = new(function() {
     // load example list
     for(var example in settings.saves)
       $('<li>'+
-          '<a href="#load-example" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">'+example+'</a>'+
-          '<a href="#delete-example" onclick="ide.removeExample(\''+htmlentities(example)+'\',this);"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
+          '<a href="" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
+          '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
         '</li>').appendTo("#load-dialog ul");
     $("#load-dialog").dialog({
       modal:true,

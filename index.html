@@ -80,6 +80,7 @@
       <p>One can use the following handy shortcuts in the query: <ul>
         <li><i>{{bbox}}</i> - the bounding box coordinates of the current map view.</li>
         <li><i>{{center}}</i> - the center coordinates of the current view.</li>
+        <li>Arbitrary shortcuts can be defined easily: just put <i>{{shortcut=value}}</i> somewhere in the script.</li>
       </ul></p>
     </div>
     <h3><a>IDE</a></h3>
@@ -150,10 +151,10 @@
   <!--export-->
   <div title="Export" id="export-dialog" class="dialog">
     <h3>Map</h3>
-    <p>as <a id="export-image" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close');">png image</a></p>
+    <p>as <a id="export-image" href="" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;">png image</a></p>
     <p>as <a id="export-interactive-map" href="">interactive Map</a></p>
     <p>as <a id="export-overpass-openlayers" href="">interactive OpenLayers Map<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a> <small>(only for queries returning valid OSM-XML)</small></p>
-    <p>get current <a id="export-map-state">map state</a> <small>bbox, center, etc.</small></p>
+    <p>get current <a id="export-map-state" href="">map state</a> <small>bbox, center, etc.</small></p>
     <h3>Query</h3>
     <p>as <a id="export-text" href="" download='query.txt'>text</a></p>
     <p>raw link to <a id="export-overpass-api" href="">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
