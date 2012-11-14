@@ -39,6 +39,8 @@ var Settings = function(namespace,version) {
       this[name] = this.get(name);
     }
     // version upgrade
+    if (version == 0)
+      this.first_time_visit = true;
     if (version < settings_version) {
       for (var v = version+1; v<=settings_version; v++) {
         if (typeof upgrade_callbacks[v] == "function")
