@@ -328,6 +328,10 @@ var ide = new(function() {
 
     // load optional js libraries asynchronously
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
+
+    // automatically load help, if this is the very first time the IDE is started
+    if (settings.first_time_visit === true)
+      ide.onHelpClick();
   } // init()
 
   var make_combobox = function(input, options) {
