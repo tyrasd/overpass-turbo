@@ -45,7 +45,7 @@ var ide = new(function() {
             return res;
           }
           var coords = decode_coords(tmp[1]);
-          settings.zoom = tmp[2];
+          settings.coords_zoom = Base64.decodeNum(tmp[2]);
           settings.coords_lat = coords.lat;
           settings.coords_lon = coords.lng;
           override_use_html5_coords = true;
