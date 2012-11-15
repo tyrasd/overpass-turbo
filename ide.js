@@ -57,6 +57,9 @@ var ide = new(function() {
           settings.coords_zoom = +tmp[3];
           override_use_html5_coords = true;
         }
+        if (kv[0] == "R") { // indicates that the supplied query shall be executed immediately
+          ide.run_query_on_startup = true;
+        }
       }
       settings.save();
     }
@@ -330,8 +333,11 @@ var ide = new(function() {
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
 
     // automatically load help, if this is the very first time the IDE is started
-    if (settings.first_time_visit === true)
+    if (settings.first_time_visit === true && ide.run_query_on_startup !== true)
       ide.onHelpClick();
+    // run the query immediately, if the appropriate flag was set.
+    if (ide.run_query_on_startup === true)
+      overpass.update_map();
   } // init()
 
   var make_combobox = function(input, options) {
