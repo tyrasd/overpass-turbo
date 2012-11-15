@@ -489,35 +489,52 @@ var ide = new(function() {
     this.resetErrors();
     overpass.update_map();
   }
-  this.onShareClick = function() {
-    var baseurl=location.protocol+"//"+location.host+location.pathname;
-    var shared_code = codeEditor.getValue();
-    var share_link_uncompressed = baseurl+"?Q="+encodeURIComponent(shared_code);
-    if (settings.share_include_pos)
-      share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+";"+L.Util.formatNum(ide.map.getCenter().lng)+";"+ide.map.getZoom();
-    var share_link;
-    if ((settings.share_compression == "auto" && shared_code.length <= 300) ||
-        (settings.share_compression == "off"))
-      share_link = share_link_uncompressed;
-    else {
-      var share_link_compressed = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(shared_code)));
-      if (settings.share_include_pos) {
+  var compose_share_link = function(query,compression,coords,run) {
+    var share_link = "";
+    if (!compression) { // compose uncompressed share link
+      share_link += "?Q="+encodeURIComponent(query);
+      if (coords)
+        share_link += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+";"+L.Util.formatNum(ide.map.getCenter().lng)+";"+ide.map.getZoom();
+      if (run)
+        share_link += "&R";
+    } else { // compose compressed share link
+      share_link += "?q="+encodeURIComponent(Base64.encode(lzw_encode(query)));
+      if (coords) {
         var encode_coords = function(lat,lng) {
           var coords_cpr = Base64.encodeNum( Math.round((lat+90)*100000) + Math.round((lng+180)*100000)*180*100000 );
           return "AAAAAAAA".substring(0,9-coords_cpr.length)+coords_cpr;
         }
-        share_link_compressed += "&c="+encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng)+Base64.encodeNum(ide.map.getZoom());
+        share_link += "&c="+encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng)+Base64.encodeNum(ide.map.getZoom());
       }
-      share_link = share_link_compressed;
+      if (run)
+        share_link += "&R";
     }
+    return share_link;
+  }
+  this.updateShareLink = function() {
+    var baseurl=location.protocol+"//"+location.host+location.pathname;
+    var query = codeEditor.getValue();
+    var compress = ((settings.share_compression == "auto" && query.length > 300) ||
+        (settings.share_compression == "on"))
+    var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
+    var run_immediately = $("div#share-dialog input[name=run_immediately]")[0].checked;
+
+    var share_link = baseurl+compose_share_link(query,compress,inc_coords,run_immediately);
 
     var warning = '';
     if (share_link.length >= 2000)
       warning = '<p style="color:orange">Warning: This share-link is quite long. It may not work under certain circumstances</a> (browsers, webservers).</p>';
     if (share_link.length >= 8000)
       warning = '<p style="color:red">Warning: This share-link is very long. It is likely to fail under normal circumstances (browsers, webservers). Use with caution.</p>';
-    //alert(share_link_uncompressed.length + " / " + share_link_compressed.length + " => " + ((share_link_uncompressed.length-share_link_compressed.length)/share_link_uncompressed.length * 100) + "%");
-    $('<div title="Share"><p>Copy this <a href="'+share_link+'">link</a> to share the current code:</p><p><textarea rows=4 style="width:100%" readonly>'+share_link+'</textarea></p>'+warning+'</div>').dialog({
+
+    $("div#share-dialog #share_link_warning").html(warning);
+    $("div#share-dialog #share_link_a")[0].href=share_link;
+    $("div#share-dialog #share_link_textarea")[0].value=share_link;
+  }
+  this.onShareClick = function() {
+    $("div#share-dialog input[name=include_coords]")[0].checked = settings.share_include_pos;
+    ide.updateShareLink();
+    $("div#share-dialog").dialog({
       modal:true,
       buttons: {
         "OK": function() {$(this).dialog("close");}
