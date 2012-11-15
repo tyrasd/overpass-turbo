@@ -45,7 +45,7 @@ var ide = new(function() {
             return res;
           }
           var coords = decode_coords(tmp[1]);
-          settings.zoom = tmp[2];
+          settings.coords_zoom = Base64.decodeNum(tmp[2]);
           settings.coords_lat = coords.lat;
           settings.coords_lon = coords.lng;
           override_use_html5_coords = true;
@@ -56,6 +56,9 @@ var ide = new(function() {
           settings.coords_lon = +tmp[2];
           settings.coords_zoom = +tmp[3];
           override_use_html5_coords = true;
+        }
+        if (kv[0] == "R") { // indicates that the supplied query shall be executed immediately
+          ide.run_query_on_startup = true;
         }
       }
       settings.save();
@@ -221,14 +224,14 @@ var ide = new(function() {
         var container = L.DomUtil.create('div', 'leaflet-control-buttons');
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
-        link.href = '#';
+        link.href = 'javascript:return false;';
         link.title = "zoom onto data";
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
         var link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
-        link.href = '#';
+        link.href = 'javascript:return false;';
         link.title = "pan to current location";
         L.DomEvent.addListener(link, 'click', function() {
           // One-shot position request.
@@ -330,8 +333,11 @@ var ide = new(function() {
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
 
     // automatically load help, if this is the very first time the IDE is started
-    if (settings.first_time_visit === true)
+    if (settings.first_time_visit === true && ide.run_query_on_startup !== true)
       ide.onHelpClick();
+    // run the query immediately, if the appropriate flag was set.
+    if (ide.run_query_on_startup === true)
+      overpass.update_map();
   } // init()
 
   var make_combobox = function(input, options) {
@@ -383,7 +389,14 @@ var ide = new(function() {
   this.getQuery = function(processed,trim_ws) {
     var query = codeEditor.getValue();
     if (processed) {
-      // todo: allow the definition of constants
+      // preproces query
+      var const_defs = query.match(/{{[a-zA-Z0-9_]+=.+?}}/gm);
+      if ($.isArray(const_defs))
+        for (var i=0; i<const_defs.length; i++) {
+          var const_def = const_defs[i].match(/{{(.+?)=(.+)}}/);
+          query = query.replace(const_defs[i],""); // remove constant definition
+          query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]); // expand defined constants
+        }
       query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang())); // expand bbox
       query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang())); // expand map center
       if (typeof trim_ws == "undefined" || trim_ws) {
@@ -440,8 +453,8 @@ var ide = new(function() {
     // load example list
     for(var example in settings.saves)
       $('<li>'+
-          '<a href="#load-example" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\');">'+example+'</a>'+
-          '<a href="#delete-example" onclick="ide.removeExample(\''+htmlentities(example)+'\',this);"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
+          '<a href="" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
+          '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
         '</li>').appendTo("#load-dialog ul");
     $("#load-dialog").dialog({
       modal:true,
@@ -476,35 +489,52 @@ var ide = new(function() {
     this.resetErrors();
     overpass.update_map();
   }
-  this.onShareClick = function() {
-    var baseurl=location.protocol+"//"+location.host+location.pathname;
-    var shared_code = codeEditor.getValue();
-    var share_link_uncompressed = baseurl+"?Q="+encodeURIComponent(shared_code);
-    if (settings.share_include_pos)
-      share_link_uncompressed += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+";"+L.Util.formatNum(ide.map.getCenter().lng)+";"+ide.map.getZoom();
-    var share_link;
-    if ((settings.share_compression == "auto" && shared_code.length <= 300) ||
-        (settings.share_compression == "off"))
-      share_link = share_link_uncompressed;
-    else {
-      var share_link_compressed = baseurl+"?q="+encodeURIComponent(Base64.encode(lzw_encode(shared_code)));
-      if (settings.share_include_pos) {
+  var compose_share_link = function(query,compression,coords,run) {
+    var share_link = "";
+    if (!compression) { // compose uncompressed share link
+      share_link += "?Q="+encodeURIComponent(query);
+      if (coords)
+        share_link += "&C="+L.Util.formatNum(ide.map.getCenter().lat)+";"+L.Util.formatNum(ide.map.getCenter().lng)+";"+ide.map.getZoom();
+      if (run)
+        share_link += "&R";
+    } else { // compose compressed share link
+      share_link += "?q="+encodeURIComponent(Base64.encode(lzw_encode(query)));
+      if (coords) {
         var encode_coords = function(lat,lng) {
           var coords_cpr = Base64.encodeNum( Math.round((lat+90)*100000) + Math.round((lng+180)*100000)*180*100000 );
           return "AAAAAAAA".substring(0,9-coords_cpr.length)+coords_cpr;
         }
-        share_link_compressed += "&c="+encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng)+Base64.encodeNum(ide.map.getZoom());
+        share_link += "&c="+encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng)+Base64.encodeNum(ide.map.getZoom());
       }
-      share_link = share_link_compressed;
+      if (run)
+        share_link += "&R";
     }
+    return share_link;
+  }
+  this.updateShareLink = function() {
+    var baseurl=location.protocol+"//"+location.host+location.pathname;
+    var query = codeEditor.getValue();
+    var compress = ((settings.share_compression == "auto" && query.length > 300) ||
+        (settings.share_compression == "on"))
+    var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
+    var run_immediately = $("div#share-dialog input[name=run_immediately]")[0].checked;
+
+    var share_link = baseurl+compose_share_link(query,compress,inc_coords,run_immediately);
 
     var warning = '';
     if (share_link.length >= 2000)
       warning = '<p style="color:orange">Warning: This share-link is quite long. It may not work under certain circumstances</a> (browsers, webservers).</p>';
     if (share_link.length >= 8000)
       warning = '<p style="color:red">Warning: This share-link is very long. It is likely to fail under normal circumstances (browsers, webservers). Use with caution.</p>';
-    //alert(share_link_uncompressed.length + " / " + share_link_compressed.length + " => " + ((share_link_uncompressed.length-share_link_compressed.length)/share_link_uncompressed.length * 100) + "%");
-    $('<div title="Share"><p>Copy this <a href="'+share_link+'">link</a> to share the current code:</p><p><textarea rows=4 style="width:100%" readonly>'+share_link+'</textarea></p>'+warning+'</div>').dialog({
+
+    $("div#share-dialog #share_link_warning").html(warning);
+    $("div#share-dialog #share_link_a")[0].href=share_link;
+    $("div#share-dialog #share_link_textarea")[0].value=share_link;
+  }
+  this.onShareClick = function() {
+    $("div#share-dialog input[name=include_coords]")[0].checked = settings.share_include_pos;
+    ide.updateShareLink();
+    $("div#share-dialog").dialog({
       modal:true,
       buttons: {
         "OK": function() {$(this).dialog("close");}
