@@ -15,6 +15,8 @@
  * 
  * @author Nathan Williams <nathan@nlwillia.net>
  * Contributed under the same license terms as CodeMirror.
+ * Modified by Martin Raifer <tyr.asd@gmail.com> to support customized muliplexed xml code (named xml+mustache) with slightly different token-structure.
+ * Contributed also under the same license terms as CodeMirror.
  */
 (function() {
 	/** Option that allows tag closing behavior to be toggled.  Default is true. */
@@ -41,38 +43,25 @@
 		
 		var mode = cm.getOption('mode');
 		
-		if (mode == 'text/html' || mode == 'xml') {
+		if (mode == 'xml+mustache') {
 		
 			/*
 			 * Relevant structure of token:
 			 *
-			 * htmlmixed
+			 * xml+mustache
 			 * 		className
 			 * 		state
-			 * 			htmlState
+			 * 			outer
+			 * 				tagName
 			 * 				type
-			 *				tagName
-			 * 				context
-			 * 					tagName
-			 * 			mode
-			 * 
-			 * xml
-			 * 		className
-			 * 		state
-			 * 			tagName
-			 * 			type
 			 */
 		
 			var pos = cm.getCursor();
 			var tok = cm.getTokenAt(pos);
 			var state = tok.state;
 			
-			if (state.mode && state.mode != 'html') {
-				throw CodeMirror.Pass; // With htmlmixed, we only care about the html sub-mode.
-			}
-			
 			if (ch == '>') {
-				var type = state.htmlState ? state.htmlState.type : state.type; // htmlmixed : xml
+				var type = state.outer.type; // xml+mustache
 				
 				if (tok.className == 'tag' && type == 'closeTag') {
 					throw CodeMirror.Pass; // Don't process the '>' at the end of an end-tag.
@@ -84,10 +73,10 @@
 		
 				tok = cm.getTokenAt(cm.getCursor());
 				state = tok.state;
-				type = state.htmlState ? state.htmlState.type : state.type; // htmlmixed : xml
+				type = state.outer.type; // xml+mustache
 
 				if (tok.className == 'tag' && type != 'selfcloseTag') {
-					var tagName = state.htmlState ? state.htmlState.tagName : state.tagName; // htmlmixed : xml
+					var tagName = state.outer.tagName; // xml+mustache
 					if (tagName.length > 0 && shouldClose(cm, vd, tagName)) {
 						insertEndTag(cm, indent, pos, tagName);
 					}
@@ -100,7 +89,7 @@
 			
 			} else if (ch == '/') {
 				if (tok.className == 'tag' && tok.string == '<') {
-					var tagName = state.htmlState ? (state.htmlState.context ? state.htmlState.context.tagName : '') : (state.context ? state.context.tagName : ''); // htmlmixed : xml
+					var tagName = (state.outer.context ? state.outer.context.tagName : ''); // xml+mustache
 					if (tagName.length > 0) {
 						completeEndTag(cm, pos, tagName);
 						return;
@@ -136,7 +125,7 @@
 	}
 	
 	function shouldClose(cm, vd, tagName) {
-		if (cm.getOption('mode') == 'xml') {
+		if (cm.getOption('mode') == 'xml+mustache') {
 			return true; // always close xml tags
 		}
 		if (typeof vd == 'undefined' || vd == null) {
