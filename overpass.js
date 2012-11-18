@@ -479,6 +479,13 @@ var overpass = new(function() {
               stl.color = relColor;
             }
 
+            // user ovverridden styles:
+            if (typeof ide.scripts.style == "function") {
+              var overrides = ide.scripts.style(feature);
+              for (var k in overrides)
+                stl[k] = overrides[k];
+            }
+
             return stl;
           },
           pointToLayer: function (feature, latlng) {
