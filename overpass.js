@@ -532,7 +532,7 @@ var overpass = new(function() {
                 popup += "<h3>Coordinates:</h3><p>"+feature.geometry.coordinates[1]+" / "+feature.geometry.coordinates[0]+" <small>(lat/lon)</small></p>";
               if ($.inArray(feature.geometry.type, ["LineString","Polygon","MultiPolygon"]) != -1) {
                 if (feature.properties && feature.properties.tainted==true) {
-                  popup += "<strong>Attention: incomplete geometry (e.g. some nodes missing)</strong>";
+                  popup += "<p><strong>Attention: incomplete geometry (e.g. some nodes missing)</strong></p>";
                 }
               }
               var p = L.popup({},this).setLatLng(e.latlng).setContent(popup);

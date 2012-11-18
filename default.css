@@ -265,3 +265,10 @@ ul.plain > li {
 .cm-mustache {
   color: #D83;
 }
+
+.leaflet-popup-pane {
+  opacity: 0.88;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 3px;
+}
