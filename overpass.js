@@ -545,7 +545,7 @@ var overpass = new(function() {
                   popup += "<p><strong>Attention: incomplete geometry (e.g. some nodes missing)</strong></p>";
                 }
               }
-              // user ovverridden popup:
+              // user ovverridden popup content:
               if (typeof overpass.scripts.popup == "function") {
                 try {
                   popup = overpass.scripts.popup(feature, popup);
@@ -565,6 +565,15 @@ var overpass = new(function() {
           ide.map.geojsonLayer.addData(geojson[i]);
         }
         ide.map.addLayer(ide.map.geojsonLayer);
+        // onshow callback:
+        if (typeof overpass.scripts.onshow == "function") {
+          try {
+            overpass.scripts.onshow(geojson);
+          } catch(e) {
+            alert('An error occured during the execution of the custom "onshow" script');
+            // todo: better error message: display all error info, use jQueryUI dialog
+          }
+        }
       },
       error: function(jqXHR, textStatus, errorThrown) {
         if (jqXHR.status == 400) {

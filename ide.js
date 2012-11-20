@@ -404,11 +404,15 @@ var ide = new(function() {
       query = query.replace(/{{style:([\S\s]*?)}}/gm,"");
       var popup_script = query.match(/{{popup:([\S\s]*?)}}/m);
       query = query.replace(/{{popup:([\S\s]*?)}}/gm,"");
+      var onshow_script = query.match(/{{onshow:([\S\s]*?)}}/m);
+      query = query.replace(/{{onshow:([\S\s]*?)}}/gm,"");
       try {
         if (style_script)
           overpass.scripts.style = eval(style_script[1]);
         if (popup_script)
           overpass.scripts.popup = eval(popup_script[1]);
+        if (onshow_script)
+          overpass.scripts.onshow = eval(onshow_script[1]);
       } catch (e) {
         alert("An error occured while parsing the script. :(");
         // todo: better error message! (display all available error information, use jQueryUI dialog
