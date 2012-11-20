@@ -399,6 +399,8 @@ var ide = new(function() {
         }
       query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang())); // expand bbox
       query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang())); // expand map center
+      // ignore unknown mustache templates:
+      query = query.replace(/{{[\S\s]*?}}/gm,"");
       if (typeof trim_ws == "undefined" || trim_ws) {
         query = query.replace(/(\n|\r)/g," "); // remove newlines
         query = query.replace(/\s+/g," "); // remove some whitespace
