@@ -482,9 +482,7 @@ var overpass = new(function() {
             // user ovverridden styles:
             if (typeof overpass.scripts.style == "function") {
               try {
-                var overrides = overpass.scripts.style(feature);
-                for (var k in overrides)
-                  stl[k] = overrides[k];
+                stl = overpass.scripts.style(feature, stl);
               } catch(e) {
                 alert('An error occured during the execution of the custom "style" script');
                 // todo: better error message: display all error info, use jQueryUI dialog
@@ -547,6 +545,16 @@ var overpass = new(function() {
                   popup += "<p><strong>Attention: incomplete geometry (e.g. some nodes missing)</strong></p>";
                 }
               }
+              // user ovverridden popup:
+              if (typeof overpass.scripts.popup == "function") {
+                try {
+                  popup = overpass.scripts.popup(feature, popup);
+                } catch(e) {
+                  alert('An error occured during the execution of the custom "popup" script');
+                  // todo: better error message: display all error info, use jQueryUI dialog
+                }
+              }
+              // show the popup
               var p = L.popup({},this).setLatLng(e.latlng).setContent(popup);
               p.layer = layer;
               p.openOn(ide.map);
