@@ -399,11 +399,17 @@ var ide = new(function() {
           query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]); // expand defined constants
         }
       // 2. scripts
-      ide.scripts = {};
+      overpass.scripts = {};
       var style_script = query.match(/{{style:([\S\s]*?)}}/m);
       query = query.replace(/{{style:([\S\s]*?)}}/gm,"");
-      if (style_script)
-        ide.scripts.style = eval(style_script[1]); // todo: try {} this only!!!
+      try {
+        if (style_script)
+          overpass.scripts.style = eval(style_script[1]);
+      } catch (e) {
+        alert("An error occured while parsing the script. :(");
+        // todo: better error message! (display all available error information, use jQueryUI dialog
+        // todo: make it possible to disable further cascading error messages
+      }
       // 3. bbox and center
       query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang())); // expand bbox
       query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang())); // expand map center

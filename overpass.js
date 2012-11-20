@@ -480,10 +480,15 @@ var overpass = new(function() {
             }
 
             // user ovverridden styles:
-            if (typeof ide.scripts.style == "function") {
-              var overrides = ide.scripts.style(feature);
-              for (var k in overrides)
-                stl[k] = overrides[k];
+            if (typeof overpass.scripts.style == "function") {
+              try {
+                var overrides = overpass.scripts.style(feature);
+                for (var k in overrides)
+                  stl[k] = overrides[k];
+              } catch(e) {
+                alert('An error occured during the execution of the custom "style" script');
+                // todo: better error message: display all error info, use jQueryUI dialog
+              }
             }
 
             return stl;
