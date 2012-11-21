@@ -434,7 +434,7 @@ var overpass = new(function() {
           $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
         }
         ide.map.geojsonLayer = new L.GeoJSON(null, {
-          style: function(feature) {
+          style: function(feature, popup) {
             var stl = {};
             var color = "#03f";
             var fillColor = "#fc0";
@@ -477,6 +477,11 @@ var overpass = new(function() {
             // objects in relations
             if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
               stl.color = relColor;
+            }
+
+            // highlighted features (on popup)
+            if (popup) {
+              stl.color = "#f50";
             }
 
             // user ovverridden styles:
