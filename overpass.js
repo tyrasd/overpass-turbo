@@ -434,7 +434,7 @@ var overpass = new(function() {
           $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
         }
         ide.map.geojsonLayer = new L.GeoJSON(null, {
-          style: function(feature, popup) {
+          style: function(feature, highlight) {
             var stl = {};
             var color = "#03f";
             var fillColor = "#fc0";
@@ -479,15 +479,15 @@ var overpass = new(function() {
               stl.color = relColor;
             }
 
-            // highlighted features (on popup)
-            if (popup) {
+            // highlighted features (e.g. on popup)
+            if (highlight) {
               stl.color = "#f50";
             }
 
             // user ovverridden styles:
             if (typeof overpass.scripts.style == "function") {
               try {
-                stl = overpass.scripts.style(feature, stl);
+                stl = overpass.scripts.style(stl, feature, highlight);
               } catch(e) {
                 alert('An error occured during the execution of the custom "style" script');
                 // todo: better error message: display all error info, use jQueryUI dialog
@@ -553,7 +553,7 @@ var overpass = new(function() {
               // user ovverridden popup content:
               if (typeof overpass.scripts.popup == "function") {
                 try {
-                  popup = overpass.scripts.popup(feature, popup);
+                  popup = overpass.scripts.popup(popup, feature);
                 } catch(e) {
                   alert('An error occured during the execution of the custom "popup" script');
                   // todo: better error message: display all error info, use jQueryUI dialog
