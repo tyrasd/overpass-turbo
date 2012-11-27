@@ -181,6 +181,7 @@ body.loading .modal {
   background: rgba(0, 0, 0, 0.251);
   padding: 5px;
   border-radius: 7px;
+  padding-bottom:1px;
 }
 
 .leaflet-control-buttons a:hover { 
@@ -200,11 +201,13 @@ body.loading .modal {
   line-height:19px;
   font-size:11px;
   padding:1px;
-}
-.leaflet-control-buttons-fitdata {
   margin-bottom:4px;
 }
+.leaflet-control-buttons-fitdata {
+}
 .leaflet-control-buttons-myloc {
+}
+.leaflet-control-buttons-bboxfilter {
 }
 .dialog {
   display:none;

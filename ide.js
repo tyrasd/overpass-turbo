@@ -229,7 +229,7 @@ var ide = new(function() {
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
-        var link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "pan to current location";
@@ -241,6 +241,20 @@ var ide = new(function() {
               ide.map.setView(pos,settings.coords_zoom);
             });
           } catch(e) {}
+        }, ide.map);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter", container);
+        $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
+        link.href = 'javascript:return false;';
+        link.title = "manually select bbox";
+        L.DomEvent.addListener(link, 'click', function(e) {
+          if (!ide.map.bboxfilter.isEnabled()) {
+            ide.map.bboxfilter.setBounds(ide.map.getBounds());
+            ide.map.bboxfilter.enable();
+          } else {
+            ide.map.bboxfilter.disable();
+          }
+          $(e.target).toggleClass("ui-icon-circlesmall-close");
+          $(e.target).toggleClass("ui-icon-image");
         }, ide.map);
         return container;
       },
@@ -307,6 +321,8 @@ var ide = new(function() {
       .appendTo("#map");
     if (settings.enable_crosshairs)
       $(".crosshairs").show();
+   
+    ide.map.bboxfilter = new L.LocationFilter({enable:!true,adjustButton:false,enableButton:false,}).addTo(ide.map);
 
 
     ide.map.on("popupopen popupclose",function(e) {
@@ -369,7 +385,11 @@ var ide = new(function() {
 
   // returns the current visible bbox as a bbox-query
   this.map2bbox = function(lang) {
-    var bbox = this.map.getBounds();
+    var bbox;
+    if (!ide.map.bboxfilter.isEnabled())
+      bbox = this.map.getBounds();
+    else
+      bbox = ide.map.bboxfilter.getBounds();
     if (lang=="OverpassQL")
       return bbox.getSouthWest().lat+','+bbox.getSouthWest().lng+','+bbox.getNorthEast().lat+','+bbox.getNorthEast().lng;
     else if (lang=="xml")
