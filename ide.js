@@ -93,7 +93,7 @@ var ide = new(function() {
         return CodeMirror.multiplexingMode(
           CodeMirror.getMode(config, "text/x-overpassQL"),
           {open: "{{", close: "}}",
-           mode: CodeMirror.getMode(config, "text/plain"),
+           mode: CodeMirror.getMode(config, "text/javascript"),
            delimStyle: "mustache"}
         );
       });
