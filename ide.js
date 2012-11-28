@@ -618,12 +618,12 @@ var ide = new(function() {
   this.onExportImageClick = function() {
     $("body").addClass("loading");
     // 1. render canvas from map tiles
-    // hide map controlls in this step :/ 
-    // todo? (also: hide map overlay data somehow, if possible to speed things up)
+    // hide map controlls in this step :/
     $("#map .leaflet-control-container .leaflet-top").hide();
     if (settings.export_image_attribution) attribControl.addTo(ide.map);
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
-    $("#map").html2canvas({onrendered: function(canvas) {
+    // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
+    $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
       $("#map .leaflet-control-container .leaflet-top").show();
@@ -643,7 +643,7 @@ var ide = new(function() {
       var attrib_message = "";
       if (!settings.export_image_attribution)
         attrib_message = '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
-      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p>'+attrib_message+'</div>').dialog({
+      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="the exported map" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p>'+attrib_message+'</div>').dialog({
         modal:true,
         width:500,
         position:["center",60],
