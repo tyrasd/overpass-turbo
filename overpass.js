@@ -497,6 +497,16 @@ var overpass = new(function() {
             return stl;
           },
           pointToLayer: function (feature, latlng) {
+            // user overridden poi converter:
+            if (typeof overpass.scripts.pois == "function") {
+              try {
+                var poi = overpass.scripts.pois(feature,latlng);
+                return poi;
+              } catch(e) {
+                alert('An error occured during the execution of the custom "pois" script');
+                // todo: better error message: display all error info, use jQueryUI dialog
+              }
+            }
             return new L.CircleMarker(latlng, {
               radius: 9,
             });
@@ -560,7 +570,7 @@ var overpass = new(function() {
                 }
               }
               // show the popup
-              var p = L.popup({},this).setLatLng(e.latlng).setContent(popup);
+              var p = L.popup({},this).setLatLng(e.latlng || e.target._latlng).setContent(popup);
               p.layer = layer;
               p.openOn(ide.map);
             });

@@ -314,9 +314,10 @@ var ide = new(function() {
         var layer = e.popup.layer;
         // re-call style handler to eventually modify the style of the clicked feature
         var stl = ide.map.geojsonLayer.options.style(layer.feature, e.type=="popupopen");
-        if (typeof layer.eachLayer != "function")
-          layer.setStyle(stl); // other objects (pois, ways)
-        else
+        if (typeof layer.eachLayer != "function") {
+          if (typeof layer.setStyle == "function")
+            layer.setStyle(stl); // other objects (pois, ways)
+        } else
           layer.eachLayer(function(l) {l.setStyle(stl);}); // for multipolygons!
       }
     });
@@ -392,6 +393,8 @@ var ide = new(function() {
         }
       // 2. scripts
       overpass.scripts = {};
+      var pois_script = query.match(/{{pois:([\S\s]*?)}}/m);
+      query = query.replace(/{{pois:([\S\s]*?)}}/gm,"");
       var style_script = query.match(/{{style:([\S\s]*?)}}/m);
       query = query.replace(/{{style:([\S\s]*?)}}/gm,"");
       var popup_script = query.match(/{{popup:([\S\s]*?)}}/m);
@@ -400,6 +403,8 @@ var ide = new(function() {
       query = query.replace(/{{onshow:([\S\s]*?)}}/gm,"");
       try {
         var dummy_func;
+        if (pois_script)
+          overpass.scripts.pois = eval("dummy_func = " + pois_script[1]);
         if (style_script)
           overpass.scripts.style = eval("dummy_func = " + style_script[1]);
         if (popup_script)
