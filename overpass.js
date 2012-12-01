@@ -3,6 +3,8 @@
 
 var overpass = new(function() {
   // == private members ==
+  // == public members ==
+  this.scripts = {};
 
   // == private methods ==
   var overpassJSON2geoJSON = function(json) {
