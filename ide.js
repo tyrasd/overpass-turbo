@@ -229,7 +229,7 @@ var ide = new(function() {
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
-        var link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "pan to current location";
@@ -241,6 +241,20 @@ var ide = new(function() {
               ide.map.setView(pos,settings.coords_zoom);
             });
           } catch(e) {}
+        }, ide.map);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter", container);
+        $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
+        link.href = 'javascript:return false;';
+        link.title = "manually select bbox";
+        L.DomEvent.addListener(link, 'click', function(e) {
+          if (!ide.map.bboxfilter.isEnabled()) {
+            ide.map.bboxfilter.setBounds(ide.map.getBounds());
+            ide.map.bboxfilter.enable();
+          } else {
+            ide.map.bboxfilter.disable();
+          }
+          $(e.target).toggleClass("ui-icon-circlesmall-close");
+          $(e.target).toggleClass("ui-icon-image");
         }, ide.map);
         return container;
       },
@@ -307,6 +321,8 @@ var ide = new(function() {
       .appendTo("#map");
     if (settings.enable_crosshairs)
       $(".crosshairs").show();
+   
+    ide.map.bboxfilter = new L.LocationFilter({enable:!true,adjustButton:false,enableButton:false,}).addTo(ide.map);
 
 
     ide.map.on("popupopen popupclose",function(e) {
@@ -369,7 +385,11 @@ var ide = new(function() {
 
   // returns the current visible bbox as a bbox-query
   this.map2bbox = function(lang) {
-    var bbox = this.map.getBounds();
+    var bbox;
+    if (!ide.map.bboxfilter.isEnabled())
+      bbox = this.map.getBounds();
+    else
+      bbox = ide.map.bboxfilter.getBounds();
     if (lang=="OverpassQL")
       return bbox.getSouthWest().lat+','+bbox.getSouthWest().lng+','+bbox.getNorthEast().lat+','+bbox.getNorthEast().lng;
     else if (lang=="xml")
@@ -399,6 +419,8 @@ var ide = new(function() {
         }
       query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang())); // expand bbox
       query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang())); // expand map center
+      // ignore unknown mustache templates:
+      query = query.replace(/{{[\S\s]*?}}/gm,"");
       if (typeof trim_ws == "undefined" || trim_ws) {
         query = query.replace(/(\n|\r)/g," "); // remove newlines
         query = query.replace(/\s+/g," "); // remove some whitespace
@@ -596,12 +618,12 @@ var ide = new(function() {
   this.onExportImageClick = function() {
     $("body").addClass("loading");
     // 1. render canvas from map tiles
-    // hide map controlls in this step :/ 
-    // todo? (also: hide map overlay data somehow, if possible to speed things up)
+    // hide map controlls in this step :/
     $("#map .leaflet-control-container .leaflet-top").hide();
     if (settings.export_image_attribution) attribControl.addTo(ide.map);
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
-    $("#map").html2canvas({onrendered: function(canvas) {
+    // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
+    $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
       $("#map .leaflet-control-container .leaflet-top").show();
@@ -621,7 +643,7 @@ var ide = new(function() {
       var attrib_message = "";
       if (!settings.export_image_attribution)
         attrib_message = '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
-      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p>'+attrib_message+'</div>').dialog({
+      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="the exported map" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p>'+attrib_message+'</div>').dialog({
         modal:true,
         width:500,
         position:["center",60],
