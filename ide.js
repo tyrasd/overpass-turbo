@@ -583,6 +583,23 @@ var ide = new(function() {
         },
       });
     });
+    $("#export-dialog a#export-geoJSON").on("click", function() {
+      var geoJSON_str;
+      if (!overpass.geoJSON_data)
+        geoJSON_str = "No geoJSON data available! Please run a query first.";
+      else
+        geoJSON_str = JSON.stringify(overpass.geoJSON_data, undefined, 2);
+      var d = $("#export-geojson");
+      $("textarea",d)[0].value=geoJSON_str;
+      d.dialog({
+        modal:true,
+        width:500,
+        buttons: {
+          "close": function() {$(this).dialog("close");}
+        },
+      });
+      return false;
+    });
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";

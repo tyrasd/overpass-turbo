@@ -276,3 +276,6 @@ ul.plain > li {
 .leaflet-popup-content-wrapper {
   border-radius: 3px;
 }
+.ui-widget textarea {
+  font-family:monospace;
+}
