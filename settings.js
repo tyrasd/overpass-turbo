@@ -69,7 +69,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",12);
+var settings = new Settings("overpass-ide",13);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -84,7 +84,7 @@ settings.define_setting("server","String","http://overpass-api.de/api/",1);
 // sharing options
 settings.define_setting("share_compression","String","auto",1);
 settings.define_setting("share_include_pos","Boolean",false,1);
-// code editor
+// code editor & map view
 settings.define_setting("use_rich_editor","Boolean",true,1);
 settings.define_setting("tile_server","String","http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",1);
 settings.define_setting("enable_crosshairs","Boolean",false,1);
@@ -93,6 +93,8 @@ settings.define_setting("export_image_scale","Boolean",true,1);
 settings.define_setting("export_image_attribution","Boolean",true,1);
 // CORS/ajax/etc. settings
 settings.define_setting("force_simple_cors_request","Boolean",false,11);
+// background opacity
+settings.define_setting("background_opacity","Float",1.0,13);
 
 //settings.define_setting(,,,);
 

@@ -168,6 +168,12 @@ var ide = new(function() {
     attribControl.addAttribution(tilesAttrib);
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
     ide.map.setView(pos,settings.coords_zoom).addLayer(tiles);
+    ide.map.tile_layer = tiles;
+    // inverse opacity layer
+    ide.map.inv_opacity_layer = L.tileLayer("data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==")
+      .setOpacity(1-settings.background_opacity)
+    if (settings.background_opacity != 1)
+      ide.map.inv_opacity_layer.addTo(ide.map);
     scaleControl = new L.Control.Scale({metric:true,imperial:false,});
     scaleControl.addTo(ide.map);
     if (settings.use_html5_coords && !override_use_html5_coords) {
@@ -699,6 +705,7 @@ var ide = new(function() {
       //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
       //"http://oatile1.mqcdn.com/naip/{z}/{x}/{y}.jpg",
     ]);
+    $("#settings-dialog input[name=background_opacity]")[0].value = settings.background_opacity;
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
     $("#settings-dialog input[name=export_image_scale]")[0].checked = settings.export_image_scale;
     $("#settings-dialog input[name=export_image_attribution]")[0].checked = settings.export_image_attribution;
@@ -715,15 +722,19 @@ var ide = new(function() {
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
+          var prev_tile_server = settings.tile_server;
           settings.tile_server = $("#settings-dialog input[name=tile_server]")[0].value;
           // update tile layer (if changed)
-          for (var i in ide.map._layers)
-            if (ide.map._layers[i] instanceof L.TileLayer &&
-              ide.map._layers[i]._url != settings.tile_server) {
-              ide.map._layers[i]._url = settings.tile_server;
-              ide.map._layers[i].redraw();
-              break;
-            }
+          if (prev_tile_server != settings.tile_server)
+            ide.map.tile_layer.setUrl(settings.tile_server);
+          var prev_background_opacity = settings.background_opacity;
+          settings.background_opacity = +$("#settings-dialog input[name=background_opacity]")[0].value;
+          // update background opacity layer
+          if (settings.background_opacity != prev_background_opacity)
+            if (settings.background_opacity == 1)
+              ide.map.removeLayer(ide.map.inv_opacity_layer);
+            else
+              ide.map.inv_opacity_layer.setOpacity(1-settings.background_opacity).addTo(ide.map);
           settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
           $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
           settings.export_image_scale = $("#settings-dialog input[name=export_image_scale]")[0].checked;
