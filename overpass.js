@@ -362,6 +362,7 @@ var overpass = new(function() {
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
         var geojson;
+        overpass.geoJSON_data = null;
         // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
           try {
@@ -406,12 +407,13 @@ var overpass = new(function() {
           data_mode = "xml";
           // convert to geoJSON
           geojson = overpassXML2geoJSON(data);
-            [{features:[]}, {features:[]}];
+          overpass.geoJSON_data = geojson;
         } else { // maybe json data
           ide.dataViewer.setOption("mode","javascript");
           data_mode = "json";
           // convert to geoJSON
           geojson = overpassJSON2geoJSON(data);
+          overpass.geoJSON_data = geojson;
         }
         // print raw data
         ide.dataViewer.setValue(jqXHR.responseText);

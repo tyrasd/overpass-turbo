@@ -1,4 +1,3 @@
-
 // global ide object
 
 var ide = new(function() {
@@ -21,8 +20,8 @@ var ide = new(function() {
         false) {
       // the currently used browser is not capable of running the IDE. :(
       $('<div title="Your browser is not supported :(">'+
-          '<p>The browser you are currently using, is not capable of running this Application. <small>It has to support <a href="http://en.wikipedia.org/wiki/Web_storage#localStorage">Web Storage API</a> and <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>'+
-          '<p>Please update to a more up-to-date version of your browser or switch to a more capable browser! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work. Alternatively, you can still use the <a href="http://overpass-api.de/query_form.html">Overpass_API query form</a>.</p>'+
+          '<p>The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href="http://en.wikipedia.org/wiki/Web_storage#localStorage">Web Storage API</a> and <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>'+
+          '<p>Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work. Alternatively, you can still use the <a href="http://overpass-api.de/query_form.html">Overpass_API query form</a>.</p>'+
         '</div>').dialog({modal:true});
     }
     // check for any get-parameters
@@ -169,6 +168,12 @@ var ide = new(function() {
     attribControl.addAttribution(tilesAttrib);
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
     ide.map.setView(pos,settings.coords_zoom).addLayer(tiles);
+    ide.map.tile_layer = tiles;
+    // inverse opacity layer
+    ide.map.inv_opacity_layer = L.tileLayer("data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==")
+      .setOpacity(1-settings.background_opacity)
+    if (settings.background_opacity != 1)
+      ide.map.inv_opacity_layer.addTo(ide.map);
     scaleControl = new L.Control.Scale({metric:true,imperial:false,});
     scaleControl.addTo(ide.map);
     if (settings.use_html5_coords && !override_use_html5_coords) {
@@ -229,7 +234,7 @@ var ide = new(function() {
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
-        var link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "pan to current location";
@@ -241,6 +246,20 @@ var ide = new(function() {
               ide.map.setView(pos,settings.coords_zoom);
             });
           } catch(e) {}
+        }, ide.map);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter", container);
+        $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
+        link.href = 'javascript:return false;';
+        link.title = "manually select bbox";
+        L.DomEvent.addListener(link, 'click', function(e) {
+          if (!ide.map.bboxfilter.isEnabled()) {
+            ide.map.bboxfilter.setBounds(ide.map.getBounds());
+            ide.map.bboxfilter.enable();
+          } else {
+            ide.map.bboxfilter.disable();
+          }
+          $(e.target).toggleClass("ui-icon-circlesmall-close");
+          $(e.target).toggleClass("ui-icon-image");
         }, ide.map);
         return container;
       },
@@ -307,6 +326,8 @@ var ide = new(function() {
       .appendTo("#map");
     if (settings.enable_crosshairs)
       $(".crosshairs").show();
+   
+    ide.map.bboxfilter = new L.LocationFilter({enable:!true,adjustButton:false,enableButton:false,}).addTo(ide.map);
 
 
     ide.map.on("popupopen popupclose",function(e) {
@@ -362,7 +383,11 @@ var ide = new(function() {
 
   // returns the current visible bbox as a bbox-query
   this.map2bbox = function(lang) {
-    var bbox = this.map.getBounds();
+    var bbox;
+    if (!ide.map.bboxfilter.isEnabled())
+      bbox = this.map.getBounds();
+    else
+      bbox = ide.map.bboxfilter.getBounds();
     if (lang=="OverpassQL")
       return bbox.getSouthWest().lat+','+bbox.getSouthWest().lng+','+bbox.getNorthEast().lat+','+bbox.getNorthEast().lng;
     else if (lang=="xml")
@@ -583,6 +608,23 @@ var ide = new(function() {
         },
       });
     });
+    $("#export-dialog a#export-geoJSON").on("click", function() {
+      var geoJSON_str;
+      if (!overpass.geoJSON_data)
+        geoJSON_str = "No geoJSON data available! Please run a query first.";
+      else
+        geoJSON_str = JSON.stringify(overpass.geoJSON_data, undefined, 2);
+      var d = $("#export-geojson");
+      $("textarea",d)[0].value=geoJSON_str;
+      d.dialog({
+        modal:true,
+        width:500,
+        buttons: {
+          "close": function() {$(this).dialog("close");}
+        },
+      });
+      return false;
+    });
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
@@ -618,12 +660,12 @@ var ide = new(function() {
   this.onExportImageClick = function() {
     $("body").addClass("loading");
     // 1. render canvas from map tiles
-    // hide map controlls in this step :/ 
-    // todo? (also: hide map overlay data somehow, if possible to speed things up)
+    // hide map controlls in this step :/
     $("#map .leaflet-control-container .leaflet-top").hide();
     if (settings.export_image_attribution) attribControl.addTo(ide.map);
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
-    $("#map").html2canvas({onrendered: function(canvas) {
+    // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
+    $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
       $("#map .leaflet-control-container .leaflet-top").show();
@@ -643,7 +685,7 @@ var ide = new(function() {
       var attrib_message = "";
       if (!settings.export_image_attribution)
         attrib_message = '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
-      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="xx" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p>'+attrib_message+'</div>').dialog({
+      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="the exported map" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p>'+attrib_message+'</div>').dialog({
         modal:true,
         width:500,
         position:["center",60],
@@ -683,6 +725,7 @@ var ide = new(function() {
       //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
       //"http://oatile1.mqcdn.com/naip/{z}/{x}/{y}.jpg",
     ]);
+    $("#settings-dialog input[name=background_opacity]")[0].value = settings.background_opacity;
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
     $("#settings-dialog input[name=export_image_scale]")[0].checked = settings.export_image_scale;
     $("#settings-dialog input[name=export_image_attribution]")[0].checked = settings.export_image_attribution;
@@ -699,15 +742,19 @@ var ide = new(function() {
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
+          var prev_tile_server = settings.tile_server;
           settings.tile_server = $("#settings-dialog input[name=tile_server]")[0].value;
           // update tile layer (if changed)
-          for (var i in ide.map._layers)
-            if (ide.map._layers[i] instanceof L.TileLayer &&
-              ide.map._layers[i]._url != settings.tile_server) {
-              ide.map._layers[i]._url = settings.tile_server;
-              ide.map._layers[i].redraw();
-              break;
-            }
+          if (prev_tile_server != settings.tile_server)
+            ide.map.tile_layer.setUrl(settings.tile_server);
+          var prev_background_opacity = settings.background_opacity;
+          settings.background_opacity = +$("#settings-dialog input[name=background_opacity]")[0].value;
+          // update background opacity layer
+          if (settings.background_opacity != prev_background_opacity)
+            if (settings.background_opacity == 1)
+              ide.map.removeLayer(ide.map.inv_opacity_layer);
+            else
+              ide.map.inv_opacity_layer.setOpacity(1-settings.background_opacity).addTo(ide.map);
           settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
           $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
           settings.export_image_scale = $("#settings-dialog input[name=export_image_scale]")[0].checked;

@@ -3,12 +3,12 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" lang="en"></meta>
   <meta name="viewport" content="width=device-width;" />
-  <title>Overpass IDE</title>
+  <title>overpass-ide</title>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <!--jQuery-->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <!--CodeMirror-->
-  <link rel="stylesheet" href="libs/CodeMirror/lib/codemirror.css">
+  <link rel="stylesheet" href="libs/CodeMirror/lib/codemirror.css" />
   <script src="libs/CodeMirror/lib/codemirror.js"></script>
   <script src="libs/CodeMirror/mode/javascript/javascript.js"></script>
   <script src="libs/CodeMirror/mode/xml/xml.js"></script>
@@ -19,6 +19,8 @@
   <!--leaflet-->
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js"></script>
+  <script src="libs/locationfilter/src/locationfilter.js"></script>
+  <link rel="stylesheet" href="libs/locationfilter/src/locationfilter.css"/>
   <!--misc libraries-->
   <script src="libs/misc.min.js"></script>
   <!--jQuery UI-->
@@ -33,7 +35,7 @@
 </head>
 <body>
   <!--more optional libraries-->
-  <script lazy-src="libs/html2canvas/html2canvas.min.js"></script>
+  <script lazy-src="libs/html2canvas/html2canvas.patched.min.js"></script>
   <script lazy-src="libs/html2canvas/jquery.plugin.html2canvas.js"></script>
   <script lazy-src="libs/canvg/rgbcolor.js"></script>
   <script lazy-src="libs/canvg/canvg.min.js"></script>
@@ -50,7 +52,7 @@
         <a class="button group left"      accesskey="9" onclick="ide.onSettingsClick();">Settings</a>
         <a class="button group right"     accesskey="0" onclick="ide.onHelpClick();">Help</a>
       </div>
-      <div class="title">overpass-ide</div>
+      <div class="title">overpass turbo</div>
       <div class="tabs">
         <a class="button active">Map</a>
         <a class="button">Data</a>
@@ -118,7 +120,7 @@
         <li>Map powered by <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
         <li>Editor powered by <a href="http://codemirror.net/">CodeMirror</a></li>
         <li>Driven by <a href="http://jquery.com/">jQuery</a></li>
-        <li>Other libraries: <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a></li>
+        <li>Other libraries: <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/tripbirds/leaflet-locationfilter">leaflet-locationfilter</a></li>
       </ul>
     </div>
   </div>
@@ -131,6 +133,7 @@
     <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
     <h3>Map</h3>
     <p><label>Tile-Server:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
+    <p><label>Tiles Opacity:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(transparency of background tiles: 0=tansparent &hellip; 1=visible)</small></p>
     <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;Show crosshairs at the map center.</p>
     <h3>Sharing</h3>
     <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
@@ -156,12 +159,18 @@
     <p>as <a id="export-interactive-map" href="">interactive Map</a></p>
     <p>as <a id="export-overpass-openlayers" href="">interactive OpenLayers Map<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a> <small>(only for queries returning valid OSM-XML)</small></p>
     <p>get current <a id="export-map-state" href="">map state</a> <small>bbox, center, etc.</small></p>
+    <h3>Data</h3>
+    <p>raw link to <a id="export-overpass-api" href="">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <p>as <a id="export-geoJSON" href="">geoJSON</a></p>
     <h3>Query</h3>
     <p>as <a id="export-text" href="" download='query.txt'>text</a></p>
-    <p>raw link to <a id="export-overpass-api" href="">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p>convert to <a id="export-convert-xml" href="">xml<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p>convert to (<a id="export-convert-compact" href="">compact<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a>) <a id="export-convert-ql" href="">OverpassQL<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p>load into <a id="export-josm" href="">JOSM</a> <small>(only for queries returning valid OSM-XML with meta data)</small></p>
+  </div>
+  <div title="Export-geoJSON" id="export-geojson" class="dialog">
+    <p>The currently shown data in geoJSON format:</p>
+    <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
   <!--share-->
   <div title="Share" id="share-dialog" class="dialog">
