@@ -642,12 +642,16 @@ var ide = new(function() {
     // 1. render canvas from map tiles
     // hide map controlls in this step :/
     $("#map .leaflet-control-container .leaflet-top").hide();
+    $('a[title="Zoom in"]').removeClass("leaflet-control-zoom-in");
+    $('a[title="Zoom out"]').removeClass("leaflet-control-zoom-out");
     if (settings.export_image_attribution) attribControl.addTo(ide.map);
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
+      $('a[title="Zoom in"]').addClass("leaflet-control-zoom-in");
+      $('a[title="Zoom out"]').addClass("leaflet-control-zoom-out");
       $("#map .leaflet-control-container .leaflet-top").show();
       // 2. render overlay data onto canvas
       canvas.id = "render_canvas";
