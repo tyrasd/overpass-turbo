@@ -340,6 +340,15 @@ var overpass = new(function() {
         query = '<?xml version="1.0" encoding="UTF-8"?>'+query;
       }
     }
+    // beforeExecure callback:
+    if (typeof overpass.scripts.before == "function") {
+      try {
+        overpass.scripts.before(query);
+      } catch(e) {
+        alert('An error occured during the execution of the custom "beforeExecute" script');
+        // todo: better error message: display all error info, use jQueryUI dialog
+      }
+    }
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
     var request_headers = {};
