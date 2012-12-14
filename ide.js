@@ -209,10 +209,16 @@ var ide = new(function() {
     // wait spinner
     $("body").on({
       ajaxStart: function() {
-        $(this).addClass("loading");
+        if (!ide.waiter.opened) {
+          ide.waiter.open();
+          ide.waiter.ajaxAutoOpened = true;
+        }
       },
       ajaxStop: function() {
-        $(this).removeClass("loading");
+        if (ide.waiter.ajaxAutoOpened) {
+          ide.waiter.close();
+          delete ide.waiter.AjaxAutoOpened;
+        }
       },
     });
 
@@ -385,6 +391,43 @@ var ide = new(function() {
     });
     input[0].is_combobox = true;
   } // make_combobox()
+
+  // == public sub objects ==
+
+  this.waiter = {
+    opened: false,
+    open: function(show_info) {
+      if (show_info) {
+        $(".wait-info").show();
+      } else {
+        $(".wait-info").hide();
+      }
+      $("body").addClass("loading");
+      ide.waiter.opened = true;
+    },
+    close: function() {
+      $("body").removeClass("loading");
+      $(".wait-info ul li").remove();
+      delete ide.waiter.onAbort;
+      ide.waiter.opened = false;
+    },
+    addInfo: function(txt, abortCallback) {
+      $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
+      $(".wait-info ul li:nth-child(n+1)").css("opacity",0.5);
+      $(".wait-info ul li:nth-child(n+4)").hide();
+      var li = $("<li>"+txt+"</li>");
+      if (typeof abortCallback == "function") {
+        ide.waiter.onAbort = abortCallback;
+        li.append('<span id="aborter">&nbsp;(<a href="#" onclick="ide.waiter.abort(); return false;">abort</a>)</span>');
+      }
+      $(".wait-info ul").prepend(li);
+    },
+    abort: function() {
+      if (typeof ide.waiter.onAbort == "function")
+        ide.waiter.onAbort();
+      ide.waiter.close();
+    },
+  };
 
   // == public methods ==
 
