@@ -607,7 +607,7 @@ var ide = new(function() {
     $("div#share-dialog").dialog({
       modal:true,
       buttons: {
-        "OK": function() {$(this).dialog("close");}
+        "done": function() {$(this).dialog("close");}
       }
     });
   }
@@ -661,13 +661,27 @@ var ide = new(function() {
           $.get(JRC_url+"import", {
             url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
           }).error(function(xhr,s,e) {
-            alert("Error: JOSM remote control error.");
+            alert("Error: Unexpected JOSM remote control error.");
           }).success(function(d,s,xhr) {
             export_dialog.dialog("close");
           });
         } else {
-          alert("Error: incompatible JOSM remote control version: "+d.protocolversion.major+"."+d.protocolversion.minor+" :(");
+          $('<div title="Remote Control Error"><p>Error: incompatible JOSM remote control version: '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
+            modal:true,
+            width:350,
+            buttons: {
+              "OK": function() {$(this).dialog("close");}
+            }
+          });
         }
+      }).error(function(xhr,s,e) {
+        $('<div title="Remote Control Error"><p>Remote control not found. :( Make sure JOSM is already started and properly configured.</p></div>').dialog({
+          modal:true,
+          width:350,
+          buttons: {
+            "OK": function() {$(this).dialog("close");}
+          }
+        });
       });
       return false;
     });
@@ -676,7 +690,7 @@ var ide = new(function() {
       modal:true,
       width:350,
       buttons: {
-        "OK": function() {$(this).dialog("close");}
+        "done": function() {$(this).dialog("close");}
       }
     });
   }
