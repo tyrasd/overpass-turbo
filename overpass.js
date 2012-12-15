@@ -379,7 +379,8 @@ var overpass = new(function() {
           } catch (e) {}
         }
         if ((typeof data == "string") ||
-            (typeof data == "object" && data instanceof XMLDocument && $("remark",data).length > 0)
+            (typeof data == "object" && data instanceof XMLDocument && $("remark",data).length > 0) ||
+            (typeof data == "object" && data.remark && data.remark.length > 0)
            ) { // maybe an error message
           data_mode = "unknown";
           var is_error = false;
@@ -390,13 +391,18 @@ var overpass = new(function() {
           is_error = is_error || (typeof data == "object" &&
             data instanceof XMLDocument &&
             $("remark",data).length > 0);
+          is_error = is_error || (typeof data == "object" &&
+            data.remark &&
+            data.remark.length > 0);
           if (is_error) {
             // this really looks like an error message, so lets open an additional modal error message
             var errmsg = "?";
             if (typeof data == "string")
               errmsg = data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"");
-            if (typeof data == "object")
+            if (typeof data == "object" && data instanceof XMLDocument)
               errmsg = "<p>"+$("remark",data).text().trim()+"</p>";
+            if (typeof data == "object" && data.remark)
+              errmsg = "<p>"+data.remark.trim()+"</p>";
             $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
               modal:true,
               buttons:{"ok": function(){$(this).dialog("close");}},
