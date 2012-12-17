@@ -112,6 +112,8 @@ var overpass = new(function() {
     // 3. some data processing (e.g. filter nodes only used for ways)
     var nodeids = new Object();
     for (var i=0;i<nodes.length;i++) {
+      if (!$.isNumeric(nodes[i].lat))
+        continue; // ignore nodes without coordinates (e.g. returned by an ids_only query)
       nodeids[nodes[i].id] = nodes[i];
     }
     var poinids = new Object();
@@ -346,8 +348,8 @@ var overpass = new(function() {
     ide.waiter.addInfo("calling Overpass API interpreter", function() {
       // kill the query on abort
       overpass.ajax_request.abort();
-      /*this is not yet possible, because there are no CORS headers on kill_my_queries
-      $.get(settings.server+"kill_my_queries").success(function(d,s,xhr){alert("kill my queries");}).error(function(xhr,s,e){alert("kill my queries failed");});*/
+      // try to abort queries via kill_my_queries
+      $.get(settings.server+"kill_my_queries");
     });
     var request_headers = {};
     var additional_get_data = "";
