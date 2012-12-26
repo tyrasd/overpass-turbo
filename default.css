@@ -169,8 +169,9 @@ a.button.disabled {
   background-color: rgba(0, 0, 0, 0.196);
   margin-left: -50px;
   margin-top: -42px;
-  padding: 20px 15px 0px 100px;
+  padding: 20px 25px 10px 100px;
   border-radius: 3px;
+  min-height: 45px;
 }
 .modal .wait-info ul {
   padding-left: 15px;

@@ -12,6 +12,7 @@ var ide = new(function() {
 
   // == private methods ==
   var init = function() {
+    ide.waiter.addInfo("ide starting up");
     // load settings
     settings.load();
     // (very raw) compatibility check <- TODO: put this into its own function
@@ -358,6 +359,10 @@ var ide = new(function() {
 
     // load optional js libraries asynchronously
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
+
+    // close startup waiter
+    ide.waiter.close();
+    $(".modal .wait-info h4").text("processing query...");
 
     // automatically load help, if this is the very first time the IDE is started
     if (settings.first_time_visit === true && ide.run_query_on_startup !== true)
