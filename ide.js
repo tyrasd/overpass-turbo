@@ -1,4 +1,3 @@
-
 // global ide object
 
 var ide = new(function() {
@@ -13,6 +12,7 @@ var ide = new(function() {
 
   // == private methods ==
   var init = function() {
+    ide.waiter.addInfo("ide starting up");
     // load settings
     settings.load();
     // (very raw) compatibility check <- TODO: put this into its own function
@@ -21,8 +21,8 @@ var ide = new(function() {
         false) {
       // the currently used browser is not capable of running the IDE. :(
       $('<div title="Your browser is not supported :(">'+
-          '<p>The browser you are currently using, is not capable of running this Application. <small>It has to support <a href="http://en.wikipedia.org/wiki/Web_storage#localStorage">Web Storage API</a> and <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>'+
-          '<p>Please update to a more up-to-date version of your browser or switch to a more capable browser! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work. Alternatively, you can still use the <a href="http://overpass-api.de/query_form.html">Overpass_API query form</a>.</p>'+
+          '<p>The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href="http://en.wikipedia.org/wiki/Web_storage#localStorage">Web Storage API</a> and <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>'+
+          '<p>Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work. Alternatively, you can still use the <a href="http://overpass-api.de/query_form.html">Overpass_API query form</a>.</p>'+
         '</div>').dialog({modal:true});
     }
     // check for any get-parameters
@@ -169,6 +169,12 @@ var ide = new(function() {
     attribControl.addAttribution(tilesAttrib);
     var pos = new L.LatLng(settings.coords_lat,settings.coords_lon);
     ide.map.setView(pos,settings.coords_zoom).addLayer(tiles);
+    ide.map.tile_layer = tiles;
+    // inverse opacity layer
+    ide.map.inv_opacity_layer = L.tileLayer("data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==")
+      .setOpacity(1-settings.background_opacity)
+    if (settings.background_opacity != 1)
+      ide.map.inv_opacity_layer.addTo(ide.map);
     scaleControl = new L.Control.Scale({metric:true,imperial:false,});
     scaleControl.addTo(ide.map);
     if (settings.use_html5_coords && !override_use_html5_coords) {
@@ -204,10 +210,16 @@ var ide = new(function() {
     // wait spinner
     $("body").on({
       ajaxStart: function() {
-        $(this).addClass("loading");
+        if (!ide.waiter.opened) {
+          ide.waiter.open();
+          ide.waiter.ajaxAutoOpened = true;
+        }
       },
       ajaxStop: function() {
-        $(this).removeClass("loading");
+        if (ide.waiter.ajaxAutoOpened) {
+          ide.waiter.close();
+          delete ide.waiter.AjaxAutoOpened;
+        }
       },
     });
 
@@ -279,7 +291,7 @@ var ide = new(function() {
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("http://nominatim.openstreetmap.org/search"+"?app="+ide.appname, {
+            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+ide.appname, {
               data:{
                 format:"json",
                 q: request.term
@@ -348,6 +360,10 @@ var ide = new(function() {
     // load optional js libraries asynchronously
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
 
+    // close startup waiter
+    ide.waiter.close();
+    $(".modal .wait-info h4").text("processing query...");
+
     // automatically load help, if this is the very first time the IDE is started
     if (settings.first_time_visit === true && ide.run_query_on_startup !== true)
       ide.onHelpClick();
@@ -380,6 +396,43 @@ var ide = new(function() {
     });
     input[0].is_combobox = true;
   } // make_combobox()
+
+  // == public sub objects ==
+
+  this.waiter = {
+    opened: false,
+    open: function(show_info) {
+      if (show_info) {
+        $(".wait-info").show();
+      } else {
+        $(".wait-info").hide();
+      }
+      $("body").addClass("loading");
+      ide.waiter.opened = true;
+    },
+    close: function() {
+      $("body").removeClass("loading");
+      $(".wait-info ul li").remove();
+      delete ide.waiter.onAbort;
+      ide.waiter.opened = false;
+    },
+    addInfo: function(txt, abortCallback) {
+      $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
+      $(".wait-info ul li:nth-child(n+1)").css("opacity",0.5);
+      $(".wait-info ul li:nth-child(n+4)").hide();
+      var li = $("<li>"+txt+"</li>");
+      if (typeof abortCallback == "function") {
+        ide.waiter.onAbort = abortCallback;
+        li.append('<span id="aborter">&nbsp;(<a href="#" onclick="ide.waiter.abort(); return false;">abort</a>)</span>');
+      }
+      $(".wait-info ul").prepend(li);
+    },
+    abort: function() {
+      if (typeof ide.waiter.onAbort == "function")
+        ide.waiter.onAbort();
+      ide.waiter.close();
+    },
+  };
 
   // == public methods ==
 
@@ -559,7 +612,7 @@ var ide = new(function() {
     $("div#share-dialog").dialog({
       modal:true,
       buttons: {
-        "OK": function() {$(this).dialog("close");}
+        "done": function() {$(this).dialog("close");}
       }
     });
   }
@@ -583,6 +636,23 @@ var ide = new(function() {
         },
       });
     });
+    $("#export-dialog a#export-geoJSON").on("click", function() {
+      var geoJSON_str;
+      if (!overpass.geoJSON_data)
+        geoJSON_str = "No geoJSON data available! Please run a query first.";
+      else
+        geoJSON_str = JSON.stringify(overpass.geoJSON_data, undefined, 2);
+      var d = $("#export-geojson");
+      $("textarea",d)[0].value=geoJSON_str;
+      d.dialog({
+        modal:true,
+        width:500,
+        buttons: {
+          "close": function() {$(this).dialog("close");}
+        },
+      });
+      return false;
+    });
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
@@ -596,13 +666,27 @@ var ide = new(function() {
           $.get(JRC_url+"import", {
             url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
           }).error(function(xhr,s,e) {
-            alert("Error: JOSM remote control error.");
+            alert("Error: Unexpected JOSM remote control error.");
           }).success(function(d,s,xhr) {
             export_dialog.dialog("close");
           });
         } else {
-          alert("Error: incompatible JOSM remote control version: "+d.protocolversion.major+"."+d.protocolversion.minor+" :(");
+          $('<div title="Remote Control Error"><p>Error: incompatible JOSM remote control version: '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
+            modal:true,
+            width:350,
+            buttons: {
+              "OK": function() {$(this).dialog("close");}
+            }
+          });
         }
+      }).error(function(xhr,s,e) {
+        $('<div title="Remote Control Error"><p>Remote control not found. :( Make sure JOSM is already started and properly configured.</p></div>').dialog({
+          modal:true,
+          width:350,
+          buttons: {
+            "OK": function() {$(this).dialog("close");}
+          }
+        });
       });
       return false;
     });
@@ -611,7 +695,7 @@ var ide = new(function() {
       modal:true,
       width:350,
       buttons: {
-        "OK": function() {$(this).dialog("close");}
+        "done": function() {$(this).dialog("close");}
       }
     });
   }
@@ -620,12 +704,16 @@ var ide = new(function() {
     // 1. render canvas from map tiles
     // hide map controlls in this step :/
     $("#map .leaflet-control-container .leaflet-top").hide();
+    $('a[title="Zoom in"]').removeClass("leaflet-control-zoom-in");
+    $('a[title="Zoom out"]').removeClass("leaflet-control-zoom-out");
     if (settings.export_image_attribution) attribControl.addTo(ide.map);
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
+      $('a[title="Zoom in"]').addClass("leaflet-control-zoom-in");
+      $('a[title="Zoom out"]').addClass("leaflet-control-zoom-out");
       $("#map .leaflet-control-container .leaflet-top").show();
       // 2. render overlay data onto canvas
       canvas.id = "render_canvas";
@@ -683,6 +771,7 @@ var ide = new(function() {
       //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
       //"http://oatile1.mqcdn.com/naip/{z}/{x}/{y}.jpg",
     ]);
+    $("#settings-dialog input[name=background_opacity]")[0].value = settings.background_opacity;
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
     $("#settings-dialog input[name=export_image_scale]")[0].checked = settings.export_image_scale;
     $("#settings-dialog input[name=export_image_attribution]")[0].checked = settings.export_image_attribution;
@@ -699,15 +788,19 @@ var ide = new(function() {
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
+          var prev_tile_server = settings.tile_server;
           settings.tile_server = $("#settings-dialog input[name=tile_server]")[0].value;
           // update tile layer (if changed)
-          for (var i in ide.map._layers)
-            if (ide.map._layers[i] instanceof L.TileLayer &&
-              ide.map._layers[i]._url != settings.tile_server) {
-              ide.map._layers[i]._url = settings.tile_server;
-              ide.map._layers[i].redraw();
-              break;
-            }
+          if (prev_tile_server != settings.tile_server)
+            ide.map.tile_layer.setUrl(settings.tile_server);
+          var prev_background_opacity = settings.background_opacity;
+          settings.background_opacity = +$("#settings-dialog input[name=background_opacity]")[0].value;
+          // update background opacity layer
+          if (settings.background_opacity != prev_background_opacity)
+            if (settings.background_opacity == 1)
+              ide.map.removeLayer(ide.map.inv_opacity_layer);
+            else
+              ide.map.inv_opacity_layer.setOpacity(1-settings.background_opacity).addTo(ide.map);
           settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
           $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
           settings.export_image_scale = $("#settings-dialog input[name=export_image_scale]")[0].checked;
