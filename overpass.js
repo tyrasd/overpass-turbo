@@ -525,6 +525,7 @@ var overpass = new(function() {
               } catch(e) {
                 alert('An error occured during the execution of the custom "style" script');
                 // todo: better error message: display all error info, use jQueryUI dialog
+                // todo: make it possible to disable further cascading error messages
               }
             }
 

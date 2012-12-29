@@ -466,33 +466,31 @@ var ide = new(function() {
         }
       // 2. scripts
       overpass.scripts = {};
-      var pois_script = query.match(/{{pois:([\S\s]*?)}}/m);
-      query = query.replace(/{{pois:([\S\s]*?)}}/gm,"");
-      var style_script = query.match(/{{style:([\S\s]*?)}}/m);
-      query = query.replace(/{{style:([\S\s]*?)}}/gm,"");
-      var popup_script = query.match(/{{popup:([\S\s]*?)}}/m);
-      query = query.replace(/{{popup:([\S\s]*?)}}/gm,"");
-      var onshow_script = query.match(/{{onShow:([\S\s]*?)}}/m);
-      query = query.replace(/{{onShow:([\S\s]*?)}}/gm,"");
-      var before_script = query.match(/{{beforeExecute:([\S\s]*?)}}/m);
-      query = query.replace(/{{beforeExecute:([\S\s]*?)}}/gm,"");
-      try {
+      var parse_script = function(name) {
+        // search for script
+        var search_regex = new RegExp("{{"+name+":([\\S\\s]*?)}}","m");
+        var script = query.match(search_regex);
+        query = query.replace(search_regex,"");
+        // try to eval() the script
         var dummy_func;
-        if (pois_script)
-          overpass.scripts.pois = eval("dummy_func = " + pois_script[1]);
-        if (style_script)
-          overpass.scripts.style = eval("dummy_func = " + style_script[1]);
-        if (popup_script)
-          overpass.scripts.popup = eval("dummy_func = " + popup_script[1]);
-        if (onshow_script)
-          overpass.scripts.onshow = eval("dummy_func = " + onshow_script[1]);
-        if (before_script)
-          overpass.scripts.before = eval("dummy_func = " + before_script[1]);
-      } catch (e) {
-        alert("An error occured while parsing the script. :(");
-        // todo: better error message! (display all available error information, use jQueryUI dialog
-        // todo: make it possible to disable further cascading error messages
-      }
+        if (script) {
+          try {
+            overpass.scripts[name] = eval("dummy_func = " + script[1]);
+          } catch(e) {
+            $('<div title="Script-Error"><p style="color:red">An error occured during the evaluation of the <i>'+name+'</i> script. This is what the browser is complaining about:</p><p>'+e.message+'</p></div>').dialog({
+              modal:true,
+              buttons: {"dismiss": function(){$(this).dialog("close");}},
+            });
+            console.log(e);
+            // todo: maybe highlight line where error occured
+          }
+        }
+      };
+      parse_script("pois");
+      parse_script("style");
+      parse_script("popup");
+      parse_script("onShow");
+      parse_script("beforeExecute");
       // 3. bbox and center
       query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang())); // expand bbox
       query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang())); // expand map center
