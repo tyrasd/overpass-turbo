@@ -12,6 +12,7 @@ var ide = new(function() {
 
   // == private methods ==
   var init = function() {
+    ide.waiter.addInfo("ide starting up");
     // load settings
     settings.load();
     // (very raw) compatibility check <- TODO: put this into its own function
@@ -209,10 +210,16 @@ var ide = new(function() {
     // wait spinner
     $("body").on({
       ajaxStart: function() {
-        $(this).addClass("loading");
+        if (!ide.waiter.opened) {
+          ide.waiter.open();
+          ide.waiter.ajaxAutoOpened = true;
+        }
       },
       ajaxStop: function() {
-        $(this).removeClass("loading");
+        if (ide.waiter.ajaxAutoOpened) {
+          ide.waiter.close();
+          delete ide.waiter.AjaxAutoOpened;
+        }
       },
     });
 
@@ -284,7 +291,7 @@ var ide = new(function() {
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("http://nominatim.openstreetmap.org/search"+"?app="+ide.appname, {
+            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+ide.appname, {
               data:{
                 format:"json",
                 q: request.term
@@ -346,6 +353,10 @@ var ide = new(function() {
     // load optional js libraries asynchronously
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
 
+    // close startup waiter
+    ide.waiter.close();
+    $(".modal .wait-info h4").text("processing query...");
+
     // automatically load help, if this is the very first time the IDE is started
     if (settings.first_time_visit === true && ide.run_query_on_startup !== true)
       ide.onHelpClick();
@@ -378,6 +389,43 @@ var ide = new(function() {
     });
     input[0].is_combobox = true;
   } // make_combobox()
+
+  // == public sub objects ==
+
+  this.waiter = {
+    opened: false,
+    open: function(show_info) {
+      if (show_info) {
+        $(".wait-info").show();
+      } else {
+        $(".wait-info").hide();
+      }
+      $("body").addClass("loading");
+      ide.waiter.opened = true;
+    },
+    close: function() {
+      $("body").removeClass("loading");
+      $(".wait-info ul li").remove();
+      delete ide.waiter.onAbort;
+      ide.waiter.opened = false;
+    },
+    addInfo: function(txt, abortCallback) {
+      $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
+      $(".wait-info ul li:nth-child(n+1)").css("opacity",0.5);
+      $(".wait-info ul li:nth-child(n+4)").hide();
+      var li = $("<li>"+txt+"</li>");
+      if (typeof abortCallback == "function") {
+        ide.waiter.onAbort = abortCallback;
+        li.append('<span id="aborter">&nbsp;(<a href="#" onclick="ide.waiter.abort(); return false;">abort</a>)</span>');
+      }
+      $(".wait-info ul").prepend(li);
+    },
+    abort: function() {
+      if (typeof ide.waiter.onAbort == "function")
+        ide.waiter.onAbort();
+      ide.waiter.close();
+    },
+  };
 
   // == public methods ==
 
@@ -588,7 +636,7 @@ var ide = new(function() {
     $("div#share-dialog").dialog({
       modal:true,
       buttons: {
-        "OK": function() {$(this).dialog("close");}
+        "done": function() {$(this).dialog("close");}
       }
     });
   }
@@ -642,13 +690,27 @@ var ide = new(function() {
           $.get(JRC_url+"import", {
             url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
           }).error(function(xhr,s,e) {
-            alert("Error: JOSM remote control error.");
+            alert("Error: Unexpected JOSM remote control error.");
           }).success(function(d,s,xhr) {
             export_dialog.dialog("close");
           });
         } else {
-          alert("Error: incompatible JOSM remote control version: "+d.protocolversion.major+"."+d.protocolversion.minor+" :(");
+          $('<div title="Remote Control Error"><p>Error: incompatible JOSM remote control version: '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
+            modal:true,
+            width:350,
+            buttons: {
+              "OK": function() {$(this).dialog("close");}
+            }
+          });
         }
+      }).error(function(xhr,s,e) {
+        $('<div title="Remote Control Error"><p>Remote control not found. :( Make sure JOSM is already started and properly configured.</p></div>').dialog({
+          modal:true,
+          width:350,
+          buttons: {
+            "OK": function() {$(this).dialog("close");}
+          }
+        });
       });
       return false;
     });
@@ -657,7 +719,7 @@ var ide = new(function() {
       modal:true,
       width:350,
       buttons: {
-        "OK": function() {$(this).dialog("close");}
+        "done": function() {$(this).dialog("close");}
       }
     });
   }

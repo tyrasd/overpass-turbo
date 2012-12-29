@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" lang="en"></meta>
   <meta name="viewport" content="width=device-width;" />
-  <title>overpass-ide</title>
+  <title>overpass turbo</title>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <!--jQuery-->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -33,7 +33,7 @@
   <script src="ide.js"></script>
   <script src="overpass.js"></script>
 </head>
-<body>
+<body class="loading">
   <!--more optional libraries-->
   <script lazy-src="libs/html2canvas/html2canvas.patched.min.js"></script>
   <script lazy-src="libs/html2canvas/jquery.plugin.html2canvas.js"></script>
@@ -71,7 +71,7 @@
   </div>
 
   <!--wait spinner-->
-  <div class="modal"></div>
+  <div class="modal"><div class="wait-info"><h4>overpass turbo loading...</h4><ul></ul></div></div>
 
   <!--some dialogs-->
   <!--help-->
