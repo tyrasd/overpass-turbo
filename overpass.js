@@ -327,6 +327,24 @@ var overpass = new(function() {
     geojson.push(geojsonnodes);
     return geojson;
   }
+  var execute_script = function() {
+    var args = execute_script.arguments;
+    var name = args[0];
+    if (typeof overpass.scripts[name] != "function")
+      return undefined;
+    var script_args = [];
+    for (var i=1; i<args.length; i++) 
+      script_args.push(args[i]);
+    try {
+      return overpass.scripts[name].apply({},script_args);
+    } catch(e) {
+      $('<div title="Script-Runtime-Error"><p style="color:red">An error occured during the execution of the <i>'+name+'</i> script. This is what the browser is complaining about:</p><p>'+e.message+'</p></div>').dialog({
+        modal:true,
+        buttons: {"dismiss": function(){$(this).dialog("close");}},
+      });
+      // todo: make it possible to disable further cascading error messages
+    }
+  }
 
   // == public methods ==
 
@@ -346,14 +364,7 @@ var overpass = new(function() {
       }
     }
     // beforeExecure callback:
-    if (typeof overpass.scripts.before == "function") {
-      try {
-        overpass.scripts.before(query);
-      } catch(e) {
-        alert('An error occured during the execution of the custom "beforeExecute" script');
-        // todo: better error message: display all error info, use jQueryUI dialog
-      }
-    }
+    execute_script("beforeExecute",query);
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
     ide.waiter.addInfo("calling Overpass API interpreter", function() {
@@ -519,32 +530,18 @@ var overpass = new(function() {
             }
 
             // user ovverridden styles:
-            if (typeof overpass.scripts.style == "function") {
-              try {
-                stl = overpass.scripts.style(stl, feature, highlight);
-              } catch(e) {
-                alert('An error occured during the execution of the custom "style" script');
-                // todo: better error message: display all error info, use jQueryUI dialog
-                // todo: make it possible to disable further cascading error messages
-              }
-            }
+            var user_stl = execute_script("onStyle", stl,feature,highlight);
+            $.extend(stl, user_stl);
 
             return stl;
           },
           pointToLayer: function (feature, latlng) {
             // user overridden poi converter:
-            if (typeof overpass.scripts.pois == "function") {
-              try {
-                var poi = overpass.scripts.pois(feature,latlng);
-                return poi;
-              } catch(e) {
-                alert('An error occured during the execution of the custom "pois" script');
-                // todo: better error message: display all error info, use jQueryUI dialog
-              }
-            }
-            return new L.CircleMarker(latlng, {
-              radius: 9,
-            });
+            var user_poi = execute_script("pois", feature,latlng);
+            if (typeof user_poi != "undefined")
+              return user_poi;
+            else
+              return new L.CircleMarker(latlng, {radius: 9});
           },
           onEachFeature : function (feature, layer) {
             layer.on('click', function(e) {
@@ -596,14 +593,9 @@ var overpass = new(function() {
                 }
               }
               // user ovverridden popup content:
-              if (typeof overpass.scripts.popup == "function") {
-                try {
-                  popup = overpass.scripts.popup(popup, feature);
-                } catch(e) {
-                  alert('An error occured during the execution of the custom "popup" script');
-                  // todo: better error message: display all error info, use jQueryUI dialog
-                }
-              }
+              var user_popup = execute_script("popup", popup,feature);
+              if (typeof user_popup != "undefined")
+                popup = user_popup;
               // show the popup
               var p = L.popup({},this).setLatLng(e.latlng || e.target._latlng).setContent(popup);
               p.layer = layer;
@@ -616,14 +608,7 @@ var overpass = new(function() {
         }
         ide.map.addLayer(ide.map.geojsonLayer);
         // onshow callback:
-        if (typeof overpass.scripts.onshow == "function") {
-          try {
-            overpass.scripts.onshow(geojson);
-          } catch(e) {
-            alert('An error occured during the execution of the custom "onshow" script');
-            // todo: better error message: display all error info, use jQueryUI dialog
-          }
-        }
+        execute_script("onShow", geojson);
         // closing wait spinner
         ide.waiter.close();
       },
