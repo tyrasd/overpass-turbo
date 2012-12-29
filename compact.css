@@ -79,3 +79,8 @@ div.ui-dialog {
   top:0;
   left:0;
 }
+.modal .wait-info {
+  background-color: rgba(0,0,0,0);
+  padding: 70px 10px 10px 10px;
+  margin-left: -60px;
+}
