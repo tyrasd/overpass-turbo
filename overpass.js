@@ -537,7 +537,7 @@ var overpass = new(function() {
           },
           pointToLayer: function (feature, latlng) {
             // user overridden poi converter:
-            var user_poi = execute_script("pois", feature,latlng);
+            var user_poi = execute_script("pointToLayer", feature,latlng);
             if (typeof user_poi != "undefined")
               return user_poi;
             else
@@ -593,7 +593,7 @@ var overpass = new(function() {
                 }
               }
               // user ovverridden popup content:
-              var user_popup = execute_script("popup", popup,feature);
+              var user_popup = execute_script("onPopup", popup,feature);
               if (typeof user_popup != "undefined")
                 popup = user_popup;
               // show the popup

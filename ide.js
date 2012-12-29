@@ -486,9 +486,9 @@ var ide = new(function() {
           }
         }
       };
-      parse_script("pois");
+      parse_script("pointToLayer");
       parse_script("onStyle");
-      parse_script("popup");
+      parse_script("onPopup");
       parse_script("onShow");
       parse_script("beforeExecute");
       // 3. bbox and center
