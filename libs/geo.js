@@ -52,3 +52,9 @@ L.Polygon.prototype.getCenter = function() {
     lng: y / f + off.lng
   );
 }
+
+function dist(la1,lo1,la2,lo2) {
+  var R = 6367500;
+  var DTR = Math.PI/180;
+  return R*DTR*Math.sqrt( Math.pow(la1-la2,2) + Math.pow(Math.cos(DTR*la1)*(lo1-lo2),2) ); 
+}
