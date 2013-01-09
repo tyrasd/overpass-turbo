@@ -285,10 +285,8 @@ ul.plain > li {
   color: #D83;
 }
 
-.leaflet-popup-pane {
-  opacity: 0.88;
-}
 .leaflet-popup-content-wrapper {
+  opacity: 0.88;
   border-radius: 3px;
 }
 .ui-widget textarea {
