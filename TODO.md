@@ -1,14 +1,14 @@
 ROADMAP
 =======
 
-Here are some ideas of features I think of including to overpass-ide. This todo list includes small ui improvements as well as more ambitious ideas of features. There is no plan when or in which order these are going to be implemented.
+Here are some ideas of features I think of including to overpass turbo. This todo list includes small ui improvements as well as more ambitious ideas of features. There is no plan when or in which order these are going to be implemented.
 
 "Compiler"
 ----------
 
-A functionality which "kind of" "compiles" the given overpass query into a (single) html file which can be used independently of the overpass-ide.
+A functionality which "kind of" "compiles" the given overpass query into a (single) html file which can be used independently of the overpass turbo.
 
-The idea is to run a query in the ide, which converts it into some geoJSON. This geojson is then put into a framework html file together with some minimal code that loads it.
+The idea is to run a query in turbo, which converts it into some geoJSON. This geojson is then put into a framework html file together with some minimal code that loads it.
 This will still rely on external data for the leaflet library and the map tiles (and maybe jQuery).
 
 Possible extension: Make a version for completely independent use: This would include all js libraries into the html framework and use a L.ImageOverlay instead of dynamically loaded map tiles (the image is rendered using html2canvas and stored in the output as a dataURL).
@@ -56,7 +56,7 @@ Several UI Improvements
 -----------------------
 
 * resizable panels (editor/map)
-* editor: better Syntax highlighting (~~auto detect query language xml/overpassQL~~, ~~support for overpassQL~~)
+* ~~editor: better Syntax highlighting (auto detect query language xml/overpassQL, support for overpassQL)~~
 * editor: code auto completion (with inline help?) ~~and auto tag closing for xml~~
 * ~~editor: highline lines where an error occured~~
 * map: make crosshairs not overlap map popups
