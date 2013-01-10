@@ -125,21 +125,29 @@
   </div>
   <!--settings-->
   <div title="Settings" id="settings-dialog" class="dialog">
-    <h3>General Settings</h3>
-    <p><label>Server:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
-    <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;Force simple CORS requests <small>(use when the server doesn't support preflighted <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> requests)</small></p>
-    <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location <small>(html5 geolocation)</small></p>
-    <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
-    <h3>Map</h3>
-    <p><label>Tile-Server:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
-    <p><label>Tiles Opacity:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(transparency of background tiles: 0=tansparent &hellip; 1=visible)</small></p>
-    <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;Show crosshairs at the map center.</p>
-    <h3>Sharing</h3>
-    <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
-    <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
-    <h3>Export</h3>
-    <p><input type="checkbox" name="export_image_scale"/>&nbsp;Show scale on exported images.</p>
-    <p><input type="checkbox" name="export_image_attribution"/>&nbsp;Show attribution on exported images.</p>
+    <h3><a>General Settings</a></h3>
+    <div>
+      <p><label>Server:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
+      <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;Force simple CORS requests <small>(use when the server doesn't support preflighted <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> requests)</small></p>
+      <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location <small>(html5 geolocation)</small></p>
+      <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
+    </div>
+    <h3><a>Map</a></h3>
+    <div>
+      <p><label>Tile-Server:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
+      <p><label>Tiles Opacity:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(transparency of background tiles: 0=tansparent &hellip; 1=visible)</small></p>
+      <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;Show crosshairs at the map center.</p>
+    </div>
+    <h3><a>Sharing</a></h3>
+    <div>
+      <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
+      <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
+    </div>
+    <h3><a>Export</a></h3>
+    <div>
+      <p><input type="checkbox" name="export_image_scale"/>&nbsp;Show scale on exported images.</p>
+      <p><input type="checkbox" name="export_image_attribution"/>&nbsp;Show attribution on exported images.</p>
+    </div>
   </div>
   <!--save-->
   <div title="Save" id="save-dialog" class="dialog">

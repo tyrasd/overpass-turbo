@@ -813,6 +813,7 @@ var ide = new(function() {
         },*/
       }
     });
+    $("#settings-dialog").accordion();
   }
   this.onHelpClick = function() {
     $("#help-dialog").dialog({
