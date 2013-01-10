@@ -62,6 +62,7 @@
         getQuery: function() {return settings.code["overpass"];},
         getQueryLang: function() {return (settings.code["overpass"].trim().match(/^</))?"xml":"OverpassQL";},
         dataViewer: {setValue: function() {}, setOption: function() {},},
+        waiter: {open:function(){},addInfo:function(){},close:function(){},},
       };
       // (very raw) compatibility check
       if (jQuery.support.cors != true ||
