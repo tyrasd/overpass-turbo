@@ -66,7 +66,7 @@
       ide = {
         appname: "overpass-ide-map",
         getQuery: function() {return settings.code["overpass"];},
-        getQueryLang: function() {return (settings.code["overpass"].trim().match(/^</))?"xml":"OverpassQL";},
+        getQueryLang: function() {return ($.trim(settings.code["overpass"]).match(/^</))?"xml":"OverpassQL";},
         dataViewer: {setValue: function() {}, setOption: function() {},},
         waiter: {open:function(){},addInfo:function(){},close:function(){},},
       };

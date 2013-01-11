@@ -486,7 +486,7 @@ var ide = new(function() {
   }
   this.getQueryLang = function() {
     // note: cannot use this.getQuery() here, as this function is required by that.
-    if (codeEditor.getValue().replace(/{{.*?}}/g,"").trim().match(/^</))
+    if ($.trim(codeEditor.getValue().replace(/{{.*?}}/g,"")).match(/^</))
       return "xml";
     else
       return "OverpassQL";
