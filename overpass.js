@@ -402,9 +402,9 @@ var overpass = new(function() {
             if (typeof data == "string")
               errmsg = data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"");
             if (typeof data == "object" && data instanceof XMLDocument)
-              errmsg = "<p>"+$("remark",data).text().trim()+"</p>";
+              errmsg = "<p>"+$.trim($("remark",data).text())+"</p>";
             if (typeof data == "object" && data.remark)
-              errmsg = "<p>"+data.remark.trim()+"</p>";
+              errmsg = "<p>"+$.trim(data.remark)+"</p>";
             $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
               modal:true,
               buttons:{"ok": function(){$(this).dialog("close");}},
@@ -532,10 +532,10 @@ var overpass = new(function() {
                   if (v.reltags && 
                       (v.reltags.name || v.reltags.ref || v.reltags.type))
                     popup += " <i>" + 
-                             ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
-                              (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
-                              (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
-                             "</i>";
+                      $.trim((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
+                             (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
+                             (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")) +
+                      "</i>";
                   if (v["role"]) 
                     popup += " as <i>"+htmlentities(v["role"])+"</i>";
                   popup += "</li>";

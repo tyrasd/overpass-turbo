@@ -486,7 +486,7 @@ var ide = new(function() {
   }
   this.getQueryLang = function() {
     // note: cannot use this.getQuery() here, as this function is required by that.
-    if (codeEditor.getValue().replace(/{{.*?}}/g,"").trim().match(/^</))
+    if ($.trim(codeEditor.getValue().replace(/{{.*?}}/g,"")).match(/^</))
       return "xml";
     else
       return "OverpassQL";
@@ -700,21 +700,25 @@ var ide = new(function() {
     });
   }
   this.onExportImageClick = function() {
-    $("body").addClass("loading");
+    ide.waiter.open("exporting as image...");
     // 1. render canvas from map tiles
     // hide map controlls in this step :/
+    // todo: also hide popups?
+    ide.waiter.addInfo("prepare map");
     $("#map .leaflet-control-container .leaflet-top").hide();
     $('a[title="Zoom in"]').removeClass("leaflet-control-zoom-in");
     $('a[title="Zoom out"]').removeClass("leaflet-control-zoom-out");
     if (settings.export_image_attribution) attribControl.addTo(ide.map);
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
+    ide.waiter.addInfo("rendering map tiles");
     $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
       $('a[title="Zoom in"]').addClass("leaflet-control-zoom-in");
       $('a[title="Zoom out"]').addClass("leaflet-control-zoom-out");
       $("#map .leaflet-control-container .leaflet-top").show();
+      ide.waiter.addInfo("rendering map data");
       // 2. render overlay data onto canvas
       canvas.id = "render_canvas";
       var ctx = canvas.getContext("2d");
@@ -726,6 +730,7 @@ var ide = new(function() {
       var offy   = +tmp[2];
       if ($("#map .leaflet-overlay-pane").html().length > 0)
         ctx.drawSvg($("#map .leaflet-overlay-pane").html(),offx,offy,width,height);
+      ide.waiter.addInfo("converting to png image");
       // 3. export canvas as html image
       var imgstr = canvas.toDataURL("image/png");
       var attrib_message = "";
@@ -736,7 +741,8 @@ var ide = new(function() {
         width:500,
         position:["center",60],
         open: function() {
-          $("body").removeClass("loading");
+          // close progress indicator
+          ide.waiter.close();
         },
         buttons: {
           "OK": function() {
