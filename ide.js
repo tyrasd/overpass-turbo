@@ -369,9 +369,31 @@ var ide = new(function() {
     overpass.handlers["onQueryError"] = function(linenumber) {
       ide.highlightError(linenumber);
     }
-    overpass.handlers["onEmptyMap"] = function(empty_msg) {
+    overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
+      // auto tab switching (if only invisible or unstructured data is returned)
+      if (empty_msg == "no visible data" || data_mode == "unknown")
+        ide.switchTab("Data");
+      // display empty map badge
       $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
     }
+    overpass.handlers["onAjaxError"] = function(errmsg) {
+      // show error dialog
+      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
+        modal:true,
+        buttons: {"dismiss": function() {$(this).dialog("close");}},
+      }); // dialog
+      // print error text, if present
+      if (overpass.resultText)
+        ide.dataViewer.setValue(overpass.resultText);
+    }
+    overpass.handlers["onRawDataPresent"] = function() {
+      ide.dataViewer.setOption("mode",overpass.resultType);
+      ide.dataViewer.setValue(overpass.resultText);
+    }
+    overpass.handlers["onGeoJsonReady"] = function() {
+      ide.map.addLayer(overpass.geojsonLayer); 
+    }
+
 
     // load optional js libraries asynchronously
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
@@ -653,10 +675,10 @@ var ide = new(function() {
     });
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
-      if (!overpass.geoJSON_data)
+      if (!overpass.resultData)
         geoJSON_str = "No geoJSON data available! Please run a query first.";
       else
-        geoJSON_str = JSON.stringify(overpass.geoJSON_data, undefined, 2);
+        geoJSON_str = JSON.stringify(overpass.resultData, undefined, 2);
       var d = $("#export-geojson");
       $("textarea",d)[0].value=geoJSON_str;
       d.dialog({
@@ -861,8 +883,8 @@ var ide = new(function() {
     this.resetErrors();
     // reset previously loaded data and overlay
     ide.dataViewer.setValue("");
-    if (typeof ide.map.geojsonLayer != "undefined")
-      ide.map.removeLayer(ide.map.geojsonLayer);
+    if (typeof overpass.geojsonLayer != "undefined")
+      ide.map.removeLayer(overpass.geojsonLayer);
     $("#map_blank").remove();
 
     // run the query via the overpass object

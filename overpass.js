@@ -376,7 +376,7 @@ var overpass = new(function() {
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
         var geojson;
-        overpass.geoJSON_data = null;
+        overpass.resultData = null;
         // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         fire("onWaitProgress", "parsing data");
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
@@ -421,46 +421,43 @@ var overpass = new(function() {
             }
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^
-          ide.dataViewer.setOption("mode","xml"); // todo: set overpass.resultType = "error", do display logic in ide class
+          overpass.resultType = "error";
           geojson = [{features:[]}, {features:[]}, {features:[]}];
         } else if (typeof data == "object" && data instanceof XMLDocument) { // xml data
-          ide.dataViewer.setOption("mode","xml"); // todo: set overpass.resultType = "xml", do display logic in ide class
+          overpass.resultType = "xml";
           data_mode = "xml";
           // convert to geoJSON
           geojson = overpassXML2geoJSON(data);
-          overpass.geoJSON_data = geojson;
         } else { // maybe json data
-          ide.dataViewer.setOption("mode","javascript"); // todo: set overpass.resultType = "json", do display logic in ide class
+          overpass.resultType = "javascript";
           data_mode = "json";
           // convert to geoJSON
           geojson = overpassJSON2geoJSON(data);
-          overpass.geoJSON_data = geojson;
         }
+        overpass.resultData = geojson;
         // print raw data
         fire("onWaitProgress", "printing raw data");
-        ide.dataViewer.setValue(jqXHR.responseText); // todo: set overpass.resultText = jqXHR.responseText, do display logic in ide class
+        overpass.resultText = jqXHR.responseText;
+        fire("onRawDataPresent");
         // 5. add geojson to map - profit :)
         // auto-tab-switching: if there is only non map-visible data, show it directly
         if (geojson[0].features.length == 0 && geojson[1].features.length == 0 && geojson[2].features.length == 0) { // no visible data
           // switch only if there is some unplottable data in the returned json/xml.
           if ((data_mode == "json" && data.elements.length > 0) ||
               (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
-            ide.switchTab("Data"); // todo: do display logic in ide class
             empty_msg = "no visible data";
           } else if(data_mode == "error") {
             empty_msg = "an error occured";
           } else if(data_mode == "unknown") {
-            // switch also if some unstructured data is returned (e.g. output="popup"/"custom")
-            ide.switchTab("Data"); // todo: do display logic in ide class
             empty_msg = "unstructured data returned";
           } else {
             empty_msg = "recieved empty dataset";
           }
           // show why there is an empty map
-          fire("onEmptyMap", empty_msg);
+          fire("onEmptyMap", empty_msg, data_mode);
         }
         fire("onWaitProgress", "rendering geoJSON");
-        ide.map.geojsonLayer = new L.GeoJSON(null, { // todo: set overpass.resultData, do display logic in ide class
+        overpass.geojsonLayer = new L.GeoJSON(null, {
           style: function(feature) {
             var stl = {};
             var color = "#03f";
@@ -569,9 +566,9 @@ var overpass = new(function() {
           },
         });
         for (i=0;i<geojson.length;i++) {
-          ide.map.geojsonLayer.addData(geojson[i]);
+          overpass.geojsonLayer.addData(geojson[i]);
         }
-        ide.map.addLayer(ide.map.geojsonLayer);
+        fire("onGeoJsonReady");
         // closing wait spinner
         fire("onWaitEnd");
       },
@@ -584,9 +581,7 @@ var overpass = new(function() {
           this.success(jqXHR.responseText, textStatus, jqXHR);
           return;
         }
-        ide.dataViewer.setValue(""); // todo: overpass.fire("onAjaxError", jqXHR, textStatus, errorThrown), do display logic in ide class
-        if (jqXHR.responseText)
-          ide.dataViewer.setValue(jqXHR.responseText);
+        overpass.resultText = jqXHR.resultText;
         var errmsg = "";
         if (jqXHR.state() == "rejected")
           errmsg += "<p>Request rejected. (e.g. server not found, redirection, internal server errors, etc.)</p>";
@@ -596,10 +591,7 @@ var overpass = new(function() {
           errmsg += "<p>Error-Code: "+textStatus+"</p>";
         if ((jqXHR.status != 0 && jqXHR.status != 200) || jqXHR.statusText != "OK") // note to me: jqXHR.status "should" give http status codes
           errmsg += "<p>Error-Code: "+jqXHR.statusText+" ("+jqXHR.status+")</p>";
-        $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
-          modal:true,
-          buttons: {"ok": function() {$(this).dialog("close");}},
-        }); // dialog
+        fire("onAjaxError", errmsg);
         // closing wait spinner
         fire("onWaitEnd");
       },
