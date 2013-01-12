@@ -363,11 +363,14 @@ var ide = new(function() {
     overpass.handlers["onWaitProgress"] = function(msg,callback) {
       ide.waiter.addInfo(msg,callback);
     }
-    overpass.handlers["onWaitProgress"] = function() {
+    overpass.handlers["onWaitEnd"] = function() {
       ide.waiter.close();
     }
     overpass.handlers["onQueryError"] = function(linenumber) {
       ide.highlightError(linenumber);
+    }
+    overpass.handlers["onEmptyMap"] = function(empty_msg) {
+      $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
     }
 
     // load optional js libraries asynchronously
@@ -574,7 +577,6 @@ var ide = new(function() {
     });
   }
   this.onRunClick = function() {
-    this.resetErrors();
     ide.update_map();
   }
   var compose_share_link = function(query,compression,coords,run) {
@@ -855,6 +857,15 @@ var ide = new(function() {
     // todo: more shortcuts
   }
   this.update_map = function() {
+    // resets previously highlighted error lines
+    this.resetErrors();
+    // reset previously loaded data and overlay
+    ide.dataViewer.setValue("");
+    if (typeof ide.map.geojsonLayer != "undefined")
+      ide.map.removeLayer(ide.map.geojsonLayer);
+    $("#map_blank").remove();
+
+    // run the query via the overpass object
     var query = ide.getQuery(true,false);
     var query_lang = ide.getQueryLang();
     overpass.run_query(query,query_lang);

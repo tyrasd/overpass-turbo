@@ -342,8 +342,8 @@ var overpass = new(function() {
 
   // updates the map
   this.run_query = function (query, query_lang) {
-    fire("onWaitStart")
-    fire("onWaitProgress", "update_map called")
+    fire("onWaitStart");
+    fire("onWaitProgress", "update_map called");
     // 1. get overpass json data
     fire("onWaitProgress", "building query");
     if (query_lang == "xml") {
@@ -373,11 +373,6 @@ var overpass = new(function() {
       headers: request_headers,
       success: function(data, textStatus, jqXHR) {
         fire("onWaitProgress", "data recieved from Overpass API");
-        // clear previous data and messages
-        ide.dataViewer.setValue(""); // todo: move this logic to ide object
-        if (typeof ide.map.geojsonLayer != "undefined") 
-          ide.map.removeLayer(ide.map.geojsonLayer);
-        $("#map_blank").remove();
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
         var geojson;
@@ -462,7 +457,7 @@ var overpass = new(function() {
             empty_msg = "recieved empty dataset";
           }
           // show why there is an empty map
-          $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+          fire("onEmptyMap", empty_msg);
         }
         fire("onWaitProgress", "rendering geoJSON");
         ide.map.geojsonLayer = new L.GeoJSON(null, { // todo: set overpass.resultData, do display logic in ide class
