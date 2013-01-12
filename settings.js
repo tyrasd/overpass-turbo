@@ -1,5 +1,6 @@
 // Settings class
 var Settings = function(namespace,version) {
+  this.appname = "overpass-ide";
   // == private members ==
   var prefix = namespace+"_";
   var settings_version = version;

@@ -6,7 +6,6 @@ var ide = new(function() {
   var attribControl = null;
   var scaleControl = null;
   // == public members ==
-  this.appname = "overpass-ide";
   this.dataViewer = null;
   this.map = null;
 
@@ -291,7 +290,7 @@ var ide = new(function() {
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+ide.appname, {
+            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+settings.appname, {
               data:{
                 format:"json",
                 q: request.term
