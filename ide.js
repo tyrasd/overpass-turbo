@@ -336,7 +336,6 @@ var ide = new(function() {
    
     ide.map.bboxfilter = new L.LocationFilter({enable:!true,adjustButton:false,enableButton:false,}).addTo(ide.map);
 
-
     ide.map.on("popupopen popupclose",function(e) {
       if (typeof e.popup.layer != "undefined") {
         var layer = e.popup.layer;
@@ -357,6 +356,17 @@ var ide = new(function() {
       }
     });
 
+    // event handlers for overpass object
+    overpass.handlers["onWaitStart"] = function() {
+      ide.waiter.open(true);
+    }
+    overpass.handlers["onWaitProgress"] = function(msg,callback) {
+      ide.waiter.addInfo(msg,callback);
+    }
+    overpass.handlers["onWaitProgress"] = function() {
+      ide.waiter.close();
+    }
+
     // load optional js libraries asynchronously
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
 
@@ -369,7 +379,7 @@ var ide = new(function() {
       ide.onHelpClick();
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true)
-      overpass.update_map();
+      ide.update_map();
   } // init()
 
   var make_combobox = function(input, options) {
@@ -562,7 +572,7 @@ var ide = new(function() {
   }
   this.onRunClick = function() {
     this.resetErrors();
-    overpass.update_map();
+    ide.update_map();
   }
   var compose_share_link = function(query,compression,coords,run) {
     var share_link = "";
@@ -840,6 +850,11 @@ var ide = new(function() {
       event.preventDefault();
     }
     // todo: more shortcuts
+  }
+  this.update_map = function() {
+    var query = ide.getQuery(true,false);
+    var query_lang = ide.getQueryLang();
+    overpass.run_query(query,query_lang);
   }
 
   // == initializations ==
