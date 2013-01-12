@@ -392,6 +392,9 @@ var ide = new(function() {
     overpass.handlers["onGeoJsonReady"] = function() {
       ide.map.addLayer(overpass.geojsonLayer); 
     }
+    overpass.handlers["onPopupReady"] = function(p) {
+      p.openOn(ide.map);
+    }
 
 
     // load optional js libraries asynchronously

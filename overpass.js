@@ -561,7 +561,7 @@ var overpass = new(function() {
               }
               var p = L.popup({},this).setLatLng(e.latlng).setContent(popup);
               p.layer = layer;
-              p.openOn(ide.map);
+              fire("onPopupReady", p);
             });
           },
         });
