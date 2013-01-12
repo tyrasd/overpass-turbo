@@ -422,7 +422,7 @@ var overpass = new(function() {
             // parse errors and highlight error lines
             var errlines = errmsg.match(/line \d+:/g) || [];
             for (var i=0; i<errlines.length; i++) {
-              ide.highlightError(1*errlines[i].match(/\d+/)[0]); // todo: overpass.fire("onQueryError", linenumber)
+              fire("onQueryError", 1*errlines[i].match(/\d+/)[0]);
             }
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^

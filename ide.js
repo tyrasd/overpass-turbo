@@ -366,6 +366,9 @@ var ide = new(function() {
     overpass.handlers["onWaitProgress"] = function() {
       ide.waiter.close();
     }
+    overpass.handlers["onQueryError"] = function(linenumber) {
+      ide.highlightError(linenumber);
+    }
 
     // load optional js libraries asynchronously
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
