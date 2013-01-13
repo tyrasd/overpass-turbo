@@ -342,10 +342,8 @@ var overpass = new(function() {
 
   // updates the map
   this.run_query = function (query, query_lang) {
-    fire("onWaitStart");
-    fire("onWaitProgress", "update_map called");
     // 1. get overpass json data
-    fire("onWaitProgress", "building query");
+    fire("onProgress", "building query");
     if (query_lang == "xml") {
       // beautify not well formed xml queries (workaround for non matching error lines)
       if (!query.match(/^<\?xml/)) {
@@ -354,7 +352,7 @@ var overpass = new(function() {
         query = '<?xml version="1.0" encoding="UTF-8"?>'+query;
       }
     }
-    fire("onWaitProgress", "calling Overpass API interpreter", function() {
+    fire("onProgress", "calling Overpass API interpreter", function() {
       // kill the query on abort
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
@@ -372,13 +370,13 @@ var overpass = new(function() {
       data: {data:query},
       headers: request_headers,
       success: function(data, textStatus, jqXHR) {
-        fire("onWaitProgress", "data recieved from Overpass API");
+        fire("onProgress", "data recieved from Overpass API");
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
         var geojson;
         overpass.resultData = null;
         // hacky firefox hack :( (it is not properly detecting json from the content-type header)
-        fire("onWaitProgress", "parsing data");
+        fire("onProgress", "parsing data");
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
           try {
             data = $.parseJSON(data);
@@ -433,7 +431,7 @@ var overpass = new(function() {
         }
         overpass.resultData = geojson;
         // print raw data
-        fire("onWaitProgress", "printing raw data");
+        fire("onProgress", "printing raw data");
         overpass.resultText = jqXHR.responseText;
         fire("onRawDataPresent");
         // 5. add geojson to map - profit :)
@@ -453,7 +451,7 @@ var overpass = new(function() {
           // show why there is an empty map
           fire("onEmptyMap", empty_msg, data_mode);
         }
-        fire("onWaitProgress", "rendering geoJSON");
+        fire("onProgress", "rendering geoJSON");
         overpass.geojsonLayer = new L.GeoJSON(null, {
           style: function(feature) {
             var stl = {};
@@ -567,12 +565,12 @@ var overpass = new(function() {
         }
         fire("onGeoJsonReady");
         // closing wait spinner
-        fire("onWaitEnd");
+        fire("onDone");
       },
       error: function(jqXHR, textStatus, errorThrown) {
         if (textStatus == "abort")
           return; // ignore aborted queries.
-        fire("onWaitProgress", "error during ajax call");
+        fire("onProgress", "error during ajax call");
         if (jqXHR.status == 400) {
           // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
           this.success(jqXHR.responseText, textStatus, jqXHR);

@@ -356,13 +356,10 @@ var ide = new(function() {
     });
 
     // event handlers for overpass object
-    overpass.handlers["onWaitStart"] = function() {
-      ide.waiter.open(true);
-    }
-    overpass.handlers["onWaitProgress"] = function(msg,callback) {
+    overpass.handlers["onProgress"] = function(msg,callback) {
       ide.waiter.addInfo(msg,callback);
     }
-    overpass.handlers["onWaitEnd"] = function() {
+    overpass.handlers["onDone"] = function() {
       ide.waiter.close();
     }
     overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
@@ -887,6 +884,8 @@ var ide = new(function() {
     // todo: more shortcuts
   }
   this.update_map = function() {
+    ide.waiter.open(true);
+    ide.waiter.addInfo("resetting map");
     // resets previously highlighted error lines
     this.resetErrors();
     // reset previously loaded data and overlay
