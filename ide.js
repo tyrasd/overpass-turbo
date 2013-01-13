@@ -238,7 +238,7 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = "zoom onto data";
         L.DomEvent.addListener(link, 'click', function() {
-          try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
+          try {ide.map.fitBounds(overpass.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
