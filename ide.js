@@ -365,9 +365,6 @@ var ide = new(function() {
     overpass.handlers["onWaitEnd"] = function() {
       ide.waiter.close();
     }
-    overpass.handlers["onQueryError"] = function(linenumber) {
-      ide.highlightError(linenumber);
-    }
     overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
       // auto tab switching (if only invisible or unstructured data is returned)
       if (empty_msg == "no visible data" || data_mode == "unknown")
@@ -384,6 +381,15 @@ var ide = new(function() {
       // print error text, if present
       if (overpass.resultText)
         ide.dataViewer.setValue(overpass.resultText);
+    }
+    overpass.handlers["onQueryError"] = function(errmsg) {
+      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
+        modal:true,
+        buttons:{"ok": function(){$(this).dialog("close");}},
+      });
+    }
+    overpass.handlers["onQueryErrorLine"] = function(linenumber) {
+      ide.highlightError(linenumber);
     }
     overpass.handlers["onRawDataPresent"] = function() {
       ide.dataViewer.setOption("mode",overpass.resultType);

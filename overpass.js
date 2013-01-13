@@ -409,15 +409,12 @@ var overpass = new(function() {
               errmsg = "<p>"+$.trim($("remark",data).text())+"</p>";
             if (typeof data == "object" && data.remark)
               errmsg = "<p>"+$.trim(data.remark)+"</p>";
-            $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
-              modal:true,
-              buttons:{"ok": function(){$(this).dialog("close");}},
-            });
+            fire("onQueryError", errmsg)
             data_mode = "error";
             // parse errors and highlight error lines
             var errlines = errmsg.match(/line \d+:/g) || [];
             for (var i=0; i<errlines.length; i++) {
-              fire("onQueryError", 1*errlines[i].match(/\d+/)[0]);
+              fire("onQueryErrorLine", 1*errlines[i].match(/\d+/)[0]);
             }
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^
