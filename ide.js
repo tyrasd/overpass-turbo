@@ -833,6 +833,7 @@ var ide = new(function() {
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
     $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
+    $("#settings-dialog input[name=scripts_enabled]")[0].checked = settings.scripts_enabled;
     // sharing options
     $("#settings-dialog input[name=share_include_pos]")[0].checked = settings.share_include_pos;
     $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
@@ -862,6 +863,7 @@ var ide = new(function() {
           settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
           settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
+          settings.scripts_enabled  = $("#settings-dialog input[name=scripts_enabled]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
           var prev_tile_server = settings.tile_server;
@@ -912,6 +914,33 @@ var ide = new(function() {
     // todo: more shortcuts
   }
   this.update_map = function() {
+    var query = ide.getQuery(true,false);
+    var query_lang = ide.getQueryLang();
+
+    // check for query with scripts and scripts disabled
+    if (!$.isEmptyObject(overpass.scripts) && 
+        !settings.scripts_enabled &&
+        !ide.run_without_scripts) {
+      $('<div title="Warning"><p>This query contains a <i>turbo script</i>. Scripts are an advanced feature an therefore disabled by default, but you can enable them now if you want.</p></div>').dialog({
+        modal:true,
+        buttons: {
+          "enable scripts": function() {
+            $(this).dialog("close");
+            settings.scripts_enabled = true; settings.set("scripts_enabled");
+            ide.update_map();
+          },
+          "run query without scripts": function() {
+            $(this).dialog("close");
+            ide.run_without_scripts = true;
+            ide.update_map();
+          }
+        },
+      }); // dialog
+      return;
+    }
+    delete ide.run_without_scripts;
+
+    // now finally run it
     ide.waiter.open(true);
     ide.waiter.addInfo("resetting map");
     // resets previously highlighted error lines
@@ -921,10 +950,7 @@ var ide = new(function() {
     if (typeof overpass.geojsonLayer != "undefined")
       ide.map.removeLayer(overpass.geojsonLayer);
     $("#map_blank").remove();
-
     // run the query via the overpass object
-    var query = ide.getQuery(true,false);
-    var query_lang = ide.getQueryLang();
     overpass.run_query(query,query_lang);
   }
 

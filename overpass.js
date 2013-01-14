@@ -329,6 +329,8 @@ var overpass = new(function() {
     return geojson;
   }
   var execute_script = function() {
+    if (!settings.scripts_enabled)
+      return;
     var args = execute_script.arguments;
     var name = args[0];
     if (typeof overpass.scripts[name] != "function")
@@ -351,6 +353,7 @@ var overpass = new(function() {
     var handler_args = [];
     for (var i=1; i<args.length; i++) 
       handler_args.push(args[i]);
+    overpass.handlers[name].apply({},handler_args);
   }
 
   // == public methods ==

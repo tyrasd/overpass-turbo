@@ -70,7 +70,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",13);
+var settings = new Settings("overpass-ide",20);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -96,6 +96,8 @@ settings.define_setting("export_image_attribution","Boolean",true,1);
 settings.define_setting("force_simple_cors_request","Boolean",false,11);
 // background opacity
 settings.define_setting("background_opacity","Float",1.0,13);
+// scripts
+settings.define_setting("scripts_enabled","boolean",false,20);
 
 //settings.define_setting(,,,);
 
