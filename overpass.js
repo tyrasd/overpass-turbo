@@ -338,6 +338,8 @@ var overpass = new(function() {
     var script_args = [];
     for (var i=1; i<args.length; i++) 
       script_args.push(args[i]);
+    if ($.inArray(name,["beforeExecute","onShow"]) != -1)
+      fire("onProgress","executing script: "+name);
     try {
       return overpass.scripts[name].apply({},script_args);
     } catch(e) {
