@@ -30,8 +30,8 @@
   <link rel="stylesheet" type="text/css" href="default.css" />
   <link rel="stylesheet" type="text/css" media="(max-width: 700px), (max-device-width: 799px)" href="compact.css"/>
   <script src="settings.js"></script>
-  <script src="ide.js"></script>
   <script src="overpass.js"></script>
+  <script src="ide.js"></script>
 </head>
 <body class="loading">
   <!--more optional libraries-->
@@ -78,29 +78,33 @@
   <div id="help-dialog" title="Help" class="dialog">
     <h3><a>Introduction</a></h3>
     <div>
-      <p>This web application lets you run <a href="http://overpass-api.de">Overpass API</a> <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a> and analyse the results interactively on a map.</p>
-      <p>You can run xml styled or OverpassQL queries. Returned xml or json data is parsed and (if possible) shown on the map.</p>
-      <p>One can use the following handy shortcuts in the query: <ul>
-        <li><i>{{bbox}}</i> - the bounding box coordinates of the current map view.</li>
-        <li><i>{{center}}</i> - the center coordinates of the current view.</li>
-        <li>Arbitrary shortcuts can be defined easily: just put <i>{{shortcut=value}}</i> somewhere in the script.</li>
+      <p>With <b>overpass turbo</b> you can run <a href="http://overpass-api.de">Overpass API</a> queries and analyse the resulting <a href="http://www.openstreetmap.org">OpenStreetMap</a> data interactively on a map.</p>
+      <p>You can run xml styled or OverpassQL <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a>. Returned xml or json data is parsed and (if possible) shown on the map. For more information about <i>overpass turbo</i> take a look at the <a href="http://wiki.openstreetmap.org/wiki/Overpass_turbo">OSM wiki</a>.</p>
+      <p>One can use the following handy shortcuts in the query:
+      <ul>
+        <li><i>{{bbox}}</i> - bounding box coordinates of the current map view</li>
+        <li><i>{{center}}</i> - map center coordinates</li>
+        <li>Arbitrary shortcuts can be defined by putting <i>{{shortcut=value}}</i> somewhere in the script.</li>
       </ul></p>
     </div>
     <h3><a>IDE</a></h3>
     <div>
       <h4>Sharing</h4>
-      <p>It is possible to send the query you are currently working on to someone else. This is found in the <i>Share</i> tool and shows you a link which you can send to a friend or post online. (Note that others will work on their own copy of the query.)</p>
+      <p>It is possible to send a permalink with the query you are currently working on to someone else. This is found in the <i>Share</i> tool and shows you a link which you can send to a friend or post online. (Note that others will work on their own copy of the query.)</p>
       <h4>Save and Load</h4>
       <p>You can also save and load your queries. For a start, there are a few example queries preloaded. Take a look at them for a short glimpse of what overpass can do.</p>
       <h4>Keyboard shortcuts:</h4>
-      <p><i>Ctrl+Enter</i>: Run the current query.</p>
+      <ul>
+        <li><i>Ctrl+Enter</i> - Run the current query.</li>
+        <li><i>Esc</i> - Close current dialog or message box.</li>
+      </ul>
     </div>
     <h3><a>Export</a></h3>
     <div>
       <p>The <i>Export</i> tool holds a variety of options to do with the query and/or data loaded by the query.<br />
       Options with this symbol:<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span> rely on or refer to external (online) tools.</p>
       <h4>Map</h4>
-      <p>This lets you convert the current map-with-data view to a static png image, or a (fullscreen) interactive map, etc.</p>
+      <p>Convert the current map-with-data view to a static png image, or a (fullscreen) interactive map, etc.</p>
       <h4>Query</h4>
       <p>This holds some things you can do with the raw query, like converting it between the various query languages. A very usefull option is the possibility to send the query to JOSM.</p>
     </div>
@@ -126,21 +130,29 @@
   </div>
   <!--settings-->
   <div title="Settings" id="settings-dialog" class="dialog">
-    <h3>General Settings</h3>
-    <p><label>Server:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
-    <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;Force simple CORS requests <small>(use when the server doesn't support preflighted <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> requests)</small></p>
-    <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location <small>(html5 geolocation)</small></p>
-    <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
-    <h3>Map</h3>
-    <p><label>Tile-Server:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
-    <p><label>Tiles Opacity:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(transparency of background tiles: 0=tansparent &hellip; 1=visible)</small></p>
-    <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;Show crosshairs at the map center.</p>
-    <h3>Sharing</h3>
-    <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
-    <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
-    <h3>Export</h3>
-    <p><input type="checkbox" name="export_image_scale"/>&nbsp;Show scale on exported images.</p>
-    <p><input type="checkbox" name="export_image_attribution"/>&nbsp;Show attribution on exported images.</p>
+    <h3><a>General Settings</a></h3>
+    <div>
+      <p><label>Server:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
+      <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;Force simple CORS requests <small>(use when the server doesn't support preflighted <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> requests)</small></p>
+      <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location <small>(html5 geolocation)</small></p>
+      <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
+    </div>
+    <h3><a>Map</a></h3>
+    <div>
+      <p><label>Tile-Server:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
+      <p><label>Tiles Opacity:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(transparency of background tiles: 0=tansparent &hellip; 1=visible)</small></p>
+      <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;Show crosshairs at the map center.</p>
+    </div>
+    <h3><a>Sharing</a></h3>
+    <div>
+      <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
+      <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
+    </div>
+    <h3><a>Export</a></h3>
+    <div>
+      <p><input type="checkbox" name="export_image_scale"/>&nbsp;Show scale on exported images.</p>
+      <p><input type="checkbox" name="export_image_attribution"/>&nbsp;Show attribution on exported images.</p>
+    </div>
   </div>
   <!--save-->
   <div title="Save" id="save-dialog" class="dialog">
@@ -157,7 +169,7 @@
     <h3>Map</h3>
     <p>as <a id="export-image" href="" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;">png image</a></p>
     <p>as <a id="export-interactive-map" href="">interactive Map</a></p>
-    <p>as <a id="export-overpass-openlayers" href="">interactive OpenLayers Map<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a> <small>(only for queries returning valid OSM-XML)</small></p>
+    <p>as <a id="export-overpass-openlayers" href="">OpenLayers Map<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a> <small>(only for queries returning valid OSM-XML)</small></p>
     <p>get current <a id="export-map-state" href="">map state</a> <small>bbox, center, etc.</small></p>
     <h3>Data</h3>
     <p>raw link to <a id="export-overpass-api" href="">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>

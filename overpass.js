@@ -5,6 +5,7 @@ var overpass = new(function() {
   // == private members ==
   // == public members ==
   this.scripts = {};
+  this.handlers = {};
 
   // == private methods ==
   var overpassJSON2geoJSON = function(json) {
@@ -345,17 +346,23 @@ var overpass = new(function() {
       // todo: make it possible to disable further cascading error messages
     }
   }
+  var fire = function() {
+    var args = fire.arguments;
+    var name = args[0];
+    if (typeof overpass.handlers[name] != "function")
+      return undefined;
+    var handler_args = [];
+    for (var i=1; i<args.length; i++) 
+      handler_args.push(args[i]);
+  }
 
   // == public methods ==
 
   // updates the map
-  this.update_map = function () {
-    ide.waiter.open(true);
-    ide.waiter.addInfo("update_map called");
+  this.run_query = function (query, query_lang) {
     // 1. get overpass json data
-    ide.waiter.addInfo("building query");
-    var query = ide.getQuery(true,false);
-    if (ide.getQueryLang() == "xml") {
+    fire("onProgress", "building query");
+    if (query_lang == "xml") {
       // beautify not well formed xml queries (workaround for non matching error lines)
       if (!query.match(/^<\?xml/)) {
         if (!query.match(/<osm-script/))
@@ -367,7 +374,7 @@ var overpass = new(function() {
     execute_script("beforeExecute",query);
     //$.getJSON("http://overpass-api.de/api/interpreter?data="+encodeURIComponent(query),
     //$.post(settings.server+"interpreter", {data: query},
-    ide.waiter.addInfo("calling Overpass API interpreter", function() {
+    fire("onProgress", "calling Overpass API interpreter", function() {
       // kill the query on abort
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
@@ -376,27 +383,22 @@ var overpass = new(function() {
     var request_headers = {};
     var additional_get_data = "";
     if (settings.force_simple_cors_request) {
-      additional_get_data = "?X-Requested-With="+ide.appname;
+      additional_get_data = "?X-Requested-With="+settings.appname; // todo: move appname to settings object?
     } else {
-      request_headers["X-Requested-With"] = ide.appname;
+      request_headers["X-Requested-With"] = settings.appname;
     }
     overpass.ajax_request = $.ajax(settings.server+"interpreter"+additional_get_data, {
       type: 'POST',
       data: {data:query},
       headers: request_headers,
       success: function(data, textStatus, jqXHR) {
-        ide.waiter.addInfo("data recieved from Overpass API");
-        // clear previous data and messages
-        ide.dataViewer.setValue("");
-        if (typeof ide.map.geojsonLayer != "undefined") 
-          ide.map.removeLayer(ide.map.geojsonLayer);
-        $("#map_blank").remove();
+        fire("onProgress", "data recieved from Overpass API");
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
         var geojson;
-        overpass.geoJSON_data = null;
+        overpass.resultData = null;
         // hacky firefox hack :( (it is not properly detecting json from the content-type header)
-        ide.waiter.addInfo("parsing data");
+        fire("onProgress", "parsing data");
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
           try {
             data = $.parseJSON(data);
@@ -424,61 +426,55 @@ var overpass = new(function() {
             if (typeof data == "string")
               errmsg = data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"");
             if (typeof data == "object" && data instanceof XMLDocument)
-              errmsg = "<p>"+$("remark",data).text().trim()+"</p>";
+              errmsg = "<p>"+$.trim($("remark",data).text())+"</p>";
             if (typeof data == "object" && data.remark)
-              errmsg = "<p>"+data.remark.trim()+"</p>";
-            $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
-              modal:true,
-              buttons:{"ok": function(){$(this).dialog("close");}},
-            });
+              errmsg = "<p>"+$.trim(data.remark)+"</p>";
+            fire("onQueryError", errmsg)
             data_mode = "error";
             // parse errors and highlight error lines
             var errlines = errmsg.match(/line \d+:/g) || [];
             for (var i=0; i<errlines.length; i++) {
-              ide.highlightError(1*errlines[i].match(/\d+/)[0]);
+              fire("onQueryErrorLine", 1*errlines[i].match(/\d+/)[0]);
             }
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^
-          ide.dataViewer.setOption("mode","xml");
+          overpass.resultType = "error";
           geojson = [{features:[]}, {features:[]}, {features:[]}];
         } else if (typeof data == "object" && data instanceof XMLDocument) { // xml data
-          ide.dataViewer.setOption("mode","xml");
+          overpass.resultType = "xml";
           data_mode = "xml";
           // convert to geoJSON
           geojson = overpassXML2geoJSON(data);
-          overpass.geoJSON_data = geojson;
         } else { // maybe json data
-          ide.dataViewer.setOption("mode","javascript");
+          overpass.resultType = "javascript";
           data_mode = "json";
           // convert to geoJSON
           geojson = overpassJSON2geoJSON(data);
-          overpass.geoJSON_data = geojson;
         }
+        overpass.resultData = geojson;
         // print raw data
-        ide.waiter.addInfo("printing raw data");
-        ide.dataViewer.setValue(jqXHR.responseText);
+        fire("onProgress", "printing raw data");
+        overpass.resultText = jqXHR.responseText;
+        fire("onRawDataPresent");
         // 5. add geojson to map - profit :)
         // auto-tab-switching: if there is only non map-visible data, show it directly
         if (geojson[0].features.length == 0 && geojson[1].features.length == 0 && geojson[2].features.length == 0) { // no visible data
           // switch only if there is some unplottable data in the returned json/xml.
           if ((data_mode == "json" && data.elements.length > 0) ||
               (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
-            ide.switchTab("Data");
             empty_msg = "no visible data";
           } else if(data_mode == "error") {
             empty_msg = "an error occured";
           } else if(data_mode == "unknown") {
-            // switch also if some unstructured data is returned (e.g. output="popup"/"custom")
-            ide.switchTab("Data");
             empty_msg = "unstructured data returned";
           } else {
             empty_msg = "recieved empty dataset";
           }
           // show why there is an empty map
-          $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+          fire("onEmptyMap", empty_msg, data_mode);
         }
-        ide.waiter.addInfo("rendering geoJSON");
-        ide.map.geojsonLayer = new L.GeoJSON(null, {
+        fire("onProgress", "rendering geoJSON");
+        overpass.geojsonLayer = new L.GeoJSON(null, {
           style: function(feature, highlight) {
             var stl = {};
             var color = "#03f";
@@ -566,10 +562,10 @@ var overpass = new(function() {
                   if (v.reltags && 
                       (v.reltags.name || v.reltags.ref || v.reltags.type))
                     popup += " <i>" + 
-                             ((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
-                              (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
-                              (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")).trim() +
-                             "</i>";
+                      $.trim((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
+                             (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
+                             (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")) +
+                      "</i>";
                   if (v["role"]) 
                     popup += " as <i>"+htmlentities(v["role"])+"</i>";
                   popup += "</li>";
@@ -599,31 +595,29 @@ var overpass = new(function() {
               // show the popup
               var p = L.popup({},this).setLatLng(e.latlng || e.target._latlng).setContent(popup);
               p.layer = layer;
-              p.openOn(ide.map);
+              fire("onPopupReady", p);
             });
           },
         });
         for (i=0;i<geojson.length;i++) {
-          ide.map.geojsonLayer.addData(geojson[i]);
+          overpass.geojsonLayer.addData(geojson[i]);
         }
-        ide.map.addLayer(ide.map.geojsonLayer);
+        fire("onGeoJsonReady");
         // onshow callback:
         execute_script("onShow", geojson);
         // closing wait spinner
-        ide.waiter.close();
+        fire("onDone");
       },
       error: function(jqXHR, textStatus, errorThrown) {
         if (textStatus == "abort")
           return; // ignore aborted queries.
-        ide.waiter.addInfo("error during ajax call");
+        fire("onProgress", "error during ajax call");
         if (jqXHR.status == 400) {
           // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
           this.success(jqXHR.responseText, textStatus, jqXHR);
           return;
         }
-        ide.dataViewer.setValue("");
-        if (jqXHR.responseText)
-          ide.dataViewer.setValue(jqXHR.responseText);
+        overpass.resultText = jqXHR.resultText;
         var errmsg = "";
         if (jqXHR.state() == "rejected")
           errmsg += "<p>Request rejected. (e.g. server not found, redirection, internal server errors, etc.)</p>";
@@ -633,19 +627,16 @@ var overpass = new(function() {
           errmsg += "<p>Error-Code: "+textStatus+"</p>";
         if ((jqXHR.status != 0 && jqXHR.status != 200) || jqXHR.statusText != "OK") // note to me: jqXHR.status "should" give http status codes
           errmsg += "<p>Error-Code: "+jqXHR.statusText+" ("+jqXHR.status+")</p>";
-        $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
-          modal:true,
-          buttons: {"ok": function() {$(this).dialog("close");}},
-        }); // dialog
+        fire("onAjaxError", errmsg);
         // closing wait spinner
-        ide.waiter.close();
+        fire("onWaitEnd");
       },
     }); // getJSON
 
   }
 
   // == initializations ==
-})(); // end create ide object
+})(); // end create overpass object
 
 
 

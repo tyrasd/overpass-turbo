@@ -40,6 +40,12 @@
     body.loading .modal {
       display:block;
     }
+    .leaflet-popup-pane {
+      opacity: 0.88;
+    }
+    .leaflet-popup-content-wrapper {
+      border-radius: 3px;
+    }
   </style>
   <script>
     // escape strings to show them directly in the html.
@@ -52,16 +58,16 @@
         alert("error :( "+$(this).html());
       };
       settings = {
+        appname: "overpass-ide-map",
         code:{},
         server: "http://overpass-api.de/api/",
         tileServer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         force_simple_cors_request: true,
       };
       ide = {
-        appname: "overpass-ide-map",
         getQuery: function() {return settings.code["overpass"];},
-        getQueryLang: function() {return (settings.code["overpass"].trim().match(/^</))?"xml":"OverpassQL";},
-        dataViewer: {setValue: function() {}, setOption: function() {},},
+        getQueryLang: function() {return ($.trim(settings.code["overpass"]).match(/^</))?"xml":"OverpassQL";},
+        update_map: function() {overpass.run_query(ide.getQuery(true,false),ide.getQueryLang());},
       };
       // (very raw) compatibility check
       if (jQuery.support.cors != true ||
@@ -99,10 +105,16 @@
       ide.map.on("layeradd", function(e) {
         if (!(e.layer instanceof L.GeoJSON)) return;
         ide.map.setView([0,0],18,true);
-        try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}
+        try {ide.map.fitBounds(overpass.geojsonLayer.getBounds()); } catch (e) {}
       });
+      // overpass functionality
+      overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {$('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");};
+      overpass.handlers["onAjaxError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\n" + errmsg);};
+      overpass.handlers["onQueryError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\nThis is what overpass API returned:\n" + errmsg);};
+      overpass.handlers["onGeoJsonReady"] = function() {ide.map.addLayer(overpass.geojsonLayer);};
+      overpass.handlers["onPopupReady"] = function(p) {p.openOn(ide.map);};
       // load the data
-      overpass.update_map();
+      ide.update_map();
     });
   </script>
 </head>

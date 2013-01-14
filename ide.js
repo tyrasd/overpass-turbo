@@ -6,7 +6,6 @@ var ide = new(function() {
   var attribControl = null;
   var scaleControl = null;
   // == public members ==
-  this.appname = "overpass-ide";
   this.dataViewer = null;
   this.map = null;
 
@@ -239,7 +238,7 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = "zoom onto data";
         L.DomEvent.addListener(link, 'click', function() {
-          try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
+          try {ide.map.fitBounds(overpass.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
@@ -291,7 +290,7 @@ var ide = new(function() {
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+ide.appname, {
+            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+settings.appname, {
               data:{
                 format:"json",
                 q: request.term
@@ -336,12 +335,11 @@ var ide = new(function() {
    
     ide.map.bboxfilter = new L.LocationFilter({enable:!true,adjustButton:false,enableButton:false,}).addTo(ide.map);
 
-
     ide.map.on("popupopen popupclose",function(e) {
       if (typeof e.popup.layer != "undefined") {
         var layer = e.popup.layer;
         // re-call style handler to eventually modify the style of the clicked feature
-        var stl = ide.map.geojsonLayer.options.style(layer.feature, e.type=="popupopen");
+        var stl = ide.map.geojsonLayer.options.style(layer.feature, e.type=="popupopen"); // todo: can this go to overpass.js?
         if (typeof layer.eachLayer != "function") {
           if (typeof layer.setStyle == "function")
             layer.setStyle(stl); // other objects (pois, ways)
@@ -349,6 +347,51 @@ var ide = new(function() {
           layer.eachLayer(function(l) {l.setStyle(stl);}); // for multipolygons!
       }
     });
+
+    // event handlers for overpass object
+    overpass.handlers["onProgress"] = function(msg,callback) {
+      ide.waiter.addInfo(msg,callback);
+    }
+    overpass.handlers["onDone"] = function() {
+      ide.waiter.close();
+    }
+    overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
+      // auto tab switching (if only invisible or unstructured data is returned)
+      if (empty_msg == "no visible data" || data_mode == "unknown")
+        ide.switchTab("Data");
+      // display empty map badge
+      $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+    }
+    overpass.handlers["onAjaxError"] = function(errmsg) {
+      // show error dialog
+      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
+        modal:true,
+        buttons: {"dismiss": function() {$(this).dialog("close");}},
+      }); // dialog
+      // print error text, if present
+      if (overpass.resultText)
+        ide.dataViewer.setValue(overpass.resultText);
+    }
+    overpass.handlers["onQueryError"] = function(errmsg) {
+      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
+        modal:true,
+        buttons:{"ok": function(){$(this).dialog("close");}},
+      });
+    }
+    overpass.handlers["onQueryErrorLine"] = function(linenumber) {
+      ide.highlightError(linenumber);
+    }
+    overpass.handlers["onRawDataPresent"] = function() {
+      ide.dataViewer.setOption("mode",overpass.resultType);
+      ide.dataViewer.setValue(overpass.resultText);
+    }
+    overpass.handlers["onGeoJsonReady"] = function() {
+      ide.map.addLayer(overpass.geojsonLayer); 
+    }
+    overpass.handlers["onPopupReady"] = function(p) {
+      p.openOn(ide.map);
+    }
+
 
     // load optional js libraries asynchronously
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
@@ -362,7 +405,7 @@ var ide = new(function() {
       ide.onHelpClick();
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true)
-      overpass.update_map();
+      ide.update_map();
   } // init()
 
   var make_combobox = function(input, options) {
@@ -508,7 +551,7 @@ var ide = new(function() {
   }
   this.getQueryLang = function() {
     // note: cannot use this.getQuery() here, as this function is required by that.
-    if (codeEditor.getValue().replace(/{{.*?}}/g,"").trim().match(/^</))
+    if ($.trim(codeEditor.getValue().replace(/{{.*?}}/g,"")).match(/^</))
       return "xml";
     else
       return "OverpassQL";
@@ -583,8 +626,7 @@ var ide = new(function() {
     });
   }
   this.onRunClick = function() {
-    this.resetErrors();
-    overpass.update_map();
+    ide.update_map();
   }
   var compose_share_link = function(query,compression,coords,run) {
     var share_link = "";
@@ -660,10 +702,10 @@ var ide = new(function() {
     });
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
-      if (!overpass.geoJSON_data)
+      if (!overpass.resultData)
         geoJSON_str = "No geoJSON data available! Please run a query first.";
       else
-        geoJSON_str = JSON.stringify(overpass.geoJSON_data, undefined, 2);
+        geoJSON_str = JSON.stringify(overpass.resultData, undefined, 2);
       var d = $("#export-geojson");
       $("textarea",d)[0].value=geoJSON_str;
       d.dialog({
@@ -722,21 +764,25 @@ var ide = new(function() {
     });
   }
   this.onExportImageClick = function() {
-    $("body").addClass("loading");
+    ide.waiter.open("exporting as image...");
     // 1. render canvas from map tiles
     // hide map controlls in this step :/
+    // todo: also hide popups?
+    ide.waiter.addInfo("prepare map");
     $("#map .leaflet-control-container .leaflet-top").hide();
     $('a[title="Zoom in"]').removeClass("leaflet-control-zoom-in");
     $('a[title="Zoom out"]').removeClass("leaflet-control-zoom-out");
     if (settings.export_image_attribution) attribControl.addTo(ide.map);
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
+    ide.waiter.addInfo("rendering map tiles");
     $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
       $('a[title="Zoom in"]').addClass("leaflet-control-zoom-in");
       $('a[title="Zoom out"]').addClass("leaflet-control-zoom-out");
       $("#map .leaflet-control-container .leaflet-top").show();
+      ide.waiter.addInfo("rendering map data");
       // 2. render overlay data onto canvas
       canvas.id = "render_canvas";
       var ctx = canvas.getContext("2d");
@@ -748,6 +794,7 @@ var ide = new(function() {
       var offy   = +tmp[2];
       if ($("#map .leaflet-overlay-pane").html().length > 0)
         ctx.drawSvg($("#map .leaflet-overlay-pane").html(),offx,offy,width,height);
+      ide.waiter.addInfo("converting to png image");
       // 3. export canvas as html image
       var imgstr = canvas.toDataURL("image/png");
       var attrib_message = "";
@@ -758,7 +805,8 @@ var ide = new(function() {
         width:500,
         position:["center",60],
         open: function() {
-          $("body").removeClass("loading");
+          // close progress indicator
+          ide.waiter.close();
         },
         buttons: {
           "OK": function() {
@@ -835,6 +883,7 @@ var ide = new(function() {
         },*/
       }
     });
+    $("#settings-dialog").accordion();
   }
   this.onHelpClick = function() {
     $("#help-dialog").dialog({
@@ -855,6 +904,22 @@ var ide = new(function() {
       event.preventDefault();
     }
     // todo: more shortcuts
+  }
+  this.update_map = function() {
+    ide.waiter.open(true);
+    ide.waiter.addInfo("resetting map");
+    // resets previously highlighted error lines
+    this.resetErrors();
+    // reset previously loaded data and overlay
+    ide.dataViewer.setValue("");
+    if (typeof overpass.geojsonLayer != "undefined")
+      ide.map.removeLayer(overpass.geojsonLayer);
+    $("#map_blank").remove();
+
+    // run the query via the overpass object
+    var query = ide.getQuery(true,false);
+    var query_lang = ide.getQueryLang();
+    overpass.run_query(query,query_lang);
   }
 
   // == initializations ==
