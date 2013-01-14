@@ -339,7 +339,7 @@ var ide = new(function() {
       if (typeof e.popup.layer != "undefined") {
         var layer = e.popup.layer;
         // re-call style handler to eventually modify the style of the clicked feature
-        var stl = ide.map.geojsonLayer.options.style(layer.feature, e.type=="popupopen"); // todo: can this go to overpass.js?
+        var stl = overpass.geojsonLayer.options.style(layer.feature, e.type=="popupopen");
         if (typeof layer.eachLayer != "function") {
           if (typeof layer.setStyle == "function")
             layer.setStyle(stl); // other objects (pois, ways)
