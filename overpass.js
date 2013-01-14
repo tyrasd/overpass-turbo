@@ -339,10 +339,7 @@ var overpass = new(function() {
     try {
       return overpass.scripts[name].apply({},script_args);
     } catch(e) {
-      $('<div title="Script-Runtime-Error"><p style="color:red">An error occured during the execution of the <i>'+name+'</i> script. This is what the browser is complaining about:</p><p>'+e.message+'</p></div>').dialog({
-        modal:true,
-        buttons: {"dismiss": function(){$(this).dialog("close");}},
-      });
+      fire("onScriptError",name,e.message);
       // todo: make it possible to disable further cascading error messages
     }
   }

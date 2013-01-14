@@ -364,7 +364,7 @@ var ide = new(function() {
     }
     overpass.handlers["onAjaxError"] = function(errmsg) {
       // show error dialog
-      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
+      $('<div title="Ajax Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
         modal:true,
         buttons: {"dismiss": function() {$(this).dialog("close");}},
       }); // dialog
@@ -373,13 +373,19 @@ var ide = new(function() {
         ide.dataViewer.setValue(overpass.resultText);
     }
     overpass.handlers["onQueryError"] = function(errmsg) {
-      $('<div title="Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
+      $('<div title="Query Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
         modal:true,
-        buttons:{"ok": function(){$(this).dialog("close");}},
+        buttons:{"dismiss": function(){$(this).dialog("close");}},
       });
     }
     overpass.handlers["onQueryErrorLine"] = function(linenumber) {
       ide.highlightError(linenumber);
+    }
+    overpass.handlers["onScriptError"] = function(name,errmsg) {
+      $('<div title="Script Runtime Error"><p style="color:red">An error occured during the execution of the <i>'+name+'</i> script. This is what the browser is complaining about:</p><p>'+errmsg+'</p></div>').dialog({
+        modal:true,
+        buttons:{"dismiss": function(){$(this).dialog("close");}},
+      });
     }
     overpass.handlers["onRawDataPresent"] = function() {
       ide.dataViewer.setOption("mode",overpass.resultType);
