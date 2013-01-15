@@ -195,7 +195,7 @@ var overpass = new(function() {
         },
         "geometry"   : {
           "type" : "Point",
-          "coordinates" : [pois[i].lon, pois[i].lat],
+          "coordinates" : [+pois[i].lon, +pois[i].lat],
         }
       });
     }
@@ -232,7 +232,7 @@ var overpass = new(function() {
             var coords = new Array();
             for (var k=0;k<w.nodes.length;k++) {
               if (typeof w.nodes[k] == "object")
-                  coords.push([w.nodes[k].lon, w.nodes[k].lat]);
+                  coords.push([+w.nodes[k].lon, +w.nodes[k].lat]);
               else
                 rels[i].tainted = true;
             }
@@ -281,7 +281,7 @@ var overpass = new(function() {
       coords = new Array();
       for (j=0;j<ways[i].nodes.length;j++) {
         if (typeof ways[i].nodes[j] == "object")
-          coords.push([ways[i].nodes[j].lon, ways[i].nodes[j].lat]);
+          coords.push([+ways[i].nodes[j].lon, +ways[i].nodes[j].lat]);
         else
           ways[i].tainted = true;
       }
