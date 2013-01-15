@@ -29,8 +29,7 @@ function PointInPolygon(p,Q) {
   return t;
 }
 
-L.Polygon.prototype.getCenter = function() {
-  var pts = this._latlngs;
+function polygonCenter(pts) {
   var off = pts[0];
   var twicearea = 0;
   var x = 0;
@@ -41,16 +40,24 @@ L.Polygon.prototype.getCenter = function() {
   for (var i = 0, j = nPts - 1; i < nPts; j = i++) {
     p1 = pts[i];
     p2 = pts[j];
-    f = (p1.lat - off.lat) * (p2.lng - off.lng) - (p2.lat - off.lat) * (p1.lng - off.lng);
+    f = (p1[1] - off[1]) * (p2[0] - off[0]) - (p2[1] - off[1]) * (p1[0] - off[0]);
     twicearea += f;
-    x += (p1.lat + p2.lat - 2 * off.lat) * f;
-    y += (p1.lng + p2.lng - 2 * off.lng) * f;
+    x += (p1[1] + p2[1] - 2 * off[1]) * f;
+    y += (p1[0] + p2[0] - 2 * off[0]) * f;
   }
   f = twicearea * 3;
-  return new L.LatLng(
-    lat: x / f + off.lat,
-    lng: y / f + off.lng
-  );
+  return [
+    y / f + off[0],
+    x / f + off[1]
+  ];
+}
+function polygonArea(pts) {
+  var off = pts[0];
+  var A = 0;
+  for (var i=0; i<pts.length-1; i++)
+    A += (pts[i][1] - off[1]) * (pts[i+1][0] - off[0]) - (pts[i+1][1] - off[1]) * (pts[i][0] - off[0]);
+    //A+=pts[i][0]*pts[i+1][1]-pts[i+1][0]*pts[i][1];
+  return A/2;
 }
 
 function dist(la1,lo1,la2,lo2) {
