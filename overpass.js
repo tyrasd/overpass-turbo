@@ -188,14 +188,15 @@ var overpass = new(function() {
       geojsonnodes.features.push({
         "type"       : "Feature",
         "properties" : {
+          "type" : "node",
+          "id"   : pois[i].id,
           "tags" : pois[i].tags,
           "relations" : pois[i].relations,
           "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": pois[i].timestamp, "version": pois[i].version, "changeset": pois[i].changeset, "user": pois[i].user, "uid": pois[i].uid}),
         },
-        "id"         : pois[i].id,
         "geometry"   : {
           "type" : "Point",
-          "coordinates" : [pois[i].lon, pois[i].lat],
+          "coordinates" : [+pois[i].lon, +pois[i].lat],
         }
       });
     }
@@ -232,7 +233,7 @@ var overpass = new(function() {
             var coords = new Array();
             for (var k=0;k<w.nodes.length;k++) {
               if (typeof w.nodes[k] == "object")
-                  coords.push([w.nodes[k].lon, w.nodes[k].lat]);
+                  coords.push([+w.nodes[k].lon, +w.nodes[k].lat]);
               else
                 rels[i].tainted = true;
             }
@@ -254,11 +255,12 @@ var overpass = new(function() {
         var feature = {
           "type"       : "Feature",
           "properties" : {
+            "type" : "way",
+            "id"   : outer_way.id,
             "tags" : outer_way.tags,
             "relations" : outer_way.relations,
             "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": outer_way.timestamp, "version": outer_way.version, "changeset": outer_way.changeset, "user": outer_way.user, "uid": outer_way.uid}),
           },
-          "id"         : outer_way.id,
           "geometry"   : {
             "type" : way_type,
             "coordinates" : [[].concat(outer_coords,inner_coords)],
@@ -280,7 +282,7 @@ var overpass = new(function() {
       coords = new Array();
       for (j=0;j<ways[i].nodes.length;j++) {
         if (typeof ways[i].nodes[j] == "object")
-          coords.push([ways[i].nodes[j].lon, ways[i].nodes[j].lat]);
+          coords.push([+ways[i].nodes[j].lon, +ways[i].nodes[j].lat]);
         else
           ways[i].tainted = true;
       }
@@ -303,11 +305,12 @@ var overpass = new(function() {
       var feature = {
         "type"       : "Feature",
         "properties" : {
+          "type" : "way",
+          "id"   : ways[i].id,
           "tags" : ways[i].tags,
           "relations" : ways[i].relations,
           "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": ways[i].timestamp, "version": ways[i].version, "changeset": ways[i].changeset, "user": ways[i].user, "uid": ways[i].uid}),
         },
-        "id"         : ways[i].id,
         "geometry"   : {
           "type" : way_type,
           "coordinates" : coords,
@@ -544,10 +547,10 @@ var overpass = new(function() {
           onEachFeature : function (feature, layer) {
             layer.on('click', function(e) {
               var popup = "";
-              if (feature.geometry.type == "Point")
-                popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.id+"'>"+feature.id+"</a></h2>";
+              if (feature.properties.type == "node")
+                popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.properties.id+"'>"+feature.properties.id+"</a></h2>";
               else
-                popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.id+"'>"+feature.id+"</a></h2>";
+                popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.properties.id+"'>"+feature.properties.id+"</a></h2>";
               if (feature.properties && feature.properties.tags && !$.isEmptyObject(feature.properties.tags)) {
                 popup += '<h3>Tags:</h3><ul class="plain">';
                 $.each(feature.properties.tags, function(k,v) {
