@@ -232,15 +232,15 @@ var ide = new(function() {
       },
       onAdd: function(map) {
         // create the control container with a particular class name
-        var container = L.DomUtil.create('div', 'leaflet-control-buttons');
-        var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
+        var container = L.DomUtil.create('div', 'leaflet-control-buttons leaflet-bar');
+        var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata leaflet-bar-part leaflet-bar-part-top", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "zoom onto data";
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(overpass.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
-        link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "pan to current location";
@@ -253,7 +253,7 @@ var ide = new(function() {
             });
           } catch(e) {}
         }, ide.map);
-        link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter", container);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "manually select bbox";
@@ -277,8 +277,7 @@ var ide = new(function() {
         position:'topleft',
       },
       onAdd: function(map) {
-        var container = L.DomUtil.create('div', 'ui-widget');
-        container.style.opacity = "0.6";
+        var container = L.DomUtil.create('div', 'leaflet-control-search ui-widget');
         container.style.position = "absolute";
         container.style.left = "40px";
         var inp = L.DomUtil.create('input', '', container);

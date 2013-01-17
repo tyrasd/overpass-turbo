@@ -192,37 +192,41 @@ body.loading .modal {
   display:block;
 }
 
-.leaflet-control-buttons {
-  background: rgba(0, 0, 0, 0.251);
-  padding: 5px;
-  border-radius: 7px;
-  padding-bottom:1px;
+.leaflet-container .leaflet-control-buttons { 
+  margin-left: 13px;
+  margin-top: 12px;
 }
 
-.leaflet-control-buttons a:hover { 
+.leaflet-control-buttons a:hover {
   background-color: #FFFFFF;
+  color: #777777; 
 }
 .leaflet-control-buttons a {
-  background-color:rgba(255, 255, 255, 0.749);
-  border-radius: 4px;
-  height: 17px;
-  width: 17px;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
   display: block;
-  text-align:center;
-  text-decoration: none;
   color: black;
-  line-height:19px;
-  font-size:11px;
-  padding:1px;
-  margin-bottom:4px;
+  height: 22px;
+  text-align: center;
+  text-decoration: none;
+  width: 22px;
+}
+.leaflet-control-buttons a span {
+  display:inline-block;
+  vertical-align:bottom;
 }
 .leaflet-control-buttons-fitdata {
 }
 .leaflet-control-buttons-myloc {
 }
 .leaflet-control-buttons-bboxfilter {
+}
+.leaflet-control-buttons-myloc span {
+  margin-bottom:-1px;
+  margin-left:-2px;
+}
+.leaflet-container .leaflet-control-search {
+  margin-top: 12px;
+  margin-left: 13px;
+  opacity: 0.8;
 }
 .dialog {
   display:none;
