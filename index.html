@@ -17,8 +17,8 @@
   <script src="libs/CodeMirror/lib/util/multiplex.js"></script>
   <script src="libs/CodeMirror/lib/util/closetag_mustache.js"></script>
   <!--leaflet-->
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js"></script>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
   <script src="libs/locationfilter/src/locationfilter.js"></script>
   <link rel="stylesheet" href="libs/locationfilter/src/locationfilter.css"/>
   <!--misc libraries-->
@@ -78,7 +78,7 @@
   <div id="help-dialog" title="Help" class="dialog">
     <h3><a>Introduction</a></h3>
     <div>
-      <p>With <b>overpass turbo</b> you can run <a href="http://overpass-api.de">Overpass API</a> queries and analyse the resulting <a href="http://www.openstreetmap.org">OpenStreetMap</a> data interactively on a map.</p>
+      <p>With <a href="http://wiki.openstreetmap.org/wiki/Overpass_turbo">overpass turbo</a> you can run <a href="http://overpass-api.de">Overpass API</a> queries and analyse the resulting <a href="http://www.openstreetmap.org">OpenStreetMap</a> data interactively on a map.</p>
       <p>You can run xml styled or OverpassQL <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">queries</a>. Returned xml or json data is parsed and (if possible) shown on the map. For more information about <i>overpass turbo</i> take a look at the <a href="http://wiki.openstreetmap.org/wiki/Overpass_turbo">OSM wiki</a>.</p>
       <p>One can use the following handy shortcuts in the query:
       <ul>
@@ -108,7 +108,15 @@
       <h4>Query</h4>
       <p>This holds some things you can do with the raw query, like converting it between the various query languages. A very usefull option is the possibility to send the query to JOSM.</p>
     </div>
-    <h3><a>License & Attribution</a></h3>
+    <h3><a>About</a></h3>
+    <div>
+      <p><i>overpass turbo</i> (aka overpass-ide) is maintained by Martin Raifer (tyr.asd at gmail.com).</p>
+      <h4>Feedback, Bug Reports, Feature Requests</h4>
+      <p>If you would like to give feedback, report issues or ask for a particular feature, please use the <a href="https://github.com/tyrasd/overpass-ide/issues">issue tracker</a> on github or the <a href="http://wiki.openstreetmap.org/wiki/Talk:Overpass_turbo">discussion page</a> on the OSM-wiki.</p>
+      <h4>Source Code</h4>
+      <p>The <a href="https://github.com/tyrasd/overpass-ide">source code</a> of this application is released under the MIT <a href="LICENSE">license</a>.</p>
+    </div>
+    <h3><a>Attribution</a></h3>
     <div>
       <h4>Data Sources</h4>
       <ul class="plain">
@@ -117,8 +125,6 @@
         <li>Map tiles &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
         <li>Search provided by <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a></li>
       </ul>
-      <h4>Source Code</h4>
-      <p>The <a href="https://github.com/tyrasd/overpass-ide">source code</a> of this application is released under a MIT-style <a href="LICENSE">license</a>.</p>
       <h4>Software & Libraries</h4>
       <ul class="plain">
         <li>Map powered by <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
