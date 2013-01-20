@@ -880,6 +880,26 @@ var ide = new(function() {
       ide.onRunClick(); // run query
       event.preventDefault();
     }
+    if ((String.fromCharCode(event.which).toLowerCase() == 's') && (event.ctrlKey || event.metaKey)) { // Ctrl+S
+      ide.onSaveClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'o') && (event.ctrlKey || event.metaKey)) { // Ctrl+O
+      ide.onLoadClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey)) { // Ctrl+h
+      ide.onHelpClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'x') && (event.ctrlKey || event.metaKey)) { // Ctrl+x
+      ide.onExportClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'l') && (event.ctrlKey || event.metaKey)) { // Ctrl+L
+      ide.onShareClick();
+      event.preventDefault();
+    }
     // todo: more shortcuts
   }
   this.update_map = function() {
