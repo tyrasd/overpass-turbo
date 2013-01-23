@@ -386,7 +386,7 @@ var overpass = new(function() {
           } catch (e) {}
         }
         if ((typeof data == "string") ||
-            (typeof data == "object" && data instanceof XMLDocument && $("remark",data).length > 0) ||
+            (typeof data == "object" && jqXHR.responseXML && $("remark",data).length > 0) ||
             (typeof data == "object" && data.remark && data.remark.length > 0)
            ) { // maybe an error message
           data_mode = "unknown";
@@ -396,7 +396,7 @@ var overpass = new(function() {
             data.indexOf("<script") == -1 && // detect output="custom" content
             data.indexOf("<h2>Public Transport Stops</h2>") == -1); // detect output="popup" content
           is_error = is_error || (typeof data == "object" &&
-            data instanceof XMLDocument &&
+            jqXHR.responseXML &&
             $("remark",data).length > 0);
           is_error = is_error || (typeof data == "object" &&
             data.remark &&
@@ -406,7 +406,7 @@ var overpass = new(function() {
             var errmsg = "?";
             if (typeof data == "string")
               errmsg = data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"");
-            if (typeof data == "object" && data instanceof XMLDocument)
+            if (typeof data == "object" && jqXHR.responseXML)
               errmsg = "<p>"+$.trim($("remark",data).text())+"</p>";
             if (typeof data == "object" && data.remark)
               errmsg = "<p>"+$.trim(data.remark)+"</p>";
@@ -421,7 +421,7 @@ var overpass = new(function() {
           // the html error message returned by overpass API looks goods also in xml mode ^^
           overpass.resultType = "error";
           geojson = [{features:[]}, {features:[]}, {features:[]}];
-        } else if (typeof data == "object" && data instanceof XMLDocument) { // xml data
+        } else if (typeof data == "object" && jqXHR.responseXML) { // xml data
           overpass.resultType = "xml";
           data_mode = "xml";
           // convert to geoJSON
