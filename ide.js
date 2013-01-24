@@ -12,11 +12,10 @@ var ide = new(function() {
   // == private methods ==
   var init = function() {
     ide.waiter.addInfo("ide starting up");
-    // load settings
-    settings.load();
     // (very raw) compatibility check <- TODO: put this into its own function
     if (jQuery.support.cors != true ||
-        typeof localStorage  != "object" ||
+        //typeof localStorage  != "object" ||
+        typeof (function() {var ls=undefined; try{ls=localStorage;}catch(e){}; return ls;})() != "object" ||
         false) {
       // the currently used browser is not capable of running the IDE. :(
       ide.not_supported = true;
@@ -25,6 +24,8 @@ var ide = new(function() {
           '<p>Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work. Alternatively, you can still use the <a href="http://overpass-api.de/query_form.html">Overpass_API query form</a>.</p>'+
         '</div>').dialog({modal:true});
     }
+    // load settings
+    settings.load();
     // check for any get-parameters
     var override_use_html5_coords = false;
     if (location.search != "") {
