@@ -19,6 +19,7 @@ var ide = new(function() {
         typeof localStorage  != "object" ||
         false) {
       // the currently used browser is not capable of running the IDE. :(
+      ide.not_supported = true;
       $('<div title="Your browser is not supported :(">'+
           '<p>The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href="http://en.wikipedia.org/wiki/Web_storage#localStorage">Web Storage API</a> and <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>'+
           '<p>Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work. Alternatively, you can still use the <a href="http://overpass-api.de/query_form.html">Overpass_API query form</a>.</p>'+
@@ -407,7 +408,9 @@ var ide = new(function() {
     $(".modal .wait-info h4").text("processing query...");
 
     // automatically load help, if this is the very first time the IDE is started
-    if (settings.first_time_visit === true && ide.run_query_on_startup !== true)
+    if (settings.first_time_visit === true && 
+        ide.not_supported !== true &&
+        ide.run_query_on_startup !== true)
       ide.onHelpClick();
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true)
