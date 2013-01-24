@@ -1,9 +1,10 @@
 // Settings class
 var Settings = function(namespace,version) {
   // == private members ==
+  var ls = {setItem:function(n,v){this[n]=v;}, getItem:function(n){return this[n]!==undefined?this[n]:null;}}; try { ls = localStorage; } catch(e) {};
   var prefix = namespace+"_";
   var settings_version = version;
-  var version = +localStorage.getItem(prefix+"version");
+  var version = +ls.getItem(prefix+"version");
   var settings = {};
   var upgrade_callbacks = [];
   
@@ -20,14 +21,14 @@ var Settings = function(namespace,version) {
       value = settings[name].preset;
     if(settings[name].type != "String") // stringify all non-string values.
       value = JSON.stringify(value);
-    localStorage.setItem(prefix+name, value);
+    ls.setItem(prefix+name, value);
   };
   this.get = function(name) {
     // initialize new settings
     if (settings[name].version > version)
       this.set(name,undefined);
     // load the setting
-    var value = localStorage.getItem(prefix+name);
+    var value = ls.getItem(prefix+name);
     if (settings[name].type != "String") // parse all non-string values.
       value = JSON.parse(value);
     return value;
@@ -47,7 +48,7 @@ var Settings = function(namespace,version) {
           upgrade_callbacks[v](this);
       }
       version = settings_version;
-      localStorage.setItem(prefix+"version",version);
+      ls.setItem(prefix+"version",version);
     }
   };
   this.save = function() {
