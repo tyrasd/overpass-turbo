@@ -2,8 +2,8 @@
 var Settings = function(namespace,version) {
   this.appname = "overpass-ide";
   // == private members ==
-  var ls = {setItem:function(n,v){this[n]=v;}, getItem:function(n){return this[n]!==undefined?this[n]:null;}}; try { ls = localStorage; } catch(e) {};
   var prefix = namespace+"_";
+  var ls = {setItem:function(n,v){this[n]=v;}, getItem:function(n){return this[n]!==undefined?this[n]:null;}}; try { localStorage.setItem(prefix+"test",123); localStorage.removeItem(prefix+"test"); ls = localStorage; } catch(e) {};
   var settings_version = version;
   var version = +ls.getItem(prefix+"version");
   var settings = {};
