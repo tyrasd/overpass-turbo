@@ -3,16 +3,6 @@ ROADMAP
 
 Here are some ideas of features I think of including to overpass turbo. This todo list includes small ui improvements as well as more ambitious ideas of features. There is no plan when or in which order these are going to be implemented.
 
-"Compiler"
-----------
-
-A functionality which "kind of" "compiles" the given overpass query into a (single) html file which can be used independently of the overpass turbo.
-
-The idea is to run a query in turbo, which converts it into some geoJSON. This geojson is then put into a framework html file together with some minimal code that loads it.
-This will still rely on external data for the leaflet library and the map tiles (and maybe jQuery).
-
-Possible extension: Make a version for completely independent use: This would include all js libraries into the html framework and use a L.ImageOverlay instead of dynamically loaded map tiles (the image is rendered using html2canvas and stored in the output as a dataURL).
-
 Scripting Engine
 ----------------
 
@@ -41,6 +31,26 @@ Also to be configurable via scripts:
 
 The compiler should be able to support scripts. There has to be a possibility to tell the compiler which (parts of) libraries have to be included "linked" in the output.
 
+Support for Complex Multipolygons
+---------------------------------
+
+This would be a very nice feature. ^^
+
+Query-Builder
+-------------
+
+Maybe with some presets and a list of tag values (maybe using taginfo API)?
+
+"Compiler"
+----------
+
+A functionality which "kind of" "compiles" the given overpass query into a (single) html file which can be used independently of the overpass turbo.
+
+The idea is to run a query in turbo, which converts it into some geoJSON. This geojson is then put into a framework html file together with some minimal code that loads it.
+This will still rely on external data for the leaflet library and the map tiles (and maybe jQuery).
+
+Possible extension: Make a version for completely independent use: This would include all js libraries into the html framework and use a L.ImageOverlay instead of dynamically loaded map tiles (the image is rendered using html2canvas and stored in the output as a dataURL).
+
 Interactive Map Export
 ----------------------
 
@@ -66,3 +76,9 @@ Several UI Improvements
 * ~~tool: convert overpassql<->xml~~
 * ? better layer management: allow multiple layers to be set up (if #layers>1 show layer switcher). allow also other types of layers (WMS, ImageOverlay?)
 * ? fullscreen mode
+* make UI texts translatable
+* export: to-josm should print a warning, when data is not in XML+meta format.
+* editor: pretty-print on button press
+* editor: highlighting of structural elements?
+* editor: tooltips, inline help
+* editor: syntax check on button press
