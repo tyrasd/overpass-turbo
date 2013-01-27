@@ -378,8 +378,8 @@ var overpass = new(function() {
         var data_mode = null;
         var geojson;
         overpass.resultData = null;
-        // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         fire("onProgress", "parsing data");
+        // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
           try {
             data = $.parseJSON(data);
