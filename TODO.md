@@ -82,3 +82,5 @@ Several UI Improvements
 * editor: highlighting of structural elements?
 * editor: tooltips, inline help
 * editor: syntax check on button press
+* map: reset data
+* implement short url generator
