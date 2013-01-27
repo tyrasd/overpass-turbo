@@ -298,6 +298,12 @@ var ide = new(function() {
                 q: request.term
               },
               success: function(data) {
+                // hacky firefox hack :( (it is not properly detecting json from the content-type header)
+                if (typeof data == "string") { // if the data is a string, but looks more like a json object
+                  try {
+                    data = $.parseJSON(data);
+                  } catch (e) {}
+                }
                 response($.map(data,function(item) {
                   return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
                 }));
