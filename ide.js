@@ -6,7 +6,6 @@ var ide = new(function() {
   var attribControl = null;
   var scaleControl = null;
   // == public members ==
-  this.appname = "overpass-ide";
   this.dataViewer = null;
   this.map = null;
 
@@ -236,15 +235,15 @@ var ide = new(function() {
       },
       onAdd: function(map) {
         // create the control container with a particular class name
-        var container = L.DomUtil.create('div', 'leaflet-control-buttons');
-        var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata", container);
+        var container = L.DomUtil.create('div', 'leaflet-control-buttons leaflet-bar');
+        var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata leaflet-bar-part leaflet-bar-part-top", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "zoom onto data";
         L.DomEvent.addListener(link, 'click', function() {
-          try {ide.map.fitBounds(ide.map.geojsonLayer.getBounds()); } catch (e) {}  
+          try {ide.map.fitBounds(overpass.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
-        link = L.DomUtil.create('a', "leaflet-control-buttons-myloc", container);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "pan to current location";
@@ -257,7 +256,7 @@ var ide = new(function() {
             });
           } catch(e) {}
         }, ide.map);
-        link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter", container);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "manually select bbox";
@@ -281,8 +280,7 @@ var ide = new(function() {
         position:'topleft',
       },
       onAdd: function(map) {
-        var container = L.DomUtil.create('div', 'ui-widget');
-        container.style.opacity = "0.6";
+        var container = L.DomUtil.create('div', 'leaflet-control-search ui-widget');
         container.style.position = "absolute";
         container.style.left = "40px";
         var inp = L.DomUtil.create('input', '', container);
@@ -294,12 +292,18 @@ var ide = new(function() {
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+ide.appname, {
+            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+settings.appname, {
               data:{
                 format:"json",
                 q: request.term
               },
               success: function(data) {
+                // hacky firefox hack :( (it is not properly detecting json from the content-type header)
+                if (typeof data == "string") { // if the data is a string, but looks more like a json object
+                  try {
+                    data = $.parseJSON(data);
+                  } catch (e) {}
+                }
                 response($.map(data,function(item) {
                   return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
                 }));
@@ -339,7 +343,6 @@ var ide = new(function() {
    
     ide.map.bboxfilter = new L.LocationFilter({enable:!true,adjustButton:false,enableButton:false,}).addTo(ide.map);
 
-
     ide.map.on("popupopen popupclose",function(e) {
       if (typeof e.popup.layer != "undefined") {
         var layer = e.popup.layer;
@@ -360,6 +363,76 @@ var ide = new(function() {
       }
     });
 
+    // event handlers for overpass object
+    overpass.handlers["onProgress"] = function(msg,callback) {
+      ide.waiter.addInfo(msg,callback);
+    }
+    overpass.handlers["onDone"] = function() {
+      ide.waiter.close();
+    }
+    overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
+      // show warning/info if only invisible data is returned
+      if (empty_msg == "no visible data") {
+        if (!settings.no_autorepair) {
+          $('<div title="Incomplete Data"><p>This query returned only non-visible data. For example only ways or relations without nodes or members.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing "repair query" below. Otherwise you can continue to the data.</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;do not show this message again.</p></div>').dialog({
+            modal:true,
+            buttons: {
+              "repair query": function() {
+                ide.repairQuery("no visible data");
+                $(this).dialog("close");
+              },
+              "show data": function() {
+                if ($("input[name=hide_incomplete_data_warning]",this)[0].checked) {
+                  settings.no_autorepair = true;
+                  settings.save();
+                }
+                ide.switchTab("Data"); 
+                $(this).dialog("close");
+              },
+            },
+          });
+        }
+      }
+      // auto tab switching (if only areas are returned)
+      if (empty_msg == "only areas returned")
+        ide.switchTab("Data");
+      // auto tab switching (if unstructured data is returned)
+      if (data_mode == "unknown")
+        ide.switchTab("Data");
+      // display empty map badge
+      $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+    }
+    overpass.handlers["onAjaxError"] = function(errmsg) {
+      // show error dialog
+      $('<div title="Ajax Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
+        modal:true,
+        buttons: {"dismiss": function() {$(this).dialog("close");}},
+      }); // dialog
+      // print error text, if present
+      if (overpass.resultText)
+        ide.dataViewer.setValue(overpass.resultText);
+    }
+    overpass.handlers["onQueryError"] = function(errmsg) {
+      $('<div title="Query Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
+        modal:true,
+        buttons:{"dismiss": function(){$(this).dialog("close");}},
+      });
+    }
+    overpass.handlers["onQueryErrorLine"] = function(linenumber) {
+      ide.highlightError(linenumber);
+    }
+    overpass.handlers["onRawDataPresent"] = function() {
+      ide.dataViewer.setOption("mode",overpass.resultType);
+      ide.dataViewer.setValue(overpass.resultText);
+    }
+    overpass.handlers["onGeoJsonReady"] = function() {
+      ide.map.addLayer(overpass.geojsonLayer); 
+    }
+    overpass.handlers["onPopupReady"] = function(p) {
+      p.openOn(ide.map);
+    }
+
+
     // load optional js libraries asynchronously
     $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
 
@@ -374,7 +447,7 @@ var ide = new(function() {
       ide.onHelpClick();
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true)
-      overpass.update_map();
+      ide.update_map();
   } // init()
 
   var make_combobox = function(input, options) {
@@ -496,6 +569,45 @@ var ide = new(function() {
     else
       return "OverpassQL";
   }
+  /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
+  this.repairQuery = function(repair) {
+    // repair missing recurse statements
+    if (repair == "no visible data") {
+      var q = ide.getQuery(false,false); // get original query
+      if (ide.getQueryLang() == "xml") {
+        // do some fancy mixture between regex magic and xml as html parsing :€
+        var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g);
+        for (var i=0;i<prints.length;i++) {
+          var ws = prints[i].match(/^\n?(\s*)/)[1]; // amount of whitespace in fromt of each print statement
+          var from = $(prints[i]).attr("from");
+          var add1,add2,add3;
+          if (from) { 
+            add1 = ' into="'+from+'"'; add2 = ' set="'+from+'"'; add3 = ' from="'+from+'"'; 
+          } else {
+            add1 = ''; add2 = ''; add3 = ''; 
+          }
+          q = q.replace(prints[i],"\n"+ws+"<!-- added by auto repair -->\n"+ws+"<union"+add1+">\n"+ws+"  <item"+add2+"/>\n"+ws+"  <recurse"+add3+' type="down"/>\n'+ws+"</union>\n"+ws+"<!-- end of auto repair --><autorepair>"+i+"</autorepair>");
+        }
+        for (var i=0;i<prints.length;i++) 
+          q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
+      } else {
+        var outs = q.match(/(\n?[^\S\n]*(\.\S+\s+)?out[^;]*;)/g);
+        for (var i=0;i<outs.length;i++) {
+          var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
+          var from = outs[i].match(/\.(\S+?)\s+?out/);
+          var add;
+          if (from)
+            add = "(."+from[1]+";."+from[1]+" >;)->."+from[1]+";";
+          else
+            add = "(._;>;);";
+          q = q.replace(outs[i],ws+"/*added by auto repair*/"+ws+add+ws+"/*end of auto repair*/<autorepair>"+i+"</autorepair>");
+        }
+        for (var i=0;i<outs.length;i++) 
+          q = q.replace("<autorepair>"+i+"</autorepair>", outs[i]);
+      }
+      ide.setQuery(q);
+    }
+  }
   this.highlightError = function(line) {
     codeEditor.setLineClass(line-1,null,"errorline");
   }
@@ -566,8 +678,7 @@ var ide = new(function() {
     });
   }
   this.onRunClick = function() {
-    this.resetErrors();
-    overpass.update_map();
+    ide.update_map();
   }
   var compose_share_link = function(query,compression,coords,run) {
     var share_link = "";
@@ -643,10 +754,10 @@ var ide = new(function() {
     });
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
-      if (!overpass.geoJSON_data)
+      if (!overpass.resultData)
         geoJSON_str = "No geoJSON data available! Please run a query first.";
       else
-        geoJSON_str = JSON.stringify(overpass.geoJSON_data, undefined, 2);
+        geoJSON_str = JSON.stringify(overpass.resultData, undefined, 2);
       var d = $("#export-geojson");
       $("textarea",d)[0].value=geoJSON_str;
       d.dialog({
@@ -768,6 +879,7 @@ var ide = new(function() {
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
     $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
+    $("#settings-dialog input[name=no_autorepair]")[0].checked = settings.no_autorepair;
     // sharing options
     $("#settings-dialog input[name=share_include_pos]")[0].checked = settings.share_include_pos;
     $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
@@ -797,6 +909,7 @@ var ide = new(function() {
           settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
           settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
+          settings.no_autorepair    = $("#settings-dialog input[name=no_autorepair]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
           var prev_tile_server = settings.tile_server;
@@ -844,7 +957,43 @@ var ide = new(function() {
       ide.onRunClick(); // run query
       event.preventDefault();
     }
+    if ((String.fromCharCode(event.which).toLowerCase() == 's') && (event.ctrlKey || event.metaKey)) { // Ctrl+S
+      ide.onSaveClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'o') && (event.ctrlKey || event.metaKey)) { // Ctrl+O
+      ide.onLoadClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey)) { // Ctrl+h
+      ide.onHelpClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'x') && (event.ctrlKey || event.metaKey)) { // Ctrl+x
+      ide.onExportClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'l') && (event.ctrlKey || event.metaKey)) { // Ctrl+L
+      ide.onShareClick();
+      event.preventDefault();
+    }
     // todo: more shortcuts
+  }
+  this.update_map = function() {
+    ide.waiter.open(true);
+    ide.waiter.addInfo("resetting map");
+    // resets previously highlighted error lines
+    this.resetErrors();
+    // reset previously loaded data and overlay
+    ide.dataViewer.setValue("");
+    if (typeof overpass.geojsonLayer != "undefined")
+      ide.map.removeLayer(overpass.geojsonLayer);
+    $("#map_blank").remove();
+
+    // run the query via the overpass object
+    var query = ide.getQuery(true,false);
+    var query_lang = ide.getQueryLang();
+    overpass.run_query(query,query_lang);
   }
 
   // == initializations ==

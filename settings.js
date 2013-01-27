@@ -1,5 +1,6 @@
 // Settings class
 var Settings = function(namespace,version) {
+  this.appname = "overpass-turbo";
   // == private members ==
   var prefix = namespace+"_";
   var ls = {setItem:function(n,v){this[n]=v;}, getItem:function(n){return this[n]!==undefined?this[n]:null;}}; try { localStorage.setItem(prefix+"test",123); localStorage.removeItem(prefix+"test"); ls = localStorage; } catch(e) {};
@@ -70,7 +71,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",13);
+var settings = new Settings("overpass-ide",15);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -96,6 +97,8 @@ settings.define_setting("export_image_attribution","Boolean",true,1);
 settings.define_setting("force_simple_cors_request","Boolean",false,11);
 // background opacity
 settings.define_setting("background_opacity","Float",1.0,13);
+// autorepair message on "no visible data"
+settings.define_setting("no_autorepair","Boolean",false);
 
 //settings.define_setting(,,,);
 
@@ -114,4 +117,8 @@ settings.define_upgrade_callback(12, function(s) {
   }
   s.save();
 });
-
+settings.define_upgrade_callback(14, function(s) {
+  // disable "start at current location" by default
+  s.use_html5_coords = false;
+  s.save();
+});
