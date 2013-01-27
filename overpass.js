@@ -443,7 +443,12 @@ var overpass = new(function() {
           // switch only if there is some unplottable data in the returned json/xml.
           if ((data_mode == "json" && data.elements.length > 0) ||
               (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
-            empty_msg = "no visible data";
+            // check for "only areas returned"
+            if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type!="area") return false; return true;})(data.elements)) ||
+                (data_mode == "xml" && $("osm",data).children().not("note,meta,area").length == 0))
+              empty_msg = "only areas returned";
+            else
+              empty_msg = "no visible data";
           } else if(data_mode == "error") {
             empty_msg = "an error occured";
           } else if(data_mode == "unknown") {

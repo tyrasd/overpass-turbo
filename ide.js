@@ -371,8 +371,33 @@ var ide = new(function() {
       ide.waiter.close();
     }
     overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
-      // auto tab switching (if only invisible or unstructured data is returned)
-      if (empty_msg == "no visible data" || data_mode == "unknown")
+      // show warning/info if only invisible data is returned
+      if (empty_msg == "no visible data") {
+        if (!settings.no_autorepair) {
+          $('<div title="Incomplete Data"><p>This query returned only non-visible data. For example only ways or relations without nodes or members.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing "repair query" below. Otherwise you can continue to the data.</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;do not show this message again.</p></div>').dialog({
+            modal:true,
+            buttons: {
+              "repair query": function() {
+                ide.repairQuery("no visible data");
+                $(this).dialog("close");
+              },
+              "show data": function() {
+                if ($("input[name=hide_incomplete_data_warning]",this)[0].checked) {
+                  settings.no_autorepair = true;
+                  settings.save();
+                }
+                ide.switchTab("Data"); 
+                $(this).dialog("close");
+              },
+            },
+          });
+        }
+      }
+      // auto tab switching (if only areas are returned)
+      if (empty_msg == "only areas returned")
+        ide.switchTab("Data");
+      // auto tab switching (if unstructured data is returned)
+      if (data_mode == "unknown")
         ide.switchTab("Data");
       // display empty map badge
       $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
@@ -543,6 +568,45 @@ var ide = new(function() {
       return "xml";
     else
       return "OverpassQL";
+  }
+  /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
+  this.repairQuery = function(repair) {
+    // repair missing recurse statements
+    if (repair == "no visible data") {
+      var q = ide.getQuery(false,false); // get original query
+      if (ide.getQueryLang() == "xml") {
+        // do some fancy mixture between regex magic and xml as html parsing :€
+        var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g);
+        for (var i=0;i<prints.length;i++) {
+          var ws = prints[i].match(/^\n?(\s*)/)[1]; // amount of whitespace in fromt of each print statement
+          var from = $(prints[i]).attr("from");
+          var add1,add2,add3;
+          if (from) { 
+            add1 = ' into="'+from+'"'; add2 = ' set="'+from+'"'; add3 = ' from="'+from+'"'; 
+          } else {
+            add1 = ''; add2 = ''; add3 = ''; 
+          }
+          q = q.replace(prints[i],"\n"+ws+"<!-- added by auto repair -->\n"+ws+"<union"+add1+">\n"+ws+"  <item"+add2+"/>\n"+ws+"  <recurse"+add3+' type="down"/>\n'+ws+"</union>\n"+ws+"<!-- end of auto repair --><autorepair>"+i+"</autorepair>");
+        }
+        for (var i=0;i<prints.length;i++) 
+          q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
+      } else {
+        var outs = q.match(/(\n?[^\S\n]*(\.\S+\s+)?out[^;]*;)/g);
+        for (var i=0;i<outs.length;i++) {
+          var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
+          var from = outs[i].match(/\.(\S+?)\s+?out/);
+          var add;
+          if (from)
+            add = "(."+from[1]+";."+from[1]+" >;)->."+from[1]+";";
+          else
+            add = "(._;>;);";
+          q = q.replace(outs[i],ws+"/*added by auto repair*/"+ws+add+ws+"/*end of auto repair*/<autorepair>"+i+"</autorepair>");
+        }
+        for (var i=0;i<outs.length;i++) 
+          q = q.replace("<autorepair>"+i+"</autorepair>", outs[i]);
+      }
+      ide.setQuery(q);
+    }
   }
   this.highlightError = function(line) {
     codeEditor.setLineClass(line-1,null,"errorline");
@@ -815,6 +879,7 @@ var ide = new(function() {
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
     $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
+    $("#settings-dialog input[name=no_autorepair]")[0].checked = settings.no_autorepair;
     // sharing options
     $("#settings-dialog input[name=share_include_pos]")[0].checked = settings.share_include_pos;
     $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
@@ -844,6 +909,7 @@ var ide = new(function() {
           settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
           settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
           settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
+          settings.no_autorepair    = $("#settings-dialog input[name=no_autorepair]")[0].checked;
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
           var prev_tile_server = settings.tile_server;
