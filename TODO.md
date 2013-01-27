@@ -85,4 +85,4 @@ Several UI Improvements
 * map: reset data
 * implement short url generator
 * ~~disable "start at current pos" by default~~
-* implement auto-correct for queries returning no nodes by adding recurse statements
+* ~~implement auto-correct for queries returning no nodes by adding recurse statements~~
