@@ -1,6 +1,6 @@
 // Settings class
 var Settings = function(namespace,version) {
-  this.appname = "overpass-ide";
+  this.appname = "overpass-turbo";
   // == private members ==
   var prefix = namespace+"_";
   var ls = {setItem:function(n,v){this[n]=v;}, getItem:function(n){return this[n]!==undefined?this[n]:null;}}; try { localStorage.setItem(prefix+"test",123); localStorage.removeItem(prefix+"test"); ls = localStorage; } catch(e) {};
