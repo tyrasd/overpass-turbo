@@ -171,15 +171,15 @@ a.button.disabled {
 /* wait spinner */
 .modal .wait-info {
   display: inline-block;
-  position: relative;
-  left: 37%;
+  position: absolute;
   top: 37%;
+  left: 37%;
   background-color: rgba(0, 0, 0, 0.196);
   margin-left: -50px;
   margin-top: -42px;
   padding: 20px 25px 10px 100px;
   border-radius: 3px;
-  min-height: 45px;
+  min-height: 52px;
 }
 .modal .wait-info ul {
   padding-left: 15px;
