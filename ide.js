@@ -256,7 +256,7 @@ var ide = new(function() {
             });
           } catch(e) {}
         }, ide.map);
-        link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter leaflet-bar-part leaflet-bar-part-bottom", container);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.title = "manually select bbox";
@@ -269,6 +269,13 @@ var ide = new(function() {
           }
           $(e.target).toggleClass("ui-icon-circlesmall-close");
           $(e.target).toggleClass("ui-icon-image");
+        }, ide.map);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom", container);
+        $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
+        link.href = 'javascript:return false;';
+        link.title = "clear data overlay";
+        L.DomEvent.addListener(link, 'click', function(e) {
+          ide.map.removeLayer(overpass.geojsonLayer);
         }, ide.map);
         return container;
       },
