@@ -71,7 +71,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",17);
+var settings = new Settings("overpass-ide",18);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -122,5 +122,10 @@ settings.define_upgrade_callback(12, function(s) {
 settings.define_upgrade_callback(14, function(s) {
   // disable "start at current location" by default
   s.use_html5_coords = false;
+  s.save();
+});
+settings.define_upgrade_callback(18, function(s) {
+  // enable "Include current map state in shared links" by default
+  s.share_include_pos = true;
   s.save();
 });
