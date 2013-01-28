@@ -65,7 +65,7 @@ Implementation: This should be easy to implement once the compiler and scripting
 Several UI Improvements
 -----------------------
 
-* resizable panels (editor/map)
+* resizable panels (editor/map) - maybe also: hide editor temporarily for map inspections
 * ~~editor: better Syntax highlighting (auto detect query language xml/overpassQL, support for overpassQL)~~
 * editor: code auto completion (with inline help?) ~~and auto tag closing for xml~~
 * ~~editor: highline lines where an error occured~~
@@ -86,3 +86,5 @@ Several UI Improvements
 * implement short url generator
 * ~~disable "start at current pos" by default~~
 * ~~implement auto-correct for queries returning no nodes by adding recurse statements~~
+* fix for disappearing line and polygon features at low zoom.
+* print number of found elements (pois, ways, polygons)
