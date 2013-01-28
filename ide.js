@@ -66,6 +66,26 @@ var ide = new(function() {
       settings.save();
     }
 
+    // init page layout
+    if (settings.editor_width != "") {
+      $("#editor").css("width",settings.editor_width);
+      $("#dataviewer").css("left",settings.editor_width);
+    }
+    // make panels resizable
+    $("#editor").resizable({
+      handles:"e", 
+      minWidth:"200",
+      resize: function() {
+        $(this).next().css('left', $(this).outerWidth() + 'px');
+        ide.map.invalidateSize(false);
+      },
+      stop:function() {
+        settings.editor_width = $("#editor").css("width");
+        settings.save();
+      }
+    });
+    $("#editor").prepend("<span class='ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se'/>");
+
     // init codemirror
     $("#editor textarea")[0].value = settings.code["overpass"];
     if (settings.use_rich_editor) {
@@ -886,8 +906,10 @@ var ide = new(function() {
     ]);
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
-    $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
     $("#settings-dialog input[name=no_autorepair]")[0].checked = settings.no_autorepair;
+    // editor options
+    $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
+    $("#settings-dialog input[name=editor_width]")[0].value = settings.editor_width;
     // sharing options
     $("#settings-dialog input[name=share_include_pos]")[0].checked = settings.share_include_pos;
     $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
@@ -916,8 +938,15 @@ var ide = new(function() {
           settings.server = $("#settings-dialog input[name=server]")[0].value;
           settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
           settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
-          settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.no_autorepair    = $("#settings-dialog input[name=no_autorepair]")[0].checked;
+          settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
+          var prev_editor_width = settings.editor_width;
+          settings.editor_width     = $("#settings-dialog input[name=editor_width]")[0].value;
+          // update editor width (if changed)
+          if (prev_editor_width != settings.editor_width) {
+            $("#editor").css("width",settings.editor_width);
+            $("#dataviewer").css("left",settings.editor_width);
+          }
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
           var prev_tile_server = settings.tile_server;
