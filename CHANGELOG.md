@@ -4,6 +4,8 @@
 * upgrade to leaflet 0.5
 * disabled "start at current location" by default
 * added keyboard shortcuts for saving/loading and help
+* added clear data overlay button
+* added permalink to osm.org on export->map view
 * bugfixes
 * some internal code restructuring
 * appname (for X-Requested-With headers) set to overpass-turbo
