@@ -965,16 +965,8 @@ var ide = new(function() {
       ide.onLoadClick();
       event.preventDefault();
     }
-    if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey)) { // Ctrl+h
+    if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey)) { // Ctrl+H
       ide.onHelpClick();
-      event.preventDefault();
-    }
-    if ((String.fromCharCode(event.which).toLowerCase() == 'x') && (event.ctrlKey || event.metaKey)) { // Ctrl+x
-      ide.onExportClick();
-      event.preventDefault();
-    }
-    if ((String.fromCharCode(event.which).toLowerCase() == 'l') && (event.ctrlKey || event.metaKey)) { // Ctrl+L
-      ide.onShareClick();
       event.preventDefault();
     }
     // todo: more shortcuts
