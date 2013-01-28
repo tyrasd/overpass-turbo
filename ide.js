@@ -618,10 +618,10 @@ var ide = new(function() {
         for (var i=0;i<prints.length;i++) 
           q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
       } else {
-        var outs = q.match(/(\n?[^\S\n]*(\.\S+\s+)?out[^;]*;)/g);
+        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;]*;)/g);
         for (var i=0;i<outs.length;i++) {
           var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
-          var from = outs[i].match(/\.(\S+?)\s+?out/);
+          var from = outs[i].match(/\.([^;.]+?)\s+?out/);
           var add;
           if (from)
             add = "(."+from[1]+";."+from[1]+" >;)->."+from[1]+";";
@@ -631,6 +631,40 @@ var ide = new(function() {
         }
         for (var i=0;i<outs.length;i++) 
           q = q.replace("<autorepair>"+i+"</autorepair>", outs[i]);
+      }
+      ide.setQuery(q);
+    } else if (repair == "xml+metadata") {
+      var q = ide.getQuery(false,false); // get original query
+      if (ide.getQueryLang() == "xml") {
+        // 1. fix <osm-script output=*
+        var src = q.match(/<osm-script([^>]*)>/)[0];
+        var output = $(src+"</osm-script>").attr("output");
+        if (output && output != "xml") {
+          var new_src = src.replace(output,"xml");
+          q = q.replace(src,new_src+"<!-- fixed by auto repair -->");
+        }
+        // 2. fix <print mode=*
+        var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g);
+        for (var i=0;i<prints.length;i++) {
+          var mode = $(prints[i]).attr("mode");
+          var new_print = prints[i];
+          if (mode)
+            new_print = new_print.replace(mode,"meta");
+          else
+            new_print = new_print.replace("<print",'<print mode="meta"');
+          q = q.replace(prints[i],new_print+"<!-- fixed by auto repair -->");
+        }
+      } else {
+        // 1. fix [out:*]
+        var out = q.match(/^\s*\[\s*out\s*:\s*([^\]\s]+)/);
+        if (out && out[1] != "xml")
+          q = q.replace(/^(\s*\[\s*out\s*:\s*)([^\]\s])+(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
+        // 2. fix out *
+        var prints = q.match(/out[^:;]*;/g);
+        for (var i=0;i<prints.length;i++) {
+          var new_print = prints[i].replace(/\s(body|skel|ids)/,"").replace("out","out meta");
+          q = q.replace(prints[i],new_print+"/*fixed by auto repair*/");
+        }
       }
       ide.setQuery(q);
     }
@@ -800,38 +834,81 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
+    $("#export-dialog a#export-josm").unbind("click");
     $("#export-dialog a#export-josm").click(function() {
-      //$(this).parents("div.ui-dialog-content").first().dialog("close");
       var export_dialog = $(this).parents("div.ui-dialog-content").first();
-      var JRC_url="http://127.0.0.1:8111/";
-      $.getJSON(JRC_url+"version")
-      .success(function(d,s,xhr) {
-        if (d.protocolversion.major == 1) {
-          $.get(JRC_url+"import", {
-            url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
-          }).error(function(xhr,s,e) {
-            alert("Error: Unexpected JOSM remote control error.");
-          }).success(function(d,s,xhr) {
-            export_dialog.dialog("close");
-          });
-        } else {
-          $('<div title="Remote Control Error"><p>Error: incompatible JOSM remote control version: '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
+      var send_to_josm = function() {
+        var JRC_url="http://127.0.0.1:8111/";
+        $.getJSON(JRC_url+"version")
+        .success(function(d,s,xhr) {
+          if (d.protocolversion.major == 1) {
+            $.get(JRC_url+"import", {
+              url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
+            }).error(function(xhr,s,e) {
+              alert("Error: Unexpected JOSM remote control error.");
+            }).success(function(d,s,xhr) {
+              export_dialog.dialog("close");
+            });
+          } else {
+            $('<div title="Remote Control Error"><p>Error: incompatible JOSM remote control version: '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
+              modal:true,
+              width:350,
+              buttons: {
+                "OK": function() {$(this).dialog("close");}
+              }
+            });
+          }
+        }).error(function(xhr,s,e) {
+          $('<div title="Remote Control Error"><p>Remote control not found. :( Make sure JOSM is already running and properly configured.</p></div>').dialog({
             modal:true,
             width:350,
             buttons: {
               "OK": function() {$(this).dialog("close");}
             }
           });
+        });
+      }
+      // first check for possible mistakes in query.
+      var q = ide.getQuery(true,false);
+      var err = {};
+      if (ide.getQueryLang() == "xml") {
+        try {
+          var xml = $.parseXML("<x>"+q+"</x>");
+        } catch(e) {
+          err.xml = true;
         }
-      }).error(function(xhr,s,e) {
-        $('<div title="Remote Control Error"><p>Remote control not found. :( Make sure JOSM is already started and properly configured.</p></div>').dialog({
+        if (!err.xml) {
+          $("print",xml).each(function(i,p) { if($(p).attr("mode")!=="meta") err.meta=true; });
+          var out = $("osm-script",xml).attr("output");
+          if (out !== undefined && out !== "xml")
+            err.output = true;
+        }
+      } else {
+        var out = q.match(/^\s*\[\s*out\s*:\s*([^\]\s]+)/);
+        if (out && out[1] != "xml")
+          err.output = true;
+        var prints = q.match(/out([^:;]*);/g);
+        $(prints).each(function(i,p) {if (p.match(/(body|skel|ids)/) || !p.match(/meta/)) err.meta=true;});
+      }
+      if (!$.isEmptyObject(err)) {
+        $('<div title="Incomplete Data"><p>This query does not return OSM data in XML format with metadata. Editors like JOSM require the data to be in that format, though.</p><p><i>overpass turbo</i> can help you to correct the query by choosing "repair query" below.</p></div>').dialog({
           modal:true,
-          width:350,
           buttons: {
-            "OK": function() {$(this).dialog("close");}
+            "repair query": function() {
+              ide.repairQuery("xml+metadata");
+              $(this).dialog("close");
+              export_dialog.dialog("close");
+            },
+            "continue anyway": function() {
+              $(this).dialog("close");
+              send_to_josm();
+            }
           }
         });
-      });
+        return false;
+      }
+      // now send the query to JOSM via remote control
+      send_to_josm();
       return false;
     });
     // open the export dialog
