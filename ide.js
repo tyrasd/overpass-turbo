@@ -413,14 +413,14 @@ var ide = new(function() {
       if (!map_bounds.intersects(data_bounds)) {
         // show tooltip for button "zoom to data"
         var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
-        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← try this button!");
+        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← click here to show the data");
         $(".leaflet-control-buttons-fitdata").tooltip("open");
         $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fadeOut", duration: 1000 });
         setTimeout(function(){
           $(".leaflet-control-buttons-fitdata").tooltip("option","content", prev_content);
           $(".leaflet-control-buttons-fitdata").tooltip("close");
           $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fadeOut", duration: 100 });
-        },2000);
+        },2600);
       }
     }
     overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
