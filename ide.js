@@ -598,10 +598,10 @@ var ide = new(function() {
         for (var i=0;i<prints.length;i++) 
           q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
       } else {
-        var outs = q.match(/(\n?[^\S\n]*(\.\S+\s+)?out[^;]*;)/g);
+        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;]*;)/g);
         for (var i=0;i<outs.length;i++) {
           var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
-          var from = outs[i].match(/\.(\S+?)\s+?out/);
+          var from = outs[i].match(/\.([^;.]+?)\s+?out/);
           var add;
           if (from)
             add = "(."+from[1]+";."+from[1]+" >;)->."+from[1]+";";
