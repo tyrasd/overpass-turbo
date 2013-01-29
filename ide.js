@@ -230,7 +230,7 @@ var ide = new(function() {
     });
 
     // wait spinner
-    $("body").on({
+    $(document).on({
       ajaxStart: function() {
         if (!ide.waiter.opened) {
           ide.waiter.open();
