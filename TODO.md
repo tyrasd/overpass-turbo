@@ -80,7 +80,7 @@ Several UI Improvements
 * ~~export: to-josm should print a warning, when data is not in XML+meta format.~~
 * editor: pretty-print on button press
 * editor: highlighting of structural elements?
-* editor: tooltips  (~~map controls~~, buttons), inline help
+* editor: tooltips  ( ~~map controls~~ , buttons), inline help
 * editor: syntax check on button press
 * ~~map: reset data~~
 * implement short url generator
