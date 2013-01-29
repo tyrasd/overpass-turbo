@@ -66,6 +66,26 @@ var ide = new(function() {
       settings.save();
     }
 
+    // init page layout
+    if (settings.editor_width != "") {
+      $("#editor").css("width",settings.editor_width);
+      $("#dataviewer").css("left",settings.editor_width);
+    }
+    // make panels resizable
+    $("#editor").resizable({
+      handles:"e", 
+      minWidth:"200",
+      resize: function() {
+        $(this).next().css('left', $(this).outerWidth() + 'px');
+        ide.map.invalidateSize(false);
+      },
+      stop:function() {
+        settings.editor_width = $("#editor").css("width");
+        settings.save();
+      }
+    });
+    $("#editor").prepend("<span class='ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se'/>");
+
     // init codemirror
     $("#editor textarea")[0].value = settings.code["overpass"];
     if (settings.use_rich_editor) {
@@ -210,7 +230,7 @@ var ide = new(function() {
     });
 
     // wait spinner
-    $("body").on({
+    $(document).on({
       ajaxStart: function() {
         if (!ide.waiter.opened) {
           ide.waiter.open();
@@ -281,6 +301,18 @@ var ide = new(function() {
       },
     });
     ide.map.addControl(new MapButtons());
+    // add tooltips to map controls
+    $(".leaflet-control-buttons > a").tooltip({
+      items: "a[title]",
+      hide: {
+        effect: "fade",
+        duration: 100
+      },
+      position: {
+        my: "left+5 center", 
+        at: "right center"
+      }
+    });
     // leaflet extension: search box
     var SearchBox = L.Control.extend({
       options: {
@@ -376,6 +408,20 @@ var ide = new(function() {
     }
     overpass.handlers["onDone"] = function() {
       ide.waiter.close();
+      var map_bounds  = ide.map.getBounds();
+      var data_bounds = overpass.geojsonLayer.getBounds();
+      if (!map_bounds.intersects(data_bounds)) {
+        // show tooltip for button "zoom to data"
+        var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
+        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← try this button!");
+        $(".leaflet-control-buttons-fitdata").tooltip("open");
+        $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fade", duration: 1000 });
+        setTimeout(function(){
+          $(".leaflet-control-buttons-fitdata").tooltip("option","content", prev_content);
+          $(".leaflet-control-buttons-fitdata").tooltip("close");
+          $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fade", duration: 100 });
+        },2000);
+      }
     }
     overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
       // show warning/info if only invisible data is returned
@@ -613,6 +659,40 @@ var ide = new(function() {
           q = q.replace("<autorepair>"+i+"</autorepair>", outs[i]);
       }
       ide.setQuery(q);
+    } else if (repair == "xml+metadata") {
+      var q = ide.getQuery(false,false); // get original query
+      if (ide.getQueryLang() == "xml") {
+        // 1. fix <osm-script output=*
+        var src = q.match(/<osm-script([^>]*)>/)[0];
+        var output = $(src+"</osm-script>").attr("output");
+        if (output && output != "xml") {
+          var new_src = src.replace(output,"xml");
+          q = q.replace(src,new_src+"<!-- fixed by auto repair -->");
+        }
+        // 2. fix <print mode=*
+        var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g);
+        for (var i=0;i<prints.length;i++) {
+          var mode = $(prints[i]).attr("mode");
+          var new_print = prints[i];
+          if (mode)
+            new_print = new_print.replace(mode,"meta");
+          else
+            new_print = new_print.replace("<print",'<print mode="meta"');
+          q = q.replace(prints[i],new_print+"<!-- fixed by auto repair -->");
+        }
+      } else {
+        // 1. fix [out:*]
+        var out = q.match(/^\s*\[\s*out\s*:\s*([^\]\s]+)/);
+        if (out && out[1] != "xml")
+          q = q.replace(/^(\s*\[\s*out\s*:\s*)([^\]\s])+(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
+        // 2. fix out *
+        var prints = q.match(/out[^:;]*;/g);
+        for (var i=0;i<prints.length;i++) {
+          var new_print = prints[i].replace(/\s(body|skel|ids)/,"").replace("out","out meta");
+          q = q.replace(prints[i],new_print+"/*fixed by auto repair*/");
+        }
+      }
+      ide.setQuery(q);
     }
   }
   this.highlightError = function(line) {
@@ -780,38 +860,81 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
+    $("#export-dialog a#export-josm").unbind("click");
     $("#export-dialog a#export-josm").click(function() {
-      //$(this).parents("div.ui-dialog-content").first().dialog("close");
       var export_dialog = $(this).parents("div.ui-dialog-content").first();
-      var JRC_url="http://127.0.0.1:8111/";
-      $.getJSON(JRC_url+"version")
-      .success(function(d,s,xhr) {
-        if (d.protocolversion.major == 1) {
-          $.get(JRC_url+"import", {
-            url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
-          }).error(function(xhr,s,e) {
-            alert("Error: Unexpected JOSM remote control error.");
-          }).success(function(d,s,xhr) {
-            export_dialog.dialog("close");
-          });
-        } else {
-          $('<div title="Remote Control Error"><p>Error: incompatible JOSM remote control version: '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
+      var send_to_josm = function() {
+        var JRC_url="http://127.0.0.1:8111/";
+        $.getJSON(JRC_url+"version")
+        .success(function(d,s,xhr) {
+          if (d.protocolversion.major == 1) {
+            $.get(JRC_url+"import", {
+              url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
+            }).error(function(xhr,s,e) {
+              alert("Error: Unexpected JOSM remote control error.");
+            }).success(function(d,s,xhr) {
+              export_dialog.dialog("close");
+            });
+          } else {
+            $('<div title="Remote Control Error"><p>Error: incompatible JOSM remote control version: '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
+              modal:true,
+              width:350,
+              buttons: {
+                "OK": function() {$(this).dialog("close");}
+              }
+            });
+          }
+        }).error(function(xhr,s,e) {
+          $('<div title="Remote Control Error"><p>Remote control not found. :( Make sure JOSM is already running and properly configured.</p></div>').dialog({
             modal:true,
             width:350,
             buttons: {
               "OK": function() {$(this).dialog("close");}
             }
           });
+        });
+      }
+      // first check for possible mistakes in query.
+      var q = ide.getQuery(true,false);
+      var err = {};
+      if (ide.getQueryLang() == "xml") {
+        try {
+          var xml = $.parseXML("<x>"+q+"</x>");
+        } catch(e) {
+          err.xml = true;
         }
-      }).error(function(xhr,s,e) {
-        $('<div title="Remote Control Error"><p>Remote control not found. :( Make sure JOSM is already started and properly configured.</p></div>').dialog({
+        if (!err.xml) {
+          $("print",xml).each(function(i,p) { if($(p).attr("mode")!=="meta") err.meta=true; });
+          var out = $("osm-script",xml).attr("output");
+          if (out !== undefined && out !== "xml")
+            err.output = true;
+        }
+      } else {
+        var out = q.match(/^\s*\[\s*out\s*:\s*([^\]\s]+)/);
+        if (out && out[1] != "xml")
+          err.output = true;
+        var prints = q.match(/out([^:;]*);/g);
+        $(prints).each(function(i,p) {if (p.match(/(body|skel|ids)/) || !p.match(/meta/)) err.meta=true;});
+      }
+      if (!$.isEmptyObject(err)) {
+        $('<div title="Incomplete Data"><p>This query does not return OSM data in XML format with metadata. Editors like JOSM require the data to be in that format, though.</p><p><i>overpass turbo</i> can help you to correct the query by choosing "repair query" below.</p></div>').dialog({
           modal:true,
-          width:350,
           buttons: {
-            "OK": function() {$(this).dialog("close");}
+            "repair query": function() {
+              ide.repairQuery("xml+metadata");
+              $(this).dialog("close");
+              export_dialog.dialog("close");
+            },
+            "continue anyway": function() {
+              $(this).dialog("close");
+              send_to_josm();
+            }
           }
         });
-      });
+        return false;
+      }
+      // now send the query to JOSM via remote control
+      send_to_josm();
       return false;
     });
     // open the export dialog
@@ -886,8 +1009,10 @@ var ide = new(function() {
     ]);
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
-    $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
     $("#settings-dialog input[name=no_autorepair]")[0].checked = settings.no_autorepair;
+    // editor options
+    $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
+    $("#settings-dialog input[name=editor_width]")[0].value = settings.editor_width;
     // sharing options
     $("#settings-dialog input[name=share_include_pos]")[0].checked = settings.share_include_pos;
     $("#settings-dialog input[name=share_compression]")[0].value = settings.share_compression;
@@ -916,8 +1041,15 @@ var ide = new(function() {
           settings.server = $("#settings-dialog input[name=server]")[0].value;
           settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
           settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
-          settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
           settings.no_autorepair    = $("#settings-dialog input[name=no_autorepair]")[0].checked;
+          settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
+          var prev_editor_width = settings.editor_width;
+          settings.editor_width     = $("#settings-dialog input[name=editor_width]")[0].value;
+          // update editor width (if changed)
+          if (prev_editor_width != settings.editor_width) {
+            $("#editor").css("width",settings.editor_width);
+            $("#dataviewer").css("left",settings.editor_width);
+          }
           settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
           settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
           var prev_tile_server = settings.tile_server;

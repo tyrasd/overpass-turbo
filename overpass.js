@@ -596,7 +596,7 @@ var overpass = new(function() {
           errmsg += "<p>Error-Code: "+jqXHR.statusText+" ("+jqXHR.status+")</p>";
         fire("onAjaxError", errmsg);
         // closing wait spinner
-        fire("onWaitEnd");
+        fire("onDone");
       },
     }); // getJSON
 

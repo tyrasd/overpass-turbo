@@ -77,12 +77,12 @@ Several UI Improvements
 * ? better layer management: allow multiple layers to be set up (if #layers>1 show layer switcher). allow also other types of layers (WMS, ImageOverlay?)
 * ? fullscreen mode
 * make UI texts translatable
-* export: to-josm should print a warning, when data is not in XML+meta format.
+* ~~export: to-josm should print a warning, when data is not in XML+meta format.~~
 * editor: pretty-print on button press
 * editor: highlighting of structural elements?
-* editor: tooltips, inline help
+* editor: tooltips  (~~map controls~~, buttons), inline help
 * editor: syntax check on button press
-* map: reset data
+* ~~map: reset data~~
 * implement short url generator
 * ~~disable "start at current pos" by default~~
 * ~~implement auto-correct for queries returning no nodes by adding recurse statements~~

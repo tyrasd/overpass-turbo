@@ -6,7 +6,7 @@
   <title>overpass turbo</title>
   <link rel="icon" href="turbo.png" type="image/png" />
   <!--jQuery-->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   <!--CodeMirror-->
   <link rel="stylesheet" href="libs/CodeMirror/lib/codemirror.css" />
   <script src="libs/CodeMirror/lib/codemirror.js"></script>
@@ -23,8 +23,8 @@
   <!--misc libraries-->
   <script src="libs/misc.min.js"></script>
   <!--jQuery UI-->
-  <link type="text/css" href="jquery-ui.css" rel="Stylesheet" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+  <link type="text/css" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" rel="Stylesheet" />
+  <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>-->
   <!--own scripts & styles-->
   <link rel="stylesheet" type="text/css" href="default.css" />
   <link rel="stylesheet" type="text/css" media="(max-width: 700px), (max-device-width: 799px)" href="compact.css"/>
@@ -140,8 +140,12 @@
       <p><label>Server:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
       <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;Force simple CORS requests <small>(use when the server doesn't support preflighted <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> requests)</small></p>
       <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location <small>(html5 geolocation)</small></p>
-      <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
       <p><input type="checkbox" name="no_autorepair"/>&nbsp;Disable warning/autorepair message when Overpass API returns no visible data.</p>
+    </div>
+    <h3><a>Editor</a></h3>
+    <div>
+      <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
+      <p><label>Width of editor:</label> <small>(e.g. "400px", leave blank for defaults)</small> <input type="text" name="editor_width" value="" style="width:80px;"/></p>
     </div>
     <h3><a>Map</a></h3>
     <div>
