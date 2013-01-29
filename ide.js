@@ -305,7 +305,7 @@ var ide = new(function() {
     $(".leaflet-control-buttons > a").tooltip({
       items: "a[title]",
       hide: {
-        effect: "fade",
+        effect: "fadeOut",
         duration: 100
       },
       position: {
@@ -413,21 +413,21 @@ var ide = new(function() {
       if (!map_bounds.intersects(data_bounds)) {
         // show tooltip for button "zoom to data"
         var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
-        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← try this button!");
+        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← click here to show the data");
         $(".leaflet-control-buttons-fitdata").tooltip("open");
-        $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fade", duration: 1000 });
+        $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fadeOut", duration: 1000 });
         setTimeout(function(){
           $(".leaflet-control-buttons-fitdata").tooltip("option","content", prev_content);
           $(".leaflet-control-buttons-fitdata").tooltip("close");
-          $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fade", duration: 100 });
-        },2000);
+          $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fadeOut", duration: 100 });
+        },2600);
       }
     }
     overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
       // show warning/info if only invisible data is returned
       if (empty_msg == "no visible data") {
         if (!settings.no_autorepair) {
-          $('<div title="Incomplete Data"><p>This query returned only non-visible data. For example only ways or relations without nodes or members.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing "repair query" below. Otherwise you can continue to the data.</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;do not show this message again.</p></div>').dialog({
+          $('<div title="Incomplete Data"><p>This query returned no nodes. In OSM, only nodes contain coordinates. For example, a way cannot be displayed without its nodes.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing "repair query" below. Otherwise you can continue to the data.</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;do not show this message again.</p></div>').dialog({
             modal:true,
             buttons: {
               "repair query": function() {
@@ -448,6 +448,9 @@ var ide = new(function() {
       }
       // auto tab switching (if only areas are returned)
       if (empty_msg == "only areas returned")
+        ide.switchTab("Data");
+      // auto tab switching (if nodes without coordinates are returned)
+      if (empty_msg == "no coordinates returned")
         ide.switchTab("Data");
       // auto tab switching (if unstructured data is returned)
       if (data_mode == "unknown")
