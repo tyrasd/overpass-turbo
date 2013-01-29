@@ -305,7 +305,7 @@ var ide = new(function() {
     $(".leaflet-control-buttons > a").tooltip({
       items: "a[title]",
       hide: {
-        effect: "fade",
+        effect: "fadeOut",
         duration: 100
       },
       position: {
@@ -415,11 +415,11 @@ var ide = new(function() {
         var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
         $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← try this button!");
         $(".leaflet-control-buttons-fitdata").tooltip("open");
-        $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fade", duration: 1000 });
+        $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fadeOut", duration: 1000 });
         setTimeout(function(){
           $(".leaflet-control-buttons-fitdata").tooltip("option","content", prev_content);
           $(".leaflet-control-buttons-fitdata").tooltip("close");
-          $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fade", duration: 100 });
+          $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fadeOut", duration: 100 });
         },2000);
       }
     }

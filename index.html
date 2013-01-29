@@ -24,7 +24,7 @@
   <script src="libs/misc.min.js"></script>
   <!--jQuery UI-->
   <link type="text/css" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" rel="Stylesheet" />
-  <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>-->
+  <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
   <!--own scripts & styles-->
   <link rel="stylesheet" type="text/css" href="default.css" />
   <link rel="stylesheet" type="text/css" media="(max-width: 700px), (max-device-width: 799px)" href="compact.css"/>
@@ -43,18 +43,18 @@
   <div id="navs">
     <div class="nav">
       <div class="buttons">
-        <a class="button group left"      accesskey="1" onclick="ide.onRunClick();">Run</a>
-        <a class="button group"           accesskey="2" onclick="ide.onShareClick();">Share</a>
-        <a class="button group right gap" accesskey="3" onclick="ide.onExportClick();">Export</a>
-        <a class="button group left"      accesskey="4" onclick="ide.onSaveClick();">Save</a>
-        <a class="button group right gap" accesskey="5" onclick="ide.onLoadClick();">Load</a>
-        <a class="button group left"      accesskey="9" onclick="ide.onSettingsClick();">Settings</a>
-        <a class="button group right"     accesskey="0" onclick="ide.onHelpClick();">Help</a>
+        <a class="button group left"      accesskey="1" onclick="ide.onRunClick();"      title="execute this query on Overpass API">Run</a>
+        <a class="button group"           accesskey="2" onclick="ide.onShareClick();"    title="get a permalink for this query"    >Share</a>
+        <a class="button group right gap" accesskey="3" onclick="ide.onExportClick();"   title="various export tools"              >Export</a>
+        <a class="button group left"      accesskey="4" onclick="ide.onSaveClick();"     title="save this query"                   >Save</a>
+        <a class="button group right gap" accesskey="5" onclick="ide.onLoadClick();"     title="load saved query or example"       >Load</a>
+        <a class="button group left"      accesskey="9" onclick="ide.onSettingsClick();" title="various settings"                  >Settings</a>
+        <a class="button group right"     accesskey="0" onclick="ide.onHelpClick();"     title="help, about and attributions"      >Help</a>
       </div>
       <div class="title">overpass turbo <img src="turbo.png" style="opacity:0.3; margin-left:2px;" /></div>
       <div class="tabs">
-        <a class="button active">Map</a>
-        <a class="button">Data</a>
+        <a class="button active" title="map view" >Map</a>
+        <a class="button"        title="data view">Data</a>
       </div>
     </div>
   </div>
