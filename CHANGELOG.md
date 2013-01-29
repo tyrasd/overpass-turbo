@@ -1,3 +1,12 @@
+2013.01.30
+----------
+* resizable panels (editor/map)
+* tooltips for map controls
+* auto-repair also for "JOSM" export
+* enabled "include current map state in shared link" by default
+* upgrade to jquery 1.9.0 and jqueryUI 1.10.0
+* bugfixes
+
 2013.01.28
 ----------
 * implemented auto-repairing of queries with a possible lack of recurse statements
