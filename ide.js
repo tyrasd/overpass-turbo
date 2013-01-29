@@ -301,6 +301,18 @@ var ide = new(function() {
       },
     });
     ide.map.addControl(new MapButtons());
+    // add tooltips to map controls
+    $(".leaflet-control-buttons > a").tooltip({
+      items: "a[title]",
+      hide: {
+        effect: "fade",
+        duration: 100
+      },
+      position: {
+        my: "left+5 center", 
+        at: "right center"
+      }
+    });
     // leaflet extension: search box
     var SearchBox = L.Control.extend({
       options: {
@@ -396,6 +408,20 @@ var ide = new(function() {
     }
     overpass.handlers["onDone"] = function() {
       ide.waiter.close();
+      var map_bounds  = ide.map.getBounds();
+      var data_bounds = overpass.geojsonLayer.getBounds();
+      if (!map_bounds.intersects(data_bounds)) {
+        // show tooltip for button "zoom to data"
+        var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
+        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← try this button!");
+        $(".leaflet-control-buttons-fitdata").tooltip("open");
+        $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fade", duration: 1000 });
+        setTimeout(function(){
+          $(".leaflet-control-buttons-fitdata").tooltip("option","content", prev_content);
+          $(".leaflet-control-buttons-fitdata").tooltip("close");
+          $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fade", duration: 100 });
+        },2000);
+      }
     }
     overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
       // show warning/info if only invisible data is returned
