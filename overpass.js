@@ -447,6 +447,10 @@ var overpass = new(function() {
             if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type!="area") return false; return true;})(data.elements)) ||
                 (data_mode == "xml" && $("osm",data).children().not("note,meta,area").length == 0))
               empty_msg = "only areas returned";
+            // check for "ids_only"
+            else if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type=="node") return true; return false;})(data.elements)) ||
+                     (data_mode == "xml" && $("osm",data).children().filter("node").length != 0))
+              empty_msg = "no coordinates returned";
             else
               empty_msg = "no visible data";
           } else if(data_mode == "error") {

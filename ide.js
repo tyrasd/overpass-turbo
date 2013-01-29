@@ -427,7 +427,7 @@ var ide = new(function() {
       // show warning/info if only invisible data is returned
       if (empty_msg == "no visible data") {
         if (!settings.no_autorepair) {
-          $('<div title="Incomplete Data"><p>This query returned only non-visible data. For example only ways or relations without nodes or members.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing "repair query" below. Otherwise you can continue to the data.</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;do not show this message again.</p></div>').dialog({
+          $('<div title="Incomplete Data"><p>This query returned no nodes. In OSM, only nodes contain coordinates. For example, a way cannot be displayed without its nodes.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing "repair query" below. Otherwise you can continue to the data.</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;do not show this message again.</p></div>').dialog({
             modal:true,
             buttons: {
               "repair query": function() {
@@ -448,6 +448,9 @@ var ide = new(function() {
       }
       // auto tab switching (if only areas are returned)
       if (empty_msg == "only areas returned")
+        ide.switchTab("Data");
+      // auto tab switching (if nodes without coordinates are returned)
+      if (empty_msg == "no coordinates returned")
         ide.switchTab("Data");
       // auto tab switching (if unstructured data is returned)
       if (data_mode == "unknown")
