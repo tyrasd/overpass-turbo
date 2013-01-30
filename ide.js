@@ -778,7 +778,7 @@ var ide = new(function() {
   this.onRunClick = function() {
     ide.update_map();
   }
-  var compose_share_link = function(query,compression,coords,run) {
+  this.compose_share_link = function(query,compression,coords,run) {
     var share_link = "";
     if (!compression) { // compose uncompressed share link
       share_link += "?Q="+encodeURIComponent(query);
@@ -808,7 +808,7 @@ var ide = new(function() {
     var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
     var run_immediately = $("div#share-dialog input[name=run_immediately]")[0].checked;
 
-    var share_link = baseurl+compose_share_link(query,compress,inc_coords,run_immediately);
+    var share_link = baseurl+ide.compose_share_link(query,compress,inc_coords,run_immediately);
 
     var warning = '';
     if (share_link.length >= 2000)
