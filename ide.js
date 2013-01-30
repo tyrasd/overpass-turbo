@@ -670,14 +670,16 @@ var ide = new(function() {
         if (src) {
           var output = $("osm-script",$.parseXML(src[0]+"</osm-script>")).attr("output");
           if (output && output != "xml") {
-            var new_src = src.replace(output,"xml");
-            q = q.replace(src,new_src+"<!-- fixed by auto repair -->");
+            var new_src = src[0].replace(output,"xml");
+            q = q.replace(src[0],new_src+"<!-- fixed by auto repair -->");
           }
         }
         // 2. fix <print mode=*
         var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g);
         for (var i=0;i<prints.length;i++) {
           var mode = $("print",$.parseXML(prints[i])).attr("mode");
+          if (mode == "meta")
+            continue;
           var new_print = prints[i];
           if (mode)
             new_print = new_print.replace(mode,"meta");
@@ -687,12 +689,15 @@ var ide = new(function() {
         }
       } else {
         // 1. fix [out:*]
-        var out = q.match(/^\s*\[\s*out\s*:\s*([^\]\s]+)/);
+        var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
+            ///^\s*\[\s*out\s*:\s*([^\]\s]+)/);
         if (out && out[1] != "xml")
-          q = q.replace(/^(\s*\[\s*out\s*:\s*)([^\]\s])+(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
+          q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
         // 2. fix out *
         var prints = q.match(/out[^:;]*;/g);
         for (var i=0;i<prints.length;i++) {
+          if (prints[i].match(/\s(meta)/))
+            continue;
           var new_print = prints[i].replace(/\s(body|skel|ids)/,"").replace("out","out meta");
           q = q.replace(prints[i],new_print+"/*fixed by auto repair*/");
         }
@@ -915,7 +920,7 @@ var ide = new(function() {
             err.output = true;
         }
       } else {
-        var out = q.match(/^\s*\[\s*out\s*:\s*([^\]\s]+)/);
+        var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
         if (out && out[1] != "xml")
           err.output = true;
         var prints = q.match(/out([^:;]*);/g);
