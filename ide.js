@@ -292,9 +292,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-fullscreen leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = "fullscreen map";
+        link.title = "toggle wide map";
         L.DomEvent.addListener(link, 'click', function(e) {
-          $("#dataviewer").toggleClass("toggle large map");
+          $("#dataviewer").toggleClass("fullscreen");
           ide.map.invalidateSize();
           $(e.target).toggleClass("ui-icon-arrowthickstop-1-e").toggleClass("ui-icon-arrowthickstop-1-w");
           if ($("#editor").resizable("option","disabled"))
