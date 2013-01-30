@@ -1,0 +1,53 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="mocha.css" />
+</head>
+<body>
+  <div id="mocha"></div>
+
+  <script src="mocha.js"></script>
+  <script src="chai.js"></script>
+  <script src="sinon.js"></script>
+  <script src="sinon-chai.js"></script>
+  <script src="bind-shim.js"></script>
+  <script src="happen.js"></script>
+
+  <!-- include source files here ... -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="../libs/CodeMirror/lib/codemirror.js"></script>
+  <script src="../libs/CodeMirror/mode/javascript/javascript.js"></script>
+  <script src="../libs/CodeMirror/mode/xml/xml.js"></script>
+  <script src="../libs/CodeMirror/mode/clike/clike.js"></script>
+  <script src="../libs/CodeMirror/lib/util/multiplex.js"></script>
+  <script src="../libs/CodeMirror/lib/util/closetag_mustache.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+  <script src="../libs/locationfilter/src/locationfilter.js"></script>
+  <script src="../libs/misc.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+  <script src="../settings.js"></script>
+  <script src="../overpass.js"></script>
+  <script src="../ide.js"></script>
+  <script src="../libs/html2canvas/html2canvas.patched.min.js"></script>
+  <script src="../libs/html2canvas/jquery.plugin.html2canvas.js"></script>
+  <script src="../libs/canvg/rgbcolor.js"></script>
+  <script src="../libs/canvg/canvg.min.js"></script>
+
+
+  <script>
+    mocha.setup('bdd');
+    var expect = chai.expect;
+  </script>
+
+  <!-- include spec files here... -->
+  <script src="test.autorepair.recurse.js"></script>
+  <script src="test.autorepair.josm.js"></script>
+  <script src="test.permalink.js"></script>
+  <script src="test.overpass.geojson.js"></script>
+
+  <script>
+    mocha.run();
+  </script>
+</body>
+</html>
