@@ -5,23 +5,30 @@ body {
   /*font-size: 13px;*/
 }
 #editor {
-  position:relative;
-  left:auto;top:auto;right:auto;bottom:auto;
-  width:100%;
-  height: auto;
+  position:relative !important;
+  left:auto !important;
+  top:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  width:100% !important;
+  height: auto !important;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+#editor .ui-resizable-handle {
+  display:none !important;
 }
 #dataviewer {
   border-left:0;
   border-top: 2px solid #ccc;
   padding-top: 10px;
-  position:relative;
-  left:auto;top:auto;right:auto;bottom:auto;
-  left:0;
-  right:0;
+  position:relative !important;
+  top:auto !important;
+  bottom:auto !important;
+  left:0 !important;
+  right:0 !important;
   margin:10px;
-  height:350px;
+  height:350px !important;
 }
 #map {
   width:100%;
@@ -83,4 +90,7 @@ div.ui-dialog {
   background-color: rgba(0,0,0,0);
   padding: 70px 10px 10px 10px;
   margin-left: -60px;
+}
+.leaflet-control-buttons a.leaflet-control-buttons-fullscreen {
+  display:none;
 }

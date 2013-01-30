@@ -65,20 +65,25 @@ Implementation: This should be easy to implement once the compiler and scripting
 Several UI Improvements
 -----------------------
 
-* resizable panels (editor/map)
+* ~~resizable panels (editor/map)~~ - maybe also: hide editor temporarily for map inspections (or just go with a fullscreen mode?)
 * ~~editor: better Syntax highlighting (auto detect query language xml/overpassQL, support for overpassQL)~~
 * editor: code auto completion (with inline help?) ~~and auto tag closing for xml~~
 * ~~editor: highline lines where an error occured~~
 * map: make crosshairs not overlap map popups
 * ~~map: make crosshairs optional (default: not visible)~~
-* ? map: make other map controls optional
 * map popups: ~~show coordinates of points~~ (and bbox of ways?), ~~show metadata (if present)~~
 * ~~tool: convert overpassql<->xml~~
 * ? better layer management: allow multiple layers to be set up (if #layers>1 show layer switcher). allow also other types of layers (WMS, ImageOverlay?)
 * ? fullscreen mode
 * make UI texts translatable
-* export: to-josm should print a warning, when data is not in XML+meta format.
+* ~~export: to-josm should print a warning, when data is not in XML+meta format.~~
 * editor: pretty-print on button press
 * editor: highlighting of structural elements?
-* editor: tooltips, inline help
+* editor: ~~tooltips~~ , inline help
 * editor: syntax check on button press
+* ~~map: reset data~~
+* implement short url generator
+* ~~disable "start at current pos" by default~~
+* ~~implement auto-correct for queries returning no nodes by adding recurse statements~~
+* fix for disappearing line and polygon features at low zoom.
+* print number of found elements (pois, ways, polygons)

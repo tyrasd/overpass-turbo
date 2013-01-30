@@ -125,6 +125,14 @@ var overpass = new(function() {
           (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(nodes[i].tags)) // this checks if the node has any tags other than "created_by"
         poinids[nodes[i].id] = true;
     }
+    for (var i=0;i<rels.length;i++) {
+      if (!$.isArray(rels[i].members))
+        continue; // ignore relations without members (e.g. returned by an ids_only query)
+      for (var j=0;j<rels[i].members.length;j++) {
+        if (rels[i].members[j].type == "node")
+          poinids[rels[i].members[j].ref] = true;
+      }
+    }
     var wayids = new Object();
     var waynids = new Object();
     for (var i=0;i<ways.length;i++) {
@@ -155,9 +163,9 @@ var overpass = new(function() {
             if (typeof n.relations == "undefined")
               n.relations = new Array();
             n.relations.push({
-              "rel" : rels[i].id,
+              "rel" : rels[i].id, // todo: id??
               "role" : rels[i].members[j].role,
-              "reltags" : rels[i].tags,
+              "reltags" : rels[i].tags, // todo: tags??
             });
           }
         break;
@@ -402,8 +410,8 @@ var overpass = new(function() {
         var data_mode = null;
         var geojson;
         overpass.resultData = null;
-        // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         fire("onProgress", "parsing data");
+        // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
           try {
             data = $.parseJSON(data);
@@ -467,7 +475,16 @@ var overpass = new(function() {
           // switch only if there is some unplottable data in the returned json/xml.
           if ((data_mode == "json" && data.elements.length > 0) ||
               (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
-            empty_msg = "no visible data";
+            // check for "only areas returned"
+            if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type!="area") return false; return true;})(data.elements)) ||
+                (data_mode == "xml" && $("osm",data).children().not("note,meta,area").length == 0))
+              empty_msg = "only areas returned";
+            // check for "ids_only"
+            else if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type=="node") return true; return false;})(data.elements)) ||
+                     (data_mode == "xml" && $("osm",data).children().filter("node").length != 0))
+              empty_msg = "no coordinates returned";
+            else
+              empty_msg = "no visible data";
           } else if(data_mode == "error") {
             empty_msg = "an error occured";
           } else if(data_mode == "unknown") {
@@ -634,7 +651,7 @@ var overpass = new(function() {
           errmsg += "<p>Error-Code: "+jqXHR.statusText+" ("+jqXHR.status+")</p>";
         fire("onAjaxError", errmsg);
         // closing wait spinner
-        fire("onWaitEnd");
+        fire("onDone");
       },
     }); // getJSON
 

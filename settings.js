@@ -1,6 +1,6 @@
 // Settings class
 var Settings = function(namespace,version) {
-  this.appname = "overpass-ide";
+  this.appname = "overpass-turbo";
   // == private members ==
   var prefix = namespace+"_";
   var ls = {setItem:function(n,v){this[n]=v;}, getItem:function(n){return this[n]!==undefined?this[n]:null;}}; try { localStorage.setItem(prefix+"test",123); localStorage.removeItem(prefix+"test"); ls = localStorage; } catch(e) {};
@@ -97,6 +97,10 @@ settings.define_setting("export_image_attribution","Boolean",true,1);
 settings.define_setting("force_simple_cors_request","Boolean",false,11);
 // background opacity
 settings.define_setting("background_opacity","Float",1.0,13);
+// autorepair message on "no visible data"
+settings.define_setting("no_autorepair","Boolean",false,16);
+// resizable panels
+settings.define_setting("editor_width","String","",17);
 // scripts
 settings.define_setting("scripts_enabled","boolean",false,20);
 
@@ -117,4 +121,13 @@ settings.define_upgrade_callback(12, function(s) {
   }
   s.save();
 });
-
+settings.define_upgrade_callback(14, function(s) {
+  // disable "start at current location" by default
+  s.use_html5_coords = false;
+  s.save();
+});
+settings.define_upgrade_callback(18, function(s) {
+  // enable "Include current map state in shared links" by default
+  s.share_include_pos = true;
+  s.save();
+});
