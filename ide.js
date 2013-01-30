@@ -410,7 +410,7 @@ var ide = new(function() {
       ide.waiter.close();
       var map_bounds  = ide.map.getBounds();
       var data_bounds = overpass.geojsonLayer.getBounds();
-      if (!map_bounds.intersects(data_bounds)) {
+      if (data_bounds.isValid() && !map_bounds.intersects(data_bounds)) {
         // show tooltip for button "zoom to data"
         var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
         $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← click here to show the data");
