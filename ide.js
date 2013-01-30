@@ -920,7 +920,7 @@ var ide = new(function() {
         $(prints).each(function(i,p) {if (p.match(/(body|skel|ids)/) || !p.match(/meta/)) err.meta=true;});
       }
       if (!$.isEmptyObject(err)) {
-        $('<div title="Incomplete Data"><p>This query does not return OSM data in XML format with metadata. Editors like JOSM require the data to be in that format, though.</p><p><i>overpass turbo</i> can help you to correct the query by choosing "repair query" below.</p></div>').dialog({
+        $('<div title="Incomplete Data"><p>It looks like if this query will not return OSM data in XML format with metadata. Editors like JOSM require the data to be in that format, though.</p><p><i>overpass turbo</i> can help you to correct the query by choosing "repair query" below.</p></div>').dialog({
           modal:true,
           buttons: {
             "repair query": function() {
