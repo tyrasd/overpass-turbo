@@ -251,7 +251,8 @@ var overpass = new(function() {
           continue; // abort if outer way object is not present
         if (outer_coords[0].length == 0)
           continue; // abort if coordinates of outer way is not present
-        way_type = "MultiPolygon";
+        //way_type = "MultiPolygon";
+        way_type = "Polygon";
         var feature = {
           "type"       : "Feature",
           "properties" : {
@@ -263,7 +264,7 @@ var overpass = new(function() {
           },
           "geometry"   : {
             "type" : way_type,
-            "coordinates" : [[].concat(outer_coords,inner_coords)],
+            "coordinates" : ([].concat(outer_coords,inner_coords)),
           }
         }
         if (rels[i].tainted)
