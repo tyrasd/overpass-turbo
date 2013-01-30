@@ -51,6 +51,9 @@ body {
   right: 0 !important;
   z-index: 30;
 }
+ul.ui-autocomplete {
+  z-index:38 !important;
+}
 
 .CodeMirror {
   height:100%;
