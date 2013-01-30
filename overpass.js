@@ -6,8 +6,7 @@ var overpass = new(function() {
   // == public members ==
   this.handlers = {};
 
-  // == private methods ==
-  var overpassJSON2geoJSON = function(json) {
+  this.overpassJSON2geoJSON = function(json) {
     // 2. sort elements
     var nodes = new Array();
     var ways  = new Array();
@@ -29,7 +28,7 @@ var overpass = new(function() {
     }
     return convert2geoJSON(nodes,ways,rels);
   }
-  var overpassXML2geoJSON = function(xml) {
+  this.overpassXML2geoJSON = function(xml) {
     // 2. sort elements
     var nodes = new Array();
     var ways  = new Array();
@@ -110,6 +109,8 @@ var overpass = new(function() {
     });
     return convert2geoJSON(nodes,ways,rels);
   }
+
+  // == private methods ==
   var convert2geoJSON = function(nodes,ways,rels) {
     // 3. some data processing (e.g. filter nodes only used for ways)
     var nodeids = new Object();
@@ -189,8 +190,8 @@ var overpass = new(function() {
         "properties" : {
           "type" : "node",
           "id"   : pois[i].id,
-          "tags" : pois[i].tags,
-          "relations" : pois[i].relations,
+          "tags" : pois[i].tags || {},
+          "relations" : pois[i].relations || [],
           "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": pois[i].timestamp, "version": pois[i].version, "changeset": pois[i].changeset, "user": pois[i].user, "uid": pois[i].uid}),
         },
         "geometry"   : {
@@ -256,8 +257,8 @@ var overpass = new(function() {
           "properties" : {
             "type" : "way",
             "id"   : outer_way.id,
-            "tags" : outer_way.tags,
-            "relations" : outer_way.relations,
+            "tags" : outer_way.tags || {},
+            "relations" : outer_way.relations || [],
             "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": outer_way.timestamp, "version": outer_way.version, "changeset": outer_way.changeset, "user": outer_way.user, "uid": outer_way.uid}),
           },
           "geometry"   : {
@@ -306,8 +307,8 @@ var overpass = new(function() {
         "properties" : {
           "type" : "way",
           "id"   : ways[i].id,
-          "tags" : ways[i].tags,
-          "relations" : ways[i].relations,
+          "tags" : ways[i].tags || {},
+          "relations" : ways[i].relations || [],
           "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": ways[i].timestamp, "version": ways[i].version, "changeset": ways[i].changeset, "user": ways[i].user, "uid": ways[i].uid}),
         },
         "geometry"   : {
@@ -425,12 +426,12 @@ var overpass = new(function() {
           overpass.resultType = "xml";
           data_mode = "xml";
           // convert to geoJSON
-          geojson = overpassXML2geoJSON(data);
+          geojson = overpass.overpassXML2geoJSON(data);
         } else { // maybe json data
           overpass.resultType = "javascript";
           data_mode = "json";
           // convert to geoJSON
-          geojson = overpassJSON2geoJSON(data);
+          geojson = overpass.overpassJSON2geoJSON(data);
         }
         overpass.resultData = geojson;
         // print raw data
