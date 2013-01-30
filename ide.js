@@ -666,11 +666,13 @@ var ide = new(function() {
       var q = ide.getQuery(false,false); // get original query
       if (ide.getQueryLang() == "xml") {
         // 1. fix <osm-script output=*
-        var src = q.match(/<osm-script([^>]*)>/)[0];
-        var output = $(src+"</osm-script>").attr("output");
-        if (output && output != "xml") {
-          var new_src = src.replace(output,"xml");
-          q = q.replace(src,new_src+"<!-- fixed by auto repair -->");
+        var src = q.match(/<osm-script([^>]*)>/);
+        if (src) {
+          var output = $("osm-script",$.parseXML(src[0]+"</osm-script>")).attr("output");
+          if (output && output != "xml") {
+            var new_src = src.replace(output,"xml");
+            q = q.replace(src,new_src+"<!-- fixed by auto repair -->");
+          }
         }
         // 2. fix <print mode=*
         var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g);
