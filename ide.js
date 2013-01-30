@@ -635,7 +635,7 @@ var ide = new(function() {
         var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g);
         for (var i=0;i<prints.length;i++) {
           var ws = prints[i].match(/^\n?(\s*)/)[1]; // amount of whitespace in fromt of each print statement
-          var from = $(prints[i]).attr("from");
+          var from = $("print",$.parseXML(prints[i])).attr("from");
           var add1,add2,add3;
           if (from) { 
             add1 = ' into="'+from+'"'; add2 = ' set="'+from+'"'; add3 = ' from="'+from+'"'; 
@@ -675,7 +675,7 @@ var ide = new(function() {
         // 2. fix <print mode=*
         var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g);
         for (var i=0;i<prints.length;i++) {
-          var mode = $(prints[i]).attr("mode");
+          var mode = $("print",$.parseXML(prints[i])).attr("mode");
           var new_print = prints[i];
           if (mode)
             new_print = new_print.replace(mode,"meta");
