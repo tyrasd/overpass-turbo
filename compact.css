@@ -91,3 +91,6 @@ div.ui-dialog {
   padding: 70px 10px 10px 10px;
   margin-left: -60px;
 }
+.leaflet-control-buttons a.leaflet-control-buttons-fullscreen {
+  display:none;
+}

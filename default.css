@@ -43,6 +43,14 @@ body {
   top:0;
   z-index:-1001;
 }
+#dataviewer.fullscreen {
+  position: absolute;
+  /*top: 0 !important;*/
+  left: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  z-index: 30;
+}
 
 .CodeMirror {
   height:100%;
@@ -315,3 +323,4 @@ body .ui-tooltip {
   padding-top: 4px;
   padding-bottom: 4px;
 }
+

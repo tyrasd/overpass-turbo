@@ -287,8 +287,20 @@ var ide = new(function() {
           } else {
             ide.map.bboxfilter.disable();
           }
-          $(e.target).toggleClass("ui-icon-circlesmall-close");
-          $(e.target).toggleClass("ui-icon-image");
+          $(e.target).toggleClass("ui-icon-circlesmall-close").toggleClass("ui-icon-image");
+        }, ide.map);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-fullscreen leaflet-bar-part", container);
+        $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo($(link));
+        link.href = 'javascript:return false;';
+        link.title = "fullscreen map";
+        L.DomEvent.addListener(link, 'click', function(e) {
+          $("#dataviewer").toggleClass("toggle large map");
+          ide.map.invalidateSize();
+          $(e.target).toggleClass("ui-icon-arrowthickstop-1-e").toggleClass("ui-icon-arrowthickstop-1-w");
+          if ($("#editor").resizable("option","disabled"))
+            $("#editor").resizable("enable");
+          else
+            $("#editor").resizable("disable");
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
