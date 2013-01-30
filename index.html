@@ -205,5 +205,9 @@
     <p><input type="checkbox" name="run_immediately" onchange="ide.updateShareLink();"/>&nbsp;run this query immediately after loading</p>
   </div>
 
+  <script>
+    // initialize ide on document ready
+    $(document).ready(ide.init);
+  </script>
 </body>
 </html>
