@@ -9,8 +9,73 @@ var ide = new(function() {
   this.dataViewer = null;
   this.map = null;
 
-  // == private methods ==
-  var init = function() {
+  // == helpers ==
+
+  var make_combobox = function(input, options) {
+    if (input[0].is_combobox) {
+      input.autocomplete("option", {source:options});
+      return;
+    }
+    var wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
+    input.autocomplete({
+      source: options,
+      minLength: 0,
+    }).addClass("ui-widget ui-widget-content ui-corner-left ui-state-default");
+    $( "<a>" ).attr("tabIndex", -1).attr("title","show all items").appendTo(wrapper).button({
+      icons: {primary: "ui-icon-triangle-1-s"}, text:false
+    }).removeClass( "ui-corner-all" ).addClass( "ui-corner-right ui-combobox-toggle" ).click(function() {
+      // close if already visible
+      if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
+        input.autocomplete( "close" );
+        return;
+      }
+      // pass empty string as value to search for, displaying all results
+      input.autocomplete( "search", "" );
+      input.focus();
+    });
+    input[0].is_combobox = true;
+  } // make_combobox()
+
+  // == public sub objects ==
+
+  this.waiter = {
+    opened: false,
+    open: function(show_info) {
+      if (show_info) {
+        $(".wait-info").show();
+      } else {
+        $(".wait-info").hide();
+      }
+      $("body").addClass("loading");
+      ide.waiter.opened = true;
+    },
+    close: function() {
+      $("body").removeClass("loading");
+      $(".wait-info ul li").remove();
+      delete ide.waiter.onAbort;
+      ide.waiter.opened = false;
+    },
+    addInfo: function(txt, abortCallback) {
+      $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
+      $(".wait-info ul li:nth-child(n+1)").css("opacity",0.5);
+      $(".wait-info ul li:nth-child(n+4)").hide();
+      var li = $("<li>"+txt+"</li>");
+      if (typeof abortCallback == "function") {
+        ide.waiter.onAbort = abortCallback;
+        li.append('<span id="aborter">&nbsp;(<a href="#" onclick="ide.waiter.abort(); return false;">abort</a>)</span>');
+      }
+      $(".wait-info ul").prepend(li);
+    },
+    abort: function() {
+      if (typeof ide.waiter.onAbort == "function")
+        ide.waiter.onAbort();
+      ide.waiter.close();
+    },
+  };
+
+  // == public methods ==
+
+  this.init = function() {
     ide.waiter.addInfo("ide starting up");
     // (very raw) compatibility check <- TODO: put this into its own function
     if (jQuery.support.cors != true ||
@@ -518,70 +583,6 @@ var ide = new(function() {
       ide.update_map();
   } // init()
 
-  var make_combobox = function(input, options) {
-    if (input[0].is_combobox) {
-      input.autocomplete("option", {source:options});
-      return;
-    }
-    var wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
-    input.autocomplete({
-      source: options,
-      minLength: 0,
-    }).addClass("ui-widget ui-widget-content ui-corner-left ui-state-default");
-    $( "<a>" ).attr("tabIndex", -1).attr("title","show all items").appendTo(wrapper).button({
-      icons: {primary: "ui-icon-triangle-1-s"}, text:false
-    }).removeClass( "ui-corner-all" ).addClass( "ui-corner-right ui-combobox-toggle" ).click(function() {
-      // close if already visible
-      if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
-        input.autocomplete( "close" );
-        return;
-      }
-      // pass empty string as value to search for, displaying all results
-      input.autocomplete( "search", "" );
-      input.focus();
-    });
-    input[0].is_combobox = true;
-  } // make_combobox()
-
-  // == public sub objects ==
-
-  this.waiter = {
-    opened: false,
-    open: function(show_info) {
-      if (show_info) {
-        $(".wait-info").show();
-      } else {
-        $(".wait-info").hide();
-      }
-      $("body").addClass("loading");
-      ide.waiter.opened = true;
-    },
-    close: function() {
-      $("body").removeClass("loading");
-      $(".wait-info ul li").remove();
-      delete ide.waiter.onAbort;
-      ide.waiter.opened = false;
-    },
-    addInfo: function(txt, abortCallback) {
-      $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
-      $(".wait-info ul li:nth-child(n+1)").css("opacity",0.5);
-      $(".wait-info ul li:nth-child(n+4)").hide();
-      var li = $("<li>"+txt+"</li>");
-      if (typeof abortCallback == "function") {
-        ide.waiter.onAbort = abortCallback;
-        li.append('<span id="aborter">&nbsp;(<a href="#" onclick="ide.waiter.abort(); return false;">abort</a>)</span>');
-      }
-      $(".wait-info ul").prepend(li);
-    },
-    abort: function() {
-      if (typeof ide.waiter.onAbort == "function")
-        ide.waiter.onAbort();
-      ide.waiter.close();
-    },
-  };
-
-  // == public methods ==
-
   // returns the current visible bbox as a bbox-query
   this.map2bbox = function(lang) {
     var bbox;
@@ -789,7 +790,7 @@ var ide = new(function() {
   this.onRunClick = function() {
     ide.update_map();
   }
-  var compose_share_link = function(query,compression,coords,run) {
+  this.compose_share_link = function(query,compression,coords,run) {
     var share_link = "";
     if (!compression) { // compose uncompressed share link
       share_link += "?Q="+encodeURIComponent(query);
@@ -819,7 +820,7 @@ var ide = new(function() {
     var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
     var run_immediately = $("div#share-dialog input[name=run_immediately]")[0].checked;
 
-    var share_link = baseurl+compose_share_link(query,compress,inc_coords,run_immediately);
+    var share_link = baseurl+ide.compose_share_link(query,compress,inc_coords,run_immediately);
 
     var warning = '';
     if (share_link.length >= 2000)
@@ -1149,10 +1150,6 @@ var ide = new(function() {
     var query_lang = ide.getQueryLang();
     overpass.run_query(query,query_lang);
   }
-
-  // == initializations ==
-  // initialize on document ready
-  $(document).ready(init);
 
 })(); // end create ide object
 
