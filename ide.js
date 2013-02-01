@@ -854,8 +854,19 @@ var ide = new(function() {
       var geoJSON_str;
       if (!overpass.resultData)
         geoJSON_str = "No geoJSON data available! Please run a query first.";
-      else
-        geoJSON_str = JSON.stringify(overpass.resultData, undefined, 2);
+      else {
+        var gJ = [];
+        // concatenate feature collections
+        $.each(overpass.resultData,function(i,d) {gJ = gJ.concat(d.features);});
+        gJ = {
+          type: "FeatureCollection",
+          generator: settings.appname,
+          copyright: overpass.copyright, 
+          timestamp: overpass.timestamp,
+          features: gJ,
+        }
+        geoJSON_str = JSON.stringify(gJ, undefined, 2);
+      }
       var d = $("#export-geojson");
       $("textarea",d)[0].value=geoJSON_str;
       d.dialog({

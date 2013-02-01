@@ -424,11 +424,15 @@ var overpass = new(function() {
         } else if (typeof data == "object" && jqXHR.responseXML) { // xml data
           overpass.resultType = "xml";
           data_mode = "xml";
+          overpass.timestamp = $("osm > meta:first-of-type",data).attr("osm_base");
+          overpass.copyright = $("osm > note:first-of-type",data).text();
           // convert to geoJSON
           geojson = overpassXML2geoJSON(data);
         } else { // maybe json data
           overpass.resultType = "javascript";
           data_mode = "json";
+          overpass.timestamp = data.osm3s.timestamp_osm_base;
+          overpass.copyright = data.osm3s.copyright;
           // convert to geoJSON
           geojson = overpassJSON2geoJSON(data);
         }
