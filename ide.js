@@ -92,6 +92,9 @@ var ide = new(function() {
     }
     // load settings
     settings.load();
+    // translate ui
+    // todo: add waiter message
+    i18n.translate();
     // check for any get-parameters
     var override_use_html5_coords = false;
     if (location.search != "") {
@@ -324,14 +327,14 @@ var ide = new(function() {
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata leaflet-bar-part leaflet-bar-part-top", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = "zoom onto data";
+        link.title = i18n.t("map_controlls.zoom_to_data");
         L.DomEvent.addListener(link, 'click', function() {
           try {ide.map.fitBounds(overpass.geojsonLayer.getBounds()); } catch (e) {}  
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = "pan to current location";
+        link.title = i18n.t("map_controlls.localize_user");
         L.DomEvent.addListener(link, 'click', function() {
           // One-shot position request.
           try {
@@ -344,7 +347,7 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = "manually select bbox";
+        link.title = i18n.t("map_controlls.select_bbox");
         L.DomEvent.addListener(link, 'click', function(e) {
           if (!ide.map.bboxfilter.isEnabled()) {
             ide.map.bboxfilter.setBounds(ide.map.getBounds());
@@ -357,7 +360,7 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-fullscreen leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = "toggle wide map";
+        link.title = i18n.t("map_controlls.toggle_wide_map");
         L.DomEvent.addListener(link, 'click', function(e) {
           $("#dataviewer").toggleClass("fullscreen");
           ide.map.invalidateSize();
@@ -370,7 +373,7 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = "clear data overlay";
+        link.title = i18n.t("map_controlls.clear_data");
         L.DomEvent.addListener(link, 'click', function(e) {
           ide.map.removeLayer(overpass.geojsonLayer);
         }, ide.map);

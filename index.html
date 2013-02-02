@@ -31,6 +31,7 @@
   <script src="settings.js"></script>
   <script src="overpass.js"></script>
   <script src="ide.js"></script>
+  <script src="i18n.js"></script>
 </head>
 <body class="loading">
   <!--more optional libraries-->
@@ -43,18 +44,18 @@
   <div id="navs">
     <div class="nav">
       <div class="buttons">
-        <a class="button group left"      accesskey="1" onclick="ide.onRunClick();"      title="execute this query on Overpass API">Run</a>
-        <a class="button group"           accesskey="2" onclick="ide.onShareClick();"    title="get a permalink for this query"    >Share</a>
-        <a class="button group right gap" accesskey="3" onclick="ide.onExportClick();"   title="various export tools"              >Export</a>
-        <a class="button group left"      accesskey="4" onclick="ide.onSaveClick();"     title="save this query"                   >Save</a>
-        <a class="button group right gap" accesskey="5" onclick="ide.onLoadClick();"     title="load saved query or example"       >Load</a>
-        <a class="button group left"      accesskey="9" onclick="ide.onSettingsClick();" title="various settings"                  >Settings</a>
-        <a class="button group right"     accesskey="0" onclick="ide.onHelpClick();"     title="help, about and attributions"      >Help</a>
+        <a class="t button group left"      accesskey="1" onclick="ide.onRunClick();"      title="execute this query on Overpass API" t="[title]nav.run_tt;nav.run"          >Run</a>
+        <a class="t button group"           accesskey="2" onclick="ide.onShareClick();"    title="get a permalink for this query"     t="[title]nav.share_tt;nav.share"      >Share</a>
+        <a class="t button group right gap" accesskey="3" onclick="ide.onExportClick();"   title="various export tools"               t="[title]nav.export_tt;nav.export"    >Export</a>
+        <a class="t button group left"      accesskey="4" onclick="ide.onSaveClick();"     title="save this query"                    t="[title]nav.save_tt;nav.save"        >Save</a>
+        <a class="t button group right gap" accesskey="5" onclick="ide.onLoadClick();"     title="load saved query or example"        t="[title]nav.load_tt;nav.load"        >Load</a>
+        <a class="t button group left"      accesskey="9" onclick="ide.onSettingsClick();" title="various settings"                   t="[title]nav.settings_tt;nav.settings">Settings</a>
+        <a class="t button group right"     accesskey="0" onclick="ide.onHelpClick();"     title="help, about and attributions"       t="[title]nav.help_tt;nav.help"        >Help</a>
       </div>
       <div class="title">overpass turbo <img src="turbo.png" style="opacity:0.3; margin-left:2px;" /></div>
       <div class="tabs">
-        <a class="button active" title="map view" >Map</a>
-        <a class="button"        title="data view">Data</a>
+        <a class="t button active" title="map view"  t="[title]tabs.map_tt;tabs.map"  >Map</a>
+        <a class="t button"        title="data view" t="[title]tabs.data_tt;tabs.data">Data</a>
       </div>
     </div>
   </div>
@@ -134,34 +135,34 @@
     </div>
   </div>
   <!--settings-->
-  <div title="Settings" id="settings-dialog" class="dialog">
-    <h3><a>General Settings</a></h3>
+  <div title="Settings" id="settings-dialog" class="t dialog" t="[title]settings.title">
+    <h3><a class="t" t="settings.section.general">General Settings</a></h3>
     <div>
-      <p><label>Server:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
-      <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;Force simple CORS requests <small>(use when the server doesn't support preflighted <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> requests)</small></p>
-      <p><input type="checkbox" name="use_html5_coords"/>&nbsp;Start at current location <small>(html5 geolocation)</small></p>
-      <p><input type="checkbox" name="no_autorepair"/>&nbsp;Disable warning/autorepair message when Overpass API returns no visible data.</p>
+      <p><label><span class="t" t="settings.server">Server</span>:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
+      <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;<span class="t" t="settings.force_simple_cors">Force simple CORS requests</span> <small>(<span class="t" t="settings.force_simple_cors_expl">use when the server doesn't support preflighted <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> requests</span>)</small></p>
+      <p><input type="checkbox" name="use_html5_coords"/>&nbsp;<span class="t" t="settings.start_at_user_location">Start at user location</span> <small>(<span class="t" t="settings.start_at_user_location_expl">html5 geolocation</span>)</small></p>
+      <p><input type="checkbox" name="no_autorepair"/>&nbsp;<span class="t" t="settings.disable_autorepair">Disable warning/autorepair message when Overpass API returns no visible data.</span></p>
     </div>
-    <h3><a>Editor</a></h3>
+    <h3><a class="t" t="settings.section.editor">Editor</a></h3>
     <div>
-      <p><input type="checkbox" name="use_rich_editor"/>&nbsp;Enable rich code editor <small>(disable this on mobile devices; requires a page-reload to take effect)</small>.</p>
-      <p><label>Width of editor:</label> <small>(e.g. "400px", leave blank for defaults)</small> <input type="text" name="editor_width" value="" style="width:80px;"/></p>
+      <p><input type="checkbox" name="use_rich_editor"/>&nbsp;<span class="t" t="settings.enable_rich_editor">Enable rich code editor</span> <small>(<span class="t" t="settings.enable_rich_editor_expl">disable this on mobile devices; requires a page-reload to take effect</span>)</small>.</p>
+      <p><label><span class="t" t="settings.editor_with">Width of editor</span>:</label> <small>(<span class="t" t="settings.editor_with_expl">e.g. "400px", leave blank for defaults</span>)</small> <input type="text" name="editor_width" value="" style="width:80px;"/></p>
     </div>
-    <h3><a>Map</a></h3>
+    <h3><a class="t" t="settings.section.map">Map</a></h3>
     <div>
-      <p><label>Tile-Server:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
-      <p><label>Tiles Opacity:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(transparency of background tiles: 0=tansparent &hellip; 1=visible)</small></p>
-      <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;Show crosshairs at the map center.</p>
+      <p><label><span class="t" t="settings.tile_server">Tile-Server</span>:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
+      <p><label><span class="t" t="settings.tile_opacity">Tiles Opacity</span>:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(<span class="t" t="settings.tile_opacity_expl">transparency of background tiles: 0=tansparent &hellip; 1=visible</span>)</small></p>
+      <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;<span class="t" t="settings.show_crosshairs">Show crosshairs at the map center.</span></p>
     </div>
-    <h3><a>Sharing</a></h3>
+    <h3><a class="t" t="settings.section.sharing">Sharing</a></h3>
     <div>
-      <p><input type="checkbox" name="share_include_pos"/>&nbsp;Include current map state in shared links</p>
-      <p><label>Compression <small>(share)</small>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
+      <p><input type="checkbox" name="share_include_pos"/>&nbsp;<span class="t" t="settings.include_map_state">Include current map state in shared links</span></p>
+      <p><label><span class="t" t="settings.compression">Compression</span>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
     </div>
-    <h3><a>Export</a></h3>
+    <h3><a class="t" t="settings.section.export">Export</a></h3>
     <div>
-      <p><input type="checkbox" name="export_image_scale"/>&nbsp;Show scale on exported images.</p>
-      <p><input type="checkbox" name="export_image_attribution"/>&nbsp;Show attribution on exported images.</p>
+      <p><input type="checkbox" name="export_image_scale"/>&nbsp;<span class="t" t="settings.export_image_scale">Show scale on exported images.</span></p>
+      <p><input type="checkbox" name="export_image_attribution"/>&nbsp;<span class="t" t="settings.export_image_attr">Show attribution on exported images.</span></p>
     </div>
   </div>
   <!--save-->
@@ -206,6 +207,7 @@
   </div>
 
   <script>
+    navigator.language = "de";
     // initialize ide on document ready
     $(document).ready(ide.init);
   </script>
