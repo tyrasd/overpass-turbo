@@ -153,6 +153,10 @@
   "error.query.expl": "Ein Fehler ist während der Ausführung der Query aufgetreten. Folgendes hat die API als Fehlermeldung zurückgegeben:",
   "error.ajax.title": "Ajax Fehler",
   "error.ajax.expl": "Ein Fehler ist beim Ausführen der Query aufgetreten!",
+  "error.browser.title": "Dein Browser unterstützt diese Anwendung nicht :(",
+  "error.browser.expl.1": "<p>Der aktuell verwendete Browser ist (höchtwahrscheinlich) nicht in der Lage die Anwendung (oder signifikante Teile davon) auszuführen. <small>Folgende Standards müssen unterstützt werden: <a href=\"http://en.wikipedia.org/wiki/Web_storage#localStorage\">Web Storage API</a> und <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">cross origin resource sharing (CORS)</a>.</small></p>",
+  "error.browser.expl.2": "<p>Möglicherweise müssen zusätzlich Cookiers und/oder \"lokale Daten\" für diese Webseite aktiviert werden (z.B. unter Firefox und Chrome).</p>",
+  "error.browser.expl.3": "<p>Bitte wechsle auf einen aktuellere Version deines Browsers oder gar einen anderen Browser! Aktuelle Versionen von <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> und <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> wurden getesten und funktionieren. Alternativ kannst du aber auch die <a href=\"http://overpass-api.de/query_form.html\">Overpass_API query form</a> benützen.</p>",
 
   "waiter.processing_query": "Query wird bearbeitet...",
   "waiter.export_as_image": "Exportiere als Bild...",

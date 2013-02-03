@@ -77,6 +77,10 @@ var i18n = new(function() {
     "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",
     "error.ajax.title": "Ajax Error",
     "error.ajax.expl": "An error occured during the execution of the overpass query!",
+    "error.browser.title": "Your browser is not supported :(",
+    "error.browser.expl.1": "<p>The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href=\"http://en.wikipedia.org/wiki/Web_storage#localStorage\">Web Storage API</a> and <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">cross origin resource sharing (CORS)</a>.</small></p>",
+    "error.browser.expl.2": "<p>Note that you may have to enable cookies and/or \"local Data\" for this site on some browsers (such as Firefox and Chrome).</p>",
+    "error.browser.expl.3": "<p>Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> and <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> have been tested to work. Alternatively, you can still use the <a href=\"http://overpass-api.de/query_form.html\">Overpass_API query form</a>.</p>",
 
     "waiter.processing_query": "processing query...",
     "waiter.export_as_image": "exporting as image...",
