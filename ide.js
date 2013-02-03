@@ -901,7 +901,7 @@ var ide = new(function() {
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="'+i18n.t("export.map_view.title")+'">'+
-        i18n.t("export.map_view.permalink_osm")+'<a href="http://www.openstreetmap.org/?lat='+L.Util.formatNum(ide.map.getCenter().lat)+'&lon='+L.Util.formatNum(ide.map.getCenter().lng)+'&zoom='+ide.map.getZoom()+'">osm.org</a></p>'+
+        i18n.t("export.map_view.permalink_osm")+'&nbsp;<a href="http://www.openstreetmap.org/?lat='+L.Util.formatNum(ide.map.getCenter().lat)+'&lon='+L.Util.formatNum(ide.map.getCenter().lng)+'&zoom='+ide.map.getZoom()+'">osm.org</a></p>'+
         '<h4>'+i18n.t("export.map_view.center")+'</h4><p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>('+i18n.t("export.map_view.center_expl")+')</small></p>'+
         '<h4>'+i18n.t("export.map_view.bounds")+'</h4><p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>'+
         '<h4>'+i18n.t("export.map_view.zoom")+'</h4><p>'+ide.map.getZoom()+'</p>'+
