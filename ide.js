@@ -42,6 +42,7 @@ var ide = new(function() {
     opened: false,
     open: function(show_info) {
       if (show_info) {
+        $(".modal .wait-info h4").text(show_info);
         $(".wait-info").show();
       } else {
         $(".wait-info").hide();
@@ -610,7 +611,6 @@ var ide = new(function() {
 
     // close startup waiter
     ide.waiter.close();
-    $(".modal .wait-info h4").text("processing query...");
 
     // automatically load help, if this is the very first time the IDE is started
     if (settings.first_time_visit === true && 
@@ -1185,7 +1185,7 @@ var ide = new(function() {
     // todo: more shortcuts
   }
   this.update_map = function() {
-    ide.waiter.open(true);
+    ide.waiter.open("processing query...");
     ide.waiter.addInfo("resetting map");
     // resets previously highlighted error lines
     this.resetErrors();
