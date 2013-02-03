@@ -90,6 +90,9 @@ var i18n = new(function() {
     "warning.incomplete.expl": "<p>This query returned no nodes. In OSM, only nodes contain coordinates. For example, a way cannot be displayed without its nodes.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing \"repair query\" below. Otherwise you can continue to the data.</p>",
     "warning.incomplete.not_again": "do not show this message again.",
 
+    "warning.share.long": "Warning: This share-link is quite long. It may not work under certain circumstances",
+    "warning.share.very_long": "Warning: This share-link is very long. It is likely to fail under normal circumstances (browsers, webservers). Use with caution!",
+
     "waiter.processing_query": "processing query...",
     "waiter.export_as_image": "exporting as image...",
 

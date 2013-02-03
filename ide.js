@@ -871,9 +871,9 @@ var ide = new(function() {
 
     var warning = '';
     if (share_link.length >= 2000)
-      warning = '<p style="color:orange">Warning: This share-link is quite long. It may not work under certain circumstances</a> (browsers, webservers).</p>';
+      warning = '<p style="color:orange">'+i18n.t("warning.share.long")+'</p>';
     if (share_link.length >= 8000)
-      warning = '<p style="color:red">Warning: This share-link is very long. It is likely to fail under normal circumstances (browsers, webservers). Use with caution.</p>';
+      warning = '<p style="color:red">'+i18n.t("warning.share.very_long")+'</p>';
 
     $("div#share-dialog #share_link_warning").html(warning);
     $("div#share-dialog #share_link_a")[0].href=share_link;
