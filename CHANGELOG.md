@@ -1,3 +1,13 @@
+2013.02.04
+----------
+* display small features at low zoom like POIs
+* i18n support (and translation to German)
+* added "fullscreen" (wide) map view
+* handle untagged nodes as POIs when they are member of at least 1 relation
+* implemented first set of unit tests
+* upgraded to CodeMirror 2.38
+* bugfixes
+
 2013.01.30
 ----------
 * resizable panels (editor/map)
