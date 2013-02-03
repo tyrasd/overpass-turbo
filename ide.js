@@ -507,22 +507,22 @@ var ide = new(function() {
       // show warning/info if only invisible data is returned
       if (empty_msg == "no visible data") {
         if (!settings.no_autorepair) {
+          var dialog_buttons= {};
+          dialog_buttons[i18n.t("dialog.repair_query")] = function() {
+            ide.repairQuery("no visible data");
+            $(this).dialog("close");
+          };
+          dialog_buttons[i18n.t("dialog.show_data")] = function() {
+            if ($("input[name=hide_incomplete_data_warning]",this)[0].checked) {
+              settings.no_autorepair = true;
+              settings.save();
+            }
+            ide.switchTab("Data"); 
+            $(this).dialog("close");
+          };
           $('<div title="Incomplete Data"><p>This query returned no nodes. In OSM, only nodes contain coordinates. For example, a way cannot be displayed without its nodes.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing "repair query" below. Otherwise you can continue to the data.</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;do not show this message again.</p></div>').dialog({
             modal:true,
-            buttons: {
-              "repair query": function() {
-                ide.repairQuery("no visible data");
-                $(this).dialog("close");
-              },
-              "show data": function() {
-                if ($("input[name=hide_incomplete_data_warning]",this)[0].checked) {
-                  settings.no_autorepair = true;
-                  settings.save();
-                }
-                ide.switchTab("Data"); 
-                $(this).dialog("close");
-              },
-            },
+            buttons: dialog_buttons,
           });
         }
       }
@@ -540,18 +540,22 @@ var ide = new(function() {
     }
     overpass.handlers["onAjaxError"] = function(errmsg) {
       // show error dialog
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
       $('<div title="Ajax Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
         modal:true,
-        buttons: {"dismiss": function() {$(this).dialog("close");}},
+        buttons: dialog_buttons,
       }); // dialog
       // print error text, if present
       if (overpass.resultText)
         ide.dataViewer.setValue(overpass.resultText);
     }
     overpass.handlers["onQueryError"] = function(errmsg) {
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
       $('<div title="Query Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
         modal:true,
-        buttons:{"dismiss": function(){$(this).dialog("close");}},
+        buttons: dialog_buttons,
       });
     }
     overpass.handlers["onQueryErrorLine"] = function(linenumber) {
@@ -738,17 +742,17 @@ var ide = new(function() {
       ide.setQuery(settings.saves[ex].overpass);
   }
   this.removeExample = function(ex,self) {
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.delete")] = function() {
+      delete settings.saves[ex];
+      settings.save();
+      $(self).parent().remove();
+      $(this).dialog( "close" );
+    };
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $('<div title="Delete Query?"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>Do you really want to delete &quot;'+ex+'&quot;?</p></div>').dialog({
       modal: true,
-      buttons: {
-        "Delete": function() {
-          delete settings.saves[ex];
-          settings.save();
-          $(self).parent().remove();
-          $(this).dialog( "close" );
-        },
-        "Cancel": function() {$( this ).dialog( "close" );},
-      },
+      buttons: dialog_buttons,
     });
   }
 
@@ -761,11 +765,11 @@ var ide = new(function() {
           '<a href="" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
           '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
         '</li>').appendTo("#load-dialog ul");
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $("#load-dialog").dialog({
       modal:true,
-      buttons: {
-        "Cancel" : function() {$(this).dialog("close");}
-      }
+      buttons: dialog_buttons,
     });
     
   }
@@ -775,19 +779,19 @@ var ide = new(function() {
     for (var key in settings.saves)
       saves_names.push(key);
     make_combobox($("#save-dialog input[name=save]"), saves_names);
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.save")] = function() {
+      var name = $("input[name=save]",this)[0].value;
+      settings.saves[htmlentities(name)] = {
+        "overpass": ide.getQuery()
+      };
+      settings.save();
+      $(this).dialog("close");
+    };
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $("#save-dialog").dialog({
       modal:true,
-      buttons: {
-        "Save" : function() {
-          var name = $("input[name=save]",this)[0].value;
-          settings.saves[htmlentities(name)] = {
-            "overpass": ide.getQuery()
-          };
-          settings.save();
-          $(this).dialog("close");
-        },
-        "Cancel": function() {$(this).dialog("close");}
-      }
+      buttons: dialog_buttons,
     });
   }
   this.onRunClick = function() {
@@ -838,11 +842,11 @@ var ide = new(function() {
   this.onShareClick = function() {
     $("div#share-dialog input[name=include_coords]")[0].checked = settings.share_include_pos;
     ide.updateShareLink();
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("div#share-dialog").dialog({
       modal:true,
-      buttons: {
-        "done": function() {$(this).dialog("close");}
-      }
+      buttons: dialog_buttons,
     });
   }
   this.onExportClick = function() {
@@ -853,6 +857,8 @@ var ide = new(function() {
     $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="Current Map View">'+
         '<h4>Permalink</h4> to <a href="http://www.openstreetmap.org/?lat='+L.Util.formatNum(ide.map.getCenter().lat)+'&lon='+L.Util.formatNum(ide.map.getCenter().lng)+'&zoom='+ide.map.getZoom()+'">osm.org</a></p>'+
@@ -861,9 +867,7 @@ var ide = new(function() {
         '<h4>Zoom</h4><p>'+ide.map.getZoom()+'</p>'+
         '</div>').dialog({
         modal:true,
-        buttons: {
-          "OK": function() {$(this).dialog("close");}
-        },
+        buttons: dialog_buttons,
       });
     });
     $("#export-dialog a#export-geoJSON").on("click", function() {
@@ -885,12 +889,12 @@ var ide = new(function() {
       }
       var d = $("#export-geojson");
       $("textarea",d)[0].value=geoJSON_str;
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
       d.dialog({
         modal:true,
         width:500,
-        buttons: {
-          "close": function() {$(this).dialog("close");}
-        },
+        buttons: dialog_buttons,
       });
       return false;
     });
@@ -913,21 +917,21 @@ var ide = new(function() {
               export_dialog.dialog("close");
             });
           } else {
+            var dialog_buttons= {};
+            dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
             $('<div title="Remote Control Error"><p>Error: incompatible JOSM remote control version: '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
               modal:true,
               width:350,
-              buttons: {
-                "OK": function() {$(this).dialog("close");}
-              }
+              buttons: dialog_buttons,
             });
           }
         }).error(function(xhr,s,e) {
+          var dialog_buttons= {};
+          dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
           $('<div title="Remote Control Error"><p>Remote control not found. :( Make sure JOSM is already running and properly configured.</p></div>').dialog({
             modal:true,
             width:350,
-            buttons: {
-              "OK": function() {$(this).dialog("close");}
-            }
+            buttons: dialog_buttons,
           });
         });
       }
@@ -954,19 +958,19 @@ var ide = new(function() {
         $(prints).each(function(i,p) {if (p.match(/(body|skel|ids)/) || !p.match(/meta/)) err.meta=true;});
       }
       if (!$.isEmptyObject(err)) {
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.repair_query")] = function() {
+          ide.repairQuery("xml+metadata");
+          $(this).dialog("close");
+          export_dialog.dialog("close");
+        };
+        dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
+          $(this).dialog("close");
+          send_to_josm();
+        };
         $('<div title="Incomplete Data"><p>It looks like if this query will not return OSM data in XML format with metadata. Editors like JOSM require the data to be in that format, though.</p><p><i>overpass turbo</i> can help you to correct the query by choosing "repair query" below.</p></div>').dialog({
           modal:true,
-          buttons: {
-            "repair query": function() {
-              ide.repairQuery("xml+metadata");
-              $(this).dialog("close");
-              export_dialog.dialog("close");
-            },
-            "continue anyway": function() {
-              $(this).dialog("close");
-              send_to_josm();
-            }
-          }
+          buttons: dialog_buttons,
         });
         return false;
       }
@@ -975,12 +979,12 @@ var ide = new(function() {
       return false;
     });
     // open the export dialog
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog").dialog({
       modal:true,
       width:350,
-      buttons: {
-        "done": function() {$(this).dialog("close");}
-      }
+      buttons: dialog_buttons,
     });
   }
   this.onExportImageClick = function() {
@@ -1020,6 +1024,12 @@ var ide = new(function() {
       var attrib_message = "";
       if (!settings.export_image_attribution)
         attrib_message = '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.done")] = function() {
+        $(this).dialog("close");
+        // free dialog from DOM
+        $("#export_image_dialog").remove();
+      };
       $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="the exported map" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p>'+attrib_message+'</div>').dialog({
         modal:true,
         width:500,
@@ -1028,13 +1038,7 @@ var ide = new(function() {
           // close progress indicator
           ide.waiter.close();
         },
-        buttons: {
-          "OK": function() {
-            $(this).dialog("close");
-            // free dialog from DOM
-            $("#export_image_dialog").remove();
-          }
-        }
+        buttons: dialog_buttons,
       });
     }});
   }
@@ -1069,62 +1073,57 @@ var ide = new(function() {
     $("#settings-dialog input[name=export_image_scale]")[0].checked = settings.export_image_scale;
     $("#settings-dialog input[name=export_image_attribution]")[0].checked = settings.export_image_attribution;
     // open dialog
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.save")] = function() {
+      // save settings
+      settings.server = $("#settings-dialog input[name=server]")[0].value;
+      settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
+      settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
+      settings.no_autorepair    = $("#settings-dialog input[name=no_autorepair]")[0].checked;
+      settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
+      var prev_editor_width = settings.editor_width;
+      settings.editor_width     = $("#settings-dialog input[name=editor_width]")[0].value;
+      // update editor width (if changed)
+      if (prev_editor_width != settings.editor_width) {
+        $("#editor").css("width",settings.editor_width);
+        $("#dataviewer").css("left",settings.editor_width);
+      }
+      settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
+      settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
+      var prev_tile_server = settings.tile_server;
+      settings.tile_server = $("#settings-dialog input[name=tile_server]")[0].value;
+      // update tile layer (if changed)
+      if (prev_tile_server != settings.tile_server)
+        ide.map.tile_layer.setUrl(settings.tile_server);
+      var prev_background_opacity = settings.background_opacity;
+      settings.background_opacity = +$("#settings-dialog input[name=background_opacity]")[0].value;
+      // update background opacity layer
+      if (settings.background_opacity != prev_background_opacity)
+        if (settings.background_opacity == 1)
+          ide.map.removeLayer(ide.map.inv_opacity_layer);
+        else
+          ide.map.inv_opacity_layer.setOpacity(1-settings.background_opacity).addTo(ide.map);
+      settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
+      $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
+      settings.export_image_scale = $("#settings-dialog input[name=export_image_scale]")[0].checked;
+      settings.export_image_attribution = $("#settings-dialog input[name=export_image_attribution]")[0].checked;
+      settings.save();
+      $(this).dialog("close");
+    };
     $("#settings-dialog").dialog({
       modal:true,
       width:400,
-      buttons: {
-        "Save": function() {
-          // save settings
-          settings.server = $("#settings-dialog input[name=server]")[0].value;
-          settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
-          settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
-          settings.no_autorepair    = $("#settings-dialog input[name=no_autorepair]")[0].checked;
-          settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
-          var prev_editor_width = settings.editor_width;
-          settings.editor_width     = $("#settings-dialog input[name=editor_width]")[0].value;
-          // update editor width (if changed)
-          if (prev_editor_width != settings.editor_width) {
-            $("#editor").css("width",settings.editor_width);
-            $("#dataviewer").css("left",settings.editor_width);
-          }
-          settings.share_include_pos = $("#settings-dialog input[name=share_include_pos]")[0].checked;
-          settings.share_compression = $("#settings-dialog input[name=share_compression]")[0].value;
-          var prev_tile_server = settings.tile_server;
-          settings.tile_server = $("#settings-dialog input[name=tile_server]")[0].value;
-          // update tile layer (if changed)
-          if (prev_tile_server != settings.tile_server)
-            ide.map.tile_layer.setUrl(settings.tile_server);
-          var prev_background_opacity = settings.background_opacity;
-          settings.background_opacity = +$("#settings-dialog input[name=background_opacity]")[0].value;
-          // update background opacity layer
-          if (settings.background_opacity != prev_background_opacity)
-            if (settings.background_opacity == 1)
-              ide.map.removeLayer(ide.map.inv_opacity_layer);
-            else
-              ide.map.inv_opacity_layer.setOpacity(1-settings.background_opacity).addTo(ide.map);
-          settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
-          $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
-          settings.export_image_scale = $("#settings-dialog input[name=export_image_scale]")[0].checked;
-          settings.export_image_attribution = $("#settings-dialog input[name=export_image_attribution]")[0].checked;
-          settings.save();
-          $(this).dialog("close");
-        },
-        /*"Reset": function() {
-          alert("not jet implemented"); // todo: reset all settings
-        },*/
-      }
+      buttons: dialog_buttons,
     });
     $("#settings-dialog").accordion();
   }
   this.onHelpClick = function() {
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.close")] = function() {$(this).dialog("close");};
     $("#help-dialog").dialog({
       modal:false,
       width:450,
-      buttons: {
-        "Close": function() {
-          $(this).dialog("close");
-        },
-      }
+      buttons: dialog_buttons,
     });
     $("#help-dialog").accordion();
   }

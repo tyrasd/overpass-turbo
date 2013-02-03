@@ -139,5 +139,16 @@
   "help.attr.other_libs": "Weitere Bibliotheken:",
 
 
+  "dialog.dismiss": "OK, verstanden",
+  "dialog.cancel": "Abbrechen",
+  "dialog.save": "Speichern",
+  "dialog.delete": "Löschen",
+  "dialog.close": "Schließen",
+  "dialog.done": "Erledigt",
+  "dialog.repair_query": "Query reparieren",
+  "dialog.continue_anyway": "Trotzdem weitermachen",
+  "dialog.show_data": "Daten anzeigen",
+
+
   "the end": ""
 }

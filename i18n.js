@@ -61,7 +61,19 @@ var i18n = new(function() {
     "map_controlls.localize_user": "pan to user location",
     "map_controlls.select_bbox": "manually select bbox",
     "map_controlls.toggle_wide_map": "toggle wide map",
-    "map_controlls.clear_data": "clear data overlay"
+    "map_controlls.clear_data": "clear data overlay",
+
+    "dialog.dismiss": "dismiss",
+    "dialog.cancel": "cancel",
+    "dialog.save": "save",
+    "dialog.delete": "delete",
+    "dialog.close": "close",
+    "dialog.done": "done",
+    "dialog.repair_query": "repair query",
+    "dialog.continue_anyway": "continue anyway",
+    "dialog.show_data": "show data",
+
+    "the end":""
   };
 })(); // end create overpass object
 
