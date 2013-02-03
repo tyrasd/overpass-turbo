@@ -177,6 +177,7 @@
   "warning.incomplete.title": "Unvollständige Daten",
   "warning.incomplete.expl": "<p>Diese Query hat keine Nodes zurückgeliefert. In OSM werden Koordinaten nur den den Nodes gespeichert. Das heißt, dass ein Weg nicht ohne Nodes auf einer Karte angezeigt werden kann.</p><p>Wenn aber gewünscht ist, dass diese Daten auch angezeigt werden, kann <i>overpass tubo</i> dabei helfen, die Query automatisch zu vervollständigen (zu \"reparieren\"). Anderenfalls wird zur Datenansicht gewechselt.</p>",
   "warning.incomplete.not_again": "Diese Meldung nicht wieder anzeigen.",
+  "warning.incomplete.remote": "<p>Diese Query wird wahrscheinlich keine gültigen XML Daten mit Metadaten liefern. Editoren wie JOSM benötigen dieses Format aber, um Bearbeitungen vornehmen zu können.</p><p><i>overpass turbo</i> kann helfen, die Query entsprechend zu korrigieren.</p>",
 
   "warning.share.long": "Warnung: Dieser Permalink ist recht lang. Es kann sein, dass er unter bestimmten Umständen nicht wie gewünscht funktioniert.",
   "warning.share.very_long": "Warnung: Dieser Permalink ist sehr lang. Es ist wahrscheinlich, dass er unter normalen Umständen (Browser, Webserver) nicht funktioniert. Nur unter vorbehalt verwenden!",

@@ -82,6 +82,7 @@ var i18n = new(function() {
     "error.ajax.expl": "An error occured during the execution of the overpass query!",
     "error.remote.title": "Remote Control Error",
     "error.remote.incompat": "Error: incompatible JOSM remote control version",
+    "error.remote.not_found": "Remote control not found. :( Make sure JOSM is already running and properly configured.",
 
     "warning.browser.title": "Your browser is not supported :(",
     "warning.browser.expl.1": "<p>The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href=\"http://en.wikipedia.org/wiki/Web_storage#localStorage\">Web Storage API</a> and <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">cross origin resource sharing (CORS)</a>.</small></p>",
@@ -91,6 +92,7 @@ var i18n = new(function() {
     "warning.incomplete.title": "Incomplete Data",
     "warning.incomplete.expl": "<p>This query returned no nodes. In OSM, only nodes contain coordinates. For example, a way cannot be displayed without its nodes.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing \"repair query\" below. Otherwise you can continue to the data.</p>",
     "warning.incomplete.not_again": "do not show this message again.",
+    "warning.incomplete.remote": "<p>It looks like if this query will not return OSM data in XML format with metadata. Editors like JOSM require the data to be in that format, though.</p><p><i>overpass turbo</i> can help you to correct the query by choosing \"repair query\" below.</p>",
 
     "warning.share.long": "Warning: This share-link is quite long. It may not work under certain circumstances",
     "warning.share.very_long": "Warning: This share-link is very long. It is likely to fail under normal circumstances (browsers, webservers). Use with caution!",
