@@ -96,9 +96,17 @@ var i18n = new(function() {
     "waiter.processing_query": "processing query...",
     "waiter.export_as_image": "exporting as image...",
 
+    "export.map_view.title": "Current Map View",
+    "export.map_view.permalink_osm": "<h4>Permalink</h4> to",
+    "export.map_view.center": "Center",
+    "export.map_view.center_expl": "lat/lon",
+    "export.map_view.bounds": "Bounds",
+    "export.map_view.bounds_expl": "south/west north/east",
+    "export.map_view.zoom": "Zoom",
+
     "the end":""
   };
-})(); // end create overpass object
+})(); // end create i18n object
 
 
 

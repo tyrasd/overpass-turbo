@@ -85,6 +85,14 @@
   "export.geoJSON.title": "Export - GeoJSON",
   "export.geoJSON.expl": "Die aktuell angezeigen Daten im GeoJSON Format:",
 
+  "export.map_view.title": "Aktueller Kartenausschnitt",
+  "export.map_view.permalink_osm": "<h4>Permalink</h4> nach",
+  "export.map_view.center": "Kartenmitte",
+  "export.map_view.center_expl": "lat/lon",
+  "export.map_view.bounds": "Kartengrenzen",
+  "export.map_view.bounds_expl": "Süd/West Nord/Ost",
+  "export.map_view.zoom": "Zoom",
+
   "share.title": "Teilen",
   "share.header": "Permalink",
   "share.copy_this_link": "Kopiere diesen <a href=\"\" id=\"share_link_a\">Link</a>, um die aktuelle Query zu teilen:",
