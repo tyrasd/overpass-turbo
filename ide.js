@@ -94,8 +94,9 @@ var ide = new(function() {
     // load settings
     settings.load();
     // translate ui
-    // todo: add waiter message
+    ide.waiter.addInfo("loading locales");
     i18n.translate();
+    ide.waiter.addInfo("i18n ready");
     // check for any get-parameters
     var override_use_html5_coords = false;
     if (location.search != "") {
@@ -1027,7 +1028,7 @@ var ide = new(function() {
     });
   }
   this.onExportImageClick = function() {
-    ide.waiter.open("exporting as image...");
+    ide.waiter.open(i18n.t("waiter.export_as_image"));
     // 1. render canvas from map tiles
     // hide map controlls in this step :/
     // todo: also hide popups?
@@ -1187,7 +1188,7 @@ var ide = new(function() {
     // todo: more shortcuts
   }
   this.update_map = function() {
-    ide.waiter.open("processing query...");
+    ide.waiter.open(i18n.t("waiter.processing_query"));
     ide.waiter.addInfo("resetting map");
     // resets previously highlighted error lines
     this.resetErrors();

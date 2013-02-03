@@ -78,6 +78,9 @@ var i18n = new(function() {
     "error.ajax.title": "Ajax Error",
     "error.ajax.expl": "An error occured during the execution of the overpass query!",
 
+    "waiter.processing_query": "processing query...",
+    "waiter.export_as_image": "exporting as image...",
+
     "the end":""
   };
 })(); // end create overpass object

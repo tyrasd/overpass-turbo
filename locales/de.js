@@ -154,6 +154,8 @@
   "error.ajax.title": "Ajax Fehler",
   "error.ajax.expl": "Ein Fehler ist beim Ausführen der Query aufgetreten!",
 
+  "waiter.processing_query": "Query wird bearbeitet...",
+  "waiter.export_as_image": "Exportiere als Bild...",
 
   "the end": ""
 }
