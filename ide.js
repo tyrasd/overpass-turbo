@@ -401,6 +401,7 @@ var ide = new(function() {
           $("#dataviewer").toggleClass("fullscreen");
           ide.map.invalidateSize();
           $(e.target).toggleClass("ui-icon-arrowthickstop-1-e").toggleClass("ui-icon-arrowthickstop-1-w");
+          $("#editor").toggleClass("hidden");
           if ($("#editor").resizable("option","disabled"))
             $("#editor").resizable("enable");
           else

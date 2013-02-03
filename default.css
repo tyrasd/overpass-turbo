@@ -49,10 +49,9 @@ body {
   left: 0 !important;
   bottom: 0 !important;
   right: 0 !important;
-  z-index: 30;
 }
-ul.ui-autocomplete {
-  z-index:38 !important;
+#editor.hidden {
+  display:none;
 }
 
 .CodeMirror {
