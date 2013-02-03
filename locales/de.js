@@ -28,6 +28,8 @@
   "settings.title": "Einstellungen",
 
   "settings.section.general": "Allgemeines",
+  "settings.ui_lang": "UI Sprache",
+  "settings.ui_lang_expl": "Neustart bei Änderung notwendig",
   "settings.server": "Server",
   "settings.force_simple_cors": "Einfache CORS-Anfragen erzwingen",
   "settings.force_simple_cors_expl": "wenn der Server komplexe CORS Anfragen nicht unterstützt.",

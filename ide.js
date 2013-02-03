@@ -1084,6 +1084,12 @@ var ide = new(function() {
     }});
   }
   this.onSettingsClick = function() {
+    $("#settings-dialog input[name=ui_language]")[0].value = settings.ui_language;
+    make_combobox($("#settings-dialog input[name=ui_language]"), [
+      "auto",
+      "en",
+      "de"
+    ]);
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox($("#settings-dialog input[name=server]"), [
       "http://www.overpass-api.de/api/",
@@ -1117,6 +1123,7 @@ var ide = new(function() {
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.save")] = function() {
       // save settings
+      settings.ui_language = $("#settings-dialog input[name=ui_language]")[0].value;
       settings.server = $("#settings-dialog input[name=server]")[0].value;
       settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
       settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
