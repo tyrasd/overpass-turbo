@@ -85,16 +85,16 @@ var ide = new(function() {
         false) {
       // the currently used browser is not capable of running the IDE. :(
       ide.not_supported = true;
-      $('<div title="'+i18n.t("error.browser.title")+'">'+
-          i18n.t("error.browser.expl.1")+
-          i18n.t("error.browser.expl.2")+
-          i18n.t("error.browser.expl.3")+
+      $('<div title="'+i18n.t("warning.browser.title")+'">'+
+          i18n.t("warning.browser.expl.1")+
+          i18n.t("warning.browser.expl.2")+
+          i18n.t("warning.browser.expl.3")+
         '</div>').dialog({modal:true});
     }
     // load settings
     settings.load();
+    ide.waiter.addInfo("settings loaded");
     // translate ui
-    ide.waiter.addInfo("loading locales");
     i18n.translate();
     ide.waiter.addInfo("i18n ready");
     // check for any get-parameters
@@ -560,7 +560,7 @@ var ide = new(function() {
             ide.switchTab("Data"); 
             $(this).dialog("close");
           };
-          $('<div title="Incomplete Data"><p>This query returned no nodes. In OSM, only nodes contain coordinates. For example, a way cannot be displayed without its nodes.</p><p>If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing "repair query" below. Otherwise you can continue to the data.</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;do not show this message again.</p></div>').dialog({
+          $('<div title="'+i18n.t("warning.incomplete.title")+'">'+i18n.t("warning.incomplete.expl")+'<p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;'+i18n.t("warning.incomplete.not_again")+'</p></div>').dialog({
             modal:true,
             buttons: dialog_buttons,
           });
