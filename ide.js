@@ -914,7 +914,7 @@ var ide = new(function() {
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
       if (!overpass.resultData)
-        geoJSON_str = "No geoJSON data available! Please run a query first.";
+        geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
         var gJ = [];
         // concatenate feature collections

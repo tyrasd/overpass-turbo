@@ -84,6 +84,7 @@
 
   "export.geoJSON.title": "Export - GeoJSON",
   "export.geoJSON.expl": "Die aktuell angezeigen Daten im GeoJSON Format:",
+  "export.geoJSON.no_data": "Keine GeoJSON-Daten verfügbar. Bitte zuerst eine Query ausführen!",
 
   "export.map_view.title": "Aktueller Kartenausschnitt",
   "export.map_view.permalink_osm": "<h4>Permalink</h4> nach",

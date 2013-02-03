@@ -104,6 +104,8 @@ var i18n = new(function() {
     "export.map_view.bounds_expl": "south/west north/east",
     "export.map_view.zoom": "Zoom",
 
+    "export.geoJSON.no_data": "No geoJSON data available! Please run a query first.",
+
     "the end":""
   };
 })(); // end create i18n object
