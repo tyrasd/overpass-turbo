@@ -42,6 +42,7 @@ var ide = new(function() {
     opened: false,
     open: function(show_info) {
       if (show_info) {
+        $(".modal .wait-info h4").text(show_info);
         $(".wait-info").show();
       } else {
         $(".wait-info").hide();
@@ -281,6 +282,44 @@ var ide = new(function() {
       settings.coords_lon = ide.map.getCenter().lng;
       settings.coords_zoom = ide.map.getZoom();
       settings.save(); // save settings
+    });
+    // show small features like POIs
+    ide.map.on("zoomend",function(e) {
+      // todo: move this functionality to new osmLayer class
+      // todo: remove all globals (ide.map, overpass.geojsonLayer)
+      // todo: possible optimizations: zoomOut = skip already compressed objects (and vice versa)
+      var is_max_zoom = ide.map.getZoom() == ide.map.getMaxZoom();
+      if (!overpass.geojsonLayer) return;
+      overpass.geojsonLayer.eachLayer(function(o) {
+        // todo: skip point features!
+        if (o.feature && o.feature.geometry.type == "Point") return;
+        var crs = ide.map.options.crs;
+        if (o.object) { // already compressed feature
+          var bounds = o.object.getBounds();
+          var p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
+          var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
+          var d = Math.sqrt(Math.pow(p1.x-p2.x,2)+Math.pow(p1.y-p2.y,2));
+          if (d >= 9 || is_max_zoom) {
+            overpass.geojsonLayer.addLayer(o.object);
+            overpass.geojsonLayer.removeLayer(o);
+          }
+          return;
+        }
+        if (is_max_zoom) return; // do not compress objects at max zoom
+        var bounds = o.getBounds();
+        var p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
+        var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
+        var d = Math.sqrt(Math.pow(p1.x-p2.x,2)+Math.pow(p1.y-p2.y,2));
+        if (d >= 9) return;
+        var c = L.circleMarker(o.getBounds().getCenter(), {radius:9, fillColor:"red"});
+        c.object = o;
+        c.on("click", function(e) {
+          this.object.fire("click",e);
+        });
+        // todo: remove globals (add context param to eachLayer()?)
+        overpass.geojsonLayer.addLayer(c);
+        overpass.geojsonLayer.removeLayer(o);
+      });
     });
 
     // disabled buttons
@@ -566,7 +605,8 @@ var ide = new(function() {
       ide.dataViewer.setValue(overpass.resultText);
     }
     overpass.handlers["onGeoJsonReady"] = function() {
-      ide.map.addLayer(overpass.geojsonLayer); 
+      ide.map.addLayer(overpass.geojsonLayer);
+      ide.map.fire("zoomend");
     }
     overpass.handlers["onPopupReady"] = function(p) {
       p.openOn(ide.map);
@@ -578,7 +618,6 @@ var ide = new(function() {
 
     // close startup waiter
     ide.waiter.close();
-    $(".modal .wait-info h4").text("processing query...");
 
     // automatically load help, if this is the very first time the IDE is started
     if (settings.first_time_visit === true && 
@@ -1148,7 +1187,7 @@ var ide = new(function() {
     // todo: more shortcuts
   }
   this.update_map = function() {
-    ide.waiter.open(true);
+    ide.waiter.open("processing query...");
     ide.waiter.addInfo("resetting map");
     // resets previously highlighted error lines
     this.resetErrors();
