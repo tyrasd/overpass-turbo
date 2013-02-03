@@ -909,6 +909,7 @@ var ide = new(function() {
         modal:true,
         buttons: dialog_buttons,
       });
+      return false;
     });
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
