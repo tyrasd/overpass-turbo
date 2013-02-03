@@ -92,6 +92,52 @@
   "share.incl_map_state": "Aktuelle Kartenansicht mitgeben",
   "share.run_immediately": "Die geteilte Abfrage sofort beim öffnen ausführen",
 
+  "help.title": "Hilfe",
+
+  "help.section.introduction": "Einstieg",
+  "help.intro.1": "<a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">overpass turbo</a> ist ein graphisches Userinterface für die <a href=\"http://overpass-api.de\">Overpass API</a>. Die resultierenden <a href=\"http://www.openstreetmap.org\">OpenStreetMap</a>-Daten werden interaktiv auf einer Karte dargestellt.",
+  "help.intro.2": "Es ist möglich, sowohl XML als auch OverpassQL <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide\">Abfragen</a> zu stellen. Das Ergebnis (XML oder JSON) wird geparst und (wenn möglich) auf der Karte dargestellt. Mehr Informationen über <i>overpass turbo</i> gibt es im <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">OSM-Wiki</a>.",
+  "help.intro.shortcuts": "Die folgenden praktischen Kürzel (shortcuts) können direkt in den Abfragen verwendet werden:",
+  "help.intro.shortcuts.bbox": "Die Bounding-Box-Koordinaten der aktuellen Kartenansicht",
+  "help.intro.shortcuts.center": "Die Zentrums-Koordinaten der Karte",
+  "help.intro.shortcuts.custom": "Eigene Abkürzungen können einfach selbst definiert werden: <i>{{shortcut=wert}}</i>.",
+
+  "help.section.ide": "IDE",
+  "help.ide.share.title": "Teilen",
+  "help.ide.share.expl": "Es ist möglich, sich einen Permalink erstellen zu lassen, der die Query beinhaltet, an der gerade gearbeitet wird. Dieser Link kann dann z.B. an Freund verteilt werden. (Beachte, dass jede Person an seiner eigenen Kopie der Query arbeiten wird.)",
+  "help.ide.save_load.title": "Speichern / Laden",
+  "help.ide.save_load.expl": "Man kann seine Queries auch für später abspeichern. Zu Beginn sind bereits eine Auswahl an Beispielen geladen. Schau sie dir einfach mal an!",
+  "help.ide.keyboard.title": "Tastaturkürzel",
+  "help.ide.keyboard.run": "Die aktuelle Query ausführen",
+  "help.ide.keyboard.load_save": "Laden (öffnen) bzw. Speichern einer Query",
+  "help.ide.keyboard.help": "Diesen Hilfe-Dialog öffnen",
+
+  "help.section.export": "Export",
+  "help.export": "Das <i>Export</i>-Tool beinhaltet verschiedene Export-Möglichkeiten.<br />Optionen mit diesem Symbol:<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span> führen auf externe (online) Tools.",
+  "help.export.map.title": "Karte",
+  "help.export.map.expl": "Die aktuelle Kartenansicht (incl. Daten) als statisches PNG, oder als interaktive Karte, usw.",
+  "help.export.query_data.title": "Query / Daten",
+  "help.export.query_data.expl": "Hier kann mit der Query oder den Daten einiges angestellt werden. Z.B. das Konvertieren zwischen den beiden Query-Sprachen, der Daten-Export als GeoJSON oder (sehr praktisch!) das Senden der Query an JOSM.",
+
+  "help.section.about": "Über",
+  "help.about.maintained": "<i>overpass turbo</i> (aka overpass-ide) wird von Martin Raifer (tyr.asd at gmail.com) betrieben und programmiert.",
+  "help.about.feedback.title": "Bugs, Kommentare, Anregungen",
+  "help.about.feedback": "Über Feedback jeglicher Art bin ich immer froh :). Bug-Meldungen und Feature-Anfragen gehen am Besten an den <a href=\"https://github.com/tyrasd/overpass-ide/issues\">issue tracker</a> auf github. Allgemeine Kommentare z.B. auf die <a href=\"http://wiki.openstreetmap.org/wiki/Talk:Overpass_turbo\">Diskussionsseite</a> im OSM-Wiki.",
+  "help.about.source.title": "Sourcecode",
+  "help.about.source": "Der <a href=\"https://github.com/tyrasd/overpass-ide\">Sourcecode</a> dieser Applikation ist unter der MIT <a href=\"LICENSE\">Lizenz</a> freigegeben.",
+
+  "help.section.attribution": "Quellen, Lizenzen",
+  "help.attr.data_sources": "Datenquellen",
+  "help.attr.data": "Daten &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> Mitwirkende, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">Bestimmungen</a>)</span>",
+  "help.attr.mining": "Datenfilterung über",
+  "help.attr.tiles": "Karten-Tiles &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> Mitwirkende, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">CC-BY-SA</a>",
+  "help.attr.search": "Suche über",
+  "help.attr.software": "Software & Bibliotheken",
+  "help.attr.leaflet": "Karte powered by",
+  "help.attr.codemirror": "Editor powered by",
+  "help.attr.jquery": "Außerdem: ",
+  "help.attr.other_libs": "Weitere Bibliotheken:",
+
 
   "the end": ""
 }
