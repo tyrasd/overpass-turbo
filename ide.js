@@ -1071,7 +1071,7 @@ var ide = new(function() {
         // free dialog from DOM
         $("#export_image_dialog").remove();
       };
-      $('<div title="Export Image" id="export_image_dialog"><p><img src="'+imgstr+'" alt="the exported map" width="480px"/><a href="'+imgstr+'" download="export.png">Download</a></p>'+attrib_message+'</div>').dialog({
+      $('<div title="'+i18n.t("export.image.title")+'" id="export_image_dialog"><p><img src="'+imgstr+'" alt="'+i18n.t("export.image.alt")+'" width="480px"/><a href="'+imgstr+'" download="export.png">'+i18n.t("export.image.download")+'</a></p>'+attrib_message+'</div>').dialog({
         modal:true,
         width:500,
         position:["center",60],

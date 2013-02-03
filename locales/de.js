@@ -94,6 +94,11 @@
   "export.map_view.bounds_expl": "Süd/West Nord/Ost",
   "export.map_view.zoom": "Zoom",
 
+  "export.image.title": "Export - PNG",
+  "export.image.alt": "die exportierte Karte",
+  "export.image.download": "Download",
+  "export.image.attribution_missing": "Bitte stellen Sie auf jeden Fall sicher, eine korrekte Quellenangabe zu verwenden, wenn Sie dieses Bild weitergeben!",
+
   "share.title": "Teilen",
   "share.header": "Permalink",
   "share.copy_this_link": "Kopiere diesen <a href=\"\" id=\"share_link_a\">Link</a>, um die aktuelle Query zu teilen:",

@@ -110,6 +110,11 @@ var i18n = new(function() {
 
     "export.geoJSON.no_data": "No geoJSON data available! Please run a query first.",
 
+    "export.image.title": "Export - Image",
+    "export.image.alt": "the exported map",
+    "export.image.download": "Download",
+    "export.image.attribution_missing": "Make sure to include proper attributions when distributing this image!",
+
     "the end":""
   };
 })(); // end create i18n object
