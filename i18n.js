@@ -21,12 +21,13 @@ var i18n = new(function() {
       return true; // nothing to do here :)
 
     // load language pack
-    $.ajax("locales/"+lng+".js",{async:false,dataType:"json"}).success(function(data){
+    var lng_file = "locales/"+lng+".js";
+    $.ajax(lng_file,{async:false,dataType:"json"}).success(function(data){
       td = $.extend(td,data);
       i18n.translate_ui();
       // todo: nicer implementation
     }).error(function(){
-      alert("foo!!!");
+      alert("unexpected error: failed to load language file: "+lng_file);
     });
   }
   this.translate_ui = function() {
