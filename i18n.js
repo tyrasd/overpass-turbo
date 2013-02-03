@@ -1,6 +1,5 @@
 
 // global i18n object
-// todo: use messageformat.js for complex texts??
 
 var i18n = new(function() {
   var default_lng = "en";
@@ -42,7 +41,9 @@ var i18n = new(function() {
         var what = tmp[2];
         var key  = tmp[3];
         var val = td[key];
-        if (what !== undefined) {
+        if (what === "html") {
+          $(element).html(val);
+        } else if (what !== undefined) {
           $(element).attr(what,val);
         } else {
           $(element).text(val);
