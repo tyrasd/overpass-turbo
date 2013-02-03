@@ -309,10 +309,8 @@ var ide = new(function() {
         if (d >= 9) return;
         var c = L.circleMarker(o.getBounds().getCenter(), {radius:9, fillColor:"red"});
         c.object = o;
-        c.on("click", function() {
-          this._map.fitBounds(this.object.getBounds());
-          //var bounds = this.object.getBounds();
-          //this._map.setView(bounds.getCenter(), this._map.getBoundsZoom(bounds)-1);
+        c.on("click", function(e) {
+          this.object.fire("click",e);
         });
         // todo: remove globals (add context param to eachLayer()?)
         overpass.geojsonLayer.addLayer(c);
