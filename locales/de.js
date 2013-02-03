@@ -149,6 +149,11 @@
   "dialog.continue_anyway": "Trotzdem weitermachen",
   "dialog.show_data": "Daten anzeigen",
 
+  "error.query.title": "Query Fehler",
+  "error.query.expl": "Ein Fehler ist während der Ausführung der Query aufgetreten. Folgendes hat die API als Fehlermeldung zurückgegeben:",
+  "error.ajax.title": "Ajax Fehler",
+  "error.ajax.expl": "Ein Fehler ist beim Ausführen der Query aufgetreten!",
+
 
   "the end": ""
 }

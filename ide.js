@@ -542,7 +542,7 @@ var ide = new(function() {
       // show error dialog
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
-      $('<div title="Ajax Error"><p style="color:red;">An error occured during the execution of the overpass query!</p>'+errmsg+'</div>').dialog({
+      $('<div title="'+i18n.t("error.ajax.title")+'"><p style="color:red;">'+i18n.t("error.ajax.expl")+'</p>'+errmsg+'</div>').dialog({
         modal:true,
         buttons: dialog_buttons,
       }); // dialog
@@ -553,7 +553,7 @@ var ide = new(function() {
     overpass.handlers["onQueryError"] = function(errmsg) {
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
-      $('<div title="Query Error"><p style="color:red;">An error occured during the execution of the overpass query! This is what overpass API returned:</p>'+errmsg+"</div>").dialog({
+      $('<div title="'+i18n.t("error.query.title")+'"><p style="color:red;">'+i18n.t("error.query.expl")+'</p>'+errmsg+"</div>").dialog({
         modal:true,
         buttons: dialog_buttons,
       });

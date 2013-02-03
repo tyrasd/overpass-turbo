@@ -73,6 +73,11 @@ var i18n = new(function() {
     "dialog.continue_anyway": "continue anyway",
     "dialog.show_data": "show data",
 
+    "error.query.title": "Query Error",
+    "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",
+    "error.ajax.title": "Ajax Error",
+    "error.ajax.expl": "An error occured during the execution of the overpass query!",
+
     "the end":""
   };
 })(); // end create overpass object
