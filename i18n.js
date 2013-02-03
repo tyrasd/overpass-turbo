@@ -80,6 +80,8 @@ var i18n = new(function() {
     "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",
     "error.ajax.title": "Ajax Error",
     "error.ajax.expl": "An error occured during the execution of the overpass query!",
+    "error.remote.title": "Remote Control Error",
+    "error.remote.incompat": "Error: incompatible JOSM remote control version",
 
     "warning.browser.title": "Your browser is not supported :(",
     "warning.browser.expl.1": "<p>The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href=\"http://en.wikipedia.org/wiki/Web_storage#localStorage\">Web Storage API</a> and <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">cross origin resource sharing (CORS)</a>.</small></p>",

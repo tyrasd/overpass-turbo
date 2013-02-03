@@ -960,7 +960,7 @@ var ide = new(function() {
           } else {
             var dialog_buttons= {};
             dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
-            $('<div title="Remote Control Error"><p>Error: incompatible JOSM remote control version: '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
+            $('<div title="'+i18n.t("error.remote.title")+'"><p>'+i18n.t("error.remote.incompat")+': '+d.protocolversion.major+"."+d.protocolversion.minor+" :(</p></div>").dialog({
               modal:true,
               width:350,
               buttons: dialog_buttons,
@@ -969,7 +969,7 @@ var ide = new(function() {
         }).error(function(xhr,s,e) {
           var dialog_buttons= {};
           dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
-          $('<div title="Remote Control Error"><p>Remote control not found. :( Make sure JOSM is already running and properly configured.</p></div>').dialog({
+          $('<div title="'+i18n.t("error.remote.title")+'"><p>'+i18n.t("error.remote.not_found")+'</p></div>').dialog({
             modal:true,
             width:350,
             buttons: dialog_buttons,

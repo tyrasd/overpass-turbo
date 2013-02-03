@@ -165,6 +165,10 @@
   "error.query.expl": "Ein Fehler ist während der Ausführung der Query aufgetreten. Folgendes hat die API als Fehlermeldung zurückgegeben:",
   "error.ajax.title": "Ajax Fehler",
   "error.ajax.expl": "Ein Fehler ist beim Ausführen der Query aufgetreten!",
+  "error.remote.title": "Remote Control Fehler",
+  "error.remote.incompat": "Fehler: unkompatible JOSM \"remote control\" Version",
+  "error.remote.not_found": "\"remote control\" nicht gefunden. :( Wurde JOSM bereits gestartet?",
+
   "warning.browser.title": "Dein Browser unterstützt diese Anwendung nicht :(",
   "warning.browser.expl.1": "<p>Der aktuell verwendete Browser ist (höchtwahrscheinlich) nicht in der Lage die Anwendung (oder signifikante Teile davon) auszuführen. <small>Folgende Standards müssen unterstützt werden: <a href=\"http://en.wikipedia.org/wiki/Web_storage#localStorage\">Web Storage API</a> und <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">cross origin resource sharing (CORS)</a>.</small></p>",
   "warning.browser.expl.2": "<p>Möglicherweise müssen zusätzlich Cookiers und/oder \"lokale Daten\" für diese Webseite aktiviert werden (z.B. unter Firefox und Chrome).</p>",
