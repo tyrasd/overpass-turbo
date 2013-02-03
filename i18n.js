@@ -73,6 +73,9 @@ var i18n = new(function() {
     "dialog.continue_anyway": "continue anyway",
     "dialog.show_data": "show data",
 
+    "dialog.delete_query.title": "Delete Query?",
+    "dialog.delete_query.expl": "Do you really want to delete the following query",
+
     "error.query.title": "Query Error",
     "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",
     "error.ajax.title": "Ajax Error",

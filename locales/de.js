@@ -149,6 +149,9 @@
   "dialog.continue_anyway": "Trotzdem weitermachen",
   "dialog.show_data": "Daten anzeigen",
 
+  "dialog.delete_query.title": "Query löschen?",
+  "dialog.delete_query.expl": "Soll die folgende Query wirklich gelöscht werden",
+
   "error.query.title": "Query Fehler",
   "error.query.expl": "Ein Fehler ist während der Ausführung der Query aufgetreten. Folgendes hat die API als Fehlermeldung zurückgegeben:",
   "error.ajax.title": "Ajax Fehler",

@@ -790,7 +790,7 @@ var ide = new(function() {
       $(this).dialog( "close" );
     };
     dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
-    $('<div title="Delete Query?"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>Do you really want to delete &quot;'+ex+'&quot;?</p></div>').dialog({
+    $('<div title="'+i18n.t("dialog.delete_query.title")+'"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>'+i18n.t("dialog.delete_query.expl")+': &quot;<i>'+ex+'</i>&quot;?</p></div>').dialog({
       modal: true,
       buttons: dialog_buttons,
     });
