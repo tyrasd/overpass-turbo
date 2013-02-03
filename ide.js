@@ -901,6 +901,7 @@ var ide = new(function() {
           "OK": function() {$(this).dialog("close");}
         },
       });
+      return false;
     });
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
