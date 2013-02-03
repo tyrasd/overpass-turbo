@@ -166,44 +166,44 @@
     </div>
   </div>
   <!--save-->
-  <div title="Save" id="save-dialog" class="dialog">
-    <p>Enter a name for this query</p>
+  <div title="Save" id="save-dialog" class="t dialog" t="[title]save.title">
+    <p class="t" t="save.enter_name">Enter a name for this query</p>
     <p><input name="save" type="text" /></p>
   </div>
   <!--load-->
-  <div title="Load" id="load-dialog" class="dialog">
-    <p>Select example to load:</p>
+  <div title="Load" id="load-dialog" class="t dialog" t="[title]load.title">
+    <p class="t" t="load.select_query">Select query to load:</p>
     <ul class="plain"></ul>
   </div>
   <!--export-->
-  <div title="Export" id="export-dialog" class="dialog">
-    <h3>Map</h3>
-    <p>as <a id="export-image" href="" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;">png image</a></p>
-    <p>as <a id="export-interactive-map" href="">interactive Map</a></p>
-    <p>as <a id="export-overpass-openlayers" href="">OpenLayers Map<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a> <small>(only for queries returning valid OSM-XML)</small></p>
-    <p>current <a id="export-map-state" href="">map view</a> <small>bbox, center, etc.</small></p>
-    <h3>Data</h3>
-    <p>raw link to <a id="export-overpass-api" href="">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
-    <p>as <a id="export-geoJSON" href="">geoJSON</a></p>
-    <h3>Query</h3>
-    <p>as <a id="export-text" href="" download='query.txt'>text</a></p>
-    <p>convert to <a id="export-convert-xml" href="">xml<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
-    <p>convert to (<a id="export-convert-compact" href="">compact<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a>) <a id="export-convert-ql" href="">OverpassQL<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
-    <p>load into <a id="export-josm" href="">JOSM</a> <small>(only for queries returning valid OSM-XML with meta data)</small></p>
+  <div title="Export" id="export-dialog" class="t dialog" t="[title]export.title">
+    <h3 class="t" t="export.section.map">Map</h3>
+    <p class="t" t="[html]export.as_png">as <a id="export-image" href="" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;">png image</a></p>
+    <p class="t" t="[html]export.as_interactive_map">as <a id="export-interactive-map" href="">interactive Map</a></p>
+    <p><span class="t" t="[html]export.as_openlayers_map">as <a id="export-overpass-openlayers" href="">OpenLayers Map<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></a></span> <small>(<span class="t" t="export.openlayers_map_expl">only for queries returning valid OSM-XML</span>)</small></p>
+    <p><span class="t" t="[html]export.current_map_view">current <a id="export-map-state" href="">map view</a></span> <small>(<span class="t" t="export.map_view_expl">bbox, center, etc.</span>)</small></p>
+    <h3 class="t" t="export.section.data">Data</h3>
+    <p class="t" t="[html]export.raw_interpreter">raw link to <a id="export-overpass-api" href="">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <p class="t" t="[html]export.as_geoJSON">as <a id="export-geoJSON" href="">geoJSON</a></p>
+    <h3 class="t" t="export.section.query">Query</h3>
+    <p class="t" t="[html]export.as_text">as <a id="export-text" href="" download="query.txt">text</a></p>
+    <p class="t" t="[html]export.to_xml">convert to <a id="export-convert-xml" href="">xml<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <p class="t" t="[html]export.to_ql">convert to (<a id="export-convert-compact" href="">compact<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a>) <a id="export-convert-ql" href="">OverpassQL<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <p><span class="t" t="[html]export.remote_control">load into <a id="export-josm" href="">JOSM</a></span> <small>(<span class="t" t="export.remote_control_expl">only for queries returning valid OSM-XML with meta data</span>)</small></p>
   </div>
-  <div title="Export-geoJSON" id="export-geojson" class="dialog">
-    <p>The currently shown data in geoJSON format:</p>
+  <div title="Export - geoJSON" id="export-geojson" class="t dialog" t="[title]export.geoJSON.title">
+    <p class="t" t="export.geoJSON.expl">The currently shown data in geoJSON format:</p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
   <!--share-->
-  <div title="Share" id="share-dialog" class="dialog">
-    <h3>Share-Link</h3>
-    <p>Copy this <a href="" id="share_link_a">link</a> to share the current code:</p>
+  <div title="Share" id="share-dialog" class="t dialog" t="[title]share.title">
+    <h3 class="t" t="share.header">Permalink</h3>
+    <p class="t" t="[html]share.copy_this_link">Copy this <a href="" id="share_link_a">link</a> to share the current code:</p>
     <p><textarea rows=4 style="width:100%" readonly id="share_link_textarea"></textarea></p>
     <span id="share_link_warning"></span>
-    <h3>Options</h3>
-    <p><input type="checkbox" name="include_coords" onchange="ide.updateShareLink();"/>&nbsp;include current map state</p>
-    <p><input type="checkbox" name="run_immediately" onchange="ide.updateShareLink();"/>&nbsp;run this query immediately after loading</p>
+    <h3 class="t" t="share.options">Options</h3>
+    <p><input type="checkbox" name="include_coords" onchange="ide.updateShareLink();"/>&nbsp;<span class="t" t="share.incl_map_state">include current map state</span></p>
+    <p><input type="checkbox" name="run_immediately" onchange="ide.updateShareLink();"/>&nbsp;<span class="t" t="share.run_immediately">run this query immediately after loading</span></p>
   </div>
 
   <script>

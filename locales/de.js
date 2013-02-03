@@ -55,7 +55,42 @@
   "settings.export_image_scale": "Maßstab in exportierten Bildern anzeigen",
   "settings.export_image_attr": "Quellenangabe in exportierten Bildern anzeigen",
 
+  "save.title": "Speichern",
+  "save.enter_name": "Name für diese Query:",
 
+  "load.title": "Laden",
+  "load.select_query": "Query zum Laden auswählen:",
+
+  "export.title": "Exportieren",
+
+  "export.section.map": "Karte",
+  "export.as_png": "Als <a id=\"export-image\" href=\"\" onclick=\"ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;\">png image</a>",
+  "export.as_interactive_map": "Als <a id=\"export-interactive-map\" href=\"\">interaktive Karte</a>",
+  "export.as_openlayers_map": "Als <a id=\"export-overpass-openlayers\" href=\"\">OpenLayers Karte<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></a>",
+  "export.openlayers_map_expl": "nur für Abfragen, die vollständiges OSM-XML zurückgeben",
+  "export.current_map_view": "Aktuelle <a id=\"export-map-state\" href=\"\">Kartenansicht</a>",
+  "export.map_view_expl": "bbox, zentrum, etc.",
+
+  "export.section.data": "Daten",
+  "export.raw_interpreter": "Direktlink zum <a id=\"export-overpass-api\" href=\"\">API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
+  "export.as_geoJSON": "Als <a id=\"export-geoJSON\" href=\"\">GeoJSON</a>",
+  
+  "export.section.query": "Query",
+  "export.as_text": "Als <a id=\"export-text\" href=\"\" download=\"query.txt\">Text</a>",
+  "export.to_xml": "Nach <a id=\"export-convert-xml\" href=\"\">XML<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren",
+  "export.to_ql": "Nach <a id=\"export-convert-ql\" href=\"\">OverpassQL<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren (<a id=\"export-convert-compact\" href=\"\">kompakte Variante<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a>)",
+  "export.remote_control": "In <a id=\"export-josm\" href=\"\">JOSM</a> laden",
+  "export.remote_control_expl": "nur für Abfragen, die gültiges OSM-XML mit Metadaten liefern",
+
+  "export.geoJSON.title": "Export - GeoJSON",
+  "export.geoJSON.expl": "Die aktuell angezeigen Daten im GeoJSON Format:",
+
+  "share.title": "Teilen",
+  "share.header": "Permalink",
+  "share.copy_this_link": "Kopiere diesen <a href=\"\" id=\"share_link_a\">Link</a>, um die aktuelle Query zu teilen:",
+  "share.options": "Optionen",
+  "share.incl_map_state": "Aktuelle Kartenansicht mitgeben",
+  "share.run_immediately": "Die geteilte Abfrage sofort beim öffnen ausführen",
 
 
   "the end": ""
