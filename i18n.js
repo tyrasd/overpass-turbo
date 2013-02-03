@@ -27,7 +27,7 @@ var i18n = new(function() {
       i18n.translate_ui();
       // todo: nicer implementation
     }).error(function(){
-      alert("unexpected error: failed to load language file: "+lng_file);
+      console.log("failed to load language file: "+lng_file);
     });
   }
   this.translate_ui = function() {
