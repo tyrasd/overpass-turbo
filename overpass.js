@@ -315,7 +315,7 @@ var overpass = new(function() {
               return $.map(from, function(n) {
                 if (n === undefined)
                   return; 
-                return [[n.lat,n.lon]];
+                return [[+n.lat,+n.lon]];
               });
             }
             // stolen from iD/geo.js, 
@@ -367,7 +367,7 @@ var overpass = new(function() {
                   is_tainted = true;
                   return;
                 }
-                return [[node.lon,node.lat]];
+                return [[+node.lon,+node.lat]];
               })];
             });
             if (cl.length == 0) {
