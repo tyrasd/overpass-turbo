@@ -307,6 +307,7 @@ var ide = new(function() {
           return;
         }
         if (is_max_zoom) return; // do not compress objects at max zoom
+        if (o.feature.properties.mp_outline) return; // do not compress multipolygon outlines
         var bounds = o.getBounds();
         var p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
         var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
