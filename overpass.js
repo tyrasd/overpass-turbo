@@ -685,7 +685,7 @@ var overpass = new(function() {
             if (feature.properties && feature.properties.tainted==true) {
               stl.dashArray = "5,8";
             }
-            // multipolygon inner lines without tags
+            // multipolygon outlines without tags
             if (feature.properties && feature.properties.mp_outline==true)
               if (typeof feature.properties.tags == "undefined" ||
                   $.isEmptyObject(feature.properties.tags)) {

@@ -513,12 +513,14 @@ var ide = new(function() {
         var layer_fun;
         if (e.type == "popupopen")
           layer_fun = function(l) {
-            l.setStyle({color:"#f50",_color:l.options["color"]});
+            l.setStyle({color:"#f50",fillColor:"#f50",_color:l.options["color"],_fillColor:l.options["fillColor"]});
           };
         else // e.type == "popupclose"
           layer_fun = function(l) {
             l.setStyle({color:l.options["_color"]});
+            l.setStyle({fillColor:l.options["_fillColor"]});
             delete l.options["_color"];
+            delete l.options["_fillColor"];
           };
         if (typeof layer.eachLayer == "function")
           layer.eachLayer(layer_fun);
