@@ -291,6 +291,7 @@ var ide = new(function() {
       // todo: possible optimizations: zoomOut = skip already compressed objects (and vice versa)
       var is_max_zoom = ide.map.getZoom() == ide.map.getMaxZoom();
       if (!overpass.geojsonLayer) return;
+      if (!overpass.geojsonLayer._map) return;
       overpass.geojsonLayer.eachLayer(function(o) {
         // todo: skip point features!
         if (o.feature && o.feature.geometry.type == "Point") return;
@@ -307,7 +308,9 @@ var ide = new(function() {
           return;
         }
         if (is_max_zoom) return; // do not compress objects at max zoom
-        if (o.feature.properties.mp_outline) return; // do not compress multipolygon outlines
+        if (o.feature.properties.mp_outline)
+          if ($.isEmptyObject(o.feature.properties.tags))
+            return; // do not compress multipolygon outlines
         var bounds = o.getBounds();
         var p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
         var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());

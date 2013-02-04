@@ -228,19 +228,33 @@ var overpass = new(function() {
         for (var j=0;j<rels[i].members.length;j++)
           if (rels[i].members[j].role == "outer")
             outer_count++;
-        if (outer_count != 1 /*|| tagged MP relation*/) {
+        if (outer_count == 0)
+          continue; // ignore multipolygons without outer ways
+        var simple_mp = false;
+        if (outer_count == 1 &&
+            !(function(o){for(var k in o) if(k!="created_by"&&k!="source"&&k!="type") return true; return false;})(rels[i].tags)) // this checks if the relation has any tags other than "created_by", "source" and "type"
+          simple_mp = true;
+        if (!simple_mp) {
+          var is_tainted = false;
           // prepare mp members
           var members;
-          members = $.grep(rels[i].members, function(m) {return m.type==="way" /*todo: && ceck for "tainted" elements? */});
+          members = $.grep(rels[i].members, function(m) {return m.type === "way";});
           members = $.map(members, function(m) {
             var way = wayids[m.ref];
-            if (way === undefined)
+            if (way === undefined) { // check for missing ways
+              is_tainted = true;
               return;
+            }
             return {
               id: m.ref,
               role: m.role || "outer",
               way: way,
-              nodes: way.nodes
+              nodes: $.grep(way.nodes, function(n) {
+                if (n !== undefined)
+                  return true;
+                is_tainted = true;
+                return false;
+              })
             };
           });
           // construct outer and inner rings
@@ -338,21 +352,33 @@ var overpass = new(function() {
             if (o !== undefined)
               mp[o].push(inners[j]);
             else
-              mp.push(inners[j]); // invalid geometry
+              ;//mp.push(inners[j]); // invalid geometry // tyr: why?
           }
-          // mp parsed, now construct the geoJSON
+          // sanitize mp-coordinates (remove empty clusters or rings, {lat,lon,...} to [lon,lat]
           var mp_coords = [];
-          mp_coords = $.map(mp, function(cluster) {
-            return [$.map(cluster, function(ring) {
-              if (ring === undefined)
+          mp_coords = $.map(mp, function(cluster) { // needed???
+            var cl = $.map(cluster, function(ring) {
+              if (ring === undefined || ring.length <= 1) {
+                is_tainted = true;
                 return;
+              }
               return [$.map(ring, function(node) {
-                if (node === undefined || node.lat === undefined)
+                if (node === undefined || node.lat === undefined) {
+                  is_tainted = true;
                   return;
+                }
                 return [[node.lon,node.lat]];
               })];
-            })];
+            });
+            if (cl.length == 0) {
+              is_tainted = true;
+              return;
+            }
+            return [cl];
           });
+          if (mp_coords.length == 0)
+            continue; // ignore multipolygons without coordinates
+          // mp parsed, now construct the geoJSON
           var feature = {
             "type"       : "Feature",
             "properties" : {
@@ -367,7 +393,7 @@ var overpass = new(function() {
               "coordinates" : mp_coords,
             }
           }
-          if (rels[i].tainted)
+          if (is_tainted)
             feature.properties["tainted"] = true;
           geojsonpolygons.features.push(feature);
           //continue; // abort this complex multipolygon
