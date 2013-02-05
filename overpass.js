@@ -176,9 +176,9 @@ var overpass = new(function() {
           if (typeof m.relations == "undefined")
             m.relations = new Array();
           m.relations.push({
-            "rel" : rels[i].id, // todo: id??
             "role" : rels[i].members[j].role,
-            "reltags" : rels[i].tags, // todo: tags??
+            "rel" : rels[i].id,
+            "reltags" : rels[i].tags,
           });
         }
       }
