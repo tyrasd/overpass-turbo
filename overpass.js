@@ -478,7 +478,7 @@ var overpass = new(function() {
               (typeof ways[i].tags["leisure"] != "undefined") ||
               (typeof ways[i].tags["amenity"] != "undefined") ||
               (ways[i].tags["area"] == "yes") ||
-              ($.inArray(ways[i].tags["natural"], new Array("forest","wood","water")) != -1) ||
+              ($.inArray(ways[i].tags["natural"], ["water","wood","wetland","scrub","land","beach","heath","grassland","sand","glacier","marsh","scree","fell","rock","bare_rock"]) != -1) ||
               false) 
              way_type="Polygon";
         if (way_type == "Polygon")
