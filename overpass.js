@@ -354,7 +354,7 @@ var overpass = new(function() {
           }
           // sanitize mp-coordinates (remove empty clusters or rings, {lat,lon,...} to [lon,lat]
           var mp_coords = [];
-          mp_coords = $.map(mp, function(cluster) { // needed???
+          mp_coords = $.map(mp, function(cluster) { 
             var cl = $.map(cluster, function(ring) {
               if (ring === undefined || ring.length <= 1) {
                 is_tainted = true;
@@ -554,7 +554,7 @@ var overpass = new(function() {
     var request_headers = {};
     var additional_get_data = "";
     if (settings.force_simple_cors_request) {
-      additional_get_data = "?X-Requested-With="+settings.appname; // todo: move appname to settings object?
+      additional_get_data = "?X-Requested-With="+settings.appname;
     } else {
       request_headers["X-Requested-With"] = settings.appname;
     }
