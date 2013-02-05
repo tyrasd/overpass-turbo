@@ -154,34 +154,32 @@ var overpass = new(function() {
     for (var i=0;i<rels.length;i++) {
       if (!$.isArray(rels[i].members))
         continue; // ignore relations without members (e.g. returned by an ids_only query)
-      relids.push(rels[i].id);
+      relids[rels[i].id] = rels[i];
+    }
+    for (var i=0;i<rels.length;i++) {
+      if (!$.isArray(rels[i].members))
+        continue; // ignore relations without members (e.g. returned by an ids_only query)
       for (var j=0;j<rels[i].members.length;j++) {
+        var m;
         switch (rels[i].members[j].type) {
         case "node":
-          var n = nodeids[rels[i].members[j].ref];
-          if (n) { // typeof n != "undefined"
-            if (typeof n.relations == "undefined")
-              n.relations = new Array();
-            n.relations.push({
-              "rel" : rels[i].id, // todo: id??
-              "role" : rels[i].members[j].role,
-              "reltags" : rels[i].tags, // todo: tags??
-            });
-          }
+          m = nodeids[rels[i].members[j].ref];
         break;
         case "way":
-          var w = wayids[rels[i].members[j].ref];
-          if (w) { // typeof w != "undefined"
-            if (typeof w.relations == "undefined")
-              w.relations = new Array();
-            w.relations.push({
-              "rel" : rels[i].id,
-              "role" : rels[i].members[j].role,
-              "reltags" : rels[i].tags,
-            });
-          }
+          m = wayids[rels[i].members[j].ref];
         break;
-        default:
+        case "relation":
+          m = relids[rels[i].members[j].ref];
+        break;
+        }
+        if (m) { // typeof m != "undefined"
+          if (typeof m.relations == "undefined")
+            m.relations = new Array();
+          m.relations.push({
+            "rel" : rels[i].id, // todo: id??
+            "role" : rels[i].members[j].role,
+            "reltags" : rels[i].tags, // todo: tags??
+          });
         }
       }
     }
@@ -217,7 +215,7 @@ var overpass = new(function() {
     // process multipolygons
     for (var i=0;i<rels.length;i++) {
       if ((typeof rels[i].tags != "undefined") &&
-          (rels[i].tags["type"] == "multipolygon" /*|| boundary*/)) {
+          (rels[i].tags["type"] == "multipolygon" || rels[i].tags["type"] == "boundary")) {
         if (!$.isArray(rels[i].members))
           continue; // ignore relations without members (e.g. returned by an ids_only query)
         var outer_count = 0;
@@ -382,10 +380,10 @@ var overpass = new(function() {
           var feature = {
             "type"       : "Feature",
             "properties" : {
-              "type" : "relation", // todo
+              "type" : "relation",
               "id"   : rels[i].id,
               "tags" : rels[i].tags || {},
-              "relations" : [], // ??? //outer_way.relations || [],
+              "relations" : rels[i].relations || [],
               "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": rels[i].timestamp, "version": rels[i].version, "changeset": rels[i].changeset, "user": rels[i].user, "uid": rels[i].uid}),
             },
             "geometry"   : {
