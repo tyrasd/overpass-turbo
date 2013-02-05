@@ -658,7 +658,13 @@ var overpass = new(function() {
           fire("onEmptyMap", empty_msg, data_mode);
         }
         fire("onProgress", "rendering geoJSON");
-        overpass.geojsonLayer = new L.GeoJSON(null, {
+        overpass.geojsonLayer = 
+          //new L.GeoJSON(null, {
+          new L.GeoJsonNoVanish(null, {
+          threshold: 9*Math.sqrt(2)*2,
+          compress: function(feature) {
+            return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
+          },
           style: function(feature) {
             var stl = {};
             var color = "#03f";
@@ -702,6 +708,10 @@ var overpass = new(function() {
             // objects in relations
             if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
               stl.color = relColor;
+            }
+
+            if (feature.is_placeholder) {
+              stl.fillColor = "red";
             }
 
             return stl;
