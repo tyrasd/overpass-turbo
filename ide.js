@@ -331,7 +331,7 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.zoom_to_data");
         L.DomEvent.addListener(link, 'click', function() {
-          try {ide.map.fitBounds(overpass.geojsonLayer.getBounds()); } catch (e) {}  
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}  
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
@@ -378,7 +378,7 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.clear_data");
         L.DomEvent.addListener(link, 'click', function(e) {
-          ide.map.removeLayer(overpass.geojsonLayer);
+          ide.map.removeLayer(overpass.osmLayer);
         }, ide.map);
         return container;
       },
@@ -494,7 +494,7 @@ var ide = new(function() {
     overpass.handlers["onDone"] = function() {
       ide.waiter.close();
       var map_bounds  = ide.map.getBounds();
-      var data_bounds = overpass.geojsonLayer.getBounds();
+      var data_bounds = overpass.osmLayer.getBaseLayer().getBounds();
       if (data_bounds.isValid() && !map_bounds.intersects(data_bounds)) {
         // show tooltip for button "zoom to data"
         var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
@@ -571,7 +571,7 @@ var ide = new(function() {
       ide.dataViewer.setValue(overpass.resultText);
     }
     overpass.handlers["onGeoJsonReady"] = function() {
-      ide.map.addLayer(overpass.geojsonLayer);
+      ide.map.addLayer(overpass.osmLayer);
     }
     overpass.handlers["onPopupReady"] = function(p) {
       p.openOn(ide.map);
@@ -877,12 +877,13 @@ var ide = new(function() {
     });
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
-      if (!overpass.resultData)
+      var geojson = overpass.osmLayer.getGeoJSON();
+      if (!geojson)
         geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
         var gJ = [];
         // concatenate feature collections
-        $.each(overpass.resultData,function(i,d) {gJ = gJ.concat(d.features);});
+        $.each(geojson,function(i,d) {gJ = gJ.concat(d.features);});
         gJ = {
           type: "FeatureCollection",
           generator: settings.appname,
@@ -1166,8 +1167,8 @@ var ide = new(function() {
     this.resetErrors();
     // reset previously loaded data and overlay
     ide.dataViewer.setValue("");
-    if (typeof overpass.geojsonLayer != "undefined")
-      ide.map.removeLayer(overpass.geojsonLayer);
+    if (typeof overpass.osmLayer != "undefined")
+      ide.map.removeLayer(overpass.osmLayer);
     $("#map_blank").remove();
 
     // run the query via the overpass object

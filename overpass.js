@@ -567,7 +567,6 @@ var overpass = new(function() {
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
         var geojson;
-        overpass.resultData = null;
         fire("onProgress", "parsing data");
         // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
@@ -610,57 +609,33 @@ var overpass = new(function() {
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^
           overpass.resultType = "error";
-          geojson = [{features:[]}, {features:[]}, {features:[]}];
+          //geojson = [{features:[]}, {features:[]}, {features:[]}];
+          data = {elements:[]};
         } else if (typeof data == "object" && jqXHR.responseXML) { // xml data
           overpass.resultType = "xml";
           data_mode = "xml";
           overpass.timestamp = $("osm > meta:first-of-type",data).attr("osm_base");
           overpass.copyright = $("osm > note:first-of-type",data).text();
-          // convert to geoJSON
-          geojson = overpass.overpassXML2geoJSON(data);
+          //// convert to geoJSON
+          //geojson = overpass.overpassXML2geoJSON(data);
         } else { // maybe json data
           overpass.resultType = "javascript";
           data_mode = "json";
           overpass.timestamp = data.osm3s.timestamp_osm_base;
           overpass.copyright = data.osm3s.copyright;
-          // convert to geoJSON
-          geojson = overpass.overpassJSON2geoJSON(data);
+          //// convert to geoJSON
+          //geojson = overpass.overpassJSON2geoJSON(data);
         }
-        overpass.resultData = geojson;
-        // print raw data
-        fire("onProgress", "printing raw data");
-        overpass.resultText = jqXHR.responseText;
-        fire("onRawDataPresent");
-        // 5. add geojson to map - profit :)
-        // auto-tab-switching: if there is only non map-visible data, show it directly
-        if (geojson[0].features.length == 0 && geojson[1].features.length == 0 && geojson[2].features.length == 0) { // no visible data
-          // switch only if there is some unplottable data in the returned json/xml.
-          if ((data_mode == "json" && data.elements.length > 0) ||
-              (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
-            // check for "only areas returned"
-            if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type!="area") return false; return true;})(data.elements)) ||
-                (data_mode == "xml" && $("osm",data).children().not("note,meta,area").length == 0))
-              empty_msg = "only areas returned";
-            // check for "ids_only"
-            else if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type=="node") return true; return false;})(data.elements)) ||
-                     (data_mode == "xml" && $("osm",data).children().filter("node").length != 0))
-              empty_msg = "no coordinates returned";
-            else
-              empty_msg = "no visible data";
-          } else if(data_mode == "error") {
-            empty_msg = "an error occured";
-          } else if(data_mode == "unknown") {
-            empty_msg = "unstructured data returned";
-          } else {
-            empty_msg = "recieved empty dataset";
-          }
-          // show why there is an empty map
-          fire("onEmptyMap", empty_msg, data_mode);
-        }
-        fire("onProgress", "rendering geoJSON");
-        overpass.geojsonLayer = 
+
+        //overpass.geojsonLayer = 
           //new L.GeoJSON(null, {
-          new L.GeoJsonNoVanish(null, {
+          //new L.GeoJsonNoVanish(null, {
+        overpass.osmLayer =
+         new L.OSM4Leaflet(null, {
+          data_mode: data_mode,
+          afterParse: function() {fire("onProgress", "rendering geoJSON");},
+          baseLayerClass: L.GeoJsonNoVanish,
+          baseLayerOptions: {
           threshold: 9*Math.sqrt(2)*2,
           compress: function(feature) {
             return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
@@ -779,11 +754,42 @@ var overpass = new(function() {
               fire("onPopupReady", p);
             });
           },
-        });
-        for (i=0;i<geojson.length;i++) {
-          overpass.geojsonLayer.addData(geojson[i]);
-        }
+        }});
+        overpass.osmLayer.addData(data);
         fire("onGeoJsonReady");
+
+        geojson = overpass.osmLayer.getGeoJSON();
+        // print raw data
+        fire("onProgress", "printing raw data");
+        overpass.resultText = jqXHR.responseText;
+        fire("onRawDataPresent");
+        // 5. add geojson to map - profit :)
+        // auto-tab-switching: if there is only non map-visible data, show it directly
+        if (geojson[0].features.length == 0 && geojson[1].features.length == 0 && geojson[2].features.length == 0) { // no visible data
+          // switch only if there is some unplottable data in the returned json/xml.
+          if ((data_mode == "json" && data.elements.length > 0) ||
+              (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
+            // check for "only areas returned"
+            if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type!="area") return false; return true;})(data.elements)) ||
+                (data_mode == "xml" && $("osm",data).children().not("note,meta,area").length == 0))
+              empty_msg = "only areas returned";
+            // check for "ids_only"
+            else if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type=="node") return true; return false;})(data.elements)) ||
+                     (data_mode == "xml" && $("osm",data).children().filter("node").length != 0))
+              empty_msg = "no coordinates returned";
+            else
+              empty_msg = "no visible data";
+          } else if(data_mode == "error") {
+            empty_msg = "an error occured";
+          } else if(data_mode == "unknown") {
+            empty_msg = "unstructured data returned";
+          } else {
+            empty_msg = "recieved empty dataset";
+          }
+          // show why there is an empty map
+          fire("onEmptyMap", empty_msg, data_mode);
+        }
+
         // closing wait spinner
         fire("onDone");
       },
