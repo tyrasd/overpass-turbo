@@ -54,6 +54,7 @@ var overpass = new(function() {
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
         var geojson;
+        var stats = {};
         fire("onProgress", "parsing data");
         // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
@@ -96,13 +97,22 @@ var overpass = new(function() {
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^
           overpass.resultType = "error";
-          //geojson = [{features:[]}, {features:[]}, {features:[]}];
           data = {elements:[]};
+          overpass.timestamp = undefined;
+          overpass.copyright = undefined;
+          stats.data = {nodes: 0, ways: 0, relations: 0, areas: 0};
+          //geojson = [{features:[]}, {features:[]}, {features:[]}];
         } else if (typeof data == "object" && jqXHR.responseXML) { // xml data
           overpass.resultType = "xml";
           data_mode = "xml";
           overpass.timestamp = $("osm > meta:first-of-type",data).attr("osm_base");
           overpass.copyright = $("osm > note:first-of-type",data).text();
+          stats.data = {
+            nodes:     $("osm > node",data).length,
+            ways:      $("osm > way",data).length,
+            relations: $("osm > relation",data).length,
+            areas:     $("osm > area",data).length
+          };
           //// convert to geoJSON
           //geojson = overpass.overpassXML2geoJSON(data);
         } else { // maybe json data
@@ -110,6 +120,12 @@ var overpass = new(function() {
           data_mode = "json";
           overpass.timestamp = data.osm3s.timestamp_osm_base;
           overpass.copyright = data.osm3s.copyright;
+          stats.data = {
+            nodes:     $.grep(data.elements, function(d) {return d.type=="node"}).length,
+            ways:      $.grep(data.elements, function(d) {return d.type=="way"}).length,
+            relations: $.grep(data.elements, function(d) {return d.type=="relation"}).length,
+            areas:     $.grep(data.elements, function(d) {return d.type=="area"}).length,
+          };
           //// convert to geoJSON
           //geojson = overpass.overpassJSON2geoJSON(data);
         }
@@ -243,9 +259,21 @@ var overpass = new(function() {
           },
         }});
         overpass.osmLayer.addData(data);
+
+        // save geojson
+        geojson = overpass.osmLayer.getGeoJSON();
+        overpass.geojson = geojson;
+
+        // calc stats
+        stats.geojson = {
+          polys: geojson[0].features.length,
+          lines: geojson[1].features.length,
+          pois:  geojson[2].features.length
+        };
+        overpass.stats = stats;
+
         fire("onGeoJsonReady");
 
-        geojson = overpass.osmLayer.getGeoJSON();
         // print raw data
         fire("onProgress", "printing raw data");
         overpass.resultText = jqXHR.responseText;
