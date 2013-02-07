@@ -86,4 +86,4 @@ Several UI Improvements
 * ~~disable "start at current pos" by default~~
 * ~~implement auto-correct for queries returning no nodes by adding recurse statements~~
 * ~~fix for disappearing line and polygon features at low zoom.~~
-* print number of found elements (pois, ways, polygons)
+* ~~print number of found elements (pois, ways, polygons)~~
