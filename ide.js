@@ -379,6 +379,7 @@ var ide = new(function() {
         link.title = i18n.t("map_controlls.clear_data");
         L.DomEvent.addListener(link, 'click', function(e) {
           ide.map.removeLayer(overpass.osmLayer);
+          $("#map_blank").remove();
         }, ide.map);
         return container;
       },
@@ -541,7 +542,7 @@ var ide = new(function() {
       if (data_mode == "unknown")
         ide.switchTab("Data");
       // display empty map badge
-      $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+      $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
     }
     overpass.handlers["onAjaxError"] = function(errmsg) {
       // show error dialog
