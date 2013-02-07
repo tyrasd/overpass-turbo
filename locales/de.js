@@ -48,6 +48,8 @@
   "settings.tile_opacity": "Deckkraft der Tiles",
   "settings.tile_opacity_expl": "Transparenz des Kartenhintergrunds: 0=transparent - 1=sichtbar",
   "settings.show_crosshairs": "Fadenkreuz in der Kartenmitte anzeigen",
+  "settings.disable_poiomatic": "Kleine Features nicht wie POIs darstellen",
+  "settings.show_data_stats": "Statistik über die geladenen und angezeigten Daten anzeigen",
 
   "settings.section.sharing": "Teilen",
   "settings.include_map_state": "Permalinks beinhalten Informationen zum Kartenausschnitt",
@@ -191,6 +193,18 @@
 
   "waiter.processing_query": "Query wird bearbeitet...",
   "waiter.export_as_image": "Exportiere als Bild...",
+
+  "data_stats.loaded": "geladen",
+  "data_stats.displayed": "angezeigt",
+  "data_stats.nodes": "Nodes",
+  "data_stats.ways": "Ways",
+  "data_stats.relations": "Relations",
+  "data_stats.areas": "Areas",
+  "data_stats.pois": "POIs",
+  "data_stats.lines": "Linien",
+  "data_stats.polygons": "Polygone",
+
+  "map.intentianally_blank": "Diese Karte ist leer.",
 
   "the end": ""
 }

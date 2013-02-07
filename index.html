@@ -17,7 +17,7 @@
   <script src="libs/CodeMirror/lib/util/closetag.js"></script>
   <!--leaflet-->
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet-src.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
   <script src="libs/locationfilter/src/locationfilter.js"></script>
   <link rel="stylesheet" href="libs/locationfilter/src/locationfilter.css"/>
   <!--leaflet extensions-->
@@ -158,6 +158,8 @@
       <p><label><span class="t" t="settings.tile_server">Tile-Server</span>:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
       <p><label><span class="t" t="settings.tile_opacity">Tiles Opacity</span>:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(<span class="t" t="settings.tile_opacity_expl">transparency of background tiles: 0=tansparent &hellip; 1=visible</span>)</small></p>
       <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;<span class="t" t="settings.show_crosshairs">Show crosshairs at the map center.</span></p>
+      <p><input type="checkbox" name="disable_poiomatic"/>&nbsp;<span class="t" t="settings.disable_poiomatic">Don't display small features as POIs.</span></p>
+      <p><input type="checkbox" name="show_data_stats"/>&nbsp;<span class="t" t="settings.show_data_stats">Show some stats about loaded and displayed data.</span></p>
     </div>
     <h3><a class="t" t="settings.section.sharing">Sharing</a></h3>
     <div>

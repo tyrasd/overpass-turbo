@@ -137,7 +137,7 @@ var overpass = new(function() {
          new L.OSM4Leaflet(null, {
           data_mode: data_mode,
           afterParse: function() {fire("onProgress", "rendering geoJSON");},
-          baseLayerClass: L.GeoJsonNoVanish,
+          baseLayerClass: settings.disable_poiomatic ? L.GeoJSON : L.GeoJsonNoVanish,
           baseLayerOptions: {
           threshold: 9*Math.sqrt(2)*2,
           compress: function(feature) {

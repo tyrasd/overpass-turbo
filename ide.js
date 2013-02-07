@@ -380,6 +380,7 @@ var ide = new(function() {
         L.DomEvent.addListener(link, 'click', function(e) {
           ide.map.removeLayer(overpass.osmLayer);
           $("#map_blank").remove();
+          $("#data_stats").remove();
         }, ide.map);
         return container;
       },
@@ -542,7 +543,7 @@ var ide = new(function() {
       if (data_mode == "unknown")
         ide.switchTab("Data");
       // display empty map badge
-      $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+      $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">'+i18n.t("map.intentianally_blank")+' <small>('+empty_msg+')</small></div>').appendTo("#map");
     }
     overpass.handlers["onAjaxError"] = function(errmsg) {
       // show error dialog
@@ -573,6 +574,24 @@ var ide = new(function() {
     }
     overpass.handlers["onGeoJsonReady"] = function() {
       ide.map.addLayer(overpass.osmLayer);
+      // display stats
+      if (settings.show_data_stats) {
+        var stats = overpass.stats;
+        var stats_txt = (
+          "<small>"+i18n.t("data_stats.loaded")+"</small>&nbsp;&ndash;&nbsp;"+
+          ""+i18n.t("data_stats.nodes")+":&nbsp;"+stats.data.nodes+
+          ", "+i18n.t("data_stats.ways")+":&nbsp;"+stats.data.ways+
+          ", "+i18n.t("data_stats.relations")+":&nbsp;"+stats.data.relations+
+          (stats.data.areas>0 ? ", "+i18n.t("data_stats.areas")+":&nbsp;"+stats.data.areas : "") +
+          "<br/>"+
+          "<small>"+i18n.t("data_stats.displayed")+"</small>&nbsp;&ndash;&nbsp;"+
+          ""+i18n.t("data_stats.pois")+":&nbsp;"+stats.geojson.pois+
+          ", "+i18n.t("data_stats.lines")+":&nbsp;"+stats.geojson.lines+
+          ", "+i18n.t("data_stats.polygons")+":&nbsp;"+stats.geojson.polys+
+          "</small>"
+        );
+        $('<div id="data_stats" style="z-index:5; display:block; position:absolute; bottom:0px; right:0; width:auto; text-align:right; padding: 0 0.5em; background-color:#eee; opacity: 0.8;">'+stats_txt+'</div>').appendTo("#map");
+      }
     }
     overpass.handlers["onPopupReady"] = function(p) {
       p.openOn(ide.map);
@@ -878,7 +897,7 @@ var ide = new(function() {
     });
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
-      var geojson = overpass.osmLayer.getGeoJSON();
+      var geojson = overpass.geojson;
       if (!geojson)
         geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
@@ -1001,8 +1020,7 @@ var ide = new(function() {
     // todo: also hide popups?
     ide.waiter.addInfo("prepare map");
     $("#map .leaflet-control-container .leaflet-top").hide();
-    $('a[title="Zoom in"]').removeClass("leaflet-control-zoom-in");
-    $('a[title="Zoom out"]').removeClass("leaflet-control-zoom-out");
+    $("#data_stats").hide();
     if (settings.export_image_attribution) attribControl.addTo(ide.map);
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
@@ -1010,8 +1028,7 @@ var ide = new(function() {
     $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
-      $('a[title="Zoom in"]').addClass("leaflet-control-zoom-in");
-      $('a[title="Zoom out"]').addClass("leaflet-control-zoom-out");
+      $("#data_stats").show();
       $("#map .leaflet-control-container .leaflet-top").show();
       ide.waiter.addInfo("rendering map data");
       // 2. render overlay data onto canvas
@@ -1083,6 +1100,9 @@ var ide = new(function() {
     ]);
     $("#settings-dialog input[name=background_opacity]")[0].value = settings.background_opacity;
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
+    $("#settings-dialog input[name=disable_poiomatic]")[0].checked = settings.disable_poiomatic;
+    $("#settings-dialog input[name=show_data_stats]")[0].checked = settings.show_data_stats;
+    // export settings
     $("#settings-dialog input[name=export_image_scale]")[0].checked = settings.export_image_scale;
     $("#settings-dialog input[name=export_image_attribution]")[0].checked = settings.export_image_attribution;
     // open dialog
@@ -1118,6 +1138,8 @@ var ide = new(function() {
         else
           ide.map.inv_opacity_layer.setOpacity(1-settings.background_opacity).addTo(ide.map);
       settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
+      settings.disable_poiomatic = $("#settings-dialog input[name=disable_poiomatic]")[0].checked;
+      settings.show_data_stats = $("#settings-dialog input[name=show_data_stats]")[0].checked;
       $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
       settings.export_image_scale = $("#settings-dialog input[name=export_image_scale]")[0].checked;
       settings.export_image_attribution = $("#settings-dialog input[name=export_image_attribution]")[0].checked;
@@ -1164,6 +1186,7 @@ var ide = new(function() {
   this.update_map = function() {
     ide.waiter.open(i18n.t("waiter.processing_query"));
     ide.waiter.addInfo("resetting map");
+    $("#data_stats").remove();
     // resets previously highlighted error lines
     this.resetErrors();
     // reset previously loaded data and overlay

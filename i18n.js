@@ -116,6 +116,18 @@ var i18n = new(function() {
     "export.image.download": "Download",
     "export.image.attribution_missing": "Make sure to include proper attributions when distributing this image!",
 
+    "data_stats.loaded": "Loaded",
+    "data_stats.displayed": "Displayed",
+    "data_stats.nodes": "nodes",
+    "data_stats.ways": "ways",
+    "data_stats.relations": "relations",
+    "data_stats.areas": "areas",
+    "data_stats.pois": "pois",
+    "data_stats.lines": "lines",
+    "data_stats.polygons": "polygons",
+
+    "map.intentianally_blank": "This map intentionally left blank.",
+
     "the end":""
   };
 })(); // end create i18n object
