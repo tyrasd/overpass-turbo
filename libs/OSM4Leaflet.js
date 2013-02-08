@@ -456,29 +456,29 @@ L.OSM4Leaflet = L.Class.extend({
               }
             }
           }
-        }
-        if (typeof outer_way == "undefined")
-          continue; // abort if outer way object is not present
-        if (outer_coords[0].length == 0)
-          continue; // abort if coordinates of outer way is not present
-        way_type = "Polygon";
-        var feature = {
-          "type"       : "Feature",
-          "properties" : {
-            "type" : "way",
-            "id"   : outer_way.id,
-            "tags" : outer_way.tags || {},
-            "relations" : outer_way.relations || [],
-            "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": outer_way.timestamp, "version": outer_way.version, "changeset": outer_way.changeset, "user": outer_way.user, "uid": outer_way.uid}),
-          },
-          "geometry"   : {
-            "type" : way_type,
-            "coordinates" : ([].concat(outer_coords,inner_coords)),
+          if (typeof outer_way == "undefined")
+            continue; // abort if outer way object is not present
+          if (outer_coords[0].length == 0)
+            continue; // abort if coordinates of outer way is not present
+          way_type = "Polygon";
+          var feature = {
+            "type"       : "Feature",
+            "properties" : {
+              "type" : "way",
+              "id"   : outer_way.id,
+              "tags" : outer_way.tags || {},
+              "relations" : outer_way.relations || [],
+              "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": outer_way.timestamp, "version": outer_way.version, "changeset": outer_way.changeset, "user": outer_way.user, "uid": outer_way.uid}),
+            },
+            "geometry"   : {
+              "type" : way_type,
+              "coordinates" : ([].concat(outer_coords,inner_coords)),
+            }
           }
+          if (rels[i].tainted)
+            feature.properties["tainted"] = true;
+          geojsonpolygons.features.push(feature);
         }
-        if (rels[i].tainted)
-          feature.properties["tainted"] = true;
-        geojsonpolygons.features.push(feature);
       }
     }
     // process lines and polygons
