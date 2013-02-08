@@ -130,6 +130,10 @@
   "help.ide.keyboard.load_save": "Laden (öffnen) bzw. Speichern einer Query",
   "help.ide.keyboard.help": "Diesen Hilfe-Dialog öffnen",
 
+  "help.section.key": "Legende",
+  "help.key.example": "einige Karten-Features",
+  "help.key.description": "Wege werden als dicke blaue Linien angezeigt, Polygone als gelbe Flächen mit dünner blauer Umrandung, POIs als gelbe Kreise mit dünner blauer Umrandung. Kreise mit rötlicher Füllung stehen für Wege oder Polygone, die für die Anzeige zu klein wären. Pinke Linien bedeuten, dass das jeweilige Element in mindestens einer Relation Mitglied ist. Gestrichelt werden Wege oder Polygone angezeigt, deren Geometrie nicht vollständig geladen wurde.",
+
   "help.section.export": "Export",
   "help.export": "Das <i>Export</i>-Tool beinhaltet verschiedene Export-Möglichkeiten.<br />Optionen mit diesem Symbol:<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span> führen auf externe (online) Tools.",
   "help.export.map.title": "Karte",
