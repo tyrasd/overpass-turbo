@@ -64,9 +64,10 @@
 
   "load.title": "Laden",
   "load.delete_query": "Diese Query löschen",
-  "load.saved_queies": "Gespeicherte Queries",
+  "load.saved_queries": "Gespeicherte Queries",
   "load.examples": "Beispiele",
-  "load.template": "Vorlagen",
+  "load.templates": "Vorlagen",
+  "load.no_saved_query": "Noch wurde keine Query gespeichert.",
 
   "export.title": "Exportieren",
 

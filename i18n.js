@@ -78,6 +78,7 @@ var i18n = new(function() {
     "dialog.delete_query.expl": "Do you really want to delete the following query",
 
     "load.delete_query": "delete this query",
+    "load.no_saved_query": "no saved query yet",
 
     "error.query.title": "Query Error",
     "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",

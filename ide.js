@@ -812,7 +812,7 @@ var ide = new(function() {
         has_saved_query = true;
     }
     if (!has_saved_query)
-      $('<li>no saved query yet</li>').appendTo("#load-dialog ul.saved_query");
+      $('<li>'+i18n.t("load.no_saved_query")+'</li>').appendTo("#load-dialog ul.saved_query");
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $("#load-dialog").dialog({

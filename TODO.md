@@ -87,4 +87,5 @@ Several UI Improvements
 * ~~implement auto-correct for queries returning no nodes by adding recurse statements~~
 * ~~fix for disappearing line and polygon features at low zoom.~~
 * ~~print number of found elements (pois, ways, polygons)~~
-* add "map key" to help
+* ~~add "map key" to help~~
+* ~~add templates~~
