@@ -77,6 +77,8 @@ var i18n = new(function() {
     "dialog.delete_query.title": "Delete Query?",
     "dialog.delete_query.expl": "Do you really want to delete the following query",
 
+    "load.delete_query": "delete this query",
+
     "error.query.title": "Query Error",
     "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",
     "error.ajax.title": "Ajax Error",

@@ -782,20 +782,27 @@ var ide = new(function() {
 
   // Event handlers
   this.onLoadClick = function() {
-    $("#load-dialog ul").html(""); // reset example list
+    $("#load-dialog ul").html(""); // reset example lists
     // load example list
-    for(var example in settings.saves)
+    var has_saved_query = false;
+    for(var example in settings.saves) {
+      var type = settings.saves[example].type;
       $('<li>'+
           '<a href="" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
-          '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
-        '</li>').appendTo("#load-dialog ul");
+          (type != 'template' ? '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>' : '')+
+        '</li>').appendTo("#load-dialog ul."+type);
+      if (type == "saved_query")
+        has_saved_query = true;
+    }
+    if (!has_saved_query)
+      $('<li>no saved query yet</li>').appendTo("#load-dialog ul.saved_query");
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $("#load-dialog").dialog({
       modal:true,
       buttons: dialog_buttons,
     });
-    
+    $("#load-dialog").accordion({active: has_saved_query ? 0 : 1});
   }
   this.onSaveClick = function() {
     // combobox for existing saves.

@@ -63,7 +63,10 @@
   "save.enter_name": "Name für diese Query:",
 
   "load.title": "Laden",
-  "load.select_query": "Query zum Laden auswählen:",
+  "load.delete_query": "Diese Query löschen",
+  "load.saved_queies": "Gespeicherte Queries",
+  "load.examples": "Beispiele",
+  "load.template": "Vorlagen",
 
   "export.title": "Exportieren",
 

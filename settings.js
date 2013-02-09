@@ -71,7 +71,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",21);
+var settings = new Settings("overpass-ide",22);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -138,5 +138,36 @@ settings.define_upgrade_callback(18, function(s) {
 settings.define_upgrade_callback(20, function(s) {
   // update "Mountains in Area" example
   s.saves["Mountains in Area"]=examples["Mountains in Area"];
+  s.save();
+});
+settings.define_upgrade_callback(22, function(s) {
+  // categorize saved queries
+  for (var q in s.saves) {
+    if (examples[q])
+      s.saves[q].type = "example";
+    else
+      s.saves[q].type = "saved_query";
+  }
+  // define some templates
+  s.saves["key"] = {
+    type: "template",
+    parameters: ["key"],
+    overpass: "<!--\nthis query looks for nodes, ways and relations \nwith the given key.\n-->\n{{key=}}\n<osm-script output=\"json\">\n  <union>\n    <query type=\"node\">\n      <has-kv k=\"{{key}}\"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type=\"way\">\n      <has-kv k=\"{{key}}\"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <recurse type=\"down\"/>\n    <query type=\"relation\">\n      <has-kv k=\"{{key}}\"/>\n      <bbox-query {{bbox}}/>\n    </query>\n  </union>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>"
+  };
+  s.saves["key-type"] = {
+    type: "template",
+    parameters: ["key", "type"],
+    overpass: "<!--\nthis query looks for nodes, ways or relations \nwith the given key.\n-->\n{{key=}}\n{{type=}}\n<osm-script output=\"json\">\n  <query type=\"{{type}}\">\n    <has-kv k=\"{{key}}\"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>"
+  };
+  s.saves["key-value"] = {
+    type: "template",
+    parameters: ["key", "value"],
+    overpass: "<!--\nthis query looks for nodes, ways and relations \nwith the given key/value combination.\n-->\n{{key=}}\n{{value=}}\n<osm-script output=\"json\">\n  <union>\n    <query type=\"node\">\n      <has-kv k=\"{{key}}\" v=\"{{value}}\"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type=\"way\">\n      <has-kv k=\"{{key}}\" v=\"{{value}}\"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <recurse type=\"down\"/>\n    <query type=\"relation\">\n      <has-kv k=\"{{key}}\" v=\"{{value}}\"/>\n      <bbox-query {{bbox}}/>\n    </query>\n  </union>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>"
+  };
+  s.saves["key-value-type"] = {
+    type: "template",
+    parameters: ["key", "value", "type"],
+    overpass: "<!--\nthis query looks for nodes, ways or relations \nwith the given key/value combination.\n-->\n{{key=}}\n{{value=}}\n{{type=}}\n<osm-script output=\"json\">\n  <query type=\"{{type}}\">\n    <has-kv k=\"{{key}}\" v=\"{{value}}\"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>"
+  };
   s.save();
 });
