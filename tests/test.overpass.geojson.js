@@ -41,7 +41,7 @@ describe("overpass.geojson", function () {
         ]
       }
     ];
-    var result = overpass.overpassJSON2geoJSON(json);
+    var result = L.OSM4Leaflet.prototype._overpassJSON2geoJSON(json);
     expect(result).to.eql(geojson);
   });
   it("overpassJSON2geoJSON: way", function () {
@@ -106,7 +106,7 @@ describe("overpass.geojson", function () {
         features: []
       }
     ];
-    var result = overpass.overpassJSON2geoJSON(json);
+    var result = L.OSM4Leaflet.prototype._overpassJSON2geoJSON(json);
     expect(result).to.eql(geojson);
   });
   it("overpassJSON2geoJSON: polygon", function () {
@@ -180,7 +180,7 @@ describe("overpass.geojson", function () {
         features: []
       }
     ];
-    var result = overpass.overpassJSON2geoJSON(json);
+    var result = L.OSM4Leaflet.prototype._overpassJSON2geoJSON(json);
     expect(result).to.eql(geojson);
   });
   it("overpassJSON2geoJSON: simple multipolygon", function () {
@@ -312,7 +312,7 @@ describe("overpass.geojson", function () {
                 }
               ],
               meta: {},
-              mp_inner: true
+              mp_outline: true
             },
             geometry: {
               type: "LineString",
@@ -331,7 +331,7 @@ describe("overpass.geojson", function () {
         features: []
       }
     ];
-    var result = overpass.overpassJSON2geoJSON(json);
+    var result = L.OSM4Leaflet.prototype._overpassJSON2geoJSON(json);
     expect(result).to.eql(geojson);
   });
   // tainted geometries
@@ -472,7 +472,7 @@ describe("overpass.geojson", function () {
         features: []
       }
     ];
-    var result = overpass.overpassJSON2geoJSON(json);
+    var result = L.OSM4Leaflet.prototype._overpassJSON2geoJSON(json);
     expect(result).to.eql(geojson);
   });
   // tags & pois
@@ -576,7 +576,7 @@ describe("overpass.geojson", function () {
         ]
       }
     ];
-    var result = overpass.overpassJSON2geoJSON(json);
+    var result = L.OSM4Leaflet.prototype._overpassJSON2geoJSON(json);
     expect(result).to.eql(geojson);
   });
   // relations
@@ -679,7 +679,7 @@ describe("overpass.geojson", function () {
         ]
       }
     ];
-    var result = overpass.overpassJSON2geoJSON(json);
+    var result = L.OSM4Leaflet.prototype._overpassJSON2geoJSON(json);
     expect(result).to.eql(geojson);
   });
   // meta info // todo +lines, +polygons
@@ -735,7 +735,7 @@ describe("overpass.geojson", function () {
         ]
       }
     ];
-    var result = overpass.overpassJSON2geoJSON(json);
+    var result = L.OSM4Leaflet.prototype._overpassJSON2geoJSON(json);
     expect(result).to.eql(geojson);
   });
 

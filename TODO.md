@@ -74,8 +74,8 @@ Several UI Improvements
 * map popups: ~~show coordinates of points~~ (and bbox of ways?), ~~show metadata (if present)~~
 * ~~tool: convert overpassql<->xml~~
 * ? better layer management: allow multiple layers to be set up (if #layers>1 show layer switcher). allow also other types of layers (WMS, ImageOverlay?)
-* ? fullscreen mode
-* make UI texts translatable
+* ~~wide map view~~
+* ~~make UI texts translatable~~
 * ~~export: to-josm should print a warning, when data is not in XML+meta format.~~
 * editor: pretty-print on button press
 * editor: highlighting of structural elements?
@@ -85,5 +85,7 @@ Several UI Improvements
 * implement short url generator
 * ~~disable "start at current pos" by default~~
 * ~~implement auto-correct for queries returning no nodes by adding recurse statements~~
-* fix for disappearing line and polygon features at low zoom.
-* print number of found elements (pois, ways, polygons)
+* ~~fix for disappearing line and polygon features at low zoom.~~
+* ~~print number of found elements (pois, ways, polygons)~~
+* ~~add "map key" to help~~
+* ~~add templates~~

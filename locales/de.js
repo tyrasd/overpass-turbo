@@ -48,6 +48,8 @@
   "settings.tile_opacity": "Deckkraft der Tiles",
   "settings.tile_opacity_expl": "Transparenz des Kartenhintergrunds: 0=transparent - 1=sichtbar",
   "settings.show_crosshairs": "Fadenkreuz in der Kartenmitte anzeigen",
+  "settings.disable_poiomatic": "Kleine Features nicht wie POIs darstellen",
+  "settings.show_data_stats": "Statistik über die geladenen und angezeigten Daten anzeigen",
 
   "settings.section.sharing": "Teilen",
   "settings.include_map_state": "Permalinks beinhalten Informationen zum Kartenausschnitt",
@@ -61,7 +63,11 @@
   "save.enter_name": "Name für diese Query:",
 
   "load.title": "Laden",
-  "load.select_query": "Query zum Laden auswählen:",
+  "load.delete_query": "Diese Query löschen",
+  "load.saved_queries": "Gespeicherte Queries",
+  "load.examples": "Beispiele",
+  "load.templates": "Vorlagen",
+  "load.no_saved_query": "Noch wurde keine Query gespeichert.",
 
   "export.title": "Exportieren",
 
@@ -128,6 +134,10 @@
   "help.ide.keyboard.load_save": "Laden (öffnen) bzw. Speichern einer Query",
   "help.ide.keyboard.help": "Diesen Hilfe-Dialog öffnen",
 
+  "help.section.key": "Legende",
+  "help.key.example": "einige Karten-Features",
+  "help.key.description": "Wege werden als dicke blaue Linien angezeigt, Polygone als gelbe Flächen mit dünner blauer Umrandung, POIs als gelbe Kreise mit dünner blauer Umrandung. Kreise mit rötlicher Füllung stehen für Wege oder Polygone, die für die Anzeige zu klein wären. Pinke Linien bedeuten, dass das jeweilige Element in mindestens einer Relation Mitglied ist. Gestrichelt werden Wege oder Polygone angezeigt, deren Geometrie nicht vollständig geladen wurde.",
+
   "help.section.export": "Export",
   "help.export": "Das <i>Export</i>-Tool beinhaltet verschiedene Export-Möglichkeiten.<br />Optionen mit diesem Symbol:<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span> führen auf externe (online) Tools.",
   "help.export.map.title": "Karte",
@@ -191,6 +201,18 @@
 
   "waiter.processing_query": "Query wird bearbeitet...",
   "waiter.export_as_image": "Exportiere als Bild...",
+
+  "data_stats.loaded": "geladen",
+  "data_stats.displayed": "angezeigt",
+  "data_stats.nodes": "Nodes",
+  "data_stats.ways": "Ways",
+  "data_stats.relations": "Relations",
+  "data_stats.areas": "Areas",
+  "data_stats.pois": "POIs",
+  "data_stats.lines": "Linien",
+  "data_stats.polygons": "Polygone",
+
+  "map.intentianally_blank": "Diese Karte ist leer.",
 
   "the end": ""
 }

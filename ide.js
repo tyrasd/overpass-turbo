@@ -101,36 +101,53 @@ var ide = new(function() {
     var override_use_html5_coords = false;
     if (location.search != "") {
       var get = location.search.substring(1).split("&");
+      var args = {};
       for (var i=0; i<get.length; i++) {
         var kv = get[i].split("=");
-        if (kv[0] == "q") // compressed query set in url
-          settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(kv[1])));
-        if (kv[0] == "Q") // uncompressed query set in url
-          settings.code["overpass"] = decodeURIComponent(kv[1]);
-        if (kv[0] == "c") { // map center & zoom (compressed)
-          var tmp = kv[1].match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
-          var decode_coords = function(str) {
-            var coords_cpr = Base64.decodeNum(str);
-            var res = {};
-            res.lat = coords_cpr % (180*100000) / 100000 - 90;
-            res.lng = Math.floor(coords_cpr / (180*100000)) / 100000 - 180;
-            return res;
+        args[kv[0]] = kv[1] || true;
+      }
+      if (args.q) // compressed query set in url
+        settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(args.q)));
+      if (args.Q) // uncompressed query set in url
+        settings.code["overpass"] = decodeURIComponent(args.Q);
+      if (args.c) { // map center & zoom (compressed)
+        var tmp = args.c.match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
+        var decode_coords = function(str) {
+          var coords_cpr = Base64.decodeNum(str);
+          var res = {};
+          res.lat = coords_cpr % (180*100000) / 100000 - 90;
+          res.lng = Math.floor(coords_cpr / (180*100000)) / 100000 - 180;
+          return res;
+        }
+        var coords = decode_coords(tmp[1]);
+        settings.coords_zoom = Base64.decodeNum(tmp[2]);
+        settings.coords_lat = coords.lat;
+        settings.coords_lon = coords.lng;
+        override_use_html5_coords = true;
+      }
+      if (args.C) { // map center & zoom (uncompressed)
+        var tmp = args.C.match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
+        settings.coords_lat = +tmp[1];
+        settings.coords_lon = +tmp[2];
+        settings.coords_zoom = +tmp[3];
+        override_use_html5_coords = true;
+      }
+      if (args.R) { // indicates that the supplied query shall be executed immediately
+        ide.run_query_on_startup = true;
+      }
+      if (args.template) { // load a template
+        var template = settings.saves[args.template];
+        if (template && template.type == "template") {
+          // build query
+          var q = template.overpass;
+          var params = template.parameters;
+          for (var i=0; i<params.length; i++) {
+            var param = params[i];
+            var value = decodeURIComponent(args[param]);
+            if (!value) continue;
+            q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
           }
-          var coords = decode_coords(tmp[1]);
-          settings.coords_zoom = Base64.decodeNum(tmp[2]);
-          settings.coords_lat = coords.lat;
-          settings.coords_lon = coords.lng;
-          override_use_html5_coords = true;
-        }
-        if (kv[0] == "C") { // map center & zoom (uncompressed)
-          var tmp = kv[1].match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
-          settings.coords_lat = +tmp[1];
-          settings.coords_lon = +tmp[2];
-          settings.coords_zoom = +tmp[3];
-          override_use_html5_coords = true;
-        }
-        if (kv[0] == "R") { // indicates that the supplied query shall be executed immediately
-          ide.run_query_on_startup = true;
+          settings.code["overpass"] = q;
         }
       }
       settings.save();
@@ -284,44 +301,6 @@ var ide = new(function() {
       settings.coords_zoom = ide.map.getZoom();
       settings.save(); // save settings
     });
-    // show small features like POIs
-    ide.map.on("zoomend",function(e) {
-      // todo: move this functionality to new osmLayer class
-      // todo: remove all globals (ide.map, overpass.geojsonLayer)
-      // todo: possible optimizations: zoomOut = skip already compressed objects (and vice versa)
-      var is_max_zoom = ide.map.getZoom() == ide.map.getMaxZoom();
-      if (!overpass.geojsonLayer) return;
-      overpass.geojsonLayer.eachLayer(function(o) {
-        // todo: skip point features!
-        if (o.feature && o.feature.geometry.type == "Point") return;
-        var crs = ide.map.options.crs;
-        if (o.object) { // already compressed feature
-          var bounds = o.object.getBounds();
-          var p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
-          var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
-          var d = Math.sqrt(Math.pow(p1.x-p2.x,2)+Math.pow(p1.y-p2.y,2));
-          if (d >= 9 || is_max_zoom) {
-            overpass.geojsonLayer.addLayer(o.object);
-            overpass.geojsonLayer.removeLayer(o);
-          }
-          return;
-        }
-        if (is_max_zoom) return; // do not compress objects at max zoom
-        var bounds = o.getBounds();
-        var p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
-        var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
-        var d = Math.sqrt(Math.pow(p1.x-p2.x,2)+Math.pow(p1.y-p2.y,2));
-        if (d >= 9) return;
-        var c = L.circleMarker(o.getBounds().getCenter(), {radius:9, fillColor:"red"});
-        c.object = o;
-        c.on("click", function(e) {
-          this.object.fire("click",e);
-        });
-        // todo: remove globals (add context param to eachLayer()?)
-        overpass.geojsonLayer.addLayer(c);
-        overpass.geojsonLayer.removeLayer(o);
-      });
-    });
 
     // disabled buttons
     $("a.disabled").bind("click",function() { return false; });
@@ -369,7 +348,7 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.zoom_to_data");
         L.DomEvent.addListener(link, 'click', function() {
-          try {ide.map.fitBounds(overpass.geojsonLayer.getBounds()); } catch (e) {}  
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}  
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
@@ -416,7 +395,9 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.clear_data");
         L.DomEvent.addListener(link, 'click', function(e) {
-          ide.map.removeLayer(overpass.geojsonLayer);
+          ide.map.removeLayer(overpass.osmLayer);
+          $("#map_blank").remove();
+          $("#data_stats").remove();
         }, ide.map);
         return container;
       },
@@ -509,12 +490,14 @@ var ide = new(function() {
         var layer_fun;
         if (e.type == "popupopen")
           layer_fun = function(l) {
-            l.setStyle({color:"#f50",_color:l.options["color"]});
+            l.setStyle({color:"#f50",fillColor:"#f50",_color:l.options["color"],_fillColor:l.options["fillColor"]});
           };
         else // e.type == "popupclose"
           layer_fun = function(l) {
             l.setStyle({color:l.options["_color"]});
+            l.setStyle({fillColor:l.options["_fillColor"]});
             delete l.options["_color"];
+            delete l.options["_fillColor"];
           };
         if (typeof layer.eachLayer == "function")
           layer.eachLayer(layer_fun);
@@ -530,7 +513,7 @@ var ide = new(function() {
     overpass.handlers["onDone"] = function() {
       ide.waiter.close();
       var map_bounds  = ide.map.getBounds();
-      var data_bounds = overpass.geojsonLayer.getBounds();
+      var data_bounds = overpass.osmLayer.getBaseLayer().getBounds();
       if (data_bounds.isValid() && !map_bounds.intersects(data_bounds)) {
         // show tooltip for button "zoom to data"
         var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
@@ -577,7 +560,7 @@ var ide = new(function() {
       if (data_mode == "unknown")
         ide.switchTab("Data");
       // display empty map badge
-      $('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");
+      $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">'+i18n.t("map.intentianally_blank")+' <small>('+empty_msg+')</small></div>').appendTo("#map");
     }
     overpass.handlers["onAjaxError"] = function(errmsg) {
       // show error dialog
@@ -607,8 +590,25 @@ var ide = new(function() {
       ide.dataViewer.setValue(overpass.resultText);
     }
     overpass.handlers["onGeoJsonReady"] = function() {
-      ide.map.addLayer(overpass.geojsonLayer);
-      ide.map.fire("zoomend");
+      ide.map.addLayer(overpass.osmLayer);
+      // display stats
+      if (settings.show_data_stats) {
+        var stats = overpass.stats;
+        var stats_txt = (
+          "<small>"+i18n.t("data_stats.loaded")+"</small>&nbsp;&ndash;&nbsp;"+
+          ""+i18n.t("data_stats.nodes")+":&nbsp;"+stats.data.nodes+
+          ", "+i18n.t("data_stats.ways")+":&nbsp;"+stats.data.ways+
+          ", "+i18n.t("data_stats.relations")+":&nbsp;"+stats.data.relations+
+          (stats.data.areas>0 ? ", "+i18n.t("data_stats.areas")+":&nbsp;"+stats.data.areas : "") +
+          "<br/>"+
+          "<small>"+i18n.t("data_stats.displayed")+"</small>&nbsp;&ndash;&nbsp;"+
+          ""+i18n.t("data_stats.pois")+":&nbsp;"+stats.geojson.pois+
+          ", "+i18n.t("data_stats.lines")+":&nbsp;"+stats.geojson.lines+
+          ", "+i18n.t("data_stats.polygons")+":&nbsp;"+stats.geojson.polys+
+          "</small>"
+        );
+        $('<div id="data_stats" style="z-index:5; display:block; position:absolute; bottom:0px; right:0; width:auto; text-align:right; padding: 0 0.5em; background-color:#eee; opacity: 0.8;">'+stats_txt+'</div>').appendTo("#map");
+      }
     }
     overpass.handlers["onPopupReady"] = function(p) {
       p.openOn(ide.map);
@@ -799,20 +799,27 @@ var ide = new(function() {
 
   // Event handlers
   this.onLoadClick = function() {
-    $("#load-dialog ul").html(""); // reset example list
+    $("#load-dialog ul").html(""); // reset example lists
     // load example list
-    for(var example in settings.saves)
+    var has_saved_query = false;
+    for(var example in settings.saves) {
+      var type = settings.saves[example].type;
       $('<li>'+
           '<a href="" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
-          '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
-        '</li>').appendTo("#load-dialog ul");
+          (type != 'template' ? '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>' : '')+
+        '</li>').appendTo("#load-dialog ul."+type);
+      if (type == "saved_query")
+        has_saved_query = true;
+    }
+    if (!has_saved_query)
+      $('<li>'+i18n.t("load.no_saved_query")+'</li>').appendTo("#load-dialog ul.saved_query");
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $("#load-dialog").dialog({
       modal:true,
       buttons: dialog_buttons,
     });
-    
+    $("#load-dialog").accordion({active: has_saved_query ? 0 : 1});
   }
   this.onSaveClick = function() {
     // combobox for existing saves.
@@ -914,12 +921,13 @@ var ide = new(function() {
     });
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
-      if (!overpass.resultData)
+      var geojson = overpass.geojson;
+      if (!geojson)
         geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
         var gJ = [];
         // concatenate feature collections
-        $.each(overpass.resultData,function(i,d) {gJ = gJ.concat(d.features);});
+        $.each(geojson,function(i,d) {gJ = gJ.concat(d.features);});
         gJ = {
           type: "FeatureCollection",
           generator: settings.appname,
@@ -1036,8 +1044,7 @@ var ide = new(function() {
     // todo: also hide popups?
     ide.waiter.addInfo("prepare map");
     $("#map .leaflet-control-container .leaflet-top").hide();
-    $('a[title="Zoom in"]').removeClass("leaflet-control-zoom-in");
-    $('a[title="Zoom out"]').removeClass("leaflet-control-zoom-out");
+    $("#data_stats").hide();
     if (settings.export_image_attribution) attribControl.addTo(ide.map);
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
@@ -1045,8 +1052,7 @@ var ide = new(function() {
     $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
-      $('a[title="Zoom in"]').addClass("leaflet-control-zoom-in");
-      $('a[title="Zoom out"]').addClass("leaflet-control-zoom-out");
+      $("#data_stats").show();
       $("#map .leaflet-control-container .leaflet-top").show();
       ide.waiter.addInfo("rendering map data");
       // 2. render overlay data onto canvas
@@ -1118,6 +1124,9 @@ var ide = new(function() {
     ]);
     $("#settings-dialog input[name=background_opacity]")[0].value = settings.background_opacity;
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
+    $("#settings-dialog input[name=disable_poiomatic]")[0].checked = settings.disable_poiomatic;
+    $("#settings-dialog input[name=show_data_stats]")[0].checked = settings.show_data_stats;
+    // export settings
     $("#settings-dialog input[name=export_image_scale]")[0].checked = settings.export_image_scale;
     $("#settings-dialog input[name=export_image_attribution]")[0].checked = settings.export_image_attribution;
     // open dialog
@@ -1153,6 +1162,8 @@ var ide = new(function() {
         else
           ide.map.inv_opacity_layer.setOpacity(1-settings.background_opacity).addTo(ide.map);
       settings.enable_crosshairs = $("#settings-dialog input[name=enable_crosshairs]")[0].checked;
+      settings.disable_poiomatic = $("#settings-dialog input[name=disable_poiomatic]")[0].checked;
+      settings.show_data_stats = $("#settings-dialog input[name=show_data_stats]")[0].checked;
       $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
       settings.export_image_scale = $("#settings-dialog input[name=export_image_scale]")[0].checked;
       settings.export_image_attribution = $("#settings-dialog input[name=export_image_attribution]")[0].checked;
@@ -1199,12 +1210,13 @@ var ide = new(function() {
   this.update_map = function() {
     ide.waiter.open(i18n.t("waiter.processing_query"));
     ide.waiter.addInfo("resetting map");
+    $("#data_stats").remove();
     // resets previously highlighted error lines
     this.resetErrors();
     // reset previously loaded data and overlay
     ide.dataViewer.setValue("");
-    if (typeof overpass.geojsonLayer != "undefined")
-      ide.map.removeLayer(overpass.geojsonLayer);
+    if (typeof overpass.osmLayer != "undefined")
+      ide.map.removeLayer(overpass.osmLayer);
     $("#map_blank").remove();
 
     // run the query via the overpass object

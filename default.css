@@ -325,4 +325,7 @@ body .ui-tooltip {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-
+#load-dialog .delete-query {
+  position: absolute;
+  right: 24px;
+}

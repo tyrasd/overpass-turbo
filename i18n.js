@@ -77,6 +77,9 @@ var i18n = new(function() {
     "dialog.delete_query.title": "Delete Query?",
     "dialog.delete_query.expl": "Do you really want to delete the following query",
 
+    "load.delete_query": "delete this query",
+    "load.no_saved_query": "no saved query yet",
+
     "error.query.title": "Query Error",
     "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",
     "error.ajax.title": "Ajax Error",
@@ -115,6 +118,18 @@ var i18n = new(function() {
     "export.image.alt": "the exported map",
     "export.image.download": "Download",
     "export.image.attribution_missing": "Make sure to include proper attributions when distributing this image!",
+
+    "data_stats.loaded": "Loaded",
+    "data_stats.displayed": "Displayed",
+    "data_stats.nodes": "nodes",
+    "data_stats.ways": "ways",
+    "data_stats.relations": "relations",
+    "data_stats.areas": "areas",
+    "data_stats.pois": "pois",
+    "data_stats.lines": "lines",
+    "data_stats.polygons": "polygons",
+
+    "map.intentianally_blank": "This map intentionally left blank.",
 
     "the end":""
   };

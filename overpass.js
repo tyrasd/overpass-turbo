@@ -6,340 +6,7 @@ var overpass = new(function() {
   // == public members ==
   this.handlers = {};
 
-  this.overpassJSON2geoJSON = function(json) {
-    // 2. sort elements
-    var nodes = new Array();
-    var ways  = new Array();
-    var rels  = new Array();
-    for (var i=0;i<json.elements.length;i++) {
-      switch (json.elements[i].type) {
-        case "node":
-          nodes.push(json.elements[i]);
-          break;
-        case "way":
-          ways.push(json.elements[i]);
-          break;
-        case "relation":
-          rels.push(json.elements[i]);
-          break;
-        default:
-          // type=area (from coord-query) is an example for this case.
-      }
-    }
-    return convert2geoJSON(nodes,ways,rels);
-  }
-  this.overpassXML2geoJSON = function(xml) {
-    // 2. sort elements
-    var nodes = new Array();
-    var ways  = new Array();
-    var rels  = new Array();
-    // nodes
-    $("node",xml).each(function(i) {
-      var tags = new Object();
-      $(this).find("tag").each(function(i) {
-        tags[$(this).attr("k")] = $(this).attr("v");
-      });
-      nodes[i] = {
-        "id":   $(this).attr("id"),
-        "lat":  $(this).attr("lat"),
-        "lon":  $(this).attr("lon"),
-        "version": $(this).attr("version"),
-        "timestamp": $(this).attr("timestamp"),
-        "changeset": $(this).attr("changeset"),
-        "uid": $(this).attr("uid"),
-        "user": $(this).attr("user"),
-        "type": "node",
-      };
-      if (!$.isEmptyObject(tags))
-        nodes[i].tags = tags;
-    });
-    // ways
-    $("way",xml).each(function(i) {
-      var tags = new Object();
-      var wnodes = new Array();
-      $(this).find("tag").each(function(i) {
-        tags[$(this).attr("k")] = $(this).attr("v");
-      });
-      $(this).find("nd").each(function(i) {
-        wnodes[i] = $(this).attr("ref");
-      });
-      ways[i] = {
-        "id":   $(this).attr("id"),
-        "tags": tags,
-        "version": $(this).attr("version"),
-        "timestamp": $(this).attr("timestamp"),
-        "changeset": $(this).attr("changeset"),
-        "uid": $(this).attr("uid"),
-        "user": $(this).attr("user"),
-        "type": "way",
-      };
-      if (wnodes.length > 0)
-        ways[i].nodes = wnodes;
-      if (!$.isEmptyObject(tags))
-        ways[i].tags = tags;
-    });
-    // relations
-    $("relation",xml).each(function(i) {
-      var tags = new Object();
-      var members = new Array();
-      $(this).find("tag").each(function(i) {
-        tags[$(this).attr("k")] = $(this).attr("v");
-      });
-      $(this).find("member").each(function(i) {
-        members[i] = {
-          "ref":  $(this).attr("ref"),
-          "role": $(this).attr("role"),
-          "type": $(this).attr("type"),
-        };
-      });
-      rels[i] = {
-        "id":   $(this).attr("id"),
-        "tags": tags,
-        "version": $(this).attr("version"),
-        "timestamp": $(this).attr("timestamp"),
-        "changeset": $(this).attr("changeset"),
-        "uid": $(this).attr("uid"),
-        "user": $(this).attr("user"),
-        "type": "relation",
-      };
-      if (members.length > 0)
-        rels[i].members = members;
-      if (!$.isEmptyObject(tags))
-        rels[i].tags = tags;
-    });
-    return convert2geoJSON(nodes,ways,rels);
-  }
-
   // == private methods ==
-  var convert2geoJSON = function(nodes,ways,rels) {
-    // 3. some data processing (e.g. filter nodes only used for ways)
-    var nodeids = new Object();
-    for (var i=0;i<nodes.length;i++) {
-      if (!$.isNumeric(nodes[i].lat))
-        continue; // ignore nodes without coordinates (e.g. returned by an ids_only query)
-      nodeids[nodes[i].id] = nodes[i];
-    }
-    var poinids = new Object();
-    for (var i=0;i<nodes.length;i++) {
-      if (typeof nodes[i].tags != 'undefined' &&
-          (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(nodes[i].tags)) // this checks if the node has any tags other than "created_by"
-        poinids[nodes[i].id] = true;
-    }
-    for (var i=0;i<rels.length;i++) {
-      if (!$.isArray(rels[i].members))
-        continue; // ignore relations without members (e.g. returned by an ids_only query)
-      for (var j=0;j<rels[i].members.length;j++) {
-        if (rels[i].members[j].type == "node")
-          poinids[rels[i].members[j].ref] = true;
-      }
-    }
-    var wayids = new Object();
-    var waynids = new Object();
-    for (var i=0;i<ways.length;i++) {
-      if (!$.isArray(ways[i].nodes))
-        continue; // ignore ways without nodes (e.g. returned by an ids_only query)
-      wayids[ways[i].id] = ways[i];
-      for (var j=0;j<ways[i].nodes.length;j++) {
-        waynids[ways[i].nodes[j]] = true;
-        ways[i].nodes[j] = nodeids[ways[i].nodes[j]];
-      }
-    }
-    var pois = new Array();
-    for (var i=0;i<nodes.length;i++) {
-      if ((!waynids[nodes[i].id]) ||
-          (poinids[nodes[i].id]))
-        pois.push(nodes[i]);
-    }
-    var relids = new Array();
-    for (var i=0;i<rels.length;i++) {
-      if (!$.isArray(rels[i].members))
-        continue; // ignore relations without members (e.g. returned by an ids_only query)
-      relids.push(rels[i].id);
-      for (var j=0;j<rels[i].members.length;j++) {
-        switch (rels[i].members[j].type) {
-        case "node":
-          var n = nodeids[rels[i].members[j].ref];
-          if (n) { // typeof n != "undefined"
-            if (typeof n.relations == "undefined")
-              n.relations = new Array();
-            n.relations.push({
-              "rel" : rels[i].id, // todo: id??
-              "role" : rels[i].members[j].role,
-              "reltags" : rels[i].tags, // todo: tags??
-            });
-          }
-        break;
-        case "way":
-          var w = wayids[rels[i].members[j].ref];
-          if (w) { // typeof w != "undefined"
-            if (typeof w.relations == "undefined")
-              w.relations = new Array();
-            w.relations.push({
-              "rel" : rels[i].id,
-              "role" : rels[i].members[j].role,
-              "reltags" : rels[i].tags,
-            });
-          }
-        break;
-        default:
-        }
-      }
-    }
-    // 4. construct geojson
-    var geojson = new Array();
-    var geojsonnodes = {
-      "type"     : "FeatureCollection",
-      "features" : new Array()};
-    for (i=0;i<pois.length;i++) {
-      if (typeof pois[i].lon == "undefined" || typeof pois[i].lat == "undefined")
-        continue; // lon and lat are required for showing a point
-      geojsonnodes.features.push({
-        "type"       : "Feature",
-        "properties" : {
-          "type" : "node",
-          "id"   : pois[i].id,
-          "tags" : pois[i].tags || {},
-          "relations" : pois[i].relations || [],
-          "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": pois[i].timestamp, "version": pois[i].version, "changeset": pois[i].changeset, "user": pois[i].user, "uid": pois[i].uid}),
-        },
-        "geometry"   : {
-          "type" : "Point",
-          "coordinates" : [+pois[i].lon, +pois[i].lat],
-        }
-      });
-    }
-    var geojsonlines = {
-      "type"     : "FeatureCollection",
-      "features" : new Array()};
-    var geojsonpolygons = {
-      "type"     : "FeatureCollection",
-      "features" : new Array()};
-    // process simple multipolygons
-    for (var i=0;i<rels.length;i++) {
-      if ((typeof rels[i].tags != "undefined") &&
-          (rels[i].tags["type"] == "multipolygon")) {
-        if (!$.isArray(rels[i].members))
-          continue; // ignore relations without members (e.g. returned by an ids_only query)
-        var outer_count = 0;
-        for (var j=0;j<rels[i].members.length;j++)
-          if (rels[i].members[j].role == "outer")
-            outer_count++;
-        if (outer_count != 1)
-          continue; // abort this complex multipolygon
-        rels[i].tainted = false;
-        var outer_coords = new Array();
-        var inner_coords = new Array();
-        var outer_way = undefined;
-        for (var j=0;j<rels[i].members.length;j++) {
-          if ((rels[i].members[j].type == "way") &&
-              $.inArray(rels[i].members[j].role, ["outer","inner"]) != -1) {
-            var w = wayids[rels[i].members[j].ref];
-            if (typeof w == "undefined") {
-              rels[i].tainted = true;
-              continue;
-            }
-            var coords = new Array();
-            for (var k=0;k<w.nodes.length;k++) {
-              if (typeof w.nodes[k] == "object")
-                  coords.push([+w.nodes[k].lon, +w.nodes[k].lat]);
-              else
-                rels[i].tainted = true;
-            }
-            if (rels[i].members[j].role == "outer") {
-              outer_coords.push(coords);
-              w.is_multipolygon = true;
-              outer_way = w;
-            } else if (rels[i].members[j].role == "inner") {
-              inner_coords.push(coords);
-              w.is_multipolygon_inner = true;
-            }
-          }
-        }
-        if (typeof outer_way == "undefined")
-          continue; // abort if outer way object is not present
-        if (outer_coords[0].length == 0)
-          continue; // abort if coordinates of outer way is not present
-        //way_type = "MultiPolygon";
-        way_type = "Polygon";
-        var feature = {
-          "type"       : "Feature",
-          "properties" : {
-            "type" : "way",
-            "id"   : outer_way.id,
-            "tags" : outer_way.tags || {},
-            "relations" : outer_way.relations || [],
-            "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": outer_way.timestamp, "version": outer_way.version, "changeset": outer_way.changeset, "user": outer_way.user, "uid": outer_way.uid}),
-          },
-          "geometry"   : {
-            "type" : way_type,
-            "coordinates" : ([].concat(outer_coords,inner_coords)),
-          }
-        }
-        if (rels[i].tainted)
-          feature.properties["tainted"] = true;
-        geojsonpolygons.features.push(feature);
-      }
-    }
-    // process lines and polygons
-    for (var i=0;i<ways.length;i++) {
-      if (!$.isArray(ways[i].nodes))
-        continue; // ignore ways without nodes (e.g. returned by an ids_only query)
-      if (ways[i].is_multipolygon)
-        continue; // ignore ways which are already rendered as multipolygons
-      ways[i].tainted = false;
-      ways[i].hidden = false;
-      coords = new Array();
-      for (j=0;j<ways[i].nodes.length;j++) {
-        if (typeof ways[i].nodes[j] == "object")
-          coords.push([+ways[i].nodes[j].lon, +ways[i].nodes[j].lat]);
-        else
-          ways[i].tainted = true;
-      }
-      if (coords.length <= 1) // invalid way geometry
-        continue;
-      var way_type = "LineString"; // default
-      if (typeof ways[i].nodes[0] != "undefined" && ways[i].nodes[0] == ways[i].nodes[ways[i].nodes.length-1]) {
-        if (typeof ways[i].tags != "undefined")
-          if ((typeof ways[i].tags["landuse"] != "undefined") ||
-              (typeof ways[i].tags["building"] != "undefined") ||
-              (typeof ways[i].tags["leisure"] != "undefined") ||
-              (typeof ways[i].tags["amenity"] != "undefined") ||
-              (ways[i].tags["area"] == "yes") ||
-              ($.inArray(ways[i].tags["natural"], new Array("forest","wood","water")) != -1) ||
-              false) 
-             way_type="Polygon";
-        if (way_type == "Polygon")
-          coords = [coords];
-      }
-      var feature = {
-        "type"       : "Feature",
-        "properties" : {
-          "type" : "way",
-          "id"   : ways[i].id,
-          "tags" : ways[i].tags || {},
-          "relations" : ways[i].relations || [],
-          "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": ways[i].timestamp, "version": ways[i].version, "changeset": ways[i].changeset, "user": ways[i].user, "uid": ways[i].uid}),
-        },
-        "geometry"   : {
-          "type" : way_type,
-          "coordinates" : coords,
-        }
-      }
-      if (ways[i].tainted)
-        feature.properties["tainted"] = true;
-      if (ways[i].is_multipolygon_inner)
-        feature.properties["mp_inner"] = true;
-      if (way_type == "LineString")
-        geojsonlines.features.push(feature);
-      else
-        geojsonpolygons.features.push(feature);
-    }
-
-    geojson.push(geojsonpolygons);
-    geojson.push(geojsonlines);
-    geojson.push(geojsonnodes);
-    return geojson;
-  }
   var fire = function() {
     var args = fire.arguments;
     var name = args[0];
@@ -374,7 +41,7 @@ var overpass = new(function() {
     var request_headers = {};
     var additional_get_data = "";
     if (settings.force_simple_cors_request) {
-      additional_get_data = "?X-Requested-With="+settings.appname; // todo: move appname to settings object?
+      additional_get_data = "?X-Requested-With="+settings.appname;
     } else {
       request_headers["X-Requested-With"] = settings.appname;
     }
@@ -387,7 +54,7 @@ var overpass = new(function() {
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
         var geojson;
-        overpass.resultData = null;
+        var stats = {};
         fire("onProgress", "parsing data");
         // hacky firefox hack :( (it is not properly detecting json from the content-type header)
         if (typeof data == "string" && data[0] == "{") { // if the data is a string, but looks more like a json object
@@ -430,55 +97,52 @@ var overpass = new(function() {
           }
           // the html error message returned by overpass API looks goods also in xml mode ^^
           overpass.resultType = "error";
-          geojson = [{features:[]}, {features:[]}, {features:[]}];
+          data = {elements:[]};
+          overpass.timestamp = undefined;
+          overpass.copyright = undefined;
+          stats.data = {nodes: 0, ways: 0, relations: 0, areas: 0};
+          //geojson = [{features:[]}, {features:[]}, {features:[]}];
         } else if (typeof data == "object" && jqXHR.responseXML) { // xml data
           overpass.resultType = "xml";
           data_mode = "xml";
           overpass.timestamp = $("osm > meta:first-of-type",data).attr("osm_base");
           overpass.copyright = $("osm > note:first-of-type",data).text();
-          // convert to geoJSON
-          geojson = overpass.overpassXML2geoJSON(data);
+          stats.data = {
+            nodes:     $("osm > node",data).length,
+            ways:      $("osm > way",data).length,
+            relations: $("osm > relation",data).length,
+            areas:     $("osm > area",data).length
+          };
+          //// convert to geoJSON
+          //geojson = overpass.overpassXML2geoJSON(data);
         } else { // maybe json data
           overpass.resultType = "javascript";
           data_mode = "json";
           overpass.timestamp = data.osm3s.timestamp_osm_base;
           overpass.copyright = data.osm3s.copyright;
-          // convert to geoJSON
-          geojson = overpass.overpassJSON2geoJSON(data);
+          stats.data = {
+            nodes:     $.grep(data.elements, function(d) {return d.type=="node"}).length,
+            ways:      $.grep(data.elements, function(d) {return d.type=="way"}).length,
+            relations: $.grep(data.elements, function(d) {return d.type=="relation"}).length,
+            areas:     $.grep(data.elements, function(d) {return d.type=="area"}).length,
+          };
+          //// convert to geoJSON
+          //geojson = overpass.overpassJSON2geoJSON(data);
         }
-        overpass.resultData = geojson;
-        // print raw data
-        fire("onProgress", "printing raw data");
-        overpass.resultText = jqXHR.responseText;
-        fire("onRawDataPresent");
-        // 5. add geojson to map - profit :)
-        // auto-tab-switching: if there is only non map-visible data, show it directly
-        if (geojson[0].features.length == 0 && geojson[1].features.length == 0 && geojson[2].features.length == 0) { // no visible data
-          // switch only if there is some unplottable data in the returned json/xml.
-          if ((data_mode == "json" && data.elements.length > 0) ||
-              (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
-            // check for "only areas returned"
-            if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type!="area") return false; return true;})(data.elements)) ||
-                (data_mode == "xml" && $("osm",data).children().not("note,meta,area").length == 0))
-              empty_msg = "only areas returned";
-            // check for "ids_only"
-            else if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type=="node") return true; return false;})(data.elements)) ||
-                     (data_mode == "xml" && $("osm",data).children().filter("node").length != 0))
-              empty_msg = "no coordinates returned";
-            else
-              empty_msg = "no visible data";
-          } else if(data_mode == "error") {
-            empty_msg = "an error occured";
-          } else if(data_mode == "unknown") {
-            empty_msg = "unstructured data returned";
-          } else {
-            empty_msg = "recieved empty dataset";
-          }
-          // show why there is an empty map
-          fire("onEmptyMap", empty_msg, data_mode);
-        }
-        fire("onProgress", "rendering geoJSON");
-        overpass.geojsonLayer = new L.GeoJSON(null, {
+
+        //overpass.geojsonLayer = 
+          //new L.GeoJSON(null, {
+          //new L.GeoJsonNoVanish(null, {
+        overpass.osmLayer =
+         new L.OSM4Leaflet(null, {
+          data_mode: data_mode,
+          afterParse: function() {fire("onProgress", "rendering geoJSON");},
+          baseLayerClass: settings.disable_poiomatic ? L.GeoJSON : L.GeoJsonNoVanish,
+          baseLayerOptions: {
+          threshold: 9*Math.sqrt(2)*2,
+          compress: function(feature) {
+            return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
+          },
           style: function(feature) {
             var stl = {};
             var color = "#03f";
@@ -512,8 +176,8 @@ var overpass = new(function() {
             if (feature.properties && feature.properties.tainted==true) {
               stl.dashArray = "5,8";
             }
-            // multipolygon inner lines without tags
-            if (feature.properties && feature.properties.mp_inner==true)
+            // multipolygon outlines without tags
+            if (feature.properties && feature.properties.mp_outline==true)
               if (typeof feature.properties.tags == "undefined" ||
                   $.isEmptyObject(feature.properties.tags)) {
                 stl.opacity = 0.7;
@@ -522,6 +186,10 @@ var overpass = new(function() {
             // objects in relations
             if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
               stl.color = relColor;
+            }
+
+            if (feature.is_placeholder) {
+              stl.fillColor = "red";
             }
 
             return stl;
@@ -536,8 +204,12 @@ var overpass = new(function() {
               var popup = "";
               if (feature.properties.type == "node")
                 popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.properties.id+"'>"+feature.properties.id+"</a></h2>";
-              else
+              else if (feature.properties.type == "way")
                 popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.properties.id+"'>"+feature.properties.id+"</a></h2>";
+              else if (feature.properties.type == "relation")
+                popup += "<h2>Relation <a href='http://www.openstreetmap.org/browse/relation/"+feature.properties.id+"'>"+feature.properties.id+"</a></h2>";
+              else
+                popup += "<h2>"+feature.properties.type+" #"+feature.properties.id+"</h2>";
               if (feature.properties && feature.properties.tags && !$.isEmptyObject(feature.properties.tags)) {
                 popup += '<h3>Tags:</h3><ul class="plain">';
                 $.each(feature.properties.tags, function(k,v) {
@@ -585,11 +257,54 @@ var overpass = new(function() {
               fire("onPopupReady", p);
             });
           },
-        });
-        for (i=0;i<geojson.length;i++) {
-          overpass.geojsonLayer.addData(geojson[i]);
-        }
+        }});
+        overpass.osmLayer.addData(data);
+
+        // save geojson
+        geojson = overpass.osmLayer.getGeoJSON();
+        overpass.geojson = geojson;
+
+        // calc stats
+        stats.geojson = {
+          polys: geojson[0].features.length,
+          lines: geojson[1].features.length,
+          pois:  geojson[2].features.length
+        };
+        overpass.stats = stats;
+
         fire("onGeoJsonReady");
+
+        // print raw data
+        fire("onProgress", "printing raw data");
+        overpass.resultText = jqXHR.responseText;
+        fire("onRawDataPresent");
+        // 5. add geojson to map - profit :)
+        // auto-tab-switching: if there is only non map-visible data, show it directly
+        if (geojson[0].features.length == 0 && geojson[1].features.length == 0 && geojson[2].features.length == 0) { // no visible data
+          // switch only if there is some unplottable data in the returned json/xml.
+          if ((data_mode == "json" && data.elements.length > 0) ||
+              (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
+            // check for "only areas returned"
+            if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type!="area") return false; return true;})(data.elements)) ||
+                (data_mode == "xml" && $("osm",data).children().not("note,meta,area").length == 0))
+              empty_msg = "only areas returned";
+            // check for "ids_only"
+            else if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type=="node") return true; return false;})(data.elements)) ||
+                     (data_mode == "xml" && $("osm",data).children().filter("node").length != 0))
+              empty_msg = "no coordinates returned";
+            else
+              empty_msg = "no visible data";
+          } else if(data_mode == "error") {
+            empty_msg = "an error occured";
+          } else if(data_mode == "unknown") {
+            empty_msg = "unstructured data returned";
+          } else {
+            empty_msg = "recieved empty dataset";
+          }
+          // show why there is an empty map
+          fire("onEmptyMap", empty_msg, data_mode);
+        }
+
         // closing wait spinner
         fire("onDone");
       },

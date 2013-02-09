@@ -20,6 +20,9 @@
   <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
   <script src="libs/locationfilter/src/locationfilter.js"></script>
   <link rel="stylesheet" href="libs/locationfilter/src/locationfilter.css"/>
+  <!--leaflet extensions-->
+  <script src="libs/GeoJsonNoVanish.js"></script>
+  <script src="libs/OSM4Leaflet.js"></script>
   <!--misc libraries-->
   <script src="libs/misc.min.js"></script>
   <!--jQuery UI-->
@@ -100,6 +103,11 @@
         <li><i>Ctrl+H</i> - <span class="t" t="help.ide.keyboard.help">Open this help dialog.</span></li>
       </ul>
     </div>
+    <h3><a class="t" t="help.section.key">Map Key</a></h3>
+    <div>
+      <img src="map-key.png" alt="various map features" class="t" t="[alt]help.key.example" />
+      <p class="t" t="help.key.description">Ways are shown as bold blue lines, Polygons as yellow areas with a thin blue outline, POIs (nodes with tags) as yellow circles with a thin blue outline. Circles with a red filling stand for polygons or ways that are too small to be displayed normally. Pink lines or outlines mean, that an object is part of at least one (loaded) relation. Dashed lines mean that a way or polygon has incomplete geometry (most likely because some of its nodes have not been loaded).</p>
+    </div>
     <h3><a class="t" t="help.section.export">Export</a></h3>
     <div>
       <p class="t" t="[html]help.export">The <i>Export</i> tool holds a variety of options to do with the query and/or data loaded by the query.<br />
@@ -155,6 +163,8 @@
       <p><label><span class="t" t="settings.tile_server">Tile-Server</span>:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
       <p><label><span class="t" t="settings.tile_opacity">Tiles Opacity</span>:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(<span class="t" t="settings.tile_opacity_expl">transparency of background tiles: 0=tansparent &hellip; 1=visible</span>)</small></p>
       <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;<span class="t" t="settings.show_crosshairs">Show crosshairs at the map center.</span></p>
+      <p><input type="checkbox" name="disable_poiomatic"/>&nbsp;<span class="t" t="settings.disable_poiomatic">Don't display small features as POIs.</span></p>
+      <p><input type="checkbox" name="show_data_stats"/>&nbsp;<span class="t" t="settings.show_data_stats">Show some stats about loaded and displayed data.</span></p>
     </div>
     <h3><a class="t" t="settings.section.sharing">Sharing</a></h3>
     <div>
@@ -174,8 +184,20 @@
   </div>
   <!--load-->
   <div title="Load" id="load-dialog" class="t dialog" t="[title]load.title">
-    <p class="t" t="load.select_query">Select query to load:</p>
-    <ul class="plain"></ul>
+    <!--<p class="t" t="load.select_query">Select query to load:</p>-->
+    <h4 class="t" t="load.saved_queries">Saved Queries</h4>
+    <div>
+      <ul class="plain saved_query"></ul>
+    </div>
+    <h4 class="t" t="load.examples">Examples</h4>
+    <div>
+      <ul class="plain example"></ul>
+    </div>
+    <h4 class="t" t="load.templates">Templates</h4>
+    <div>
+      <ul class="plain template"></ul>
+    </div>
+      
   </div>
   <!--export-->
   <div title="Export" id="export-dialog" class="t dialog" t="[title]export.title">
