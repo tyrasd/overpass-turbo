@@ -135,6 +135,21 @@ var ide = new(function() {
       if (args.R) { // indicates that the supplied query shall be executed immediately
         ide.run_query_on_startup = true;
       }
+      if (args.template) { // load a template
+        var template = settings.saves[args.t];
+        if (template && template.type == "template") {
+          // build query
+          var q = template.overpass;
+          var params = template.parameters;
+          for (var i=0; i<params.length; i++) {
+            var param = params[i];
+            var value = args[param];
+            if (!value) continue;
+            q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
+          }
+          settings.code["overpass"] = q;
+        }
+      }
       settings.save();
     }
 
