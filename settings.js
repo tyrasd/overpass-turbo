@@ -71,7 +71,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",20);
+var settings = new Settings("overpass-ide-scripts",50);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -102,7 +102,7 @@ settings.define_setting("no_autorepair","Boolean",false,16);
 // resizable panels
 settings.define_setting("editor_width","String","",17);
 // scripts
-settings.define_setting("scripts_enabled","boolean",false,20);
+settings.define_setting("scripts_enabled","boolean",false,50);
 
 //settings.define_setting(,,,);
 
