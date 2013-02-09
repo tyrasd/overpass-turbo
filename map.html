@@ -10,6 +10,8 @@
   <!--leaflet-->
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+  <!--leaflet extensions-->
+  <script src="libs/OSM4Leaflet.js"></script>
   <!--own scripts and styles-->
   <script src="overpass.js"></script>
   <style>
@@ -64,6 +66,7 @@
         server: "http://overpass-api.de/api/",
         tileServer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         force_simple_cors_request: true,
+        disable_poiomatic: true,
       };
       ide = {
         getQuery: function() {return settings.code["overpass"];},
@@ -95,24 +98,24 @@
       scaleControl = new L.Control.Scale({metric:true,imperial:false,});
       scaleControl.addTo(ide.map);
       // wait spinner
-      $("body").on({
+      $(document).on({
         ajaxStart: function() {
-          $(this).addClass("loading");
+          $("body").addClass("loading");
         },
         ajaxStop: function() {
-          $(this).removeClass("loading");
+          $("body").removeClass("loading");
         },
       });
       ide.map.on("layeradd", function(e) {
         if (!(e.layer instanceof L.GeoJSON)) return;
         ide.map.setView([0,0],18,true);
-        try {ide.map.fitBounds(overpass.geojsonLayer.getBounds()); } catch (e) {}
+        ide.map.fitBounds(e.layer.getBounds() );
       });
       // overpass functionality
       overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {$('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");};
       overpass.handlers["onAjaxError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\n" + errmsg);};
       overpass.handlers["onQueryError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\nThis is what overpass API returned:\n" + errmsg);};
-      overpass.handlers["onGeoJsonReady"] = function() {ide.map.addLayer(overpass.geojsonLayer);};
+      overpass.handlers["onGeoJsonReady"] = function() {ide.map.addLayer(overpass.osmLayer);};
       overpass.handlers["onPopupReady"] = function(p) {p.openOn(ide.map);};
       // load the data
       ide.update_map();
