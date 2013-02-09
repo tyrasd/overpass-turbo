@@ -136,7 +136,7 @@ var ide = new(function() {
         ide.run_query_on_startup = true;
       }
       if (args.template) { // load a template
-        var template = settings.saves[args.t];
+        var template = settings.saves[args.template];
         if (template && template.type == "template") {
           // build query
           var q = template.overpass;
