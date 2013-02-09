@@ -101,37 +101,39 @@ var ide = new(function() {
     var override_use_html5_coords = false;
     if (location.search != "") {
       var get = location.search.substring(1).split("&");
+      var args = {};
       for (var i=0; i<get.length; i++) {
         var kv = get[i].split("=");
-        if (kv[0] == "q") // compressed query set in url
-          settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(kv[1])));
-        if (kv[0] == "Q") // uncompressed query set in url
-          settings.code["overpass"] = decodeURIComponent(kv[1]);
-        if (kv[0] == "c") { // map center & zoom (compressed)
-          var tmp = kv[1].match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
-          var decode_coords = function(str) {
-            var coords_cpr = Base64.decodeNum(str);
-            var res = {};
-            res.lat = coords_cpr % (180*100000) / 100000 - 90;
-            res.lng = Math.floor(coords_cpr / (180*100000)) / 100000 - 180;
-            return res;
-          }
-          var coords = decode_coords(tmp[1]);
-          settings.coords_zoom = Base64.decodeNum(tmp[2]);
-          settings.coords_lat = coords.lat;
-          settings.coords_lon = coords.lng;
-          override_use_html5_coords = true;
+        args[kv[0]] = kv[1] || true;
+      }
+      if (args.q) // compressed query set in url
+        settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(args.q)));
+      if (args.Q) // uncompressed query set in url
+        settings.code["overpass"] = decodeURIComponent(args.Q);
+      if (args.c) { // map center & zoom (compressed)
+        var tmp = args.c.match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
+        var decode_coords = function(str) {
+          var coords_cpr = Base64.decodeNum(str);
+          var res = {};
+          res.lat = coords_cpr % (180*100000) / 100000 - 90;
+          res.lng = Math.floor(coords_cpr / (180*100000)) / 100000 - 180;
+          return res;
         }
-        if (kv[0] == "C") { // map center & zoom (uncompressed)
-          var tmp = kv[1].match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
-          settings.coords_lat = +tmp[1];
-          settings.coords_lon = +tmp[2];
-          settings.coords_zoom = +tmp[3];
-          override_use_html5_coords = true;
-        }
-        if (kv[0] == "R") { // indicates that the supplied query shall be executed immediately
-          ide.run_query_on_startup = true;
-        }
+        var coords = decode_coords(tmp[1]);
+        settings.coords_zoom = Base64.decodeNum(tmp[2]);
+        settings.coords_lat = coords.lat;
+        settings.coords_lon = coords.lng;
+        override_use_html5_coords = true;
+      }
+      if (args.C) { // map center & zoom (uncompressed)
+        var tmp = args.C.match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
+        settings.coords_lat = +tmp[1];
+        settings.coords_lon = +tmp[2];
+        settings.coords_zoom = +tmp[3];
+        override_use_html5_coords = true;
+      }
+      if (args.R) { // indicates that the supplied query shall be executed immediately
+        ide.run_query_on_startup = true;
       }
       settings.save();
     }
