@@ -1,3 +1,13 @@
+2013.02.10
+----------
+* multipolygon rendering
+* implemented "templates" as an alternative to permalinks for basic queries
+* showing stats about number of elements loaded and displayed
+* more complete polygon detection
+* some internal code restructuring (new OSM4Leaflet and NoVanish classes)
+* added map key to help
+* bugfixes
+
 2013.02.04
 ----------
 * display small features at low zoom like POIs
