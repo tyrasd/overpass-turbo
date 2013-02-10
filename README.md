@@ -1,6 +1,8 @@
 overpass turbo
 ==============
 
+[![Build Status](https://secure.travis-ci.org/tyrasd/overpass-ide.png)](https://travis-ci.org/tyrasd/overpass-ide)
+
 This is a GUI for testing and developing queries for the [Overpass-API](http://www.overpass-api.de/). It can also used for simple analysis of OSM data.
 
 INSTALL
