@@ -92,5 +92,5 @@ Several UI Improvements
 * rendering GeoJSON: sort polygons by area (or simply bbox area), such that smaller polygons are drawn over large ones.
 * export as png: render scale & attribution separately, and blend in after the data overlay
 * OSM4Leaflet: add "context" callback instead of hardcoded magic
-* open external links in new tabs!
+* ~~open external links in new tabs!~~
 * show warning when there are large amounts of data to be loaded (>10.000, >100.000 nodes? or in MBytes of data?)

@@ -203,11 +203,11 @@ var overpass = new(function() {
             layer.on('click', function(e) {
               var popup = "";
               if (feature.properties.type == "node")
-                popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.properties.id+"'>"+feature.properties.id+"</a></h2>";
+                popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else if (feature.properties.type == "way")
-                popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.properties.id+"'>"+feature.properties.id+"</a></h2>";
+                popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else if (feature.properties.type == "relation")
-                popup += "<h2>Relation <a href='http://www.openstreetmap.org/browse/relation/"+feature.properties.id+"'>"+feature.properties.id+"</a></h2>";
+                popup += "<h2>Relation <a href='http://www.openstreetmap.org/browse/relation/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else
                 popup += "<h2>"+feature.properties.type+" #"+feature.properties.id+"</h2>";
               if (feature.properties && feature.properties.tags && !$.isEmptyObject(feature.properties.tags)) {
@@ -222,7 +222,7 @@ var overpass = new(function() {
               if (feature.properties && feature.properties.relations && !$.isEmptyObject(feature.properties.relations)) {
                 popup += '<h3>Relations:</h3><ul class="plain">';
                 $.each(feature.properties.relations, function (k,v) {
-                  popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"'>"+v["rel"]+"</a>";
+                  popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"' target='_blank'>"+v["rel"]+"</a>";
                   if (v.reltags && 
                       (v.reltags.name || v.reltags.ref || v.reltags.type))
                     popup += " <i>" + 
