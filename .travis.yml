@@ -1,0 +1,3 @@
+cript:
+  - "npm install -g mocha-phantomjs"
+script: mocha-phantomjs test/index.html
