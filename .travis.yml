@@ -1,0 +1,3 @@
+before_script:
+  - "npm install -g mocha-phantomjs"
+script: mocha-phantomjs tests/index.html

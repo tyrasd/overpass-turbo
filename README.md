@@ -1,7 +1,11 @@
 overpass turbo
 ==============
 
+[![Build Status](https://secure.travis-ci.org/tyrasd/overpass-ide.png)](https://travis-ci.org/tyrasd/overpass-ide)
+
 This is a GUI for testing and developing queries for the [Overpass-API](http://www.overpass-api.de/). It can also used for simple analysis of OSM data.
+
+More Information about *overpass turbo* is found in the [OSM wiki](http://wiki.openstreetmap.org/wiki/Overpass_turbo).
 
 INSTALL
 -------
@@ -15,5 +19,9 @@ RUN
 
 To run overpass turbo, just open index.html in a modern web browser. Recent versions of Chrome, Firefox and Opera have been tested and should work.
 
-You will probably have to be online while using turbo (unless you are running a local instance of the overpass-api).
+GIT-BRANCHES
+------------
+
+Development is done in the *master* branch, stable releases are commited to *gh-pages*.
+
 

@@ -65,7 +65,7 @@ Implementation: This should be easy to implement once the compiler and scripting
 Several UI Improvements
 -----------------------
 
-* ~~resizable panels (editor/map)~~ - maybe also: hide editor temporarily for map inspections (or just go with a fullscreen mode?)
+* ~~resizable panels (editor/map)- maybe also: hide editor temporarily for map inspections (or just go with a fullscreen mode?)~~
 * ~~editor: better Syntax highlighting (auto detect query language xml/overpassQL, support for overpassQL)~~
 * editor: code auto completion (with inline help?) ~~and auto tag closing for xml~~
 * ~~editor: highline lines where an error occured~~
@@ -89,3 +89,8 @@ Several UI Improvements
 * ~~print number of found elements (pois, ways, polygons)~~
 * ~~add "map key" to help~~
 * ~~add templates~~
+* rendering GeoJSON: sort polygons by area (or simply bbox area), such that smaller polygons are drawn over large ones.
+* export as png: render scale & attribution separately, and blend in after the data overlay
+* OSM4Leaflet: add "context" callback instead of hardcoded magic
+* ~~open external links in new tabs!~~
+* show warning when there are large amounts of data to be loaded (>10.000, >100.000 nodes? or in MBytes of data?)
