@@ -89,3 +89,6 @@ Several UI Improvements
 * ~~print number of found elements (pois, ways, polygons)~~
 * ~~add "map key" to help~~
 * ~~add templates~~
+* rendering GeoJSON: sort polygons by area (or simply bbox area), such that smaller polygons are drawn over large ones.
+* export as png: render scale & attribution separately, and blend in after the data overlay
+* OSM4Leaflet: add "context" callback instead of hardcoded magic
