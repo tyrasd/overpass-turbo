@@ -97,7 +97,6 @@ L.OSM4Leaflet = L.Class.extend({
       });
       ways[i] = {
         "id":   jQuery(this).attr("id"),
-        "tags": tags,
         "version": jQuery(this).attr("version"),
         "timestamp": jQuery(this).attr("timestamp"),
         "changeset": jQuery(this).attr("changeset"),

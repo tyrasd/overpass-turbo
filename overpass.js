@@ -15,7 +15,7 @@ var overpass = new(function() {
     var handler_args = [];
     for (var i=1; i<args.length; i++) 
       handler_args.push(args[i]);
-    overpass.handlers[name].apply({},handler_args);
+    return overpass.handlers[name].apply({},handler_args);
   }
 
   // == public methods ==
@@ -50,7 +50,22 @@ var overpass = new(function() {
       data: {data:query},
       headers: request_headers,
       success: function(data, textStatus, jqXHR) {
-        fire("onProgress", "data recieved from Overpass API");
+        var data_amount = jqXHR.responseText.length;
+        var data_txt;
+        // round amount of data
+        var scale = Math.floor(Math.log(data_amount)/Math.log(10));
+        data_amount = Math.round(data_amount / Math.pow(10,scale)) * Math.pow(10,scale);
+        if (data_amount < 1000)
+          data_txt = data_amount + " bytes";
+        else if (data_amount < 1000000)
+          data_txt = data_amount / 1000 + " kB";
+        else
+          data_txt = data_amount / 1000000 + " MB";
+        fire("onProgress", "recieved about "+data_txt+" of data");
+        if (!fire("onDataRecieved", data_amount, data_txt)) {
+          fire("onAbort");
+          return;
+        }
         // different cases of loaded data: json data, xml data or error message?
         var data_mode = null;
         var geojson;
@@ -312,7 +327,7 @@ var overpass = new(function() {
         if (textStatus == "abort")
           return; // ignore aborted queries.
         fire("onProgress", "error during ajax call");
-        if (jqXHR.status == 400) {
+        if (jqXHR.status == 400 || jqXHR.status == 504 || jqXHR.status == 429) { // todo: handle those in a separate routine
           // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
           this.success(jqXHR.responseText, textStatus, jqXHR);
           return;

@@ -507,8 +507,8 @@ var ide = new(function() {
     });
 
     // event handlers for overpass object
-    overpass.handlers["onProgress"] = function(msg,callback) {
-      ide.waiter.addInfo(msg,callback);
+    overpass.handlers["onProgress"] = function(msg,abortcallback) {
+      ide.waiter.addInfo(msg,abortcallback);
     }
     overpass.handlers["onDone"] = function() {
       ide.waiter.close();
@@ -561,6 +561,15 @@ var ide = new(function() {
         ide.switchTab("Data");
       // display empty map badge
       $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">'+i18n.t("map.intentianally_blank")+' <small>('+empty_msg+')</small></div>').appendTo("#map");
+    }
+    overpass.handlers["onDataRecieved"] = function(amount, amount_txt) {
+      if (amount > 1000000) { // more than ~1MB of data
+        return confirm("This query returned quite a lot of data (approx. "+amount_txt+").\nYour browser may have a hard time trying to render this. Do you really want to continue?");
+      }
+      return true;
+    }
+    overpass.handlers["onAbort"] = function() {
+      ide.waiter.close();
     }
     overpass.handlers["onAjaxError"] = function(errmsg) {
       // show error dialog
