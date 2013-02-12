@@ -515,6 +515,7 @@ L.OSM4Leaflet = L.Class.extend({
               (jQuery.inArray(ways[i].tags["public_transport"], "station;platform;pay_scale_area".split(";")) != -1) ||
               (jQuery.inArray(ways[i].tags["historic"], "archaeological_site;battlefield;castle;city_gate;farm;manor;memorial;monastery;monument;paleontological_site;ruins;ship;wayside_shrine;wreck".split(";")) != -1) ||
               (jQuery.inArray(ways[i].tags["tourism"], "alpine_hut;aquarium;artwork;camp_site;caravan_site;chalet;guest_house;hostel;hotel;information;motel;museum;theme_park;viewpoint;wilderness_hut;zoo".split(";")) != -1) ||
+              (jQuery.inArray(ways[i].tags["power"], "generator;line;station;sub_station;transformer".split(";")) != -1) ||
               false) 
              way_type="Polygon";
         if (way_type == "Polygon")
