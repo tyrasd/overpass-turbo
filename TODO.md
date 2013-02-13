@@ -95,3 +95,4 @@ Several UI Improvements
 * ~~open external links in new tabs!~~
 * show warning when there are large amounts of data to be loaded (>10.000, >100.000 nodes? or in MBytes of data?)
 * do not apply novanish when a way is member of route/multipolygon (more?) relations.
+* share tool: add forumish / markdown / etc. links
