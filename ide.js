@@ -109,7 +109,7 @@ var ide = new(function() {
       if (args.q) // compressed query set in url
         settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(args.q)));
       if (args.Q) // uncompressed query set in url
-        settings.code["overpass"] = decodeURIComponent(args.Q);
+        settings.code["overpass"] = decodeURIComponent(args.Q.replace(/\+/g,"%20"));
       if (args.c) { // map center & zoom (compressed)
         var tmp = args.c.match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
         var decode_coords = function(str) {
@@ -143,7 +143,7 @@ var ide = new(function() {
           var params = template.parameters;
           for (var i=0; i<params.length; i++) {
             var param = params[i];
-            var value = decodeURIComponent(args[param]).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+            var value = decodeURIComponent(args[param].replace(/\+/g,"%20")).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
             if (!value) continue;
             q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
           }
