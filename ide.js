@@ -143,7 +143,7 @@ var ide = new(function() {
           var params = template.parameters;
           for (var i=0; i<params.length; i++) {
             var param = params[i];
-            var value = decodeURIComponent(args[param]);
+            var value = decodeURIComponent(args[param]).replace(/</g,"&lt;").replace(/"/g,"&quot").replace(/&/g,"&amp;");
             if (!value) continue;
             q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
           }
