@@ -71,7 +71,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",23);
+var settings = new Settings("overpass-ide",24);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -177,5 +177,13 @@ settings.define_upgrade_callback(23, function(s) {
     parameters: ["type", "id"],
     overpass: "<!--\nthis query looks for a node, way or relation \nwith the given id.\n-->\n{{type=???}}\n{{id=???}}\n<osm-script output=\"json\">\n  <id-query type=\"{{type}}\" ref=\"{{id}}\"/>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>"
   };
+  s.save();
+});
+settings.define_upgrade_callback(24, function(s) {
+  // categorize saved queries
+  for (var q in s.saves) {
+    if (!s.saves[q].type)
+      s.saves[q].type = "saved_query";
+  }
   s.save();
 });
