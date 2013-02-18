@@ -71,7 +71,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",22);
+var settings = new Settings("overpass-ide",23);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -168,6 +168,14 @@ settings.define_upgrade_callback(22, function(s) {
     type: "template",
     parameters: ["key", "value", "type"],
     overpass: "<!--\nthis query looks for nodes, ways or relations \nwith the given key/value combination.\n-->\n{{key=???}}\n{{value=???}}\n{{type=???}}\n<osm-script output=\"json\">\n  <query type=\"{{type}}\">\n    <has-kv k=\"{{key}}\" v=\"{{value}}\"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>"
+  };
+  s.save();
+});
+settings.define_upgrade_callback(23, function(s) {
+  s.saves["type-id"] = {
+    type: "template",
+    parameters: ["type", "id"],
+    overpass: "<!--\nthis query looks for node, way or relation \nwith the given id.\n-->\n{{type=???}}\n{{id=???}}\n<osm-script output=\"json\">\n  <id-query type=\"{{type}}\" ref=\"{{id}}\"/>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>"
   };
   s.save();
 });
