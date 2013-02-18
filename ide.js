@@ -132,6 +132,14 @@ var ide = new(function() {
         settings.coords_zoom = +tmp[3];
         override_use_html5_coords = true;
       }
+      if (args.lat && args.lon) { // map center coords (standard osm.org parameters)
+        settings.coords_lat = +args.lat;
+        settings.coords_lon = +args.lon;
+        override_use_html5_coords = true;
+      }
+      if (args.zoom) { // map zoom level (standard osm.org parameter)
+        settings.coords_zoom = +args.zoom;
+      }
       if (args.R) { // indicates that the supplied query shall be executed immediately
         ide.run_query_on_startup = true;
       }
