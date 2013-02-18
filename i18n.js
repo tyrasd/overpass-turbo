@@ -109,6 +109,7 @@ var i18n = new(function() {
     "export.map_view.center": "Center",
     "export.map_view.center_expl": "lat/lon",
     "export.map_view.bounds": "Bounds",
+    "export.map_view.bounds_selection": "Bounds (manually selected bbox)",
     "export.map_view.bounds_expl": "south/west north/east",
     "export.map_view.zoom": "Zoom",
 

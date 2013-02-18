@@ -99,6 +99,7 @@
   "export.map_view.center": "Kartenmitte",
   "export.map_view.center_expl": "lat/lon",
   "export.map_view.bounds": "Kartengrenzen",
+  "export.map_view.bounds_selection": "Kartengrenzen (manuell gewählte Box)",
   "export.map_view.bounds_expl": "Süd/West Nord/Ost",
   "export.map_view.zoom": "Zoom",
 
