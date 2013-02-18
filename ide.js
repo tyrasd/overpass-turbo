@@ -839,7 +839,8 @@ var ide = new(function() {
     dialog_buttons[i18n.t("dialog.save")] = function() {
       var name = $("input[name=save]",this)[0].value;
       settings.saves[htmlentities(name)] = {
-        "overpass": ide.getQuery()
+        "overpass": ide.getQuery(),
+        "type": "saved_query"
       };
       settings.save();
       $(this).dialog("close");
