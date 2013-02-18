@@ -175,7 +175,7 @@ settings.define_upgrade_callback(23, function(s) {
   s.saves["type-id"] = {
     type: "template",
     parameters: ["type", "id"],
-    overpass: "<!--\nthis query looks for node, way or relation \nwith the given id.\n-->\n{{type=???}}\n{{id=???}}\n<osm-script output=\"json\">\n  <id-query type=\"{{type}}\" ref=\"{{id}}\"/>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>"
+    overpass: "<!--\nthis query looks for a node, way or relation \nwith the given id.\n-->\n{{type=???}}\n{{id=???}}\n<osm-script output=\"json\">\n  <id-query type=\"{{type}}\" ref=\"{{id}}\"/>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>"
   };
   s.save();
 });
