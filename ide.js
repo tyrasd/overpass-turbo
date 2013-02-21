@@ -132,6 +132,13 @@ var ide = new(function() {
         settings.coords_zoom = +tmp[3];
         override_use_html5_coords = true;
       }
+      if (args.embed) {
+        $("#dataviewer").css("top", "0");
+        $("#dataviewer").css("left", "0");
+        $("#editor").css("display", "none");
+        $("#data").css("display", "none");
+        $("#navs").css("display", "none");
+      }
       if (args.lat && args.lon) { // map center coords (standard osm.org parameters)
         settings.coords_lat = +args.lat;
         settings.coords_lon = +args.lon;
@@ -863,7 +870,7 @@ var ide = new(function() {
   this.onRunClick = function() {
     ide.update_map();
   }
-  this.compose_share_link = function(query,compression,coords,run) {
+  this.compose_share_link = function(query,compression,coords,run,embed) {
     var share_link = "";
     if (!compression) { // compose uncompressed share link
       share_link += "?Q="+encodeURIComponent(query);
@@ -880,8 +887,14 @@ var ide = new(function() {
         }
         share_link += "&c="+encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng)+Base64.encodeNum(ide.map.getZoom());
       }
-      if (run)
+      if (embed) {
+        // embed implies run
+        $("div#share-dialog input[name=run_immediately]")[0].checked = true;
+        share_link += "&R&embed";
+      }
+      else if (run) {
         share_link += "&R";
+      }
     }
     return share_link;
   }
@@ -892,10 +905,16 @@ var ide = new(function() {
         (settings.share_compression == "on"))
     var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
     var run_immediately = $("div#share-dialog input[name=run_immediately]")[0].checked;
+    var embed = $("div#share-dialog input[name=embed]")[0].checked;
 
-    var share_link = baseurl+ide.compose_share_link(query,compress,inc_coords,run_immediately);
+    var share_link = baseurl + ide.compose_share_link(query,compress,inc_coords,run_immediately,embed);
 
     var warning = '';
+
+    if (embed) {
+      share_link = '<iframe width="805" height="550" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="' + share_link + '"></frame>';
+    }
+
     if (share_link.length >= 2000)
       warning = '<p style="color:orange">'+i18n.t("warning.share.long")+'</p>';
     if (share_link.length >= 8000)
