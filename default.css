@@ -13,7 +13,7 @@ body {
   margin: 0;
   height: auto!important;
   position:absolute;
-  top:51px !important;
+  top:51px;
   bottom:0 !important;
   left:0 !important;
   width:45%;
@@ -25,7 +25,7 @@ body {
   border-left:1px solid #ccc;
   height: auto !important;
   position:absolute;
-  top:51px !important;
+  top:51px;
   bottom:0 !important;
   left:45%;
   right:0 !important;
