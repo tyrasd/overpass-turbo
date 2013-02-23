@@ -1,0 +1,69 @@
+this is an example script for the scripting-prototype for overpass turbo.
+A very similar script was used to create the following map: 
+http://de.wikipedia.org/wiki/Datei:Vinschgaubahn.png 
+
+
+<osm-script output="xml">
+  <query type="relation" into="r">
+    <has-kv k="network" v="TVS"/>
+    <has-kv k="route" v="train"/>
+    <has-kv k="ref" v="200"/>
+  </query>
+  <recurse from="r" type="relation-way" into="rw"/>
+  <recurse from="r" type="relation-node" into="rn"/>
+  <recurse from="rw" type="way-node" into="rwn"/>
+  <union>
+    <item set="r"/>
+    <item set="rw"/>
+    <item set="rn"/>
+  </union>
+  <print order="quadtile" mode="body"/>
+  <union>
+    <item set="rwn"/>
+  </union>
+  <print order="quadtile" mode="skeleton"/>
+</osm-script>
+
+{{onStyle:
+function(style,feature,highlight) {
+  style.opacity = 1;
+  if (feature.geometry.type=="Point") {
+    style.color="red";
+    style.weight=3;
+    style.fillColor="white";
+    style.fillOpacity=1;
+  } else {
+    style.color = "red";
+    style.weight = 3;
+  }
+  return style;
+}
+}}
+{{pointToLayer:
+function(feature, latlng) {
+  var name = (feature.properties.tags["name:de"]||feature.properties.tags.name);
+  ide.map.labels.push(
+    L.marker(latlng, {draggable:true, icon: L.divIcon({
+      className:"foo",
+      html:'<span style="display:block;'+
+      'position:absolute;'+
+      'left:20px;'+
+      'bottom:0px;'+
+      'font-size:140%;'+
+      'aaatext-shadow:white 0 0 3px, white 0 0 3px;'+
+      'white-space:nowrap;">'+
+      name+
+      '</span>',
+    })}).addTo(ide.map)
+  );
+  return new L.CircleMarker(latlng, {radius: 7});
+}
+}}
+{{beforeExecute:
+function(query) {
+  if (ide.map.labels)
+    for (var i in ide.map.labels)
+      ide.map.removeLayer(ide.map.labels[i]);
+  ide.map.labels = [];
+}
+}}
