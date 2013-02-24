@@ -97,4 +97,4 @@ Several UI Improvements
 * do not auto-show help if the page was started via share-link, template, etc.
 * sort progress elements upside down? mark finished items by a check-mark.
 * implement poly-boundings selector (I may have to wait for the most recent leaflet-draw plugin) 
-
+* deactivate "manually select bbox" when there is no "{{bbox}}" in the query.
