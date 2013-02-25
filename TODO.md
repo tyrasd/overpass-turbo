@@ -96,5 +96,8 @@ Several UI Improvements
 * show warning when there are large amounts of data to be loaded (>10.000, >100.000 nodes? or in MBytes of data?)
 * do not apply novanish when a way is member of route/multipolygon (more?) relations.
 * share tool: add forumish / markdown / etc. links
+* share tool: add embed as html (= map.html export)
 * ~~support for osm-style lat/lon/zoom parameters~~
 * autorun queries if code+location+zoom is supplied in the url??
+* do not auto-show help if the page was started via share-link, template, etc.
+* sort progress elements upside down? mark finished items by a check-mark.
