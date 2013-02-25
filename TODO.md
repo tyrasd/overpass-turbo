@@ -31,11 +31,6 @@ Also to be configurable via scripts:
 
 The compiler should be able to support scripts. There has to be a possibility to tell the compiler which (parts of) libraries have to be included "linked" in the output.
 
-Support for Complex Multipolygons
----------------------------------
-
-This would be a very nice feature. ^^
-
 Query-Builder
 -------------
 
@@ -101,3 +96,5 @@ Several UI Improvements
 * autorun queries if code+location+zoom is supplied in the url??
 * do not auto-show help if the page was started via share-link, template, etc.
 * sort progress elements upside down? mark finished items by a check-mark.
+* implement poly-boundings selector (I may have to wait for the most recent leaflet-draw plugin) 
+
