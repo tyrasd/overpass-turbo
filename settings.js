@@ -71,7 +71,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",24);
+var settings = new Settings("overpass-ide",25);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -184,6 +184,16 @@ settings.define_upgrade_callback(24, function(s) {
   for (var q in s.saves) {
     if (!s.saves[q].type)
       s.saves[q].type = "saved_query";
+  }
+  s.save();
+});
+settings.define_upgrade_callback(25, function(s) {
+  // upgrade template description text
+  for (var q in s.saves) {
+    if (s.saves[q].type == "template") {
+      s.saves[q].overpass = s.saves[q].overpass.replace("<!--\nt","<!--\nT");
+      s.saves[q].overpass = s.saves[q].overpass.replace("\n-->","\nChoose your region and hit the Run button above!\n-->");
+    }
   }
   s.save();
 });
