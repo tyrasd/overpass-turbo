@@ -95,7 +95,7 @@ Several UI Improvements
 * ~~support for osm-style lat/lon/zoom parameters~~
 * autorun queries if code+location+zoom is supplied in the url??
 * do not auto-show help if the page was started via share-link, template, etc.
-* sort progress elements upside down? mark finished items by a check-mark.
+* ~~mark finished items by a check-mark.~~
 * implement poly-boundings selector (I may have to wait for the most recent leaflet-draw plugin) 
 * ~~deactivate "manually select bbox" when there is no "{{bbox}}" in the query.~~
 * ~~add description on how to run templates (e.g. "select region in the map and hit run").~~
