@@ -222,6 +222,7 @@ var ide = new(function() {
         onChange: function(e) {
           clearTimeout(pending);
           pending = setTimeout(function() {
+            // update syntax highlighting mode
             if (ide.getQueryLang() == "xml") {
               if (e.getOption("mode") != "xml+mustache") {
                 e.closeTagEnabled = true;
@@ -233,6 +234,25 @@ var ide = new(function() {
                 e.closeTagEnabled = false;
                 e.setOption("matchBrackets",true);
                 e.setOption("mode","ql+mustache");
+              }
+            }
+            // check for inactive ui elements
+            var bbox_filter = $(".leaflet-control-buttons-bboxfilter");
+            if (ide.getQuery().match(/\{\{bbox\}\}/)) {
+              if (bbox_filter.hasClass("disabled")) {
+                bbox_filter.removeClass("disabled");
+                $("span",bbox_filter).css("opacity",1.0);
+                bbox_filter.css("pointer-events","");
+                bbox_filter.css("cursor","");
+                bbox_filter.tooltip("enable");
+              }
+            } else {
+              if (!bbox_filter.hasClass("disabled")) {
+                bbox_filter.addClass("disabled");
+                $("span",bbox_filter).css("opacity",0.5);
+                bbox_filter.css("pointer-events","none");
+                bbox_filter.css("cursor","default");
+                bbox_filter.tooltip("disable");
               }
             }
           },500);
@@ -310,9 +330,6 @@ var ide = new(function() {
       settings.save(); // save settings
     });
 
-    // disabled buttons
-    $("a.disabled").bind("click",function() { return false; });
-
     // tabs
     $("#dataviewer > div#data")[0].style.zIndex = -1001;
     $(".tabs a.button").bind("click",function(e) {
@@ -376,6 +393,8 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.select_bbox");
         L.DomEvent.addListener(link, 'click', function(e) {
+          if ($(e.target).parent().hasClass("disabled")) // check if this button is enabled
+            return;
           if (!ide.map.bboxfilter.isEnabled()) {
             ide.map.bboxfilter.setBounds(ide.map.getBounds());
             ide.map.bboxfilter.enable();
