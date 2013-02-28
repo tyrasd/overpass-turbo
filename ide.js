@@ -59,7 +59,6 @@ var ide = new(function() {
     addInfo: function(txt, abortCallback) {
       $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
       $(".wait-info ul li:nth-child(n+1)").css("opacity",0.5);
-      //('<span class="ui-icon ui-icon-check"></span>');
       $(".wait-info ul li span.ui-icon").addClass("ui-icon-check");
       $(".wait-info ul li:nth-child(n+4)").hide();
       var li = $('<li><span class="ui-icon ui-icon-arrowthick-1-e" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>'+txt+"</li>");
