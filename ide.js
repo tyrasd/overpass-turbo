@@ -590,11 +590,15 @@ var ide = new(function() {
       // display empty map badge
       $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">'+i18n.t("map.intentianally_blank")+' <small>('+empty_msg+')</small></div>').appendTo("#map");
     }
-    overpass.handlers["onDataRecieved"] = function(amount, amount_txt) {
+    overpass.handlers["onDataRecieved"] = function(amount, amount_txt, abortCB, continueCB) {
       if (amount > 1000000) { // more than ~1MB of data
-        return confirm("This query returned quite a lot of data (approx. "+amount_txt+").\nYour browser may have a hard time trying to render this. Do you really want to continue?");
+        var abort = !confirm("This query returned quite a lot of data (approx. "+amount_txt+").\nYour browser may have a hard time trying to render this. Do you really want to continue?"); // TODO: make this a jqueryUI dialog // TODO: i18n
+        if (abort) {
+          abortCB();
+          return;
+        }
       }
-      return true;
+      continueCB();
     }
     overpass.handlers["onAbort"] = function() {
       ide.waiter.close();
