@@ -317,7 +317,7 @@ ul.plain > li {
 }
 
 .ui-front {
-  z-index:1002;
+  z-index:1011;
 }
 body .ui-tooltip {
   opacity:0.8;

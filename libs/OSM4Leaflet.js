@@ -13,18 +13,25 @@ L.OSM4Leaflet = L.Class.extend({
     if (data)
       this.addData(data);
   },
-  addData: function(data) {
+  addData: function(data, onDone) {
+    var obj = this;
+setTimeout(function(){
     // 1. convert to GeoJSON
-    var converter = this.options.data_mode == "xml" ? 
-                      this._osmXML2geoJSON :
-                      this._overpassJSON2geoJSON;
-    var geojson = converter.call(this, data);
-    this._resultData = geojson;
-    if (this.options.afterParse)
-      this.options.afterParse();
+    var converter = obj.options.data_mode == "xml" ? 
+                      obj._osmXML2geoJSON :
+                      obj._overpassJSON2geoJSON;
+    var geojson = converter.call(obj, data);
+    obj._resultData = geojson;
+    if (obj.options.afterParse)
+      obj.options.afterParse();
+setTimeout(function(){
     // 2. add to baseLayer
     for (var i=0; i<geojson.length; i++)
-      this._baseLayer.addData(geojson[i]);
+      obj._baseLayer.addData(geojson[i]);
+    if (onDone)
+      onDone();
+},1); //end setTimeout
+},1); //end setTimeout
   },
   getGeoJSON: function() {
     return this._resultData;
@@ -97,7 +104,6 @@ L.OSM4Leaflet = L.Class.extend({
       });
       ways[i] = {
         "id":   jQuery(this).attr("id"),
-        "tags": tags,
         "version": jQuery(this).attr("version"),
         "timestamp": jQuery(this).attr("timestamp"),
         "changeset": jQuery(this).attr("changeset"),
@@ -516,6 +522,7 @@ L.OSM4Leaflet = L.Class.extend({
               (jQuery.inArray(ways[i].tags["public_transport"], "station;platform;pay_scale_area".split(";")) != -1) ||
               (jQuery.inArray(ways[i].tags["historic"], "archaeological_site;battlefield;castle;city_gate;farm;manor;memorial;monastery;monument;paleontological_site;ruins;ship;wayside_shrine;wreck".split(";")) != -1) ||
               (jQuery.inArray(ways[i].tags["tourism"], "alpine_hut;aquarium;artwork;camp_site;caravan_site;chalet;guest_house;hostel;hotel;information;motel;museum;theme_park;viewpoint;wilderness_hut;zoo".split(";")) != -1) ||
+              (jQuery.inArray(ways[i].tags["power"], "generator;line;station;sub_station;transformer".split(";")) != -1) ||
               false) 
              way_type="Polygon";
         if (way_type == "Polygon")

@@ -59,8 +59,9 @@ var ide = new(function() {
     addInfo: function(txt, abortCallback) {
       $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
       $(".wait-info ul li:nth-child(n+1)").css("opacity",0.5);
+      $(".wait-info ul li span.ui-icon").addClass("ui-icon-check");
       $(".wait-info ul li:nth-child(n+4)").hide();
-      var li = $("<li>"+txt+"</li>");
+      var li = $('<li><span class="ui-icon ui-icon-arrowthick-1-e" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>'+txt+"</li>");
       if (typeof abortCallback == "function") {
         ide.waiter.onAbort = abortCallback;
         li.append('<span id="aborter">&nbsp;(<a href="#" onclick="ide.waiter.abort(); return false;">abort</a>)</span>');
@@ -222,6 +223,7 @@ var ide = new(function() {
         onChange: function(e) {
           clearTimeout(pending);
           pending = setTimeout(function() {
+            // update syntax highlighting mode
             if (ide.getQueryLang() == "xml") {
               if (e.getOption("mode") != "xml+mustache") {
                 e.closeTagEnabled = true;
@@ -233,6 +235,25 @@ var ide = new(function() {
                 e.closeTagEnabled = false;
                 e.setOption("matchBrackets",true);
                 e.setOption("mode","ql+mustache");
+              }
+            }
+            // check for inactive ui elements
+            var bbox_filter = $(".leaflet-control-buttons-bboxfilter");
+            if (ide.getQuery().match(/\{\{bbox\}\}/)) {
+              if (bbox_filter.hasClass("disabled")) {
+                bbox_filter.removeClass("disabled");
+                $("span",bbox_filter).css("opacity",1.0);
+                bbox_filter.css("pointer-events","");
+                bbox_filter.css("cursor","");
+                bbox_filter.tooltip("enable");
+              }
+            } else {
+              if (!bbox_filter.hasClass("disabled")) {
+                bbox_filter.addClass("disabled");
+                $("span",bbox_filter).css("opacity",0.5);
+                bbox_filter.css("pointer-events","none");
+                bbox_filter.css("cursor","default");
+                bbox_filter.tooltip("disable");
               }
             }
           },500);
@@ -310,9 +331,6 @@ var ide = new(function() {
       settings.save(); // save settings
     });
 
-    // disabled buttons
-    $("a.disabled").bind("click",function() { return false; });
-
     // tabs
     $("#dataviewer > div#data")[0].style.zIndex = -1001;
     $(".tabs a.button").bind("click",function(e) {
@@ -376,6 +394,8 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.select_bbox");
         L.DomEvent.addListener(link, 'click', function(e) {
+          if ($(e.target).parent().hasClass("disabled")) // check if this button is enabled
+            return;
           if (!ide.map.bboxfilter.isEnabled()) {
             ide.map.bboxfilter.setBounds(ide.map.getBounds());
             ide.map.bboxfilter.enable();
@@ -515,8 +535,8 @@ var ide = new(function() {
     });
 
     // event handlers for overpass object
-    overpass.handlers["onProgress"] = function(msg,callback) {
-      ide.waiter.addInfo(msg,callback);
+    overpass.handlers["onProgress"] = function(msg,abortcallback) {
+      ide.waiter.addInfo(msg,abortcallback);
     }
     overpass.handlers["onDone"] = function() {
       ide.waiter.close();
@@ -569,6 +589,28 @@ var ide = new(function() {
         ide.switchTab("Data");
       // display empty map badge
       $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">'+i18n.t("map.intentianally_blank")+' <small>('+empty_msg+')</small></div>').appendTo("#map");
+    }
+    overpass.handlers["onDataRecieved"] = function(amount, amount_txt, abortCB, continueCB) {
+      if (amount > 1000000) { // more than ~1MB of data
+        // show warning dialog
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.abort")] = function() {
+          $(this).dialog("close");
+          abortCB();
+        };
+        dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
+          $(this).dialog("close");
+          continueCB();
+        };
+        $('<div title="'+i18n.t("warning.huge_data.title")+'">'+i18n.t("warning.huge_data.expl").replace("{{amount_txt}}",amount_txt)+'</div>').dialog({
+          modal:true,
+          buttons: dialog_buttons,
+        });
+      } else
+        continueCB();
+    }
+    overpass.handlers["onAbort"] = function() {
+      ide.waiter.close();
     }
     overpass.handlers["onAjaxError"] = function(errmsg) {
       // show error dialog
@@ -921,6 +963,10 @@ var ide = new(function() {
         i18n.t("export.map_view.permalink_osm")+'&nbsp;<a href="http://www.openstreetmap.org/?lat='+L.Util.formatNum(ide.map.getCenter().lat)+'&lon='+L.Util.formatNum(ide.map.getCenter().lng)+'&zoom='+ide.map.getZoom()+'">osm.org</a></p>'+
         '<h4>'+i18n.t("export.map_view.center")+'</h4><p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>('+i18n.t("export.map_view.center_expl")+')</small></p>'+
         '<h4>'+i18n.t("export.map_view.bounds")+'</h4><p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>'+
+        (ide.map.bboxfilter.isEnabled() ?
+          '<h4>'+i18n.t("export.map_view.bounds_selection")+'</h4><p>'+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>':
+          ''
+        ) +
         '<h4>'+i18n.t("export.map_view.zoom")+'</h4><p>'+ide.map.getZoom()+'</p>'+
         '</div>').dialog({
         modal:true,

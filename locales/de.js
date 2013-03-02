@@ -99,6 +99,7 @@
   "export.map_view.center": "Kartenmitte",
   "export.map_view.center_expl": "lat/lon",
   "export.map_view.bounds": "Kartengrenzen",
+  "export.map_view.bounds_selection": "Kartengrenzen (manuell gewählte Box)",
   "export.map_view.bounds_expl": "Süd/West Nord/Ost",
   "export.map_view.zoom": "Zoom",
 
@@ -171,6 +172,7 @@
   "dialog.delete": "Löschen",
   "dialog.close": "Schließen",
   "dialog.done": "Erledigt",
+  "dialog.abort": "Abbrechen",
   "dialog.repair_query": "Query reparieren",
   "dialog.continue_anyway": "Trotzdem weitermachen",
   "dialog.show_data": "Daten anzeigen",
@@ -198,6 +200,9 @@
 
   "warning.share.long": "Warnung: Dieser Permalink ist recht lang. Es kann sein, dass er unter bestimmten Umständen nicht wie gewünscht funktioniert.",
   "warning.share.very_long": "Warnung: Dieser Permalink ist sehr lang. Es ist wahrscheinlich, dass er unter normalen Umständen (Browser, Webserver) nicht funktioniert. Nur unter vorbehalt verwenden!",
+
+  "warning.huge_data.title": "Große Datenmengen",
+  "warning.huge_data.expl": "<p>Diese Query liefert recht viele Daten zurück (ca. {{amount_txt}}).</p><p>Die Weiterverarbeitung dieser Daten kann möglicherweise etwas länger dauern. Soll wirklich fortgefahren werden?</p>",
 
   "waiter.processing_query": "Query wird bearbeitet...",
   "waiter.export_as_image": "Exportiere als Bild...",

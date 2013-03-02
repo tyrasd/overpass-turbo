@@ -31,11 +31,6 @@ Also to be configurable via scripts:
 
 The compiler should be able to support scripts. There has to be a possibility to tell the compiler which (parts of) libraries have to be included "linked" in the output.
 
-Support for Complex Multipolygons
----------------------------------
-
-This would be a very nice feature. ^^
-
 Query-Builder
 -------------
 
@@ -93,4 +88,14 @@ Several UI Improvements
 * export as png: render scale & attribution separately, and blend in after the data overlay
 * OSM4Leaflet: add "context" callback instead of hardcoded magic
 * ~~open external links in new tabs!~~
-* show warning when there are large amounts of data to be loaded (>10.000, >100.000 nodes? or in MBytes of data?)
+* ~~show warning when there are large amounts of data to be loaded (>10.000, >100.000 nodes? or in MBytes of data?)~~
+* do not apply novanish when a way is member of route/multipolygon (more?) relations.
+* share tool: add forumish / markdown / etc. links
+* share tool: add embed as html (= map.html export)
+* ~~support for osm-style lat/lon/zoom parameters~~
+* autorun queries if code+location+zoom is supplied in the url??
+* do not auto-show help if the page was started via share-link, template, etc.?? or begin with a shorter, very general welcome dialog (linking to help for example)
+* ~~mark finished items by a check-mark.~~
+* implement poly-boundings selector (I may have to wait for the most recent leaflet-draw plugin) 
+* ~~deactivate "manually select bbox" when there is no "{{bbox}}" in the query.~~
+* ~~add description on how to run templates (e.g. "select region in the map and hit run").~~
