@@ -592,13 +592,22 @@ var ide = new(function() {
     }
     overpass.handlers["onDataRecieved"] = function(amount, amount_txt, abortCB, continueCB) {
       if (amount > 1000000) { // more than ~1MB of data
-        var abort = !confirm("This query returned quite a lot of data (approx. "+amount_txt+").\nYour browser may have a hard time trying to render this. Do you really want to continue?"); // TODO: make this a jqueryUI dialog // TODO: i18n
-        if (abort) {
+        // show warning dialog
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.abort")] = function() {
+          $(this).dialog("close");
           abortCB();
-          return;
-        }
-      }
-      continueCB();
+        };
+        dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
+          $(this).dialog("close");
+          continueCB();
+        };
+        $('<div title="'+i18n.t("warning.huge_data.title")+'">'+i18n.t("warning.huge_data.expl").replace("{{amount_txt}}",amount_txt)+'</div>').dialog({
+          modal:true,
+          buttons: dialog_buttons,
+        });
+      } else
+        continueCB();
     }
     overpass.handlers["onAbort"] = function() {
       ide.waiter.close();

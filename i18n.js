@@ -70,6 +70,7 @@ var i18n = new(function() {
     "dialog.delete": "delete",
     "dialog.close": "close",
     "dialog.done": "done",
+    "dialog.abort": "abort",
     "dialog.repair_query": "repair query",
     "dialog.continue_anyway": "continue anyway",
     "dialog.show_data": "show data",
@@ -100,6 +101,9 @@ var i18n = new(function() {
 
     "warning.share.long": "Warning: This share-link is quite long. It may not work under certain circumstances",
     "warning.share.very_long": "Warning: This share-link is very long. It is likely to fail under normal circumstances (browsers, webservers). Use with caution!",
+
+    "warning.huge_data.title": "Large amounts of data",
+    "warning.huge_data.expl": "<p>This query returned quite a lot of data (approx. {{amount_txt}}).</p><p>Your browser may have a hard time trying to render this. Do you really want to continue?</p>",
 
     "waiter.processing_query": "processing query...",
     "waiter.export_as_image": "exporting as image...",
