@@ -117,6 +117,7 @@
       overpass.handlers["onQueryError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\nThis is what overpass API returned:\n" + errmsg);};
       overpass.handlers["onGeoJsonReady"] = function() {ide.map.addLayer(overpass.osmLayer);};
       overpass.handlers["onPopupReady"] = function(p) {p.openOn(ide.map);};
+      overpass.handlers["onDataRecieved"] = function(amount,txt, abortCB,continueCB) {continueCB();};
       // load the data
       ide.update_map();
     });
