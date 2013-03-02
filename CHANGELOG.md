@@ -1,3 +1,13 @@
+2013.03.02
+----------
+* showing warning message for queries returning large amounts of data (>~ 1MB).
+* better progress indicator: show checkmarks for past events; also: made it a little more responsive during lenghty calculations
+* improved bbox-selector: hide if there is no use of {{bbox}} in the query, also: show manually selected bbox in "map view" info dialog
+* support for standard lat/lon/zoom parameters (in addition to turbo specific params)
+* added type-id template
+* updated template descriptions
+* fixed several compatibility issues and bugfixes
+
 2013.02.10
 ----------
 * multipolygon rendering
