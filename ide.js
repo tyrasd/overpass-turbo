@@ -152,8 +152,11 @@ var ide = new(function() {
           var params = template.parameters;
           for (var i=0; i<params.length; i++) {
             var param = params[i];
-            var value = decodeURIComponent(args[param].replace(/\+/g,"%20")).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
-            if (!value) continue;
+            if (!args[param]) continue;
+            var value = decodeURIComponent(args[param].replace(/\+/g,"%20"));
+            value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+            // additionally escape curly brackets
+            value = value.replace(/\}/g,"&#125;").replace(/\{/g,"&#123;");
             q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
           }
           settings.code["overpass"] = q;
