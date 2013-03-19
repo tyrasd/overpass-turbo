@@ -115,6 +115,10 @@
   "share.incl_map_state": "Aktuelle Kartenansicht mitgeben",
   "share.run_immediately": "Die geteilte Abfrage sofort beim öffnen ausführen",
 
+  "welcome.title": "Willkommen",
+  "welcome.text.1" : "Hallo, das ist <i>overpass turbo</i>, eine Web-Anwendung zum Filtern von <a href=\"http://www.openstreetmap.org\">OpenStreetMap</a> Daten. Mit Hilfe der <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API\">Overpass API</a> können ganz einfach die Geodaten von OSM durchsucht werden.",
+  "welcome.text.2" : "Mehr Informationen gibt es, falls benötigt, auf der <a href=\"javascript:ide.onHelpClick();\">Hilfe-Seite</a>.",
+
   "help.title": "Hilfe",
 
   "help.section.introduction": "Einstieg",

@@ -152,8 +152,11 @@ var ide = new(function() {
           var params = template.parameters;
           for (var i=0; i<params.length; i++) {
             var param = params[i];
-            var value = decodeURIComponent(args[param].replace(/\+/g,"%20")).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
-            if (!value) continue;
+            if (!args[param]) continue;
+            var value = decodeURIComponent(args[param].replace(/\+/g,"%20"));
+            value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+            // additionally escape curly brackets
+            value = value.replace(/\}/g,"&#125;").replace(/\{/g,"&#123;");
             q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
           }
           settings.code["overpass"] = q;
@@ -671,11 +674,19 @@ var ide = new(function() {
     // close startup waiter
     ide.waiter.close();
 
-    // automatically load help, if this is the very first time the IDE is started
+    // show welcome message, if this is the very first time the IDE is started
     if (settings.first_time_visit === true && 
         ide.not_supported !== true &&
-        ide.run_query_on_startup !== true)
-      ide.onHelpClick();
+        ide.run_query_on_startup !== true) {
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.close")] = function() {
+        $(this).dialog( "close" );
+      };
+      $("#welcome-dialog").dialog({
+        modal:true,
+        buttons: dialog_buttons
+      });
+    }
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true)
       ide.update_map();
