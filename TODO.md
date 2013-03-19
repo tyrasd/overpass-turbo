@@ -94,7 +94,7 @@ Several UI Improvements
 * share tool: add embed as html (= map.html export)
 * ~~support for osm-style lat/lon/zoom parameters~~
 * autorun queries if code+location+zoom is supplied in the url??
-* do not auto-show help if the page was started via share-link, template, etc.?? or begin with a shorter, very general welcome dialog (linking to help for example)
+* ~~do not auto-show help if the page was started via share-link, template, etc.?? or begin with a shorter, very general welcome dialog (linking to help for example)~~
 * ~~mark finished items by a check-mark.~~
 * implement poly-boundings selector (I may have to wait for the most recent leaflet-draw plugin) 
 * ~~deactivate "manually select bbox" when there is no "{{bbox}}" in the query.~~
