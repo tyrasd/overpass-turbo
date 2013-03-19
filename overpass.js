@@ -232,6 +232,15 @@ setTimeout(function() {
                 $.each(feature.properties.tags, function(k,v) {
                   k = htmlentities(k); // escaping strings!
                   v = htmlentities(v);
+                  // hyperlinks for http,https and ftp URLs
+                  v = v.replace(/((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?)/g,'<a href="$1" target="_blank">$1</a>');
+                  // hyperlinks for email adresses
+                  v = v.replace(/(([a-zA-Z0-9_\.-]+)@([\da-zA-Z\.-]+)\.([a-zA-Z]{2,6}))/g,'<a href="mailto:$1" target="_blank">$1</a>');
+                  // hyperlinks for wikipedia entries
+                  var wiki_lang, wiki_page;
+                  if (((wiki_lang = k.match(/^wikipedia\:(.*)$/)) && (wiki_page = v)) || 
+                      ((k == "wikipedia") && (wiki_lang = v.match(/^([a-zA-Z]+)\:(.*)$/)) && (wiki_page = wiki_lang[2])))
+                    v = '<a href="http://'+wiki_lang[1]+'.wikipedia.org/wiki/'+encodeURIComponent(wiki_page)+'" target="_blank">'+v+'</a>';
                   popup += "<li>"+k+"="+v+"</li>"
                 });
                 popup += "</ul>";
