@@ -1,0 +1,69 @@
+#
+
+UGLIFY = ./node_modules/uglify-js/bin/uglifyjs
+JS_BEAUTIFIER = $(UGLIFY) -b -i 2 -nm -ns
+JS_COMPILER = $(UGLIFY)
+CSSO = ./node_modules/csso/bin/csso
+CSS_COMPILER = $(CSSO)
+install_root ?= build
+
+all: \
+	turbo.js \
+	turbo.min.js \
+	turbo.css \
+	turbo.min.css
+
+.INTERMEDIATE turbo.js: \
+	libs/CodeMirror/lib/codemirror.js \
+	libs/CodeMirror/mode/javascript/javascript.js \
+	libs/CodeMirror/mode/xml/xml.js \
+	libs/CodeMirror/mode/clike/clike.js \
+	libs/CodeMirror/lib/util/multiplex.js \
+	libs/CodeMirror/lib/util/closetag.js \
+	libs/locationfilter/src/locationfilter.js \
+	libs/GeoJsonNoVanish.js \
+	libs/OSM4Leaflet.js \
+	libs/misc.js \
+	libs/html2canvas/html2canvas.patched.js \
+	libs/html2canvas/jquery.plugin.html2canvas.js \
+	libs/canvg/rgbcolor.js \
+	libs/canvg/canvg.js \
+	settings.js \
+	i18n.js \
+	overpass.js \
+	ide.js
+
+turbo.js: Makefile
+	@rm -f $@
+	cat $(filter %.js,$^) > $@
+
+turbo.min.js: turbo.js Makefile
+	@rm -f $@
+	$(JS_COMPILER) $< -c -m -o $@
+
+.INTERMEDIATE turbo.css: \
+	libs/CodeMirror/lib/codemirror.css \
+	libs/locationfilter/src/locationfilter.css \
+	default.css
+
+turbo.css: Makefile
+	@rm -f $@
+	cat $(filter %.css,$^) > $@
+
+turbo.min.css: turbo.css Makefile
+	@rm -f $@
+	$(CSS_COMPILER) $< $@
+
+install: all
+	mkdir -p $(install_root)
+	cp turbo.js turbo.min.js $(install_root)
+	cp turbo.css turbo.min.css $(install_root)
+	cp index_packaged.html $(install_root)/index.html
+	cp -R locales/. $(install_root)/locales
+
+clean:
+	rm -f turbo.js
+	rm -f turbo.min.js
+	rm -f turbo.css
+	rm -f turbo.min.css
+
