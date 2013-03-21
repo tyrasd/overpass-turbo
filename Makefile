@@ -58,6 +58,8 @@ install: all
 	mkdir -p $(install_root)
 	cp turbo.js turbo.min.js $(install_root)
 	cp turbo.css turbo.min.css $(install_root)
+	cp compact.css $(install_root)
+	cp turbo.png favicon.ico $(install_root)
 	cp index_packaged.html $(install_root)/index.html
 	cp -R locales/. $(install_root)/locales
 
