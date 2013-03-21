@@ -1,3 +1,9 @@
+2013.03.21
+----------
+* showing hyperlinks for http/https/ftp-URLs, email addresses and wikipedia entries
+* added new "welcome" message for first time users
+* slightly more robust template code
+
 2013.03.02
 ----------
 * showing warning message for queries returning large amounts of data (>~ 1MB).
