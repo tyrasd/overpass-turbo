@@ -58,8 +58,8 @@ var i18n = new(function() {
 
   // default texts
   var td = {
-    "map_controlls.zoom_to_data": "zoom onto data",
-    "map_controlls.localize_user": "pan to user location",
+    "map_controlls.zoom_to_data": "zoom to data",
+    "map_controlls.localize_user": "locate me!",
     "map_controlls.select_bbox": "manually select bbox",
     "map_controlls.toggle_wide_map": "toggle wide map",
     "map_controlls.clear_data": "clear data overlay",
