@@ -61,8 +61,9 @@ install: all
 	cp compact.css $(install_root)
 	cp turbo.png favicon.ico $(install_root)
 	cp index_packaged.html $(install_root)/index.html
-	cp map_key.png $(install_root)
+	cp map-key.png $(install_root)
 	cp -R locales/. $(install_root)/locales
+	cp -R libs $(install_root)/libs
 
 clean:
 	rm -f turbo.js
