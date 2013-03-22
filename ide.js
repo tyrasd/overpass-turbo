@@ -298,7 +298,7 @@ var ide = new(function() {
     // init leaflet
     ide.map = new L.Map("map", {
       attributionControl:false,
-      minZoom:4,
+      minZoom:0,
       maxZoom:18,
     });
     var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
