@@ -509,25 +509,24 @@ setTimeout(function(){
           ways[i].nodes[0] == ways[i].nodes[ways[i].nodes.length-1] &&
           (ways[i].tags && ways[i].tags["area"] !== "no")) {
         if (typeof ways[i].tags != "undefined")
-          if ((typeof ways[i].tags["landuse"] != "undefined") ||
-              (typeof ways[i].tags["building"] != "undefined" && ways[i].tags["building"] != "no") ||
+          if ((typeof ways[i].tags["building"] != "undefined" && ways[i].tags["building"] != "no") ||
+              (typeof ways[i].tags["natural"] != "undefined" && jQuery.inArray(ways[i].tags["natural"], "coastline;arete".split(";")) == -1) ||
+              (typeof ways[i].tags["landuse"] != "undefined") ||
+              (jQuery.inArray(ways[i].tags["waterway"], "riverbank;dock;boatyard;dam".split(";")) != -1) ||
               (typeof ways[i].tags["amenity"] != "undefined") ||
+              (typeof ways[i].tags["leisure"] != "undefined") ||
+              (jQuery.inArray(ways[i].tags["railway"], "station;turntable;roundhouse;platform".split(";")) != -1) ||
               (typeof ways[i].tags["area"] != "undefined") ||
-              (typeof ways[i].tags["shop"] != "undefined") ||
+              (typeof ways[i].tags["man_made"] != "undefined" && jQuery.inArray(ways[i].tags["man_made"], "cutline;embankment;pipeline".split(";")) == -1) ||
+              (jQuery.inArray(ways[i].tags["power"], "generator;station;sub_station;transformer".split(";")) != -1) ||
               (typeof ways[i].tags["place"] != "undefined") ||
-              (typeof ways[i].tags["military"] != "undefined") ||
+              (typeof ways[i].tags["shop"] != "undefined") ||
+              (typeof ways[i].tags["aeroway"] != "undefined" && jQuery.inArray(ways[i].tags["aeroway"], "taxiway".split(";")) == -1) ||
               (typeof ways[i].tags["tourism"] != "undefined") ||
               (typeof ways[i].tags["historic"] != "undefined") ||
-              (typeof ways[i].tags["leisure"] != "undefined") ||
               (typeof ways[i].tags["public_transport"] != "undefined") ||
               (typeof ways[i].tags["office"] != "undefined") ||
-              (typeof ways[i].tags["place"] != "undefined") ||
-              (typeof ways[i].tags["aeroway"] != "undefined" && jQuery.inArray(ways[i].tags["aeroway"], "taxiway".split(";")) == -1) ||
-              (typeof ways[i].tags["natural"] != "undefined" && jQuery.inArray(ways[i].tags["natural"], "coastline;arete".split(";")) == -1) ||
-              (typeof ways[i].tags["man_made"] != "undefined" && jQuery.inArray(ways[i].tags["man_made"], "cutline;embankment;pipeline".split(";")) == -1) ||
-              (jQuery.inArray(ways[i].tags["railway"], "station;turntable;roundhouse;platform".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["waterway"], "riverbank;dock;boatyard;dam".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["power"], "generator;station;sub_station;transformer".split(";")) != -1) ||
+              (typeof ways[i].tags["military"] != "undefined") ||
               false) 
              way_type="Polygon";
         if (way_type == "Polygon")
