@@ -510,19 +510,24 @@ setTimeout(function(){
           (ways[i].tags && ways[i].tags["area"] !== "no")) {
         if (typeof ways[i].tags != "undefined")
           if ((typeof ways[i].tags["landuse"] != "undefined") ||
-              (typeof ways[i].tags["building"] != "undefined") ||
+              (typeof ways[i].tags["building"] != "undefined" && ways[i].tags["building"] != "no") ||
               (typeof ways[i].tags["amenity"] != "undefined") ||
               (typeof ways[i].tags["area"] != "undefined") ||
               (typeof ways[i].tags["shop"] != "undefined") ||
               (typeof ways[i].tags["place"] != "undefined") ||
               (typeof ways[i].tags["military"] != "undefined") ||
-              (jQuery.inArray(ways[i].tags["natural"], "bare_rock;bay;beach;bedrock;cave_entrance;desert;dune;fell;grassland;heath;lake;land;lava;moor;reef;rock;sand;scrub;sinkhole;water;wetland;wood;cliff;glacier".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["leisure"], "beach_resort;common;dance;dog_park;fitness_station;garden;golf_course;ice_rink;marina;miniature_golf;nature_reserve;paddling_pool;park;pitch;playground;ski_playground;stadium;swimming_pool;water_park".split(";")) != -1) ||
+              (typeof ways[i].tags["tourism"] != "undefined") ||
+              (typeof ways[i].tags["historic"] != "undefined") ||
+              (typeof ways[i].tags["leisure"] != "undefined") ||
+              (typeof ways[i].tags["public_transport"] != "undefined") ||
+              (typeof ways[i].tags["office"] != "undefined") ||
+              (typeof ways[i].tags["place"] != "undefined") ||
+              (typeof ways[i].tags["aeroway"] != "undefined" && !jQuery.inArray(ways[i].tags["aeroway"], "taxiway".split(";")) ||
+              (typeof ways[i].tags["natural"] != "undefined" && !jQuery.inArray(ways[i].tags["natural"], "coastline;arete".split(";")) ||
+              (typeof ways[i].tags["man_made"] != "undefined" && !jQuery.inArray(ways[i].tags["man_made"], "cutline;embankment;pipeline".split(";")) ||
               (jQuery.inArray(ways[i].tags["railway"], "station;turntable;roundhouse;platform".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["public_transport"], "station;platform;pay_scale_area".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["historic"], "archaeological_site;battlefield;castle;city_gate;farm;manor;memorial;monastery;monument;paleontological_site;ruins;ship;wayside_shrine;wreck".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["tourism"], "alpine_hut;aquarium;artwork;camp_site;caravan_site;chalet;guest_house;hostel;hotel;information;motel;museum;theme_park;viewpoint;wilderness_hut;zoo".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["power"], "generator;line;station;sub_station;transformer".split(";")) != -1) ||
+              (jQuery.inArray(ways[i].tags["waterway"], "riverbank;dock;boatyard;dam".split(";")) != -1) ||
+              (jQuery.inArray(ways[i].tags["power"], "generator;station;sub_station;transformer".split(";")) != -1) ||
               false) 
              way_type="Polygon";
         if (way_type == "Polygon")
