@@ -522,9 +522,9 @@ setTimeout(function(){
               (typeof ways[i].tags["public_transport"] != "undefined") ||
               (typeof ways[i].tags["office"] != "undefined") ||
               (typeof ways[i].tags["place"] != "undefined") ||
-              (typeof ways[i].tags["aeroway"] != "undefined" && !jQuery.inArray(ways[i].tags["aeroway"], "taxiway".split(";")) ||
-              (typeof ways[i].tags["natural"] != "undefined" && !jQuery.inArray(ways[i].tags["natural"], "coastline;arete".split(";")) ||
-              (typeof ways[i].tags["man_made"] != "undefined" && !jQuery.inArray(ways[i].tags["man_made"], "cutline;embankment;pipeline".split(";")) ||
+              (typeof ways[i].tags["aeroway"] != "undefined" && jQuery.inArray(ways[i].tags["aeroway"], "taxiway".split(";")) == -1) ||
+              (typeof ways[i].tags["natural"] != "undefined" && jQuery.inArray(ways[i].tags["natural"], "coastline;arete".split(";")) == -1) ||
+              (typeof ways[i].tags["man_made"] != "undefined" && jQuery.inArray(ways[i].tags["man_made"], "cutline;embankment;pipeline".split(";")) == -1) ||
               (jQuery.inArray(ways[i].tags["railway"], "station;turntable;roundhouse;platform".split(";")) != -1) ||
               (jQuery.inArray(ways[i].tags["waterway"], "riverbank;dock;boatyard;dam".split(";")) != -1) ||
               (jQuery.inArray(ways[i].tags["power"], "generator;station;sub_station;transformer".split(";")) != -1) ||
