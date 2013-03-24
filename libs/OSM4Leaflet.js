@@ -510,7 +510,7 @@ setTimeout(function(){
           (ways[i].tags && ways[i].tags["area"] !== "no")) {
         if (typeof ways[i].tags != "undefined")
           if ((typeof ways[i].tags["building"] != "undefined" && ways[i].tags["building"] != "no") ||
-              (typeof ways[i].tags["natural"] != "undefined" && jQuery.inArray(ways[i].tags["natural"], "coastline;arete".split(";")) == -1) ||
+              (typeof ways[i].tags["natural"] != "undefined" && jQuery.inArray(ways[i].tags["natural"], "coastline;ridge;arete".split(";")) == -1) ||
               (typeof ways[i].tags["landuse"] != "undefined") ||
               (jQuery.inArray(ways[i].tags["waterway"], "riverbank;dock;boatyard;dam".split(";")) != -1) ||
               (typeof ways[i].tags["amenity"] != "undefined") ||
