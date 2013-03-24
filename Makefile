@@ -11,7 +11,9 @@ all: \
 	turbo.js \
 	turbo.min.js \
 	turbo.css \
-	turbo.min.css
+	turbo.min.css \
+	turbo.map.js \
+	turbo.map.min.js
 
 .INTERMEDIATE turbo.js: \
 	libs/CodeMirror/lib/codemirror.js \
@@ -37,7 +39,17 @@ turbo.js: Makefile
 	@rm -f $@
 	cat $(filter %.js,$^) > $@
 
-turbo.min.js: turbo.js Makefile
+.INTERMEDIATE turbo.map.js: \
+	libs/GeoJsonNoVanish.js \
+	libs/OSM4Leaflet.js \
+	overpass.js \
+	map.js
+
+turbo.map.js: Makefile
+	@rm -f $@
+	cat $(filter %.js,$^) > $@
+
+%.min.js: %.js Makefile
 	@rm -f $@
 	$(JS_COMPILER) $< -c -m -o $@
 
@@ -57,13 +69,18 @@ turbo.min.css: turbo.css Makefile
 install: all
 	mkdir -p $(install_root)
 	cp turbo.js turbo.min.js $(install_root)
+	cp turbo.map.js turbo.map.min.js $(install_root)
 	cp turbo.css turbo.min.css $(install_root)
 	cp compact.css $(install_root)
+	cp map.css $(install_root)
 	cp turbo.png favicon.ico $(install_root)
 	cp index_packaged.html $(install_root)/index.html
+	cp map_packaged.html $(install_root)/map.html
 	cp map-key.png $(install_root)
 	cp -R locales/. $(install_root)/locales
 	cp -R libs $(install_root)/libs
+	mkdir -p $(install_root)/img
+	cp libs/locationfilter/src/img/* $(install_root)/img/
 
 clean:
 	rm -f turbo.js

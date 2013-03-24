@@ -668,9 +668,6 @@ var ide = new(function() {
     }
 
 
-    // load optional js libraries asynchronously
-    $("script[lazy-src]").each(function(i,s) { s.setAttribute("src", s.getAttribute("lazy-src")); s.removeAttribute("lazy-src"); });
-
     // close startup waiter
     ide.waiter.close();
 
