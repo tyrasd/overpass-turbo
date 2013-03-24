@@ -506,7 +506,7 @@ setTimeout(function(){
         continue;
       var way_type = "LineString"; // default
       var is_area_by_tag = function(tags, tagname, excluded_values, included_values) {
-        tag = tags[tagname];
+        var tag = tags[tagname];
         return (
             (typeof tag !== "undefined") &&
             (tag !== "no") &&
