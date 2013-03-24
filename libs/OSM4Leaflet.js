@@ -519,7 +519,7 @@ setTimeout(function(){
           (ways[i].tags && ways[i].tags["area"] !== "no")) {
         if (typeof ways[i].tags != "undefined")
           if (is_area_by_tag(ways[i].tags, "building") ||
-              is_area_by_tag(ways[i].tags, "natural", "coastline;ridge;arete".split(";")) ||
+              is_area_by_tag(ways[i].tags, "natural", "coastline;ridge;arete;tree_row".split(";")) ||
               is_area_by_tag(ways[i].tags, "landuse") ||
               is_area_by_tag(ways[i].tags, "waterway", undefined, "riverbank;dock;boatyard;dam".split(";")) ||
               is_area_by_tag(ways[i].tags, "amenity") ||
