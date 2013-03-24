@@ -233,9 +233,9 @@ setTimeout(function() {
                   k = htmlentities(k); // escaping strings!
                   v = htmlentities(v);
                   // hyperlinks for http,https and ftp URLs
-                  v = v.replace(/((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?)/g,'<a href="$1" target="_blank">$1</a>');
+                  v = v.replace(/\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi,'<a href="$1" target="_blank">$1</a>');
                   // hyperlinks for email adresses
-                  v = v.replace(/(([a-zA-Z0-9_\.-]+)@([\da-zA-Z\.-]+)\.([a-zA-Z]{2,6}))/g,'<a href="mailto:$1" target="_blank">$1</a>');
+                  v = v.replace(/(([^\s()<>]+)@([^\s()<>]+[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/g,'<a href="mailto:$1" target="_blank">$1</a>');
                   // hyperlinks for wikipedia entries
                   var wiki_lang, wiki_page;
                   if (((wiki_lang = k.match(/^wikipedia\:(.*)$/)) && (wiki_page = v)) || 

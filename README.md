@@ -28,6 +28,7 @@ Development is done in the *master* branch, stable releases are commited to *gh-
 
 ### install & run
 
-This application runs out of the box (no special installation needed). If you want to make turbo accessible to other people, you can put it on a web-server.
+This application runs out of the box (no special installation is needed). To start overpass turbo, just open index.html in a modern web browser. Recent versions of Chrome, Firefox and Opera have been tested and should work.
 
-To start overpass turbo, just open index.html in a modern web browser. Recent versions of Chrome, Firefox and Opera have been tested and should work.
+It is possible, to build a compacted/minified version of *turbo* out of the source files. For that, run `make && make install` after installing uglifyjs and csso: `npm install uglify-js csso`.
+

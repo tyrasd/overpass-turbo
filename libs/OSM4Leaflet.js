@@ -505,24 +505,41 @@ setTimeout(function(){
       if (coords.length <= 1) // invalid way geometry
         continue;
       var way_type = "LineString"; // default
+      var is_area_by_tag = function(tags, tagname, excluded_values, included_values) {
+        var tag = tags[tagname];
+        return (
+            (typeof tag !== "undefined") &&
+            (tag !== "no") &&
+            (!excluded_values || jQuery.inArray(tag, excluded_values) === -1) &&
+            (!included_values || jQuery.inArray(tag, included_values) !== -1)
+        );
+      }
       if (typeof ways[i].nodes[0] != "undefined" && 
           ways[i].nodes[0] == ways[i].nodes[ways[i].nodes.length-1] &&
           (ways[i].tags && ways[i].tags["area"] !== "no")) {
         if (typeof ways[i].tags != "undefined")
-          if ((typeof ways[i].tags["landuse"] != "undefined") ||
-              (typeof ways[i].tags["building"] != "undefined") ||
-              (typeof ways[i].tags["amenity"] != "undefined") ||
-              (typeof ways[i].tags["area"] != "undefined") ||
-              (typeof ways[i].tags["shop"] != "undefined") ||
-              (typeof ways[i].tags["place"] != "undefined") ||
-              (typeof ways[i].tags["military"] != "undefined") ||
-              (jQuery.inArray(ways[i].tags["natural"], "bare_rock;bay;beach;bedrock;cave_entrance;desert;dune;fell;grassland;heath;lake;land;lava;moor;reef;rock;sand;scrub;sinkhole;water;wetland;wood;cliff;glacier".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["leisure"], "beach_resort;common;dance;dog_park;fitness_station;garden;golf_course;ice_rink;marina;miniature_golf;nature_reserve;paddling_pool;park;pitch;playground;ski_playground;stadium;swimming_pool;water_park".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["railway"], "station;turntable;roundhouse;platform".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["public_transport"], "station;platform;pay_scale_area".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["historic"], "archaeological_site;battlefield;castle;city_gate;farm;manor;memorial;monastery;monument;paleontological_site;ruins;ship;wayside_shrine;wreck".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["tourism"], "alpine_hut;aquarium;artwork;camp_site;caravan_site;chalet;guest_house;hostel;hotel;information;motel;museum;theme_park;viewpoint;wilderness_hut;zoo".split(";")) != -1) ||
-              (jQuery.inArray(ways[i].tags["power"], "generator;line;station;sub_station;transformer".split(";")) != -1) ||
+          if (is_area_by_tag(ways[i].tags, "building") ||
+              is_area_by_tag(ways[i].tags, "highway", "services;rest_area;escape".split(";")) ||
+              is_area_by_tag(ways[i].tags, "natural", "coastline;ridge;arete;tree_row".split(";")) ||
+              is_area_by_tag(ways[i].tags, "landuse") ||
+              is_area_by_tag(ways[i].tags, "waterway", undefined, "riverbank;dock;boatyard;dam".split(";")) ||
+              is_area_by_tag(ways[i].tags, "amenity") ||
+              is_area_by_tag(ways[i].tags, "leisure") ||
+              is_area_by_tag(ways[i].tags, "railway", undefined, "station;turntable;roundhouse;platform".split(";")) ||
+              is_area_by_tag(ways[i].tags, "area") ||
+              is_area_by_tag(ways[i].tags, "boundary") ||
+              is_area_by_tag(ways[i].tags, "man_made", "cutline;embankment;pipeline".split(";")) ||
+              is_area_by_tag(ways[i].tags, "power", undefined, "generator;station;sub_station;transformer".split(";")) ||
+              is_area_by_tag(ways[i].tags, "place") ||
+              is_area_by_tag(ways[i].tags, "shop") ||
+              is_area_by_tag(ways[i].tags, "aeroway", "taxiway".split(";")) ||
+              is_area_by_tag(ways[i].tags, "tourism") ||
+              is_area_by_tag(ways[i].tags, "historic") ||
+              is_area_by_tag(ways[i].tags, "public_transport") ||
+              is_area_by_tag(ways[i].tags, "office") ||
+              is_area_by_tag(ways[i].tags, "building:part") ||
+              is_area_by_tag(ways[i].tags, "military") ||
+              is_area_by_tag(ways[i].tags, "craft") ||
               false) 
              way_type="Polygon";
         if (way_type == "Polygon")
