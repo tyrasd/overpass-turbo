@@ -85,6 +85,8 @@ install: all
 clean:
 	rm -f turbo.js
 	rm -f turbo.min.js
+	rm -f turbo.map.js
+	rm -f turbo.map.min.js
 	rm -f turbo.css
 	rm -f turbo.min.css
 
