@@ -519,6 +519,7 @@ setTimeout(function(){
           (ways[i].tags && ways[i].tags["area"] !== "no")) {
         if (typeof ways[i].tags != "undefined")
           if (is_area_by_tag(ways[i].tags, "building") ||
+              is_area_by_tag(ways[i].tags, "highway", "services;rest_area;escape".split(";")) ||
               is_area_by_tag(ways[i].tags, "natural", "coastline;ridge;arete;tree_row".split(";")) ||
               is_area_by_tag(ways[i].tags, "landuse") ||
               is_area_by_tag(ways[i].tags, "waterway", undefined, "riverbank;dock;boatyard;dam".split(";")) ||
@@ -526,6 +527,7 @@ setTimeout(function(){
               is_area_by_tag(ways[i].tags, "leisure") ||
               is_area_by_tag(ways[i].tags, "railway", undefined, "station;turntable;roundhouse;platform".split(";")) ||
               is_area_by_tag(ways[i].tags, "area") ||
+              is_area_by_tag(ways[i].tags, "boundary") ||
               is_area_by_tag(ways[i].tags, "man_made", "cutline;embankment;pipeline".split(";")) ||
               is_area_by_tag(ways[i].tags, "power", undefined, "generator;station;sub_station;transformer".split(";")) ||
               is_area_by_tag(ways[i].tags, "place") ||
@@ -535,7 +537,9 @@ setTimeout(function(){
               is_area_by_tag(ways[i].tags, "historic") ||
               is_area_by_tag(ways[i].tags, "public_transport") ||
               is_area_by_tag(ways[i].tags, "office") ||
+              is_area_by_tag(ways[i].tags, "building:part") ||
               is_area_by_tag(ways[i].tags, "military") ||
+              is_area_by_tag(ways[i].tags, "craft") ||
               false) 
              way_type="Polygon";
         if (way_type == "Polygon")
