@@ -13,7 +13,7 @@ $(document).ready(function() {
     server: "http://overpass-api.de/api/",
     tileServer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     force_simple_cors_request: true,
-    //disable_poiomatic: true,
+    disable_poiomatic: true,
   };
   ide = {
     getQuery: function() {return settings.code["overpass"];},
