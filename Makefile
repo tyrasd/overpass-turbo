@@ -40,7 +40,6 @@ turbo.js: Makefile
 	cat $(filter %.js,$^) > $@
 
 .INTERMEDIATE turbo.map.js: \
-	libs/GeoJsonNoVanish.js \
 	libs/OSM4Leaflet.js \
 	overpass.js \
 	map.js
