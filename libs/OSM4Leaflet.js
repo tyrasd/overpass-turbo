@@ -525,6 +525,7 @@ setTimeout(function(){
               is_area_by_tag(ways[i].tags, "waterway", undefined, "riverbank;dock;boatyard;dam".split(";")) ||
               is_area_by_tag(ways[i].tags, "amenity") ||
               is_area_by_tag(ways[i].tags, "leisure") ||
+              is_area_by_tag(ways[i].tags, "barrier", undefined, "city_wall;ditch;hedge;retaining_wall;wall;spikes".split(";")) ||
               is_area_by_tag(ways[i].tags, "railway", undefined, "station;turntable;roundhouse;platform".split(";")) ||
               is_area_by_tag(ways[i].tags, "area") ||
               is_area_by_tag(ways[i].tags, "boundary") ||

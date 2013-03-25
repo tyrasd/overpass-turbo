@@ -1,3 +1,10 @@
+2013.03.24
+----------
+* implemented a build system - should result in much faster startup :)
+* better area-detection. See http://wiki.openstreetmap.org/wiki/Overpass_turbo/Polygon_Features
+* improved URL and email formatting/linkification
+* removed min-zoom level on the map
+
 2013.03.21
 ----------
 * showing hyperlinks for http/https/ftp-URLs, email addresses and wikipedia entries
