@@ -71,7 +71,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",25);
+var settings = new Settings("overpass-ide",26);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -107,6 +107,8 @@ settings.define_setting("ui_language","String","auto",19);
 settings.define_setting("disable_poiomatic","boolean",false,21);
 // show data stats
 settings.define_setting("show_data_stats","boolean",true,21);
+// show data stats
+settings.define_setting("short_url_service","string","",26);
 
 //settings.define_setting(,,,);
 

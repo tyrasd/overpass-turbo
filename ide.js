@@ -934,7 +934,8 @@ var ide = new(function() {
     var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
     var run_immediately = $("div#share-dialog input[name=run_immediately]")[0].checked;
 
-    var share_link = baseurl+ide.compose_share_link(query,compress,inc_coords,run_immediately);
+    var shared_query = ide.compose_share_link(query,compress,inc_coords,run_immediately);
+    var share_link = baseurl+shared_query;
 
     var warning = '';
     if (share_link.length >= 2000)
@@ -943,8 +944,17 @@ var ide = new(function() {
       warning = '<p style="color:red">'+i18n.t("warning.share.very_long")+'</p>';
 
     $("div#share-dialog #share_link_warning").html(warning);
+
     $("div#share-dialog #share_link_a")[0].href=share_link;
     $("div#share-dialog #share_link_textarea")[0].value=share_link;
+
+    // automatically minify urls if enabled
+    if (settings.short_url_service != "") {
+      $.get(settings.short_url_service+shared_query, function(data) {
+        $("div#share-dialog #share_link_a")[0].href=data;
+        $("div#share-dialog #share_link_textarea")[0].value=data;
+      });
+    }
   }
   this.onShareClick = function() {
     $("div#share-dialog input[name=include_coords]")[0].checked = settings.share_include_pos;
