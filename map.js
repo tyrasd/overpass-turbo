@@ -34,7 +34,7 @@ $(document).ready(function() {
   for (var i=0; i<get.length; i++) {
     var kv = get[i].split("=");
     if (kv[0] == "Q") // uncompressed query set in url
-      settings.code["overpass"] = decodeURIComponent(kv[1]);
+      settings.code["overpass"] = decodeURIComponent(kv[1].replace(/\+/g,"%20"));
   }
   // init leaflet
   ide.map = new L.Map("map");
