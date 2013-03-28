@@ -2680,7 +2680,11 @@
 	}
 })();
 
-if (CanvasRenderingContext2D) {
+var canvasrenderingcontext2d = null;
+try {
+  canvasrenderingcontext2d = CanvasRenderingContext2D;
+} catch(e) {}
+if (canvasrenderingcontext2d) {
 	CanvasRenderingContext2D.prototype.drawSvg = function(s, dx, dy, dw, dh) {
 		canvg(this.canvas, s, { 
 			ignoreMouse: true, 
