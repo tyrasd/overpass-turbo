@@ -1,4 +1,3 @@
-
 // global i18n object
 
 var i18n = new(function() {
@@ -11,7 +10,10 @@ var i18n = new(function() {
     var lng = settings.ui_language;
     if (lng == "auto") {
       // get user agent's language
-      lng = navigator.language.replace(/-.*/,"").toLowerCase();
+      try {
+        lng = navigator.language.replace(/-.*/,"").toLowerCase();
+      } catch(e) {}
+
       if ($.inArray(lng,supported_lngs) == -1) {
         lng = default_lng;
         return false;
