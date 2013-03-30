@@ -69,8 +69,8 @@ styleparser.StyleChooser.prototype = {
 					if (a[c.subpart]) {
 						// If there's already a style on this sublayer, then merge them
 						// (making a deep copy if necessary to avoid altering the root style)
-						if (!a[c.subpart].merged) { a[c.subpart]=lang.clone(a[c.subpart]); }
-						a[c.subpart].mergeWith(r);
+						if (!a[c.subpart].merged) { a[c.subpart]=$.extend({},a[c.subpart]); }
+						$.extend(a[c.subpart], r);
 					} else {
 						// Otherwise, just assign it
 						a[c.subpart]=r;

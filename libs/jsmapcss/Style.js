@@ -47,13 +47,6 @@ styleparser.Style.prototype = {
 			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
 		}
 	},
-	
-	dojoColor: function(rgb,a) {
-		var b=rgb % 256;
-		var g=(rgb-b) % 65536;
-		var r=(rgb-b-g) % 16777216;
-		return new dojo.Color([r/65536,g/256,b,a]);
-	},
 
 	toString: function() {
 		var str = '';
@@ -78,6 +71,21 @@ styleparser.InstructionStyle.prototype = {
 		this.edited=true;
 		if (!this.set_tags) this.set_tags={};
 		this.set_tags[k]=v;
+	},
+
+	runEvals: function(tags) {
+		for (var k in this.evals) {
+            // TODO: kill
+			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
+		}
+	},
+
+	toString: function() {
+		var str = '';
+		for (var k in this.properties) {
+			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
+		}
+		return str;
 	}
 };
 
@@ -119,6 +127,21 @@ styleparser.PointStyle.prototype = {
 	},
 	maxwidth:function() {
 		return this.evals.icon_width ? 0 : this.icon_width;
+	},
+
+	runEvals: function(tags) {
+		for (var k in this.evals) {
+            // TODO: kill
+			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
+		}
+	},
+
+	toString: function() {
+		var str = '';
+		for (var k in this.properties) {
+			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
+		}
+		return str;
 	}
 };
 
@@ -206,6 +229,21 @@ styleparser.ShapeStyle.prototype = {
 			cap:   cap,
 			join:  join
 		};
+	},
+
+	runEvals: function(tags) {
+		for (var k in this.evals) {
+            // TODO: kill
+			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
+		}
+	},
+
+	toString: function() {
+		var str = '';
+		for (var k in this.properties) {
+			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
+		}
+		return str;
 	}
 };
 
@@ -278,6 +316,21 @@ styleparser.TextStyle.prototype = {
 	fillStyler:function() {
 		// not implemented yet
 		return this.dojoColor(0,1);
+	},
+
+	runEvals: function(tags) {
+		for (var k in this.evals) {
+            // TODO: kill
+			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
+		}
+	},
+
+	toString: function() {
+		var str = '';
+		for (var k in this.properties) {
+			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
+		}
+		return str;
 	}
 	// getTextFormat, getHaloFilter, writeNameLabel
 };
@@ -299,6 +352,21 @@ styleparser.ShieldStyle.prototype = {
 	styleType: 'ShieldStyle',
 	drawn:function() {
 		return (shield_image !== null);
+	},
+
+	runEvals: function(tags) {
+		for (var k in this.evals) {
+            // TODO: kill
+			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
+		}
+	},
+
+	toString: function() {
+		var str = '';
+		for (var k in this.properties) {
+			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
+		}
+		return str;
 	}
 };
 
