@@ -147,6 +147,9 @@ setTimeout(function() {
           //geojson = overpass.overpassJSON2geoJSON(data);
         }
 
+        var mapcss = new styleparser.RuleSet();
+        mapcss.parseCSS("way {color:blue;} way[highway=residential] {color:green;} way[highway=platform] {color:red;}");
+
         //overpass.geojsonLayer = 
           //new L.GeoJSON(null, {
           //new L.GeoJsonNoVanish(null, {
@@ -161,6 +164,8 @@ setTimeout(function() {
             return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
           },
           style: function(feature) {
+            var s = mapcss.getStyles(feature, feature.properties.tags, 18 /*restyle on zoom??*/);
+            
             var stl = {};
             var color = "#03f";
             var fillColor = "#fc0";
@@ -209,6 +214,8 @@ setTimeout(function() {
               stl.fillColor = "red";
             }
 
+            if (s.shapeStyles["default"] && s.shapeStyles["default"].color)
+              stl.color = "#"+("000000".substr(0,6-Number(s.shapeStyles["default"].color).toString(16).length)+Number(s.shapeStyles["default"].color).toString(16));
             return stl;
           },
           pointToLayer: function (feature, latlng) {
