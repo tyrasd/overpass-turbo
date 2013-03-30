@@ -47,6 +47,10 @@ describe("ide.autorepair.recurse", function () {
         inp: 'way\n  ["amenity"]\n  ({{bbox}})\n->.foo;\nway\n  ["building"]\n  ({{bbox}})\n->.bar;\n.foo out;\n.bar out meta;',
         outp: 'way\n  ["amenity"]\n  ({{bbox}})\n->.foo;\nway\n  ["building"]\n  ({{bbox}})\n->.bar;\n/*added by auto repair*/\n(.foo;.foo >;)->.foo;\n/*end of auto repair*/\n.foo out;\n/*added by auto repair*/\n(.bar;.bar >;)->.bar;\n/*end of auto repair*/\n.bar out meta;'
       },
+      { // example with the term "...out..." in string parameters
+        inp: 'way({{bbox}})[junction=roundabout][name!="out"];out;',
+        outp: 'way({{bbox}})[junction=roundabout][name!="out"];/*added by auto repair*/(._;>;);/*end of auto repair*/out;'
+      },
     ];
     sinon.stub(ide,"getQueryLang").returns("OverpassQL");
     var setQuery = sinon.stub(ide,"setQuery");

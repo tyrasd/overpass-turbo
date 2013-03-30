@@ -766,7 +766,7 @@ var ide = new(function() {
         for (var i=0;i<prints.length;i++) 
           q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
       } else {
-        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;]*;)/g);
+        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g);
         for (var i=0;i<outs.length;i++) {
           var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
           var from = outs[i].match(/\.([^;.]+?)\s+?out/);
