@@ -66,14 +66,23 @@ styleparser.StyleChooser.prototype = {
 					tags._width = sl.maxwidth;
 			
 					r.runEvals(tags);
+                                        // helper function
+                                        function extend(destination, source) {
+                                          for (var property in source) {
+                                            if (source.hasOwnProperty(property)) {
+                                              destination[property] = source[property];
+                                            }
+                                          }
+                                          return destination;
+                                        };
 					if (a[c.subpart]) {
-						// If there's already a style on this sublayer, then merge them
-						// (making a deep copy if necessary to avoid altering the root style)
-						if (!a[c.subpart].merged) { a[c.subpart]=$.extend({},a[c.subpart]); }
-						$.extend(a[c.subpart], r);
+						// // If there's already a style on this sublayer, then merge them
+						// // (making a deep copy if necessary to avoid altering the root style)
+						// if (!a[c.subpart].merged) { a[c.subpart]=extend({},a[c.subpart]); }
+						extend(a[c.subpart], r);
 					} else {
-						// Otherwise, just assign it
-						a[c.subpart]=r;
+						// // Otherwise, just assign it
+						a[c.subpart]=extend({},r);
 					}
 				}
 			}

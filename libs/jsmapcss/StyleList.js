@@ -1,12 +1,13 @@
 // ----------------------------------------------------------------------
 // StyleList class
-styleparser.StyleList = function() {};
+styleparser.StyleList = function() {
+	this.shapeStyles  = {};
+	this.textStyles   = {};
+	this.pointStyles  = {};
+	this.shieldStyles = {};
+};
 styleparser.StyleList.prototype = {
 
-	shapeStyles: {},
-	textStyles: {},
-	pointStyles: {},
-	shieldStyles: {},
 	maxwidth: 0,
 	subparts: [],			// List of subparts used in this StyleList
 	validAt: -1,				// Zoom level this is valid at (or -1 at all levels - saves recomputing)

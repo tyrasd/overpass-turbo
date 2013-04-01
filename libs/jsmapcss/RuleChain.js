@@ -15,33 +15,33 @@
 */
 
 styleparser.RuleChain = function() {
-
     this.rules=[];				// list of Rules
     this.subpart= 'default';		// subpart name, as in way[highway=primary]::centreline
-
+};
+styleparser.RuleChain.prototype = {
     // Functions to define the RuleChain
-    this.addRule=function(_subject) {
+    addRule: function(_subject) {
         this.rules.push(new styleparser.Rule());
         this.rules[this.rules.length-1].addSubject(_subject);
-    };
+    },
 
-    this.addConditionToLast=function(_condition) {
+    addConditionToLast:function(_condition) {
         this.rules[this.rules.length-1].addCondition(_condition);
-    };
+    },
 
-    this.addZoomToLast=function(z1,z2) {
+    addZoomToLast:function(z1,z2) {
         this.rules[this.rules.length-1].minZoom=z1;
         this.rules[this.rules.length-1].maxZoom=z2;
-    };
+    },
 
 
-    this.length=function() {
+    length:function() {
         return this.rules.length;
-    };
+    },
 
-    this.setSubpart=function(subpart) {
+    setSubpart:function(subpart) {
         this.subpart = subpart || 'default';
-    };
+    },
 
     // Test a ruleChain
     // - run a set of tests in the chain
@@ -51,20 +51,20 @@ styleparser.RuleChain = function() {
     // - if they succeed, and it's the last in the chain, return happily
     // - if they succeed, and there's more in the chain, rerun this for each parent until success
 
-    this.test= function(pos, entity, tags, zoom) {
+    test:function(pos, entity, tags, zoom) {
         // summary:		Test a rule chain by running all the tests in reverse order.
-        if (this.rules.length === 0) { return false; }
+        if (this.rules.length === 0) { return true; } // orig: { return false; } // todo: wildcard selector "*" semms broken... 
         if (pos==-1) { pos=this.rules.length-1; }
 
         var r = this.rules[pos];
         if (!r.test(entity, tags, zoom)) { return false; }
         if (pos === 0) { return true; }
 
-        var o = [];//TODO//entity.entity.parentObjects();
+        var o = entity.getParentObjects();//TODO//entity.entity.parentObjects();
         for (var i = 0; i < o.length; i++) {
             var p=o[i];
             if (this.test(pos-1, p, p.tags, zoom)) { return true; }
         }
         return false;
-    };
+    }
 };

@@ -148,7 +148,24 @@ setTimeout(function() {
         }
 
         var mapcss = new styleparser.RuleSet();
-        mapcss.parseCSS("way {color:blue;} way[highway=residential] {color:green;} way[highway=platform] {color:red;}");
+        mapcss.parseCSS(""
+          +"node,way,relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n"
+          // point features
+          +"node,way.placeholder,relation.placeholder {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
+          // line features
+          +"line {color:#03f; width:5; opacity:0.6;} \n"
+          // polygon features
+          +"area {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
+          // style modifications
+          // objects in relations
+          +"relation node, relation way, relation relation {color:#d0f;} \n"
+          // tainted objects
+          +"way.tainted,relation.tainted {dashes:5,8;} \n"
+          // multipolygon outlines without tags
+          +"way.mp_outline.no_interesting_tags {width:2; opacity:0.7;} \n"
+          // placeholder points
+          +"way.placeholder,relation.placeholder {fill-color:red;} \n"
+        );
 
         //overpass.geojsonLayer = 
           //new L.GeoJSON(null, {
@@ -164,58 +181,61 @@ setTimeout(function() {
             return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
           },
           style: function(feature) {
-            var s = mapcss.getStyles(feature, feature.properties.tags, 18 /*restyle on zoom??*/);
-            
             var stl = {};
-            var color = "#03f";
-            var fillColor = "#fc0";
-            var relColor = "#d0f";
-            // point features
-            if (feature.geometry.type == "Point") {
-              stl.color = color;
-              stl.weight = 2;
-              stl.opacity = 0.7;
-              stl.fillColor = fillColor;
-              stl.fillOpacity = 0.3;
+            function hasInterestingTags(props) {
+              // this checks if the node has any tags other than "created_by"
+              return props && 
+                     props.tags && 
+                     (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(props.tags);
             }
-            // line features
-            else if (feature.geometry.type == "LineString") {
-              stl.color = color;
-              stl.opacity = 0.6;
-              stl.weight = 5;
+            var s = mapcss.getStyles({
+              isSubject: function(subject) {
+                switch (subject) {
+                  case "node":     return feature.properties.type == "node";
+                  case "area":     return feature.geometry.type == "Polygon" || feature.geometry.type == "MultiPolygon";
+                  case "line":     return feature.geometry.type == "LineString";
+                  case "way":      return feature.properties.type == "way";
+                  case "relation": return feature.properties.type == "relation";
+                }
+                return false;
+              },
+              getParentObjects: function() {
+                if (feature.properties.relations.length == 0)
+                  return [];
+                else
+                  return feature.properties.relations.map(function(rel) {
+                    return {
+                      tags: rel.reltags,
+                      isSubject: function(subject) {
+                        return subject=="relation" || 
+                               (subject=="area" && rel.reltags.type=="multipolyon");
+                      },
+                      getParentObject: function() {return [];},
+                    }
+                  });
+              } 
+            }, $.extend(
+              feature.properties && feature.properties.tainted ? {".tainted": true} : {},
+              feature.properties && feature.properties.mp_outline ? {".mp_outline": true} : {},
+              feature.is_placeholder ? {".placeholder": true} : {},
+              hasInterestingTags(feature.properties) ? {} : {".no_interesting_tags": true},
+              feature.properties.tags)
+            , 18 /*restyle on zoom??*/);
+            // apply mapcss styles
+            if (s.shapeStyles["default"]) {
+              function num2color(val) {
+                val = Number(val).toString(16);
+                return "#"+("000000".substr(0,6-val.length))+val;
+              }
+              if (s.shapeStyles["default"].hasOwnProperty("color"))        stl.color       = num2color(s.shapeStyles["default"]["color"]);
+              if (s.shapeStyles["default"]["opacity"])      stl.opacity     = s.shapeStyles["default"]["opacity"];
+              if (s.shapeStyles["default"]["width"])        stl.weight      = s.shapeStyles["default"]["width"];
+              if (s.shapeStyles["default"]["fill_color"])   stl.fillColor   = num2color(s.shapeStyles["default"]["fill_color"]);
+              if (s.shapeStyles["default"]["fill_opacity"]) stl.fillOpacity = s.shapeStyles["default"]["fill_opacity"];
+              if (s.shapeStyles["default"]["dashes"])       stl.dashArray   = s.shapeStyles["default"]["dashes"].join(",");
+              // todo: more style properties? linecap, linejoin?
             }
-            // polygon features
-            else if ($.inArray(feature.geometry.type, ["Polygon","MultiPolygon"]) != -1) {
-              stl.color = color;
-              stl.opacity = 0.7;
-              stl.weight = 2;
-              stl.fillColor = fillColor;
-              stl.fillOpacity = 0.3;
-            }
-
-            // style modifications
-            // tainted objects
-            if (feature.properties && feature.properties.tainted==true) {
-              stl.dashArray = "5,8";
-            }
-            // multipolygon outlines without tags
-            if (feature.properties && feature.properties.mp_outline==true)
-              if (typeof feature.properties.tags == "undefined" ||
-                  $.isEmptyObject(feature.properties.tags)) {
-                stl.opacity = 0.7;
-                stl.weight = 2;
-            }
-            // objects in relations
-            if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
-              stl.color = relColor;
-            }
-
-            if (feature.is_placeholder) {
-              stl.fillColor = "red";
-            }
-
-            if (s.shapeStyles["default"] && s.shapeStyles["default"].color)
-              stl.color = "#"+("000000".substr(0,6-Number(s.shapeStyles["default"].color).toString(16).length)+Number(s.shapeStyles["default"].color).toString(16));
+            // return style object
             return stl;
           },
           pointToLayer: function (feature, latlng) {
