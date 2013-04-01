@@ -206,7 +206,7 @@ var ide = new(function() {
         return CodeMirror.multiplexingMode(
           CodeMirror.getMode(config, "xml"),
           {open: "{{", close: "}}",
-           mode: CodeMirror.getMode(config, "text/javascript"),
+           mode: CodeMirror.getMode(config, "text/plain"),
            delimStyle: "mustache"}
         );
       });
@@ -214,7 +214,7 @@ var ide = new(function() {
         return CodeMirror.multiplexingMode(
           CodeMirror.getMode(config, "text/x-overpassQL"),
           {open: "{{", close: "}}",
-           mode: CodeMirror.getMode(config, "text/javascript"),
+           mode: CodeMirror.getMode(config, "text/plain"),
            delimStyle: "mustache"}
         );
       });
