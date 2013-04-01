@@ -17,14 +17,14 @@ styleparser.RuleSet.prototype = {
         return sl;	// styleparser.StyleList
     },
 
-    loadFromCSS: function(url, callback) {
+    /*loadFromCSS: function(url, callback) {
         // summary:		Load a MapCSS file from a URL, then throw it at the parser when it's loaded.
         this.callback = callback;
         $.ajax({
             url: url,
             success: _.bind(this.parseCSS, this)
         });
-    },
+    },*/
 
     parseCSS: function(css) {
         // summary:		Parse a CSS document into a set of StyleChoosers.

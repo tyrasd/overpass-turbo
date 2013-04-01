@@ -164,7 +164,9 @@ setTimeout(function() {
           // multipolygon outlines without tags
           +"way.mp_outline.no_interesting_tags {width:2; opacity:0.7;} \n"
           // placeholder points
-          +"way.placeholder,relation.placeholder {fill-color:red;} \n"
+          +"way.placeholder,relation.placeholder {fill-color:red;} \n"+
+          // user supplied mapcss
+          ide.mapcss
         );
 
         //overpass.geojsonLayer = 

@@ -716,16 +716,26 @@ var ide = new(function() {
     var query = codeEditor.getValue();
     if (processed) {
       // preproces query
+      // expand defined constants
       var const_defs = query.match(/{{[a-zA-Z0-9_]+=.+?}}/gm);
       if ($.isArray(const_defs))
         for (var i=0; i<const_defs.length; i++) {
-          var const_def = const_defs[i].match(/{{(.+?)=(.+)}}/);
+          var const_def = const_defs[i].match(/{{([^:=]+?)=(.+?)}}/);
           query = query.replace(const_defs[i],""); // remove constant definition
-          query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]); // expand defined constants
+          query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]);
         }
-      query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang())); // expand bbox
-      query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang())); // expand map center
-      // ignore unknown mustache templates:
+      // expand bbox
+      query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang()));
+      // expand map center
+      query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang()));
+      // parse mapcss declarations
+      var mapcss = query.match(/{{style:[\S\s]*?}}/gm) || [];
+      mapcss.forEach(function(css,i) {
+        mapcss[i] = css.match(/{{style:([\S\s]*?)}}/m)[1];
+      });
+      mapcss = mapcss.join("\n");
+      ide.mapcss = mapcss;
+      // ignore remaining (e.g. unknown) mustache templates:
       query = query.replace(/{{[\S\s]*?}}/gm,"");
       if (typeof trim_ws == "undefined" || trim_ws) {
         query = query.replace(/(\n|\r)/g," "); // remove newlines
