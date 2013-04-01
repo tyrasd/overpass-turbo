@@ -204,17 +204,27 @@ var ide = new(function() {
       );
       CodeMirror.defineMode("xml+mustache", function(config) {
         return CodeMirror.multiplexingMode(
-          CodeMirror.getMode(config, "xml"),
-          {open: "{{", close: "}}",
-           mode: CodeMirror.getMode(config, "text/plain"),
+          CodeMirror.multiplexingMode(
+            CodeMirror.getMode(config, "xml"),
+            {open: "{{", close:"}}",
+             mode:CodeMirror.getMode(config, "text/plain"),
+             delimStyle: "mustache"}
+          ),
+          {open: "{{style:", close: "}}",
+           mode: CodeMirror.getMode(config, "text/css"),
            delimStyle: "mustache"}
         );
       });
       CodeMirror.defineMode("ql+mustache", function(config) {
         return CodeMirror.multiplexingMode(
-          CodeMirror.getMode(config, "text/x-overpassQL"),
-          {open: "{{", close: "}}",
-           mode: CodeMirror.getMode(config, "text/plain"),
+          CodeMirror.multiplexingMode(
+            CodeMirror.getMode(config, "text/x-overpassQL"),
+            {open: "{{", close:"}}",
+             mode:CodeMirror.getMode(config, "text/plain"),
+             delimStyle: "mustache"}
+          ),
+          {open: "{{style:", close: "}}",
+           mode: CodeMirror.getMode(config, "text/css"),
            delimStyle: "mustache"}
         );
       });

@@ -20,6 +20,7 @@ all: \
 	libs/CodeMirror/mode/javascript/javascript.js \
 	libs/CodeMirror/mode/xml/xml.js \
 	libs/CodeMirror/mode/clike/clike.js \
+	libs/CodeMirror/mode/css/css.js \
 	libs/CodeMirror/lib/util/multiplex.js \
 	libs/CodeMirror/lib/util/closetag.js \
 	libs/locationfilter/src/locationfilter.js \
