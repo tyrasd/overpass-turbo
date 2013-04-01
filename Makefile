@@ -25,6 +25,14 @@ all: \
 	libs/locationfilter/src/locationfilter.js \
 	libs/GeoJsonNoVanish.js \
 	libs/OSM4Leaflet.js \
+        libs/jsmapcss/styleparser.js \
+        libs/jsmapcss/Condition.js \
+        libs/jsmapcss/Rule.js \
+        libs/jsmapcss/RuleChain.js \
+        libs/jsmapcss/Style.js \
+        libs/jsmapcss/StyleChooser.js \
+        libs/jsmapcss/StyleList.js \
+        libs/jsmapcss/RuleSet.js \
 	libs/misc.js \
 	libs/html2canvas/html2canvas.patched.js \
 	libs/html2canvas/jquery.plugin.html2canvas.js \
