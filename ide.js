@@ -1027,6 +1027,17 @@ var ide = new(function() {
       if (!geojson)
         gpx_str = i18n.t("export.GPX.no_data");
       else {
+        function get_feature_description(props) {
+          if (props && props.tags) {
+            if (props.tags.name)
+              return props.tags.name;
+            if (props.tags.ref)
+              return props.tags.ref;
+            if (props.tags["addr:housenumber"] && props.tags["addr:street"])
+              return props.tags["addr:street"] + " " + props.tags["addr:housenumber"];
+          }
+          return props.type + " " + props.id;
+        }
         // make gpx object
         var gpx = {gpx: {
           "@xmlns":"http://www.topografix.com/GPX/1/1",
@@ -1047,7 +1058,7 @@ var ide = new(function() {
             "@lat": f.geometry.coordinates[1],
             "@lon": f.geometry.coordinates[0],
             "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
-            "name": (f.properties && f.properties.tags && f.properties.tags.name) ? f.properties.tags.name : f.properties.type + " " + f.properties.id
+            "name": get_feature_description(f.properties) 
           };
           gpx.gpx.wpt.push(o);
         });
@@ -1055,7 +1066,7 @@ var ide = new(function() {
         geojson[1].features.forEach(function(f) {
           o = {
             "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
-            "name": (f.properties && f.properties.tags && f.properties.tags.name) ? f.properties.tags.name : f.properties.type + " " + f.properties.id
+            "name": get_feature_description(f.properties) 
           };
           o.trkseg = {trkpt: []};
           f.geometry.coordinates.forEach(function(c) {
@@ -1067,7 +1078,7 @@ var ide = new(function() {
         geojson[0].features.forEach(function(f) {
           o = {
             "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
-            "name": (f.properties && f.properties.tags && f.properties.tags.name) ? f.properties.tags.name : f.properties.type + " " + f.properties.id
+            "name": get_feature_description(f.properties) 
           };
           o.trkseg = [];
           var coords = f.geometry.coordinates;
