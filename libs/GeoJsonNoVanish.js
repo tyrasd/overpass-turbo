@@ -39,7 +39,7 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
         return;
       }
       if (is_max_zoom)
-        return; // do not compress objects at map zoom
+        return; // do not compress objects at max zoom
       if (this.options.compress &&
           !this.options.compress(o.feature))
         return;
@@ -63,9 +63,8 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
       c.feature = f;
       this.resetStyle(c);
       c.object = o;
-      if (o._popupContent)
-        c.bindPopup(o._popupContent,o._popupOptions);
-      c.addEventListener("click dblclick mousedown mouseover mouseout contextmenu", function(e) {
+      //c.addEventListener("click dblclick mousedown mouseover mouseout contextmenu", function(e) {
+      c.on("click",function(e) {
         this.object.fireEvent(e.type,e);
       });
       this.addLayer(c);
