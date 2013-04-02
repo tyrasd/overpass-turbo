@@ -1109,7 +1109,7 @@ var ide = new(function() {
         .success(function(d,s,xhr) {
           if (d.protocolversion.major == 1) {
             $.get(JRC_url+"import", {
-              url: settings.server+"interpreter?data="+encodeURIComponent(ide.getQuery(true,true)),
+              url: settings.server+"interpreter?data="+/*encodeURIComponent*/(ide.getQuery(true,true)),
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
