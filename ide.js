@@ -1021,6 +1021,82 @@ var ide = new(function() {
       });
       return false;
     });
+    $("#export-dialog a#export-GPX").on("click", function() {
+      var gpx_str;
+      var geojson = overpass.geojson;
+      if (!geojson)
+        gpx_str = i18n.t("export.GPX.no_data");
+      else {
+        // make gpx object
+        var gpx = {gpx: {
+          "@xmlns":"http://www.topografix.com/GPX/1/1",
+          "@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
+          "@xsi:schemaLocation":"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd",
+          "@version":"1.1",
+          "@creator":"overpass turbo",
+          "metadata": {
+            "copyright": "Data (c) OpenStreetMap contributors (ODbL)",
+            "desc": "Filtered OSM data converted to GPX by overpass turbo"
+          },
+          "wpt": [],
+          "trk": [],
+        }};
+        // POIs
+        geojson[2].features.forEach(function(f) {
+          o = {
+            "@lat": f.geometry.coordinates[1],
+            "@lon": f.geometry.coordinates[0],
+            "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
+            "name": (f.properties && f.properties.tags && f.properties.tags.name) ? f.properties.tags.name : f.properties.type + " " + f.properties.id
+          };
+          gpx.gpx.wpt.push(o);
+        });
+        // LineStrings
+        geojson[1].features.forEach(function(f) {
+          o = {
+            "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
+            "name": (f.properties && f.properties.tags && f.properties.tags.name) ? f.properties.tags.name : f.properties.type + " " + f.properties.id
+          };
+          o.trkseg = {trkpt: []};
+          f.geometry.coordinates.forEach(function(c) {
+            o.trkseg.trkpt.push({"@lat": c[1], "@lon":c[0]});
+          });
+          gpx.gpx.trk.push(o);
+        });
+        // Polygons / Multipolygons
+        geojson[0].features.forEach(function(f) {
+          o = {
+            "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
+            "name": (f.properties && f.properties.tags && f.properties.tags.name) ? f.properties.tags.name : f.properties.type + " " + f.properties.id
+          };
+          o.trkseg = [];
+          var coords = f.geometry.coordinates;
+          if (f.geometry.type == "Polygon") coords = [coords];
+          coords.forEach(function(poly) {
+            poly.forEach(function(ring) {
+              var seg = {trkpt: []};
+              ring.forEach(function(c) {
+                seg.trkpt.push({"@lat": c[1], "@lon":c[0]});
+              });
+              o.trkseg.push(seg);
+            });
+          });
+          gpx.gpx.trk.push(o);
+        });
+        
+        gpx_str = JXON.stringify(gpx);
+      }
+      var d = $("#export-gpx");
+      $("textarea",d)[0].value=gpx_str;
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
+      d.dialog({
+        modal:true,
+        width:500,
+        buttons: dialog_buttons,
+      });
+      return false;
+    });
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";

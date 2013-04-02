@@ -82,6 +82,7 @@
   "export.section.data": "Daten",
   "export.raw_interpreter": "Direktlink zum <a id=\"export-overpass-api\" href=\"\">API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
   "export.as_geoJSON": "Als <a id=\"export-geoJSON\" href=\"\">GeoJSON</a>",
+  "export.as_GPX": "Als <a id=\"export-GPX\" href=\"\">GPX</a>",
   
   "export.section.query": "Query",
   "export.as_text": "Als <a id=\"export-text\" href=\"\" download=\"query.txt\">Text</a>",
@@ -91,8 +92,12 @@
   "export.remote_control_expl": "nur für Abfragen, die gültiges OSM-XML mit Metadaten liefern",
 
   "export.geoJSON.title": "Export - GeoJSON",
-  "export.geoJSON.expl": "Die aktuell angezeigen Daten im GeoJSON Format:",
+  "export.geoJSON.expl": "Die aktuell angezeigen Daten im GeoJSON-Format:",
   "export.geoJSON.no_data": "Keine GeoJSON-Daten verfügbar. Bitte zuerst eine Query ausführen!",
+
+  "export.GPX.title": "Export - GPX",
+  "export.GPX.expl": "Die aktuell angezeigen Daten im GPX-Format:",
+  "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
 
   "export.map_view.title": "Aktueller Kartenausschnitt",
   "export.map_view.permalink_osm": "<h4>Permalink</h4> nach",

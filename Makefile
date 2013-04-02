@@ -26,6 +26,7 @@ all: \
 	libs/GeoJsonNoVanish.js \
 	libs/OSM4Leaflet.js \
 	libs/misc.js \
+	libs/jxon.js \
 	libs/html2canvas/html2canvas.patched.js \
 	libs/html2canvas/jquery.plugin.html2canvas.js \
 	libs/canvg/rgbcolor.js \
