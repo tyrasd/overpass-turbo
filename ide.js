@@ -1133,7 +1133,11 @@ var ide = new(function() {
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     ide.waiter.addInfo("rendering map tiles");
-    $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
+    $("#map").html2canvas({
+      useCORS:true,
+      allowTaint:false,
+      proxy:"", //todo: use own proxy
+    onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
       $("#data_stats").show();
