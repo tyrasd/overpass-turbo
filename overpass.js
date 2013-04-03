@@ -149,9 +149,9 @@ setTimeout(function() {
 
         var mapcss = new styleparser.RuleSet();
         mapcss.parseCSS(""
-          +"node,way,relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n"
+          +"node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n"
           // point features
-          +"node,way.placeholder,relation.placeholder {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
+          +"node, way.placeholder, relation.placeholder {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
           // line features
           +"line {color:#03f; width:5; opacity:0.6;} \n"
           // polygon features
@@ -160,13 +160,13 @@ setTimeout(function() {
           // objects in relations
           +"relation node, relation way, relation relation {color:#d0f;} \n"
           // tainted objects
-          +"way.tainted,relation.tainted {dashes:5,8;} \n"
+          +"way.tainted, relation.tainted {dashes:5,8;} \n"
           // multipolygon outlines without tags
           +"way.mp_outline.no_interesting_tags {width:2; opacity:0.7;} \n"
           // placeholder points
-          +"way.placeholder,relation.placeholder {fill-color:red;} \n"+
+          +"way.placeholder, relation.placeholder {fill-color:red;} \n"
           // user supplied mapcss
-          ide.mapcss
+          +ide.mapcss
         );
 
         //overpass.geojsonLayer = 
