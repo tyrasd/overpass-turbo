@@ -1136,7 +1136,7 @@ var ide = new(function() {
     $("#map").html2canvas({
       useCORS:true,
       allowTaint:false,
-      proxy:"", //todo: use own proxy
+      proxy:"/html2canvas_proxy/", // use own proxy if necessary and available
     onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
