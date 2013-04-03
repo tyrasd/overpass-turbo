@@ -527,7 +527,7 @@ var ide = new(function() {
 
     ide.map.on("popupopen popupclose",function(e) {
       if (typeof e.popup.layer != "undefined") {
-        var layer = e.popup.layer;
+        var layer = e.popup.layer.placeholder || e.popup.layer;
         // re-call style handler to eventually modify the style of the clicked feature
         var stl = overpass.osmLayer._baseLayer.options.style(layer.feature, e.type=="popupopen");
         if (typeof layer.eachLayer != "function") {
