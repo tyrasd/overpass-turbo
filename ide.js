@@ -528,22 +528,13 @@ var ide = new(function() {
     ide.map.on("popupopen popupclose",function(e) {
       if (typeof e.popup.layer != "undefined") {
         var layer = e.popup.layer;
-        var layer_fun;
-        if (e.type == "popupopen")
-          layer_fun = function(l) {
-            l.setStyle({color:"#f50",fillColor:"#f50",_color:l.options["color"],_fillColor:l.options["fillColor"]});
-          };
-        else // e.type == "popupclose"
-          layer_fun = function(l) {
-            l.setStyle({color:l.options["_color"]});
-            l.setStyle({fillColor:l.options["_fillColor"]});
-            delete l.options["_color"];
-            delete l.options["_fillColor"];
-          };
-        if (typeof layer.eachLayer == "function")
-          layer.eachLayer(layer_fun);
-        else
-          layer_fun(layer);
+        // re-call style handler to eventually modify the style of the clicked feature
+        var stl = overpass.osmLayer._baseLayer.options.style(layer.feature, e.type=="popupopen");
+        if (typeof layer.eachLayer != "function") {
+          if (typeof layer.setStyle == "function")
+            layer.setStyle(stl); // other objects (pois, ways)
+        } else
+          layer.eachLayer(function(l) {l.setStyle(stl);}); // for multipolygons!
       }
     });
 

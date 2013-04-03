@@ -165,6 +165,8 @@ setTimeout(function() {
           +"way.mp_outline.no_interesting_tags {width:2; opacity:0.7;} \n"
           // placeholder points
           +"way.placeholder, relation.placeholder {fill-color:red;} \n"
+          // highlighted features
+          +"node.highlighted, way.highlighted, relation.highlighted {color:#f50; fill-color:#f50;} \n"
           // user supplied mapcss
           +ide.mapcss
         );
@@ -182,7 +184,7 @@ setTimeout(function() {
           compress: function(feature) {
             return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
           },
-          style: function(feature) {
+          style: function(feature, highlight) {
             var stl = {};
             function hasInterestingTags(props) {
               // this checks if the node has any tags other than "created_by"
@@ -221,6 +223,7 @@ setTimeout(function() {
               feature.properties && feature.properties.mp_outline ? {".mp_outline": true} : {},
               feature.is_placeholder ? {".placeholder": true} : {},
               hasInterestingTags(feature.properties) ? {} : {".no_interesting_tags": true},
+              highlight ? {".highlighted": true} : {},
               feature.properties.tags)
             , 18 /*restyle on zoom??*/);
             // apply mapcss styles
@@ -240,6 +243,14 @@ setTimeout(function() {
             // return style object
             return stl;
           },
+          /*pointToLayer: function (feature, latlng) {
+            // user overridden poi converter:
+            var user_poi = execute_script("pointToLayer", feature,latlng);
+            if (typeof user_poi != "undefined")
+              return user_poi;
+            else
+              return new L.CircleMarker(latlng, {radius: 9});
+          },*/
           pointToLayer: function (feature, latlng) {
             return new L.CircleMarker(latlng, {
               radius: 9,
