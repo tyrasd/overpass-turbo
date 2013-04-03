@@ -147,6 +147,12 @@ setTimeout(function() {
           //geojson = overpass.overpassJSON2geoJSON(data);
         }
 
+        /* own MapCSS-extension:
+         * added circle_radius property
+         * TODO: add point-style = circle|icon|marker|square?|shield?|...
+         */
+        styleparser.PointStyle.prototype.properties = ['icon_image','icon_width','icon_height','icon_opacity','rotation','circle_radius'];
+        styleparser.PointStyle.prototype.circle_radius = NaN;
         var mapcss = new styleparser.RuleSet();
         mapcss.parseCSS(""
           +"node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n"
@@ -170,6 +176,49 @@ setTimeout(function() {
           // user supplied mapcss
           +ide.mapcss
         );
+        var get_feature_style = function(feature, highlight) {
+          function hasInterestingTags(props) {
+            // this checks if the node has any tags other than "created_by"
+            return props && 
+                   props.tags && 
+                   (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(props.tags);
+          }
+          var s = mapcss.getStyles({
+            isSubject: function(subject) {
+              switch (subject) {
+                case "node":     return feature.properties.type == "node";
+                case "area":     return feature.geometry.type == "Polygon" || feature.geometry.type == "MultiPolygon";
+                case "line":     return feature.geometry.type == "LineString";
+                case "way":      return feature.properties.type == "way";
+                case "relation": return feature.properties.type == "relation";
+              }
+              return false;
+            },
+            getParentObjects: function() {
+              if (feature.properties.relations.length == 0)
+                return [];
+              else
+                return feature.properties.relations.map(function(rel) {
+                  return {
+                    tags: rel.reltags,
+                    isSubject: function(subject) {
+                      return subject=="relation" || 
+                             (subject=="area" && rel.reltags.type=="multipolyon");
+                    },
+                    getParentObject: function() {return [];},
+                  }
+                });
+            } 
+          }, $.extend(
+            feature.properties && feature.properties.tainted ? {".tainted": true} : {},
+            feature.properties && feature.properties.mp_outline ? {".mp_outline": true} : {},
+            feature.is_placeholder ? {".placeholder": true} : {},
+            hasInterestingTags(feature.properties) ? {} : {".no_interesting_tags": true},
+            highlight ? {".highlighted": true} : {},
+            feature.properties.tags)
+          , 18 /*restyle on zoom??*/);
+          return s;
+        };
 
         //overpass.geojsonLayer = 
           //new L.GeoJSON(null, {
@@ -186,46 +235,7 @@ setTimeout(function() {
           },
           style: function(feature, highlight) {
             var stl = {};
-            function hasInterestingTags(props) {
-              // this checks if the node has any tags other than "created_by"
-              return props && 
-                     props.tags && 
-                     (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(props.tags);
-            }
-            var s = mapcss.getStyles({
-              isSubject: function(subject) {
-                switch (subject) {
-                  case "node":     return feature.properties.type == "node";
-                  case "area":     return feature.geometry.type == "Polygon" || feature.geometry.type == "MultiPolygon";
-                  case "line":     return feature.geometry.type == "LineString";
-                  case "way":      return feature.properties.type == "way";
-                  case "relation": return feature.properties.type == "relation";
-                }
-                return false;
-              },
-              getParentObjects: function() {
-                if (feature.properties.relations.length == 0)
-                  return [];
-                else
-                  return feature.properties.relations.map(function(rel) {
-                    return {
-                      tags: rel.reltags,
-                      isSubject: function(subject) {
-                        return subject=="relation" || 
-                               (subject=="area" && rel.reltags.type=="multipolyon");
-                      },
-                      getParentObject: function() {return [];},
-                    }
-                  });
-              } 
-            }, $.extend(
-              feature.properties && feature.properties.tainted ? {".tainted": true} : {},
-              feature.properties && feature.properties.mp_outline ? {".mp_outline": true} : {},
-              feature.is_placeholder ? {".placeholder": true} : {},
-              hasInterestingTags(feature.properties) ? {} : {".no_interesting_tags": true},
-              highlight ? {".highlighted": true} : {},
-              feature.properties.tags)
-            , 18 /*restyle on zoom??*/);
+            var s = get_feature_style(feature, highlight);
             // apply mapcss styles
             if (s.shapeStyles["default"]) {
               function num2color(val) {
@@ -243,18 +253,29 @@ setTimeout(function() {
             // return style object
             return stl;
           },
-          /*pointToLayer: function (feature, latlng) {
-            // user overridden poi converter:
-            var user_poi = execute_script("pointToLayer", feature,latlng);
-            if (typeof user_poi != "undefined")
-              return user_poi;
-            else
-              return new L.CircleMarker(latlng, {radius: 9});
-          },*/
           pointToLayer: function (feature, latlng) {
-            return new L.CircleMarker(latlng, {
-              radius: 9,
-            });
+            // todo: labels!
+            var s = get_feature_style(feature);
+            var stl = s.pointStyles && s.pointStyles["default"] ? s.pointStyles["default"] : {};
+            if (stl["icon_image"]) {
+              // return image marker
+              var iconUrl = stl["icon_image"].match(/^url\(['"](.*)['"]\)$/)[1];
+              var iconSize;
+              if (stl["icon_width"]) iconSize=[stl["icon_width"],stl["icon_width"]];
+              if (stl["icon_height"] && iconSize) iconSize[1] = stl["icon_height"];
+              var icon = new L.Icon({
+                iconUrl: iconUrl,
+                iconSize: iconSize,
+                // todo: anchor, shadow?, ...
+              });
+              return new L.Marker(latlng, {icon: icon});
+            } else {
+              // return circle marker
+              var r = stl["circle_radius"] || 9; 
+              return new L.CircleMarker(latlng, {
+                radius: r,
+              });
+            }
           },
           onEachFeature : function (feature, layer) {
             layer.on('click', function(e) {
@@ -318,7 +339,12 @@ setTimeout(function() {
                   popup += "<p><strong>Attention: incomplete geometry (e.g. some nodes missing)</strong></p>";
                 }
               }
-              var p = L.popup({},this).setLatLng(e.latlng).setContent(popup);
+              var latlng;
+              if (typeof e.target.getLatLng == "function")
+                latlng = e.target.getLatLng(); // node-ish features (circles, markers, icons, placeholders)
+              else
+                latlng = e.latlng; // all other (lines, polygons, multipolygons)
+              var p = L.popup({},this).setLatLng(latlng).setContent(popup);
               p.layer = layer;
               fire("onPopupReady", p);
             });

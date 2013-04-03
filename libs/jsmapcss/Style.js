@@ -94,7 +94,7 @@ styleparser.InstructionStyle.prototype = {
 
 styleparser.PointStyle = function() {};
 styleparser.PointStyle.prototype = {
-	properties: ['icon_image','icon_width','icon_height','rotation'],
+	properties: ['icon_image','icon_width','icon_height','icon-opacity','rotation'],
 	icon_image: null,
 	icon_width: 0,
 	evals: {},
