@@ -87,6 +87,7 @@ install: all
 	cp map-key.png $(install_root)
 	cp -R locales/. $(install_root)/locales
 	cp -R libs $(install_root)/libs
+	cp -R icons $(install_root)/icons
 	mkdir -p $(install_root)/img
 	cp libs/locationfilter/src/img/* $(install_root)/img/
 
