@@ -99,3 +99,5 @@ Several UI Improvements
 * implement poly-boundings selector (I may have to wait for the most recent leaflet-draw plugin) 
 * ~~deactivate "manually select bbox" when there is no "{{bbox}}" in the query.~~
 * ~~add description on how to run templates (e.g. "select region in the map and hit run").~~
+* rename Export->Query->XML. e.g. "Overpass-XML query"
+* add Export->Data->OSM-Data (like the data tab).
