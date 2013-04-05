@@ -86,7 +86,7 @@
   
   "export.section.query": "Query",
   "export.as_text": "Als <a id=\"export-text\" href=\"\" download=\"query.txt\">Text</a>",
-  "export.to_xml": "Nach <a id=\"export-convert-xml\" href=\"\">XML<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren",
+  "export.to_xml": "Nach <a id=\"export-convert-xml\" href=\"\">Overpass-XML<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren",
   "export.to_ql": "Nach <a id=\"export-convert-ql\" href=\"\">OverpassQL<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren (<a id=\"export-convert-compact\" href=\"\">kompakte Variante<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a>)",
   "export.remote_control": "In <a id=\"export-josm\" href=\"\">JOSM</a> laden",
   "export.remote_control_expl": "nur für Abfragen, die gültiges OSM-XML mit Metadaten liefern",
