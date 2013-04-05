@@ -101,3 +101,4 @@ Several UI Improvements
 * ~~add description on how to run templates (e.g. "select region in the map and hit run").~~
 * ~~rename Export->Query->XML. e.g. "Overpass-XML query"~~
 * add Export->Data->OSM-Data (like the data tab).
+* exclude internal variables (like mp_outline, tainted, etc.) from direct geoJSON output (better: put into meta data object?)
