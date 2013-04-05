@@ -99,3 +99,4 @@ Several UI Improvements
 * implement poly-boundings selector (I may have to wait for the most recent leaflet-draw plugin) 
 * ~~deactivate "manually select bbox" when there is no "{{bbox}}" in the query.~~
 * ~~add description on how to run templates (e.g. "select region in the map and hit run").~~
+* do not requery Overpass API if the query (incl. bbox) did not change between 2 "RUN"s and there is not much time in between?
