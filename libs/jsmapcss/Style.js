@@ -1,4 +1,4 @@
-styleparser.Style = function() {};
+styleparser.Style = function() {this.__init__()};
 
 styleparser.Style.prototype = {
 	merged: false,
@@ -7,7 +7,11 @@ styleparser.Style.prototype = {
 	interactive: true,
 	properties: [],
 	styleType: 'Style',
-	evals: {},
+	evals: null,
+
+    __init__: function() {
+    	this.evals = {};
+    },
 
 	drawn: function() {
 		return false;
@@ -42,9 +46,19 @@ styleparser.Style.prototype = {
 	},
 
 	runEvals: function(tags) {
+	    // helper object for eval() properties
+        var eval_functions = {
+          // mapcss 0.2 eval function
+          tag: function(t) {return t;},
+          prop: function(p) {}, // todo
+          cond: function(expr, i, e) {if (expr) return i; else return e;},
+          any: function() {for (var i=0;i<arguments.length;i++) if(arguments[i]) return arguments[i];},
+          max: Math.max,
+          min: Math.min,
+          // JOSM eval functions ?
+        };
 		for (var k in this.evals) {
-            // TODO: kill
-			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
+			this.setPropertyFromString(k, eval("with (tags) with (eval_functions) {"+this.evals[k]+"}"),false);
 		}
 	},
 
@@ -56,99 +70,58 @@ styleparser.Style.prototype = {
 		return str;
 	}
 };
+styleparser.inherit_from_Style = function(target) { 
+  for (var p in styleparser.Style.prototype)
+    if (target[p] === undefined)
+  	  target[p] = styleparser.Style.prototype[p];
+}
 
 
 // ----------------------------------------------------------------------
 // InstructionStyle class
 
-styleparser.InstructionStyle = function() {};
+styleparser.InstructionStyle = function() {this.__init__()};
 styleparser.InstructionStyle.prototype = {
 	set_tags: null,
 	breaker: false,
-	evals: {},
 	styleType: 'InstructionStyle',
+
 	addSetTag: function(k,v) {
 		this.edited=true;
 		if (!this.set_tags) this.set_tags={};
 		this.set_tags[k]=v;
 	},
 
-	runEvals: function(tags) {
-		for (var k in this.evals) {
-            // TODO: kill
-			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
-		}
-	},
-
-	toString: function() {
-		var str = '';
-		for (var k in this.properties) {
-			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
-		}
-		return str;
-	}
 };
+styleparser.inherit_from_Style(styleparser.InstructionStyle.prototype);
 
 // ----------------------------------------------------------------------
 // PointStyle class
 
-styleparser.PointStyle = function() {};
+styleparser.PointStyle = function() {this.__init__()};
 styleparser.PointStyle.prototype = {
 	properties: ['icon_image','icon_width','icon_height','icon-opacity','rotation'],
 	icon_image: null,
 	icon_width: 0,
-	evals: {},
 	icon_height: NaN,
 	rotation: NaN,
 	styleType: 'PointStyle',
+
 	drawn:function() {
 		return (this.icon_image !== null);
 	},
-	
-	setPropertyFromString: function(k,v,isEval) {
-		this.edited=true;
-		if (isEval) { this.evals[k]=v; return; }
 
-		if (typeof(this[k])=='boolean') {
-			v=Boolean(v);
-		} else if (typeof(this[k])=='number') {
-			v=Number(v);
-		} else if (this[k] && this[k].constructor==Array) {
-			v = v.split(',').map(function(a) { return Number(a); });
-		}
-		this[k]=v; 
-		return true;
-	},
-
-
-
-	has: function(k) {
-		return this.properties.indexOf(k)>-1;
-	},
 	maxwidth:function() {
 		return this.evals.icon_width ? 0 : this.icon_width;
 	},
 
-	runEvals: function(tags) {
-		for (var k in this.evals) {
-            // TODO: kill
-			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
-		}
-	},
-
-	toString: function() {
-		var str = '';
-		for (var k in this.properties) {
-			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
-		}
-		return str;
-	}
 };
+styleparser.inherit_from_Style(styleparser.PointStyle.prototype);
 
 // ----------------------------------------------------------------------
 // ShapeStyle class
 
-styleparser.ShapeStyle = function() {};
+styleparser.ShapeStyle = function() {this.__init__()};
 
 styleparser.ShapeStyle.prototype = {
     properties: ['width','color','opacity','dashes','linecap','linejoin','line_style',
@@ -158,32 +131,9 @@ styleparser.ShapeStyle.prototype = {
 	linecap:null, linejoin:null, line_style:null,
 	fill_image:null, fill_color:NaN, fill_opacity:NaN, 
 	casing_width:NaN, casing_color:NaN, casing_opacity:NaN, casing_dashes:[],
-
-	evals: {},
 	layer:NaN,				// optional layer override (usually set by OSM tag)
 	styleType: 'ShapeStyle',
 	
-	
-	setPropertyFromString: function(k,v,isEval) {
-		this.edited=true;
-		if (isEval) { this.evals[k]=v; return; }
-
-		if (typeof(this[k])=='boolean') {
-			v=Boolean(v);
-		} else if (typeof(this[k])=='number') {
-			v=Number(v);
-		} else if (this[k] && this[k].constructor==Array) {
-			v = v.split(',').map(function(a) { return Number(a); });
-		}
-		this[k]=v; 
-		return true;
-	},
-
-
-
-	has: function(k) {
-		return this.properties.indexOf(k)>-1;
-	},
 	drawn:function() {
 		return (this.fill_image || !isNaN(this.fill_color) || this.width || this.casing_width);
 	},
@@ -231,26 +181,13 @@ styleparser.ShapeStyle.prototype = {
 		};
 	},
 
-	runEvals: function(tags) {
-		for (var k in this.evals) {
-            // TODO: kill
-			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
-		}
-	},
-
-	toString: function() {
-		var str = '';
-		for (var k in this.properties) {
-			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
-		}
-		return str;
-	}
 };
+styleparser.inherit_from_Style(styleparser.ShapeStyle.prototype);
 
 // ----------------------------------------------------------------------
 // TextStyle class
 
-styleparser.TextStyle = function() {};
+styleparser.TextStyle = function() {this.__init__()};
 styleparser.TextStyle.prototype = {
     properties: ['font_family','font_bold','font_italic','font_caps','font_underline','font_size',
         'text_color','text_offset','max_width',
@@ -262,7 +199,6 @@ styleparser.TextStyle.prototype = {
 	font_italic: false,
 	font_underline: false,
 	font_caps: false,
-	evals: {},
 	font_size: NaN,
 	text_color: NaN,
 	text_offset: NaN,
@@ -273,27 +209,7 @@ styleparser.TextStyle.prototype = {
 	text_center: true,
 	letter_spacing: 0,
 	styleType: 'TextStyle',
-
 	
-	setPropertyFromString: function(k,v,isEval) {
-		this.edited=true;
-		if (isEval) { this.evals[k]=v; return; }
-
-		if (typeof(this[k])=='boolean') {
-			v=Boolean(v);
-		} else if (typeof(this[k])=='number') {
-			v=Number(v);
-		} else if (this[k] && this[k].constructor==Array) {
-			v = v.split(',').map(function(a) { return Number(a); });
-		}
-		this[k]=v; 
-		return true;
-	},
-
-
-	drawn: function() {
-		return (this.text !== null);
-	},
 	fontStyler:function() {
 		return {
 			family: this.font_family ? this.font_family : 'Arial',
@@ -309,36 +225,19 @@ styleparser.TextStyle.prototype = {
 			text: _text
 		};
 	},
-
-	has: function(k) {
-		return this.properties.indexOf(k)>-1;
-	},
 	fillStyler:function() {
 		// not implemented yet
 		return this.dojoColor(0,1);
 	},
 
-	runEvals: function(tags) {
-		for (var k in this.evals) {
-            // TODO: kill
-			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
-		}
-	},
-
-	toString: function() {
-		var str = '';
-		for (var k in this.properties) {
-			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
-		}
-		return str;
-	}
 	// getTextFormat, getHaloFilter, writeNameLabel
 };
+styleparser.inherit_from_Style(styleparser.TextStyle.prototype);
 
 // ----------------------------------------------------------------------
 // ShieldStyle class
 
-styleparser.ShieldStyle = function() {};
+styleparser.ShieldStyle = function() {this.__init__()};
 
 styleparser.ShieldStyle.prototype = {
 	has: function(k) {
@@ -348,27 +247,9 @@ styleparser.ShieldStyle.prototype = {
 	shield_image: null,
 	shield_width: NaN,
 	shield_height: NaN,
-	evals: {},
 	styleType: 'ShieldStyle',
-	drawn:function() {
-		return (shield_image !== null);
-	},
-
-	runEvals: function(tags) {
-		for (var k in this.evals) {
-            // TODO: kill
-			this.setPropertyFromString(k, eval("with (tags) {"+this.evals[k]+"}"),false);
-		}
-	},
-
-	toString: function() {
-		var str = '';
-		for (var k in this.properties) {
-			if (this.hasOwnProperty(k)) { str+=k+"="+this[k]+"; "; }
-		}
-		return str;
-	}
 };
+styleparser.inherit_from_Style(styleparser.ShieldStyle.prototype);
 
 // ----------------------------------------------------------------------
 // End of module
