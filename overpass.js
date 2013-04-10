@@ -248,12 +248,24 @@ setTimeout(function() {
                 val = Number(val).toString(16);
                 return "#"+("000000".substr(0,6-val.length))+val;
               }
-              if (s.shapeStyles["default"]["color"])        stl.color       = num2color(s.shapeStyles["default"]["color"]);
-              if (s.shapeStyles["default"]["opacity"])      stl.opacity     = s.shapeStyles["default"]["opacity"];
-              if (s.shapeStyles["default"]["width"])        stl.weight      = s.shapeStyles["default"]["width"];
-              if (s.shapeStyles["default"]["fill_color"])   stl.fillColor   = num2color(s.shapeStyles["default"]["fill_color"]);
-              if (s.shapeStyles["default"]["fill_opacity"]) stl.fillOpacity = s.shapeStyles["default"]["fill_opacity"];
-              if (s.shapeStyles["default"]["dashes"])       stl.dashArray   = s.shapeStyles["default"]["dashes"].join(",");
+              function get_property(style, property, prefixes) {
+                if (style["default"][property]) return style["default"][property];
+                for (var i=0; i<prefixes.length; i++)
+                  if (style["default"][prefixes+property]) return style["default"][prefixes+"_"+property];
+                return undefined;
+              }
+              var p = get_property(s.shapeStyles, "color",        ["casing","symbol_stroke"]);
+              if (p !== undefined) stl.color       = num2color(p);
+              var p = get_property(s.shapeStyles, "opacity",      ["casing","symbol_stroke"]);
+              if (p !== undefined) stl.opacity     = p;
+              var p = get_property(s.shapeStyles, "width",        ["casing","symbol_stroke"]);
+              if (p !== undefined) stl.weight      = p;
+              var p = get_property(s.shapeStyles, "fill_color",   ["symbol"]);
+              if (p !== undefined) stl.fillColor   = num2color(p);
+              var p = get_property(s.shapeStyles, "fill_opacity", ["symbol"]);
+              if (p !== undefined) stl.fillOpacity = p;
+              var p = get_property(s.shapeStyles, "dashes",       []);
+              if (p !== undefined) stl.dashArray   = p.join(",");
               // todo: more style properties? linecap, linejoin?
             }
             // return style object
