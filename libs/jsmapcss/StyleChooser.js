@@ -58,8 +58,9 @@ styleparser.StyleChooser.prototype = {
 						case 'PointStyle' :	sl.maxwidth=Math.max(sl.maxwidth,r.maxwidth());
 											a=sl.pointStyles; break;
 						case 'InstructionStyle':
-							if (InstructionStyle(r).breaker) { return; }
-							for (var k in InstructionStyle(r).set_tags) { tags[k]=InstructionStyle(r).set_tags[k]; }
+						    if (r.breaker) { return; }
+							for (var k in r.set_tags) { tags[k]=r.set_tags[k]; }
+							a = {}; // "dev/null" stylechooser reciever
 							break;
 					}
 					if (r.drawn) { tags[':drawn']='yes'; }

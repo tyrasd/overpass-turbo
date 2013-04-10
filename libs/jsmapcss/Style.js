@@ -86,6 +86,9 @@ styleparser.InstructionStyle.prototype = {
 	breaker: false,
 	styleType: 'InstructionStyle',
 
+    __init__: function() {
+    },
+
 	addSetTag: function(k,v) {
 		this.edited=true;
 		if (!this.set_tags) this.set_tags={};
