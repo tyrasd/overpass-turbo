@@ -163,7 +163,7 @@ setTimeout(function() {
         mapcss.parseCSS(""
           +"node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n"
           // point features
-          +"node, way:placeholder, relation:placeholder {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
+          +"node {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
           // line features
           +"line {color:#03f; width:5; opacity:0.6;} \n"
           // polygon features
