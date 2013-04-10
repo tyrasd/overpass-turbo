@@ -204,17 +204,27 @@ var ide = new(function() {
       );
       CodeMirror.defineMode("xml+mustache", function(config) {
         return CodeMirror.multiplexingMode(
-          CodeMirror.getMode(config, "xml"),
-          {open: "{{", close: "}}",
-           mode: CodeMirror.getMode(config, "text/plain"),
+          CodeMirror.multiplexingMode(
+            CodeMirror.getMode(config, "xml"),
+            {open: "{{", close:"}}",
+             mode:CodeMirror.getMode(config, "text/plain"),
+             delimStyle: "mustache"}
+          ),
+          {open: "{{style:", close: "}}",
+           mode: CodeMirror.getMode(config, "text/css"),
            delimStyle: "mustache"}
         );
       });
       CodeMirror.defineMode("ql+mustache", function(config) {
         return CodeMirror.multiplexingMode(
-          CodeMirror.getMode(config, "text/x-overpassQL"),
-          {open: "{{", close: "}}",
-           mode: CodeMirror.getMode(config, "text/plain"),
+          CodeMirror.multiplexingMode(
+            CodeMirror.getMode(config, "text/x-overpassQL"),
+            {open: "{{", close:"}}",
+             mode:CodeMirror.getMode(config, "text/plain"),
+             delimStyle: "mustache"}
+          ),
+          {open: "{{style:", close: "}}",
+           mode: CodeMirror.getMode(config, "text/css"),
            delimStyle: "mustache"}
         );
       });
@@ -517,23 +527,14 @@ var ide = new(function() {
 
     ide.map.on("popupopen popupclose",function(e) {
       if (typeof e.popup.layer != "undefined") {
-        var layer = e.popup.layer;
-        var layer_fun;
-        if (e.type == "popupopen")
-          layer_fun = function(l) {
-            l.setStyle({color:"#f50",fillColor:"#f50",_color:l.options["color"],_fillColor:l.options["fillColor"]});
-          };
-        else // e.type == "popupclose"
-          layer_fun = function(l) {
-            l.setStyle({color:l.options["_color"]});
-            l.setStyle({fillColor:l.options["_fillColor"]});
-            delete l.options["_color"];
-            delete l.options["_fillColor"];
-          };
-        if (typeof layer.eachLayer == "function")
-          layer.eachLayer(layer_fun);
-        else
-          layer_fun(layer);
+        var layer = e.popup.layer.placeholder || e.popup.layer;
+        // re-call style handler to eventually modify the style of the clicked feature
+        var stl = overpass.osmLayer._baseLayer.options.style(layer.feature, e.type=="popupopen");
+        if (typeof layer.eachLayer != "function") {
+          if (typeof layer.setStyle == "function")
+            layer.setStyle(stl); // other objects (pois, ways)
+        } else
+          layer.eachLayer(function(l) {l.setStyle(stl);}); // for multipolygons!
       }
     });
 
@@ -716,16 +717,26 @@ var ide = new(function() {
     var query = codeEditor.getValue();
     if (processed) {
       // preproces query
+      // expand defined constants
       var const_defs = query.match(/{{[a-zA-Z0-9_]+=.+?}}/gm);
       if ($.isArray(const_defs))
         for (var i=0; i<const_defs.length; i++) {
-          var const_def = const_defs[i].match(/{{(.+?)=(.+)}}/);
+          var const_def = const_defs[i].match(/{{([^:=]+?)=(.+?)}}/);
           query = query.replace(const_defs[i],""); // remove constant definition
-          query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]); // expand defined constants
+          query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]);
         }
-      query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang())); // expand bbox
-      query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang())); // expand map center
-      // ignore unknown mustache templates:
+      // expand bbox
+      query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang()));
+      // expand map center
+      query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang()));
+      // parse mapcss declarations
+      var mapcss = query.match(/{{style:[\S\s]*?}}/gm) || [];
+      mapcss.forEach(function(css,i) {
+        mapcss[i] = css.match(/{{style:([\S\s]*?)}}/m)[1];
+      });
+      mapcss = mapcss.join("\n");
+      ide.mapcss = mapcss;
+      // ignore remaining (e.g. unknown) mustache templates:
       query = query.replace(/{{[\S\s]*?}}/gm,"");
       if (typeof trim_ws == "undefined" || trim_ws) {
         query = query.replace(/(\n|\r)/g," "); // remove newlines
@@ -1209,7 +1220,11 @@ var ide = new(function() {
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     ide.waiter.addInfo("rendering map tiles");
-    $("#map").html2canvas({useCORS:true, allowTaint:false, onrendered: function(canvas) {
+    $("#map").html2canvas({
+      useCORS:true,
+      allowTaint:false,
+      proxy:"/html2canvas_proxy/", // use own proxy if necessary and available
+    onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
       $("#data_stats").show();

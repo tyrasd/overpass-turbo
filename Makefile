@@ -20,11 +20,20 @@ all: \
 	libs/CodeMirror/mode/javascript/javascript.js \
 	libs/CodeMirror/mode/xml/xml.js \
 	libs/CodeMirror/mode/clike/clike.js \
+	libs/CodeMirror/mode/css/css.js \
 	libs/CodeMirror/lib/util/multiplex.js \
 	libs/CodeMirror/lib/util/closetag.js \
 	libs/locationfilter/src/locationfilter.js \
 	libs/GeoJsonNoVanish.js \
 	libs/OSM4Leaflet.js \
+        libs/jsmapcss/styleparser.js \
+        libs/jsmapcss/Condition.js \
+        libs/jsmapcss/Rule.js \
+        libs/jsmapcss/RuleChain.js \
+        libs/jsmapcss/Style.js \
+        libs/jsmapcss/StyleChooser.js \
+        libs/jsmapcss/StyleList.js \
+        libs/jsmapcss/RuleSet.js \
 	libs/misc.js \
 	libs/jxon.js \
 	libs/html2canvas/html2canvas.patched.js \
@@ -79,6 +88,7 @@ install: all
 	cp map-key.png $(install_root)
 	cp -R locales/. $(install_root)/locales
 	cp -R libs $(install_root)/libs
+	cp -R icons $(install_root)/icons
 	mkdir -p $(install_root)/img
 	cp libs/locationfilter/src/img/* $(install_root)/img/
 

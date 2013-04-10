@@ -147,6 +147,85 @@ setTimeout(function() {
           //geojson = overpass.overpassJSON2geoJSON(data);
         }
 
+        /* own MapCSS-extension:
+         * added symbol-* properties
+         * TODO: implement symbol-shape = marker|square?|shield?|...
+         */
+        styleparser.PointStyle.prototype.properties.push('symbol_shape','symbol_size','symbol_stroke_width','symbol_stroke_color','symbol_stroke_opacity','symbol_fill_color','symbol_fill_opacity');
+        styleparser.PointStyle.prototype.symbol_shape = "";
+        styleparser.PointStyle.prototype.symbol_size = NaN;
+        styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
+        styleparser.PointStyle.prototype.symbol_stroke_color = NaN;
+        styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
+        styleparser.PointStyle.prototype.symbol_fill_color = NaN;
+        styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
+        var mapcss = new styleparser.RuleSet();
+        mapcss.parseCSS(""
+          +"node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n"
+          // point features
+          +"node, way:placeholder, relation:placeholder {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
+          // line features
+          +"line {color:#03f; width:5; opacity:0.6;} \n"
+          // polygon features
+          +"area {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
+          // style modifications
+          // objects in relations
+          +"relation node, relation way, relation relation {color:#d0f;} \n"
+          // tainted objects
+          +"way:tainted, relation:tainted {dashes:5,8;} \n"
+          // multipolygon outlines without tags
+          +"way:mp_outline:untagged {width:2; opacity:0.7;} \n"
+          // placeholder points
+          +"way:placeholder, relation:placeholder {fill-color:red;} \n"
+          // highlighted features
+          +"node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n"
+          // user supplied mapcss
+          +ide.mapcss
+        );
+        var get_feature_style = function(feature, highlight) {
+          function hasInterestingTags(props) {
+            // this checks if the node has any tags other than "created_by"
+            return props && 
+                   props.tags && 
+                   (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(props.tags);
+          }
+          var s = mapcss.getStyles({
+            isSubject: function(subject) {
+              switch (subject) {
+                case "node":     return feature.properties.type == "node" || feature.geometry.type == "Point";
+                case "area":     return feature.geometry.type == "Polygon" || feature.geometry.type == "MultiPolygon";
+                case "line":     return feature.geometry.type == "LineString";
+                case "way":      return feature.properties.type == "way";
+                case "relation": return feature.properties.type == "relation";
+              }
+              return false;
+            },
+            getParentObjects: function() {
+              if (feature.properties.relations.length == 0)
+                return [];
+              else
+                return feature.properties.relations.map(function(rel) {
+                  return {
+                    tags: rel.reltags,
+                    isSubject: function(subject) {
+                      return subject=="relation" || 
+                             (subject=="area" && rel.reltags.type=="multipolyon");
+                    },
+                    getParentObject: function() {return [];},
+                  }
+                });
+            } 
+          }, $.extend(
+            feature.properties && feature.properties.tainted ? {":tainted": true} : {},
+            feature.properties && feature.properties.mp_outline ? {":mp_outline": true} : {},
+            feature.is_placeholder ? {":placeholder": true} : {},
+            hasInterestingTags(feature.properties) ? {":tagged":true} : {":untagged": true},
+            highlight ? {":active": true} : {},
+            feature.properties.tags)
+          , 18 /*restyle on zoom??*/);
+          return s;
+        };
+
         //overpass.geojsonLayer = 
           //new L.GeoJSON(null, {
           //new L.GeoJsonNoVanish(null, {
@@ -160,61 +239,61 @@ setTimeout(function() {
           compress: function(feature) {
             return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
           },
-          style: function(feature) {
+          style: function(feature, highlight) {
             var stl = {};
-            var color = "#03f";
-            var fillColor = "#fc0";
-            var relColor = "#d0f";
-            // point features
-            if (feature.geometry.type == "Point") {
-              stl.color = color;
-              stl.weight = 2;
-              stl.opacity = 0.7;
-              stl.fillColor = fillColor;
-              stl.fillOpacity = 0.3;
+            var s = get_feature_style(feature, highlight);
+            // apply mapcss styles
+            if (s.shapeStyles["default"]) {
+              function num2color(val) {
+                val = Number(val).toString(16);
+                return "#"+("000000".substr(0,6-val.length))+val;
+              }
+              function get_property(style, property, prefixes) {
+                if (style["default"][property] !== undefined) return style["default"][property];
+                for (var i=0; i<prefixes.length; i++)
+                  if (style["default"][prefixes+property] !== undefined) return style["default"][prefixes+"_"+property];
+                return undefined;
+              }
+              var p = get_property(s.shapeStyles, "color",        ["casing","symbol_stroke"]);
+              if (p !== undefined) stl.color       = num2color(p);
+              var p = get_property(s.shapeStyles, "opacity",      ["casing","symbol_stroke"]);
+              if (p !== undefined) stl.opacity     = p;
+              var p = get_property(s.shapeStyles, "width",        ["casing","symbol_stroke"]);
+              if (p !== undefined) stl.weight      = p;
+              var p = get_property(s.shapeStyles, "fill_color",   ["symbol"]);
+              if (p !== undefined) stl.fillColor   = num2color(p);
+              var p = get_property(s.shapeStyles, "fill_opacity", ["symbol"]);
+              if (p !== undefined) stl.fillOpacity = p;
+              var p = get_property(s.shapeStyles, "dashes",       []);
+              if (p !== undefined) stl.dashArray   = p.join(",");
+              // todo: more style properties? linecap, linejoin?
             }
-            // line features
-            else if (feature.geometry.type == "LineString") {
-              stl.color = color;
-              stl.opacity = 0.6;
-              stl.weight = 5;
-            }
-            // polygon features
-            else if ($.inArray(feature.geometry.type, ["Polygon","MultiPolygon"]) != -1) {
-              stl.color = color;
-              stl.opacity = 0.7;
-              stl.weight = 2;
-              stl.fillColor = fillColor;
-              stl.fillOpacity = 0.3;
-            }
-
-            // style modifications
-            // tainted objects
-            if (feature.properties && feature.properties.tainted==true) {
-              stl.dashArray = "5,8";
-            }
-            // multipolygon outlines without tags
-            if (feature.properties && feature.properties.mp_outline==true)
-              if (typeof feature.properties.tags == "undefined" ||
-                  $.isEmptyObject(feature.properties.tags)) {
-                stl.opacity = 0.7;
-                stl.weight = 2;
-            }
-            // objects in relations
-            if (feature.properties && feature.properties.relations && feature.properties.relations.length>0) {
-              stl.color = relColor;
-            }
-
-            if (feature.is_placeholder) {
-              stl.fillColor = "red";
-            }
-
+            // return style object
             return stl;
           },
           pointToLayer: function (feature, latlng) {
-            return new L.CircleMarker(latlng, {
-              radius: 9,
-            });
+            // todo: labels!
+            var s = get_feature_style(feature);
+            var stl = s.pointStyles && s.pointStyles["default"] ? s.pointStyles["default"] : {};
+            if (stl["icon_image"]) {
+              // return image marker
+              var iconUrl = stl["icon_image"].match(/^url\(['"](.*)['"]\)$/)[1];
+              var iconSize;
+              if (stl["icon_width"]) iconSize=[stl["icon_width"],stl["icon_width"]];
+              if (stl["icon_height"] && iconSize) iconSize[1] = stl["icon_height"];
+              var icon = new L.Icon({
+                iconUrl: iconUrl,
+                iconSize: iconSize,
+                // todo: anchor, shadow?, ...
+              });
+              return new L.Marker(latlng, {icon: icon});
+            } else if (stl["symbol_shape"]=="circle" || true /*if nothing else is specified*/) {
+              // return circle marker
+              var r = stl["symbol_size"] || 9; 
+              return new L.CircleMarker(latlng, {
+                radius: r,
+              });
+            }
           },
           onEachFeature : function (feature, layer) {
             layer.on('click', function(e) {
@@ -278,7 +357,12 @@ setTimeout(function() {
                   popup += "<p><strong>Attention: incomplete geometry (e.g. some nodes missing)</strong></p>";
                 }
               }
-              var p = L.popup({},this).setLatLng(e.latlng).setContent(popup);
+              var latlng;
+              if (typeof e.target.getLatLng == "function")
+                latlng = e.target.getLatLng(); // node-ish features (circles, markers, icons, placeholders)
+              else
+                latlng = e.latlng; // all other (lines, polygons, multipolygons)
+              var p = L.popup({},this).setLatLng(latlng).setContent(popup);
               p.layer = layer;
               fire("onPopupReady", p);
             });
@@ -288,9 +372,10 @@ setTimeout(function() {
 setTimeout(function() {
         overpass.osmLayer.addData(data,function() {
 
-        // save geojson
+        // save geojson and raw data
         geojson = overpass.osmLayer.getGeoJSON();
         overpass.geojson = geojson;
+        overpass.data = data;
 
         // calc stats
         stats.geojson = {

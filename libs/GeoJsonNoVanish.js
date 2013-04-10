@@ -33,6 +33,7 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
         var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
         var d = Math.sqrt(Math.pow(p1.x-p2.x,2)+Math.pow(p1.y-p2.y,2));
         if (d > this.options.threshold || is_max_zoom) {
+          delete o.object.placeholder;
           this.addLayer(o.object);
           this.removeLayer(o);
         }
@@ -60,6 +61,7 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
         "coordinates": [center.lng, center.lat],
       };
       var c = L.GeoJSON.geometryToLayer(f, this.options.pointToLayer);
+      o.placeholder = c;
       c.feature = f;
       this.resetStyle(c);
       c.object = o;
