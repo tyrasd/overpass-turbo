@@ -249,9 +249,9 @@ setTimeout(function() {
                 return "#"+("000000".substr(0,6-val.length))+val;
               }
               function get_property(style, property, prefixes) {
-                if (style["default"][property]) return style["default"][property];
+                if (style["default"][property] !== undefined) return style["default"][property];
                 for (var i=0; i<prefixes.length; i++)
-                  if (style["default"][prefixes+property]) return style["default"][prefixes+"_"+property];
+                  if (style["default"][prefixes+property] !== undefined) return style["default"][prefixes+"_"+property];
                 return undefined;
               }
               var p = get_property(s.shapeStyles, "color",        ["casing","symbol_stroke"]);
@@ -372,9 +372,10 @@ setTimeout(function() {
 setTimeout(function() {
         overpass.osmLayer.addData(data,function() {
 
-        // save geojson
+        // save geojson and raw data
         geojson = overpass.osmLayer.getGeoJSON();
         overpass.geojson = geojson;
+        overpass.data = data;
 
         // calc stats
         stats.geojson = {
