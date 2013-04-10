@@ -148,16 +148,22 @@ setTimeout(function() {
         }
 
         /* own MapCSS-extension:
-         * added circle_radius property
-         * TODO: add point-style = circle|icon|marker|square?|shield?|...
+         * added symbol-* properties
+         * TODO: implement symbol-shape = marker|square?|shield?|...
          */
-        styleparser.PointStyle.prototype.properties = ['icon_image','icon_width','icon_height','icon_opacity','rotation','circle_radius'];
-        styleparser.PointStyle.prototype.circle_radius = NaN;
+        styleparser.PointStyle.prototype.properties.push('symbol_shape','symbol_size','symbol_stroke_width','symbol_stroke_color','symbol_stroke_opacity','symbol_fill_color','symbol_fill_opacity');
+        styleparser.PointStyle.prototype.symbol_shape = "";
+        styleparser.PointStyle.prototype.symbol_size = NaN;
+        styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
+        styleparser.PointStyle.prototype.symbol_stroke_color = NaN;
+        styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
+        styleparser.PointStyle.prototype.symbol_fill_color = NaN;
+        styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
         var mapcss = new styleparser.RuleSet();
         mapcss.parseCSS(""
           +"node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n"
           // point features
-          +"node, way.placeholder, relation.placeholder {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
+          +"node, way:placeholder, relation:placeholder {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
           // line features
           +"line {color:#03f; width:5; opacity:0.6;} \n"
           // polygon features
@@ -166,13 +172,13 @@ setTimeout(function() {
           // objects in relations
           +"relation node, relation way, relation relation {color:#d0f;} \n"
           // tainted objects
-          +"way.tainted, relation.tainted {dashes:5,8;} \n"
+          +"way:tainted, relation:tainted {dashes:5,8;} \n"
           // multipolygon outlines without tags
-          +"way.mp_outline.no_interesting_tags {width:2; opacity:0.7;} \n"
+          +"way:mp_outline:untagged {width:2; opacity:0.7;} \n"
           // placeholder points
-          +"way.placeholder, relation.placeholder {fill-color:red;} \n"
+          +"way:placeholder, relation:placeholder {fill-color:red;} \n"
           // highlighted features
-          +"node.highlighted, way.highlighted, relation.highlighted {color:#f50; fill-color:#f50;} \n"
+          +"node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n"
           // user supplied mapcss
           +ide.mapcss
         );
@@ -186,7 +192,7 @@ setTimeout(function() {
           var s = mapcss.getStyles({
             isSubject: function(subject) {
               switch (subject) {
-                case "node":     return feature.properties.type == "node";
+                case "node":     return feature.properties.type == "node" || feature.geometry.type == "Point";
                 case "area":     return feature.geometry.type == "Polygon" || feature.geometry.type == "MultiPolygon";
                 case "line":     return feature.geometry.type == "LineString";
                 case "way":      return feature.properties.type == "way";
@@ -210,11 +216,11 @@ setTimeout(function() {
                 });
             } 
           }, $.extend(
-            feature.properties && feature.properties.tainted ? {".tainted": true} : {},
-            feature.properties && feature.properties.mp_outline ? {".mp_outline": true} : {},
-            feature.is_placeholder ? {".placeholder": true} : {},
-            hasInterestingTags(feature.properties) ? {} : {".no_interesting_tags": true},
-            highlight ? {".highlighted": true} : {},
+            feature.properties && feature.properties.tainted ? {":tainted": true} : {},
+            feature.properties && feature.properties.mp_outline ? {":mp_outline": true} : {},
+            feature.is_placeholder ? {":placeholder": true} : {},
+            hasInterestingTags(feature.properties) ? {":tagged":true} : {":untagged": true},
+            highlight ? {":active": true} : {},
             feature.properties.tags)
           , 18 /*restyle on zoom??*/);
           return s;
@@ -242,7 +248,7 @@ setTimeout(function() {
                 val = Number(val).toString(16);
                 return "#"+("000000".substr(0,6-val.length))+val;
               }
-              if (s.shapeStyles["default"].hasOwnProperty("color"))        stl.color       = num2color(s.shapeStyles["default"]["color"]);
+              if (s.shapeStyles["default"]["color"])        stl.color       = num2color(s.shapeStyles["default"]["color"]);
               if (s.shapeStyles["default"]["opacity"])      stl.opacity     = s.shapeStyles["default"]["opacity"];
               if (s.shapeStyles["default"]["width"])        stl.weight      = s.shapeStyles["default"]["width"];
               if (s.shapeStyles["default"]["fill_color"])   stl.fillColor   = num2color(s.shapeStyles["default"]["fill_color"]);
@@ -269,9 +275,9 @@ setTimeout(function() {
                 // todo: anchor, shadow?, ...
               });
               return new L.Marker(latlng, {icon: icon});
-            } else {
+            } else if (stl["symbol_shape"]=="circle" || true /*if nothing else is specified*/) {
               // return circle marker
-              var r = stl["circle_radius"] || 9; 
+              var r = stl["symbol_size"] || 9; 
               return new L.CircleMarker(latlng, {
                 radius: r,
               });

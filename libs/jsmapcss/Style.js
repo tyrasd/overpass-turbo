@@ -49,7 +49,7 @@ styleparser.Style.prototype = {
 	    // helper object for eval() properties
         var eval_functions = {
           // mapcss 0.2 eval function
-          tag: function(t) {return t;},
+          tag: function(t) {return tags[t];},
           prop: function(p) {}, // todo
           cond: function(expr, i, e) {if (expr) return i; else return e;},
           any: function() {for (var i=0;i<arguments.length;i++) if(arguments[i]) return arguments[i];},
@@ -100,7 +100,7 @@ styleparser.inherit_from_Style(styleparser.InstructionStyle.prototype);
 
 styleparser.PointStyle = function() {this.__init__()};
 styleparser.PointStyle.prototype = {
-	properties: ['icon_image','icon_width','icon_height','icon-opacity','rotation'],
+	properties: ['icon_image','icon_width','icon_height','icon_opacity','rotation'],
 	icon_image: null,
 	icon_width: 0,
 	icon_height: NaN,
