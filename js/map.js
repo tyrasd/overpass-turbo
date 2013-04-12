@@ -16,7 +16,7 @@ $(document).ready(function() {
     disable_poiomatic: true,
   };
   ide = {
-    getQuery: function() {return settings.code["overpass"];},
+    getQuery: function() { return settings.code["overpass"]; },
     getQueryLang: function() {return ($.trim(settings.code["overpass"]).match(/^</))?"xml":"OverpassQL";},
     update_map: function() {overpass.run_query(ide.getQuery(true,false),ide.getQueryLang());},
   };

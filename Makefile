@@ -24,35 +24,43 @@ all: \
 	libs/CodeMirror/lib/util/multiplex.js \
 	libs/CodeMirror/lib/util/closetag.js \
 	libs/locationfilter/src/locationfilter.js \
-	libs/GeoJsonNoVanish.js \
-	libs/OSM4Leaflet.js \
-        libs/jsmapcss/styleparser.js \
-        libs/jsmapcss/Condition.js \
-        libs/jsmapcss/Rule.js \
-        libs/jsmapcss/RuleChain.js \
-        libs/jsmapcss/Style.js \
-        libs/jsmapcss/StyleChooser.js \
-        libs/jsmapcss/StyleList.js \
-        libs/jsmapcss/RuleSet.js \
+	js/GeoJsonNoVanish.js \
+	js/OSM4Leaflet.js \
+        js/jsmapcss/styleparser.js \
+        js/jsmapcss/Condition.js \
+        js/jsmapcss/Rule.js \
+        js/jsmapcss/RuleChain.js \
+        js/jsmapcss/Style.js \
+        js/jsmapcss/StyleChooser.js \
+        js/jsmapcss/StyleList.js \
+        js/jsmapcss/RuleSet.js \
 	libs/misc.js \
 	libs/jxon.js \
 	libs/html2canvas/html2canvas.patched.js \
 	libs/html2canvas/jquery.plugin.html2canvas.js \
 	libs/canvg/rgbcolor.js \
 	libs/canvg/canvg.js \
-	settings.js \
-	i18n.js \
-	overpass.js \
-	ide.js
+	js/settings.js \
+	js/i18n.js \
+	js/overpass.js \
+	js/ide.js
 
 turbo.js: Makefile
 	@rm -f $@
 	cat $(filter %.js,$^) > $@
 
 .INTERMEDIATE turbo.map.js: \
-	libs/OSM4Leaflet.js \
-	overpass.js \
-	map.js
+        js/jsmapcss/styleparser.js \
+        js/jsmapcss/Condition.js \
+        js/jsmapcss/Rule.js \
+        js/jsmapcss/RuleChain.js \
+        js/jsmapcss/Style.js \
+        js/jsmapcss/StyleChooser.js \
+        js/jsmapcss/StyleList.js \
+        js/jsmapcss/RuleSet.js \
+	js/OSM4Leaflet.js \
+	js/overpass.js \
+	js/map.js
 
 turbo.map.js: Makefile
 	@rm -f $@
