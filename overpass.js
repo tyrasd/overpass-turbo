@@ -151,14 +151,16 @@ setTimeout(function() {
          * added symbol-* properties
          * TODO: implement symbol-shape = marker|square?|shield?|...
          */
-        styleparser.PointStyle.prototype.properties.push('symbol_shape','symbol_size','symbol_stroke_width','symbol_stroke_color','symbol_stroke_opacity','symbol_fill_color','symbol_fill_opacity');
-        styleparser.PointStyle.prototype.symbol_shape = "";
-        styleparser.PointStyle.prototype.symbol_size = NaN;
-        styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
-        styleparser.PointStyle.prototype.symbol_stroke_color = NaN;
-        styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
-        styleparser.PointStyle.prototype.symbol_fill_color = NaN;
-        styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
+        if (styleparser.PointStyle.prototype.properties['symbol_shape'] === undefined) {
+          styleparser.PointStyle.prototype.properties.push('symbol_shape','symbol_size','symbol_stroke_width','symbol_stroke_color','symbol_stroke_opacity','symbol_fill_color','symbol_fill_opacity');
+          styleparser.PointStyle.prototype.symbol_shape = "";
+          styleparser.PointStyle.prototype.symbol_size = NaN;
+          styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
+          styleparser.PointStyle.prototype.symbol_stroke_color = NaN;
+          styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
+          styleparser.PointStyle.prototype.symbol_fill_color = NaN;
+          styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
+        }
         var mapcss = new styleparser.RuleSet();
         mapcss.parseCSS(""
           +"node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n"
@@ -243,31 +245,60 @@ setTimeout(function() {
             var stl = {};
             var s = get_feature_style(feature, highlight);
             // apply mapcss styles
-            if (s.shapeStyles["default"]) {
-              function num2color(val) {
-                val = Number(val).toString(16);
-                return "#"+("000000".substr(0,6-val.length))+val;
-              }
-              function get_property(style, property, prefixes) {
-                if (style["default"][property] !== undefined) return style["default"][property];
-                for (var i=0; i<prefixes.length; i++)
-                  if (style["default"][prefixes+property] !== undefined) return style["default"][prefixes+"_"+property];
-                return undefined;
-              }
-              var p = get_property(s.shapeStyles, "color",        ["casing","symbol_stroke"]);
-              if (p !== undefined) stl.color       = num2color(p);
-              var p = get_property(s.shapeStyles, "opacity",      ["casing","symbol_stroke"]);
-              if (p !== undefined) stl.opacity     = p;
-              var p = get_property(s.shapeStyles, "width",        ["casing","symbol_stroke"]);
-              if (p !== undefined) stl.weight      = p;
-              var p = get_property(s.shapeStyles, "fill_color",   ["symbol"]);
-              if (p !== undefined) stl.fillColor   = num2color(p);
-              var p = get_property(s.shapeStyles, "fill_opacity", ["symbol"]);
-              if (p !== undefined) stl.fillOpacity = p;
-              var p = get_property(s.shapeStyles, "dashes",       []);
-              if (p !== undefined) stl.dashArray   = p.join(",");
-              // todo: more style properties? linecap, linejoin?
+            function num2color(val) {
+              val = Number(val).toString(16);
+              return "#"+("000000".substr(0,6-val.length))+val;
             }
+            function get_property(styles, properties) {
+              for (var i=properties.length-1; i>=0; i--)
+                if (styles[properties[i]] !== undefined) return styles[properties[i]];
+              return undefined;
+            }
+            switch (feature.geometry.type) {
+              case "Point":
+                var styles = $.extend({},s.shapeStyles["default"],s.pointStyles["default"]);
+                var p = get_property(styles, ["color","symbol_stroke_color"]);
+                if (p !== undefined) stl.color       = num2color(p);
+                var p = get_property(styles, ["opacity","symbol_stroke_opacity"]);
+                if (p !== undefined) stl.opacity     = p;
+                var p = get_property(styles, ["width","symbol_stroke_width"]);
+                if (p !== undefined) stl.weight      = p;
+                var p = get_property(styles, ["fill_color", "symbol_fill_color"]);
+                if (p !== undefined) stl.fillColor   = num2color(p);
+                var p = get_property(styles, ["fill_opacity", "symbol_fill_opacity"]);
+                if (p !== undefined) stl.fillOpacity = p;
+                var p = get_property(styles, ["dashes"]);
+                if (p !== undefined) stl.dashArray   = p.join(",");
+                break;
+              case "LineString":
+                var styles = s.shapeStyles["default"];
+                var p = get_property(styles, ["color"]);
+                if (p !== undefined) stl.color       = num2color(p);
+                var p = get_property(styles, ["opacity"]);
+                if (p !== undefined) stl.opacity     = p;
+                var p = get_property(styles, ["width"]);
+                if (p !== undefined) stl.weight      = p;
+                var p = get_property(styles, ["dashes"]);
+                if (p !== undefined) stl.dashArray   = p.join(",");
+              break;
+              case "Polygon":
+              case "MultiPolygon":
+                var styles = s.shapeStyles["default"];
+                var p = get_property(styles, ["color","casing_color"]);
+                if (p !== undefined) stl.color       = num2color(p);
+                var p = get_property(styles, ["opacity","casing_opacity"]);
+                if (p !== undefined) stl.opacity     = p;
+                var p = get_property(styles, ["width","casing_width"]);
+                if (p !== undefined) stl.weight      = p;
+                var p = get_property(styles, ["fill_color"]);
+                if (p !== undefined) stl.fillColor   = num2color(p);
+                var p = get_property(styles, ["fill_opacity"]);
+                if (p !== undefined) stl.fillOpacity = p;
+                var p = get_property(styles, ["dashes"]);
+                if (p !== undefined) stl.dashArray   = p.join(",");
+              break;
+            }
+            // todo: more style properties? linecap, linejoin?
             // return style object
             return stl;
           },

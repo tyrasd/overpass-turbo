@@ -63,7 +63,7 @@ styleparser.StyleChooser.prototype = {
 							a = {}; // "dev/null" stylechooser reciever
 							break;
 					}
-					if (r.drawn) { tags[':drawn']='yes'; }
+					if (r.drawn) { tags[':drawn']='yes'; } // TODO: d.drawn() ???
 					tags._width = sl.maxwidth;
 			
 					r.runEvals(tags);
