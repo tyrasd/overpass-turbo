@@ -474,7 +474,7 @@ var ide = new(function() {
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+settings.appname, {
+            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+configs.appname, {
               data:{
                 format:"json",
                 q: request.term
@@ -960,8 +960,8 @@ var ide = new(function() {
     $("div#share-dialog #share_link_textarea")[0].value=share_link;
 
     // automatically minify urls if enabled
-    if (settings.short_url_service != "") {
-      $.get(settings.short_url_service+shared_query, function(data) {
+    if (configs.short_url_service != "") {
+      $.get(configs.short_url_service+shared_query, function(data) {
         $("div#share-dialog #share_link_a")[0].href=data;
         $("div#share-dialog #share_link_textarea")[0].value=data;
       });
@@ -1014,7 +1014,7 @@ var ide = new(function() {
         $.each(geojson,function(i,d) {gJ = gJ.concat(d.features);});
         gJ = {
           type: "FeatureCollection",
-          generator: settings.appname,
+          generator: configs.appname,
           copyright: overpass.copyright, 
           timestamp: overpass.timestamp,
           features: gJ,

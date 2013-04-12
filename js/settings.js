@@ -1,6 +1,5 @@
 // Settings class
 var Settings = function(namespace,version) {
-  this.appname = "overpass-turbo";
   // == private members ==
   var prefix = namespace+"_";
   var ls = {setItem:function(n,v){this[n]=v;}, getItem:function(n){return this[n]!==undefined?this[n]:null;}}; try { localStorage.setItem(prefix+"test",123); localStorage.removeItem(prefix+"test"); ls = localStorage; } catch(e) {};
@@ -107,8 +106,6 @@ settings.define_setting("ui_language","String","auto",19);
 settings.define_setting("disable_poiomatic","boolean",false,21);
 // show data stats
 settings.define_setting("show_data_stats","boolean",true,21);
-// show data stats
-settings.define_setting("short_url_service","string","",26);
 
 //settings.define_setting(,,,);
 

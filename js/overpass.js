@@ -41,9 +41,9 @@ var overpass = new(function() {
     var request_headers = {};
     var additional_get_data = "";
     if (settings.force_simple_cors_request) {
-      additional_get_data = "?X-Requested-With="+settings.appname;
+      additional_get_data = "?X-Requested-With="+configs.appname;
     } else {
-      request_headers["X-Requested-With"] = settings.appname;
+      request_headers["X-Requested-With"] = configs.appname;
     }
     overpass.ajax_request = $.ajax(settings.server+"interpreter"+additional_get_data, {
       type: 'POST',
