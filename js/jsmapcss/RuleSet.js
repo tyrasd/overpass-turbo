@@ -65,7 +65,7 @@ styleparser.RuleSet.prototype = {
                 if (previous!=this.oOBJECT && previous!=this.oCONDITION) { sc.currentChain().addRule(); }
 
                 css=css.replace(this.ZOOM,'');
-                var z=parseZoom(o[1]);
+                var z=this.parseZoom(o[1]);
                 sc.currentChain().addZoomToLast(z[0],z[1]);
                 sc.zoomSpecific=true;
                 previous=this.oZOOM;
@@ -198,6 +198,8 @@ styleparser.RuleSet.prototype = {
 
     parseZoom:function(s) {
         var o={};
+        var maxscale =  999; // TODO: hardcoded
+        var minscale = -999; // TODO: hardcoded
         if      ((o=this.ZOOM_MINMAX.exec(s))) { return [o[1],o[2]]; }
         else if ((o=this.ZOOM_MIN.exec(s)   )) { return [o[1], maxscale]; }
         else if ((o=this.ZOOM_MAX.exec(s)   )) { return [minscale, o[1]]; }

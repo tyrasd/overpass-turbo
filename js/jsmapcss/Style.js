@@ -58,7 +58,9 @@ styleparser.Style.prototype = {
           // JOSM eval functions ?
         };
 		for (var k in this.evals) {
-			this.setPropertyFromString(k, eval("with (tags) with (eval_functions) {"+this.evals[k]+"}"),false);
+			try {
+			  this.setPropertyFromString(k, eval("with (tags) with (eval_functions) {"+this.evals[k]+"}"),false);
+			} catch(e) {}
 		}
 	},
 
