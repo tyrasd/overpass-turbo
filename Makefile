@@ -65,7 +65,7 @@ turbo.map.js: Makefile
 .INTERMEDIATE turbo.css: \
 	libs/CodeMirror/lib/codemirror.css \
 	libs/locationfilter/src/locationfilter.css \
-	default.css
+	css/default.css
 
 turbo.css: Makefile
 	@rm -f $@
@@ -77,11 +77,12 @@ turbo.min.css: turbo.css Makefile
 
 install: all
 	mkdir -p $(install_root)
+	mkdir -p $(install_root)/css
 	cp turbo.js turbo.min.js $(install_root)
 	cp turbo.map.js turbo.map.min.js $(install_root)
 	cp turbo.css turbo.min.css $(install_root)
-	cp compact.css $(install_root)
-	cp map.css $(install_root)
+	cp css/compact.css $(install_root)/css
+	cp css/map.css $(install_root)/css
 	cp turbo.png favicon.ico $(install_root)
 	cp index_packaged.html $(install_root)/index.html
 	cp map_packaged.html $(install_root)/map.html
