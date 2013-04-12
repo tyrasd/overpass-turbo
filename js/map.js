@@ -7,8 +7,10 @@ $(document).ready(function() {
   $.fn.dialog = function() {
     alert("error :( "+$(this).html());
   };
-  settings = {
+  configs = {
     appname: "overpass-ide-map",
+  }
+  settings = {
     code:{},
     server: "http://overpass-api.de/api/",
     tileServer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
