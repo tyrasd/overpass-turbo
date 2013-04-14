@@ -276,7 +276,7 @@ CONDITION_LT        :/^\s*([:\w]+)\s*<\s*(.+)\s*$/,
 CONDITION_LE        :/^\s*([:\w]+)\s*<=\s*(.+)\s*$/,
 CONDITION_REGEX     :/^\s*([:\w]+)\s*=~\/\s*(.+)\/\s*$/,
 
-ASSIGNMENT_EVAL	:/^\s*(\S+)\s*\:\s*eval\s*\(\s*'(.+?)'\s*\)\s*$/i,
+ASSIGNMENT_EVAL	:/^\s*(\S+)\s*\:\s*eval\s*\(\s*['"](.+?)['"]\s*\)\s*$/i, // TODO: match only two matching quotes
 ASSIGNMENT		:/^\s*(\S+)\s*\:\s*(.+?)\s*$/,
 SET_TAG_EVAL	:/^\s*set\s+(\S+)\s*=\s*eval\s*\(\s*'(.+?)'\s*\)\s*$/i,
 SET_TAG			:/^\s*set\s+(\S+)\s*=\s*(.+?)\s*$/i,
