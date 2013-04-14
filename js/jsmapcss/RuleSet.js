@@ -260,7 +260,7 @@ NOT_CLASS	:/^!([\.:]\w+)\s*/,
 ZOOM		:/^\|\s*z([\d\-]+)\s*/i,
 GROUP		:/^,\s*/i,
 CONDITION	:/^\[(.+?)\]\s*/,
-OBJECT		:/^(\w+)\s*/,
+OBJECT		:/^(\w+)\s*/, // TODO: match also "*" (and handle the wildcard appropriately)
 DECLARATION	:/^\{(.+?)\}\s*/,
 SUBPART		:/^::(\w+)\s*/,
 UNKNOWN		:/^(\S+)\s*/,
