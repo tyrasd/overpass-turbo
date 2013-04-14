@@ -3,8 +3,8 @@ styleparser.Style = function() {this.__init__()};
 styleparser.Style.prototype = {
 	merged: false,
 	edited: false,
-	sublayer: 5,
-	interactive: true,
+	//sublayer: 5, // TODO: commented out. see RuleSet.js
+	//interactive: true, // TODO: commented out. see RuleSet.js
 	properties: [],
 	styleType: 'Style',
 	evals: null,
@@ -198,6 +198,7 @@ styleparser.TextStyle.prototype = {
         'text_color','text_offset','max_width',
         'text','text_halo_color','text_halo_radius','text_center',
         'letter_spacing'],
+    // TODO: font_bold??? wtf? -> support propper MapCSS properites!
 
     font_family: null,
     font_bold: false,

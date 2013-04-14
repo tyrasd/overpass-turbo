@@ -148,19 +148,23 @@ styleparser.RuleSet.prototype = {
             else if ((o=this.EXIT.exec(a)))         { xs.setPropertyFromString('breaker',true); }
         }
 
-        // Find sublayer
+        /*// Find sublayer
+        // TODO: Why the renaming z_index -> sublayer? 
+        //       This hardcoded variable isn't used anywhere.
+        //       Looks like this was replaced by the "subparts"...
         var sub=5;
         if (t['z_index']) { sub=Number(t['z_index']); delete t['z_index']; }
         ss.sublayer=ps.sublayer=ts.sublayer=hs.sublayer=sub;
-        xs.sublayer=10;
+        xs.sublayer=10;*/
 
-        // Find "interactive" property - it's true unless explicitly set false
+        /*// Find "interactive" property - it's true unless explicitly set false
         var inter=true;
         if (t['interactive']) { inter=t['interactive'].match(this.FALSE) ? false : true; delete t['interactive']; }
-        ss.interactive=ps.interactive=ts.interactive=hs.interactive=xs.interactive=inter;
+        ss.interactive=ps.interactive=ts.interactive=hs.interactive=xs.interactive=inter;*/
 
         // Munge special values
         // (we should stop doing this and do it in the style instead)
+        // TODO: font_bold??? wtf? -> support propper MapCSS properites!
         if (t['font_weight']    ) { t['font_bold'  ]    = t['font_weight'    ].match(this.BOLD  )    ? true : false; delete t['font_weight']; }
         if (t['font_style']     ) { t['font_italic']    = t['font_style'     ].match(this.ITALIC)    ? true : false; delete t['font_style']; }
         if (t['text_decoration']) { t['font_underline'] = t['text_decoration'].match(this.UNDERLINE) ? true : false; delete t['text_decoration']; }
