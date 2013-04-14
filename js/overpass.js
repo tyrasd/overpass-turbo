@@ -104,7 +104,7 @@ setTimeout(function() {
               errmsg = "<p>"+$.trim($("remark",data).text())+"</p>";
             if (typeof data == "object" && data.remark)
               errmsg = "<p>"+$.trim(data.remark)+"</p>";
-            fire("onQueryError", errmsg)
+            fire("onQueryError", errmsg);
             data_mode = "error";
             // parse errors and highlight error lines
             var errlines = errmsg.match(/line \d+:/g) || [];
@@ -147,6 +147,8 @@ setTimeout(function() {
           //geojson = overpass.overpassJSON2geoJSON(data);
         }
 
+        fire("onProgress", "applying styles");
+setTimeout(function() {
         /* own MapCSS-extension:
          * added symbol-* properties
          * TODO: implement symbol-shape = marker|square?|shield?|...
@@ -160,6 +162,23 @@ setTimeout(function() {
           styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
           styleparser.PointStyle.prototype.symbol_fill_color = NaN;
           styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
+        }
+        // test user supplied mapcss stylesheet
+        var user_mapcss = ide.mapcss; 
+        try {
+          var dummy_mapcss = new styleparser.RuleSet();
+          dummy_mapcss.parseCSS(user_mapcss);
+          try {
+            dummy_mapcss.getStyles({
+              isSubject:function() {return true;},
+              getParentObject: function() {return [];},
+            }, [], 18);
+          } catch(e) {
+            throw new Error("MapCSS runtime error.");
+          }
+        } catch(e) {
+          user_mapcss = "";
+          fire("onStyleError", "<p>"+e.message+"</p>");
         }
         var mapcss = new styleparser.RuleSet();
         mapcss.parseCSS(""
@@ -182,7 +201,7 @@ setTimeout(function() {
           // highlighted features
           +"node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n"
           // user supplied mapcss
-          +ide.mapcss
+          +user_mapcss
         );
         var get_feature_style = function(feature, highlight) {
           function hasInterestingTags(props) {
@@ -454,6 +473,7 @@ setTimeout(function() {
         fire("onDone");
 },1); // end setTimeout
         });
+},1); // end setTimeout
 },1); // end setTimeout
 },1); // end setTimeout
         });

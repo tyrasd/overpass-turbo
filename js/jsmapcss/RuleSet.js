@@ -108,10 +108,12 @@ styleparser.RuleSet.prototype = {
                 // Unknown pattern
             } else if ((o=this.UNKNOWN.exec(css))) {
                 css=css.replace(this.UNKNOWN,'');
+                // TODO: own error class
+                throw new Error("Error while parsing MapCSS at \""+o[1]+(css.length>38?css.substr(0,36)+"...":css)+"\"");
                 // console.log("unknown: "+o[1]);
-
             } else {
                 // console.log("choked on "+css);
+                throw new Error("MapCSS parsing choked on "+css);
                 return;
             }
         }

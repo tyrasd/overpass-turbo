@@ -87,6 +87,8 @@ var i18n = new(function() {
     "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",
     "error.ajax.title": "Ajax Error",
     "error.ajax.expl": "An error occured during the execution of the overpass query!",
+    "error.mapcss.title": "MapCSS Error",
+    "error.mapcss.expl": "Invalid MapCSS stylesheet:",
     "error.remote.title": "Remote Control Error",
     "error.remote.incompat": "Error: incompatible JOSM remote control version",
     "error.remote.not_found": "Remote control not found. :( Make sure JOSM is already running and properly configured.",

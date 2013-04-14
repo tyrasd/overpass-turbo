@@ -193,6 +193,8 @@
   "error.query.expl": "Ein Fehler ist während der Ausführung der Query aufgetreten. Folgendes hat die API als Fehlermeldung zurückgegeben:",
   "error.ajax.title": "Ajax Fehler",
   "error.ajax.expl": "Ein Fehler ist beim Ausführen der Query aufgetreten!",
+  "error.mapcss.title": "MapCSS Fehler",
+  "error.mapcss.expl": "Ungültiges MapCSS stylesheet:",
   "error.remote.title": "Remote Control Fehler",
   "error.remote.incompat": "Fehler: unkompatible JOSM \"remote control\" Version",
   "error.remote.not_found": "\"remote control\" nicht gefunden. :( Wurde JOSM bereits gestartet?",

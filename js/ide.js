@@ -636,6 +636,14 @@ var ide = new(function() {
         buttons: dialog_buttons,
       });
     }
+    overpass.handlers["onStyleError"] = function(errmsg) {
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
+      $('<div title="'+i18n.t("error.mapcss.title")+'"><p style="color:red;">'+i18n.t("error.mapcss.expl")+'</p>'+errmsg+"</div>").dialog({
+        modal:true,
+        buttons: dialog_buttons,
+      });
+    }
     overpass.handlers["onQueryErrorLine"] = function(linenumber) {
       ide.highlightError(linenumber);
     }
