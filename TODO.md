@@ -110,3 +110,4 @@ MapCSS
 * implement text/label properties of mapcss
 * implement other symbol-shapes (square, triangle, marker, etc.)
 * implement line casings, shields
+* let the background tiles be set by something like 'canvas { background-tiles:"..."; background-opacity:1; background-overlays:"...;...;..."; }'
