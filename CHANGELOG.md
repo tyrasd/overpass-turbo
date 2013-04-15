@@ -1,3 +1,10 @@
+2013.04.15
+----------
+* MapCSS support :) Read more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS
+* enabled an url-shortening service on http://overpass-turbo.eu
+* new "as GPX" export
+* some bugfixes and UI improvements
+
 2013.03.24
 ----------
 * implemented a build system - should result in much faster startup :)
