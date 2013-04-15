@@ -86,6 +86,7 @@ styleparser.RuleSet.prototype = {
 
                 // Object - way, node, relation
             } else if ((o=this.OBJECT.exec(css))) {
+                // TODO: raise error if object is none of node|way|relation|line|area|canvas|* ?
                 if (previous==this.oDECLARATION) { this.saveChooser(sc); sc=new styleparser.StyleChooser(); }
 
                 css=css.replace(this.OBJECT,'');
