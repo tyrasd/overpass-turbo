@@ -70,7 +70,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",26);
+var settings = new Settings("overpass-ide",27);
 
 // map coordinates
 settings.define_setting("use_html5_coords","Boolean",true,1);
@@ -194,5 +194,16 @@ settings.define_upgrade_callback(25, function(s) {
       s.saves[q].overpass = s.saves[q].overpass.replace("\n-->","\nChoose your region and hit the Run button above!\n-->");
     }
   }
+  s.save();
+});
+settings.define_upgrade_callback(27, function(s) {
+  // rename "List Areas" to "Where am I?"
+  s.saves["Where am I?"] = s.saves["List Areas"];
+  delete s.saves["List Areas"];
+  // add mapcss example
+  s.saves["MapCSS styling"] = {
+    type: "example",
+    overpass: "<!--\nThis example shows how the data can be styled.\nHere, some common amenities are displayed in \ndifferent colors.\n\nRead more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\n-->\n<osm-script output=\"json\">\n  <query type=\"node\">\n    <has-kv k=\"amenity\"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode=\"body\"/>\n  <query type=\"way\">\n    <has-kv k=\"amenity\"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>\n\n{{style: /* this is the MapCSS stylesheet */\nnode, area\n{ color:gray; fill-color:gray; }\n\nnode[amenity=drinking_water],\nnode[amenity=fountain]\n{ color:blue; fill-color:blue; }\n\nnode[amenity=place_of_worship],\narea[amenity=place_of_worship]\n{ color:grey; fill-color:grey; }\n\nnode[amenity=~/(restaurant|hotel|cafe)/],\narea[amenity=~/(restaurant|hotel|cafe)/]\n{ color:red; fill-color:red; }\n\nnode[amenity=parking],\narea[amenity=parking]\n{ color:yellow; fill-color:yellow; }\n\nnode[amenity=bench]\n{ color:brown; fill-color:brown; }\n\nnode[amenity=~/(kindergarten|school|university)/],\narea[amenity=~/(kindergarten|school|university)/]\n{ color:green; fill-color:green; }\n}}"
+  };
   s.save();
 });
