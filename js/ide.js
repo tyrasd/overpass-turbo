@@ -745,7 +745,7 @@ var ide = new(function() {
       mapcss = mapcss.join("\n");
       ide.mapcss = mapcss;
       // remove remaining (e.g. unknown) mustache templates:
-      query.match(/{{[\S\s]*?}}/gm).forEach(function(mustache) {
+      (query.match(/{{[\S\s]*?}}/gm) || []).forEach(function(mustache) {
         // count lines in template and replace mustache with same number of newlines 
         var lc = mustache.split(/\r?\n|\r/).length;
         query = query.replace(mustache,Array(lc).join("\n"));
