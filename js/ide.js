@@ -744,8 +744,13 @@ var ide = new(function() {
       });
       mapcss = mapcss.join("\n");
       ide.mapcss = mapcss;
-      // ignore remaining (e.g. unknown) mustache templates:
-      query = query.replace(/{{[\S\s]*?}}/gm,"");
+      // remove remaining (e.g. unknown) mustache templates:
+      query.match(/{{[\S\s]*?}}/gm).forEach(function(mustache) {
+        // count lines in template and replace mustache with same number of newlines 
+        var lc = mustache.split(/\r?\n|\r/).length;
+        query = query.replace(mustache,Array(lc).join("\n"));
+      });
+      // eventually trim whitespace
       if (typeof trim_ws == "undefined" || trim_ws) {
         query = query.replace(/(\n|\r)/g," "); // remove newlines
         query = query.replace(/\s+/g," "); // remove some whitespace
