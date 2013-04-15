@@ -17,7 +17,7 @@
   <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
   <!--own scripts & styles-->
   <link rel="stylesheet" type="text/css" href="turbo.min.css" />
-  <link rel="stylesheet" type="text/css" media="(max-width: 700px), (max-device-width: 799px)" href="compact.css"/>
+  <link rel="stylesheet" type="text/css" media="(max-width: 700px), (max-device-width: 799px)" href="css/compact.css"/>
   <script src="turbo.min.js"></script>
 </head>
 <body class="loading">
@@ -123,7 +123,7 @@
         <li><span class="t" t="help.attr.leaflet">Map powered by</span> <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
         <li><span class="t" t="help.attr.codemirror">Editor powered by</span> <a href="http://codemirror.net/">CodeMirror</a></li>
         <li><span class="t" t="help.attr.jquery">Driven by</span> <a href="http://jquery.com/">jQuery</a></li>
-        <li><span class="t" t="help.attr.other_libs">Other libraries:</span> <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/tripbirds/leaflet-locationfilter">leaflet-locationfilter</a></li>
+        <li><span class="t" t="help.attr.other_libs">Other libraries:</span> <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a></li>
       </ul>
     </div>
   </div>
@@ -193,21 +193,26 @@
     <h3 class="t" t="export.section.data">Data</h3>
     <p class="t" t="[html]export.raw_interpreter">raw link to <a id="export-overpass-api" href="" target="_blank">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p class="t" t="[html]export.as_geoJSON">as <a id="export-geoJSON" href="">geoJSON</a></p>
+    <p class="t" t="[html]export.as_GPX">as <a id="export-GPX" href="">GPX</a></p>
     <h3 class="t" t="export.section.query">Query</h3>
     <p class="t" t="[html]export.as_text">as <a id="export-text" href="" download="query.txt" target="_blank">text</a></p>
-    <p class="t" t="[html]export.to_xml">convert to <a id="export-convert-xml" href="" target="_blank">xml<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <p class="t" t="[html]export.to_xml">convert to <a id="export-convert-xml" href="" target="_blank">Overpass-XML<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p class="t" t="[html]export.to_ql">convert to (<a id="export-convert-compact" href="" target="_blank">compact<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a>) <a id="export-convert-ql" href="" target="_blank">OverpassQL<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p><span class="t" t="[html]export.remote_control">load into <a id="export-josm" href="">JOSM</a></span> <small>(<span class="t" t="export.remote_control_expl">only for queries returning valid OSM-XML with meta data</span>)</small></p>
   </div>
   <div title="Export - geoJSON" id="export-geojson" class="t dialog" t="[title]export.geoJSON.title">
-    <p class="t" t="export.geoJSON.expl">The currently shown data in geoJSON format:</p>
+    <p class="t" t="export.geoJSON.expl">The currently shown data as GeoJSON:</p>
+    <textarea style="width:100%" rows="16" readonly></textarea>
+  </div>
+  <div title="Export - GPX" id="export-gpx" class="t dialog" t="[title]export.GPX.title">
+    <p class="t" t="export.GPX.expl">The currently shown data as GPX:</p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
   <!--share-->
   <div title="Share" id="share-dialog" class="t dialog" t="[title]share.title">
     <h3 class="t" t="share.header">Permalink</h3>
     <p class="t" t="[html]share.copy_this_link">Copy this <a href="" id="share_link_a">link</a> to share the current code:</p>
-    <p><textarea rows=4 style="width:100%" readonly id="share_link_textarea"></textarea></p>
+    <p><input type="text" style="width:100%" readonly id="share_link_textarea"/></p>
     <span id="share_link_warning"></span>
     <h3 class="t" t="share.options">Options</h3>
     <p><input type="checkbox" name="include_coords" onchange="ide.updateShareLink();"/>&nbsp;<span class="t" t="share.incl_map_state">include current map state</span></p>

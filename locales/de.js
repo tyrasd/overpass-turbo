@@ -82,17 +82,22 @@
   "export.section.data": "Daten",
   "export.raw_interpreter": "Direktlink zum <a id=\"export-overpass-api\" href=\"\">API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
   "export.as_geoJSON": "Als <a id=\"export-geoJSON\" href=\"\">GeoJSON</a>",
+  "export.as_GPX": "Als <a id=\"export-GPX\" href=\"\">GPX</a>",
   
   "export.section.query": "Query",
   "export.as_text": "Als <a id=\"export-text\" href=\"\" download=\"query.txt\">Text</a>",
-  "export.to_xml": "Nach <a id=\"export-convert-xml\" href=\"\">XML<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren",
+  "export.to_xml": "Nach <a id=\"export-convert-xml\" href=\"\">Overpass-XML<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren",
   "export.to_ql": "Nach <a id=\"export-convert-ql\" href=\"\">OverpassQL<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren (<a id=\"export-convert-compact\" href=\"\">kompakte Variante<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a>)",
   "export.remote_control": "In <a id=\"export-josm\" href=\"\">JOSM</a> laden",
   "export.remote_control_expl": "nur für Abfragen, die gültiges OSM-XML mit Metadaten liefern",
 
   "export.geoJSON.title": "Export - GeoJSON",
-  "export.geoJSON.expl": "Die aktuell angezeigen Daten im GeoJSON Format:",
+  "export.geoJSON.expl": "Die aktuell angezeigen Daten im GeoJSON-Format:",
   "export.geoJSON.no_data": "Keine GeoJSON-Daten verfügbar. Bitte zuerst eine Query ausführen!",
+
+  "export.GPX.title": "Export - GPX",
+  "export.GPX.expl": "Die aktuell angezeigen Daten im GPX-Format:",
+  "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
 
   "export.map_view.title": "Aktueller Kartenausschnitt",
   "export.map_view.permalink_osm": "<h4>Permalink</h4> nach",
@@ -188,6 +193,8 @@
   "error.query.expl": "Ein Fehler ist während der Ausführung der Query aufgetreten. Folgendes hat die API als Fehlermeldung zurückgegeben:",
   "error.ajax.title": "Ajax Fehler",
   "error.ajax.expl": "Ein Fehler ist beim Ausführen der Query aufgetreten!",
+  "error.mapcss.title": "MapCSS Fehler",
+  "error.mapcss.expl": "Ungültiges MapCSS stylesheet:",
   "error.remote.title": "Remote Control Fehler",
   "error.remote.incompat": "Fehler: unkompatible JOSM \"remote control\" Version",
   "error.remote.not_found": "\"remote control\" nicht gefunden. :( Wurde JOSM bereits gestartet?",

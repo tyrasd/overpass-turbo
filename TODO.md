@@ -99,3 +99,15 @@ Several UI Improvements
 * implement poly-boundings selector (I may have to wait for the most recent leaflet-draw plugin) 
 * ~~deactivate "manually select bbox" when there is no "{{bbox}}" in the query.~~
 * ~~add description on how to run templates (e.g. "select region in the map and hit run").~~
+* ~~rename Export->Query->XML. e.g. "Overpass-XML query"~~
+* add Export->Data->OSM-Data (like the data tab).
+* exclude internal variables (like mp_outline, tainted, etc.) from direct geoJSON output (better: put into meta data object?)
+
+MapCSS
+------
+* do not requery Overpass API if the query (incl. bbox) did not change between 2 "RUN"s and there is not much time in between?
+* add keyboard shortcut for only reapplying styles
+* implement text/label properties of mapcss
+* implement other symbol-shapes (square, triangle, marker, etc.)
+* implement line casings, shields
+* let the background tiles be set by something like 'canvas { background-tiles:"..."; background-opacity:1; background-overlays:"...;...;..."; }'
