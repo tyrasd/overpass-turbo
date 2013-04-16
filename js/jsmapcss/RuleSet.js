@@ -180,7 +180,7 @@ styleparser.RuleSet.prototype = {
         // Assign each property to the appropriate style
         for (a in t) {
             // Parse properties
-            else { v = t[a]; }
+            v = t[a];
 
             // Set in styles
             if      (ss.has(a)) { ss.setPropertyFromString(a,v,isEval[a]); }
