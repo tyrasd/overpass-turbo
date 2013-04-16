@@ -158,9 +158,9 @@ setTimeout(function() {
           styleparser.PointStyle.prototype.symbol_shape = "";
           styleparser.PointStyle.prototype.symbol_size = NaN;
           styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
-          styleparser.PointStyle.prototype.symbol_stroke_color = NaN;
+          styleparser.PointStyle.prototype.symbol_stroke_color = null;
           styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
-          styleparser.PointStyle.prototype.symbol_fill_color = NaN;
+          styleparser.PointStyle.prototype.symbol_fill_color = null;
           styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
         }
         // test user supplied mapcss stylesheet
@@ -264,10 +264,6 @@ setTimeout(function() {
             var stl = {};
             var s = get_feature_style(feature, highlight);
             // apply mapcss styles
-            function num2color(val) {
-              val = Number(val).toString(16);
-              return "#"+("000000".substr(0,6-val.length))+val;
-            }
             function get_property(styles, properties) {
               for (var i=properties.length-1; i>=0; i--)
                 if (styles[properties[i]] !== undefined) return styles[properties[i]];
@@ -277,13 +273,13 @@ setTimeout(function() {
               case "Point":
                 var styles = $.extend({},s.shapeStyles["default"],s.pointStyles["default"]);
                 var p = get_property(styles, ["color","symbol_stroke_color"]);
-                if (p !== undefined) stl.color       = num2color(p);
+                if (p !== undefined) stl.color       = p;
                 var p = get_property(styles, ["opacity","symbol_stroke_opacity"]);
                 if (p !== undefined) stl.opacity     = p;
                 var p = get_property(styles, ["width","symbol_stroke_width"]);
                 if (p !== undefined) stl.weight      = p;
                 var p = get_property(styles, ["fill_color", "symbol_fill_color"]);
-                if (p !== undefined) stl.fillColor   = num2color(p);
+                if (p !== undefined) stl.fillColor   = p;
                 var p = get_property(styles, ["fill_opacity", "symbol_fill_opacity"]);
                 if (p !== undefined) stl.fillOpacity = p;
                 var p = get_property(styles, ["dashes"]);
@@ -292,7 +288,7 @@ setTimeout(function() {
               case "LineString":
                 var styles = s.shapeStyles["default"];
                 var p = get_property(styles, ["color"]);
-                if (p !== undefined) stl.color       = num2color(p);
+                if (p !== undefined) stl.color       = p;
                 var p = get_property(styles, ["opacity"]);
                 if (p !== undefined) stl.opacity     = p;
                 var p = get_property(styles, ["width"]);
@@ -304,13 +300,13 @@ setTimeout(function() {
               case "MultiPolygon":
                 var styles = s.shapeStyles["default"];
                 var p = get_property(styles, ["color","casing_color"]);
-                if (p !== undefined) stl.color       = num2color(p);
+                if (p !== undefined) stl.color       = p;
                 var p = get_property(styles, ["opacity","casing_opacity"]);
                 if (p !== undefined) stl.opacity     = p;
                 var p = get_property(styles, ["width","casing_width"]);
                 if (p !== undefined) stl.weight      = p;
                 var p = get_property(styles, ["fill_color"]);
-                if (p !== undefined) stl.fillColor   = num2color(p);
+                if (p !== undefined) stl.fillColor   = p;
                 var p = get_property(styles, ["fill_opacity"]);
                 if (p !== undefined) stl.fillOpacity = p;
                 var p = get_property(styles, ["dashes"]);
