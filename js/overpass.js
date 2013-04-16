@@ -171,7 +171,7 @@ setTimeout(function() {
           try {
             dummy_mapcss.getStyles({
               isSubject:function() {return true;},
-              getParentObject: function() {return [];},
+              getParentObjects: function() {return [];},
             }, [], 18);
           } catch(e) {
             throw new Error("MapCSS runtime error.");
@@ -232,7 +232,7 @@ setTimeout(function() {
                       return subject=="relation" || 
                              (subject=="area" && rel.reltags.type=="multipolyon");
                     },
-                    getParentObject: function() {return [];},
+                    getParentObjects: function() {return [];},
                   }
                 });
             } 
