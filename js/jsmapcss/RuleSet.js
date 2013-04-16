@@ -180,8 +180,6 @@ styleparser.RuleSet.prototype = {
         // Assign each property to the appropriate style
         for (a in t) {
             // Parse properties
-            // ** also do units, e.g. px/pt/m
-            if (a.match(this.COLOR)) { v = this.parseCSSColor(t[a]); }
             else { v = t[a]; }
 
             // Set in styles
@@ -231,6 +229,8 @@ styleparser.RuleSet.prototype = {
     },
 
     parseCSSColor:function(colorStr) {
+        // todo: this should be done at user (=style consumer) side (if necessary).
+        // -> move to a more appropriate location
         colorStr = colorStr.toLowerCase();
         if (this.CSSCOLORS[colorStr]) {
             return this.CSSCOLORS[colorStr];

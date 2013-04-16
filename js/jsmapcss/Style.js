@@ -132,10 +132,10 @@ styleparser.ShapeStyle.prototype = {
     properties: ['width','color','opacity','dashes','linecap','linejoin','line_style',
         'fill_image','fill_color','fill_opacity','casing_width','casing_color','casing_opacity','casing_dashes','layer'],
 
-	width:0, color:NaN, opacity:NaN, dashes:[],
+	width:0, color:null, opacity:NaN, dashes:[],
 	linecap:null, linejoin:null, line_style:null,
-	fill_image:null, fill_color:NaN, fill_opacity:NaN, 
-	casing_width:NaN, casing_color:NaN, casing_opacity:NaN, casing_dashes:[],
+	fill_image:null, fill_color:null, fill_opacity:NaN, 
+	casing_width:NaN, casing_color:null, casing_opacity:NaN, casing_dashes:[],
 	layer:NaN,				// optional layer override (usually set by OSM tag)
 	styleType: 'ShapeStyle',
 	
@@ -206,11 +206,11 @@ styleparser.TextStyle.prototype = {
 	font_underline: false,
 	font_caps: false,
 	font_size: NaN,
-	text_color: NaN,
+	text_color: null,
 	text_offset: NaN,
 	max_width: NaN,
 	text: null,
-	text_halo_color: NaN,
+	text_halo_color: null,
 	text_halo_radius: 0,
 	text_center: true,
 	letter_spacing: 0,
