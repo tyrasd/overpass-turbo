@@ -1,4 +1,5 @@
-#
+# this builds overpass turbo
+# use "make install install_root=..." to install into a specific directory
 
 UGLIFY = ./node_modules/uglify-js/bin/uglifyjs
 JS_BEAUTIFIER = $(UGLIFY) -b -i 2 -nm -ns
