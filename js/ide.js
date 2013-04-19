@@ -995,7 +995,6 @@ var ide = new(function() {
     var query = ide.getQuery(true);
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
-    $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
     var dialog_buttons= {};
@@ -1220,6 +1219,7 @@ var ide = new(function() {
       width:350,
       buttons: dialog_buttons,
     });
+    $("#export-dialog").accordion();
   }
   this.onExportImageClick = function() {
     ide.waiter.open(i18n.t("waiter.export_as_image"));

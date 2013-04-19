@@ -74,13 +74,12 @@
   "export.section.map": "Karte",
   "export.as_png": "Als <a id=\"export-image\" href=\"\" onclick=\"ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;\">png image</a>",
   "export.as_interactive_map": "Als <a id=\"export-interactive-map\" href=\"\">interaktive Karte</a>",
-  "export.as_openlayers_map": "Als <a id=\"export-overpass-openlayers\" href=\"\">OpenLayers Karte<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></a>",
   "export.openlayers_map_expl": "nur für Abfragen, die vollständiges OSM-XML zurückgeben",
   "export.current_map_view": "Aktuelle <a id=\"export-map-state\" href=\"\">Kartenansicht</a>",
   "export.map_view_expl": "bbox, zentrum, etc.",
 
   "export.section.data": "Daten",
-  "export.raw_interpreter": "Direktlink zum <a id=\"export-overpass-api\" href=\"\">API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
+  "export.raw_interpreter": "Date direkt vom <a id=\"export-overpass-api\" href=\"\">Overpass API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
   "export.as_geoJSON": "Als <a id=\"export-geoJSON\" href=\"\">GeoJSON</a>",
   "export.as_GPX": "Als <a id=\"export-GPX\" href=\"\">GPX</a>",
   
