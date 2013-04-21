@@ -310,11 +310,13 @@ var ide = new(function() {
       attributionControl:false,
       minZoom:0,
       maxZoom:18,
+      worldCopyJump:false,
     });
     var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
     var tilesAttrib = '&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
+      noWrap:true,
     });
     attribControl = new L.Control.Attribution({prefix:""});
     attribControl.addAttribution(tilesAttrib);
@@ -705,10 +707,14 @@ var ide = new(function() {
       bbox = this.map.getBounds();
     else
       bbox = ide.map.bboxfilter.getBounds();
+    var lat1 = Math.min(Math.max(bbox.getSouthWest().lat,-90),90);
+    var lat2 = Math.min(Math.max(bbox.getNorthEast().lat,-90),90);
+    var lng1 = Math.min(Math.max(bbox.getSouthWest().lng,-180),180);
+    var lng2 = Math.min(Math.max(bbox.getNorthEast().lng,-180),180);
     if (lang=="OverpassQL")
-      return bbox.getSouthWest().lat+','+bbox.getSouthWest().lng+','+bbox.getNorthEast().lat+','+bbox.getNorthEast().lng;
+      return lat1+','+lng1+','+lat2+','+lng2;
     else if (lang=="xml")
-      return 's="'+bbox.getSouthWest().lat+'" w="'+bbox.getSouthWest().lng+'" n="'+bbox.getNorthEast().lat+'" e="'+bbox.getNorthEast().lng+'"';
+      return 's="'+lat1+'" w="'+lng1+'" n="'+lat2+'" e="'+lng2+'"';
   }
   // returns the current visible map center as a coord-query
   this.map2coord = function(lang) {
