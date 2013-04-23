@@ -1035,8 +1035,21 @@ var ide = new(function() {
           generator: configs.appname,
           copyright: overpass.copyright, 
           timestamp: overpass.timestamp,
-          features: gJ,
+          features: $.extend(true, [], gJ), // makes deep copy
         }
+        gJ.features.forEach(function(f) {
+          var p = f.properties;
+          f.properties = $.extend({
+            "@type": p.type,
+            "@id": p.id,
+          },p.tags);
+          for (var m in p.meta||{})
+            f.properties["@"+m] = p.meta["m"];
+          // todo: what to do with relations?
+          if (p.relations)
+            f.properties["@relations"] = p.relations;
+          // todo: expose internal properties?? mp_outline
+        });
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
       var d = $("#export-geojson");
