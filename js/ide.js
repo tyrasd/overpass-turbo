@@ -1039,16 +1039,25 @@ var ide = new(function() {
         }
         gJ.features.forEach(function(f) {
           var p = f.properties;
-          f.properties = $.extend({
+          f.properties = {
             "@type": p.type,
             "@id": p.id,
-          },p.tags);
+          };
+          for (var m in p.tags||{})
+             // escapes tags beginning with an @ with another @
+            f.properties[m.replace(/^@/,"@@")] = p.tags[m];
           for (var m in p.meta||{})
-            f.properties["@"+m] = p.meta["m"];
-          // todo: what to do with relations?
+            f.properties["@"+m] = p.meta[m];
+          // expose internal properties:
+          // * tainted: indicates that the feature's geometry is incomplete
+          if (p.tainted)
+            f.properties["@tainted"] = p.tainted;
+          // * mp_outline: indicates membership in a multipolygon relation
+          if (p.mp_outline)
+            f.properties["@mp_outline"] = p.mp_outline;
+          // expose relations (complex data type)
           if (p.relations)
             f.properties["@relations"] = p.relations;
-          // todo: expose internal properties?? mp_outline
         });
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
