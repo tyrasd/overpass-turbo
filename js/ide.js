@@ -1028,6 +1028,7 @@ var ide = new(function() {
       if (!geojson)
         geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
+        console.log(new Date());
         var gJ = [];
         // concatenate feature collections
         $.each(geojson,function(i,d) {gJ = gJ.concat(d.features);});
@@ -1036,6 +1037,7 @@ var ide = new(function() {
           generator: configs.appname,
           copyright: overpass.copyright, 
           timestamp: overpass.timestamp,
+          //TODO: make own copy of features array (re-using geometry) instead of deep copy?
           features: $.extend(true, [], gJ), // makes deep copy
         }
         gJ.features.forEach(function(f) {
@@ -1064,7 +1066,6 @@ var ide = new(function() {
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
       var d = $("#export-geojson");
-      $("textarea",d)[0].value=geoJSON_str;
       $("#geojson_format_changed").remove();
       $("textarea",d).after("<p id='geojson_format_changed' style='color:orange;'>Please note that the structure of the exported GeoJSON has changed recently: overpass turbo now produces <i>flattened</i> properties. Read more about the <a href='http://wiki.openstreetmap.org/wiki/Overpass_turbo/GeoJSON'>specs here</a>.</p>");
       var dialog_buttons= {};
@@ -1074,10 +1075,12 @@ var ide = new(function() {
         width:500,
         buttons: dialog_buttons,
       });
-      // test 123 test
-      var blob = new Blob([geoJSON_str], {type: "application/json;charset=utf-8"});
-      saveAs(blob, "export.geojson");
-      // endtest
+      $("textarea",d)[0].value=geoJSON_str;
+      // make content downloadable as file
+      if (geojson) {
+        var blob = new Blob([geoJSON_str], {type: "application/json;charset=utf-8"});
+        saveAs(blob, "export.geojson");
+      }
       return false;
     });
     $("#export-dialog a#export-GPX").unbind("click");
@@ -1158,7 +1161,6 @@ var ide = new(function() {
         gpx_str = JXON.stringify(gpx);
       }
       var d = $("#export-gpx");
-      $("textarea",d)[0].value=gpx_str;
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
       d.dialog({
@@ -1166,6 +1168,7 @@ var ide = new(function() {
         width:500,
         buttons: dialog_buttons,
       });
+      $("textarea",d)[0].value=gpx_str;
       return false;
     });
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
