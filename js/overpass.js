@@ -79,6 +79,14 @@ setTimeout(function() {
             data = $.parseJSON(data);
           } catch (e) {}
         }
+        if (typeof data == "string" && data.substr(0,5) == "<?xml") {
+          try {
+            jqXHR.responseXML = data;
+            data = $.parseXML(data);
+          } catch (e) {
+            delete jqXHR.responseXML;
+          }
+        }
         if ((typeof data == "string") ||
             (typeof data == "object" && jqXHR.responseXML && $("remark",data).length > 0) ||
             (typeof data == "object" && data.remark && data.remark.length > 0)
