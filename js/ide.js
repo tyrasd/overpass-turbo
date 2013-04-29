@@ -1073,6 +1073,10 @@ var ide = new(function() {
         width:500,
         buttons: dialog_buttons,
       });
+      // test 123 test
+      var blob = new Blob([geoJSON_str], {type: "application/json;charset=utf-8"});
+      saveAs(blob, "export.geojson");
+      // endtest
       return false;
     });
     $("#export-dialog a#export-GPX").on("click", function() {
