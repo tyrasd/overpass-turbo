@@ -1169,6 +1169,11 @@ var ide = new(function() {
         buttons: dialog_buttons,
       });
       $("textarea",d)[0].value=gpx_str;
+      // make content downloadable as file
+      if (geojson) {
+        var blob = new Blob([gpx_str], {type: "application/xml;charset=utf-8"});
+        saveAs(blob, "export.gpx");
+      }
       return false;
     });
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
