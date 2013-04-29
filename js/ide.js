@@ -1021,6 +1021,7 @@ var ide = new(function() {
       });
       return false;
     });
+    $("#export-dialog a#export-geoJSON").unbind("click");
     $("#export-dialog a#export-geoJSON").on("click", function() {
       var geoJSON_str;
       var geojson = overpass.geojson;
@@ -1079,6 +1080,7 @@ var ide = new(function() {
       // endtest
       return false;
     });
+    $("#export-dialog a#export-GPX").unbind("click");
     $("#export-dialog a#export-GPX").on("click", function() {
       var gpx_str;
       var geojson = overpass.geojson;
