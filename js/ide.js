@@ -1001,7 +1001,6 @@ var ide = new(function() {
     var query = ide.getQuery(true);
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
-    $("#export-dialog a#export-overpass-openlayers")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=openlayers";
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
     var dialog_buttons= {};
@@ -1036,12 +1035,37 @@ var ide = new(function() {
           generator: configs.appname,
           copyright: overpass.copyright, 
           timestamp: overpass.timestamp,
-          features: gJ,
+          features: $.extend(true, [], gJ), // makes deep copy
         }
+        gJ.features.forEach(function(f) {
+          var p = f.properties;
+          f.properties = {
+            "@type": p.type,
+            "@id": p.id,
+          };
+          for (var m in p.tags||{})
+             // escapes tags beginning with an @ with another @
+            f.properties[m.replace(/^@/,"@@")] = p.tags[m];
+          for (var m in p.meta||{})
+            f.properties["@"+m] = p.meta[m];
+          // expose internal properties:
+          // * tainted: indicates that the feature's geometry is incomplete
+          if (p.tainted)
+            f.properties["@tainted"] = p.tainted;
+          // * mp_outline: indicates membership in a multipolygon relation
+          if (p.mp_outline)
+            f.properties["@mp_outline"] = p.mp_outline;
+          // expose relation membership (complex data type)
+          if (p.relations)
+            f.properties["@relations"] = p.relations;
+          // todo: expose way membership for nodes?
+        });
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
       var d = $("#export-geojson");
       $("textarea",d)[0].value=geoJSON_str;
+      $("#geojson_format_changed").remove();
+      $("textarea",d).after("<p id='geojson_format_changed' style='color:orange;'>Please note that the structure of the exported GeoJSON has changed recently: overpass turbo now produces <i>flattened</i> properties. Read more about the <a href='http://wiki.openstreetmap.org/wiki/Overpass_turbo/GeoJSON'>specs here</a>.</p>");
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
       d.dialog({
@@ -1226,6 +1250,7 @@ var ide = new(function() {
       width:350,
       buttons: dialog_buttons,
     });
+    $("#export-dialog").accordion();
   }
   this.onExportImageClick = function() {
     ide.waiter.open(i18n.t("waiter.export_as_image"));

@@ -6,15 +6,15 @@
   <title>overpass turbo</title>
   <link rel="icon" href="turbo.png" type="image/png" />
   <!--jQuery-->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
   <!--CodeMirror-->
   <!--leaflet-->
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
   <!--leaflet extensions-->
   <!--jQuery UI-->
   <link type="text/css" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" rel="Stylesheet" />
-  <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.min.js"></script>
   <!--own scripts & styles-->
   <link rel="stylesheet" type="text/css" href="turbo.min.css" />
   <link rel="stylesheet" type="text/css" media="(max-width: 700px), (max-device-width: 799px)" href="css/compact.css"/>
@@ -34,7 +34,7 @@
         <a class="t button group left"      accesskey="9" onclick="ide.onSettingsClick();" title="various settings"                   t="[title]nav.settings_tt;nav.settings">Settings</a>
         <a class="t button group right"     accesskey="0" onclick="ide.onHelpClick();"     title="help, about and attributions"       t="[title]nav.help_tt;nav.help"        >Help</a>
       </div>
-      <div class="title">overpass turbo <img src="turbo.png" style="opacity:0.3; margin-left:2px;" /></div>
+      <div class="title"><a href="index.html" class="disabled">overpass turbo <img src="turbo.png" style="opacity:0.3; margin-left:2px;" /></a></div>
       <div class="tabs">
         <a class="t button active" title="map view"  t="[title]tabs.map_tt;tabs.map"  >Map</a>
         <a class="t button"        title="data view" t="[title]tabs.data_tt;tabs.data">Data</a>
@@ -42,7 +42,6 @@
     </div>
   </div>
 
-  </div>
   <div id="editor">
     <!--CodeMirror goes here-->
     <textarea></textarea>
@@ -185,22 +184,27 @@
   </div>
   <!--export-->
   <div title="Export" id="export-dialog" class="t dialog" t="[title]export.title">
-    <h3 class="t" t="export.section.map">Map</h3>
-    <p class="t" t="[html]export.as_png">as <a id="export-image" href="" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;">png image</a></p>
-    <p class="t" t="[html]export.as_interactive_map">as <a id="export-interactive-map" href="">interactive Map</a></p>
-    <p><span class="t" t="[html]export.as_openlayers_map">as <a id="export-overpass-openlayers" href="" target="_blank">OpenLayers Map<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></a></span> <small>(<span class="t" t="export.openlayers_map_expl">only for queries returning valid OSM-XML</span>)</small></p>
-    <p><span class="t" t="[html]export.current_map_view">current <a id="export-map-state" href="">map view</a></span> <small>(<span class="t" t="export.map_view_expl">bbox, center, etc.</span>)</small></p>
-    <h3 class="t" t="export.section.data">Data</h3>
-    <p class="t" t="[html]export.raw_interpreter">raw link to <a id="export-overpass-api" href="" target="_blank">API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <h4 class="t" t="export.section.data">Data</h4>
+    <div>
     <p class="t" t="[html]export.as_geoJSON">as <a id="export-geoJSON" href="">geoJSON</a></p>
     <p class="t" t="[html]export.as_GPX">as <a id="export-GPX" href="">GPX</a></p>
-    <h3 class="t" t="export.section.query">Query</h3>
+    <p class="t" t="[html]export.raw_interpreter">raw data from <a id="export-overpass-api" href="" target="_blank">Overpass API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <p><span class="t" t="[html]export.remote_control">load into <a id="export-josm" href="">JOSM</a></span> <small>(<span class="t" t="export.remote_control_expl">only for queries returning valid OSM-XML with meta data</span>)</small></p>
+    </div>
+    <h4 class="t" t="export.section.map">Map</h4>
+    <div>
+    <p class="t" t="[html]export.as_png">as <a id="export-image" href="" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;">png image</a></p>
+    <p class="t" t="[html]export.as_interactive_map">as <a id="export-interactive-map" href="">interactive Map</a></p>
+    <p><span class="t" t="[html]export.current_map_view">current <a id="export-map-state" href="">map view</a></span> <small>(<span class="t" t="export.map_view_expl">bbox, center, etc.</span>)</small></p>
+    </div>
+    <h4 class="t" t="export.section.query">Query</h4>
+    <div>
     <p class="t" t="[html]export.as_text">as <a id="export-text" href="" download="query.txt" target="_blank">text</a></p>
     <p class="t" t="[html]export.to_xml">convert to <a id="export-convert-xml" href="" target="_blank">Overpass-XML<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p class="t" t="[html]export.to_ql">convert to (<a id="export-convert-compact" href="" target="_blank">compact<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a>) <a id="export-convert-ql" href="" target="_blank">OverpassQL<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
-    <p><span class="t" t="[html]export.remote_control">load into <a id="export-josm" href="">JOSM</a></span> <small>(<span class="t" t="export.remote_control_expl">only for queries returning valid OSM-XML with meta data</span>)</small></p>
+    </div>
   </div>
-  <div title="Export - geoJSON" id="export-geojson" class="t dialog" t="[title]export.geoJSON.title">
+  <div title="Export - GeoJSON" id="export-geojson" class="t dialog" t="[title]export.geoJSON.title">
     <p class="t" t="export.geoJSON.expl">The currently shown data as GeoJSON:</p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>

@@ -277,6 +277,11 @@ body.loading .modal {
   color: #7A7A7A;
   padding-left: 10px;
 }
+#navs .title a {
+  text-decoration: none;
+  color: #7A7A7A;
+  font-weight: normal;
+}
 
 .crosshairs {
   position: absolute;

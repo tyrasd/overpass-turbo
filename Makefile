@@ -1,4 +1,11 @@
-#
+# this builds overpass turbo
+# supported commands:
+#   * all
+#   * install
+#   * clean
+# usage:
+#   make && make install install_root=...
+# set install_root for installing into a specific directory
 
 UGLIFY = ./node_modules/uglify-js/bin/uglifyjs
 JS_BEAUTIFIER = $(UGLIFY) -b -i 2 -nm -ns
@@ -15,7 +22,7 @@ all: \
 	turbo.map.js \
 	turbo.map.min.js
 
-.INTERMEDIATE turbo.js: \
+turbo.js: \
 	libs/CodeMirror/lib/codemirror.js \
 	libs/CodeMirror/mode/javascript/javascript.js \
 	libs/CodeMirror/mode/xml/xml.js \
@@ -50,7 +57,7 @@ turbo.js: Makefile
 	@rm -f $@
 	cat $(filter %.js,$^) > $@
 
-.INTERMEDIATE turbo.map.js: \
+turbo.map.js: \
         js/jsmapcss/styleparser.js \
         js/jsmapcss/Condition.js \
         js/jsmapcss/Rule.js \
@@ -71,7 +78,7 @@ turbo.map.js: Makefile
 	@rm -f $@
 	$(JS_COMPILER) $< -c -m -o $@
 
-.INTERMEDIATE turbo.css: \
+turbo.css: \
 	libs/CodeMirror/lib/codemirror.css \
 	libs/locationfilter/src/locationfilter.css \
 	css/default.css
