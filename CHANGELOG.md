@@ -1,3 +1,9 @@
+2013.04.29
+----------
+* reworked export dialog
+* export GeoJSON with flattened properties (see #14)
+* bugfixes and UI improvements
+
 2013.04.15
 ----------
 * MapCSS support :) Read more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS
