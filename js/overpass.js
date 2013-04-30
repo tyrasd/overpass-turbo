@@ -79,7 +79,8 @@ setTimeout(function() {
             data = $.parseJSON(data);
           } catch (e) {}
         }
-        if (typeof data == "string" && data.substr(0,5) == "<?xml") {
+        // hacky firefox hack :( (it is not properly detecting xml from the content-type header)
+        if (typeof data == "string" && data.substr(0,5) == "<?xml" && jqXHR.status === 200) {
           try {
             jqXHR.responseXML = data;
             data = $.parseXML(data);
