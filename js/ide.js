@@ -1042,6 +1042,7 @@ var ide = new(function() {
         }
         gJ.features.forEach(function(f) {
           var p = f.properties;
+          f.id = p.type+"/"+p.id;
           f.properties = {
             "@type": p.type,
             "@id": p.id,
