@@ -1280,9 +1280,9 @@ var ide = new(function() {
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     ide.waiter.addInfo("rendering map tiles");
     $("#map").html2canvas({
-      useCORS:true,
-      allowTaint:false,
-      proxy:"/html2canvas_proxy/", // use own proxy if necessary and available
+      useCORS: true,
+      allowTaint: false,
+      proxy: config.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined, // use own proxy if necessary and available
     onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
