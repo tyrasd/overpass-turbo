@@ -80,7 +80,7 @@ setTimeout(function() {
           } catch (e) {}
         }
         // hacky firefox hack :( (it is not properly detecting xml from the content-type header)
-        if (typeof data == "string" && data.substr(0,5) == "<?xml" && jqXHR.status === 200 && !jqXHR.getResponseHeader("content-type").match(/text\/html/)) {
+        if (typeof data == "string" && data.substr(0,5) == "<?xml" && jqXHR.status === 200 && !(jqXHR.getResponseHeader("content-type") || "").match(/text\/html/) && data.match(/<osm/)) {
           try {
             jqXHR.responseXML = data;
             data = $.parseXML(data);
