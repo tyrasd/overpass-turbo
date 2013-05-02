@@ -43,7 +43,7 @@
   "settings.editor_with": "Breite des Editors",
   "settings.editor_width_expl": "z.B. \"400px\", leer lassen für Standardwerte",
 
-  "settings.section.settings.map": "Karte",
+  "settings.section.map": "Karte",
   "settings.tile_server": "Tile Server",
   "settings.tile_opacity": "Deckkraft der Tiles",
   "settings.tile_opacity_expl": "Transparenz des Kartenhintergrunds: 0=transparent - 1=sichtbar",
