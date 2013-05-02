@@ -1282,7 +1282,7 @@ var ide = new(function() {
     $("#map").html2canvas({
       useCORS: true,
       allowTaint: false,
-      proxy: config.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined, // use own proxy if necessary and available
+      proxy: configs.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined, // use own proxy if necessary and available
     onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
