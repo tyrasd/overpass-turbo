@@ -1335,6 +1335,7 @@ var ide = new(function() {
     make_combobox($("#settings-dialog input[name=server]"), [
       "http://www.overpass-api.de/api/",
       "http://overpass.osm.rambler.ru/cgi/",
+      "http://api.openstreetmap.fr/oapi/",
     ]);
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
