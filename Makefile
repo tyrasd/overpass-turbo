@@ -62,14 +62,14 @@ turbo.js: Makefile
 	cat $(filter %.js,$^) > $@
 
 turbo.map.js: \
-        js/jsmapcss/styleparser.js \
-        js/jsmapcss/Condition.js \
-        js/jsmapcss/Rule.js \
-        js/jsmapcss/RuleChain.js \
-        js/jsmapcss/Style.js \
-        js/jsmapcss/StyleChooser.js \
-        js/jsmapcss/StyleList.js \
-        js/jsmapcss/RuleSet.js \
+	js/jsmapcss/styleparser.js \
+	js/jsmapcss/Condition.js \
+	js/jsmapcss/Rule.js \
+	js/jsmapcss/RuleChain.js \
+	js/jsmapcss/Style.js \
+	js/jsmapcss/StyleChooser.js \
+	js/jsmapcss/StyleList.js \
+	js/jsmapcss/RuleSet.js \
 	js/OSM4Leaflet.js \
 	js/overpass.js \
 	js/map.js
