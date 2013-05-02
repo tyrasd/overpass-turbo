@@ -57,7 +57,7 @@ var Base64 = {
 
   // public method for decoding
   // this decodes base64url as well as standard base64 with or without padding)
-  decode : function (input) {
+  decode : function (input, binary) {
     var output = "";
     input = this._convert_to_base64nopad(input);
     input = input.replace(/[^A-Za-z0-9\+\/]/g, "");
@@ -94,8 +94,21 @@ var Base64 = {
       }
     }
     
-    //output = Base64._utf8_decode(output);
-    output = decodeURIComponent(escape(output));
+    if (!binary) {
+      // try to decode utf8 characters
+      try { output = decodeURIComponent(escape(output)); } catch(e) {}
+    } else {
+      // convert binary string to typed (Uint8) array
+      function str2ab(str) {
+        var buf = new ArrayBuffer(str.length); // 1 byte for each char
+        var bufView = new Uint8Array(buf);
+        for (var i=0, strLen=str.length; i<strLen; i++) {
+          bufView[i] = str.charCodeAt(i);
+        }
+        return buf;
+      }
+      output = str2ab(output);
+    }
     return output;
   },
 
