@@ -255,7 +255,7 @@ styleparser.RuleSet.prototype = {
     // Regular expression tests and other constants
 
     WHITESPACE	:/^\s+/,
-    COMMENT		:/^\/\*.+?\*\/\s*/,
+    COMMENT		:/\/\*.+?\*\/\s*/,
     CLASS		:/^([\.:]\w+)\s*/,
     NOT_CLASS	:/^!([\.:]\w+)\s*/,
     ZOOM		:/^\|\s*z([\d\-]+)\s*/i,
