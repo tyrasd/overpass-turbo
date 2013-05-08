@@ -750,6 +750,23 @@ var ide = new(function() {
       });
       mapcss = mapcss.join("\n");
       ide.mapcss = mapcss;
+      // parse data-source statements
+      var data_source = null;
+      if (data_source = query.match(/{{data:(.+?)}}/)) {
+        data_source = data_source[1].split(',');
+        var data_mode = data_source[0].toLowerCase();
+        data_source = data_source.slice(1);
+        var options = {};
+        for (var i=0; i<data_source.length; i++) {
+          var tmp = data_source[i].split('=');
+          options[tmp[0]] = tmp[1];
+        }
+        data_source = {
+          mode: data_mode,
+          options: options
+        };
+      }
+      ide.data_source = data_source;
       // remove remaining (e.g. unknown) mustache templates:
       (query.match(/{{[\S\s]*?}}/gm) || []).forEach(function(mustache) {
         // count lines in template and replace mustache with same number of newlines 
