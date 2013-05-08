@@ -1083,7 +1083,7 @@ var ide = new(function() {
         });
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
-      var d = $("#export-geojson");
+      var d = $("#export-geojson-dialog");
       $("#geojson_format_changed").remove();
       $("textarea",d).after("<p id='geojson_format_changed' style='color:orange;'>Please note that the structure of the exported GeoJSON has changed recently: overpass turbo now produces <i>flattened</i> properties. Read more about the <a href='http://wiki.openstreetmap.org/wiki/Overpass_turbo/GeoJSON'>specs here</a>.</p>");
       var dialog_buttons= {};
@@ -1178,7 +1178,7 @@ var ide = new(function() {
         
         gpx_str = JXON.stringify(gpx);
       }
-      var d = $("#export-gpx");
+      var d = $("#export-gpx-dialog");
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
       d.dialog({
@@ -1191,6 +1191,52 @@ var ide = new(function() {
       if (geojson) {
         var blob = new Blob([gpx_str], {type: "application/xml;charset=utf-8"});
         saveAs(blob, "export.gpx");
+      }
+      return false;
+    });
+    $("#export-dialog a#export-raw").unbind("click");
+    $("#export-dialog a#export-raw").on("click", function() {
+      var raw_str, raw_type;
+      var geojson = overpass.geojson;
+      if (!geojson)
+        raw_str = i18n.t("export.raw.no_data");
+      else {
+        var data = overpass.data;
+        if (data instanceof XMLDocument) {
+          raw_str = (new XMLSerializer()).serializeToString(data);
+          raw_type = raw_str.match(/<osm/)?"osm":"xml";
+        } else if (data instanceof Object) {
+          raw_str = JSON.stringify(data);
+          raw_type = "json";
+        } else {
+          try {
+            raw_str = data.toString();
+          } catch(e) {
+            raw_str = "Error while exporting the data";
+          }
+        }
+      }
+      var d = $("#export-raw-dialog");
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
+      d.dialog({
+        modal:true,
+        width:500,
+        buttons: dialog_buttons,
+      });
+      $("textarea",d)[0].value=raw_str;
+      // make content downloadable as file
+      if (geojson) {
+        if (raw_type == "osm" || raw_type == "xml") {
+          var blob = new Blob([raw_str], {type: "application/xml;charset=utf-8"});
+          saveAs(blob, "export."+raw_type);
+        } else if (raw_type == "json") {
+          var blob = new Blob([raw_str], {type: "application/json;charset=utf-8"});
+          saveAs(blob, "export.json");
+        } else {
+          var blob = new Blob([raw_str], {type: "application/octet-stream;charset=utf-8"});
+          saveAs(blob, "export.dat");
+        }
       }
       return false;
     });

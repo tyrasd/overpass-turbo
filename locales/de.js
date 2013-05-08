@@ -79,9 +79,10 @@
   "export.map_view_expl": "bbox, zentrum, etc.",
 
   "export.section.data": "Daten",
-  "export.raw_interpreter": "Date direkt vom <a id=\"export-overpass-api\" href=\"\">Overpass API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
   "export.as_geoJSON": "Als <a id=\"export-geoJSON\" href=\"\">GeoJSON</a>",
   "export.as_GPX": "Als <a id=\"export-GPX\" href=\"\">GPX</a>",
+  "export.raw": "<a id=\"export-raw\" href=\"\">Rohdaten</a>",
+  "export.raw_interpreter": "Daten direkt vom <a id=\"export-overpass-api\" href=\"\">Overpass API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
   
   "export.section.query": "Query",
   "export.as_text": "Als <a id=\"export-text\" href=\"\" download=\"query.txt\">Text</a>",
@@ -96,6 +97,10 @@
 
   "export.GPX.title": "Export - GPX",
   "export.GPX.expl": "Die aktuell angezeigen Daten im GPX-Format:",
+  "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
+
+  "export.GPX.title": "Export - Rohdaten",
+  "export.GPX.expl": "Die aktuell angezeigen Rohdaten:",
   "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
 
   "export.map_view.title": "Aktueller Kartenausschnitt",

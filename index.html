@@ -228,6 +228,7 @@
     <div>
     <p class="t" t="[html]export.as_geoJSON">as <a id="export-geoJSON" href="">geoJSON</a></p>
     <p class="t" t="[html]export.as_GPX">as <a id="export-GPX" href="">GPX</a></p>
+    <p class="t" t="[html]export.raw">raw <a id="export-raw" href="">data</a></p>
     <p class="t" t="[html]export.raw_interpreter">raw data from <a id="export-overpass-api" href="" target="_blank">Overpass API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p><span class="t" t="[html]export.remote_control">load into <a id="export-josm" href="">JOSM</a></span> <small>(<span class="t" t="export.remote_control_expl">only for queries returning valid OSM-XML with meta data</span>)</small></p>
     </div>
@@ -244,12 +245,16 @@
     <p class="t" t="[html]export.to_ql">convert to (<a id="export-convert-compact" href="" target="_blank">compact<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a>) <a id="export-convert-ql" href="" target="_blank">OverpassQL<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     </div>
   </div>
-  <div title="Export - GeoJSON" id="export-geojson" class="t dialog" t="[title]export.geoJSON.title">
+  <div title="Export - GeoJSON" id="export-geojson-dialog" class="t dialog" t="[title]export.geoJSON.title">
     <p class="t" t="export.geoJSON.expl">The currently shown data as GeoJSON:</p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
-  <div title="Export - GPX" id="export-gpx" class="t dialog" t="[title]export.GPX.title">
+  <div title="Export - GPX" id="export-gpx-dialog" class="t dialog" t="[title]export.GPX.title">
     <p class="t" t="export.GPX.expl">The currently shown data as GPX:</p>
+    <textarea style="width:100%" rows="16" readonly></textarea>
+  </div>
+  <div title="Export - raw" id="export-raw-dialog" class="t dialog" t="[title]export.raw.title">
+    <p class="t" t="export.raw.expl">The currently shown raw-data:</p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
   <!--share-->

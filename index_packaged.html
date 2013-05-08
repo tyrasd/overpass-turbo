@@ -189,6 +189,7 @@
     <div>
     <p class="t" t="[html]export.as_geoJSON">as <a id="export-geoJSON" href="">geoJSON</a></p>
     <p class="t" t="[html]export.as_GPX">as <a id="export-GPX" href="">GPX</a></p>
+    <p class="t" t="[html]export.raw">raw <a id="export-raw" href="">data</a></p>
     <p class="t" t="[html]export.raw_interpreter">raw data from <a id="export-overpass-api" href="" target="_blank">Overpass API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p><span class="t" t="[html]export.remote_control">load into <a id="export-josm" href="">JOSM</a></span> <small>(<span class="t" t="export.remote_control_expl">only for queries returning valid OSM-XML with meta data</span>)</small></p>
     </div>
@@ -211,6 +212,10 @@
   </div>
   <div title="Export - GPX" id="export-gpx" class="t dialog" t="[title]export.GPX.title">
     <p class="t" t="export.GPX.expl">The currently shown data as GPX:</p>
+    <textarea style="width:100%" rows="16" readonly></textarea>
+  </div>
+  <div title="Export - raw" id="export-raw" class="t dialog" t="[title]export.raw.title">
+    <p class="t" t="export.raw.expl">The currently shown raw-data:</p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
   <!--share-->
