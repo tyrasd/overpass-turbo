@@ -22,10 +22,6 @@ var overpass = new(function() {
 
   // updates the map
   this.run_query = function (query, query_lang) {
-    var server = (ide.data_source && 
-                  ide.data_source.mode == "overpass" &&
-                  ide.data_source.options.server) ?
-                 ide.data_source.options.server : settings.server;
     // 1. get overpass json data
     fire("onProgress", "building query");
     if (query_lang == "xml") {
@@ -40,7 +36,7 @@ var overpass = new(function() {
       // kill the query on abort
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
-      $.get(server+"kill_my_queries");
+      $.get(settings.server+"kill_my_queries");
     });
     var request_headers = {};
     var additional_get_data = "";
@@ -49,7 +45,7 @@ var overpass = new(function() {
     } else {
       request_headers["X-Requested-With"] = configs.appname;
     }
-    overpass.ajax_request = $.ajax(server+"interpreter"+additional_get_data, {
+    overpass.ajax_request = $.ajax(settings.server+"interpreter"+additional_get_data, {
       type: 'POST',
       data: {data:query},
       headers: request_headers,
