@@ -1088,8 +1088,6 @@ var ide = new(function() {
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
       var d = $("#export-geojson-dialog");
-      $("#geojson_format_changed").remove();
-      $("textarea",d).after("<p id='geojson_format_changed' style='color:orange;'>Please note that the structure of the exported GeoJSON has changed recently: overpass turbo now produces <i>flattened</i> properties. Read more about the <a href='http://wiki.openstreetmap.org/wiki/Overpass_turbo/GeoJSON'>specs here</a>.</p>");
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
       d.dialog({
