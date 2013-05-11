@@ -750,6 +750,23 @@ var ide = new(function() {
       });
       mapcss = mapcss.join("\n");
       ide.mapcss = mapcss;
+      // parse data-source statements
+      var data_source = null;
+      if (data_source = query.match(/{{data:(.+?)}}/)) {
+        data_source = data_source[1].split(',');
+        var data_mode = data_source[0].toLowerCase();
+        data_source = data_source.slice(1);
+        var options = {};
+        for (var i=0; i<data_source.length; i++) {
+          var tmp = data_source[i].split('=');
+          options[tmp[0]] = tmp[1];
+        }
+        data_source = {
+          mode: data_mode,
+          options: options
+        };
+      }
+      ide.data_source = data_source;
       // remove remaining (e.g. unknown) mustache templates:
       (query.match(/{{[\S\s]*?}}/gm) || []).forEach(function(mustache) {
         // count lines in template and replace mustache with same number of newlines 
@@ -1021,12 +1038,18 @@ var ide = new(function() {
       });
       return false;
     });
-    $("#export-dialog a#export-geoJSON").on("click", function() {
+    $("#export-dialog a#export-image").unbind("click").on("click", function() {
+      ide.onExportImageClick();
+      $(this).parents('.ui-dialog-content').dialog('close');
+      return false;
+    });
+    $("#export-dialog a#export-geoJSON").unbind("click").on("click", function() {
       var geoJSON_str;
       var geojson = overpass.geojson;
       if (!geojson)
         geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
+        console.log(new Date());
         var gJ = [];
         // concatenate feature collections
         $.each(geojson,function(i,d) {gJ = gJ.concat(d.features);});
@@ -1035,10 +1058,12 @@ var ide = new(function() {
           generator: configs.appname,
           copyright: overpass.copyright, 
           timestamp: overpass.timestamp,
+          //TODO: make own copy of features array (re-using geometry) instead of deep copy?
           features: $.extend(true, [], gJ), // makes deep copy
         }
         gJ.features.forEach(function(f) {
           var p = f.properties;
+          f.id = p.type+"/"+p.id;
           f.properties = {
             "@type": p.type,
             "@id": p.id,
@@ -1062,8 +1087,7 @@ var ide = new(function() {
         });
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
-      var d = $("#export-geojson");
-      $("textarea",d)[0].value=geoJSON_str;
+      var d = $("#export-geojson-dialog");
       $("#geojson_format_changed").remove();
       $("textarea",d).after("<p id='geojson_format_changed' style='color:orange;'>Please note that the structure of the exported GeoJSON has changed recently: overpass turbo now produces <i>flattened</i> properties. Read more about the <a href='http://wiki.openstreetmap.org/wiki/Overpass_turbo/GeoJSON'>specs here</a>.</p>");
       var dialog_buttons= {};
@@ -1073,9 +1097,15 @@ var ide = new(function() {
         width:500,
         buttons: dialog_buttons,
       });
+      $("textarea",d)[0].value=geoJSON_str;
+      // make content downloadable as file
+      if (geojson) {
+        var blob = new Blob([geoJSON_str], {type: "application/json;charset=utf-8"});
+        saveAs(blob, "export.geojson");
+      }
       return false;
     });
-    $("#export-dialog a#export-GPX").on("click", function() {
+    $("#export-dialog a#export-GPX").unbind("click").on("click", function() {
       var gpx_str;
       var geojson = overpass.geojson;
       if (!geojson)
@@ -1151,8 +1181,7 @@ var ide = new(function() {
         
         gpx_str = JXON.stringify(gpx);
       }
-      var d = $("#export-gpx");
-      $("textarea",d)[0].value=gpx_str;
+      var d = $("#export-gpx-dialog");
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
       d.dialog({
@@ -1160,13 +1189,63 @@ var ide = new(function() {
         width:500,
         buttons: dialog_buttons,
       });
+      $("textarea",d)[0].value=gpx_str;
+      // make content downloadable as file
+      if (geojson) {
+        var blob = new Blob([gpx_str], {type: "application/xml;charset=utf-8"});
+        saveAs(blob, "export.gpx");
+      }
+      return false;
+    });
+    $("#export-dialog a#export-raw").unbind("click").on("click", function() {
+      var raw_str, raw_type;
+      var geojson = overpass.geojson;
+      if (!geojson)
+        raw_str = i18n.t("export.raw.no_data");
+      else {
+        var data = overpass.data;
+        if (data instanceof XMLDocument) {
+          raw_str = (new XMLSerializer()).serializeToString(data);
+          raw_type = raw_str.match(/<osm/)?"osm":"xml";
+        } else if (data instanceof Object) {
+          raw_str = JSON.stringify(data);
+          raw_type = "json";
+        } else {
+          try {
+            raw_str = data.toString();
+          } catch(e) {
+            raw_str = "Error while exporting the data";
+          }
+        }
+      }
+      var d = $("#export-raw-dialog");
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
+      d.dialog({
+        modal:true,
+        width:500,
+        buttons: dialog_buttons,
+      });
+      $("textarea",d)[0].value=raw_str;
+      // make content downloadable as file
+      if (geojson) {
+        if (raw_type == "osm" || raw_type == "xml") {
+          var blob = new Blob([raw_str], {type: "application/xml;charset=utf-8"});
+          saveAs(blob, "export."+raw_type);
+        } else if (raw_type == "json") {
+          var blob = new Blob([raw_str], {type: "application/json;charset=utf-8"});
+          saveAs(blob, "export.json");
+        } else {
+          var blob = new Blob([raw_str], {type: "application/octet-stream;charset=utf-8"});
+          saveAs(blob, "export.dat");
+        }
+      }
       return false;
     });
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
-    $("#export-dialog a#export-josm").unbind("click");
-    $("#export-dialog a#export-josm").click(function() {
+    $("#export-dialog a#export-josm").unbind("click").on("click", function() {
       var export_dialog = $(this).parents("div.ui-dialog-content").first();
       var send_to_josm = function() {
         var JRC_url="http://127.0.0.1:8111/";
@@ -1265,9 +1344,9 @@ var ide = new(function() {
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     ide.waiter.addInfo("rendering map tiles");
     $("#map").html2canvas({
-      useCORS:true,
-      allowTaint:false,
-      proxy:"/html2canvas_proxy/", // use own proxy if necessary and available
+      useCORS: true,
+      allowTaint: false,
+      proxy: configs.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined, // use own proxy if necessary and available
     onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
@@ -1297,7 +1376,7 @@ var ide = new(function() {
         // free dialog from DOM
         $("#export_image_dialog").remove();
       };
-      $('<div title="'+i18n.t("export.image.title")+'" id="export_image_dialog"><p><img src="'+imgstr+'" alt="'+i18n.t("export.image.alt")+'" width="480px"/><a href="'+imgstr+'" download="export.png" target="_blank">'+i18n.t("export.image.download")+'</a></p>'+attrib_message+'</div>').dialog({
+      $('<div title="'+i18n.t("export.image.title")+'" id="export_image_dialog"><p><img src="'+imgstr+'" alt="'+i18n.t("export.image.alt")+'" width="480px"/><br><!--<a href="'+imgstr+'" download="export.png" target="_blank">'+i18n.t("export.image.download")+'</a>--></p>'+attrib_message+'</div>').dialog({
         modal:true,
         width:500,
         position:["center",60],
@@ -1306,6 +1385,9 @@ var ide = new(function() {
           ide.waiter.close();
         },
         buttons: dialog_buttons,
+      });
+      canvas.toBlob(function(blob) {
+        saveAs(blob, "export.png");
       });
     }});
   }
@@ -1320,6 +1402,7 @@ var ide = new(function() {
     make_combobox($("#settings-dialog input[name=server]"), [
       "http://www.overpass-api.de/api/",
       "http://overpass.osm.rambler.ru/cgi/",
+      "http://api.openstreetmap.fr/oapi/",
     ]);
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;

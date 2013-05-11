@@ -43,7 +43,7 @@
   "settings.editor_with": "Breite des Editors",
   "settings.editor_width_expl": "z.B. \"400px\", leer lassen für Standardwerte",
 
-  "settings.section.settings.map": "Karte",
+  "settings.section.map": "Karte",
   "settings.tile_server": "Tile Server",
   "settings.tile_opacity": "Deckkraft der Tiles",
   "settings.tile_opacity_expl": "Transparenz des Kartenhintergrunds: 0=transparent - 1=sichtbar",
@@ -72,16 +72,16 @@
   "export.title": "Exportieren",
 
   "export.section.map": "Karte",
-  "export.as_png": "Als <a id=\"export-image\" href=\"\" onclick=\"ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;\">png image</a>",
+  "export.as_png": "Als <a id=\"export-image\" href=\"\">png image</a>",
   "export.as_interactive_map": "Als <a id=\"export-interactive-map\" href=\"\">interaktive Karte</a>",
-  "export.openlayers_map_expl": "nur für Abfragen, die vollständiges OSM-XML zurückgeben",
   "export.current_map_view": "Aktuelle <a id=\"export-map-state\" href=\"\">Kartenansicht</a>",
   "export.map_view_expl": "bbox, zentrum, etc.",
 
   "export.section.data": "Daten",
-  "export.raw_interpreter": "Date direkt vom <a id=\"export-overpass-api\" href=\"\">Overpass API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
   "export.as_geoJSON": "Als <a id=\"export-geoJSON\" href=\"\">GeoJSON</a>",
   "export.as_GPX": "Als <a id=\"export-GPX\" href=\"\">GPX</a>",
+  "export.raw": "<a id=\"export-raw\" href=\"\">Rohdaten</a>",
+  "export.raw_interpreter": "Daten direkt vom <a id=\"export-overpass-api\" href=\"\">Overpass API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
   
   "export.section.query": "Query",
   "export.as_text": "Als <a id=\"export-text\" href=\"\" download=\"query.txt\">Text</a>",
@@ -96,6 +96,10 @@
 
   "export.GPX.title": "Export - GPX",
   "export.GPX.expl": "Die aktuell angezeigen Daten im GPX-Format:",
+  "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
+
+  "export.GPX.title": "Export - Rohdaten",
+  "export.GPX.expl": "Die aktuell angezeigen Rohdaten:",
   "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
 
   "export.map_view.title": "Aktueller Kartenausschnitt",

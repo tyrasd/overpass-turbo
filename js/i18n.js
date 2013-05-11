@@ -123,6 +123,7 @@ var i18n = new(function() {
 
     "export.geoJSON.no_data": "No GeoJSON data available! Please run a query first.",
     "export.GPX.no_data": "No GPX data available! Please run a query first.",
+    "export.raw.no_data": "No raw data available! Please run a query first.",
 
     "export.image.title": "Export - Image",
     "export.image.alt": "the exported map",

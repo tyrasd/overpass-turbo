@@ -27,6 +27,12 @@
   <!--misc libraries-->
   <script src="libs/misc.js"></script>
   <script src="libs/jxon.js"></script>
+  <!--polyfills for FileSaver-->
+  <script src="libs/Blob.js/Blob.js"></script>
+  <script src="libs/Blob.js/BlobBuilder.js"></script>
+  <script src="libs/canvas-toBlob.js/canvas-toBlob.js"></script>
+  <!--FileSaver-->
+  <script src="libs/FileSaver/FileSaver.js"></script>
   <!--jQuery UI-->
   <link type="text/css" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" rel="Stylesheet" />
   <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
@@ -135,6 +141,7 @@
     </div>
     <h3><a class="t" t="help.section.about">About</a></h3>
     <div>
+      <a href="http://overpass-api.de"><img style="float:right;" src="http://wiki.openstreetmap.org/w/images/b/b3/Powered_by_Overpass_API.png"/></a>
       <p class="t" t="[html]help.about.maintained"><i>overpass turbo</i> (aka overpass-ide) is maintained by Martin Raifer (tyr.asd at gmail.com).</p>
       <h4 class="t" t="help.about.feedback.title">Feedback, Bug Reports, Feature Requests</h4>
       <p class="t" t="[html]help.about.feedback">If you would like to give feedback, report issues or ask for a particular feature, please use the <a href="https://github.com/tyrasd/overpass-ide/issues">issue tracker</a> on github or the <a href="http://wiki.openstreetmap.org/wiki/Talk:Overpass_turbo">discussion page</a> on the OSM-wiki.</p>
@@ -155,7 +162,7 @@
         <li><span class="t" t="help.attr.leaflet">Map powered by</span> <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
         <li><span class="t" t="help.attr.codemirror">Editor powered by</span> <a href="http://codemirror.net/">CodeMirror</a></li>
         <li><span class="t" t="help.attr.jquery">Driven by</span> <a href="http://jquery.com/">jQuery</a></li>
-        <li><span class="t" t="help.attr.other_libs">Other libraries:</span> <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a></li>
+        <li><span class="t" t="help.attr.other_libs">Other libraries:</span> <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a></li>
       </ul>
     </div>
   </div>
@@ -221,12 +228,13 @@
     <div>
     <p class="t" t="[html]export.as_geoJSON">as <a id="export-geoJSON" href="">geoJSON</a></p>
     <p class="t" t="[html]export.as_GPX">as <a id="export-GPX" href="">GPX</a></p>
+    <p class="t" t="[html]export.raw">raw <a id="export-raw" href="">data</a></p>
     <p class="t" t="[html]export.raw_interpreter">raw data from <a id="export-overpass-api" href="" target="_blank">Overpass API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p><span class="t" t="[html]export.remote_control">load into <a id="export-josm" href="">JOSM</a></span> <small>(<span class="t" t="export.remote_control_expl">only for queries returning valid OSM-XML with meta data</span>)</small></p>
     </div>
     <h4 class="t" t="export.section.map">Map</h4>
     <div>
-    <p class="t" t="[html]export.as_png">as <a id="export-image" href="" onclick="ide.onExportImageClick(); $(this).parents('.ui-dialog-content').dialog('close'); return false;">png image</a></p>
+    <p class="t" t="[html]export.as_png">as <a id="export-image" href="">png image</a></p>
     <p class="t" t="[html]export.as_interactive_map">as <a id="export-interactive-map" href="">interactive Map</a></p>
     <p><span class="t" t="[html]export.current_map_view">current <a id="export-map-state" href="">map view</a></span> <small>(<span class="t" t="export.map_view_expl">bbox, center, etc.</span>)</small></p>
     </div>
@@ -237,12 +245,16 @@
     <p class="t" t="[html]export.to_ql">convert to (<a id="export-convert-compact" href="" target="_blank">compact<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a>) <a id="export-convert-ql" href="" target="_blank">OverpassQL<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     </div>
   </div>
-  <div title="Export - GeoJSON" id="export-geojson" class="t dialog" t="[title]export.geoJSON.title">
+  <div title="Export - GeoJSON" id="export-geojson-dialog" class="t dialog" t="[title]export.geoJSON.title">
     <p class="t" t="export.geoJSON.expl">The currently shown data as GeoJSON:</p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
-  <div title="Export - GPX" id="export-gpx" class="t dialog" t="[title]export.GPX.title">
+  <div title="Export - GPX" id="export-gpx-dialog" class="t dialog" t="[title]export.GPX.title">
     <p class="t" t="export.GPX.expl">The currently shown data as GPX:</p>
+    <textarea style="width:100%" rows="16" readonly></textarea>
+  </div>
+  <div title="Export - raw" id="export-raw-dialog" class="t dialog" t="[title]export.raw.title">
+    <p class="t" t="export.raw.expl">The currently shown raw-data:</p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
   <!--share-->

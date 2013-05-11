@@ -102,6 +102,7 @@
     </div>
     <h3><a class="t" t="help.section.about">About</a></h3>
     <div>
+      <a href="http://overpass-api.de"><img style="float:right;" src="http://wiki.openstreetmap.org/w/images/b/b3/Powered_by_Overpass_API.png"/></a>
       <p class="t" t="[html]help.about.maintained"><i>overpass turbo</i> (aka overpass-ide) is maintained by Martin Raifer (tyr.asd at gmail.com).</p>
       <h4 class="t" t="help.about.feedback.title">Feedback, Bug Reports, Feature Requests</h4>
       <p class="t" t="[html]help.about.feedback">If you would like to give feedback, report issues or ask for a particular feature, please use the <a href="https://github.com/tyrasd/overpass-ide/issues">issue tracker</a> on github or the <a href="http://wiki.openstreetmap.org/wiki/Talk:Overpass_turbo">discussion page</a> on the OSM-wiki.</p>
@@ -122,7 +123,7 @@
         <li><span class="t" t="help.attr.leaflet">Map powered by</span> <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
         <li><span class="t" t="help.attr.codemirror">Editor powered by</span> <a href="http://codemirror.net/">CodeMirror</a></li>
         <li><span class="t" t="help.attr.jquery">Driven by</span> <a href="http://jquery.com/">jQuery</a></li>
-        <li><span class="t" t="help.attr.other_libs">Other libraries:</span> <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a></li>
+        <li><span class="t" t="help.attr.other_libs">Other libraries:</span> <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a></li>
       </ul>
     </div>
   </div>
@@ -188,6 +189,7 @@
     <div>
     <p class="t" t="[html]export.as_geoJSON">as <a id="export-geoJSON" href="">geoJSON</a></p>
     <p class="t" t="[html]export.as_GPX">as <a id="export-GPX" href="">GPX</a></p>
+    <p class="t" t="[html]export.raw">raw <a id="export-raw" href="">data</a></p>
     <p class="t" t="[html]export.raw_interpreter">raw data from <a id="export-overpass-api" href="" target="_blank">Overpass API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
     <p><span class="t" t="[html]export.remote_control">load into <a id="export-josm" href="">JOSM</a></span> <small>(<span class="t" t="export.remote_control_expl">only for queries returning valid OSM-XML with meta data</span>)</small></p>
     </div>
@@ -210,6 +212,10 @@
   </div>
   <div title="Export - GPX" id="export-gpx" class="t dialog" t="[title]export.GPX.title">
     <p class="t" t="export.GPX.expl">The currently shown data as GPX:</p>
+    <textarea style="width:100%" rows="16" readonly></textarea>
+  </div>
+  <div title="Export - raw" id="export-raw" class="t dialog" t="[title]export.raw.title">
+    <p class="t" t="export.raw.expl">The currently shown raw-data:</p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
   <!--share-->

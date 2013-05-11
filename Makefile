@@ -33,14 +33,18 @@ turbo.js: \
 	libs/locationfilter/src/locationfilter.js \
 	js/GeoJsonNoVanish.js \
 	js/OSM4Leaflet.js \
-        js/jsmapcss/styleparser.js \
-        js/jsmapcss/Condition.js \
-        js/jsmapcss/Rule.js \
-        js/jsmapcss/RuleChain.js \
-        js/jsmapcss/Style.js \
-        js/jsmapcss/StyleChooser.js \
-        js/jsmapcss/StyleList.js \
-        js/jsmapcss/RuleSet.js \
+	libs/Blob.js/Blob.js \
+	libs/Blob.js/BlobBuilder.js \
+	libs/canvas-toBlob.js/canvas-toBlob.js \
+	libs/FileSaver/FileSaver.js \
+	js/jsmapcss/styleparser.js \
+	js/jsmapcss/Condition.js \
+	js/jsmapcss/Rule.js \
+	js/jsmapcss/RuleChain.js \
+	js/jsmapcss/Style.js \
+	js/jsmapcss/StyleChooser.js \
+	js/jsmapcss/StyleList.js \
+	js/jsmapcss/RuleSet.js \
 	libs/misc.js \
 	libs/jxon.js \
 	libs/html2canvas/html2canvas.patched.js \
@@ -58,14 +62,14 @@ turbo.js: Makefile
 	cat $(filter %.js,$^) > $@
 
 turbo.map.js: \
-        js/jsmapcss/styleparser.js \
-        js/jsmapcss/Condition.js \
-        js/jsmapcss/Rule.js \
-        js/jsmapcss/RuleChain.js \
-        js/jsmapcss/Style.js \
-        js/jsmapcss/StyleChooser.js \
-        js/jsmapcss/StyleList.js \
-        js/jsmapcss/RuleSet.js \
+	js/jsmapcss/styleparser.js \
+	js/jsmapcss/Condition.js \
+	js/jsmapcss/Rule.js \
+	js/jsmapcss/RuleChain.js \
+	js/jsmapcss/Style.js \
+	js/jsmapcss/StyleChooser.js \
+	js/jsmapcss/StyleList.js \
+	js/jsmapcss/RuleSet.js \
 	js/OSM4Leaflet.js \
 	js/overpass.js \
 	js/map.js
