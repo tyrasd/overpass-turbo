@@ -174,7 +174,7 @@
   "help.attr.software": "Software & Bibliotheken",
   "help.attr.leaflet": "Karte powered by",
   "help.attr.codemirror": "Editor powered by",
-  "help.attr.jquery": "Außerdem: ",
+  "help.attr.more": "Außerdem: ",
   "help.attr.other_libs": "Weitere Bibliotheken:",
 
 
