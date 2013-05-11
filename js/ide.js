@@ -1128,10 +1128,11 @@ var ide = new(function() {
           "@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
           "@xsi:schemaLocation":"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd",
           "@version":"1.1",
-          "@creator":"overpass turbo",
+          "@creator":configs.appname,
           "metadata": {
-            "copyright": "Data (c) OpenStreetMap contributors (ODbL)",
-            "desc": "Filtered OSM data converted to GPX by overpass turbo"
+            "copyright": overpass.copyright, 
+            "desc": "Filtered OSM data converted to GPX by overpass turbo",
+            "time": overpass.timestamp,
           },
           "wpt": [],
           "trk": [],
@@ -1141,15 +1142,15 @@ var ide = new(function() {
           o = {
             "@lat": f.geometry.coordinates[1],
             "@lon": f.geometry.coordinates[0],
-            "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
-            "name": get_feature_description(f.properties) 
+            "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
+            "name": get_feature_description(f.properties)
           };
           gpx.gpx.wpt.push(o);
         });
         // LineStrings
         geojson[1].features.forEach(function(f) {
           o = {
-            "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
+            "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
             "name": get_feature_description(f.properties) 
           };
           o.trkseg = {trkpt: []};
@@ -1161,7 +1162,7 @@ var ide = new(function() {
         // Polygons / Multipolygons
         geojson[0].features.forEach(function(f) {
           o = {
-            "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
+            "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
             "name": get_feature_description(f.properties) 
           };
           o.trkseg = [];
