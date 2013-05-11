@@ -1038,8 +1038,12 @@ var ide = new(function() {
       });
       return false;
     });
-    $("#export-dialog a#export-geoJSON").unbind("click");
-    $("#export-dialog a#export-geoJSON").on("click", function() {
+    $("#export-dialog a#export-image").unbind("click").on("click", function() {
+      ide.onExportImageClick();
+      $(this).parents('.ui-dialog-content').dialog('close');
+      return false;
+    });
+    $("#export-dialog a#export-geoJSON").unbind("click").on("click", function() {
       var geoJSON_str;
       var geojson = overpass.geojson;
       if (!geojson)
@@ -1101,8 +1105,7 @@ var ide = new(function() {
       }
       return false;
     });
-    $("#export-dialog a#export-GPX").unbind("click");
-    $("#export-dialog a#export-GPX").on("click", function() {
+    $("#export-dialog a#export-GPX").unbind("click").on("click", function() {
       var gpx_str;
       var geojson = overpass.geojson;
       if (!geojson)
@@ -1194,8 +1197,7 @@ var ide = new(function() {
       }
       return false;
     });
-    $("#export-dialog a#export-raw").unbind("click");
-    $("#export-dialog a#export-raw").on("click", function() {
+    $("#export-dialog a#export-raw").unbind("click").on("click", function() {
       var raw_str, raw_type;
       var geojson = overpass.geojson;
       if (!geojson)
@@ -1243,8 +1245,7 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
-    $("#export-dialog a#export-josm").unbind("click");
-    $("#export-dialog a#export-josm").click(function() {
+    $("#export-dialog a#export-josm").unbind("click").on("click", function() {
       var export_dialog = $(this).parents("div.ui-dialog-content").first();
       var send_to_josm = function() {
         var JRC_url="http://127.0.0.1:8111/";
