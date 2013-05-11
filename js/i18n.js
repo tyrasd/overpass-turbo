@@ -14,7 +14,7 @@ var i18n = new(function() {
         lng = navigator.language.replace(/-.*/,"").toLowerCase();
       } catch(e) {}
 
-      if ($.inArray(lng,supported_lngs) == -1) {
+      if (!_contains(supported_lngs,lng)) {
         lng = default_lng;
         return false;
       }

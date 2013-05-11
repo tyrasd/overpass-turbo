@@ -151,10 +151,10 @@ setTimeout(function() {
           overpass.timestamp = data.osm3s.timestamp_osm_base;
           overpass.copyright = data.osm3s.copyright;
           stats.data = {
-            nodes:     $.grep(data.elements, function(d) {return d.type=="node"}).length,
-            ways:      $.grep(data.elements, function(d) {return d.type=="way"}).length,
-            relations: $.grep(data.elements, function(d) {return d.type=="relation"}).length,
-            areas:     $.grep(data.elements, function(d) {return d.type=="area"}).length,
+            nodes:     _.filter(data.elements, function(d) {return d.type=="node"}).length,
+            ways:      _.filter(data.elements, function(d) {return d.type=="way"}).length,
+            relations: _.filter(data.elements, function(d) {return d.type=="relation"}).length,
+            areas:     _.filter(data.elements, function(d) {return d.type=="area"}).length,
           };
           //// convert to geoJSON
           //geojson = overpass.overpassJSON2geoJSON(data);
@@ -249,7 +249,7 @@ setTimeout(function() {
                   }
                 });
             } 
-          }, $.extend(
+          }, _.extend(
             feature.properties && feature.properties.tainted ? {":tainted": true} : {},
             feature.properties && feature.properties.mp_outline ? {":mp_outline": true} : {},
             feature.is_placeholder ? {":placeholder": true} : {},
@@ -271,7 +271,7 @@ setTimeout(function() {
           baseLayerOptions: {
           threshold: 9*Math.sqrt(2)*2,
           compress: function(feature) {
-            return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
+            return !(feature.properties.mp_outline && _.isEmpty(feature.properties.tags));
           },
           style: function(feature, highlight) {
             var stl = {};
@@ -284,7 +284,7 @@ setTimeout(function() {
             }
             switch (feature.geometry.type) {
               case "Point":
-                var styles = $.extend({},s.shapeStyles["default"],s.pointStyles["default"]);
+                var styles = _.extend({},s.shapeStyles["default"],s.pointStyles["default"]);
                 var p = get_property(styles, ["color","symbol_stroke_color"]);
                 if (p !== undefined) stl.color       = p;
                 var p = get_property(styles, ["opacity","symbol_stroke_opacity"]);
@@ -365,9 +365,9 @@ setTimeout(function() {
                 popup += "<h2>Relation <a href='http://www.openstreetmap.org/browse/relation/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else
                 popup += "<h2>"+feature.properties.type+" #"+feature.properties.id+"</h2>";
-              if (feature.properties && feature.properties.tags && !$.isEmptyObject(feature.properties.tags)) {
+              if (feature.properties && feature.properties.tags && !_.isEmpty(feature.properties.tags)) {
                 popup += '<h3>Tags:</h3><ul class="plain">';
-                $.each(feature.properties.tags, function(k,v) {
+                _.each(feature.properties.tags, function (v,k) {
                   k = htmlentities(k); // escaping strings!
                   v = htmlentities(v);
                   // hyperlinks for http,https and ftp URLs
@@ -383,9 +383,9 @@ setTimeout(function() {
                 });
                 popup += "</ul>";
               }
-              if (feature.properties && feature.properties.relations && !$.isEmptyObject(feature.properties.relations)) {
+              if (feature.properties && feature.properties.relations && !_.isEmpty(feature.properties.relations)) {
                 popup += '<h3>Relations:</h3><ul class="plain">';
-                $.each(feature.properties.relations, function (k,v) {
+                _.each(feature.properties.relations, function (v,k) {
                   popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"' target='_blank'>"+v["rel"]+"</a>";
                   if (v.reltags && 
                       (v.reltags.name || v.reltags.ref || v.reltags.type))
@@ -400,9 +400,9 @@ setTimeout(function() {
                 });
                 popup += "</ul>";
               }
-              if (feature.properties && feature.properties.meta && !$.isEmptyObject(feature.properties.meta)) {
+              if (feature.properties && feature.properties.meta && !_.isEmpty(feature.properties.meta)) {
                 popup += '<h3>Meta:</h3><ul class="plain">';
-                $.each(feature.properties.meta, function (k,v) {
+                _.each(feature.properties.meta, function (v,k) {
                   k = htmlentities(k);
                   v = htmlentities(v);
                   popup += "<li>"+k+"="+v+"</li>";
@@ -411,7 +411,7 @@ setTimeout(function() {
               }
               if (feature.geometry.type == "Point")
                 popup += "<h3>Coordinates:</h3><p>"+feature.geometry.coordinates[1]+" / "+feature.geometry.coordinates[0]+" <small>(lat/lon)</small></p>";
-              if ($.inArray(feature.geometry.type, ["LineString","Polygon","MultiPolygon"]) != -1) {
+              if (_.contains(["LineString","Polygon","MultiPolygon"], feature.geometry.type)) {
                 if (feature.properties && feature.properties.tainted==true) {
                   popup += "<p><strong>Attention: incomplete geometry (e.g. some nodes missing)</strong></p>";
                 }

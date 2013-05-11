@@ -89,7 +89,7 @@ setTimeout(function(){
         "user": jQuery(this).attr("user"),
         "type": "node",
       };
-      if (!jQuery.isEmptyObject(tags))
+      if (!_.isEmpty(tags))
         nodes[i].tags = tags;
     });
     // ways
@@ -113,7 +113,7 @@ setTimeout(function(){
       };
       if (wnodes.length > 0)
         ways[i].nodes = wnodes;
-      if (!jQuery.isEmptyObject(tags))
+      if (!_.isEmpty(tags))
         ways[i].tags = tags;
     });
     // relations
@@ -142,7 +142,7 @@ setTimeout(function(){
       };
       if (members.length > 0)
         rels[i].members = members;
-      if (!jQuery.isEmptyObject(tags))
+      if (!_.isEmpty(tags))
         rels[i].tags = tags;
     });
     return this._convert2geoJSON(nodes,ways,rels);
@@ -151,7 +151,7 @@ setTimeout(function(){
     // some data processing (e.g. filter nodes only used for ways)
     var nodeids = new Object();
     for (var i=0;i<nodes.length;i++) {
-      if (!jQuery.isNumeric(nodes[i].lat))
+      if (nodes[i].lat === undefined)
         continue; // ignore nodes without coordinates (e.g. returned by an ids_only query)
       nodeids[nodes[i].id] = nodes[i];
     }
@@ -162,7 +162,7 @@ setTimeout(function(){
         poinids[nodes[i].id] = true;
     }
     for (var i=0;i<rels.length;i++) {
-      if (!jQuery.isArray(rels[i].members))
+      if (!_.isArray(rels[i].members))
         continue; // ignore relations without members (e.g. returned by an ids_only query)
       for (var j=0;j<rels[i].members.length;j++) {
         if (rels[i].members[j].type == "node")
@@ -172,7 +172,7 @@ setTimeout(function(){
     var wayids = new Object();
     var waynids = new Object();
     for (var i=0;i<ways.length;i++) {
-      if (!jQuery.isArray(ways[i].nodes))
+      if (!_.isArray(ways[i].nodes))
         continue; // ignore ways without nodes (e.g. returned by an ids_only query)
       wayids[ways[i].id] = ways[i];
       for (var j=0;j<ways[i].nodes.length;j++) {
@@ -188,12 +188,12 @@ setTimeout(function(){
     }
     var relids = new Array();
     for (var i=0;i<rels.length;i++) {
-      if (!jQuery.isArray(rels[i].members))
+      if (!_.isArray(rels[i].members))
         continue; // ignore relations without members (e.g. returned by an ids_only query)
       relids[rels[i].id] = rels[i];
     }
     for (var i=0;i<rels.length;i++) {
-      if (!jQuery.isArray(rels[i].members))
+      if (!_.isArray(rels[i].members))
         continue; // ignore relations without members (e.g. returned by an ids_only query)
       for (var j=0;j<rels[i].members.length;j++) {
         var m;
@@ -252,10 +252,10 @@ setTimeout(function(){
     for (var i=0;i<rels.length;i++) {
       if ((typeof rels[i].tags != "undefined") &&
           (rels[i].tags["type"] == "multipolygon" || rels[i].tags["type"] == "boundary")) {
-        if (!jQuery.isArray(rels[i].members))
+        if (!_.isArray(rels[i].members))
           continue; // ignore relations without members (e.g. returned by an ids_only query)
         var outer_count = 0;
-        jQuery.each(rels[i].members, function(n,m) {
+        _.each(rels[i].members, function(m) {
           if (wayids[m.ref])
             wayids[m.ref].is_multipolygon_outline = true;
         });
@@ -272,18 +272,18 @@ setTimeout(function(){
           var is_tainted = false;
           // prepare mp members
           var members;
-          members = jQuery.grep(rels[i].members, function(m) {return m.type === "way";});
-          members = jQuery.map(members, function(m) {
+          members = _.filter(rels[i].members, function(m) {return m.type === "way";});
+          members = _.map(members, function(m) {
             var way = wayids[m.ref];
             if (way === undefined) { // check for missing ways
               is_tainted = true;
               return;
             }
-            return {
+            return { // TODO: this is slow! :(
               id: m.ref,
               role: m.role || "outer",
               way: way,
-              nodes: jQuery.grep(way.nodes, function(n) {
+              nodes: _.filter(way.nodes, function(n) {
                 if (n !== undefined)
                   return true;
                 is_tainted = true;
@@ -291,34 +291,33 @@ setTimeout(function(){
               })
             };
           });
+          members = _.compact(members);
           // construct outer and inner rings
           var outers, inners;
           function join(ways) {
-            var _first = function(arr) {return arr[0]};
-            var _last  = function(arr) {return arr[arr.length-1]};
             // stolen from iD/relation.js
             var joined = [], current, first, last, i, how, what;
             while (ways.length) {
               current = ways.pop().nodes.slice();
               joined.push(current);
-              while (ways.length && _first(current) !== _last(current)) {
-                first = _first(current);
-                last  = _last(current);
+              while (ways.length && _.first(current) !== _.last(current)) {
+                first = _.first(current);
+                last  = _.last(current);
                 for (i = 0; i < ways.length; i++) {
                   what = ways[i].nodes;
-                  if (last === _first(what)) {
+                  if (last === _.first(what)) {
                     how  = current.push;
                     what = what.slice(1);
                     break;
-                  } else if (last === _last(what)) {
+                  } else if (last === _.last(what)) {
                     how  = current.push;
                     what = what.slice(0, -1).reverse();
                     break;
-                  } else if (first == _last(what)) {
+                  } else if (first == _.last(what)) {
                     how  = current.unshift;
                     what = what.slice(0, -1);
                     break;
-                  } else if (first == _first(what)) {
+                  } else if (first == _.first(what)) {
                     how  = current.unshift;
                     what = what.slice(1).reverse();
                     break;
@@ -334,8 +333,8 @@ setTimeout(function(){
             }
             return joined;
           }
-          outers = join(jQuery.grep(members, function(m) {return m.role==="outer";}));
-          inners = join(jQuery.grep(members, function(m) {return m.role==="inner";}));
+          outers = join(_.filter(members, function(m) {return m.role==="outer";}));
+          inners = join(_.filter(members, function(m) {return m.role==="inner";}));
           // sort rings
           var mp;
           function findOuter(inner) {
@@ -345,11 +344,11 @@ setTimeout(function(){
                   return true;
               return false;
             }
-            var _pluck = function(from) {
-              return jQuery.map(from, function(n) {
+            var _pluck_latlon = function(from) {
+              return _.map(from, function(n) {
                 if (n === undefined)
                   return; 
-                return [[+n.lat,+n.lon]];
+                return [+n.lat,+n.lon];
               });
             }
             // stolen from iD/geo.js, 
@@ -368,19 +367,19 @@ setTimeout(function(){
             };
             // stolen from iD/relation.js
             var o, outer;
-            inner = _pluck(inner);
+            inner = _pluck_latlon(inner);
             /*for (o = 0; o < outers.length; o++) {
               outer = _pluck(outers[o]);
               if (polygonContainsPolygon(outer, inner))
                 return o;
             }*/
             for (o = 0; o < outers.length; o++) {
-              outer = _pluck(outers[o]);
+              outer = _pluck_latlon(outers[o]);
               if (polygonIntersectsPolygon(outer, inner))
                 return o;
             }
           }
-          mp = jQuery.map(outers, function(o) {return [[o]];});
+          mp = _.map(outers, function(o) {return [o];});
           for (var j=0; j<inners.length; j++) {
             var o = findOuter(inners[j]);
             if (o !== undefined)
@@ -389,27 +388,28 @@ setTimeout(function(){
               ;//mp.push(inners[j]); // invalid geometry // tyr: why?
           }
           // sanitize mp-coordinates (remove empty clusters or rings, {lat,lon,...} to [lon,lat]
+          // TODO: this looks very slow
           var mp_coords = [];
-          mp_coords = jQuery.map(mp, function(cluster) { 
-            var cl = jQuery.map(cluster, function(ring) {
+          mp_coords = _.compact(_.map(mp, function(cluster) { 
+            var cl = _.compact(_.map(cluster, function(ring) {
               if (ring === undefined || ring.length <= 1) {
                 is_tainted = true;
                 return;
               }
-              return [jQuery.map(ring, function(node) {
+              return _.compact(_.map(ring, function(node) {
                 if (node === undefined || node.lat === undefined) {
                   is_tainted = true;
                   return;
                 }
-                return [[+node.lon,+node.lat]];
-              })];
-            });
+                return [+node.lon,+node.lat];
+              }));
+            }));
             if (cl.length == 0) {
               is_tainted = true;
               return;
             }
-            return [cl];
-          });
+            return cl;
+          }));
           if (mp_coords.length == 0)
             continue; // ignore multipolygons without coordinates
           // mp parsed, now construct the geoJSON
@@ -439,7 +439,7 @@ setTimeout(function(){
           var outer_way = undefined;
           for (var j=0;j<rels[i].members.length;j++) {
             if ((rels[i].members[j].type == "way") &&
-                jQuery.inArray(rels[i].members[j].role, ["outer","inner"]) != -1) {
+                _.contains(["outer","inner"], rels[i].members[j].role)) {
               var w = wayids[rels[i].members[j].ref];
               if (typeof w == "undefined") {
                 rels[i].tainted = true;
@@ -489,7 +489,7 @@ setTimeout(function(){
     }
     // process lines and polygons
     for (var i=0;i<ways.length;i++) {
-      if (!jQuery.isArray(ways[i].nodes))
+      if (!_.isArray(ways[i].nodes))
         continue; // ignore ways without nodes (e.g. returned by an ids_only query)
       if (ways[i].is_multipolygon)
         continue; // ignore ways which are already rendered as multipolygons
@@ -510,8 +510,8 @@ setTimeout(function(){
         return (
             (typeof tag !== "undefined") &&
             (tag !== "no") &&
-            (!excluded_values || jQuery.inArray(tag, excluded_values) === -1) &&
-            (!included_values || jQuery.inArray(tag, included_values) !== -1)
+            (!excluded_values || !_.contains(excluded_values, tag)) &&
+            (!included_values ||  _.contains(included_values, tag))
         );
       }
       if (typeof ways[i].nodes[0] != "undefined" && 

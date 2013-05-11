@@ -488,7 +488,7 @@ var ide = new(function() {
                     data = $.parseJSON(data);
                   } catch (e) {}
                 }
-                response($.map(data,function(item) {
+                response(_.map(data,function(item) {
                   return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
                 }));
               },
@@ -733,7 +733,7 @@ var ide = new(function() {
       // preproces query
       // expand defined constants
       var const_defs = query.match(/{{[a-zA-Z0-9_]+=.+?}}/gm);
-      if ($.isArray(const_defs))
+      if (_.isArray(const_defs))
         for (var i=0; i<const_defs.length; i++) {
           var const_def = const_defs[i].match(/{{([^:=]+?)=(.+?)}}/);
           query = query.replace(const_defs[i],""); // remove constant definition
@@ -1046,16 +1046,15 @@ var ide = new(function() {
         geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
         console.log(new Date());
-        var gJ = [];
         // concatenate feature collections
-        $.each(geojson,function(i,d) {gJ = gJ.concat(d.features);});
+        var gJ = _.flatten(geojson, 'features') || [];
         gJ = {
           type: "FeatureCollection",
           generator: configs.appname,
           copyright: overpass.copyright, 
           timestamp: overpass.timestamp,
           //TODO: make own copy of features array (re-using geometry) instead of deep copy?
-          features: $.extend(true, [], gJ), // makes deep copy
+          features: _.cloneDeep(gJ), // makes deep copy
         }
         gJ.features.forEach(function(f) {
           var p = f.properties;
@@ -1299,7 +1298,7 @@ var ide = new(function() {
         var prints = q.match(/out([^:;]*);/g);
         $(prints).each(function(i,p) {if (p.match(/(body|skel|ids)/) || !p.match(/meta/)) err.meta=true;});
       }
-      if (!$.isEmptyObject(err)) {
+      if (!_.isEmpty(err)) {
         var dialog_buttons= {};
         dialog_buttons[i18n.t("dialog.repair_query")] = function() {
           ide.repairQuery("xml+metadata");
