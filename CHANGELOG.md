@@ -1,3 +1,11 @@
+2013.05.11
+----------
+* implemented downloadable content (save as file) for exports (GeoJSON, GPX, raw data, PNG)
+* added new "raw data" export (same as the data-tab, but with easy file save - see above)
+* speed up for some export modes
+* shiny new "powered by Overpass API" mark
+* bugfixes
+
 2013.04.29
 ----------
 * reworked export dialog
