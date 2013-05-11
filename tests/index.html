@@ -39,6 +39,7 @@
 
   <script>
     mocha.setup('bdd');
+    mocha.globals(['jQuery*']);
     var expect = chai.expect;
   </script>
 
@@ -49,7 +50,7 @@
   <script src="test.overpass.geojson.js"></script>
 
   <script>
-    (window.mochaPhantomJS || window.mocha).run();
+    mocha = (window.mochaPhantomJS || window.mocha).run();
   </script>
 </body>
 </html>
