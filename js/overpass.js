@@ -46,9 +46,9 @@ var overpass = new(function() {
     var request_headers = {};
     var additional_get_data = "";
     if (settings.force_simple_cors_request) {
-      additional_get_data = "?X-Requested-With="+configs.appname;
+      additional_get_data = "?X-Requested-With="+turbo.configs.appname;
     } else {
-      request_headers["X-Requested-With"] = configs.appname;
+      request_headers["X-Requested-With"] = turbo.configs.appname;
     }
     overpass.ajax_request = $.ajax(server+"interpreter"+additional_get_data, {
       type: 'POST',

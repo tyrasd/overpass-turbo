@@ -478,7 +478,7 @@ var ide = new(function() {
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+configs.appname, {
+            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+turbo.configs.appname, {
               data:{
                 format:"json",
                 q: request.term
@@ -998,8 +998,8 @@ var ide = new(function() {
     $("div#share-dialog #share_link_textarea")[0].value=share_link;
 
     // automatically minify urls if enabled
-    if (configs.short_url_service != "") {
-      $.get(configs.short_url_service+shared_query, function(data) {
+    if (turbo.configs.short_url_service != "") {
+      $.get(turbo.configs.short_url_service+shared_query, function(data) {
         $("div#share-dialog #share_link_a")[0].href=data;
         $("div#share-dialog #share_link_textarea")[0].value=data;
       });
@@ -1056,7 +1056,7 @@ var ide = new(function() {
         var gJ = _.flatten(geojson, 'features') || [];
         gJ = {
           type: "FeatureCollection",
-          generator: configs.appname,
+          generator: turbo.configs.appname,
           copyright: overpass.copyright, 
           timestamp: overpass.timestamp,
           //TODO: make own copy of features array (re-using geometry) instead of deep copy?
@@ -1347,7 +1347,7 @@ var ide = new(function() {
     $("#map").html2canvas({
       useCORS: true,
       allowTaint: false,
-      proxy: configs.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined, // use own proxy if necessary and available
+      proxy: turbo.configs.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined, // use own proxy if necessary and available
     onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
