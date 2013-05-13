@@ -1,6 +1,7 @@
 // global i18n object
 
 var i18n = new(function() {
+  var settings = turbo.settings();
   var default_lng = "en";
   var supported_lngs = [
     default_lng, // default language

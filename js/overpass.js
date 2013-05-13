@@ -3,6 +3,7 @@
 
 var overpass = new(function() {
   // == private members ==
+  var settings = turbo.settings();
   // == public members ==
   this.handlers = {};
 

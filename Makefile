@@ -51,6 +51,7 @@ turbo.js: \
 	libs/html2canvas/jquery.plugin.html2canvas.js \
 	libs/canvg/rgbcolor.js \
 	libs/canvg/canvg.js \
+	js/turbo.js \
 	js/configs.js \
 	js/settings.js \
 	js/i18n.js \

@@ -5,6 +5,7 @@ var ide = new(function() {
   var codeEditor = null;
   var attribControl = null;
   var scaleControl = null;
+  var settings = turbo.settings();
   // == public members ==
   this.dataViewer = null;
   this.map = null;
