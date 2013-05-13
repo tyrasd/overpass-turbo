@@ -6,6 +6,7 @@ var ide = new(function() {
   var attribControl = null;
   var scaleControl = null;
   var settings = turbo.settings();
+  var i18n = turbo.i18n();
   // == public members ==
   this.dataViewer = null;
   this.map = null;
