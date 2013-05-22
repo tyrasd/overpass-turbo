@@ -20,7 +20,7 @@ turbo.sources.overpass = function() {
     var source = {};
     _.assign(source,dispatcher);
 
-    source.get = function( query, opt, cb ) {
+    source.request = function( query, opt, cb ) {
         options = opt;
         callback = cb;
         result = {};
