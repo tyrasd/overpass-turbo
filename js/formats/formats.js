@@ -1,0 +1,2 @@
+// namespace placeholder
+turbo.formats = {};
