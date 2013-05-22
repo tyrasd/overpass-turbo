@@ -20,15 +20,15 @@ body {
 }
 #dataviewer {
   border-left:0;
-  border-top: 2px solid #ccc;
-  padding-top: 10px;
   position:relative !important;
   top:auto !important;
   bottom:auto !important;
   left:0 !important;
   right:0 !important;
-  margin:10px;
   height:350px !important;
+  margin:10px;
+  padding-top: 10px;
+  border-top: 2px solid #ccc;
 }
 #map {
   width:100%;
@@ -39,9 +39,11 @@ body {
   width:100%;
   height:auto;
   position:relative;
-  padding-top:12px;
+  padding-top:10px;
   padding-bottom:22px;
   z-index:0;
+  border-top: 2px solid #ccc;
+  margin-top: 10px;
 }
 
 .CodeMirror {
@@ -73,11 +75,7 @@ body {
   height:auto;
 }
 .tabs {
-  display: block;
-  position: absolute;
-  top:auto;
-  bottom:0;
-  right:12px;
+  display: none;
 }
 .button {
 }
