@@ -1089,8 +1089,6 @@ var ide = new(function() {
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
       var d = $("#export-geojson-dialog");
-      $("#geojson_format_changed").remove();
-      $("textarea",d).after("<p id='geojson_format_changed' style='color:orange;'>Please note that the structure of the exported GeoJSON has changed recently: overpass turbo now produces <i>flattened</i> properties. Read more about the <a href='http://wiki.openstreetmap.org/wiki/Overpass_turbo/GeoJSON'>specs here</a>.</p>");
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
       d.dialog({
@@ -1129,10 +1127,11 @@ var ide = new(function() {
           "@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
           "@xsi:schemaLocation":"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd",
           "@version":"1.1",
-          "@creator":"overpass turbo",
+          "@creator":configs.appname,
           "metadata": {
-            "copyright": "Data (c) OpenStreetMap contributors (ODbL)",
-            "desc": "Filtered OSM data converted to GPX by overpass turbo"
+            "copyright": overpass.copyright, 
+            "desc": "Filtered OSM data converted to GPX by overpass turbo",
+            "time": overpass.timestamp,
           },
           "wpt": [],
           "trk": [],
@@ -1142,15 +1141,15 @@ var ide = new(function() {
           o = {
             "@lat": f.geometry.coordinates[1],
             "@lon": f.geometry.coordinates[0],
-            "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
-            "name": get_feature_description(f.properties) 
+            "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
+            "name": get_feature_description(f.properties)
           };
           gpx.gpx.wpt.push(o);
         });
         // LineStrings
         geojson[1].features.forEach(function(f) {
           o = {
-            "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
+            "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
             "name": get_feature_description(f.properties) 
           };
           o.trkseg = {trkpt: []};
@@ -1162,7 +1161,7 @@ var ide = new(function() {
         // Polygons / Multipolygons
         geojson[0].features.forEach(function(f) {
           o = {
-            "link": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id,
+            "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
             "name": get_feature_description(f.properties) 
           };
           o.trkseg = [];
