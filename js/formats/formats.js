@@ -13,6 +13,7 @@ turbo.formats = function() {
     		if ( format.match(data,meta) )
     			return format;
     	});
+    	throw "unknown data format";
     }
 
 	return f;

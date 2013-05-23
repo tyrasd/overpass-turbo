@@ -20,9 +20,9 @@ turbo.sources.overpass = function() {
     var source = {};
     _.assign(source,dispatcher);
 
-    source.request = function( query, opt, cb ) {
+    source.request = function( query, opt, _callback ) {
         options = opt;
-        callback = cb;
+        callback = _callback;
         result = {};
         var server = options.server || settings.server;
         // ...
@@ -175,15 +175,16 @@ turbo.sources.overpass = function() {
             // the html error message returned by overpass API looks goods also in xml mode ^^
             result.type = 'error';
             data = {elements:[]};
-            result.timestamp = undefined;
-            result.copyright = undefined;
-            result.stats.data = {nodes: 0, ways: 0, relations: 0, areas: 0};
+            result.meta = {};
+            result.stats = {nodes: 0, ways: 0, relations: 0, areas: 0};
         } else if (typeof data == 'object' && jqXHR.responseXML) { // osm xml data
             result.type = 'osm';
             data_mode = 'xml';
-            result.timestamp = $('osm > meta:first-of-type',data).attr('osm_base');
-            result.copyright = $('osm > note:first-of-type',data).text();
-            result.stats.data = {
+            result.meta = {
+                timestamp: $('osm > meta:first-of-type',data).attr('osm_base'),
+                copyright: $('osm > note:first-of-type',data).text()
+            };
+            result.stats = {
                 nodes:     $('osm > node',data).length,
                 ways:      $('osm > way',data).length,
                 relations: $('osm > relation',data).length,
@@ -192,13 +193,15 @@ turbo.sources.overpass = function() {
         } else { // maybe json data
             result.type = 'osmjson';
             data_mode = 'json';
-            result.timestamp = data.osm3s.timestamp_osm_base;
-            result.copyright = data.osm3s.copyright;
-            result.stats.data = {
+            result.meta = {
+                timestamp: data.osm3s.timestamp_osm_base,
+                copyright: data.osm3s.copyright
+            };
+            result.stats = {
                 nodes:     _.filter(data.elements, function(d) {return d.type=='node'}).length,
                 ways:      _.filter(data.elements, function(d) {return d.type=='way'}).length,
                 relations: _.filter(data.elements, function(d) {return d.type=='relation'}).length,
-                areas:     _.filter(data.elements, function(d) {return d.type=='area'}).length,
+                areas:     _.filter(data.elements, function(d) {return d.type=='area'}).length
             };
         }
         result.data = data;
