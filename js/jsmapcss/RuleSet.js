@@ -8,7 +8,9 @@ styleparser.RuleSet.prototype = {
 
     choosers: [],		// list of StyleChoosers
 
-    getStyles: function(entity, tags, zoom) {
+    getStyles: function(entity, zoom) { // TODO: if no zoom is supplied, return styles for all zoom levels 
+        // gather tags and tag-like properties
+        var tags = entity.mapcss_getAttributes();
         // summary:		Find the styles for a given entity.
         var sl=new styleparser.StyleList();
         for (var i in this.choosers) {

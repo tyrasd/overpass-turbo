@@ -25,7 +25,7 @@ styleparser.Rule.prototype = {
     test: function(entity,tags,zoom) {
         // summary: Evaluate the Rule on the given entity, tags and zoom level.
         // returns: true if the Rule passes, false if the conditions aren't fulfilled.
-        if ((this.subject !== '') && !entity.isSubject(this.subject)) {
+        if ((this.subject !== '') && !entity.mapcss_checkSubject(this.subject)) {
             return false;
         }
         if (zoom<this.minZoom || zoom>this.maxZoom) { return false; }

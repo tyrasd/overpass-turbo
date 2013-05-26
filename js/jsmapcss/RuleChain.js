@@ -60,10 +60,10 @@ styleparser.RuleChain.prototype = {
         if (!r.test(entity, tags, zoom)) { return false; }
         if (pos === 0) { return true; }
 
-        var o = entity.getParentObjects();//TODO//entity.entity.parentObjects();
+        var o = entity.mapcss_getParentObjects();//TODO//entity.entity.parentObjects();
         for (var i = 0; i < o.length; i++) {
             var p=o[i];
-            if (this.test(pos-1, p, p.tags, zoom)) { return true; }
+            if (this.test(pos-1, p, p.mapcss_getAttributes(), zoom)) { return true; }
         }
         return false;
     }
