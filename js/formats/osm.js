@@ -128,7 +128,7 @@ turbo.formats.osm = {
         var poinids = new Object();
         for (var i=0;i<nodes.length;i++) {
             if (typeof nodes[i].tags != 'undefined' &&
-                    (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(nodes[i].tags)) // this checks if the node has any tags other than "created_by"
+                _.any( nodes[i].tags, function(v,k) { return k!="created_by"&&k!="source" } )) // this checks if the node has any tags other than "created_by"
                 poinids[nodes[i].id] = true;
         }
         for (var i=0;i<rels.length;i++) {
@@ -193,33 +193,27 @@ turbo.formats.osm = {
         var geojson = new Array();
         var geojsonnodes = {
             "type"     : "FeatureCollection",
-            "features" : new Array()};
-        for (i=0;i<pois.length;i++) {
+            "features" : new Array()
+        };
+        for ( var i = 0; i < pois.length; i++ ) {
             if (typeof pois[i].lon == "undefined" || typeof pois[i].lat == "undefined")
                 continue; // lon and lat are required for showing a point
-            geojsonnodes.features.push({
-                "type"       : "Feature",
-                "properties" : {
-                    "type" : "node",
-                    "id"   : pois[i].id,
-                    "tags" : pois[i].tags || {},
-                    "relations" : pois[i].relations || [],
-                    "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": pois[i].timestamp, "version": pois[i].version, "changeset": pois[i].changeset, "user": pois[i].user, "uid": pois[i].uid}),
-                },
-                "geometry"   : {
-                    "type" : "Point",
-                    "coordinates" : [+pois[i].lon, +pois[i].lat],
-                }
-            });
+            var geojsonnode = new turbo.geoJson.PointFeature( 'node', pois[i].id, [+pois[i].lon, +pois[i].lat] );
+            geojsonnode.setTags( pois[i].tags || {} );
+            geojsonnode.setMeta( _.pick( pois[i], ['timestamp','version','changeset','user','uid'] ) );
+            geojsonnode.setRelations( pois[i].relations || [] );
+            geojsonnodes.features.push(geojsonnode);
         }
         var geojsonlines = {
             "type"     : "FeatureCollection",
-            "features" : new Array()};
+            "features" : new Array()
+        };
         var geojsonpolygons = {
             "type"     : "FeatureCollection",
-            "features" : new Array()};
+            "features" : new Array()
+        };
         // process multipolygons
-        for (var i=0;i<rels.length;i++) {
+        for ( var i=0; i < rels.length; i++ ) {
             if ((typeof rels[i].tags != "undefined") &&
                     (rels[i].tags["type"] == "multipolygon" || rels[i].tags["type"] == "boundary")) {
                 if (!_.isArray(rels[i].members))
@@ -235,8 +229,9 @@ turbo.formats.osm = {
                 if (outer_count == 0)
                     continue; // ignore multipolygons without outer ways
                 var simple_mp = false;
+                // simple multipolygons are multipolygons with exactly one (tagged) outer way and an otherwise untagged multipolygon relation
                 if (outer_count == 1 &&
-                        !(function(o){for(var k in o) if(k!="created_by"&&k!="source"&&k!="type") return true; return false;})(rels[i].tags)) // this checks if the relation has any tags other than "created_by", "source" and "type"
+                    !_.any( rels[i].tags, function(v,k) { return k!="created_by"&&k!="source"&&k!="type" } )) // this checks if the node has any tags other than "created_by"
                     simple_mp = true;
                 if (!simple_mp) {
                     var is_tainted = false;
@@ -383,24 +378,13 @@ turbo.formats.osm = {
                     if (mp_coords.length == 0)
                         continue; // ignore multipolygons without coordinates
                     // mp parsed, now construct the geoJSON
-                    var feature = {
-                        "type"       : "Feature",
-                        "properties" : {
-                            "type" : "relation",
-                            "id"   : rels[i].id,
-                            "tags" : rels[i].tags || {},
-                            "relations" : rels[i].relations || [],
-                            "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": rels[i].timestamp, "version": rels[i].version, "changeset": rels[i].changeset, "user": rels[i].user, "uid": rels[i].uid}),
-                        },
-                        "geometry"   : {
-                            "type" : "MultiPolygon",
-                            "coordinates" : mp_coords,
-                        }
-                    }
+                    var geojsonmultipolygon = new turbo.geoJson.MultiPolygonFeature( 'relation', rels[i].id, mp_coords );
+                    geojsonmultipolygon.setTags( rels[i].tags || {} );
+                    geojsonmultipolygon.setMeta( _.pick( rels[i], ['timestamp','version','changeset','user','uid'] ) );
+                    geojsonmultipolygon.setRelations( rels[i].relations || [] );
                     if (is_tainted)
-                        feature.properties["tainted"] = true;
-                    geojsonpolygons.features.push(feature);
-                    //continue; // abort this complex multipolygon
+                        geojsonmultipolygon.setFlag("tainted", true);
+                    geojsonpolygons.features.push(geojsonmultipolygon);
                 } else {
                     // simple multipolygon
                     rels[i].tainted = false;
@@ -436,24 +420,14 @@ turbo.formats.osm = {
                         continue; // abort if outer way object is not present
                     if (outer_coords[0].length == 0)
                         continue; // abort if coordinates of outer way is not present
-                    way_type = "Polygon";
-                    var feature = {
-                        "type"       : "Feature",
-                        "properties" : {
-                            "type" : "way",
-                            "id"   : outer_way.id,
-                            "tags" : outer_way.tags || {},
-                            "relations" : outer_way.relations || [],
-                            "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": outer_way.timestamp, "version": outer_way.version, "changeset": outer_way.changeset, "user": outer_way.user, "uid": outer_way.uid}),
-                        },
-                        "geometry"   : {
-                            "type" : way_type,
-                            "coordinates" : ([].concat(outer_coords,inner_coords)),
-                        }
-                    }
+                    // mp parsed, now construct the geoJSON
+                    var geojsonpolygon = new turbo.geoJson.PolygonFeature( 'way', outer_way.id, ([].concat(outer_coords,inner_coords)) );
+                    geojsonpolygon.setTags( outer_way.tags || {} );
+                    geojsonpolygon.setMeta( _.pick( outer_way, ['timestamp','version','changeset','user','uid'] ) );
+                    geojsonpolygon.setRelations( outer_way.relations || [] );
                     if (rels[i].tainted)
-                        feature.properties["tainted"] = true;
-                    geojsonpolygons.features.push(feature);
+                        geojsonpolygon.setFlag("tainted", true);
+                    geojsonpolygons.features.push(geojsonpolygon);
                 }
             }
         }
@@ -464,7 +438,6 @@ turbo.formats.osm = {
             if (ways[i].is_multipolygon)
                 continue; // ignore ways which are already rendered as multipolygons
             ways[i].tainted = false;
-            ways[i].hidden = false;
             coords = new Array();
             for (j=0;j<ways[i].nodes.length;j++) {
                 if (typeof ways[i].nodes[j] == "object")
@@ -475,69 +448,31 @@ turbo.formats.osm = {
             if (coords.length <= 1) // invalid way geometry
                 continue;
             var way_type = "LineString"; // default
-            var is_area_by_tag = function(tags, key, excluded_values, included_values) {
-                var tag = tags[key];
-                return (
-                        (typeof tag !== "undefined") &&
-                        (tag !== "no") &&
-                        (!excluded_values || !_.contains(excluded_values, tag)) &&
-                        (!included_values ||  _.contains(included_values, tag))
-                );
+            if (typeof ways[i].nodes[0] != "undefined" && // way has its nodes loaded
+                ways[i].nodes[0] === ways[i].nodes[ways[i].nodes.length-1] && // ... and forms a closed ring
+                typeof ways[i].tags != "undefined" && // ... and has tags
+                turbo.formats.osm.isPolygonFeature(ways[i].tags) // ... and tags say it is a polygon
+            ) { // TODO: ^ this.isPolygonFeature ???
+                way_type = "Polygon";
+                coords = [coords];
             }
-            if (typeof ways[i].nodes[0] != "undefined" && 
-                    ways[i].nodes[0] == ways[i].nodes[ways[i].nodes.length-1] &&
-                    (ways[i].tags && ways[i].tags["area"] !== "no")) {
-                if (typeof ways[i].tags != "undefined")
-                    if (is_area_by_tag(ways[i].tags, "building") ||
-                            is_area_by_tag(ways[i].tags, "highway", undefined, "services;rest_area;escape".split(";")) ||
-                            is_area_by_tag(ways[i].tags, "natural", "coastline;ridge;arete;tree_row".split(";")) ||
-                            is_area_by_tag(ways[i].tags, "landuse") ||
-                            is_area_by_tag(ways[i].tags, "waterway", undefined, "riverbank;dock;boatyard;dam".split(";")) ||
-                            is_area_by_tag(ways[i].tags, "amenity") ||
-                            is_area_by_tag(ways[i].tags, "leisure") ||
-                            is_area_by_tag(ways[i].tags, "barrier", undefined, "city_wall;ditch;hedge;retaining_wall;wall;spikes".split(";")) ||
-                            is_area_by_tag(ways[i].tags, "railway", undefined, "station;turntable;roundhouse;platform".split(";")) ||
-                            is_area_by_tag(ways[i].tags, "area") ||
-                            is_area_by_tag(ways[i].tags, "boundary") ||
-                            is_area_by_tag(ways[i].tags, "man_made", "cutline;embankment;pipeline".split(";")) ||
-                            is_area_by_tag(ways[i].tags, "power", undefined, "generator;station;sub_station;transformer".split(";")) ||
-                            is_area_by_tag(ways[i].tags, "place") ||
-                            is_area_by_tag(ways[i].tags, "shop") ||
-                            is_area_by_tag(ways[i].tags, "aeroway", "taxiway".split(";")) ||
-                            is_area_by_tag(ways[i].tags, "tourism") ||
-                            is_area_by_tag(ways[i].tags, "historic") ||
-                            is_area_by_tag(ways[i].tags, "public_transport") ||
-                            is_area_by_tag(ways[i].tags, "office") ||
-                            is_area_by_tag(ways[i].tags, "building:part") ||
-                            is_area_by_tag(ways[i].tags, "military") ||
-                            is_area_by_tag(ways[i].tags, "craft") ||
-                            false) 
-                         way_type="Polygon";
-                if (way_type == "Polygon")
-                    coords = [coords];
-            }
-            var feature = {
-                "type"       : "Feature",
-                "properties" : {
-                    "type" : "way",
-                    "id"   : ways[i].id,
-                    "tags" : ways[i].tags || {},
-                    "relations" : ways[i].relations || [],
-                    "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": ways[i].timestamp, "version": ways[i].version, "changeset": ways[i].changeset, "user": ways[i].user, "uid": ways[i].uid}),
-                },
-                "geometry"   : {
-                    "type" : way_type,
-                    "coordinates" : coords,
-                }
-            }
-            if (ways[i].tainted)
-                feature.properties["tainted"] = true;
-            if (ways[i].is_multipolygon_outline)
-                feature.properties["mp_outline"] = true;
-            if (way_type == "LineString")
-                geojsonlines.features.push(feature);
+            var geojsonfeature;
+            if ( way_type == "Polygon" )
+                geojsonfeature = new turbo.geoJson.PolygonFeature( 'way', ways[i].id, coords);
             else
-                geojsonpolygons.features.push(feature);
+                geojsonfeature = new turbo.geoJson.LineStringFeature( 'way', ways[i].id, coords );
+
+            geojsonfeature.setTags( ways[i].tags || {} );
+            geojsonfeature.setMeta( _.pick( ways[i], ['timestamp','version','changeset','user','uid'] ) );
+            geojsonfeature.setRelations( ways[i].relations || [] );
+            if (ways[i].tainted)
+                geojsonfeature.setFlag("tainted", true);
+            if (ways[i].is_multipolygon_outline)
+                geojsonfeature.setFlag('mp_outline', true);
+            if (way_type == "LineString")
+                geojsonlines.features.push(geojsonfeature);
+            else
+                geojsonpolygons.features.push(geojsonfeature);
         }
 
         geojson.push(geojsonpolygons);
