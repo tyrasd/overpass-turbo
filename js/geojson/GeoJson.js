@@ -13,6 +13,7 @@ turbo.geoJson.Feature = function( type, id ) {
     this.partents = [];
 };
 
+turbo.geoJson.Feature.prototype.type = 'Feature';
 turbo.geoJson.Feature.prototype.properties = null;
 turbo.geoJson.Feature.prototype.geometry = null;
 turbo.geoJson.Feature.prototype.style = null;

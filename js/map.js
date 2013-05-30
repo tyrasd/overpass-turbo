@@ -61,6 +61,91 @@ $(document).ready(function() {
     var main = turbo();
     main.run( query, queryParser.getStatement('data'), queryParser.getStatement('style'), function(geoJson) {
         console.log(geoJson);
+        var datalayer = L.geoJson(null, {
+            style: function(feature, highlight) {
+                var stl = {};
+                var s = feature.getStyle();
+                // apply mapcss styles
+                function get_property(styles, properties) {
+                  for (var i=properties.length-1; i>=0; i--)
+                    if (styles[properties[i]] !== undefined) return styles[properties[i]];
+                  return undefined;
+                }
+                switch (feature.geometry.type) {
+                  case "Point":
+                    var styles = _.extend({},s.shapeStyles["default"],s.pointStyles["default"]);
+                    var p = get_property(styles, ["color","symbol_stroke_color"]);
+                    if (p !== undefined) stl.color       = p;
+                    var p = get_property(styles, ["opacity","symbol_stroke_opacity"]);
+                    if (p !== undefined) stl.opacity     = p;
+                    var p = get_property(styles, ["width","symbol_stroke_width"]);
+                    if (p !== undefined) stl.weight      = p;
+                    var p = get_property(styles, ["fill_color", "symbol_fill_color"]);
+                    if (p !== undefined) stl.fillColor   = p;
+                    var p = get_property(styles, ["fill_opacity", "symbol_fill_opacity"]);
+                    if (p !== undefined) stl.fillOpacity = p;
+                    var p = get_property(styles, ["dashes"]);
+                    if (p !== undefined) stl.dashArray   = p.join(",");
+                    break;
+                  case "LineString":
+                    var styles = s.shapeStyles["default"];
+                    var p = get_property(styles, ["color"]);
+                    if (p !== undefined) stl.color       = p;
+                    var p = get_property(styles, ["opacity"]);
+                    if (p !== undefined) stl.opacity     = p;
+                    var p = get_property(styles, ["width"]);
+                    if (p !== undefined) stl.weight      = p;
+                    var p = get_property(styles, ["dashes"]);
+                    if (p !== undefined) stl.dashArray   = p.join(",");
+                  break;
+                  case "Polygon":
+                  case "MultiPolygon":
+                    var styles = s.shapeStyles["default"];
+                    var p = get_property(styles, ["color","casing_color"]);
+                    if (p !== undefined) stl.color       = p;
+                    var p = get_property(styles, ["opacity","casing_opacity"]);
+                    if (p !== undefined) stl.opacity     = p;
+                    var p = get_property(styles, ["width","casing_width"]);
+                    if (p !== undefined) stl.weight      = p;
+                    var p = get_property(styles, ["fill_color"]);
+                    if (p !== undefined) stl.fillColor   = p;
+                    var p = get_property(styles, ["fill_opacity"]);
+                    if (p !== undefined) stl.fillOpacity = p;
+                    var p = get_property(styles, ["dashes"]);
+                    if (p !== undefined) stl.dashArray   = p.join(",");
+                  break;
+                }
+                // todo: more style properties? linecap, linejoin?
+                // return style object
+                return stl;
+            },
+            pointToLayer: function (feature, latlng) {
+                // todo: labels!
+                var s = feature.getStyle();
+                var stl = s.pointStyles && s.pointStyles["default"] ? s.pointStyles["default"] : {};
+                if (stl["icon_image"]) {
+                  // return image marker
+                  var iconUrl = stl["icon_image"].match(/^url\(['"](.*)['"]\)$/)[1];
+                  var iconSize;
+                  if (stl["icon_width"]) iconSize=[stl["icon_width"],stl["icon_width"]];
+                  if (stl["icon_height"] && iconSize) iconSize[1] = stl["icon_height"];
+                  var icon = new L.Icon({
+                    iconUrl: iconUrl,
+                    iconSize: iconSize,
+                    // todo: anchor, shadow?, ...
+                  });
+                  return new L.Marker(latlng, {icon: icon});
+                } else if (stl["symbol_shape"]=="circle" || true /*if nothing else is specified*/) {
+                  // return circle marker
+                  var r = stl["symbol_size"] || 9; 
+                  return new L.CircleMarker(latlng, {
+                    radius: r,
+                  });
+                }
+            }
+        });
+        datalayer.addData(geoJson);
+        datalayer.addTo(map);
     } );
     /*// overpass functionality
     overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {$('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");};
