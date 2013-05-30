@@ -9,10 +9,11 @@ turbo.formats = function() {
     }
 
     f.getMatchingFormat = function( data, meta ) {
-    	_.each( formats, function( format ) {
+    	for ( var i = 0; i < formats.length; i++ ) {
+            var format = formats[i];
     		if ( format.match(data,meta) )
     			return format;
-    	});
+    	}
     	throw "unknown data format";
     }
 

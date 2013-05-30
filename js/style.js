@@ -40,7 +40,7 @@ turbo.style = function( user_mapcss, no_defaults ) {
 
     s.styleFeatureCollections = function( featureColections, callback ) {
         _.each( featureColections, function( featureCollection ) {
-            s.styleFeatureCollection(featureColection);
+            s.styleFeatureCollection(featureCollection);
         });
         callback(featureColections);
     }

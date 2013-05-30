@@ -87,7 +87,7 @@ turbo.geoJson.Feature.prototype.mapcss_checkSubject = function(subject) {
     return subject == this.properties.type || subject == '*';
 }
 turbo.geoJson.Feature.prototype.mapcss_getParentObjects = function() {
-    return this.getParents(); // todo
+    return this.getParents() || []; // todo
 }
 
 /** Point Feature Class **/

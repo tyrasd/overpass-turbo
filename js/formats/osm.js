@@ -1,5 +1,5 @@
 // osm data format module
-turbo.formats.osm = {
+turbo.formats.osm = function() {
 
     var format = {};
 

@@ -1,7 +1,7 @@
 // overpass data source module
 turbo.sources.overpass = function() {
     var settings = turbo.settings();
-    var dispatcher = turbo.dispatcher();
+    var dispatcher = turbo.dispatch();
 
     var options = {};
     var callback;
@@ -18,7 +18,6 @@ turbo.sources.overpass = function() {
     }
 
     var source = {};
-    _.assign(source,dispatcher);
 
     source.request = function( query, opt, _callback ) {
         options = opt;
@@ -27,7 +26,7 @@ turbo.sources.overpass = function() {
         var server = options.server || settings.server;
         // ...
         // 1. get overpass json data
-        fire('progress', "preparing Overpass API call");
+        dispatcher.fire('progress', "preparing Overpass API call");
         if (getQueryLang(query) == "xml") {
             // beautify not well formed xml queries (workaround for non matching error lines)
             if ( !query.match(/^<\?xml/) ) {
@@ -44,11 +43,11 @@ turbo.sources.overpass = function() {
             request_headers['X-Requested-With'] = turbo.configs.appname;
         }
         // call Overpass API
-        fire('progress', "calling Overpass API interpreter", function() {
+        dispatcher.fire('progress', "calling Overpass API interpreter", function() {
             // kill the query on abort
             _ajax_request.abort();
             // close wait spinner
-            fire('abort');
+            dispatcher.fire('abort');
             // try to abort queries via kill_my_queries
             $.get(server+'kill_my_queries');
         });
@@ -65,7 +64,7 @@ turbo.sources.overpass = function() {
     function handleError( jqXHR, textStatus, errorThrown ) {
         if (textStatus == 'abort')
             return; // ignore aborted queries.
-        fire('progress', "error during ajax call");
+        dispatcher.fire('progress', "error during ajax call");
         if (jqXHR.status == 400 || jqXHR.status == 504 || jqXHR.status == 429) {
             // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
             dataRecieved(jqXHR.responseText, textStatus, jqXHR);
@@ -82,11 +81,11 @@ turbo.sources.overpass = function() {
             errmsg += "<p>Error-Code: "+textStatus+"</p>";
         if ((jqXHR.status != 0 && jqXHR.status != 200) || jqXHR.statusText != 'OK') // note to me: jqXHR.status "should" give http status codes
             errmsg += "<p>Error-Code: "+jqXHR.statusText+" ("+jqXHR.status+")</p>";
-        fire("ajaxError", errmsg);
+        dispatcher.fire("ajaxError", errmsg);
     }
 
     function dataRecieved( data, textStatus, jqXHR ) {
-        fire("progress", "Overpass API answered");
+        dispatcher.fire("progress", "Overpass API answered");
         var data_amount = jqXHR.responseText.length;
         var data_txt;
         // round amount of data
@@ -98,15 +97,15 @@ turbo.sources.overpass = function() {
             data_txt = data_amount / 1000 + " kB";
         else
             data_txt = data_amount / 1000000 + " MB";
-        fire('progress', "recieved about "+data_txt+" of data");
+        dispatcher.fire('progress', "recieved about "+data_txt+" of data");
         var dataRecieved_callback = options.onDataRecieved || function(da,dt,ac,cc) { cc(); };
         dataRecieved_callback(data_amount, data_txt, 
         function() { // abort callback
-            fire('abort');
+            dispatcher.fire('abort');
             return;
         },
         function() { // continue callback
-            fire('progress', "parsing data");
+            dispatcher.fire('progress', "parsing data");
             // continue with parsing the data
             setTimeout( function() { parseData( data, jqXHR ); } , 0 );
         });
@@ -117,13 +116,13 @@ turbo.sources.overpass = function() {
         var data_mode = null;
         var geojson;
         var stats = {};
-        // hacky firefox hack #1 :( (it is not properly detecting json from the content-type header)
+        // hacky dispatcher.firefox hack #1 :( (it is not properly detecting json from the content-type header)
         if (typeof data == 'string' && data[0] == '{') { // if the data is a string, but looks more like a json object
             try {
                 data = $.parseJSON(data);
             } catch (e) {}
         }
-        // hacky firefox hack #2 :( (it is not properly detecting xml from the content-type header)
+        // hacky dispatcher.firefox hack #2 :( (it is not properly detecting xml from the content-type header)
         if (typeof data == 'string' && 
             data.substr(0,5) == '<?xml' && 
             jqXHR.status === 200 && 
@@ -164,12 +163,12 @@ turbo.sources.overpass = function() {
                     errmsg = "<p>"+$.trim($('remark',data).text())+"</p>";
                 if (typeof data == 'object' && data.remark)
                     errmsg = "<p>"+$.trim(data.remark)+"</p>";
-                fire('queryError', errmsg);
+                dispatcher.fire('queryError', errmsg);
                 data_mode = 'error';
                 // parse errors and highlight error lines
                 var errlines = errmsg.match(/line \d+:/g) || [];
                 for (var i=0; i<errlines.length; i++) {
-                    fire('queryErrorLine', 1*errlines[i].match(/\d+/)[0]);
+                    dispatcher.fire('queryErrorLine', 1*errlines[i].match(/\d+/)[0]);
                 }
             }
             // the html error message returned by overpass API looks goods also in xml mode ^^
@@ -210,5 +209,6 @@ turbo.sources.overpass = function() {
         callback(result);
     }
 
+    _.assign(source,dispatcher);
     return source;
 }

@@ -8,7 +8,8 @@ turbo.query = function() {
         // 1. get list of turbo statements
         statements = {};
         var statement = /{{[A-Za-z]+:[\s\S]*?}}/;
-        while ( var s = query.match( statement ) ) {
+        var s;
+        while ( s = query.match( statement ) ) {
             var s_name = s[1];
             var s_instr = s[2];
             statements[s_name] = s_instr;
@@ -19,7 +20,8 @@ turbo.query = function() {
         // 2. get user defined constants
         var constants = {};
         var constant = /{{([A-Za-z0-9]+)=(.+?)}}/;
-        while ( var c = query.match( constant ) ) {
+        var c;
+        while ( c = query.match( constant ) ) {
             var c_name = c[1];
             var c_val = c[2];
             constants[c_name] = c_val;

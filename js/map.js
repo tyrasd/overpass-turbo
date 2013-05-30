@@ -58,7 +58,8 @@ $(document).ready(function() {
 
     var queryParser = turbo.query();
     var query = queryParser.parse( settings.code['overpass'] );
-    turbo.run( query, queryParser.getStatement('data'), queryParser.getStatement('style'), function(geoJson) {
+    var main = turbo();
+    main.run( query, queryParser.getStatement('data'), queryParser.getStatement('style'), function(geoJson) {
         console.log(geoJson);
     } );
     /*// overpass functionality

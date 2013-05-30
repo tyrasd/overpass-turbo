@@ -10,7 +10,7 @@ turbo.sources = function() {
 
     s.getSource = function(data_source) {
     	var source_name = 'overpass'; // default
-    	var options;
+    	var options = {};
         if (data_source) {
             // parse custom data statement
             data_source = data_source.split(',');
