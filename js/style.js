@@ -28,36 +28,22 @@ turbo.style = function( user_mapcss, no_defaults ) {
 
     var s = {};
 
-    s.styleFeature = function( feature, highlight ) {
-        return = mapcss.getStyles( feature );
+    s.styleFeature = function( feature ) {
+        feature.setStyle( mapcss.getStyles(feature) );
     }
 
-          var s = mapcss.getStyles({
-            isSubject: 
-            getParentObjects: function() {
-              if (feature.properties.relations.length == 0)
-                return [];
-              else
-                return feature.properties.relations.map(function(rel) {
-                  return {
-                    tags: rel.reltags,
-                    isSubject: function(subject) {
-                      return subject=="relation" || 
-                             (subject=="area" && rel.reltags.type=="multipolyon");
-                    },
-                    getParentObjects: function() {return [];},
-                  }
-                });
-            } 
-          }, _.extend(
-            feature.properties && feature.properties.tainted ? {":tainted": true} : {},
-            feature.properties && feature.properties.mp_outline ? {":mp_outline": true} : {},
-            feature.is_placeholder ? {":placeholder": true} : {},
-            hasInterestingTags(feature.properties) ? {":tagged":true} : {":untagged": true},
-            highlight ? {":active": true} : {},
-            feature.properties.tags)
-          , 18 /*restyle on zoom??*/);
-          return s;
+    s.styleFeatureCollection = function( featureColection ) {
+        _.each( featureColection.features, function( feature ) {
+            s.styleFeature(feature);
+        });
+    }
+
+    s.styleFeatureCollections = function( featureColections, callback ) {
+        _.each( featureColections, function( featureCollection ) {
+            s.styleFeatureCollection(featureColection);
+        });
+        callback(featureColections);
+    }
 
     return s;
 };

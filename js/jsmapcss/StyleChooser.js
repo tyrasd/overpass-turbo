@@ -67,6 +67,7 @@ styleparser.StyleChooser.prototype = {
 					tags._width = sl.maxwidth;
 			
 					r.runEvals(tags);
+					// todo: the following is slow :(
                                         // helper function
                                         function extend(destination, source) {
                                           for (var property in source) {

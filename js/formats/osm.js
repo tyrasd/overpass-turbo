@@ -7,8 +7,13 @@ turbo.formats.osm = {
         return true; // todo
     };
 
-    format.toGeoJson = function( data ) {
-        return; // ...
+    format.toGeoJson = function( data, callback ) {
+        var result;
+        if ( data instanceof XMLDocument )
+            result = _osmXML2geoJSON(data);
+        else
+            result = _overpassJSON2geoJSON(data);
+        callback(result);
     };
 
     
