@@ -831,6 +831,15 @@ var ide = new(function() {
     } else if (repair == "xml+metadata") {
       var q = ide.getQuery(false,false); // get original query
       if (ide.getQueryLang() == "xml") {
+        // 0. replace comments with placeholders
+        // (we do not want to autorepair stuff which is commented out.)
+        var comments = {};
+        var cs = q.match(/<!--[\s\S]*?-->/) || [];
+        for (var i=0; i<cs.length; i++) {
+          var placeholder = "<!--"+Math.random().toString()+"-->"; //todo: use some kind of checksum or hash maybe?
+          q = q.replace(cs[i],placeholder);
+          comments[placeholder] = cs[i];
+        }
         // 1. fix <osm-script output=*
         var src = q.match(/<osm-script([^>]*)>/);
         if (src) {
@@ -841,7 +850,7 @@ var ide = new(function() {
           }
         }
         // 2. fix <print mode=*
-        var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g);
+        var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g) || [];
         for (var i=0;i<prints.length;i++) {
           var mode = $("print",$.parseXML(prints[i])).attr("mode");
           if (mode == "meta")
@@ -853,19 +862,42 @@ var ide = new(function() {
             new_print = new_print.replace("<print",'<print mode="meta"');
           q = q.replace(prints[i],new_print+"<!-- fixed by auto repair -->");
         }
+        // 3. expand placeholded comments
+        for(var placeholder in comments) {
+          q = q.replace(placeholder,comments[placeholder]);
+        }
       } else {
+        // 0. replace comments with placeholders
+        // (we do not want to autorepair stuff which is commented out.)
+        var comments = {};
+        var cs = q.match(/\/\*[\s\S]*?\*\//) || []; // multiline comments: /*...*/
+        for (var i=0; i<cs.length; i++) {
+          var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
+          q = q.replace(cs[i],placeholder);
+          comments[placeholder] = cs[i];
+        }
+        var cs = q.match(/\/\/[^\n]*/) || []; // single line coments: //...
+        for (var i=0; i<cs.length; i++) {
+          var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
+          q = q.replace(cs[i],placeholder);
+          comments[placeholder] = cs[i];
+        }
         // 1. fix [out:*]
         var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
             ///^\s*\[\s*out\s*:\s*([^\]\s]+)/);
         if (out && out[1] != "xml")
           q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
         // 2. fix out *
-        var prints = q.match(/out[^:;]*;/g);
+        var prints = q.match(/out[^:;]*;/g) || [];
         for (var i=0;i<prints.length;i++) {
           if (prints[i].match(/\s(meta)/))
             continue;
           var new_print = prints[i].replace(/\s(body|skel|ids)/,"").replace("out","out meta");
           q = q.replace(prints[i],new_print+"/*fixed by auto repair*/");
+        }
+        // 3. expand placeholded comments
+        for(var placeholder in comments) {
+          q = q.replace(placeholder,comments[placeholder]);
         }
       }
       ide.setQuery(q);
@@ -1278,6 +1310,7 @@ var ide = new(function() {
         });
       }
       // first check for possible mistakes in query.
+      // todo: move into autorepair "module"
       var q = ide.getQuery(true,false);
       var err = {};
       if (ide.getQueryLang() == "xml") {
