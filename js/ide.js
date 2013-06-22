@@ -1328,6 +1328,9 @@ var ide = new(function() {
             err.output = true;
         }
       } else {
+        // ignore comments
+        q=q.replace(/\/\*[\s\S]*?\*\//g,"");
+        q=q.replace(/\/\/[^\n]*/g,"");
         var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
         if (out && out[1] != "xml")
           err.output = true;
