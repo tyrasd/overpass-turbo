@@ -793,12 +793,39 @@ var ide = new(function() {
   }
   /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
   this.repairQuery = function(repair) {
+    // - preparations -
+    var q = ide.getQuery(false,false); // get original query
+    // replace comments with placeholders
+    // (we do not want to autorepair stuff which is commented out.)
+    if (ide.getQueryLang() == "xml") {
+      var comments = {};
+      var cs = q.match(/<!--[\s\S]*?-->/g) || [];
+      for (var i=0; i<cs.length; i++) {
+        var placeholder = "<!--"+Math.random().toString()+"-->"; //todo: use some kind of checksum or hash maybe?
+        q = q.replace(cs[i],placeholder);
+        comments[placeholder] = cs[i];
+      }
+    } else {
+      var comments = {};
+      var cs = q.match(/\/\*[\s\S]*?\*\//g) || []; // multiline comments: /*...*/
+      for (var i=0; i<cs.length; i++) {
+        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
+        q = q.replace(cs[i],placeholder);
+        comments[placeholder] = cs[i];
+      }
+      var cs = q.match(/\/\/[^\n]*/g) || []; // single line coments: //...
+      for (var i=0; i<cs.length; i++) {
+        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
+        q = q.replace(cs[i],placeholder);
+        comments[placeholder] = cs[i];
+      }
+    }
+    // - repairs -
     // repair missing recurse statements
     if (repair == "no visible data") {
-      var q = ide.getQuery(false,false); // get original query
       if (ide.getQueryLang() == "xml") {
         // do some fancy mixture between regex magic and xml as html parsing :€
-        var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g);
+        var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g) || [];
         for (var i=0;i<prints.length;i++) {
           var ws = prints[i].match(/^\n?(\s*)/)[1]; // amount of whitespace in fromt of each print statement
           var from = $("print",$.parseXML(prints[i])).attr("from");
@@ -813,7 +840,7 @@ var ide = new(function() {
         for (var i=0;i<prints.length;i++) 
           q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
       } else {
-        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g);
+        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g) || [];
         for (var i=0;i<outs.length;i++) {
           var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
           var from = outs[i].match(/\.([^;.]+?)\s+?out/);
@@ -827,19 +854,8 @@ var ide = new(function() {
         for (var i=0;i<outs.length;i++) 
           q = q.replace("<autorepair>"+i+"</autorepair>", outs[i]);
       }
-      ide.setQuery(q);
     } else if (repair == "xml+metadata") {
-      var q = ide.getQuery(false,false); // get original query
       if (ide.getQueryLang() == "xml") {
-        // 0. replace comments with placeholders
-        // (we do not want to autorepair stuff which is commented out.)
-        var comments = {};
-        var cs = q.match(/<!--[\s\S]*?-->/) || [];
-        for (var i=0; i<cs.length; i++) {
-          var placeholder = "<!--"+Math.random().toString()+"-->"; //todo: use some kind of checksum or hash maybe?
-          q = q.replace(cs[i],placeholder);
-          comments[placeholder] = cs[i];
-        }
         // 1. fix <osm-script output=*
         var src = q.match(/<osm-script([^>]*)>/);
         if (src) {
@@ -862,26 +878,7 @@ var ide = new(function() {
             new_print = new_print.replace("<print",'<print mode="meta"');
           q = q.replace(prints[i],new_print+"<!-- fixed by auto repair -->");
         }
-        // 3. expand placeholded comments
-        for(var placeholder in comments) {
-          q = q.replace(placeholder,comments[placeholder]);
-        }
       } else {
-        // 0. replace comments with placeholders
-        // (we do not want to autorepair stuff which is commented out.)
-        var comments = {};
-        var cs = q.match(/\/\*[\s\S]*?\*\//) || []; // multiline comments: /*...*/
-        for (var i=0; i<cs.length; i++) {
-          var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
-          q = q.replace(cs[i],placeholder);
-          comments[placeholder] = cs[i];
-        }
-        var cs = q.match(/\/\/[^\n]*/) || []; // single line coments: //...
-        for (var i=0; i<cs.length; i++) {
-          var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
-          q = q.replace(cs[i],placeholder);
-          comments[placeholder] = cs[i];
-        }
         // 1. fix [out:*]
         var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
             ///^\s*\[\s*out\s*:\s*([^\]\s]+)/);
@@ -900,8 +897,13 @@ var ide = new(function() {
           q = q.replace(placeholder,comments[placeholder]);
         }
       }
-      ide.setQuery(q);
     }
+    // - cleanup -
+    // expand placeholded comments
+    for(var placeholder in comments) {
+      q = q.replace(placeholder,comments[placeholder]);
+    }
+    ide.setQuery(q);
   }
   this.highlightError = function(line) {
     codeEditor.setLineClass(line-1,null,"errorline");
