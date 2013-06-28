@@ -209,11 +209,6 @@ body.loading .modal {
   display:block;
 }
 
-.leaflet-container .leaflet-control-buttons { 
-  margin-left: 13px;
-  margin-top: 12px;
-}
-
 .leaflet-control-buttons a:hover {
   background-color: #FFFFFF;
   color: #777777; 
@@ -221,14 +216,12 @@ body.loading .modal {
 .leaflet-control-buttons a {
   display: block;
   color: black;
-  height: 22px;
   text-align: center;
   text-decoration: none;
-  width: 22px;
 }
 .leaflet-control-buttons a span {
   display:inline-block;
-  vertical-align:bottom;
+  vertical-align:middle;
 }
 .leaflet-control-buttons-fitdata {
 }
@@ -237,14 +230,34 @@ body.loading .modal {
 .leaflet-control-buttons-bboxfilter {
 }
 .leaflet-control-buttons-myloc span {
-  margin-bottom:-1px;
   margin-left:-2px;
 }
 .leaflet-container .leaflet-control-search {
-  margin-top: 12px;
-  margin-left: 13px;
   opacity: 0.8;
+  margin-left:6px;
 }
+.leaflet-container .leaflet-control-zoom a,
+.leaflet-container .leaflet-control-buttons a {
+  opacity: 0.8;
+  width:22px;
+  height:22px;
+  line-height:22px;
+}
+/* touch specific styles */
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-control-zoom,
+.leaflet-touch .leaflet-control-buttons {
+  border: 3px solid rgba(0, 0, 0, 0.298);
+  border-radius: 5px;
+}
+.leaflet-touch .leaflet-control-buttons {
+  box-shadow: none;
+}
+.leaflet-touch .leaflet-bar a:first-child,
+.leaflet-touch .leaflet-bar a:last-child {
+  border-radius: 3px;
+}
+
 .dialog {
   display:none;
 }
