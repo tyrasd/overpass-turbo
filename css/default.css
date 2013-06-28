@@ -261,6 +261,9 @@ body.loading .modal {
 .dialog {
   display:none;
 }
+.ui-autocomplete {
+  max-width:35em;
+}
 .ui-autocomplete a{
   font-weight:normal;
 }

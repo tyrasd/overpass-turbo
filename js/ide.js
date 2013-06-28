@@ -468,7 +468,7 @@ var ide = new(function() {
         container.style.position = "absolute";
         container.style.left = "40px";
         var inp = L.DomUtil.create('input', '', container);
-        $('<span class="ui-icon ui-icon-search" style="position:absolute; right:3px; top:3px; opacity:0.5;"/>').click(function(e) {$(this).prev().prev().autocomplete("search");}).insertAfter(inp);
+        $('<span class="ui-icon ui-icon-search" style="position:absolute; right:3px; top:3px; opacity:0.5;"/>').click(function(e) {$(this).prev().autocomplete("search");}).insertAfter(inp);
         inp.id = "search";
         // hack against focus stealing leaflet :/
         inp.onclick = function() {this.focus();}
