@@ -192,7 +192,7 @@ var ide = new(function() {
       CodeMirror.defineMIME("text/x-overpassQL", {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
-          "out json xml custom popup timeout maxsize" // initial declarations
+          "out json xml custom popup timeout maxsize bbox" // initial declarations
           +" relation way node is_in area around user uid newer poly pivot" // queries
           +" out meta quirks body skel ids qt asc" // actions
           //+"r w n br bw" // recursors
