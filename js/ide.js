@@ -196,7 +196,6 @@ var ide = new(function() {
           +" relation way node is_in area around user uid newer poly pivot" // queries
           +" out meta quirks body skel ids qt asc" // actions
           //+"r w n br bw" // recursors
-          +" bbox" // overpass ide shortcut(s)
         ),
       });
       CodeMirror.defineMIME("text/x-overpassXML", 
