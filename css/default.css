@@ -30,19 +30,23 @@ body {
   left:45%;
   right:0 !important;
 }
-#map {
+
+#dataviewer > div {
   width:100%;
   height:100%;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAI0lEQVQIW2NkYGD4f+/ePSAFAYxAzn84D1lASUmJAaQSQwUAcxYRaXDVJ6QAAAAASUVORK5CYII=);
-}
-#data {
-  background-color:white;
-  width:100%;
-  height:100%;
+  z-index:-1001;
   position:absolute;
   top:0;
-  z-index:-1001;
+  background-color:white;
 }
+
+#map {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAI0lEQVQIW2NkYGD4f+/ePSAFAYxAzn84D1lASUmJAaQSQwUAcxYRaXDVJ6QAAAAASUVORK5CYII=);
+  z-index:1001;
+}
+#data {
+}
+
 #dataviewer.fullscreen {
   position: absolute;
   /*top: 0 !important;*/

@@ -8,6 +8,7 @@ var ide = new(function() {
   // == public members ==
   this.dataViewer = null;
   this.map = null;
+  this.table = null;
 
   // == helpers ==
 
@@ -304,6 +305,7 @@ var ide = new(function() {
       readOnly: true,
       mode: "javascript",
     });
+    ide.table = new osmTable($("#table")[0]);
 
     // init leaflet
     ide.map = new L.Map("map", {
@@ -347,13 +349,20 @@ var ide = new(function() {
     });
 
     // tabs
-    $("#dataviewer > div#data")[0].style.zIndex = -1001;
-    $(".tabs a.button").bind("click",function(e) {
-      if ($(e.target).hasClass("active")) {
+      //all tabs in background:
+    $("#dataviewer > div").each(function(i,v) { v.style.zIndex = -1001; });
+      //functionality of the buttons:
+    $(".tabs .button").bind("click",function(e) {
+      if ($(e.target).hasClass("active")) { //do nothing if this button is already active
         return;
-      } else {
-        $("#dataviewer > div#data")[0].style.zIndex = -1*$("#dataviewer > div#data")[0].style.zIndex;
-        $(".tabs a.button").toggleClass("active");
+      } else { //if the button was inactive...
+        $("#dataviewer > div").each(function(i,v) { v.style.zIndex = -1001; }); //bring (for now) all data viewers to background
+        //bring the currently targeted viewer to foreground, assuming that the order of buttons matches the order of divs:
+        //alert($(e.target).index());
+        $("#dataviewer > div")[$(e.target).index()].style.zIndex = 1001;
+        //set only the current button to active:
+        $(".tabs a.button").removeClass("active");
+        $(e.target).addClass("active");
       }
     });
 
@@ -652,6 +661,7 @@ var ide = new(function() {
     overpass.handlers["onRawDataPresent"] = function() {
       ide.dataViewer.setOption("mode",overpass.resultType);
       ide.dataViewer.setValue(overpass.resultText);
+      ide.table.setValue(overpass.resultText);
     }
     overpass.handlers["onGeoJsonReady"] = function() {
       ide.map.addLayer(overpass.osmLayer);

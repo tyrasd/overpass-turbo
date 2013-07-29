@@ -58,6 +58,8 @@
   <script src="libs/html2canvas/jquery.plugin.html2canvas.js"></script>
   <script src="libs/canvg/rgbcolor.js"></script>
   <script src="libs/canvg/canvg.js"></script>
+  <!--the table viewer component-->
+  <script src="js/osmTable.js"></script>
 </head>
 <body class="loading">
 
@@ -75,8 +77,9 @@
       </div>
       <div class="title"><a href="index.html" class="disabled">overpass turbo <img src="turbo.png" style="opacity:0.3; margin-left:2px;" /></a></div>
       <div class="tabs">
-        <a class="t button active" title="map view"  t="[title]tabs.map_tt;tabs.map"  >Map</a>
-        <a class="t button"        title="data view" t="[title]tabs.data_tt;tabs.data">Data</a>
+        <a class="t button active" id="mapbutton" title="map view"  t="[title]tabs.map_tt;tabs.map"  >Map</a>
+        <a class="t button"        id="databutton" title="data view" t="[title]tabs.data_tt;tabs.data">Data</a>
+        <a class="t button"        id="tablebutton" title="table view" t="[title]tabs.table_tt;tabs.table">Table</a>
       </div>
     </div>
   </div>
@@ -88,6 +91,7 @@
   <div id="dataviewer">
     <div id="map"></div>
     <div id="data"></div>
+    <div id="table">no table avail. yet</div>
   </div>
 
   <!--wait spinner-->
