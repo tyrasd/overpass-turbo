@@ -340,6 +340,9 @@ ul.plain > li {
 .ui-front {
   z-index:1011;
 }
+.ui-autocomplete.ui-front {
+  z-index:1012;
+}
 body .ui-tooltip {
   opacity:0.8;
   border:0;
