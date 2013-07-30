@@ -371,7 +371,12 @@ setTimeout(function() {
                   k = htmlentities(k); // escaping strings!
                   v = htmlentities(v);
                   // hyperlinks for http,https and ftp URLs
-                  v = v.replace(/\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi,'<a href="$1" target="_blank">$1</a>');
+                  var url;
+                  if (url = v.match(/\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi)) {
+                    url = url[0];
+                    var href = url.match(/^(https?|ftp):\/\//) ? url : 'http://'+url;
+                    v = '<a href="'+href+'" target="_blank">'+url+'</a>'
+                  }
                   // hyperlinks for email adresses
                   v = v.replace(/(([^\s()<>]+)@([^\s()<>]+[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/g,'<a href="mailto:$1" target="_blank">$1</a>');
                   // hyperlinks for wikipedia entries
