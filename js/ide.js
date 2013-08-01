@@ -411,7 +411,7 @@ var ide = new(function() {
           if ($(e.target).parent().hasClass("disabled")) // check if this button is enabled
             return;
           if (!ide.map.bboxfilter.isEnabled()) {
-            ide.map.bboxfilter.setBounds(ide.map.getBounds());
+            ide.map.bboxfilter.setBounds(ide.map.getBounds().pad(-0.2));
             ide.map.bboxfilter.enable();
           } else {
             ide.map.bboxfilter.disable();
