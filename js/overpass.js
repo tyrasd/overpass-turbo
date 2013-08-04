@@ -65,7 +65,7 @@ var overpass = new(function() {
           data_txt = data_amount / 1000 + " kB";
         else
           data_txt = data_amount / 1000000 + " MB";
-        fire("onProgress", "recieved about "+data_txt+" of data");
+        fire("onProgress", "received about "+data_txt+" of data");
         fire("onDataRecieved", data_amount, data_txt, 
         function() { // abort callback
           fire("onAbort");
@@ -477,7 +477,7 @@ setTimeout(function() {
           } else if(data_mode == "unknown") {
             empty_msg = "unstructured data returned";
           } else {
-            empty_msg = "recieved empty dataset";
+            empty_msg = "received empty dataset";
           }
           // show why there is an empty map
           fire("onEmptyMap", empty_msg, data_mode);
