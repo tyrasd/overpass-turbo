@@ -308,7 +308,7 @@ var ide = new(function() {
     ide.map = new L.Map("map", {
       attributionControl:false,
       minZoom:0,
-      maxZoom:18,
+      maxZoom:19,
       worldCopyJump:false,
     });
     var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
