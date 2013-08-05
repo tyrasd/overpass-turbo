@@ -316,6 +316,7 @@ var ide = new(function() {
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
       noWrap:true,
+      maxZoom:19,
     });
     attribControl = new L.Control.Attribution({prefix:""});
     attribControl.addAttribution(tilesAttrib);
