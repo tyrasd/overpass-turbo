@@ -775,8 +775,7 @@ var ide = new(function() {
       });
       // eventually trim whitespace
       if (typeof trim_ws == "undefined" || trim_ws) {
-        query = query.replace(/(\n|\r)/g," "); // remove newlines
-        query = query.replace(/\s+/g," "); // remove some whitespace
+        query = query.replace(/((\n|\r)+\s*)/g," "); // remove newlines and some indention whitespace
       }
     }
     return query;
