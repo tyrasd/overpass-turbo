@@ -192,11 +192,10 @@ var ide = new(function() {
       CodeMirror.defineMIME("text/x-overpassQL", {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
-          "out json xml custom popup timeout maxsize" // initial declarations
-          +" relation way node is_in area around user uid newer poly" // queries
+          "out json xml custom popup timeout maxsize bbox" // initial declarations
+          +" relation way node is_in area around user uid newer poly pivot" // queries
           +" out meta quirks body skel ids qt asc" // actions
           //+"r w n br bw" // recursors
-          +" bbox" // overpass ide shortcut(s)
         ),
       });
       CodeMirror.defineMIME("text/x-overpassXML", 
@@ -309,7 +308,7 @@ var ide = new(function() {
     ide.map = new L.Map("map", {
       attributionControl:false,
       minZoom:0,
-      maxZoom:18,
+      maxZoom:19,
       worldCopyJump:false,
     });
     var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -317,6 +316,7 @@ var ide = new(function() {
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
       noWrap:true,
+      maxZoom:19,
     });
     attribControl = new L.Control.Attribution({prefix:""});
     attribControl.addAttribution(tilesAttrib);
@@ -412,7 +412,7 @@ var ide = new(function() {
           if ($(e.target).parent().hasClass("disabled")) // check if this button is enabled
             return;
           if (!ide.map.bboxfilter.isEnabled()) {
-            ide.map.bboxfilter.setBounds(ide.map.getBounds());
+            ide.map.bboxfilter.setBounds(ide.map.getBounds().pad(-0.2));
             ide.map.bboxfilter.enable();
           } else {
             ide.map.bboxfilter.disable();
@@ -758,8 +758,7 @@ var ide = new(function() {
       });
       // eventually trim whitespace
       if (typeof trim_ws == "undefined" || trim_ws) {
-        query = query.replace(/(\n|\r)/g," "); // remove newlines
-        query = query.replace(/\s+/g," "); // remove some whitespace
+        query = query.replace(/((\n|\r)+\s*)/g," "); // remove newlines and some indention whitespace
       }
     }
     return query;
@@ -776,12 +775,39 @@ var ide = new(function() {
   }
   /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
   this.repairQuery = function(repair) {
+    // - preparations -
+    var q = ide.getQuery(false,false); // get original query
+    // replace comments with placeholders
+    // (we do not want to autorepair stuff which is commented out.)
+    if (ide.getQueryLang() == "xml") {
+      var comments = {};
+      var cs = q.match(/<!--[\s\S]*?-->/g) || [];
+      for (var i=0; i<cs.length; i++) {
+        var placeholder = "<!--"+Math.random().toString()+"-->"; //todo: use some kind of checksum or hash maybe?
+        q = q.replace(cs[i],placeholder);
+        comments[placeholder] = cs[i];
+      }
+    } else {
+      var comments = {};
+      var cs = q.match(/\/\*[\s\S]*?\*\//g) || []; // multiline comments: /*...*/
+      for (var i=0; i<cs.length; i++) {
+        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
+        q = q.replace(cs[i],placeholder);
+        comments[placeholder] = cs[i];
+      }
+      var cs = q.match(/\/\/[^\n]*/g) || []; // single line coments: //...
+      for (var i=0; i<cs.length; i++) {
+        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
+        q = q.replace(cs[i],placeholder);
+        comments[placeholder] = cs[i];
+      }
+    }
+    // - repairs -
     // repair missing recurse statements
     if (repair == "no visible data") {
-      var q = ide.getQuery(false,false); // get original query
       if (ide.getQueryLang() == "xml") {
         // do some fancy mixture between regex magic and xml as html parsing :€
-        var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g);
+        var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g) || [];
         for (var i=0;i<prints.length;i++) {
           var ws = prints[i].match(/^\n?(\s*)/)[1]; // amount of whitespace in fromt of each print statement
           var from = $("print",$.parseXML(prints[i])).attr("from");
@@ -796,7 +822,7 @@ var ide = new(function() {
         for (var i=0;i<prints.length;i++) 
           q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
       } else {
-        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g);
+        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g) || [];
         for (var i=0;i<outs.length;i++) {
           var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
           var from = outs[i].match(/\.([^;.]+?)\s+?out/);
@@ -810,9 +836,7 @@ var ide = new(function() {
         for (var i=0;i<outs.length;i++) 
           q = q.replace("<autorepair>"+i+"</autorepair>", outs[i]);
       }
-      ide.setQuery(q);
     } else if (repair == "xml+metadata") {
-      var q = ide.getQuery(false,false); // get original query
       if (ide.getQueryLang() == "xml") {
         // 1. fix <osm-script output=*
         var src = q.match(/<osm-script([^>]*)>/);
@@ -824,7 +848,7 @@ var ide = new(function() {
           }
         }
         // 2. fix <print mode=*
-        var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g);
+        var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g) || [];
         for (var i=0;i<prints.length;i++) {
           var mode = $("print",$.parseXML(prints[i])).attr("mode");
           if (mode == "meta")
@@ -843,16 +867,25 @@ var ide = new(function() {
         if (out && out[1] != "xml")
           q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
         // 2. fix out *
-        var prints = q.match(/out[^:;]*;/g);
+        var prints = q.match(/out[^:;]*;/g) || [];
         for (var i=0;i<prints.length;i++) {
           if (prints[i].match(/\s(meta)/))
             continue;
           var new_print = prints[i].replace(/\s(body|skel|ids)/,"").replace("out","out meta");
           q = q.replace(prints[i],new_print+"/*fixed by auto repair*/");
         }
+        // 3. expand placeholded comments
+        for(var placeholder in comments) {
+          q = q.replace(placeholder,comments[placeholder]);
+        }
       }
-      ide.setQuery(q);
     }
+    // - cleanup -
+    // expand placeholded comments
+    for(var placeholder in comments) {
+      q = q.replace(placeholder,comments[placeholder]);
+    }
+    ide.setQuery(q);
   }
   this.highlightError = function(line) {
     codeEditor.setLineClass(line-1,null,"errorline");
@@ -1071,8 +1104,6 @@ var ide = new(function() {
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
       var d = $("#export-geojson-dialog");
-      $("#geojson_format_changed").remove();
-      $("textarea",d).after("<p id='geojson_format_changed' style='color:orange;'>Please note that the structure of the exported GeoJSON has changed recently: overpass turbo now produces <i>flattened</i> properties. Read more about the <a href='http://wiki.openstreetmap.org/wiki/Overpass_turbo/GeoJSON'>specs here</a>.</p>");
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
       d.dialog({
@@ -1263,6 +1294,7 @@ var ide = new(function() {
         });
       }
       // first check for possible mistakes in query.
+      // todo: move into autorepair "module"
       var q = ide.getQuery(true,false);
       var err = {};
       if (ide.getQueryLang() == "xml") {
@@ -1278,6 +1310,9 @@ var ide = new(function() {
             err.output = true;
         }
       } else {
+        // ignore comments
+        q=q.replace(/\/\*[\s\S]*?\*\//g,"");
+        q=q.replace(/\/\/[^\n]*/g,"");
         var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
         if (out && out[1] != "xml")
           err.output = true;

@@ -65,4 +65,50 @@ describe("ide.autorepair.recurse", function () {
     ide.setQuery.restore();
   });
 
+  // do not autocomplete in comments (xml query)
+  it("do not autocomplete in comments (xml query)", function () {
+    var examples = [
+      {
+        inp: '<!--<print/>-->', 
+        outp: '<!--<print/>-->'
+      },
+    ];
+    sinon.stub(ide,"getQueryLang").returns("xml");
+    var setQuery = sinon.stub(ide,"setQuery");
+    for (var i=0; i<examples.length; i++) {
+      sinon.stub(ide,"getQuery").returns(examples[i].inp);
+      ide.repairQuery("no visible data");
+      var repaired_query = setQuery.getCall(i).args[0];
+      expect(repaired_query).to.be.eql(examples[i].outp);
+      ide.getQuery.restore();
+    }
+    ide.getQueryLang.restore();
+    ide.setQuery.restore();
+  });
+
+  // do not autocomplete in comments (OverpassQL query)
+  it("do not autocomplete in comments (OverpassQL query)", function () {
+    var examples = [
+      { // multiline comments
+        inp: '/*out;*/', 
+        outp: '/*out;*/'
+      },
+      { // single line comments
+        inp: '//out;\n', 
+        outp: '//out;\n'
+      },
+    ];
+    sinon.stub(ide,"getQueryLang").returns("xml");
+    var setQuery = sinon.stub(ide,"setQuery");
+    for (var i=0; i<examples.length; i++) {
+      sinon.stub(ide,"getQuery").returns(examples[i].inp);
+      ide.repairQuery("no visible data");
+      var repaired_query = setQuery.getCall(i).args[0];
+      expect(repaired_query).to.be.eql(examples[i].outp);
+      ide.getQuery.restore();
+    }
+    ide.getQueryLang.restore();
+    ide.setQuery.restore();
+  });
+
 });

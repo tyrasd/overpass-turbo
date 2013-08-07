@@ -61,7 +61,7 @@ var overpass = new(function() {
           data_txt = data_amount / 1000 + " kB";
         else
           data_txt = data_amount / 1000000 + " MB";
-        fire("onProgress", "recieved about "+data_txt+" of data");
+        fire("onProgress", "received about "+data_txt+" of data");
         fire("onDataRecieved", data_amount, data_txt, 
         function() { // abort callback
           fire("onAbort");
@@ -367,7 +367,12 @@ setTimeout(function() {
                   k = htmlentities(k); // escaping strings!
                   v = htmlentities(v);
                   // hyperlinks for http,https and ftp URLs
-                  v = v.replace(/\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi,'<a href="$1" target="_blank">$1</a>');
+                  var url;
+                  if (url = v.match(/\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi)) {
+                    url = url[0];
+                    var href = url.match(/^(https?|ftp):\/\//) ? url : 'http://'+url;
+                    v = '<a href="'+href+'" target="_blank">'+url+'</a>'
+                  }
                   // hyperlinks for email adresses
                   v = v.replace(/(([^\s()<>]+)@([^\s()<>]+[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/g,'<a href="mailto:$1" target="_blank">$1</a>');
                   // hyperlinks for wikipedia entries
@@ -468,7 +473,7 @@ setTimeout(function() {
           } else if(data_mode == "unknown") {
             empty_msg = "unstructured data returned";
           } else {
-            empty_msg = "recieved empty dataset";
+            empty_msg = "received empty dataset";
           }
           // show why there is an empty map
           fire("onEmptyMap", empty_msg, data_mode);

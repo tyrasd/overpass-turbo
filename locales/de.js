@@ -130,8 +130,8 @@
   "help.title": "Hilfe",
 
   "help.section.introduction": "Einstieg",
-  "help.intro.1": "<a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">overpass turbo</a> ist ein graphisches Userinterface für die <a href=\"http://overpass-api.de\">Overpass API</a>. Die resultierenden <a href=\"http://www.openstreetmap.org\">OpenStreetMap</a>-Daten werden interaktiv auf einer Karte dargestellt.",
-  "help.intro.2": "Es ist möglich, sowohl XML als auch OverpassQL <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide\">Abfragen</a> zu stellen. Das Ergebnis (XML oder JSON) wird geparst und (wenn möglich) auf der Karte dargestellt. Mehr Informationen über <i>overpass turbo</i> gibt es im <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">OSM-Wiki</a>.",
+  "help.intro.1": "<i>overpass turbo</i> ist ein Datenfilterungswerkzeug für OpenStreetMap. Es führt jede Art von <a href=\"http://overpass-api.de\">Overpass API</a> Abfrage aus und ermöglicht es die gewonnenen Daten interaktiv auf einer Karte zu analysieren.",
+  "help.intro.2": "Mehr über <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">overpass turbo</a> oder darüber wie man selbst <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide\">Overpass Abfragen</a> formulieren kann gibt es im OSM-Wiki.",
   "help.intro.shortcuts": "Die folgenden praktischen Kürzel (shortcuts) können direkt in den Abfragen verwendet werden:",
   "help.intro.shortcuts.bbox": "Die Bounding-Box-Koordinaten der aktuellen Kartenansicht",
   "help.intro.shortcuts.center": "Die Zentrums-Koordinaten der Karte",
@@ -139,7 +139,7 @@
 
   "help.section.ide": "IDE",
   "help.ide.share.title": "Teilen",
-  "help.ide.share.expl": "Es ist möglich, sich einen Permalink erstellen zu lassen, der die Query beinhaltet, an der gerade gearbeitet wird. Dieser Link kann dann z.B. an Freund verteilt werden. (Beachte, dass jede Person an seiner eigenen Kopie der Query arbeiten wird.)",
+  "help.ide.share.expl": "Es ist möglich, sich einen Permalink erstellen zu lassen, der die Query beinhaltet, an der gerade gearbeitet wird. Dieser Link kann dann z.B. an Freund verteilt werden.",
   "help.ide.save_load.title": "Speichern / Laden",
   "help.ide.save_load.expl": "Man kann seine Queries auch für später abspeichern. Zu Beginn sind bereits eine Auswahl an Beispielen geladen. Schau sie dir einfach mal an!",
   "help.ide.keyboard.title": "Tastaturkürzel",
@@ -153,13 +153,13 @@
 
   "help.section.export": "Export",
   "help.export": "Das <i>Export</i>-Tool beinhaltet verschiedene Export-Möglichkeiten.<br />Optionen mit diesem Symbol:<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span> führen auf externe (online) Tools.",
+  "help.export.query_data.title": "Daten",
+  "help.export.query_data.expl": "Die gewonnenen Daten können beispielweise als GeoJSON exportiert werden oder (sehr praktisch!) direkt an JOSM gesendet werden.",
   "help.export.map.title": "Karte",
   "help.export.map.expl": "Die aktuelle Kartenansicht (incl. Daten) als statisches PNG, oder als interaktive Karte, usw.",
-  "help.export.query_data.title": "Query / Daten",
-  "help.export.query_data.expl": "Hier kann mit der Query oder den Daten einiges angestellt werden. Z.B. das Konvertieren zwischen den beiden Query-Sprachen, der Daten-Export als GeoJSON oder (sehr praktisch!) das Senden der Query an JOSM.",
 
   "help.section.about": "Über",
-  "help.about.maintained": "<i>overpass turbo</i> (aka overpass-ide) wird von Martin Raifer (tyr.asd at gmail.com) betrieben und programmiert.",
+  "help.about.maintained": "<i>overpass turbo</i> wird von Martin Raifer (tyr.asd at gmail.com) betrieben und programmiert.",
   "help.about.feedback.title": "Bugs, Kommentare, Anregungen",
   "help.about.feedback": "Über Feedback jeglicher Art bin ich immer froh :). Bug-Meldungen und Feature-Anfragen gehen am Besten an den <a href=\"https://github.com/tyrasd/overpass-ide/issues\">issue tracker</a> auf github. Allgemeine Kommentare z.B. auf die <a href=\"http://wiki.openstreetmap.org/wiki/Talk:Overpass_turbo\">Diskussionsseite</a> im OSM-Wiki.",
   "help.about.source.title": "Sourcecode",
