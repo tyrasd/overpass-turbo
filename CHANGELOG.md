@@ -1,4 +1,12 @@
-2013.05.11
+2013-08-07
+----------
+* cleaned up help dialog
+* improvements to compact stylesheet (mobile devices)
+* implemented data statement
+* upgraded libraries (e.g. leaflet 0.6)
+* lots of bugfixes
+
+2013-05-11
 ----------
 * implemented downloadable content (save as file) for exports (GeoJSON, GPX, raw data, PNG)
 * added new "raw data" export (same as the data-tab, but with easy file save - see above)
@@ -6,33 +14,33 @@
 * shiny new "powered by Overpass API" mark
 * bugfixes
 
-2013.04.29
+2013-04-29
 ----------
 * reworked export dialog
 * export GeoJSON with flattened properties (see #14)
 * bugfixes and UI improvements
 
-2013.04.15
+2013-04-15
 ----------
 * MapCSS support :) Read more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS
 * enabled an url-shortening service on http://overpass-turbo.eu
 * new "as GPX" export
 * some bugfixes and UI improvements
 
-2013.03.24
+2013-03-24
 ----------
 * implemented a build system - should result in much faster startup :)
 * better area-detection. See http://wiki.openstreetmap.org/wiki/Overpass_turbo/Polygon_Features
 * improved URL and email formatting/linkification
 * removed min-zoom level on the map
 
-2013.03.21
+2013-03-21
 ----------
 * showing hyperlinks for http/https/ftp-URLs, email addresses and wikipedia entries
 * added new "welcome" message for first time users
 * slightly more robust template code
 
-2013.03.02
+2013-03-02
 ----------
 * showing warning message for queries returning large amounts of data (>~ 1MB).
 * better progress indicator: show checkmarks for past events; also: made it a little more responsive during lenghty calculations
@@ -42,7 +50,7 @@
 * updated template descriptions
 * fixed several compatibility issues and bugfixes
 
-2013.02.10
+2013-02-10
 ----------
 * multipolygon rendering
 * implemented "templates" as an alternative to permalinks for basic queries
@@ -52,7 +60,7 @@
 * added map key to help
 * bugfixes
 
-2013.02.04
+2013-02-04
 ----------
 * display small features at low zoom like POIs
 * i18n support (and translation to German)
@@ -62,7 +70,7 @@
 * upgraded to CodeMirror 2.38
 * bugfixes
 
-2013.01.30
+2013-01-30
 ----------
 * resizable panels (editor/map)
 * tooltips for map controls
@@ -71,7 +79,7 @@
 * upgrade to jquery 1.9.0 and jqueryUI 1.10.0
 * bugfixes
 
-2013.01.28
+2013-01-28
 ----------
 * implemented auto-repairing of queries with a possible lack of recurse statements
 * upgrade to leaflet 0.5
@@ -83,6 +91,6 @@
 * some internal code restructuring
 * appname (for X-Requested-With headers) set to overpass-turbo
 
-2013.01.24
+2013-01-24
 ----------
 * initial release
