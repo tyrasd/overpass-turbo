@@ -374,7 +374,7 @@ var ide = new(function() {
     });
 
     // keyboard event listener
-    $("body").keypress(ide.onKeyPress);
+    $(document).keydown(ide.onKeyPress);
 
     // leaflet extension: more map controls
     var MapButtons = L.Control.extend({
