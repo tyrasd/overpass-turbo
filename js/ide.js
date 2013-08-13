@@ -419,20 +419,6 @@ var ide = new(function() {
           }
           $(e.target).toggleClass("ui-icon-circlesmall-close").toggleClass("ui-icon-image");
         }, ide.map);
-        link = L.DomUtil.create('a', "leaflet-control-buttons-fullscreen leaflet-bar-part", container);
-        $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo($(link));
-        link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.toggle_wide_map");
-        L.DomEvent.addListener(link, 'click', function(e) {
-          $("#dataviewer").toggleClass("fullscreen");
-          ide.map.invalidateSize();
-          $(e.target).toggleClass("ui-icon-arrowthickstop-1-e").toggleClass("ui-icon-arrowthickstop-1-w");
-          $("#editor").toggleClass("hidden");
-          if ($("#editor").resizable("option","disabled"))
-            $("#editor").resizable("enable");
-          else
-            $("#editor").resizable("disable");
-        }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
         link.href = 'javascript:return false;';
@@ -516,7 +502,7 @@ var ide = new(function() {
         return container;
       },
     });
-    ide.map.addControl(new SearchBox());
+    //ide.map.addControl(new SearchBox());
     // add cross hairs to map
     $('<span class="ui-icon ui-icon-plus" />')
       .addClass("crosshairs")
@@ -685,7 +671,8 @@ var ide = new(function() {
     // show welcome message, if this is the very first time the IDE is started
     if (settings.first_time_visit === true && 
         ide.not_supported !== true &&
-        ide.run_query_on_startup !== true) {
+        ide.run_query_on_startup !== true &&
+        false) {
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.close")] = function() {
         $(this).dialog( "close" );
@@ -698,6 +685,13 @@ var ide = new(function() {
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true)
       ide.update_map();
+
+
+    // ffs mod
+    $("#ffs form").submit(function(event) {
+      ide.onRunClick();
+      event.preventDefault();
+    });
   } // init()
 
   // returns the current visible bbox as a bbox-query
@@ -982,7 +976,8 @@ var ide = new(function() {
     });
   }
   this.onRunClick = function() {
-    ide.update_map();
+    if (ide.update_ffs_query())
+      ide.update_map();
   }
   this.compose_share_link = function(query,compression,coords,run) {
     var share_link = "";
@@ -1561,6 +1556,60 @@ var ide = new(function() {
     var query = ide.getQuery(true,false);
     var query_lang = ide.getQueryLang();
     overpass.run_query(query,query_lang);
+  }
+  this.update_ffs_query = function() {
+    var ffs = $("#ffs input[type=text]").val();
+    var m;
+    // 1. <key>=<value>
+    if (m = ffs.match(/^([a-zA-Z_0-9]+)=([a-zA-Z_0-9]+)$/)) {
+      var key=m[1];
+      var val=m[2];
+
+      var template = settings.saves["key-value"].overpass;
+      template = template.replace("{{key=???}}","{{key="+key+"}}");
+      template = template.replace("{{value=???}}","{{value="+val+"}}");
+      ide.setQuery(template);
+
+      return true;
+    }
+    // 2. <key>=*
+    if (m = ffs.match(/^([a-zA-Z_0-9]+)=\*$/)) {
+      var key=m[1];
+
+      var template = settings.saves["key"].overpass;
+      template = template.replace("{{key=???}}","{{key="+key+"}}");
+      ide.setQuery(template);
+      
+      return true;
+    }
+    // 3. <key>=<value> type:<type>
+    if (m = ffs.match(/^([a-zA-Z_0-9]+)=([a-zA-Z_0-9]+) type\:(node|way|relation|area)$/)) {
+      var key=m[1];
+      var val=m[2];
+      var typ=m[3];
+
+      var template = settings.saves["key-value-type"].overpass;
+      template = template.replace("{{key=???}}","{{key="+key+"}}");
+      template = template.replace("{{value=???}}","{{value="+val+"}}");
+      template = template.replace("{{type=???}}","{{type="+typ+"}}");
+      ide.setQuery(template);
+      
+      return true;
+    }
+    // 4. <key>=* type:<type>
+    if (m = ffs.match(/^([a-zA-Z_0-9]+)=\* type\:(node|way|relation|area)$/)) {
+      var key=m[1];
+      var typ=m[2];
+
+      var template = settings.saves["key"].overpass;
+      template = template.replace("{{key=???}}","{{key="+key+"}}");
+      template = template.replace("{{type=???}}","{{type="+typ+"}}");
+      ide.setQuery(template);
+      
+      return true;
+    }
+    alert("don't know what to do :(");
+    return false;
   }
 
 })(); // end create ide object
