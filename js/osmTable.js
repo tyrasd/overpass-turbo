@@ -10,7 +10,7 @@ function osmTable(pContainer) {
   
   this.setValue = function setValue(data) {
     //console.debug(data);
-    console.debug(data.getGeoJSON());
+//    console.debug(data.getGeoJSON());
     this.value = data.getGeoJSON(); //this is a data array, that contains up to four featureCollections for different types (node, way, relation, area!?)
     this.generateTable();
   }
@@ -42,7 +42,7 @@ function osmTable(pContainer) {
     else if (geometry.type == "LineString") {
       geo = "";
       for (var i=0; i<geometry.coordinates.length; i++) {
-        geo = geo + ", " + geometry.coordinates[i][0] + ", " + geometry.coordinates[i][1];
+        geo = geo + ", " + geometry.coordinates[i][0] + " " + geometry.coordinates[i][1];
       }
       geo = geo.substr(2); //cut the first ", "
       return "LINESTRING (" + geo + ")";
@@ -51,7 +51,26 @@ function osmTable(pContainer) {
     else if (geometry.type == "MultiPolygon") {
       console.debug(geometry);
       geo = "";
-      return "MULTIPOLYGON (" + geo + ")";
+      //the coordinates array in this case is 3-dimensional:
+      //1) the individual multi-polygons (as they are 
+      //2) the single ways
+      //3) the nodes (as lon/lat)
+      //for the WKT notation this means:
+      for (var mp=0; mp<geometry.coordinates.length; mp++) {
+        var mpoly = "";
+        for (var p=0; p<geometry.coordinates[mp].length; p++) {
+          var poly = "";
+          for (var w=0; w<geometry.coordinates[mp][p].length; w++) {
+            poly = poly + ", " + geometry.coordinates[mp][p][w][0] + " " + geometry.coordinates[mp][p][w][1];
+          }
+          mpoly = mpoly + ", (" + poly.substr(2) + ")";
+          //mpoly = mpoly + ")";
+        }
+        geo = geo + ", (" + mpoly.substr(2) + ")";
+      }
+      return "MULTIPOLYGON (" + geo.substr(2) + ")";
+      //MULTIPOLYGON (((30 20, 10 40, 45 40, 30 20)),
+      //              ((15 5, 40 10, 10 20, 5 10, 15 5)))
     }
   };
   
@@ -85,10 +104,10 @@ function osmTable(pContainer) {
                                      .width('auto')
                                      .height(el.height());
       el.after(t);    
-      console.debug(t);
-      console.debug(el);
+//      console.debug(t);
+//      console.debug(el);
       function width() {
-        console.debug(t.width() + " " + el.width());
+//        console.debug(t.width() + " " + el.width());
         return t.width() > el.width();
       };
       var result = width();
@@ -103,6 +122,8 @@ function osmTable(pContainer) {
 //  }
   
   this.generateTable = function generateTable() {
+    //replace the table object:
+    $('#table').replaceWith('<div id="table"><table id="datatable"><thead></thead><tbody></tbody></table></div>');
     //calculate the right table from the objects:
     this.tabledata = [];
     this.tagcounts = {};
@@ -126,14 +147,14 @@ function osmTable(pContainer) {
         this.tabledata.push(item);
       }
     }
-    console.debug(this.tagcounts);
+    //console.debug(this.tagcounts);
     //flush the table:
     $("#datatable thead").empty();
     $("#datatable tbody").empty();
     //get the table column definitions:
     var headers = ['osm-id','type','geometry'];
     var tagColumns = this.getPropertiesSortedByValue(this.tagcounts);
-    console.debug(tagColumns);
+    //console.debug(tagColumns);
     headers  = headers.concat(tagColumns);
     var fields = ['__id__', '__type__', '__geo__'];
     fields = fields.concat(tagColumns);
@@ -151,16 +172,23 @@ function osmTable(pContainer) {
                   };
 
     this.jsont.jsonTableUpdate(options);
-    if ($.fn.DataTable.fnIsDataTable($("#datatable"))) {
-      $("#datatable").fnDestroy();
-    }
-    $("#datatable").dataTable({"bJQueryUI": true });
+    //make sure that the datatable is empty:
+//    if ($.fn.DataTable.fnIsDataTable(document.getElementById("datatable"))) {
+//      console.debug("clear datatable");
+//      $("#datatable").fnClearTable();
+//    } else {
+//      console.debug("create datatable");
+      $("#datatable").dataTable({"bJQueryUI": true, "iDisplayLength": 100 });
+//    }
+    //refill the datatable:
+    
     //set tooltips for all cells:
+    //$("#datatable td").filter(function() { return isOverflowWidth(this); }).css("background-color", "red");
     
     $("#datatable td").filter(function() { 
-                                console.debug(this);
+//                                console.debug(this);
                                 var overflowing = isOverflowWidth(this); 
-                                console.debug(overflowing);
+//                                console.debug(overflowing);
                                 return overflowing;
                               }
                              )

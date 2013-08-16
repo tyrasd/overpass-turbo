@@ -345,7 +345,6 @@ td {
   white-space:nowrap;
 }
 body .table-tooltip { 
-  background-color: red;
   opacity:1;
   border: 1px solid black;
 }
