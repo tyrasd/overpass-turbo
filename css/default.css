@@ -338,3 +338,14 @@ body .ui-tooltip {
   position: absolute;
   right: 24px;
 }
+
+td {
+  max-width:300px;
+  overflow:hidden;
+  white-space:nowrap;
+}
+body .table-tooltip { 
+  background-color: red;
+  opacity:1;
+  border: 1px solid black;
+}

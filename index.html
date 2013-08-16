@@ -59,6 +59,8 @@
   <script src="libs/canvg/rgbcolor.js"></script>
   <script src="libs/canvg/canvg.js"></script>
   <!--the table viewer component-->
+  <script src="libs/jsonTable.js"></script>
+  <script src="libs/jquery.dataTables.min.js"></script>
   <script src="js/osmTable.js"></script>
 </head>
 <body class="loading">
@@ -91,7 +93,14 @@
   <div id="dataviewer">
     <div id="map"></div>
     <div id="data"></div>
-    <div id="table">no table avail. yet</div>
+    <div id="table">
+      <table id="datatable">
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!--wait spinner-->

@@ -661,10 +661,11 @@ var ide = new(function() {
     overpass.handlers["onRawDataPresent"] = function() {
       ide.dataViewer.setOption("mode",overpass.resultType);
       ide.dataViewer.setValue(overpass.resultText);
-      ide.table.setValue(overpass.resultText);
+//      ide.table.setValue(overpass.resultText);
     }
     overpass.handlers["onGeoJsonReady"] = function() {
       ide.map.addLayer(overpass.osmLayer);
+      ide.table.setValue(overpass.osmLayer);
       // display stats
       if (settings.show_data_stats) {
         var stats = overpass.stats;
