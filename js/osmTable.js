@@ -181,7 +181,8 @@ function osmTable(pContainer) {
                                            "fnInitComplete": function() {
                                                                osmTable.resetFooter();
                                                              },
-                                           "aoColumns": columnDefinitions //set column types where known
+                                           "aoColumns": columnDefinitions, //set column types where known
+                                           "sDom": 'Rlfrtip' //column reordering
                                           });
     //filtering ability per column
     $("#datatable tfoot input").keyup(function() {
@@ -200,6 +201,12 @@ function osmTable(pContainer) {
                                  items: "td",
                                  tooltipClass: "table-tooltip"
                                });
+    //re-order of columns:
+    //$("#datatable .DataTables_sort_wrapper").append('<span class="ui-icon ui-icon-carat-1-w move2left"/>');
+    //$("#datatable .DataTables_sort_wrapper move2left").click(function() {} );
+    //$("#datatable .ui-icon-carat-2-n-s").before('<span class="ui-icon ui-icon-carat-1-e move2right"/>',    $("#datatable .ui-icon-carat-2-n-2"));
+    //$("#datatable .DataTables_sort_wrapper move2right").click(function() {} );
+    
     //hide and show columns:
     //deletion buttons:
     $("#datatable .DataTables_sort_wrapper").append('<span class="ui-icon ui-icon-close"/>'); //.ui-icon-trash .ui-icon-close
