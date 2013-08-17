@@ -344,6 +344,25 @@ td {
   overflow:hidden;
   white-space:nowrap;
 }
+
+tr:nth-child(even) {
+  background-color:#eee;
+}
+
+tfoot input {
+  border: 1px solid #EEEEEE;
+  display: block;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  right: 0;
+  width:100%;
+  background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QgRCzEr3BXPeQAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACmSURBVCjPY2DAAqZMmSI8ffr0CTNnzjwzY8aMzyAaxAeJM+ACQEU2QMXPgfR/dAwVt8FqE5KmA5MnT3YAiYNoEB+mGcNmqPPAmnC4BqwZpA5d4gxIAmYTOoDaDDL4DLrGDyAJBjwA6tzPKIKzZs3aRZaNQI0lZPkR6IQupOAnLlSBpjRgizu88YiuCWQzyNlQP3/AmnLQNYH4DMQAsjQh20iSJiAAAAuh9bU+wbGwAAAAAElFTkSuQmCC);
+  background-repeat:no-repeat;
+  font-size:11px;
+  background-position:right;
+}
+
 body .table-tooltip { 
   opacity:1;
   border: 1px solid black;

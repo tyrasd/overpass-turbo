@@ -123,7 +123,7 @@ function osmTable(pContainer) {
   
   this.generateTable = function generateTable() {
     //replace the table object:
-    $('#table').replaceWith('<div id="table"><table id="datatable"><thead></thead><tbody></tbody></table></div>');
+    $('#table').replaceWith('<div id="table"><table id="datatable"><thead></thead><tbody></tbody><tfoot><tr></tr></tfoot></table></div>');
     //calculate the right table from the objects:
     this.tabledata = [];
     this.tagcounts = {};
@@ -173,22 +173,38 @@ function osmTable(pContainer) {
 
     this.jsont.jsonTableUpdate(options);
     //make sure that the datatable is empty:
-//    if ($.fn.DataTable.fnIsDataTable(document.getElementById("datatable"))) {
-//      console.debug("clear datatable");
-//      $("#datatable").fnClearTable();
-//    } else {
-//      console.debug("create datatable");
-      $("#datatable").dataTable({"bJQueryUI": true, "iDisplayLength": 100 });
-//    }
-    //refill the datatable:
-    
+    var table = $("#datatable").dataTable({"bJQueryUI": true, // applies the jquery-UI styling
+                                           "iDisplayLength": 10, //default number of lines shown per page
+                                           "oLanguage": { //custom strings in the UI
+                                               "sSearch": "Search all columns:" //the global search box
+                                             },
+                                           "fnInitComplete": function() {
+                                                               //delete the repeated captions - whyever these are there...
+                                                               $('#datatable tfoot th').remove();
+                                                               //add filter boxes:
+                                                               console.debug("fnInitComplete");
+                                                               var oSettings = $('#datatable').dataTable().fnSettings();
+                                                               console.debug(oSettings);
+                                                               for ( var i=0 ; i<oSettings.aoPreSearchCols.length ; i++ ){
+                                                                 var cap = $('#datatable thead th:nth-child('+(1+i)+')').text();
+                                                                 console.debug(cap);
+                                                                 //create the cell:
+                                                                 $('#datatable tfoot tr').append('<td><input type="text"/></td>');
+                                                                 $('#datatable tfoot td:last-child() input').attr('placeholder', 
+                                                                                                                  cap).attr('value','');
+                                                                 
+                                                                 $("tfoot input")[i].className = "";
+                                                               }
+                                                             }
+                                          });
+    //filtering ability per column
+    $("#datatable tfoot input").keyup(function() {
+                                        table.fnFilter(this.value, $("tfoot input").index(this));
+                                      });
+
     //set tooltips for all cells:
-    //$("#datatable td").filter(function() { return isOverflowWidth(this); }).css("background-color", "red");
-    
     $("#datatable td").filter(function() { 
-//                                console.debug(this);
                                 var overflowing = isOverflowWidth(this); 
-//                                console.debug(overflowing);
                                 return overflowing;
                               }
                              )
