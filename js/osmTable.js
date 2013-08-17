@@ -108,6 +108,7 @@ function osmTable(pContainer) {
     }
   }
   
+    
   this.generateTable = function generateTable() {
     //replace the table object:
     $('#table').replaceWith('<div id="table"><table id="datatable"><thead></thead><tbody></tbody><tfoot><tr></tr></tfoot></table></div>');
@@ -178,19 +179,7 @@ function osmTable(pContainer) {
                                                "sSearch": "Search all columns:" //the global search box
                                              },
                                            "fnInitComplete": function() {
-                                                               //delete the repeated captions - whyever these are there...
-                                                               $('#datatable tfoot th').remove();
-                                                               //add filter boxes:
-                                                               var oSettings = $('#datatable').dataTable().fnSettings();
-                                                               for ( var i=0 ; i<oSettings.aoPreSearchCols.length ; i++ ){
-                                                                 var cap = $('#datatable thead th:nth-child('+(1+i)+')').text();
-                                                                 //create the cell:
-                                                                 $('#datatable tfoot tr').append('<td><input type="text"/></td>');
-                                                                 $('#datatable tfoot td:last-child() input').attr('placeholder', 
-                                                                                                                  cap).attr('value','');
-                                                                 
-                                                                 $("tfoot input")[i].className = "";
-                                                               }
+                                                               osmTable.resetFooter();
                                                              },
                                            "aoColumns": columnDefinitions //set column types where known
                                           });
@@ -220,8 +209,9 @@ function osmTable(pContainer) {
                                                  //CAUTION: text() only works as long as there's no other text in the column!
                                                  var val = $(this).parent().text();
                                                  $("#datatable_deletedCols").append('<option>'+val+'</option>');
-                                                 //hide the column:
-                                                 this.table.datatable.fnSetColumnVis(this.table.columns.indexOf(val, false));
+                                                 //hide the column:/
+                                                 this.table.datatable.fnSetColumnVis(this.table.columns.indexOf(val, false, false));
+                                                 osmTable.resetFooter();
                                                  return false; //avoid sorting
                                                });
     //the deleted-columns select:
@@ -243,9 +233,11 @@ function osmTable(pContainer) {
                                     //console.debug(value);
                                     //console.debug(this.table.columns);
                                     //console.debug(this.table.columns.indexOf(value));
-                                    this.table.datatable.fnSetColumnVis( this.table.columns.indexOf(value), true );
+                                    this.table.datatable.fnSetColumnVis( this.table.columns.indexOf(value), true, false );
+                                    osmTable.resetFooter();
                                   });
   }
+
   
   //extend the sorting capabilities:
   
@@ -268,3 +260,21 @@ function osmTable(pContainer) {
 
   return;
 }
+
+osmTable.resetFooter = function() {
+                       //delete the repeated captions - whyever these are there...
+                       $('#datatable tfoot th').remove();
+                       //add filter boxes:
+                       var oSettings = $('#datatable').dataTable().fnSettings();
+                       for ( var i=0 ; i<oSettings.aoPreSearchCols.length ; i++ ){
+                         var cap = $('#datatable thead th:nth-child('+(1+i)+')').text();
+                         //create the cell:
+                         $('#datatable tfoot tr').append('<td><input type="text"/></td>');
+                         $('#datatable tfoot td:last-child() input').attr('placeholder', 
+                                                                          cap).attr('value','');
+                         
+                         $("tfoot input")[i].className = "";
+                       }
+                     }
+  
+
