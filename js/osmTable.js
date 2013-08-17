@@ -139,17 +139,17 @@ function osmTable(pContainer) {
     $("#datatable thead").empty();
     $("#datatable tbody").empty();
     //get the table column definitions:
-    var headers = []; //'osm-id','type','geometry'];
+    this.columns = []; //'osm-id','type','geometry'];
     var tagColumns = this.getPropertiesSortedByValue(this.tagcounts);
     var fields = [];
-    if (this.showIDs) { fields.push('__id__'); headers.push('osm-id'); }
-    if (this.showType) { fields.push('__type__'); headers.push('type'); }
-    if (this.showGeometry) { fields.push('__geo__'); headers.push('geometry'); }
+    if (this.showIDs) { fields.push('__id__'); this.columns.push('osm-id'); }
+    if (this.showType) { fields.push('__type__'); this.columns.push('type'); }
+    if (this.showGeometry) { fields.push('__geo__'); this.columns.push('geometry'); }
 
-    headers  = headers.concat(tagColumns);
+    this.columns  = this.columns.concat(tagColumns);
     fields = fields.concat(tagColumns);
     this.jsont = $("#datatable").jsonTable({
-      head : headers, // Goes on the <thead>
+      head : this.columns, // Goes on the <thead>
       json : fields //json identities from the loaded json object
     });
     
@@ -164,15 +164,15 @@ function osmTable(pContainer) {
     this.jsont.jsonTableUpdate(options);
 
     //get settings for the columns:
-    var columnDefinitions = new Array(headers.length); //no setting for now
+    var columnDefinitions = new Array(this.columns.length); //no setting for now
     //special case housenumbers:
-    var hnrCol = headers.indexOf("addr:housenumber");
+    var hnrCol = this.columns.indexOf("addr:housenumber");
     if (hnrCol >= 0) {
       columnDefinitions[hnrCol] = {"sType": "housenumbers"};
     }
 
     //make sure that the datatable is empty:
-    var table = $("#datatable").dataTable({"bJQueryUI": true, // applies the jquery-UI styling
+    this.datatable = $("#datatable").dataTable({"bJQueryUI": true, // applies the jquery-UI styling
                                            "iDisplayLength": 10, //default number of lines shown per page
                                            "oLanguage": { //custom strings in the UI
                                                "sSearch": "Search all columns:" //the global search box
@@ -211,6 +211,40 @@ function osmTable(pContainer) {
                                  items: "td",
                                  tooltipClass: "table-tooltip"
                                });
+    //hide and show columns:
+    //deletion buttons:
+    $("#datatable .DataTables_sort_wrapper").append('<span class="ui-icon ui-icon-close"/>'); //.ui-icon-trash .ui-icon-close
+    $("#datatable .ui-icon-close").prop("table",this);
+    $("#datatable .ui-icon-close").click(function() {
+                                                 //add option to the selectbox:
+                                                 //CAUTION: text() only works as long as there's no other text in the column!
+                                                 var val = $(this).parent().text();
+                                                 $("#datatable_deletedCols").append('<option>'+val+'</option>');
+                                                 //hide the column:
+                                                 this.table.datatable.fnSetColumnVis(this.table.columns.indexOf(val, false));
+                                                 return false; //avoid sorting
+                                               });
+    //the deleted-columns select:
+    this.deletedColumns = document.createElement('select');
+    $(this.deletedColumns).append('<option disabled selected>...</option>'); //TODO: if there's a placeholder like in text inputs, that would be better
+    var deletedColumnsLabel = document.createElement('label');
+    $(this.deletedColumns).attr('id', 'datatable_deletedCols');
+    $(deletedColumnsLabel).attr('for', 'datatable_deletedCols').text('show column').css("padding-left", "3em");
+    $("#datatable_length").append(deletedColumnsLabel, this.deletedColumns);
+    //add the datatable as a variable to the select:
+    this.deletedColumns.table = this;
+    $(this.deletedColumns).change(function() { 
+                                    var value = $(this).val(); 
+                                    //delete the value from the select box:
+                                    $("#datatable_deletedCols option:selected").remove(); //remove the selected option
+                                    //reselect the placeholder:
+                                    document.getElementById("datatable_deletedCols").selectedIndex = 0;
+                                    //show the column:
+                                    //console.debug(value);
+                                    //console.debug(this.table.columns);
+                                    //console.debug(this.table.columns.indexOf(value));
+                                    this.table.datatable.fnSetColumnVis( this.table.columns.indexOf(value), true );
+                                  });
   }
   
   //extend the sorting capabilities:

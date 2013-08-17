@@ -367,3 +367,11 @@ body .table-tooltip {
   opacity:1;
   border: 1px solid black;
 }
+
+#datatable th {
+  min-width:32px;
+}
+
+#datatable .ui-icon {
+  float:right;
+}
