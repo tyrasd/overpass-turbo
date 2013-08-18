@@ -183,8 +183,9 @@ function osmTable(pContainer, showIDs, showType, showGeometry) {
                                            "sDom": 'Rlfrtip' //column reordering
                                           });
     //filtering ability per column
+    $("#datatable tfoot input").prop("table", this);
     $("#datatable tfoot input").keyup(function() {
-                                        table.fnFilter(this.value, $("tfoot input").index(this));
+                                        this.table.datatable.fnFilter(this.value, $("tfoot input").index(this));
                                       });
 
     //set tooltips for all cells:
@@ -199,12 +200,6 @@ function osmTable(pContainer, showIDs, showType, showGeometry) {
                                  items: "td",
                                  tooltipClass: "table-tooltip"
                                });
-    //re-order of columns:
-    //$("#datatable .DataTables_sort_wrapper").append('<span class="ui-icon ui-icon-carat-1-w move2left"/>');
-    //$("#datatable .DataTables_sort_wrapper move2left").click(function() {} );
-    //$("#datatable .ui-icon-carat-2-n-s").before('<span class="ui-icon ui-icon-carat-1-e move2right"/>',    $("#datatable .ui-icon-carat-2-n-2"));
-    //$("#datatable .DataTables_sort_wrapper move2right").click(function() {} );
-    
     //hide and show columns:
     //deletion buttons:
     $("#datatable .DataTables_sort_wrapper").append('<span class="ui-icon ui-icon-close"/>'); //.ui-icon-trash .ui-icon-close
