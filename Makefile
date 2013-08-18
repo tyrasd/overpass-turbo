@@ -55,7 +55,8 @@ turbo.js: \
 	js/settings.js \
 	js/i18n.js \
 	js/overpass.js \
-	js/ide.js
+	js/ide.js \
+	js/ffs_parser.js
 
 turbo.js: Makefile
 	@rm -f $@
