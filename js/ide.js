@@ -1559,55 +1559,166 @@ var ide = new(function() {
   }
   this.update_ffs_query = function() {
     var ffs = $("#ffs input[type=text]").val();
-    var m;
-    // 1. <key>=<value>
-    if (m = ffs.match(/^([a-zA-Z_0-9]+)=([a-zA-Z_0-9]+)$/)) {
-      var key=m[1];
-      var val=m[2];
 
-      var template = settings.saves["key-value"].overpass;
-      template = template.replace("{{key=???}}","{{key="+key+"}}");
-      template = template.replace("{{value=???}}","{{value="+val+"}}");
-      ide.setQuery(template);
-
-      return true;
+    try {
+      ffs = ffs_parser.parse(ffs);
+    } catch(e) {
+      alert("parse error :(");
+      return false;
     }
-    // 2. <key>=*
-    if (m = ffs.match(/^([a-zA-Z_0-9]+)=\*$/)) {
-      var key=m[1];
 
-      var template = settings.saves["key"].overpass;
-      template = template.replace("{{key=???}}","{{key="+key+"}}");
-      ide.setQuery(template);
-      
-      return true;
-    }
-    // 3. <key>=<value> type:<type>
-    if (m = ffs.match(/^([a-zA-Z_0-9]+)=([a-zA-Z_0-9]+) type\:(node|way|relation|area)$/)) {
-      var key=m[1];
-      var val=m[2];
-      var typ=m[3];
+    var query_parts = [];
+    var bounds_part;
 
-      var template = settings.saves["key-value-type"].overpass;
-      template = template.replace("{{key=???}}","{{key="+key+"}}");
-      template = template.replace("{{value=???}}","{{value="+val+"}}");
-      template = template.replace("{{type=???}}","{{type="+typ+"}}");
-      ide.setQuery(template);
-      
-      return true;
-    }
-    // 4. <key>=* type:<type>
-    if (m = ffs.match(/^([a-zA-Z_0-9]+)=\* type\:(node|way|relation|area)$/)) {
-      var key=m[1];
-      var typ=m[2];
+    query_parts.push('<osm-script output="json" timeout="10">');
 
-      var template = settings.saves["key"].overpass;
-      template = template.replace("{{key=???}}","{{key="+key+"}}");
-      template = template.replace("{{type=???}}","{{type="+typ+"}}");
-      ide.setQuery(template);
-      
-      return true;
+    switch(ffs.bounds) {
+      case "area": 
+        query_parts.push('  <query type="area" into="area">');
+        query_parts.push('    <has-kv k="name" v="'+ffs.area+'"/>');
+        query_parts.push('  </query>');
+        bounds_part = '<area-query from="area"/>';
+      break;
+      case "around":
+        alert("not yet implemented :(");
+        return false;
+      break;
+      case "bbox":
+        bounds_part = '<bbox-query {{bbox}}/>';
+      break;
+      case "global":
+        bounds_part = undefined;
+      break;
+      default:
+        alert("unknown bounds condition: "+ffs.bounds);
+        return false;
+      break;
     }
+
+    switch(ffs.query.query) {
+      case "key": 
+        query_parts.push('  <union>');
+        query_parts.push('    <query type="node">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="way">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="relation">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('  </union>');
+        query_parts.push('  <print mode="body"/>');
+        query_parts.push('  <recurse type="down"/>');
+        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+      break;
+      case "nokey": 
+        query_parts.push('  <union>');
+        query_parts.push('    <query type="node">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" regv="."/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="way">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" regv="."/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="relation">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" regv="."/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('  </union>');
+        query_parts.push('  <print mode="body"/>');
+        query_parts.push('  <recurse type="down"/>');
+        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+      break;
+      case "eq": 
+        query_parts.push('  <union>');
+        query_parts.push('    <query type="node">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" v="'+ffs.query.val+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="way">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" v="'+ffs.query.val+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="relation">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" v="'+ffs.query.val+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('  </union>');
+        query_parts.push('  <print mode="body"/>');
+        query_parts.push('  <recurse type="down"/>');
+        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+      break;
+      case "neq": 
+        query_parts.push('  <union>');
+        query_parts.push('    <query type="node">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" v="'+ffs.query.val+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="way">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" v="'+ffs.query.val+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="relation">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" v="'+ffs.query.val+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('  </union>');
+        query_parts.push('  <print mode="body"/>');
+        query_parts.push('  <recurse type="down"/>');
+        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+      break;
+      case "like": 
+        // todo: case sensitivity?
+        query_parts.push('  <union>');
+        query_parts.push('    <query type="node">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" regv="'+ffs.query.val+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="way">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" regv="'+ffs.query.val+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('    <query type="relation">');
+        query_parts.push('      <has-kv k="'+ffs.query.key+'" regv="'+ffs.query.val+'"/>');
+        if (bounds_part)
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
+        query_parts.push('  </union>');
+        query_parts.push('  <print mode="body"/>');
+        query_parts.push('  <recurse type="down"/>');
+        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+      break;
+      // todo: not like !~ operator
+      default:
+        alert("unknown query type: "+ffs.query.query);
+        return false;
+      break;
+    }
+
+    query_parts.push('</osm-script>');
+
+    ide.setQuery(query_parts.join('\n'));
+    return true;
+
     alert("don't know what to do :(");
     return false;
   }
