@@ -1595,124 +1595,121 @@ var ide = new(function() {
       break;
     }
 
-    switch(ffs.query.query) {
+  function build_query_part(query, set) {
+    var query_part = [];
+    var set_part = '';
+    if (set) set_part = 'into="'+set+'"';
+    switch(query.query) {
       case "key": 
-        query_parts.push('  <union>');
-        query_parts.push('    <query type="node">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'"/>');
+        query_part.push('  <union '+set_part+'>');
+        query_part.push('    <query type="node">');
+        query_part.push('      <has-kv k="'+query.key+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="way">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="way">');
+        query_part.push('      <has-kv k="'+query.key+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="relation">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="relation">');
+        query_part.push('      <has-kv k="'+query.key+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('  </union>');
-        query_parts.push('  <print mode="body"/>');
-        query_parts.push('  <recurse type="down"/>');
-        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('  </union>');
       break;
       case "nokey": 
-        query_parts.push('  <union>');
-        query_parts.push('    <query type="node">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" regv="."/>');
+        query_part.push('  <union '+set_part+'>');
+        query_part.push('    <query type="node">');
+        query_part.push('      <has-kv k="'+query.key+'" modv="not" regv="."/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="way">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" regv="."/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="way">');
+        query_part.push('      <has-kv k="'+query.key+'" modv="not" regv="."/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="relation">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" regv="."/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="relation">');
+        query_part.push('      <has-kv k="'+query.key+'" modv="not" regv="."/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('  </union>');
-        query_parts.push('  <print mode="body"/>');
-        query_parts.push('  <recurse type="down"/>');
-        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('  </union>');
       break;
       case "eq": 
-        query_parts.push('  <union>');
-        query_parts.push('    <query type="node">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" v="'+ffs.query.val+'"/>');
+        query_part.push('  <union '+set_part+'>');
+        query_part.push('    <query type="node">');
+        query_part.push('      <has-kv k="'+query.key+'" v="'+query.val+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="way">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" v="'+ffs.query.val+'"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="way">');
+        query_part.push('      <has-kv k="'+query.key+'" v="'+query.val+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="relation">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" v="'+ffs.query.val+'"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="relation">');
+        query_part.push('      <has-kv k="'+query.key+'" v="'+query.val+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('  </union>');
-        query_parts.push('  <print mode="body"/>');
-        query_parts.push('  <recurse type="down"/>');
-        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('  </union>');
       break;
       case "neq": 
-        query_parts.push('  <union>');
-        query_parts.push('    <query type="node">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" v="'+ffs.query.val+'"/>');
+        query_part.push('  <union '+set_part+'>');
+        query_part.push('    <query type="node">');
+        query_part.push('      <has-kv k="'+query.key+'" modv="not" v="'+query.val+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="way">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" v="'+ffs.query.val+'"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="way">');
+        query_part.push('      <has-kv k="'+query.key+'" modv="not" v="'+query.val+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="relation">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" modv="not" v="'+ffs.query.val+'"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="relation">');
+        query_part.push('      <has-kv k="'+query.key+'" modv="not" v="'+query.val+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('  </union>');
-        query_parts.push('  <print mode="body"/>');
-        query_parts.push('  <recurse type="down"/>');
-        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('  </union>');
       break;
       case "like": 
         // todo: case sensitivity?
-        query_parts.push('  <union>');
-        query_parts.push('    <query type="node">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" regv="'+ffs.query.val+'"/>');
+        query_part.push('  <union '+set_part+'>');
+        query_part.push('    <query type="node">');
+        query_part.push('      <has-kv k="'+query.key+'" regv="'+query.val+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="way">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" regv="'+ffs.query.val+'"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="way">');
+        query_part.push('      <has-kv k="'+query.key+'" regv="'+query.val+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('    <query type="relation">');
-        query_parts.push('      <has-kv k="'+ffs.query.key+'" regv="'+ffs.query.val+'"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('    <query type="relation">');
+        query_part.push('      <has-kv k="'+query.key+'" regv="'+query.val+'"/>');
         if (bounds_part)
-          query_parts.push('      '+bounds_part);
-        query_parts.push('    </query>');
-        query_parts.push('  </union>');
-        query_parts.push('  <print mode="body"/>');
-        query_parts.push('  <recurse type="down"/>');
-        query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+          query_part.push('      '+bounds_part);
+        query_part.push('    </query>');
+        query_part.push('  </union>');
       break;
       // todo: not like !~ operator
       default:
-        alert("unknown query type: "+ffs.query.query);
+        alert("unknown query type: "+query.query);
         return false;
       break;
     }
+    return query_part;
+  }
+
+    query_parts = query_parts.concat( build_query_part(ffs.query) );
+
+    query_parts.push('  <print mode="body"/>');
+    query_parts.push('  <recurse type="down"/>');
+    query_parts.push('  <print mode="skeleton" order="quadtile"/>');
 
     query_parts.push('</osm-script>');
 
