@@ -420,9 +420,9 @@ body .ui-tooltip {
   line-height: 1.1;
   padding-bottom: 2px;
   padding-left: 5px;
-  padding-right: 0px;
+  padding-right: 25px;
   padding-top: 2px;
-  width: 465px;
+  width: 565px;
    
   background-attachment: scroll;
   background-clip: border-box;
