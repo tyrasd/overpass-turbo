@@ -20,16 +20,16 @@ query
 
 logical_or
   = x:logical_and whitespace+ ( "or" / "OR" / "|" / "||" ) whitespace+ y:logical_or
-    { return { logical:"or", query1:x, query2:y } }
+    { return { logical:"or", queries:[x,y] } }
   / x:logical_and whitespace+ ( "xor" / "XOR" ) whitespace+ y:logical_and
-    { return { logical:"xor", query1:x, query2:y } }
-  / x:logical_and whitespace+ ( "xor" / "XOR" ) whitespace+ y:logical_and
-    { return { logical:"xor", query1:x, query2:y } }
+    { return { logical:"xor", queries:[x,y] } }
+  / x:logical_and whitespace+ ( "except" / "EXCEPT" ) whitespace+ y:logical_and
+    { return { logical:"minus", queries:[x,y] } }
   / x:logical_and
 
 logical_and
   = x:braces whitespace+ ( "and" / "AND" / "&" / "&&" ) whitespace+ y:logical_and
-    { return { logical:"and", query1:x, query2:y } }
+    { return { logical:"and", queries:[x,y] } }
   / x:braces
 
 /*logical_not

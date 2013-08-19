@@ -440,7 +440,7 @@ ffs_parser = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, x, y) { return { logical:"or", query1:x, query2:y } })(pos0, result0[0], result0[4]);
+          result0 = (function(offset, x, y) { return { logical:"or", queries:[x,y] } })(pos0, result0[0], result0[4]);
         }
         if (result0 === null) {
           pos = pos0;
@@ -517,7 +517,7 @@ ffs_parser = (function(){
             pos = pos1;
           }
           if (result0 !== null) {
-            result0 = (function(offset, x, y) { return { logical:"xor", query1:x, query2:y } })(pos0, result0[0], result0[4]);
+            result0 = (function(offset, x, y) { return { logical:"xor", queries:[x,y] } })(pos0, result0[0], result0[4]);
           }
           if (result0 === null) {
             pos = pos0;
@@ -538,23 +538,23 @@ ffs_parser = (function(){
                 result1 = null;
               }
               if (result1 !== null) {
-                if (input.substr(pos, 3) === "xor") {
-                  result2 = "xor";
-                  pos += 3;
+                if (input.substr(pos, 6) === "except") {
+                  result2 = "except";
+                  pos += 6;
                 } else {
                   result2 = null;
                   if (reportFailures === 0) {
-                    matchFailed("\"xor\"");
+                    matchFailed("\"except\"");
                   }
                 }
                 if (result2 === null) {
-                  if (input.substr(pos, 3) === "XOR") {
-                    result2 = "XOR";
-                    pos += 3;
+                  if (input.substr(pos, 6) === "EXCEPT") {
+                    result2 = "EXCEPT";
+                    pos += 6;
                   } else {
                     result2 = null;
                     if (reportFailures === 0) {
-                      matchFailed("\"XOR\"");
+                      matchFailed("\"EXCEPT\"");
                     }
                   }
                 }
@@ -594,7 +594,7 @@ ffs_parser = (function(){
               pos = pos1;
             }
             if (result0 !== null) {
-              result0 = (function(offset, x, y) { return { logical:"xor", query1:x, query2:y } })(pos0, result0[0], result0[4]);
+              result0 = (function(offset, x, y) { return { logical:"minus", queries:[x,y] } })(pos0, result0[0], result0[4]);
             }
             if (result0 === null) {
               pos = pos0;
@@ -704,7 +704,7 @@ ffs_parser = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, x, y) { return { logical:"and", query1:x, query2:y } })(pos0, result0[0], result0[4]);
+          result0 = (function(offset, x, y) { return { logical:"and", queries:[x,y] } })(pos0, result0[0], result0[4]);
         }
         if (result0 === null) {
           pos = pos0;

@@ -1595,117 +1595,110 @@ var ide = new(function() {
       break;
     }
 
-  function build_query_part(query, set) {
-    var query_part = [];
-    var set_part = '';
-    if (set) set_part = 'into="'+set+'"';
-    switch(query.query) {
-      case "key": 
-        query_part.push('  <union '+set_part+'>');
-        query_part.push('    <query type="node">');
-        query_part.push('      <has-kv k="'+query.key+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="way">');
-        query_part.push('      <has-kv k="'+query.key+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="relation">');
-        query_part.push('      <has-kv k="'+query.key+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('  </union>');
-      break;
-      case "nokey": 
-        query_part.push('  <union '+set_part+'>');
-        query_part.push('    <query type="node">');
-        query_part.push('      <has-kv k="'+query.key+'" modv="not" regv="."/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="way">');
-        query_part.push('      <has-kv k="'+query.key+'" modv="not" regv="."/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="relation">');
-        query_part.push('      <has-kv k="'+query.key+'" modv="not" regv="."/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('  </union>');
-      break;
-      case "eq": 
-        query_part.push('  <union '+set_part+'>');
-        query_part.push('    <query type="node">');
-        query_part.push('      <has-kv k="'+query.key+'" v="'+query.val+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="way">');
-        query_part.push('      <has-kv k="'+query.key+'" v="'+query.val+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="relation">');
-        query_part.push('      <has-kv k="'+query.key+'" v="'+query.val+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('  </union>');
-      break;
-      case "neq": 
-        query_part.push('  <union '+set_part+'>');
-        query_part.push('    <query type="node">');
-        query_part.push('      <has-kv k="'+query.key+'" modv="not" v="'+query.val+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="way">');
-        query_part.push('      <has-kv k="'+query.key+'" modv="not" v="'+query.val+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="relation">');
-        query_part.push('      <has-kv k="'+query.key+'" modv="not" v="'+query.val+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('  </union>');
-      break;
-      case "like": 
+  /*function reduce(query) {
+    if (!query.logical)
+      return query;
+    var queries = [];
+    for (var i=0; i<query.queries.length; i++) {
+      if (query.logical === query.queries[i].logical) {
+        var red_query = reduce(query.queries[i]);
+        for (var j=0; j<red_query.queries.length; j++)
+          queries.push(red_query.queries[j]);
+      } else {
+        queries.push(reduce(query.queries[i]));
+      }
+    }
+    return {
+      logical:query.logical,
+      queries:queries
+    };
+  }*/
+  function normalize(query) {
+    var normalized_query = {
+      logical:"or",
+      queries:[]
+    };
+    function normalize_recursive(rem_query) {
+      if (!rem_query.logical) {
+        return [{
+          logical: "and",
+          queries: [rem_query]
+        }];
+      } else if (rem_query.logical === "and") {
+        var c1 = normalize_recursive( rem_query.queries[0] );
+        var c2 = normalize_recursive( rem_query.queries[1] );
+        // return cross product of c1 and c2
+        var c = [];
+        for (var i=0; i<c1.length; i++)
+          for (var j=0; j<c2.length; j++) {
+            c.push({
+              logical: "and",
+              queries: c1[i].queries.concat(c2[j].queries)
+            });
+          }
+        return c;
+      } else if (rem_query.logical === "or") {
+        var c1 = normalize_recursive( rem_query.queries[0] );
+        var c2 = normalize_recursive( rem_query.queries[1] );
+        return [].concat(c1,c2);
+        /*for (var i=0; i<rem_query.queries.length; i++) {
+          normalize_recursive(conditions.concat([rem_query.queries[i]]));
+        }*/
+      }
+    }
+    normalized_query.queries = normalize_recursive(query);
+    return normalized_query;
+  }
+  function get_query_clause(condition) {
+    switch(condition.query) {
+      case "key":
+        return '<has-kv k="'+condition.key+'"/>';
+      case "nokey":
+        return '<has-kv k="'+condition.key+'" modv="not" regv="."/>';
+      case "eq":
+        return '<has-kv k="'+condition.key+'" v="'+condition.val+'"/>';
+      case "neq":
+        return '<has-kv k="'+condition.key+'" modv="not" v="'+condition.val+'"/>';
+      case "like":
         // todo: case sensitivity?
-        query_part.push('  <union '+set_part+'>');
-        query_part.push('    <query type="node">');
-        query_part.push('      <has-kv k="'+query.key+'" regv="'+query.val+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="way">');
-        query_part.push('      <has-kv k="'+query.key+'" regv="'+query.val+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('    <query type="relation">');
-        query_part.push('      <has-kv k="'+query.key+'" regv="'+query.val+'"/>');
-        if (bounds_part)
-          query_part.push('      '+bounds_part);
-        query_part.push('    </query>');
-        query_part.push('  </union>');
-      break;
+        return '<has-kv k="'+condition.key+'" regv="'+condition.val+'"/>';
       // todo: not like !~ operator
       default:
-        alert("unknown query type: "+query.query);
+        alert("unknown query type: "+condition.query);
         return false;
-      break;
     }
-    return query_part;
   }
 
-    query_parts = query_parts.concat( build_query_part(ffs.query) );
+    ffs.query = normalize(ffs.query);
+
+    query_parts.push('  <union>');
+    for (var i=0; i<ffs.query.queries.length; i++) {
+      var and_query = ffs.query.queries[i];
+
+      var types = ['node','way','relation'];
+      var clauses = [];
+      for (var j=0; j<and_query.queries.length; j++) {
+        var cond_query = and_query.queries[j];
+
+        if (cond_query.query === "type")
+          types = [cond_query.type];
+        else
+          clauses.push( get_query_clause(cond_query) );
+      }
+
+      // construct query
+      query_parts.push('    <union>'); // todo: really need this stacking?
+      for (var t=0; t<types.length; t++) {
+        query_parts.push('      <query type="'+types[t]+'">');
+        for (var c=0; c<clauses.length; c++)
+          query_parts.push('        '+clauses[c]);
+        if (bounds_part)
+          query_parts.push('        '+bounds_part);
+        query_parts.push('      </query>');
+      }
+      query_parts.push('    </union>');
+    }
+    query_parts.push('  </union>');
 
     query_parts.push('  <print mode="body"/>');
     query_parts.push('  <recurse type="down"/>');
@@ -1715,9 +1708,6 @@ var ide = new(function() {
 
     ide.setQuery(query_parts.join('\n'));
     return true;
-
-    alert("don't know what to do :(");
-    return false;
   }
 
 })(); // end create ide object
