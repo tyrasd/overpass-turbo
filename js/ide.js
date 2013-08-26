@@ -1076,9 +1076,8 @@ var ide = new(function() {
       $(this).parents('.ui-dialog-content').dialog('close');
       return false;
     });
-    $("#export-dialog a#export-geoJSON").unbind("click").on("click", function() {
+    function constructGeojsonString(geojson) {
       var geoJSON_str;
-      var geojson = overpass.geojson;
       if (!geojson)
         geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
@@ -1120,6 +1119,10 @@ var ide = new(function() {
         });
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
+      return geoJSON_str;
+    }
+    $("#export-dialog a#export-geoJSON").unbind("click").on("click", function() {
+      var geoJSON_str = constructGeojsonString(overpass.geojson);
       var d = $("#export-geojson-dialog");
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
@@ -1130,10 +1133,39 @@ var ide = new(function() {
       });
       $("textarea",d)[0].value=geoJSON_str;
       // make content downloadable as file
-      if (geojson) {
+      if (overpass.geojson) {
         var blob = new Blob([geoJSON_str], {type: "application/json;charset=utf-8"});
         saveAs(blob, "export.geojson");
       }
+      return false;
+    });
+    $("#export-dialog a#export-geoJSON-gist").unbind("click").on("click", function() {
+      var geoJSON_str = constructGeojsonString(overpass.geojson);
+      $.ajax("https://api.github.com/gists", {
+        method: "POST",
+        data: JSON.stringify({
+          description: "data exported by overpass turbo", // todo:descr
+          public: true,
+          files: {
+            "overpass.geojson": { // todo:name
+              content: geoJSON_str
+            }
+          }
+        })
+      }).success(function(data,textStatus,jqXHR) {
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
+        $('<div title="'+i18n.t("export.geoJSON_gist.title")+'">'+
+          '<p>'+i18n.t("export.geoJSON_gist.gist")+'&nbsp;<a href="'+data.html_url+'">'+data.id+'<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>'+
+          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#gist:'+data.id+'">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>'+
+          '</div>').dialog({
+          modal:true,
+          buttons: dialog_buttons,
+        });
+        // data.html_url;
+      }).error(function(jqXHR,textStatus,errorStr) {
+        alert("an error occured during the creation of the overpass gist:\n"+JSON.stringify(jqXHR));
+      });
       return false;
     });
     $("#export-dialog a#export-GPX").unbind("click").on("click", function() {

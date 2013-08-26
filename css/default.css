@@ -196,7 +196,7 @@ a.button.disabled {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1007;
+  z-index: 1037;
   top: 0;
   left: 0;
   bottom: 0;
