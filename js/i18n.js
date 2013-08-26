@@ -24,13 +24,17 @@ var i18n = new(function() {
 
     // load language pack
     var lng_file = "locales/"+lng+".js";
-    $.ajax(lng_file,{async:false,dataType:"json"}).success(function(data){
-      td = $.extend(td,data);
-      i18n.translate_ui();
-      // todo: nicer implementation
-    }).error(function(){
+    try {
+      $.ajax(lng_file,{async:false,dataType:"json"}).success(function(data){
+        td = $.extend(td,data);
+        i18n.translate_ui();
+        // todo: nicer implementation
+      }).error(function(){
+        console.log("failed to load language file: "+lng_file);
+      });
+    } catch(e) {
       console.log("failed to load language file: "+lng_file);
-    });
+    }
   }
   this.translate_ui = function() {
     // look for all object with the class "t"
