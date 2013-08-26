@@ -1097,8 +1097,7 @@ var ide = new(function() {
           var p = f.properties;
           f.id = p.type+"/"+p.id;
           f.properties = {
-            "@type": p.type,
-            "@id": p.id,
+            "@id": f.id
           };
           for (var m in p.tags||{})
              // escapes tags beginning with an @ with another @
@@ -1113,7 +1112,7 @@ var ide = new(function() {
           if (p.mp_outline)
             f.properties["@mp_outline"] = p.mp_outline;
           // expose relation membership (complex data type)
-          if (p.relations)
+          if (p.relations && p.relations.length > 0)
             f.properties["@relations"] = p.relations;
           // todo: expose way membership for nodes?
         });
