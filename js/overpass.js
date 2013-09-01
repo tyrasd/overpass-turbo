@@ -207,8 +207,6 @@ setTimeout(function() {
           +"relation node, relation way, relation relation {color:#d0f;} \n"
           // tainted objects
           +"way:tainted, relation:tainted {dashes:5,8;} \n"
-          // multipolygon outlines without tags
-          +"way:mp_outline:untagged {width:2; opacity:0.7;} \n"
           // placeholder points
           +"way:placeholder, relation:placeholder {fill-color:red;} \n"
           // highlighted features
@@ -251,7 +249,6 @@ setTimeout(function() {
             } 
           }, $.extend(
             feature.properties && feature.properties.tainted ? {":tainted": true} : {},
-            feature.properties && feature.properties.mp_outline ? {":mp_outline": true} : {},
             feature.is_placeholder ? {":placeholder": true} : {},
             hasInterestingTags(feature.properties) ? {":tagged":true} : {":untagged": true},
             highlight ? {":active": true} : {},
@@ -271,7 +268,7 @@ setTimeout(function() {
           baseLayerOptions: {
           threshold: 9*Math.sqrt(2)*2,
           compress: function(feature) {
-            return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
+            return true;
           },
           style: function(feature, highlight) {
             var stl = {};

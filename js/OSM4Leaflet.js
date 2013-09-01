@@ -571,8 +571,6 @@ setTimeout(function(){
       }
       if (ways[i].tainted)
         feature.properties["tainted"] = true;
-      if (ways[i].is_multipolygon_outline)
-        feature.properties["mp_outline"] = true;
       if (way_type == "LineString")
         geojsonlines.features.push(feature);
       else

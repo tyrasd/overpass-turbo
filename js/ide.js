@@ -1108,9 +1108,6 @@ var ide = new(function() {
           // * tainted: indicates that the feature's geometry is incomplete
           if (p.tainted)
             f.properties["@tainted"] = p.tainted;
-          // * mp_outline: indicates membership in a multipolygon relation
-          if (p.mp_outline)
-            f.properties["@mp_outline"] = p.mp_outline;
           // expose relation membership (complex data type)
           if (p.relations && p.relations.length > 0)
             f.properties["@relations"] = p.relations;
