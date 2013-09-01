@@ -466,6 +466,7 @@ setTimeout(function(){
               if (rels[i].members[j].role == "outer") {
                 outer_coords.push(coords);
                 outer_way = w;
+                outer_way.is_multipolygon_outline = true;
               } else if (rels[i].members[j].role == "inner") {
                 inner_coords.push(coords);
               }
