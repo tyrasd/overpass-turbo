@@ -207,7 +207,8 @@ describe("overpass.geojson", function () {
         {
           type:  "way",
           id:    2,
-          nodes: [4,5,6,7,4]
+          nodes: [4,5,6,7,4],
+          tags:  {"area":"yes"},
         },
         {
           type:  "way",
@@ -267,7 +268,7 @@ describe("overpass.geojson", function () {
             properties: {
               type: "way",
               id: 2,
-              tags: {},
+              tags: {"area":"yes"},
               relations: [
                 {
                   rel: 1,
