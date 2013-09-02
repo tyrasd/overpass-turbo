@@ -76,6 +76,7 @@ var i18n = new(function() {
     "dialog.repair_query": "repair query",
     "dialog.continue_anyway": "continue anyway",
     "dialog.show_data": "show data",
+    "dialog.wizard_run": "build and run query",
 
     "dialog.delete_query.title": "Delete Query?",
     "dialog.delete_query.expl": "Do you really want to delete the following query",

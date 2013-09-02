@@ -498,7 +498,7 @@ var ide = new(function() {
           },
         });
         $(inp).autocomplete("option","delay",2000000000); // do not do this at all
-        $(inp).autocomplete().keypress(function(e) {if (e.which==13) $(this).autocomplete("search");});
+        $(inp).autocomplete().keypress(function(e) {if (e.which==13 || e.which==10) $(this).autocomplete("search");});
         return container;
       },
     });
@@ -686,12 +686,6 @@ var ide = new(function() {
     if (ide.run_query_on_startup === true)
       ide.update_map();
 
-
-    // ffs mod
-    $("#ffs form").submit(function(event) {
-      ide.onRunClick();
-      event.preventDefault();
-    });
   } // init()
 
   // returns the current visible bbox as a bbox-query
@@ -976,8 +970,7 @@ var ide = new(function() {
     });
   }
   this.onRunClick = function() {
-    if (ide.update_ffs_query())
-      ide.update_map();
+    ide.update_map();
   }
   this.compose_share_link = function(query,compression,coords,run) {
     var share_link = "";
@@ -1422,6 +1415,27 @@ var ide = new(function() {
       });
     }});
   }
+  this.onFfsClick = function() {
+    var build_query = function() {
+      $(this).dialog("close");
+      // build query and run it immediately
+      if (ide.update_ffs_query())
+        ide.onRunClick();
+    };
+    $("#ffs-dialog input").unbind("keypress").bind("keypress", function(e) {
+      if (e.which==13 || e.which==10) {
+        build_query.bind(this.parentElement.parentElement)();
+        e.preventDefault();
+      }
+    });
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.wizard_run")] = build_query;
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
+    $("#ffs-dialog").dialog({
+      modal:true,
+      buttons: dialog_buttons,
+    });
+  }
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value = settings.ui_language;
     make_combobox($("#settings-dialog input[name=ui_language]"), [
@@ -1521,7 +1535,7 @@ var ide = new(function() {
     $("#help-dialog").accordion();
   }
   this.onKeyPress = function(event) {
-    if ((event.keyCode == 120 && event.which == 0) || // F9
+    if ((event.which == 120 && event.charCode == 0) || // F9
         ((event.which == 13 || event.which == 10) && (event.ctrlKey || event.metaKey))) { // Ctrl+Enter
       ide.onRunClick(); // run query
       event.preventDefault();
@@ -1536,6 +1550,10 @@ var ide = new(function() {
     }
     if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey)) { // Ctrl+H
       ide.onHelpClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'f') && (event.ctrlKey || event.metaKey) && event.shiftKey ) { // Ctrl+Shift+F
+      ide.onFfsClick();
       event.preventDefault();
     }
     // todo: more shortcuts
@@ -1558,7 +1576,7 @@ var ide = new(function() {
     overpass.run_query(query,query_lang);
   }
   this.update_ffs_query = function() {
-    var ffs = $("#ffs input[type=text]").val();
+    var ffs = $("#ffs-dialog input[type=text]").val();
 
     try {
       ffs = ffs_parser.parse(ffs);
