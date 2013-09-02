@@ -419,6 +419,20 @@ var ide = new(function() {
           }
           $(e.target).toggleClass("ui-icon-circlesmall-close").toggleClass("ui-icon-image");
         }, ide.map);
+        link = L.DomUtil.create('a', "leaflet-control-buttons-fullscreen leaflet-bar-part", container);
+        $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo($(link));
+        link.href = 'javascript:return false;';
+        link.title = i18n.t("map_controlls.toggle_wide_map");
+        L.DomEvent.addListener(link, 'click', function(e) {
+          $("#dataviewer").toggleClass("fullscreen");
+          ide.map.invalidateSize();
+          $(e.target).toggleClass("ui-icon-arrowthickstop-1-e").toggleClass("ui-icon-arrowthickstop-1-w");
+          $("#editor").toggleClass("hidden");
+          if ($("#editor").resizable("option","disabled"))
+            $("#editor").resizable("enable");
+          else
+            $("#editor").resizable("disable");
+        }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
         link.href = 'javascript:return false;';
@@ -502,7 +516,7 @@ var ide = new(function() {
         return container;
       },
     });
-    //ide.map.addControl(new SearchBox());
+    ide.map.addControl(new SearchBox());
     // add cross hairs to map
     $('<span class="ui-icon ui-icon-plus" />')
       .addClass("crosshairs")
@@ -671,8 +685,7 @@ var ide = new(function() {
     // show welcome message, if this is the very first time the IDE is started
     if (settings.first_time_visit === true && 
         ide.not_supported !== true &&
-        ide.run_query_on_startup !== true &&
-        false) {
+        ide.run_query_on_startup !== true) {
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.close")] = function() {
         $(this).dialog( "close" );
