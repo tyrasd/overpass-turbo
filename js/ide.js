@@ -1601,7 +1601,7 @@ var ide = new(function() {
     var query_parts = [];
     var bounds_part;
 
-    query_parts.push('<osm-script output="json" timeout="10">');
+    query_parts.push('<osm-script output="json" timeout="25">');
 
     switch(ffs.bounds) {
       case "area": 
