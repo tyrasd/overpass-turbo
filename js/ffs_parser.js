@@ -1224,7 +1224,7 @@ ffs_parser = (function(){
       
       function parse_meta() {
         var result0, result1, result2, result3, result4;
-        var pos0, pos1, pos2;
+        var pos0, pos1;
         
         pos0 = pos;
         pos1 = pos;
@@ -1238,7 +1238,6 @@ ffs_parser = (function(){
           }
         }
         if (result0 === null) {
-          pos2 = pos;
           if (input.substr(pos, 3) === "uid") {
             result0 = "uid";
             pos += 3;
@@ -1248,34 +1247,25 @@ ffs_parser = (function(){
               matchFailed("\"uid\"");
             }
           }
-          if (result0 !== null) {
+          if (result0 === null) {
             if (input.substr(pos, 5) === "newer") {
-              result1 = "newer";
+              result0 = "newer";
               pos += 5;
             } else {
-              result1 = null;
+              result0 = null;
               if (reportFailures === 0) {
                 matchFailed("\"newer\"");
               }
             }
-            if (result1 !== null) {
-              result0 = [result0, result1];
-            } else {
-              result0 = null;
-              pos = pos2;
-            }
-          } else {
-            result0 = null;
-            pos = pos2;
-          }
-          if (result0 === null) {
-            if (input.substr(pos, 2) === "id") {
-              result0 = "id";
-              pos += 2;
-            } else {
-              result0 = null;
-              if (reportFailures === 0) {
-                matchFailed("\"id\"");
+            if (result0 === null) {
+              if (input.substr(pos, 2) === "id") {
+                result0 = "id";
+                pos += 2;
+              } else {
+                result0 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"id\"");
+                }
               }
             }
           }

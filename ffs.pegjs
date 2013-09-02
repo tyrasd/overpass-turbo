@@ -74,7 +74,7 @@ type
     { return { query:"type", type:x } }
 
 meta // TODO?
-  = x:("user" / "uid" "newer" / "id") _ ":" _ y:string
+  = x:("user" / "uid" / "newer" / "id") _ ":" _ y:string
     { return { query:"meta", meta:x, val:y } }
 
 free_form

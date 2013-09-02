@@ -1680,6 +1680,21 @@ var ide = new(function() {
       case "like":
         // todo: case sensitivity?
         return '<has-kv k="'+condition.key+'" regv="'+condition.val+'"/>';
+      case "meta":
+        switch(condition.meta) {
+          case "id":
+            return function(type) {
+              return '<id-query type="'+type+'" ref="'+condition.val+'"/>';
+            };
+          case "newer":
+            return '<newer than="'+condition.val+'"/>';
+          case "user":
+            return '<user name="'+condition.val+'"/>';
+          case "uid":
+            return '<user uid="'+condition.val+'"/>';
+          default:
+            alert("unknown query type: meta/"+condition.meta);
+        }
       // todo: not like !~ operator
       default:
         alert("unknown query type: "+condition.query);
@@ -1697,11 +1712,13 @@ var ide = new(function() {
       var clauses = [];
       for (var j=0; j<and_query.queries.length; j++) {
         var cond_query = and_query.queries[j];
-
         if (cond_query.query === "type")
-          types = [cond_query.type];
-        else
-          clauses.push( get_query_clause(cond_query) );
+          types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
+        else {
+          var clause = get_query_clause(cond_query);
+          if (clause === false) return false;
+          clauses.push(clause);
+        }
       }
 
       // construct query
@@ -1709,7 +1726,10 @@ var ide = new(function() {
       for (var t=0; t<types.length; t++) {
         query_parts.push('      <query type="'+types[t]+'">');
         for (var c=0; c<clauses.length; c++)
-          query_parts.push('        '+clauses[c]);
+          if (typeof clauses[c] !== "function")
+            query_parts.push('        '+clauses[c]);
+          else
+            query_parts.push('        '+clauses[c](types[t]));
         if (bounds_part)
           query_parts.push('        '+bounds_part);
         query_parts.push('      </query>');
