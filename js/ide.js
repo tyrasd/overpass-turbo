@@ -1153,7 +1153,7 @@ var ide = new(function() {
         dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
         $('<div title="'+i18n.t("export.geoJSON_gist.title")+'">'+
           '<p>'+i18n.t("export.geoJSON_gist.gist")+'&nbsp;<a href="'+data.html_url+'" target="_blank">'+data.id+'<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>'+
-          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#gist:'+data.id+'" target="_blank">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>'+
+          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#gist:anonymous/'+data.id+'" target="_blank">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>'+
           '</div>').dialog({
           modal:true,
           buttons: dialog_buttons,
