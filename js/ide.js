@@ -740,6 +740,9 @@ var ide = new(function() {
           query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]);
         }
       // expand bbox
+      // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
+      query = query.replace(/(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,"$1{{__bbox__global_bbox_xml__ezs4K8__}}$3");
+      query = query.replace(/{{__bbox__global_bbox_xml__ezs4K8__}}/g,ide.map2bbox("OverpassQL"));
       query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang()));
       // expand map center
       query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang()));
