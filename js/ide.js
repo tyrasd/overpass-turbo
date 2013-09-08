@@ -967,7 +967,8 @@ var ide = new(function() {
     // combobox for existing saves.
     var saves_names = new Array();
     for (var key in settings.saves)
-      saves_names.push(key);
+      if (settings.saves[key].type != "template")
+        saves_names.push(key);
     make_combobox($("#save-dialog input[name=save]"), saves_names);
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.save")] = function() {
