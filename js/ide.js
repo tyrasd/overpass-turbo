@@ -105,7 +105,7 @@ var ide = new(function() {
       var args = {};
       for (var i=0; i<get.length; i++) {
         var kv = get[i].split("=");
-        args[kv[0]] = kv[1] || true;
+        args[kv[0]] = (kv[1] !== undefined ? kv[1] : true);
       }
       if (args.q) // compressed query set in url
         settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(args.q)));
@@ -152,7 +152,7 @@ var ide = new(function() {
           var params = template.parameters;
           for (var i=0; i<params.length; i++) {
             var param = params[i];
-            if (!args[param]) continue;
+            if (typeof args[param] !== "string") continue;
             var value = decodeURIComponent(args[param].replace(/\+/g,"%20"));
             value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
             // additionally escape curly brackets
