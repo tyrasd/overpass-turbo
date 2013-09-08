@@ -2,10 +2,10 @@
 
 var ide = new(function() {
   // == private members ==
-  var codeEditor = null;
   var attribControl = null;
   var scaleControl = null;
   // == public members ==
+  this.codeEditor = null;
   this.dataViewer = null;
   this.map = null;
 
@@ -227,7 +227,7 @@ var ide = new(function() {
            delimStyle: "mustache"}
         );
       });
-      codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
+      ide.codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
         //value: settings.code["overpass"],
         lineNumbers: true,
         lineWrapping: true,
@@ -279,19 +279,20 @@ var ide = new(function() {
           "'/'": function(cm) {cm.closeTag(cm, '/');},
         },
       });
-      codeEditor.getOption("onChange")(codeEditor);
-    } else {
-      codeEditor = $("#editor textarea")[0];
-      codeEditor.getValue = function() {
+      // fire onChange after initialization
+      ide.codeEditor.getOption("onChange")(ide.codeEditor);
+    } else { // use non-rich editor
+      ide.codeEditor = $("#editor textarea")[0];
+      ide.codeEditor.getValue = function() {
         return this.value;
       };
-      codeEditor.setValue = function(v) {
+      ide.codeEditor.setValue = function(v) {
         this.value = v;
       };
-      codeEditor.lineCount = function() {
+      ide.codeEditor.lineCount = function() {
         return this.value.split(/\r\n|\r|\n/).length;
       };
-      codeEditor.setLineClass = function() {};
+      ide.codeEditor.setLineClass = function() {};
       $("#editor textarea").bind("input change", function(e) {
         settings.code["overpass"] = e.target.getValue();
         settings.save();
@@ -728,7 +729,7 @@ var ide = new(function() {
    * processed (boolean, optional, default: false): determines weather shortcuts should be expanded or not.
    * trim_ws (boolean, optional, default: true): if false, newlines and whitespaces are not touched.*/
   this.getQuery = function(processed,trim_ws) {
-    var query = codeEditor.getValue();
+    var query = ide.codeEditor.getValue();
     if (processed) {
       // preproces query
       // expand defined constants
@@ -784,11 +785,11 @@ var ide = new(function() {
     return query;
   }
   this.setQuery = function(query) {
-    codeEditor.setValue(query);
+    ide.codeEditor.setValue(query);
   }
   this.getQueryLang = function() {
     // note: cannot use this.getQuery() here, as this function is required by that.
-    if ($.trim(codeEditor.getValue().replace(/{{.*?}}/g,"")).match(/^</))
+    if ($.trim(ide.codeEditor.getValue().replace(/{{.*?}}/g,"")).match(/^</))
       return "xml";
     else
       return "OverpassQL";
@@ -908,11 +909,11 @@ var ide = new(function() {
     ide.setQuery(q);
   }
   this.highlightError = function(line) {
-    codeEditor.setLineClass(line-1,null,"errorline");
+    ide.codeEditor.setLineClass(line-1,null,"errorline");
   }
   this.resetErrors = function() {
-    for (var i=0; i<codeEditor.lineCount(); i++)
-      codeEditor.setLineClass(i,null,null);
+    for (var i=0; i<ide.codeEditor.lineCount(); i++)
+      ide.codeEditor.setLineClass(i,null,null);
   }
 
   this.switchTab = function(tab) {
@@ -1011,7 +1012,7 @@ var ide = new(function() {
   }
   this.updateShareLink = function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
-    var query = codeEditor.getValue();
+    var query = ide.codeEditor.getValue();
     var compress = ((settings.share_compression == "auto" && query.length > 300) ||
         (settings.share_compression == "on"))
     var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
