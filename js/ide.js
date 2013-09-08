@@ -612,6 +612,7 @@ var ide = new(function() {
         $('<div title="'+i18n.t("warning.huge_data.title")+'">'+i18n.t("warning.huge_data.expl").replace("{{amount_txt}}",amount_txt)+'</div>').dialog({
           modal:true,
           buttons: dialog_buttons,
+          dialogClass: "huge_data"
         });
       } else
         continueCB();

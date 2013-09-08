@@ -343,6 +343,9 @@ ul.plain > li {
 .ui-autocomplete.ui-front {
   z-index:1012;
 }
+.ui-front.huge_data {
+  z-index:1040;
+}
 body .ui-tooltip {
   opacity:0.8;
   border:0;
