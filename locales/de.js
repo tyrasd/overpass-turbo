@@ -82,6 +82,7 @@
   "export.as_GPX": "Als <a id=\"export-GPX\" href=\"\">GPX</a>",
   "export.raw": "<a id=\"export-raw\" href=\"\">Rohdaten</a>",
   "export.raw_interpreter": "Daten direkt vom <a id=\"export-overpass-api\" href=\"\">Overpass API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
+  "export.save_geojson_gist": "GeoJSON als <a id=\"export-geoJSON-gist\" href=\"\">gist</a> speichern",
   
   "export.section.query": "Query",
   "export.as_text": "Als <a id=\"export-text\" href=\"\" download=\"query.txt\">Text</a>",
@@ -93,6 +94,11 @@
   "export.geoJSON.title": "Export - GeoJSON",
   "export.geoJSON.expl": "Die aktuell angezeigen Daten im GeoJSON-Format:",
   "export.geoJSON.no_data": "Keine GeoJSON-Daten verfügbar. Bitte zuerst eine Query ausführen!",
+
+  "export.geoJSON_gist.title": "Als gist gespeichert",
+  "export.geoJSON_gist.gist": "Gist:",
+  "export.geoJSON_gist.geojsonio": "Mit geojson.io bearbeiten:",
+  "export.geoJSON_gist.geojsonio_link": "geojson.io",
 
   "export.GPX.title": "Export - GPX",
   "export.GPX.expl": "Die aktuell angezeigen Daten im GPX-Format:",

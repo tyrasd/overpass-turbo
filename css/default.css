@@ -196,7 +196,7 @@ a.button.disabled {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1007;
+  z-index: 1037;
   top: 0;
   left: 0;
   bottom: 0;
@@ -342,6 +342,9 @@ ul.plain > li {
 }
 .ui-autocomplete.ui-front {
   z-index:1012;
+}
+.ui-front.huge_data {
+  z-index:1040;
 }
 body .ui-tooltip {
   opacity:0.8;
