@@ -29,7 +29,6 @@
 
   "settings.section.general": "General Settings",
   "settings.ui_lang": "UI Language",
-  "settings.ui_lang_expl": "restart necessary on change",
   "settings.server": "Server",
   "settings.force_simple_cors": "Force simple CORS requests",
   "settings.force_simple_cors_expl": "use when the server doesn't support preflighted <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> requests",

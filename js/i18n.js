@@ -4,20 +4,20 @@ var i18n = new(function() {
   var default_lng = "en";
   var supported_lngs = [
     default_lng, // default language
-    "de", // translations found in locale/de.js
+    "de", // translations found in locale/de.json
   ];
-  this.translate = function() {
-    var lng = settings.ui_language;
+  this.translate = function(lng) {
+    lng = lng || settings.ui_language;
     if (lng == "auto") {
       // get user agent's language
       try {
         lng = navigator.language.replace(/-.*/,"").toLowerCase();
       } catch(e) {}
+    }
 
-      if ($.inArray(lng,supported_lngs) == -1) {
-        lng = default_lng;
-        return false;
-      }
+    if ($.inArray(lng,supported_lngs) == -1) {
+      console.log("unsupported language: "+lng+" switching back to: "+default_lng);
+      lng = default_lng;
     }
 
     // load language pack

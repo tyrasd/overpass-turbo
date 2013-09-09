@@ -1505,7 +1505,12 @@ var ide = new(function() {
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.save")] = function() {
       // save settings
-      settings.ui_language = $("#settings-dialog input[name=ui_language]")[0].value;
+      var new_ui_language = $("#settings-dialog input[name=ui_language]")[0].value;
+      // reload ui if language has been changed
+      if (settings.ui_language != new_ui_language) {
+        i18n.translate(new_ui_language);
+      }
+      settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;
       settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
       settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
