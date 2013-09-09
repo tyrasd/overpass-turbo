@@ -98,6 +98,7 @@ turbo.min.css: turbo.css Makefile
 install: all
 	mkdir -p $(install_root)
 	mkdir -p $(install_root)/css
+	cp LICENSE $(install_root)
 	cp turbo.js turbo.min.js $(install_root)
 	cp turbo.map.js turbo.map.min.js $(install_root)
 	cp turbo.css turbo.min.css $(install_root)
