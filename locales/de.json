@@ -9,6 +9,8 @@
   "nav.save_tt": "Diese Query speichern",
   "nav.load": "Laden",
   "nav.load_tt": "Eine Query oder ein Beispiel laden",
+  "nav.wizard": "Wizard",
+  "nav.wizard_tt": "Hilft beim Erstellen von Overpass-Queries",
   "nav.settings": "Einstellungen",
   "nav.settings_tt": "Verschiedene Einstellungen",
   "nav.help": "Hilfe",
@@ -72,7 +74,7 @@
   "export.title": "Exportieren",
 
   "export.section.map": "Karte",
-  "export.as_png": "Als <a id=\"export-image\" href=\"\">png image</a>",
+  "export.as_png": "Als <a id=\"export-image\" href=\"\">png Bild</a>",
   "export.as_interactive_map": "Als <a id=\"export-interactive-map\" href=\"\">interaktive Karte</a>",
   "export.current_map_view": "Aktuelle <a id=\"export-map-state\" href=\"\">Kartenansicht</a>",
   "export.map_view_expl": "bbox, zentrum, etc.",
@@ -104,9 +106,9 @@
   "export.GPX.expl": "Die aktuell angezeigen Daten im GPX-Format:",
   "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
 
-  "export.GPX.title": "Export - Rohdaten",
-  "export.GPX.expl": "Die aktuell angezeigen Rohdaten:",
-  "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
+  "export.raw.title": "Export - Rohdaten",
+  "export.raw.expl": "Die aktuell angezeigen Rohdaten:",
+  "export.raw.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
 
   "export.map_view.title": "Aktueller Kartenausschnitt",
   "export.map_view.permalink_osm": "<h4>Permalink</h4> nach",
@@ -183,6 +185,11 @@
   "help.attr.jquery": "Außerdem: ",
   "help.attr.other_libs": "Weitere Bibliotheken:",
 
+  "ffs.title": "Query Builder",
+  "ffs.intro": "Eine Such-Abfrage eingeben:",
+  "ffs.placeholder": "Suche",
+  "ffs.examples": "Einige Beispiele:",
+
 
   "dialog.dismiss": "OK, verstanden",
   "dialog.cancel": "Abbrechen",
@@ -194,6 +201,7 @@
   "dialog.repair_query": "Query reparieren",
   "dialog.continue_anyway": "Trotzdem weitermachen",
   "dialog.show_data": "Daten anzeigen",
+  "dialog.wizard_run": "Query erstellen und ausführen",
 
   "dialog.delete_query.title": "Query löschen?",
   "dialog.delete_query.expl": "Soll die folgende Query wirklich gelöscht werden",
