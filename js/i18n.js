@@ -24,7 +24,7 @@ var i18n = new(function() {
     var lng_file = "locales/"+lng+".json";
     try {
       $.ajax(lng_file,{async:false,dataType:"json"}).success(function(data){
-        td = $.extend(td,data);
+        td = data;
         i18n.translate_ui();
         // todo: nicer implementation
       }).error(function(){
@@ -57,10 +57,10 @@ var i18n = new(function() {
     });
   }
   this.t = function(key) {
-    return td[key];
+    return td[key] || "missing translation";
   }
 
   // translated texts
-  var td = {};
+  var td;
 })(); // end create i18n object
 
