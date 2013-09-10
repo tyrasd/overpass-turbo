@@ -548,7 +548,7 @@ var ide = new(function() {
       if (data_bounds.isValid() && !map_bounds.intersects(data_bounds)) {
         // show tooltip for button "zoom to data"
         var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
-        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← click here to show the data");
+        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← "+t("map_controlls.suggest_zoom_to_data"));
         $(".leaflet-control-buttons-fitdata").tooltip("open");
         $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fadeOut", duration: 1000 });
         setTimeout(function(){
