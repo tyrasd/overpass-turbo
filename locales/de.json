@@ -39,7 +39,7 @@
   "settings.section.editor": "Editor",
   "settings.enable_rich_editor": "CodeMirror aktivieren.",
   "settings.enable_rich_editor_expl": "auf mobilen Geräten deaktivieren; Änderung wirkt erst nach App-Neustart",
-  "settings.editor_with": "Breite des Editors",
+  "settings.editor_width": "Breite des Editors",
   "settings.editor_width_expl": "z.B. \"400px\", leer lassen für Standardwerte",
 
   "settings.section.map": "Karte",

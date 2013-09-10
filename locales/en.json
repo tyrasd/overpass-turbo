@@ -40,7 +40,7 @@
   "settings.section.editor": "Editor",
   "settings.enable_rich_editor": "Enable rich code editor",
   "settings.enable_rich_editor_expl": "disable this on mobile devices; requires a page-reload to take effect",
-  "settings.editor_with": "Width of editor",
+  "settings.editor_width": "Width of editor",
   "settings.editor_width_expl": "e.g. \"400px\", leave blank for defaults",
 
   "settings.section.map": "Map",
