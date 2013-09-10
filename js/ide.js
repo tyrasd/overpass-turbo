@@ -1459,11 +1459,9 @@ var ide = new(function() {
   }
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value = settings.ui_language;
-    make_combobox($("#settings-dialog input[name=ui_language]"), [
-      "auto",
-      "en",
-      "de"
-    ]);
+    make_combobox($("#settings-dialog input[name=ui_language]"),
+      ["auto"].concat(i18n.getSupportedLanguages())
+    );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox($("#settings-dialog input[name=server]"), [
       "http://www.overpass-api.de/api/",

@@ -6,6 +6,9 @@ var i18n = new(function() {
     default_lng, // default language
     "de", // translations found in locale/de.json
   ];
+  this.getSupportedLanguages = function() {
+    return [].concat(supported_lngs);
+  }
   this.translate = function(lng) {
     lng = lng || settings.ui_language;
     if (lng == "auto") {
@@ -45,7 +48,7 @@ var i18n = new(function() {
         var tmp = term.match(/^(\[(.*)\])?(.*)$/);
         var what = tmp[2];
         var key  = tmp[3];
-        var val = td[key];
+        var val = i18n.t(key);
         if (what === "html") {
           $(element).html(val);
         } else if (what !== undefined) {
@@ -57,7 +60,7 @@ var i18n = new(function() {
     });
   }
   this.t = function(key) {
-    return td[key] || "missing translation";
+    return td[key] || "/missing translation/";
   }
 
   // translated texts
