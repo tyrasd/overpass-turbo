@@ -33,10 +33,6 @@ turbo.js: \
 	libs/locationfilter/src/locationfilter.js \
 	js/GeoJsonNoVanish.js \
 	js/OSM4Leaflet.js \
-	libs/Blob.js/Blob.js \
-	libs/Blob.js/BlobBuilder.js \
-	libs/canvas-toBlob.js/canvas-toBlob.js \
-	libs/FileSaver/FileSaver.js \
 	js/jsmapcss/styleparser.js \
 	js/jsmapcss/Condition.js \
 	js/jsmapcss/Rule.js \
@@ -47,15 +43,18 @@ turbo.js: \
 	js/jsmapcss/RuleSet.js \
 	libs/misc.js \
 	libs/jxon.js \
-	libs/html2canvas/html2canvas.patched.js \
-	libs/html2canvas/jquery.plugin.html2canvas.js \
-	libs/canvg/rgbcolor.js \
-	libs/canvg/canvg.js \
 	js/configs.js \
 	js/settings.js \
 	js/i18n.js \
 	js/overpass.js \
-	js/ide.js
+	js/ide.js \
+	libs/html2canvas/html2canvas.patched.js \
+	libs/html2canvas/jquery.plugin.html2canvas.js \
+	libs/canvg/rgbcolor.js \
+	libs/canvg/canvg.js \
+	libs/Blob.js/Blob.js \
+	libs/canvas-toBlob.js/canvas-toBlob.js \
+	libs/FileSaver/FileSaver.js \
 
 turbo.js: Makefile
 	@rm -f $@
