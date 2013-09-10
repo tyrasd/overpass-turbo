@@ -86,11 +86,7 @@ var ide = new(function() {
         false) {
       // the currently used browser is not capable of running the IDE. :(
       ide.not_supported = true;
-      $('<div title="'+i18n.t("warning.browser.title")+'">'+
-          i18n.t("warning.browser.expl.1")+
-          i18n.t("warning.browser.expl.2")+
-          i18n.t("warning.browser.expl.3")+
-        '</div>').dialog({modal:true});
+      $('#warning-unsupported-browser').dialog({modal:true});
     }
     // load settings
     settings.load();
