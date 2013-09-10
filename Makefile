@@ -98,6 +98,7 @@ turbo.min.css: turbo.css Makefile
 install: all
 	mkdir -p $(install_root)
 	mkdir -p $(install_root)/css
+	mkdir -p $(install_root)/img
 	cp LICENSE $(install_root)
 	cp turbo.js turbo.min.js $(install_root)
 	cp turbo.map.js turbo.map.min.js $(install_root)
@@ -111,7 +112,6 @@ install: all
 	cp -R locales/. $(install_root)/locales
 	cp -R libs $(install_root)/libs
 	cp -R icons $(install_root)/icons
-	mkdir -p $(install_root)/img
 	cp libs/locationfilter/src/img/* $(install_root)/img/
 
 clean:

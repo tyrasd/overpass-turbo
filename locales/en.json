@@ -80,13 +80,13 @@
   "export.as_geoJSON": "as <a id=\"export-geoJSON\" href=\"\">geoJSON</a>",
   "export.as_GPX": "as <a id=\"export-GPX\" href=\"\">GPX</a>",
   "export.raw": "raw <a id=\"export-raw\" href=\"\">data</a>",
-  "export.raw_interpreter": "raw data from <a id=\"export-overpass-api\" href=\"\" target=\"_blank\">Overpass API interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a>",
+  "export.raw_interpreter": "raw data from <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API interpreter</a>",
   "export.save_geojson_gist": "save GeoJSON to <a id=\"export-geoJSON-gist\" href=\"\">gist</a>",
 
   "export.section.query": "Query",
   "export.as_text": "as <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">text</a>",
-  "export.to_xml": "convert to <a id=\"export-convert-xml\" href=\"\" target=\"_blank\">Overpass-XML<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a>",
-  "export.to_ql": "convert to (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\">compact<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a>) <a id=\"export-convert-ql\" href=\"\" target=\"_blank\">OverpassQL<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a>",
+  "export.to_xml": "convert to <a id=\"export-convert-xml\" href=\"\" target=\"_blank\" class=\"external\">Overpass-XML</a>",
+  "export.to_ql": "convert to (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>) <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL</a>",
   "export.remote_control": "load into <a id=\"export-josm\" href=\"\">JOSM</a>",
   "export.remote_control_expl": "only for queries returning valid OSM-XML with meta data",
 
