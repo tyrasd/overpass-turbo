@@ -65,18 +65,18 @@
   <div id="navs">
     <div class="nav">
       <div class="buttons">
-        <a class="t button group left"      accesskey="1" onclick="ide.onRunClick();"      title="execute this query on Overpass API" t="[title]nav.run_tt;nav.run"          >Run</a>
-        <a class="t button group"           accesskey="2" onclick="ide.onShareClick();"    title="get a permalink for this query"     t="[title]nav.share_tt;nav.share"      >Share</a>
-        <a class="t button group right gap" accesskey="3" onclick="ide.onExportClick();"   title="various export tools"               t="[title]nav.export_tt;nav.export"    >Export</a>
-        <a class="t button group left"      accesskey="4" onclick="ide.onSaveClick();"     title="save this query"                    t="[title]nav.save_tt;nav.save"        >Save</a>
-        <a class="t button group right gap" accesskey="5" onclick="ide.onLoadClick();"     title="load saved query or example"        t="[title]nav.load_tt;nav.load"        >Load</a>
-        <a class="t button group left"      accesskey="9" onclick="ide.onSettingsClick();" title="various settings"                   t="[title]nav.settings_tt;nav.settings">Settings</a>
-        <a class="t button group right"     accesskey="0" onclick="ide.onHelpClick();"     title="help, about and attributions"       t="[title]nav.help_tt;nav.help"        >Help</a>
+        <a class="t button group left"      accesskey="1" onclick="ide.onRunClick();"      title="" t="[title]nav.run_tt;nav.run"          >Run</a>
+        <a class="t button group"           accesskey="2" onclick="ide.onShareClick();"    title="" t="[title]nav.share_tt;nav.share"      >Share</a>
+        <a class="t button group right gap" accesskey="3" onclick="ide.onExportClick();"   title="" t="[title]nav.export_tt;nav.export"    >Export</a>
+        <a class="t button group left"      accesskey="4" onclick="ide.onSaveClick();"     title="" t="[title]nav.save_tt;nav.save"        >Save</a>
+        <a class="t button group right gap" accesskey="5" onclick="ide.onLoadClick();"     title="" t="[title]nav.load_tt;nav.load"        >Load</a>
+        <a class="t button group left"      accesskey="9" onclick="ide.onSettingsClick();" title="" t="[title]nav.settings_tt;nav.settings">Settings</a>
+        <a class="t button group right"     accesskey="0" onclick="ide.onHelpClick();"     title="" t="[title]nav.help_tt;nav.help"        >Help</a>
       </div>
       <div class="title"><a href="index.html" class="disabled">overpass turbo <img src="turbo.png" style="opacity:0.3; margin-left:2px;" /></a></div>
       <div class="tabs">
-        <a class="t button active" title="map view"  t="[title]tabs.map_tt;tabs.map"  >Map</a>
-        <a class="t button"        title="data view" t="[title]tabs.data_tt;tabs.data">Data</a>
+        <a class="t button active" title="" t="[title]tabs.map_tt;tabs.map"  >Map</a>
+        <a class="t button"        title="" t="[title]tabs.data_tt;tabs.data">Data</a>
       </div>
     </div>
   </div>
@@ -100,173 +100,176 @@
     <p class="t" t="[html]welcome.text.2">You can go ahead with your Overpass queries, or take a look at the <a href="javascript:ide.onHelpClick();">help page</a> for a start.</p>
   </div>
   <!--help-->
-  <div id="help-dialog" title="Help" class="t dialog" t="[title]help.title">
-    <h3><a class="t" t="help.section.introduction">Introduction</a></h3>
+  <div id="help-dialog" title="" class="t dialog" t="[title]help.title">
+    <h3><a class="t" t="help.section.introduction"></a></h3>
     <div>
-      <p class="t" t="[html]help.intro.1"><i>overpass turbo</i> is a web based data mining tool for OpenStreetMap. It lets you run any kind of <a href="http://overpass-api.de">Overpass API</a> query and gives you the ability to analyse the the results on an interactive map.</p>
-      <p class="t" t="[html]help.intro.2">Read more about <a href="http://wiki.openstreetmap.org/wiki/Overpass_turbo">overpass turbo</a> or how to write your own <a href="http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide">Overpass queries</a> on the OSM wiki.</p>
-      <p><span class="t" t="help.intro.shortcuts">The following handy shortcuts can be used in a query:</span>
+      <p class="t" t="[html]help.intro.1"></p>
+      <p class="t" t="[html]help.intro.2"></p>
+      <p><span class="t" t="help.intro.shortcuts"></span>
       <ul>
-        <li><i>{{bbox}}</i> - <span class="t" t="help.intro.shortcuts.bbox">bounding box coordinates of the current map view</span></li>
-        <li><i>{{center}}</i> - <span class="t" t="help.intro.shortcuts.center">map center coordinates</span></li>
-        <li class="t" t="[html]help.intro.shortcuts.custom">Arbitrary shortcuts can be defined by via <i>{{shortcut=value}}</i>.</li>
+        <li><i>{{bbox}}</i> - <span class="t" t="help.intro.shortcuts.bbox"></span></li>
+        <li><i>{{center}}</i> - <span class="t" t="help.intro.shortcuts.center"></span></li>
+        <li class="t" t="[html]help.intro.shortcuts.custom"></li>
       </ul></p>
     </div>
-    <h3><a class="t" t="help.section.ide">IDE</a></h3>
+    <h3><a class="t" t="help.section.ide"></a></h3>
     <div>
-      <h4 class="t" t="help.ide.share.title">Sharing</h4>
-      <p class="t" t="[html]help.ide.share.expl">It is possible to send a permalink with the query you are currently working on to someone else. This is found in the <i>Share</i> tool and shows you a link which you can send to a friend or post online.</p>
-      <h4 class="t" t="help.ide.save_load.title">Save and Load</h4>
-      <p class="t" t="[html]help.ide.save_load.expl">You can also save and load your queries. For a start, there are a few example queries preloaded. Take a look at them for a short glimpse of what overpass can do.</p>
-      <h4 class="t" t="help.ide.keyboard.title">Keyboard shortcuts:</h4>
+      <h4 class="t" t="help.ide.share.title"></h4>
+      <p class="t" t="[html]help.ide.share.expl"></p>
+      <h4 class="t" t="help.ide.save_load.title"></h4>
+      <p class="t" t="[html]help.ide.save_load.expl"></p>
+      <h4 class="t" t="help.ide.keyboard.title"></h4>
       <ul>
-        <li><i>Ctrl+Enter</i> - <span class="t" t="help.ide.keyboard.run">Run the current query.</span></li>
-        <li><i>Ctrl+O / Ctrl+S</i> - <span class="t" t="help.ide.keyboard.load_save">Load (open) / Save a query.</span></li>
-        <li><i>Ctrl+H</i> - <span class="t" t="help.ide.keyboard.help">Open this help dialog.</span></li>
+        <li><i>Ctrl+Enter</i> - <span class="t" t="help.ide.keyboard.run"></span></li>
+        <li><i>Ctrl+O / Ctrl+S</i> - <span class="t" t="help.ide.keyboard.load_save"></span></li>
+        <li><i>Ctrl+H</i> - <span class="t" t="help.ide.keyboard.help"></span></li>
       </ul>
     </div>
-    <h3><a class="t" t="help.section.key">Map Key</a></h3>
+    <h3><a class="t" t="help.section.key"></a></h3>
     <div>
-      <img src="map-key.png" alt="various map features" class="t" t="[alt]help.key.example" />
-      <p class="t" t="help.key.description">Ways are shown as bold blue lines, Polygons as yellow areas with a thin blue outline, POIs (nodes with tags) as yellow circles with a thin blue outline. Circles with a red filling stand for polygons or ways that are too small to be displayed normally. Pink lines or outlines mean, that an object is part of at least one (loaded) relation. Dashed lines mean that a way or polygon has incomplete geometry (most likely because some of its nodes have not been loaded).</p>
+      <img src="map-key.png" alt="" class="t" t="[alt]help.key.example" />
+      <p class="t" t="help.key.description"></p>
     </div>
-    <h3><a class="t" t="help.section.export">Export</a></h3>
+    <h3><a class="t" t="help.section.export"></a></h3>
     <div>
-      <p class="t" t="[html]help.export">The <i>Export</i> tool holds a variety of options to do with the query and/or data loaded by the query.<br />
-      Options with this symbol:<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span> rely on or refer to external (online) tools.</p>
-      <h4 class="t" t="help.export.query_data.title">Data</h4>
-      <p class="t" t="help.export.query_data.expl">This holds some things you can do with the data, like exporting it as geoJSON. A very usefull option is the possibility to send the query to JOSM.</p>
-      <h4 class="t" t="help.export.map.title">Map</h4>
-      <p class="t" t="help.export.map.expl">Convert the current map-with-data view to a static png image, or a (fullscreen) interactive map, etc.</p>
+      <p class="t" t="[html]help.export"></p>
+      <h4 class="t" t="help.export.map.title"></h4>
+      <p class="t" t="help.export.map.expl"></p>
+      <h4 class="t" t="help.export.query_data.title"></h4>
+      <p class="t" t="help.export.query_data.expl"></p>
     </div>
-    <h3><a class="t" t="help.section.about">About</a></h3>
+    <h3><a class="t" t="help.section.about"></a></h3>
     <div>
       <a href="http://overpass-api.de"><img style="float:right;" src="http://wiki.openstreetmap.org/w/images/b/b3/Powered_by_Overpass_API.png"/></a>
-      <p class="t" t="[html]help.about.maintained"><i>overpass turbo</i> is maintained by Martin Raifer (tyr.asd at gmail.com).</p>
-      <h4 class="t" t="help.about.feedback.title">Feedback, Bug Reports, Feature Requests</h4>
-      <p class="t" t="[html]help.about.feedback">If you would like to give feedback, report issues or ask for a particular feature, please use the <a href="https://github.com/tyrasd/overpass-ide/issues">issue tracker</a> on github or the <a href="http://wiki.openstreetmap.org/wiki/Talk:Overpass_turbo">discussion page</a> on the OSM-wiki.</p>
-      <h4 class="t" t="help.about.source.title">Source Code</h4>
-      <p class="t" t="[html]help.about.source">The <a href="https://github.com/tyrasd/overpass-ide">source code</a> of this application is released under the MIT <a href="LICENSE">license</a>.</p>
+      <p class="t" t="[html]help.about.maintained"></p>
+      <h4 class="t" t="help.about.feedback.title"></h4>
+      <p class="t" t="[html]help.about.feedback"></p>
+      <h4 class="t" t="help.about.source.title"></h4>
+      <p class="t" t="[html]help.about.source"></p>
     </div>
-    <h3><a class="t" t="help.section.attribution">Attribution</a></h3>
+    <h3><a class="t" t="help.section.attribution"></a></h3>
     <div>
-      <h4 class="t" t="help.attr.data_sources">Data Sources</h4>
+      <h4 class="t" t="help.attr.data_sources"></h4>
       <ul class="plain">
-        <li class="t" t="[html]help.attr.data">Data &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <span style="font-size:smaller;"><a href="http://opendatacommons.org/licenses/odbl/1-0/">ODbL</a> (<a href="http://www.openstreetmap.org/copyright">Terms</a>)</span></li>
-        <li><span class="t" t="help.attr.mining">Data mining by</span> <a href="http://overpass-api.de/">Overpass API</a></li>
-        <li class="t" t="[html]help.attr.tiles">Map tiles &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" style="font-size:smaller;">CC-BY-SA</a></li>
-        <li><span class="t" t="help.attr.search">Search provided by</span> <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a></li>
+        <li class="t" t="[html]help.attr.data"></li>
+        <li><span class="t" t="help.attr.mining"></span> <a href="http://overpass-api.de/">Overpass API</a></li>
+        <li class="t" t="[html]help.attr.tiles"></li>
+        <li><span class="t" t="help.attr.search"></span> <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a></li>
       </ul>
-      <h4 class="t" t="help.attr.software">Software & Libraries</h4>
+      <h4 class="t" t="help.attr.software"></h4>
       <ul class="plain">
-        <li><span class="t" t="help.attr.leaflet">Map powered by</span> <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
-        <li><span class="t" t="help.attr.codemirror">Editor powered by</span> <a href="http://codemirror.net/">CodeMirror</a></li>
-        <li><span class="t" t="help.attr.jquery">Driven by</span> <a href="http://jquery.com/">jQuery</a></li>
-        <li><span class="t" t="help.attr.other_libs">Other libraries:</span> <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a></li>
+        <li><span class="t" t="help.attr.leaflet"></span> <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
+        <li><span class="t" t="help.attr.codemirror"></span> <a href="http://codemirror.net/">CodeMirror</a></li>
+        <li><span class="t" t="help.attr.jquery"></span> <a href="http://jquery.com/">jQuery</a></li>
+        <li><span class="t" t="help.attr.other_libs"></span> <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a></li>
       </ul>
     </div>
   </div>
   <!--settings-->
-  <div title="Settings" id="settings-dialog" class="t dialog" t="[title]settings.title">
-    <h3><a class="t" t="settings.section.general">General Settings</a></h3>
+  <div title="" id="settings-dialog" class="t dialog" t="[title]settings.title">
+    <h3><a class="t" t="settings.section.general"></a></h3>
     <div>
-      <p><label><span class="t" t="settings.ui_lang">UI Language</span>:</label> <input type="text" name="ui_language" value="" style="width:60px;"/><br/><small>(<span class="t" t="settings.ui_lang_expl">restart necessary on change</span>)</small></p>
-      <p><label><span class="t" t="settings.server">Server</span>:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
-      <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;<span class="t" t="settings.force_simple_cors">Force simple CORS requests</span> <small>(<span class="t" t="settings.force_simple_cors_expl">use when the server doesn't support preflighted <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> requests</span>)</small></p>
-      <p><input type="checkbox" name="use_html5_coords"/>&nbsp;<span class="t" t="settings.start_at_user_location">Start at user location</span> <small>(<span class="t" t="settings.start_at_user_location_expl">html5 geolocation</span>)</small></p>
-      <p><input type="checkbox" name="no_autorepair"/>&nbsp;<span class="t" t="settings.disable_autorepair">Disable warning/autorepair message when Overpass API returns no visible data.</span></p>
+      <p><label><span class="t" t="settings.ui_lang"></span>:</label> <input type="text" name="ui_language" value="" style="width:60px;"/></p>
+      <p><label><span class="t" t="settings.server"></span>:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
+      <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;<span class="t" t="settings.force_simple_cors"></span> <small>(<span class="t" t="[html]settings.force_simple_cors_expl"></span>)</small></p>
+      <p><input type="checkbox" name="use_html5_coords"/>&nbsp;<span class="t" t="settings.start_at_user_location"></span> <small>(<span class="t" t="settings.start_at_user_location_expl"></span>)</small></p>
+      <p><input type="checkbox" name="no_autorepair"/>&nbsp;<span class="t" t="settings.disable_autorepair"></span></p>
     </div>
-    <h3><a class="t" t="settings.section.editor">Editor</a></h3>
+    <h3><a class="t" t="settings.section.editor"></a></h3>
     <div>
-      <p><input type="checkbox" name="use_rich_editor"/>&nbsp;<span class="t" t="settings.enable_rich_editor">Enable rich code editor</span> <small>(<span class="t" t="settings.enable_rich_editor_expl">disable this on mobile devices; requires a page-reload to take effect</span>)</small>.</p>
-      <p><label><span class="t" t="settings.editor_with">Width of editor</span>:</label> <small>(<span class="t" t="settings.editor_with_expl">e.g. "400px", leave blank for defaults</span>)</small> <input type="text" name="editor_width" value="" style="width:80px;"/></p>
+      <p><input type="checkbox" name="use_rich_editor"/>&nbsp;<span class="t" t="settings.enable_rich_editor"></span> <small>(<span class="t" t="settings.enable_rich_editor_expl"></span>)</small>.</p>
+      <p><label><span class="t" t="settings.editor_width"></span>:</label> <small>(<span class="t" t="settings.editor_width_expl"></span>)</small> <input type="text" name="editor_width" value="" style="width:80px;"/></p>
     </div>
-    <h3><a class="t" t="settings.section.map">Map</a></h3>
+    <h3><a class="t" t="settings.section.map"></a></h3>
     <div>
-      <p><label><span class="t" t="settings.tile_server">Tile-Server</span>:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
-      <p><label><span class="t" t="settings.tile_opacity">Tiles Opacity</span>:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(<span class="t" t="settings.tile_opacity_expl">transparency of background tiles: 0=tansparent &hellip; 1=visible</span>)</small></p>
-      <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;<span class="t" t="settings.show_crosshairs">Show crosshairs at the map center.</span></p>
-      <p><input type="checkbox" name="disable_poiomatic"/>&nbsp;<span class="t" t="settings.disable_poiomatic">Don't display small features as POIs.</span></p>
-      <p><input type="checkbox" name="show_data_stats"/>&nbsp;<span class="t" t="settings.show_data_stats">Show some stats about loaded and displayed data.</span></p>
+      <p><label><span class="t" t="settings.tile_server"></span>:</label> <input type="text" name="tile_server" value="" style="width:240px;"/></p>
+      <p><label><span class="t" t="settings.tile_opacity"></span>:</label> <input type="text" name="background_opacity" value="" style="width:30px;"/> <small>(<span class="t" t="settings.tile_opacity_expl"></span>)</small></p>
+      <p><input type="checkbox" name="enable_crosshairs"/>&nbsp;<span class="t" t="settings.show_crosshairs"></span></p>
+      <p><input type="checkbox" name="disable_poiomatic"/>&nbsp;<span class="t" t="settings.disable_poiomatic"></span></p>
+      <p><input type="checkbox" name="show_data_stats"/>&nbsp;<span class="t" t="settings.show_data_stats"></span></p>
     </div>
-    <h3><a class="t" t="settings.section.sharing">Sharing</a></h3>
+    <h3><a class="t" t="settings.section.sharing"></a></h3>
     <div>
-      <p><input type="checkbox" name="share_include_pos"/>&nbsp;<span class="t" t="settings.include_map_state">Include current map state in shared links</span></p>
-      <p><label><span class="t" t="settings.compression">Compression</span>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
+      <p><input type="checkbox" name="share_include_pos"/>&nbsp;<span class="t" t="settings.include_map_state"></span></p>
+      <p><label><span class="t" t="settings.compression"></span>:</label> <input type="text" name="share_compression" value="" style="width:40px;"/></p>
     </div>
-    <h3><a class="t" t="settings.section.export">Export</a></h3>
+    <h3><a class="t" t="settings.section.export"></a></h3>
     <div>
-      <p><input type="checkbox" name="export_image_scale"/>&nbsp;<span class="t" t="settings.export_image_scale">Show scale on exported images.</span></p>
-      <p><input type="checkbox" name="export_image_attribution"/>&nbsp;<span class="t" t="settings.export_image_attr">Show attribution on exported images.</span></p>
+      <p><input type="checkbox" name="export_image_scale"/>&nbsp;<span class="t" t="settings.export_image_scale"></span></p>
+      <p><input type="checkbox" name="export_image_attribution"/>&nbsp;<span class="t" t="settings.export_image_attr"></span></p>
     </div>
   </div>
   <!--save-->
-  <div title="Save" id="save-dialog" class="t dialog" t="[title]save.title">
-    <p class="t" t="save.enter_name">Enter a name for this query</p>
+  <div title="" id="save-dialog" class="t dialog" t="[title]save.title">
+    <p class="t" t="save.enter_name"></p>
     <p><input name="save" type="text" /></p>
   </div>
   <!--load-->
-  <div title="Load" id="load-dialog" class="t dialog" t="[title]load.title">
-    <!--<p class="t" t="load.select_query">Select query to load:</p>-->
-    <h4 class="t" t="load.saved_queries">Saved Queries</h4>
+  <div title="" id="load-dialog" class="t dialog" t="[title]load.title">
+    <h4 class="t" t="load.saved_queries"></h4>
     <div>
       <ul class="plain saved_query"></ul>
     </div>
-    <h4 class="t" t="load.examples">Examples</h4>
+    <h4 class="t" t="load.examples"></h4>
     <div>
       <ul class="plain example"></ul>
     </div>
-    <h4 class="t" t="load.templates">Templates</h4>
+    <h4 class="t" t="load.templates"></h4>
     <div>
       <ul class="plain template"></ul>
     </div>
-      
   </div>
   <!--export-->
-  <div title="Export" id="export-dialog" class="t dialog" t="[title]export.title">
-    <h4 class="t" t="export.section.data">Data</h4>
+  <div title="" id="export-dialog" class="t dialog" t="[title]export.title">
+    <h4 class="t" t="export.section.data"></h4>
     <div>
-    <p class="t" t="[html]export.as_geoJSON">as <a id="export-geoJSON" href="">GeoJSON</a></p>
-    <p class="t" t="[html]export.as_GPX">as <a id="export-GPX" href="">GPX</a></p>
-    <p class="t" t="[html]export.raw">raw <a id="export-raw" href="">data</a></p>
-    <p class="t" t="[html]export.raw_interpreter">raw data from <a id="export-overpass-api" href="" target="_blank">Overpass API interpreter<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
-    <p><span class="t" t="[html]export.remote_control">load into <a id="export-josm" href="">JOSM</a></span> <small>(<span class="t" t="export.remote_control_expl">only for queries returning valid OSM-XML with meta data</span>)</small></p>
-    <p class="t" t="[html]export.save_geoJSON_gist">save GeoJSON to <a id="export-geoJSON-gist" href="">gist</a></p>
+    <p class="t" t="[html]export.as_geoJSON"></p>
+    <p class="t" t="[html]export.as_GPX"></p>
+    <p class="t" t="[html]export.raw"></p>
+    <p class="t" t="[html]export.raw_interpreter"></p>
+    <p><span class="t" t="[html]export.remote_control"></span> <small>(<span class="t" t="export.remote_control_expl"></span>)</small></p>
+    <p class="t" t="[html]export.save_geoJSON_gist"></p>
     </div>
-    <h4 class="t" t="export.section.map">Map</h4>
+    <h4 class="t" t="export.section.map"></h4>
     <div>
-    <p class="t" t="[html]export.as_png">as <a id="export-image" href="">png image</a></p>
-    <p class="t" t="[html]export.as_interactive_map">as <a id="export-interactive-map" href="">interactive Map</a></p>
-    <p><span class="t" t="[html]export.current_map_view">current <a id="export-map-state" href="">map view</a></span> <small>(<span class="t" t="export.map_view_expl">bbox, center, etc.</span>)</small></p>
+    <p class="t" t="[html]export.as_png"></p>
+    <p class="t" t="[html]export.as_interactive_map"></p>
+    <p><span class="t" t="[html]export.current_map_view"></span> <small>(<span class="t" t="export.map_view_expl"></span>)</small></p>
     </div>
-    <h4 class="t" t="export.section.query">Query</h4>
+    <h4 class="t" t="export.section.query"></h4>
     <div>
-    <p class="t" t="[html]export.as_text">as <a id="export-text" href="" download="query.txt" target="_blank">text</a></p>
-    <p class="t" t="[html]export.to_xml">convert to <a id="export-convert-xml" href="" target="_blank">Overpass-XML<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
-    <p class="t" t="[html]export.to_ql">convert to (<a id="export-convert-compact" href="" target="_blank">compact<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a>) <a id="export-convert-ql" href="" target="_blank">OverpassQL<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>
+    <p class="t" t="[html]export.as_text"></p>
+    <p class="t" t="[html]export.to_xml"></p>
+    <p class="t" t="[html]export.to_ql"></p>
     </div>
   </div>
-  <div title="Export - GeoJSON" id="export-geojson-dialog" class="t dialog" t="[title]export.geoJSON.title">
-    <p class="t" t="export.geoJSON.expl">The currently shown data as GeoJSON:</p>
+  <div title="" id="export-geojson-dialog" class="t dialog" t="[title]export.geoJSON.title">
+    <p class="t" t="export.geoJSON.expl"></p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
-  <div title="Export - GPX" id="export-gpx-dialog" class="t dialog" t="[title]export.GPX.title">
-    <p class="t" t="export.GPX.expl">The currently shown data as GPX:</p>
+  <div title="" id="export-gpx-dialog" class="t dialog" t="[title]export.GPX.title">
+    <p class="t" t="export.GPX.expl"></p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
-  <div title="Export - raw" id="export-raw-dialog" class="t dialog" t="[title]export.raw.title">
-    <p class="t" t="export.raw.expl">The currently shown raw-data:</p>
+  <div title="" id="export-raw-dialog" class="t dialog" t="[title]export.raw.title">
+    <p class="t" t="export.raw.expl"></p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
   <!--share-->
-  <div title="Share" id="share-dialog" class="t dialog" t="[title]share.title">
-    <h3 class="t" t="share.header">Permalink</h3>
-    <p class="t" t="[html]share.copy_this_link">Copy this <a href="" id="share_link_a">link</a> to share the current code:</p>
+  <div title="" id="share-dialog" class="t dialog" t="[title]share.title">
+    <h3 class="t" t="share.header"></h3>
+    <p class="t" t="[html]share.copy_this_link"></p>
     <p><input type="text" style="width:100%" readonly id="share_link_textarea"/></p>
     <span id="share_link_warning"></span>
-    <h3 class="t" t="share.options">Options</h3>
-    <p><input type="checkbox" name="include_coords" onchange="ide.updateShareLink();"/>&nbsp;<span class="t" t="share.incl_map_state">include current map state</span></p>
-    <p><input type="checkbox" name="run_immediately" onchange="ide.updateShareLink();"/>&nbsp;<span class="t" t="share.run_immediately">run this query immediately after loading</span></p>
+    <h3 class="t" t="share.options"></h3>
+    <p><input type="checkbox" name="include_coords" onchange="ide.updateShareLink();"/>&nbsp;<span class="t" t="share.incl_map_state"></span></p>
+    <p><input type="checkbox" name="run_immediately" onchange="ide.updateShareLink();"/>&nbsp;<span class="t" t="share.run_immediately"></span></p>
+  </div>
+  <!--unsupported browser warning-->
+  <div title="Your browser is not supported :(" id="warning-unsupported-browser" class="t" t="warning.browser.title">
+    <span class="t" t="warning.browser.expl.1"><p>The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href=\"http://en.wikipedia.org/wiki/Web_storage#localStorage\">Web Storage API</a> and <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">cross origin resource sharing (CORS)</a>.</small></p></span>
+    <span class="t" t="warning.browser.expl.2"><p>Note that you may have to enable cookies and/or \"local Data\" for this site on some browsers (such as Firefox and Chrome).</p></span>
+    <span class="t" t="warning.browser.expl.3"><p>Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> and <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> have been tested to work. Alternatively, you can still use the <a href=\"http://overpass-api.de/query_form.html\">Overpass_API query form</a>.</p></span>
   </div>
 
   <script>

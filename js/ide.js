@@ -86,11 +86,7 @@ var ide = new(function() {
         false) {
       // the currently used browser is not capable of running the IDE. :(
       ide.not_supported = true;
-      $('<div title="'+i18n.t("warning.browser.title")+'">'+
-          i18n.t("warning.browser.expl.1")+
-          i18n.t("warning.browser.expl.2")+
-          i18n.t("warning.browser.expl.3")+
-        '</div>').dialog({modal:true});
+      $('#warning-unsupported-browser').dialog({modal:true});
     }
     // load settings
     settings.load();
@@ -552,7 +548,7 @@ var ide = new(function() {
       if (data_bounds.isValid() && !map_bounds.intersects(data_bounds)) {
         // show tooltip for button "zoom to data"
         var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
-        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← click here to show the data");
+        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← "+i18n.t("map_controlls.suggest_zoom_to_data"));
         $(".leaflet-control-buttons-fitdata").tooltip("open");
         $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fadeOut", duration: 1000 });
         setTimeout(function(){
@@ -595,7 +591,7 @@ var ide = new(function() {
       if (data_mode == "unknown")
         ide.switchTab("Data");
       // display empty map badge
-      $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">'+i18n.t("map.intentianally_blank")+' <small>('+empty_msg+')</small></div>').appendTo("#map");
+      $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">'+i18n.t("map.intentionally_blank")+' <small>('+empty_msg+')</small></div>').appendTo("#map");
     }
     overpass.handlers["onDataRecieved"] = function(amount, amount_txt, abortCB, continueCB) {
       if (amount > 1000000) { // more than ~1MB of data
@@ -1158,8 +1154,8 @@ var ide = new(function() {
         var dialog_buttons= {};
         dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
         $('<div title="'+i18n.t("export.geoJSON_gist.title")+'">'+
-          '<p>'+i18n.t("export.geoJSON_gist.gist")+'&nbsp;<a href="'+data.html_url+'" target="_blank">'+data.id+'<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>'+
-          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#gist:anonymous/'+data.id+'" target="_blank">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'<span class="ui-icon ui-icon-extlink" style="display:inline-block;"></span></a></p>'+
+          '<p>'+i18n.t("export.geoJSON_gist.gist")+'&nbsp;<a href="'+data.html_url+'" target="_blank" class="external">'+data.id+'</a></p>'+
+          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#gist:anonymous/'+data.id+'" target="_blank" class="external">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'</a></p>'+
           '</div>').dialog({
           modal:true,
           buttons: dialog_buttons,
@@ -1463,11 +1459,9 @@ var ide = new(function() {
   }
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value = settings.ui_language;
-    make_combobox($("#settings-dialog input[name=ui_language]"), [
-      "auto",
-      "en",
-      "de"
-    ]);
+    make_combobox($("#settings-dialog input[name=ui_language]"),
+      ["auto"].concat(i18n.getSupportedLanguages())
+    );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox($("#settings-dialog input[name=server]"), [
       "http://www.overpass-api.de/api/",
@@ -1505,7 +1499,12 @@ var ide = new(function() {
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.save")] = function() {
       // save settings
-      settings.ui_language = $("#settings-dialog input[name=ui_language]")[0].value;
+      var new_ui_language = $("#settings-dialog input[name=ui_language]")[0].value;
+      // reload ui if language has been changed
+      if (settings.ui_language != new_ui_language) {
+        i18n.translate(new_ui_language);
+      }
+      settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;
       settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
       settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;

@@ -29,7 +29,6 @@
 
   "settings.section.general": "Allgemeines",
   "settings.ui_lang": "UI Sprache",
-  "settings.ui_lang_expl": "Neustart bei Änderung notwendig",
   "settings.server": "Server",
   "settings.force_simple_cors": "Einfache CORS-Anfragen erzwingen",
   "settings.force_simple_cors_expl": "wenn der Server komplexe CORS Anfragen nicht unterstützt.",
@@ -40,7 +39,7 @@
   "settings.section.editor": "Editor",
   "settings.enable_rich_editor": "CodeMirror aktivieren.",
   "settings.enable_rich_editor_expl": "auf mobilen Geräten deaktivieren; Änderung wirkt erst nach App-Neustart",
-  "settings.editor_with": "Breite des Editors",
+  "settings.editor_width": "Breite des Editors",
   "settings.editor_width_expl": "z.B. \"400px\", leer lassen für Standardwerte",
 
   "settings.section.map": "Karte",
@@ -72,7 +71,7 @@
   "export.title": "Exportieren",
 
   "export.section.map": "Karte",
-  "export.as_png": "Als <a id=\"export-image\" href=\"\">png image</a>",
+  "export.as_png": "Als <a id=\"export-image\" href=\"\">png Bild</a>",
   "export.as_interactive_map": "Als <a id=\"export-interactive-map\" href=\"\">interaktive Karte</a>",
   "export.current_map_view": "Aktuelle <a id=\"export-map-state\" href=\"\">Kartenansicht</a>",
   "export.map_view_expl": "bbox, zentrum, etc.",
@@ -81,13 +80,13 @@
   "export.as_geoJSON": "Als <a id=\"export-geoJSON\" href=\"\">GeoJSON</a>",
   "export.as_GPX": "Als <a id=\"export-GPX\" href=\"\">GPX</a>",
   "export.raw": "<a id=\"export-raw\" href=\"\">Rohdaten</a>",
-  "export.raw_interpreter": "Daten direkt vom <a id=\"export-overpass-api\" href=\"\">Overpass API Interpreter<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> (Rohdaten)",
-  "export.save_geojson_gist": "GeoJSON als <a id=\"export-geoJSON-gist\" href=\"\">gist</a> speichern",
+  "export.raw_interpreter": "Daten direkt vom <a id=\"export-overpass-api\" href=\"\" class=\"external\">Overpass API Interpreter</a> (Rohdaten)",
+  "export.save_geoJSON_gist": "GeoJSON als <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a> speichern",
   
   "export.section.query": "Query",
   "export.as_text": "Als <a id=\"export-text\" href=\"\" download=\"query.txt\">Text</a>",
-  "export.to_xml": "Nach <a id=\"export-convert-xml\" href=\"\">Overpass-XML<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren",
-  "export.to_ql": "Nach <a id=\"export-convert-ql\" href=\"\">OverpassQL<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a> konvertieren (<a id=\"export-convert-compact\" href=\"\">kompakte Variante<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span></a>)",
+  "export.to_xml": "Nach <a id=\"export-convert-xml\" href=\"\" class=\"external\">Overpass-XML</a> konvertieren",
+  "export.to_ql": "Nach <a id=\"export-convert-ql\" href=\"\" class=\"external\">OverpassQL</a> konvertieren (<a id=\"export-convert-compact\" href=\"\" class=\"external\">kompakte Variante</a>)",
   "export.remote_control": "In <a id=\"export-josm\" href=\"\">JOSM</a> laden",
   "export.remote_control_expl": "nur für Abfragen, die gültiges OSM-XML mit Metadaten liefern",
 
@@ -104,9 +103,9 @@
   "export.GPX.expl": "Die aktuell angezeigen Daten im GPX-Format:",
   "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
 
-  "export.GPX.title": "Export - Rohdaten",
-  "export.GPX.expl": "Die aktuell angezeigen Rohdaten:",
-  "export.GPX.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
+  "export.raw.title": "Export - Rohdaten",
+  "export.raw.expl": "Die aktuell angezeigen Rohdaten:",
+  "export.raw.no_data": "Keine Daten verfügbar. Bitte zuerst eine Query ausführen!",
 
   "export.map_view.title": "Aktueller Kartenausschnitt",
   "export.map_view.permalink_osm": "<h4>Permalink</h4> nach",
@@ -237,7 +236,5 @@
   "data_stats.lines": "Linien",
   "data_stats.polygons": "Polygone",
 
-  "map.intentianally_blank": "Diese Karte ist leer.",
-
-  "the end": ""
+  "map.intentionally_blank": "Diese Karte ist leer."
 }
