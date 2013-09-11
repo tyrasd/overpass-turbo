@@ -99,6 +99,7 @@ install: all
 	mkdir -p $(install_root)
 	mkdir -p $(install_root)/css
 	mkdir -p $(install_root)/img
+	mkdir -p $(install_root)/locales
 	cp LICENSE $(install_root)
 	cp turbo.js turbo.min.js $(install_root)
 	cp turbo.map.js turbo.map.min.js $(install_root)
@@ -109,10 +110,10 @@ install: all
 	cp index_packaged.html $(install_root)/index.html
 	cp map_packaged.html $(install_root)/map.html
 	cp map-key.png $(install_root)
-	cp -R locales/. $(install_root)/locales
+	cp locales/*.json $(install_root)/locales
 	cp -R libs $(install_root)/libs
 	cp -R icons $(install_root)/icons
-	cp libs/locationfilter/src/img/* $(install_root)/img/
+	cp libs/locationfilter/src/img/* $(install_root)/img
 
 clean:
 	rm -f turbo.js
@@ -122,3 +123,5 @@ clean:
 	rm -f turbo.css
 	rm -f turbo.min.css
 
+translations:
+	node locales/update_locales
