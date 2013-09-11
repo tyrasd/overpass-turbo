@@ -6,7 +6,7 @@ var request = require('request'),
 var api = 'http://www.transifex.com/api/2/';
 var project = api + 'project/overpass-turbo/';
 var resource = ['main'];
-var outdir = './';
+var outdir = './locales/';
 
 /*
  * Transifex oddly doesn't allow anonymous downloading
