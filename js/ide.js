@@ -137,7 +137,7 @@ var ide = new(function() {
       if (args.zoom) { // map zoom level (standard osm.org parameter)
         settings.coords_zoom = +args.zoom;
       }
-      if (args.R) { // indicates that the supplied query shall be executed immediately
+      if (args.R !== undefined) { // indicates that the supplied query shall be executed immediately
         ide.run_query_on_startup = true;
       }
       if (args.template) { // load a template
