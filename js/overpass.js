@@ -501,7 +501,7 @@ setTimeout(function() {
         overpass.resultText = jqXHR.resultText;
         var errmsg = "";
         if (jqXHR.state() == "rejected")
-          errmsg += "<p>Request rejected. (e.g. server not found, redirection, internal server errors, etc.)</p>";
+          errmsg += "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";
         if (textStatus == "parsererror")
           errmsg += "<p>Error while parsing the data (parsererror).</p>";
         else if (textStatus != "error" && textStatus != jqXHR.statusText)
