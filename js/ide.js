@@ -575,7 +575,7 @@ var ide = new(function() {
             ide.switchTab("Data"); 
             $(this).dialog("close");
           };
-          $('<div title="'+i18n.t("warning.incomplete.title")+'">'+i18n.t("warning.incomplete.expl")+'<p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;'+i18n.t("warning.incomplete.not_again")+'</p></div>').dialog({
+          $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.expl.1")+'</p><p>'+i18n.t("warning.incomplete.expl.2")+'</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;'+i18n.t("warning.incomplete.not_again")+'</p></div>').dialog({
             modal:true,
             buttons: dialog_buttons,
           });
@@ -605,7 +605,7 @@ var ide = new(function() {
           $(this).dialog("close");
           continueCB();
         };
-        $('<div title="'+i18n.t("warning.huge_data.title")+'">'+i18n.t("warning.huge_data.expl").replace("{{amount_txt}}",amount_txt)+'</div>').dialog({
+        $('<div title="'+i18n.t("warning.huge_data.title")+'"><p>'+i18n.t("warning.huge_data.expl.1").replace("{{amount_txt}}",amount_txt)+'</p><p>'+i18n.t("warning.huge_data.expl.2")+'</p></div>').dialog({
           modal:true,
           buttons: dialog_buttons,
           dialogClass: "huge_data"
@@ -1377,7 +1377,7 @@ var ide = new(function() {
           $(this).dialog("close");
           send_to_josm();
         };
-        $('<div title="'+i18n.t("warning.incomplete.title")+'">'+i18n.t("warning.incomplete.remote")+'</div>').dialog({
+        $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.1")+'</p><p>'+i18n.t("warning.incomplete.remote.2")+'</p></div>').dialog({
           modal:true,
           buttons: dialog_buttons,
         });
