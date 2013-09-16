@@ -1,3 +1,13 @@
+2013-09-16
+----------
+* new export mode: data (geoJSON) as gist including a link to geojson.io
+* reworked i18n code (translations are now done via Transifex)
+* add Danish translation
+* improved multipolygon rendering
+* lightened exported geoJSON (drop unnecessary flags)
+* support for newest Overpass query features (e.g. global bbox)
+* bugfixes, compability improvements, etc.
+
 2013-08-07
 ----------
 * cleaned up help dialog
