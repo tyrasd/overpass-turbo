@@ -1377,7 +1377,7 @@ var ide = new(function() {
           $(this).dialog("close");
           send_to_josm();
         };
-        $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.1")+'</p><p>'+i18n.t("warning.incomplete.remote.2")+'</p></div>').dialog({
+        $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.expl.1")+'</p><p>'+i18n.t("warning.incomplete.remote.expl.2")+'</p></div>').dialog({
           modal:true,
           buttons: dialog_buttons,
         });
