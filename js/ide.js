@@ -914,7 +914,7 @@ var ide = new(function() {
   }
 
   this.switchTab = function(tab) {
-    $("#navs .tabs a:contains('"+tab+"')").click();
+    $("#navs .tabs a."+tab).click();
   }
 
   this.loadExample = function(ex) {
