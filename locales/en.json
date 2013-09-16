@@ -109,7 +109,8 @@
   "export.raw.no_data": "No raw data available! Please run a query first.",
 
   "export.map_view.title": "Current Map View",
-  "export.map_view.permalink_osm": "<h4>Permalink</h4> to",
+  "export.map_view.permalink": "Permalink",
+  "export.map_view.permalink_osm": "to osm.org",
   "export.map_view.center": "Center",
   "export.map_view.center_expl": "lat/lon",
   "export.map_view.bounds": "Bounds",
