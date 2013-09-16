@@ -106,6 +106,14 @@ a:not(.disabled):not(.active):hover {
 a {
   font-weight: bold;
 }
+a.external::after {
+  content: " ";
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  background-image: url("http://code.jquery.com/ui/1.10.3/themes/smoothness/images/ui-icons_222222_256x240.png");
+  background-position: -32px -80px;
+}
 .buttons {
   float: left;
   display: block;
@@ -196,7 +204,7 @@ a.button.disabled {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1007;
+  z-index: 1037;
   top: 0;
   left: 0;
   bottom: 0;
@@ -342,6 +350,9 @@ ul.plain > li {
 }
 .ui-autocomplete.ui-front {
   z-index:1012;
+}
+.ui-front.huge_data {
+  z-index:1040;
 }
 body .ui-tooltip {
   opacity:0.8;

@@ -6,3 +6,4 @@ turbo.map.js
 turbo.map.min.js
 build
 node_modules
+transifex.auth

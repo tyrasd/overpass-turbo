@@ -207,7 +207,8 @@ describe("overpass.geojson", function () {
         {
           type:  "way",
           id:    2,
-          nodes: [4,5,6,7,4]
+          nodes: [4,5,6,7,4],
+          tags:  {"area":"yes"},
         },
         {
           type:  "way",
@@ -267,7 +268,7 @@ describe("overpass.geojson", function () {
             properties: {
               type: "way",
               id: 2,
-              tags: {},
+              tags: {"area":"yes"},
               relations: [
                 {
                   rel: 1,
@@ -297,30 +298,268 @@ describe("overpass.geojson", function () {
       },
       {
         type: "FeatureCollection",
+        features: []
+      },
+      {
+        type: "FeatureCollection",
+        features: []
+      }
+    ];
+    var result = L.OSM4Leaflet.prototype._overpassJSON2geoJSON(json);
+    expect(result).to.eql(geojson);
+  });
+  it("overpassJSON2geoJSON: multipolygon", function () {
+    var json, geojson;
+    json = {
+      elements: [
+        {
+          type:    "relation",
+          id:      1,
+          tags:    {"type":"multipolygon", "building":"yes"},
+          members: [
+            {
+              type: "way",
+              ref:  2,
+              role: "outer"
+            },
+            {
+              type: "way",
+              ref:  3,
+              role: "inner"
+            },
+            {
+              type: "way",
+              ref:  4,
+              role: "inner"
+            },
+            {
+              type: "way",
+              ref:  5,
+              role: "outer"
+            }
+          ]
+        },
+        {
+          type:  "way",
+          id:    2,
+          nodes: [4,5,6,7,4],
+          tags:  {"building":"yes"}
+        },
+        {
+          type:  "way",
+          id:    3,
+          nodes: [8,9,10,8],
+          tags:  {"area":"yes"}
+        },
+        {
+          type:  "way",
+          id:    4,
+          nodes: [11,12,13,11],
+          tags:  {"barrier":"fence"}
+        },
+        {
+          type:  "way",
+          id:    5,
+          nodes: [14,15,16,14],
+          tags:  {"building":"yes", "area":"yes"}
+        },
+        {
+          type: "node",
+          id:   4,
+          lat: -1.0,
+          lon: -1.0
+        },
+        {
+          type: "node",
+          id:   5,
+          lat: -1.0,
+          lon:  1.0
+        },
+        {
+          type: "node",
+          id:   6,
+          lat:  1.0,
+          lon:  1.0
+        },
+        {
+          type: "node",
+          id:   7,
+          lat:  1.0,
+          lon: -1.0
+        },
+        {
+          type: "node",
+          id:   8,
+          lat: -0.5,
+          lon:  0.0
+        },
+        {
+          type: "node",
+          id:   9,
+          lat:  0.5,
+          lon:  0.0
+        },
+        {
+          type: "node",
+          id:   10,
+          lat:  0.0,
+          lon:  0.5
+        },
+        {
+          type: "node",
+          id:   11,
+          lat:  0.1,
+          lon:  -0.1
+        },
+        {
+          type: "node",
+          id:   12,
+          lat:  -0.1,
+          lon:  -0.1
+        },
+        {
+          type: "node",
+          id:   13,
+          lat:  0.0,
+          lon:  -0.2
+        },
+        {
+          type: "node",
+          id:   14,
+          lat:  0.1,
+          lon:  -1.1
+        },
+        {
+          type: "node",
+          id:   15,
+          lat:  -0.1,
+          lon:  -1.1
+        },
+        {
+          type: "node",
+          id:   16,
+          lat:  0.0,
+          lon:  -1.2
+        }
+      ]
+    };
+    geojson = [
+      {
+        type: "FeatureCollection",
         features: [
+          {
+            type: "Feature",
+            properties: {
+              type: "relation",
+              id: 1,
+              tags: {"type":"multipolygon","building":"yes"},
+              relations: [],
+              meta: {}
+            },
+            geometry: {
+              type: "MultiPolygon",
+              coordinates: [[[
+                [-1.1, 0.1],
+                [-1.1,-0.1],
+                [-1.2, 0.0],
+                [-1.1, 0.1]
+              ]],
+              [[
+                [-1.0,-1.0],
+                [ 1.0,-1.0],
+                [ 1.0, 1.0],
+                [-1.0, 1.0],
+                [-1.0,-1.0],
+              ],[
+                [-0.1, 0.1],
+                [-0.1,-0.1],
+                [-0.2, 0.0],
+                [-0.1, 0.1]
+              ],[
+                [0.0,-0.5],
+                [0.0, 0.5],
+                [0.5, 0.0],
+                [0.0,-0.5]
+              ]]]
+            }
+          },
           {
             type: "Feature",
             properties: {
               type: "way",
               id: 3,
-              tags: {},
+              tags: {"area":"yes"},
               relations: [
                 {
                   rel: 1,
                   role: "inner",
-                  reltags: {"type":"multipolygon"}
+                  reltags: {"type":"multipolygon","building":"yes"}
                 }
               ],
               meta: {},
-              mp_outline: true
             },
             geometry: {
-              type: "LineString",
-              coordinates: [
+              type: "Polygon",
+              coordinates: [[
                 [0.0,-0.5],
                 [0.0, 0.5],
                 [0.5, 0.0],
                 [0.0,-0.5]
+              ]]
+            }
+          }, 
+          {
+            type: "Feature",
+            properties: {
+              type: "way",
+              id: 5,
+              tags: {"building":"yes", "area":"yes"},
+              relations: [
+                {
+                  rel: 1,
+                  role: "outer",
+                  reltags: {"type":"multipolygon","building":"yes"}
+                }
+              ],
+              meta: {},
+            },
+            geometry: {
+              type: "Polygon",
+              coordinates: [[
+                [-1.1, 0.1],
+                [-1.1,-0.1],
+                [-1.2, 0.0],
+                [-1.1, 0.1]
+              ]]
+            }
+          }  
+        ]
+      },
+      {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: {
+              type: "way",
+              id: 4,
+              tags: {"barrier":"fence"},
+              relations: [
+                {
+                  rel: 1,
+                  role: "inner",
+                  reltags: {"type":"multipolygon","building":"yes"}
+                }
+              ],
+              meta: {},
+            },
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                [-0.1, 0.1],
+                [-0.1,-0.1],
+                [-0.2, 0.0],
+                [-0.1, 0.1]
               ]
             }
           }  

@@ -148,6 +148,15 @@ setTimeout(function(){
     return this._convert2geoJSON(nodes,ways,rels);
   },
   _convert2geoJSON: function(nodes,ways,rels) {
+    // helper function that checks if there are any tags other than "created_by", "source" or any tag provided in ignore_tags
+    function has_interesting_tags(t, ignore_tags) {
+      if (typeof ignore_tags !== "object")
+        ignore_tags={};
+      for (var k in t)
+        if (k!="created_by" && k!="source" && ignore_tags[k]===undefined)
+          return true;
+      return false;
+    };
     // some data processing (e.g. filter nodes only used for ways)
     var nodeids = new Object();
     for (var i=0;i<nodes.length;i++) {
@@ -255,18 +264,21 @@ setTimeout(function(){
         if (!jQuery.isArray(rels[i].members))
           continue; // ignore relations without members (e.g. returned by an ids_only query)
         var outer_count = 0;
-        jQuery.each(rels[i].members, function(n,m) {
-          if (wayids[m.ref])
-            wayids[m.ref].is_multipolygon_outline = true;
-        });
         for (var j=0;j<rels[i].members.length;j++)
           if (rels[i].members[j].role == "outer")
             outer_count++;
+        jQuery.each(rels[i].members, function(n,m) {
+          if (wayids[m.ref]) {
+            if (m.role==="outer" && !has_interesting_tags(wayids[m.ref].tags,rels[i].tags))
+              wayids[m.ref].is_multipolygon_outline = true;
+            if (m.role==="inner" && !has_interesting_tags(wayids[m.ref].tags))
+              wayids[m.ref].is_multipolygon_outline = true;
+          }
+        });
         if (outer_count == 0)
           continue; // ignore multipolygons without outer ways
         var simple_mp = false;
-        if (outer_count == 1 &&
-            !(function(o){for(var k in o) if(k!="created_by"&&k!="source"&&k!="type") return true; return false;})(rels[i].tags)) // this checks if the relation has any tags other than "created_by", "source" and "type"
+        if (outer_count == 1 && !has_interesting_tags(rels[i].tags, {"type":true}))
           simple_mp = true;
         if (!simple_mp) {
           var is_tainted = false;
@@ -430,7 +442,6 @@ setTimeout(function(){
           if (is_tainted)
             feature.properties["tainted"] = true;
           geojsonpolygons.features.push(feature);
-          //continue; // abort this complex multipolygon
         } else {
           // simple multipolygon
           rels[i].tainted = false;
@@ -454,11 +465,10 @@ setTimeout(function(){
               }
               if (rels[i].members[j].role == "outer") {
                 outer_coords.push(coords);
-                w.is_multipolygon = true;
                 outer_way = w;
+                outer_way.is_multipolygon_outline = true;
               } else if (rels[i].members[j].role == "inner") {
                 inner_coords.push(coords);
-                w.is_multipolygon_inner = true;
               }
             }
           }
@@ -491,8 +501,8 @@ setTimeout(function(){
     for (var i=0;i<ways.length;i++) {
       if (!jQuery.isArray(ways[i].nodes))
         continue; // ignore ways without nodes (e.g. returned by an ids_only query)
-      if (ways[i].is_multipolygon)
-        continue; // ignore ways which are already rendered as multipolygons
+      if (ways[i].is_multipolygon_outline)
+        continue; // ignore ways which are already rendered as (part of) a multipolygon
       ways[i].tainted = false;
       ways[i].hidden = false;
       coords = new Array();
@@ -562,8 +572,6 @@ setTimeout(function(){
       }
       if (ways[i].tainted)
         feature.properties["tainted"] = true;
-      if (ways[i].is_multipolygon_outline)
-        feature.properties["mp_outline"] = true;
       if (way_type == "LineString")
         geojsonlines.features.push(feature);
       else

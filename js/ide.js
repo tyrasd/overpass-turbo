@@ -2,10 +2,10 @@
 
 var ide = new(function() {
   // == private members ==
-  var codeEditor = null;
   var attribControl = null;
   var scaleControl = null;
   // == public members ==
+  this.codeEditor = null;
   this.dataViewer = null;
   this.map = null;
 
@@ -86,11 +86,7 @@ var ide = new(function() {
         false) {
       // the currently used browser is not capable of running the IDE. :(
       ide.not_supported = true;
-      $('<div title="'+i18n.t("warning.browser.title")+'">'+
-          i18n.t("warning.browser.expl.1")+
-          i18n.t("warning.browser.expl.2")+
-          i18n.t("warning.browser.expl.3")+
-        '</div>').dialog({modal:true});
+      $('#warning-unsupported-browser').dialog({modal:true});
     }
     // load settings
     settings.load();
@@ -105,7 +101,7 @@ var ide = new(function() {
       var args = {};
       for (var i=0; i<get.length; i++) {
         var kv = get[i].split("=");
-        args[kv[0]] = kv[1] || true;
+        args[kv[0]] = (kv[1] !== undefined ? kv[1] : true);
       }
       if (args.q) // compressed query set in url
         settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(args.q)));
@@ -141,7 +137,7 @@ var ide = new(function() {
       if (args.zoom) { // map zoom level (standard osm.org parameter)
         settings.coords_zoom = +args.zoom;
       }
-      if (args.R) { // indicates that the supplied query shall be executed immediately
+      if (args.R !== undefined) { // indicates that the supplied query shall be executed immediately
         ide.run_query_on_startup = true;
       }
       if (args.template) { // load a template
@@ -152,7 +148,7 @@ var ide = new(function() {
           var params = template.parameters;
           for (var i=0; i<params.length; i++) {
             var param = params[i];
-            if (!args[param]) continue;
+            if (typeof args[param] !== "string") continue;
             var value = decodeURIComponent(args[param].replace(/\+/g,"%20"));
             value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
             // additionally escape curly brackets
@@ -193,7 +189,7 @@ var ide = new(function() {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
           "out json xml custom popup timeout maxsize bbox" // initial declarations
-          +" relation way node is_in area around user uid newer poly pivot" // queries
+          +" relation rel way node is_in area around user uid newer poly pivot" // queries
           +" out meta quirks body skel ids qt asc" // actions
           //+"r w n br bw" // recursors
         ),
@@ -227,7 +223,7 @@ var ide = new(function() {
            delimStyle: "mustache"}
         );
       });
-      codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
+      ide.codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
         //value: settings.code["overpass"],
         lineNumbers: true,
         lineWrapping: true,
@@ -279,19 +275,20 @@ var ide = new(function() {
           "'/'": function(cm) {cm.closeTag(cm, '/');},
         },
       });
-      codeEditor.getOption("onChange")(codeEditor);
-    } else {
-      codeEditor = $("#editor textarea")[0];
-      codeEditor.getValue = function() {
+      // fire onChange after initialization
+      ide.codeEditor.getOption("onChange")(ide.codeEditor);
+    } else { // use non-rich editor
+      ide.codeEditor = $("#editor textarea")[0];
+      ide.codeEditor.getValue = function() {
         return this.value;
       };
-      codeEditor.setValue = function(v) {
+      ide.codeEditor.setValue = function(v) {
         this.value = v;
       };
-      codeEditor.lineCount = function() {
+      ide.codeEditor.lineCount = function() {
         return this.value.split(/\r\n|\r|\n/).length;
       };
-      codeEditor.setLineClass = function() {};
+      ide.codeEditor.setLineClass = function() {};
       $("#editor textarea").bind("input change", function(e) {
         settings.code["overpass"] = e.target.getValue();
         settings.save();
@@ -551,7 +548,7 @@ var ide = new(function() {
       if (data_bounds.isValid() && !map_bounds.intersects(data_bounds)) {
         // show tooltip for button "zoom to data"
         var prev_content = $(".leaflet-control-buttons-fitdata").tooltip("option","content");
-        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← click here to show the data");
+        $(".leaflet-control-buttons-fitdata").tooltip("option","content", "← "+i18n.t("map_controlls.suggest_zoom_to_data"));
         $(".leaflet-control-buttons-fitdata").tooltip("open");
         $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", { effect: "fadeOut", duration: 1000 });
         setTimeout(function(){
@@ -578,7 +575,7 @@ var ide = new(function() {
             ide.switchTab("Data"); 
             $(this).dialog("close");
           };
-          $('<div title="'+i18n.t("warning.incomplete.title")+'">'+i18n.t("warning.incomplete.expl")+'<p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;'+i18n.t("warning.incomplete.not_again")+'</p></div>').dialog({
+          $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.expl.1")+'</p><p>'+i18n.t("warning.incomplete.expl.2")+'</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;'+i18n.t("warning.incomplete.not_again")+'</p></div>').dialog({
             modal:true,
             buttons: dialog_buttons,
           });
@@ -594,7 +591,7 @@ var ide = new(function() {
       if (data_mode == "unknown")
         ide.switchTab("Data");
       // display empty map badge
-      $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">'+i18n.t("map.intentianally_blank")+' <small>('+empty_msg+')</small></div>').appendTo("#map");
+      $('<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">'+i18n.t("map.intentionally_blank")+' <small>('+empty_msg+')</small></div>').appendTo("#map");
     }
     overpass.handlers["onDataRecieved"] = function(amount, amount_txt, abortCB, continueCB) {
       if (amount > 1000000) { // more than ~1MB of data
@@ -608,9 +605,10 @@ var ide = new(function() {
           $(this).dialog("close");
           continueCB();
         };
-        $('<div title="'+i18n.t("warning.huge_data.title")+'">'+i18n.t("warning.huge_data.expl").replace("{{amount_txt}}",amount_txt)+'</div>').dialog({
+        $('<div title="'+i18n.t("warning.huge_data.title")+'"><p>'+i18n.t("warning.huge_data.expl.1").replace("{{amount_txt}}",amount_txt)+'</p><p>'+i18n.t("warning.huge_data.expl.2")+'</p></div>').dialog({
           modal:true,
           buttons: dialog_buttons,
+          dialogClass: "huge_data"
         });
       } else
         continueCB();
@@ -728,7 +726,7 @@ var ide = new(function() {
    * processed (boolean, optional, default: false): determines weather shortcuts should be expanded or not.
    * trim_ws (boolean, optional, default: true): if false, newlines and whitespaces are not touched.*/
   this.getQuery = function(processed,trim_ws) {
-    var query = codeEditor.getValue();
+    var query = ide.codeEditor.getValue();
     if (processed) {
       // preproces query
       // expand defined constants
@@ -740,6 +738,9 @@ var ide = new(function() {
           query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]);
         }
       // expand bbox
+      // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
+      query = query.replace(/(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,"$1{{__bbox__global_bbox_xml__ezs4K8__}}$3");
+      query = query.replace(/{{__bbox__global_bbox_xml__ezs4K8__}}/g,ide.map2bbox("OverpassQL"));
       query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang()));
       // expand map center
       query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang()));
@@ -781,11 +782,11 @@ var ide = new(function() {
     return query;
   }
   this.setQuery = function(query) {
-    codeEditor.setValue(query);
+    ide.codeEditor.setValue(query);
   }
   this.getQueryLang = function() {
     // note: cannot use this.getQuery() here, as this function is required by that.
-    if ($.trim(codeEditor.getValue().replace(/{{.*?}}/g,"")).match(/^</))
+    if ($.trim(ide.codeEditor.getValue().replace(/{{.*?}}/g,"")).match(/^</))
       return "xml";
     else
       return "OverpassQL";
@@ -905,11 +906,11 @@ var ide = new(function() {
     ide.setQuery(q);
   }
   this.highlightError = function(line) {
-    codeEditor.setLineClass(line-1,null,"errorline");
+    ide.codeEditor.setLineClass(line-1,null,"errorline");
   }
   this.resetErrors = function() {
-    for (var i=0; i<codeEditor.lineCount(); i++)
-      codeEditor.setLineClass(i,null,null);
+    for (var i=0; i<ide.codeEditor.lineCount(); i++)
+      ide.codeEditor.setLineClass(i,null,null);
   }
 
   this.switchTab = function(tab) {
@@ -963,7 +964,8 @@ var ide = new(function() {
     // combobox for existing saves.
     var saves_names = new Array();
     for (var key in settings.saves)
-      saves_names.push(key);
+      if (settings.saves[key].type != "template")
+        saves_names.push(key);
     make_combobox($("#save-dialog input[name=save]"), saves_names);
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.save")] = function() {
@@ -1008,7 +1010,7 @@ var ide = new(function() {
   }
   this.updateShareLink = function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
-    var query = codeEditor.getValue();
+    var query = ide.codeEditor.getValue();
     var compress = ((settings.share_compression == "auto" && query.length > 300) ||
         (settings.share_compression == "on"))
     var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
@@ -1057,7 +1059,7 @@ var ide = new(function() {
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="'+i18n.t("export.map_view.title")+'">'+
-        i18n.t("export.map_view.permalink_osm")+'&nbsp;<a href="http://www.openstreetmap.org/?lat='+L.Util.formatNum(ide.map.getCenter().lat)+'&lon='+L.Util.formatNum(ide.map.getCenter().lng)+'&zoom='+ide.map.getZoom()+'">osm.org</a></p>'+
+        '<h4>'+i18n.t("export.map_view.permalink")+'</h4>'+'<p><a href="http://www.openstreetmap.org/#map='+ide.map.getZoom()+'/'+L.Util.formatNum(ide.map.getCenter().lat)+'/'+L.Util.formatNum(ide.map.getCenter().lng)+'" target="_blank">'+i18n.t("export.map_view.permalink_osm")+'</a></p>'+
         '<h4>'+i18n.t("export.map_view.center")+'</h4><p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>('+i18n.t("export.map_view.center_expl")+')</small></p>'+
         '<h4>'+i18n.t("export.map_view.bounds")+'</h4><p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>'+
         (ide.map.bboxfilter.isEnabled() ?
@@ -1076,9 +1078,8 @@ var ide = new(function() {
       $(this).parents('.ui-dialog-content').dialog('close');
       return false;
     });
-    $("#export-dialog a#export-geoJSON").unbind("click").on("click", function() {
+    function constructGeojsonString(geojson) {
       var geoJSON_str;
-      var geojson = overpass.geojson;
       if (!geojson)
         geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
@@ -1098,8 +1099,7 @@ var ide = new(function() {
           var p = f.properties;
           f.id = p.type+"/"+p.id;
           f.properties = {
-            "@type": p.type,
-            "@id": p.id,
+            "@id": f.id
           };
           for (var m in p.tags||{})
              // escapes tags beginning with an @ with another @
@@ -1110,16 +1110,17 @@ var ide = new(function() {
           // * tainted: indicates that the feature's geometry is incomplete
           if (p.tainted)
             f.properties["@tainted"] = p.tainted;
-          // * mp_outline: indicates membership in a multipolygon relation
-          if (p.mp_outline)
-            f.properties["@mp_outline"] = p.mp_outline;
           // expose relation membership (complex data type)
-          if (p.relations)
+          if (p.relations && p.relations.length > 0)
             f.properties["@relations"] = p.relations;
           // todo: expose way membership for nodes?
         });
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
+      return geoJSON_str;
+    }
+    $("#export-dialog a#export-geoJSON").unbind("click").on("click", function() {
+      var geoJSON_str = constructGeojsonString(overpass.geojson);
       var d = $("#export-geojson-dialog");
       var dialog_buttons= {};
       dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
@@ -1130,10 +1131,39 @@ var ide = new(function() {
       });
       $("textarea",d)[0].value=geoJSON_str;
       // make content downloadable as file
-      if (geojson) {
+      if (overpass.geojson) {
         var blob = new Blob([geoJSON_str], {type: "application/json;charset=utf-8"});
         saveAs(blob, "export.geojson");
       }
+      return false;
+    });
+    $("#export-dialog a#export-geoJSON-gist").unbind("click").on("click", function() {
+      var geoJSON_str = constructGeojsonString(overpass.geojson);
+      $.ajax("https://api.github.com/gists", {
+        method: "POST",
+        data: JSON.stringify({
+          description: "data exported by overpass turbo", // todo:descr
+          public: true,
+          files: {
+            "overpass.geojson": { // todo:name
+              content: geoJSON_str
+            }
+          }
+        })
+      }).success(function(data,textStatus,jqXHR) {
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
+        $('<div title="'+i18n.t("export.geoJSON_gist.title")+'">'+
+          '<p>'+i18n.t("export.geoJSON_gist.gist")+'&nbsp;<a href="'+data.html_url+'" target="_blank" class="external">'+data.id+'</a></p>'+
+          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#gist:anonymous/'+data.id+'" target="_blank" class="external">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'</a></p>'+
+          '</div>').dialog({
+          modal:true,
+          buttons: dialog_buttons,
+        });
+        // data.html_url;
+      }).error(function(jqXHR,textStatus,errorStr) {
+        alert("an error occured during the creation of the overpass gist:\n"+JSON.stringify(jqXHR));
+      });
       return false;
     });
     $("#export-dialog a#export-GPX").unbind("click").on("click", function() {
@@ -1347,7 +1377,7 @@ var ide = new(function() {
           $(this).dialog("close");
           send_to_josm();
         };
-        $('<div title="'+i18n.t("warning.incomplete.title")+'">'+i18n.t("warning.incomplete.remote")+'</div>').dialog({
+        $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.expl.1")+'</p><p>'+i18n.t("warning.incomplete.remote.expl.2")+'</p></div>').dialog({
           modal:true,
           buttons: dialog_buttons,
         });
@@ -1429,11 +1459,9 @@ var ide = new(function() {
   }
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value = settings.ui_language;
-    make_combobox($("#settings-dialog input[name=ui_language]"), [
-      "auto",
-      "en",
-      "de"
-    ]);
+    make_combobox($("#settings-dialog input[name=ui_language]"),
+      ["auto"].concat(i18n.getSupportedLanguages())
+    );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox($("#settings-dialog input[name=server]"), [
       "http://www.overpass-api.de/api/",
@@ -1471,7 +1499,12 @@ var ide = new(function() {
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.save")] = function() {
       // save settings
-      settings.ui_language = $("#settings-dialog input[name=ui_language]")[0].value;
+      var new_ui_language = $("#settings-dialog input[name=ui_language]")[0].value;
+      // reload ui if language has been changed
+      if (settings.ui_language != new_ui_language) {
+        i18n.translate(new_ui_language);
+      }
+      settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;
       settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
       settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;

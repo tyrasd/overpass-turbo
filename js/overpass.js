@@ -204,11 +204,9 @@ setTimeout(function() {
           +"area {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n"
           // style modifications
           // objects in relations
-          +"relation node, relation way, relation relation {color:#d0f;} \n"
+          +"relation node, relation way, relation {color:#d0f;} \n"
           // tainted objects
           +"way:tainted, relation:tainted {dashes:5,8;} \n"
-          // multipolygon outlines without tags
-          +"way:mp_outline:untagged {width:2; opacity:0.7;} \n"
           // placeholder points
           +"way:placeholder, relation:placeholder {fill-color:red;} \n"
           // highlighted features
@@ -251,7 +249,6 @@ setTimeout(function() {
             } 
           }, $.extend(
             feature.properties && feature.properties.tainted ? {":tainted": true} : {},
-            feature.properties && feature.properties.mp_outline ? {":mp_outline": true} : {},
             feature.is_placeholder ? {":placeholder": true} : {},
             hasInterestingTags(feature.properties) ? {":tagged":true} : {":untagged": true},
             highlight ? {":active": true} : {},
@@ -271,7 +268,7 @@ setTimeout(function() {
           baseLayerOptions: {
           threshold: 9*Math.sqrt(2)*2,
           compress: function(feature) {
-            return !(feature.properties.mp_outline && $.isEmptyObject(feature.properties.tags));
+            return true;
           },
           style: function(feature, highlight) {
             var stl = {};
@@ -461,10 +458,10 @@ setTimeout(function() {
         if (geojson[0].features.length == 0 && geojson[1].features.length == 0 && geojson[2].features.length == 0) { // no visible data
           // switch only if there is some unplottable data in the returned json/xml.
           if ((data_mode == "json" && data.elements.length > 0) ||
-              (data_mode == "xml" && $("osm",data).children().not("note,meta").length > 0)) {
+              (data_mode == "xml" && $("osm",data).children().not("note,meta,bounds").length > 0)) {
             // check for "only areas returned"
             if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type!="area") return false; return true;})(data.elements)) ||
-                (data_mode == "xml" && $("osm",data).children().not("note,meta,area").length == 0))
+                (data_mode == "xml" && $("osm",data).children().not("note,meta,bounds,area").length == 0))
               empty_msg = "only areas returned";
             // check for "ids_only"
             else if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type=="node") return true; return false;})(data.elements)) ||
@@ -504,7 +501,7 @@ setTimeout(function() {
         overpass.resultText = jqXHR.resultText;
         var errmsg = "";
         if (jqXHR.state() == "rejected")
-          errmsg += "<p>Request rejected. (e.g. server not found, redirection, internal server errors, etc.)</p>";
+          errmsg += "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";
         if (textStatus == "parsererror")
           errmsg += "<p>Error while parsing the data (parsererror).</p>";
         else if (textStatus != "error" && textStatus != jqXHR.statusText)
