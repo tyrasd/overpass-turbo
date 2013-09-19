@@ -269,7 +269,7 @@ var ide = new(function() {
           settings.save();
         },
         closeTagEnabled: true,
-        closeTagIndent: ["osm-script","query","union","foreach"],
+        closeTagIndent: ["osm-script","query","union","foreach","difference"],
         extraKeys: {
           "'>'": function(cm) {cm.closeTag(cm, '>');},
           "'/'": function(cm) {cm.closeTag(cm, '/');},
@@ -1053,7 +1053,7 @@ var ide = new(function() {
     var query = ide.getQuery(true);
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
-    $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query);
+    $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21");
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
