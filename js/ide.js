@@ -269,7 +269,7 @@ var ide = new(function() {
           settings.save();
         },
         closeTagEnabled: true,
-        closeTagIndent: ["osm-script","query","union","foreach"],
+        closeTagIndent: ["osm-script","query","union","foreach","difference"],
         extraKeys: {
           "'>'": function(cm) {cm.closeTag(cm, '>');},
           "'/'": function(cm) {cm.closeTag(cm, '/');},
