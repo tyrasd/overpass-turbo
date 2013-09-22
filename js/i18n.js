@@ -6,6 +6,7 @@ var i18n = new(function() {
     default_lng, // default language, found in locale/en.json
     "da", // translations found in locale/da.json
     "de", // translations found in locale/de.json
+    "ru", // translations found in locale/ru.json
     //"it", // translations found in locale/it.json
   ];
   this.getSupportedLanguages = function() {
