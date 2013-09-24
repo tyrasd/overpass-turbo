@@ -7,12 +7,12 @@ var i18n = new(function() {
     default_lng,
     "da",
     "de",
+    "fr",
+    "hr",
+    //"it",
+    "nl",
     "ru",
     "vi",
-    "hr",
-    "nl",
-    "fr",
-    //"it"
   ];
   this.getSupportedLanguages = function() {
     return [].concat(supported_lngs);
