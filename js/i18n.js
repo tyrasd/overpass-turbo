@@ -3,10 +3,16 @@
 var i18n = new(function() {
   var default_lng = "en";
   var supported_lngs = [
-    default_lng, // default language, found in locale/en.json
-    "da", // translations found in locale/da.json
-    "de", // translations found in locale/de.json
-    //"it", // translations found in locale/it.json
+    // translations found in locale/*.json
+    default_lng,
+    "da",
+    "de",
+    "fr",
+    "hr",
+    //"it",
+    "nl",
+    "ru",
+    "vi",
   ];
   this.getSupportedLanguages = function() {
     return [].concat(supported_lngs);
