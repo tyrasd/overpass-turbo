@@ -1270,7 +1270,7 @@ var ide = new(function() {
           raw_str = (new XMLSerializer()).serializeToString(data);
           raw_type = raw_str.match(/<osm/)?"osm":"xml";
         } else if (data instanceof Object) {
-          raw_str = JSON.stringify(data);
+          raw_str = JSON.stringify(data, undefined, 2);
           raw_type = "json";
         } else {
           try {

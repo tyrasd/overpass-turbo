@@ -46,6 +46,8 @@ setTimeout(function(){
     map.removeLayer(this._baseLayer);
   },
   _overpassJSON2geoJSON: function(json) {
+    // create copy of json to make sure the original object doesn't get altered
+    json = JSON.parse(JSON.stringify(json));
     // sort elements
     var nodes = new Array();
     var ways  = new Array();
