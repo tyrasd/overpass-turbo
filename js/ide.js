@@ -1486,7 +1486,6 @@ var ide = new(function() {
       //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
       //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
       //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
-      //"http://oatile1.mqcdn.com/naip/{z}/{x}/{y}.jpg",
     ]);
     $("#settings-dialog input[name=background_opacity]")[0].value = settings.background_opacity;
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
