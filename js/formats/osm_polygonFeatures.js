@@ -106,5 +106,7 @@ turbo.formats.osm.isPolygonFeature.polygonFeatures = {
     "office": true,
     "building:part": true,
     "military": true,
+    "ruins": true,
+    "area:highway": true,
     "craft": true
 };
