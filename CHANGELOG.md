@@ -1,3 +1,9 @@
+2013-09-27
+----------
+* activated new translations: Russian, Vietnamese, Japanese, Dutch, Croation, French
+* updated polygon detection heuristic
+* bugfixes
+
 2013-09-16
 ----------
 * new export mode: data (geoJSON) as gist including a link to geojson.io
