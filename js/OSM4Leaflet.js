@@ -552,6 +552,8 @@ setTimeout(function(){
               is_area_by_tag(ways[i].tags, "office") ||
               is_area_by_tag(ways[i].tags, "building:part") ||
               is_area_by_tag(ways[i].tags, "military") ||
+              is_area_by_tag(ways[i].tags, "ruins") ||
+              is_area_by_tag(ways[i].tags, "area:highway") ||
               is_area_by_tag(ways[i].tags, "craft") ||
               false) 
              way_type="Polygon";
