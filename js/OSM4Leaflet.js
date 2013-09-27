@@ -46,6 +46,8 @@ setTimeout(function(){
     map.removeLayer(this._baseLayer);
   },
   _overpassJSON2geoJSON: function(json) {
+    // create copy of json to make sure the original object doesn't get altered
+    json = JSON.parse(JSON.stringify(json));
     // sort elements
     var nodes = new Array();
     var ways  = new Array();
@@ -550,6 +552,8 @@ setTimeout(function(){
               is_area_by_tag(ways[i].tags, "office") ||
               is_area_by_tag(ways[i].tags, "building:part") ||
               is_area_by_tag(ways[i].tags, "military") ||
+              is_area_by_tag(ways[i].tags, "ruins") ||
+              is_area_by_tag(ways[i].tags, "area:highway") ||
               is_area_by_tag(ways[i].tags, "craft") ||
               false) 
              way_type="Polygon";

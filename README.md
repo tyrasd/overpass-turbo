@@ -12,6 +12,13 @@ Just point your browser to [overpass-turbo.eu](http://overpass-turbo.eu) and sta
 
 More Information about *overpass turbo* is found in the [OSM wiki](http://wiki.openstreetmap.org/wiki/Overpass_turbo).
 
+Translating
+-----------
+
+Translations are managed using the [Transifex](https://www.transifex.com/projects/p/id-editor/) platform. After signing up, you can go to [overpass-turbo's project page](https://www.transifex.com/projects/p/overpass-turbo), select a language and click *Translate now* to start translating.
+
+If your language isn't currently in the list, just drop me a [mail](mailto:tyr.asd@gmail.com) or open an [issue ticket](https://github.com/tyrasd/overpass-ide/issues/new).
+
 Development
 -----------
 

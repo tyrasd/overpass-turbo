@@ -6,8 +6,7 @@
   <title>overpass turbo</title>
   <link rel="icon" href="turbo.png" type="image/png" />
   <!--jQuery-->
-  <script src="http://code.jquery.com/jquery-2.0.3.js"></script>
-  <!--[if lt IE 9]><script src="http://code.jquery.com/jquery-1.10.2.js"></script><![endif]-->
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <!--CodeMirror-->
   <link rel="stylesheet" href="libs/CodeMirror/lib/codemirror.css" />
   <script src="libs/CodeMirror/lib/codemirror.js"></script>
@@ -30,7 +29,6 @@
   <script src="libs/jxon.js"></script>
   <!--polyfills for FileSaver-->
   <script src="libs/Blob.js/Blob.js"></script>
-  <script src="libs/Blob.js/BlobBuilder.js"></script>
   <script src="libs/canvas-toBlob.js/canvas-toBlob.js"></script>
   <!--FileSaver-->
   <script src="libs/FileSaver/FileSaver.js"></script>
@@ -78,8 +76,8 @@
       </div>
       <div class="title"><a href="index.html" class="disabled">overpass turbo <img src="turbo.png" style="opacity:0.3; margin-left:2px;" /></a></div>
       <div class="tabs">
-        <a class="t button active" title="" t="[title]tabs.map_tt;tabs.map"  >Map</a>
-        <a class="t button"        title="" t="[title]tabs.data_tt;tabs.data">Data</a>
+        <a class="t button Map active" title="" t="[title]tabs.map_tt;tabs.map"  >Map</a>
+        <a class="t button Data"       title="" t="[title]tabs.data_tt;tabs.data">Data</a>
       </div>
     </div>
   </div>
@@ -172,16 +170,16 @@
   <div title="" id="settings-dialog" class="t dialog" t="[title]settings.title">
     <h3><a class="t" t="settings.section.general"></a></h3>
     <div>
-      <p><label><span class="t" t="settings.ui_lang"></span>:</label> <input type="text" name="ui_language" value="" style="width:60px;"/><br/><small>(<span class="t" t="settings.ui_lang_expl"></span>)</small></p>
+      <p><label><span class="t" t="settings.ui_lang"></span>:</label> <input type="text" name="ui_language" value="" style="width:60px;"/></p>
       <p><label><span class="t" t="settings.server"></span>:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
-      <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;<span class="t" t="settings.force_simple_cors"></span> <small>(<span class="t" t="settings.force_simple_cors_expl"></span>)</small></p>
+      <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;<span class="t" t="settings.force_simple_cors"></span> <small>(<span class="t" t="[html]settings.force_simple_cors_expl"></span>)</small></p>
       <p><input type="checkbox" name="use_html5_coords"/>&nbsp;<span class="t" t="settings.start_at_user_location"></span> <small>(<span class="t" t="settings.start_at_user_location_expl"></span>)</small></p>
       <p><input type="checkbox" name="no_autorepair"/>&nbsp;<span class="t" t="settings.disable_autorepair"></span></p>
     </div>
     <h3><a class="t" t="settings.section.editor"></a></h3>
     <div>
       <p><input type="checkbox" name="use_rich_editor"/>&nbsp;<span class="t" t="settings.enable_rich_editor"></span> <small>(<span class="t" t="settings.enable_rich_editor_expl"></span>)</small>.</p>
-      <p><label><span class="t" t="settings.editor_with"></span>:</label> <small>(<span class="t" t="settings.editor_with_expl"></span>)</small> <input type="text" name="editor_width" value="" style="width:80px;"/></p>
+      <p><label><span class="t" t="settings.editor_width"></span>:</label> <small>(<span class="t" t="settings.editor_width_expl"></span>)</small> <input type="text" name="editor_width" value="" style="width:80px;"/></p>
     </div>
     <h3><a class="t" t="settings.section.map"></a></h3>
     <div>
@@ -281,6 +279,15 @@
       </ul>
     </p>
   </div>
+  <!--unsupported browser warning-->
+  <div title="Your browser is not supported :(" id="warning-unsupported-browser" class="t dialog" t="[title]warning.browser.title">
+    <p class="t" t="[html]warning.browser.expl.1">The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href="http://en.wikipedia.org/wiki/Web_storage#localStorage">Web Storage API</a> and <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>
+    <p class="t" t="[html]warning.browser.expl.2">Note that you may have to enable cookies and/or "local Data" for this site on some browsers (such as Firefox and Chrome).</p>
+    <p class="t" t="[html]warning.browser.expl.3">Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work. Alternatively, you can still use the <a href="http://overpass-api.de/query_form.html">Overpass_API query form</a>.</p>
+  </div>
+  <noscript>
+    <div style="display:block;position:relative;width:30%;max-width:800px;min-width:300px;margin:auto;z-index:9999;margin-top:2em;padding:1em 1.5em 1em 1.5em;background-color:orange;">Please enable JavaScript to use overpass turbo.</div>
+  </noscript>
 
   <script>
     // initialize ide on document ready

@@ -3,28 +3,41 @@
 var i18n = new(function() {
   var default_lng = "en";
   var supported_lngs = [
-    default_lng, // default language
-    "de", // translations found in locale/de.js
+    // translations found in locale/*.json
+    default_lng,
+    "da",
+    "de",
+    "fr",
+    "hr",
+    //"it",
+    "ja",
+    "nl",
+    //"pt_BR",
+    "ru",
+    "vi",
   ];
-  this.translate = function() {
-    var lng = settings.ui_language;
+  this.getSupportedLanguages = function() {
+    return [].concat(supported_lngs);
+  }
+  this.translate = function(lng) {
+    lng = lng || settings.ui_language;
     if (lng == "auto") {
       // get user agent's language
       try {
         lng = navigator.language.replace(/-.*/,"").toLowerCase();
       } catch(e) {}
+    }
 
-      if ($.inArray(lng,supported_lngs) == -1) {
-        lng = default_lng;
-        return false;
-      }
+    if ($.inArray(lng,supported_lngs) == -1) {
+      console.log("unsupported language: "+lng+" switching back to: "+default_lng);
+      lng = default_lng;
     }
 
     // load language pack
     var lng_file = "locales/"+lng+".json";
     try {
       $.ajax(lng_file,{async:false,dataType:"json"}).success(function(data){
-        td = $.extend(td,data);
+        td = data;
         i18n.translate_ui();
         // todo: nicer implementation
       }).error(function(){
@@ -45,7 +58,7 @@ var i18n = new(function() {
         var tmp = term.match(/^(\[(.*)\])?(.*)$/);
         var what = tmp[2];
         var key  = tmp[3];
-        var val = td[key];
+        var val = i18n.t(key);
         if (what === "html") {
           $(element).html(val);
         } else if (what !== undefined) {
@@ -57,10 +70,10 @@ var i18n = new(function() {
     });
   }
   this.t = function(key) {
-    return td[key];
+    return td[key] || "/missing translation/";
   }
 
   // translated texts
-  var td = {};
+  var td;
 })(); // end create i18n object
 
