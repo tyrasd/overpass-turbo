@@ -1373,6 +1373,7 @@ var ide = new(function() {
           ide.repairQuery("xml+metadata");
           $(this).dialog("close");
           export_dialog.dialog("close");
+          send_to_josm();
         };
         dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
           $(this).dialog("close");
