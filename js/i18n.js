@@ -9,7 +9,7 @@ var i18n = new(function() {
     "de",
     "fr",
     "hr",
-    //"it",
+    "it",
     "ja",
     "nl",
     //"pt_BR",
