@@ -1,3 +1,8 @@
+2013-10-06
+----------
+* activate Italian translation
+* usability improvements for autorepair feature
+
 2013-09-27
 ----------
 * activated new translations: Russian, Vietnamese, Japanese, Dutch, Croation, French
