@@ -169,7 +169,7 @@ setTimeout(function(){
     var poinids = new Object();
     for (var i=0;i<nodes.length;i++) {
       if (typeof nodes[i].tags != 'undefined' &&
-          (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(nodes[i].tags)) // this checks if the node has any tags other than "created_by"
+          has_interesting_tags(nodes[i].tags)) // this checks if the node has any tags other than "created_by"
         poinids[nodes[i].id] = true;
     }
     for (var i=0;i<rels.length;i++) {
@@ -271,6 +271,8 @@ setTimeout(function(){
             outer_count++;
         jQuery.each(rels[i].members, function(n,m) {
           if (wayids[m.ref]) {
+            // TODO: this may not work in the following corner case:
+            // a multipolygon amenity=xxx with outer line tagged amenity=yyy
             if (m.role==="outer" && !has_interesting_tags(wayids[m.ref].tags,rels[i].tags))
               wayids[m.ref].is_multipolygon_outline = true;
             if (m.role==="inner" && !has_interesting_tags(wayids[m.ref].tags))
@@ -293,7 +295,7 @@ setTimeout(function(){
               is_tainted = true;
               return;
             }
-            return {
+            return { // TODO: this is slow! :(
               id: m.ref,
               role: m.role || "outer",
               way: way,
