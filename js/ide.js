@@ -150,7 +150,7 @@ var ide = new(function() {
             var param = params[i];
             if (typeof args[param] !== "string") continue;
             var value = decodeURIComponent(args[param].replace(/\+/g,"%20"));
-            value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+            value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
             // additionally escape curly brackets
             value = value.replace(/\}/g,"&#125;").replace(/\{/g,"&#123;");
             q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
