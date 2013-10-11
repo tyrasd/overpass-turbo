@@ -3,6 +3,7 @@
 #   * all
 #   * install
 #   * clean
+#   * translations
 # usage:
 #   make && make install install_root=...
 # set install_root for installing into a specific directory
