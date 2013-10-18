@@ -150,7 +150,7 @@ var ide = new(function() {
             var param = params[i];
             if (typeof args[param] !== "string") continue;
             var value = decodeURIComponent(args[param].replace(/\+/g,"%20"));
-            value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+            value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
             // additionally escape curly brackets
             value = value.replace(/\}/g,"&#125;").replace(/\{/g,"&#123;");
             q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
@@ -1084,16 +1084,13 @@ var ide = new(function() {
         geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
         console.log(new Date());
-        var gJ = [];
-        // concatenate feature collections
-        $.each(geojson,function(i,d) {gJ = gJ.concat(d.features);});
-        gJ = {
+        var gJ = {
           type: "FeatureCollection",
           generator: configs.appname,
           copyright: overpass.copyright, 
           timestamp: overpass.timestamp,
           //TODO: make own copy of features array (re-using geometry) instead of deep copy?
-          features: $.extend(true, [], gJ), // makes deep copy
+          features: _.clone(geojson.features, true), // makes deep copy
         }
         gJ.features.forEach(function(f) {
           var p = f.properties;
@@ -1198,49 +1195,55 @@ var ide = new(function() {
           "wpt": [],
           "trk": [],
         }};
-        // POIs
-        geojson[2].features.forEach(function(f) {
-          o = {
-            "@lat": f.geometry.coordinates[1],
-            "@lon": f.geometry.coordinates[0],
-            "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
-            "name": get_feature_description(f.properties)
-          };
-          gpx.gpx.wpt.push(o);
-        });
-        // LineStrings
-        geojson[1].features.forEach(function(f) {
-          o = {
-            "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
-            "name": get_feature_description(f.properties) 
-          };
-          o.trkseg = {trkpt: []};
-          f.geometry.coordinates.forEach(function(c) {
-            o.trkseg.trkpt.push({"@lat": c[1], "@lon":c[0]});
-          });
-          gpx.gpx.trk.push(o);
-        });
-        // Polygons / Multipolygons
-        geojson[0].features.forEach(function(f) {
-          o = {
-            "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
-            "name": get_feature_description(f.properties) 
-          };
-          o.trkseg = [];
-          var coords = f.geometry.coordinates;
-          if (f.geometry.type == "Polygon") coords = [coords];
-          coords.forEach(function(poly) {
-            poly.forEach(function(ring) {
-              var seg = {trkpt: []};
-              ring.forEach(function(c) {
-                seg.trkpt.push({"@lat": c[1], "@lon":c[0]});
-              });
-              o.trkseg.push(seg);
+        geojson.features.forEach(function(f) {
+          switch (f.geometry.type) {
+          // POIs
+          case "Point":
+            o = {
+              "@lat": f.geometry.coordinates[1],
+              "@lon": f.geometry.coordinates[0],
+              "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
+              "name": get_feature_description(f.properties)
+            };
+            gpx.gpx.wpt.push(o);
+            break;
+          // LineStrings
+          case "LineString":
+            o = {
+              "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
+              "name": get_feature_description(f.properties) 
+            };
+            o.trkseg = {trkpt: []};
+            f.geometry.coordinates.forEach(function(c) {
+              o.trkseg.trkpt.push({"@lat": c[1], "@lon":c[0]});
             });
-          });
-          gpx.gpx.trk.push(o);
+            gpx.gpx.trk.push(o);
+            break;
+          // Polygons / Multipolygons
+          case "Polygon":
+          case "MultiPolygon":
+            o = {
+              "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
+              "name": get_feature_description(f.properties) 
+            };
+            o.trkseg = [];
+            var coords = f.geometry.coordinates;
+            if (f.geometry.type == "Polygon") coords = [coords];
+            coords.forEach(function(poly) {
+              poly.forEach(function(ring) {
+                var seg = {trkpt: []};
+                ring.forEach(function(c) {
+                  seg.trkpt.push({"@lat": c[1], "@lon":c[0]});
+                });
+                o.trkseg.push(seg);
+              });
+            });
+            gpx.gpx.trk.push(o);
+            break;
+          default:
+            console.log("warning: unsupported geometry type: "+f.geometry.type);
+          }
         });
-        
         gpx_str = JXON.stringify(gpx);
       }
       var d = $("#export-gpx-dialog");

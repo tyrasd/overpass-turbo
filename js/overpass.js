@@ -262,7 +262,6 @@ setTimeout(function() {
           //new L.GeoJsonNoVanish(null, {
         overpass.osmLayer =
          new L.OSM4Leaflet(null, {
-          data_mode: data_mode,
           afterParse: function() {fire("onProgress", "rendering geoJSON");},
           baseLayerClass: settings.disable_poiomatic ? L.GeoJSON : L.GeoJsonNoVanish,
           baseLayerOptions: {
@@ -440,10 +439,25 @@ setTimeout(function() {
 
         // calc stats
         stats.geojson = {
-          polys: geojson[0].features.length,
-          lines: geojson[1].features.length,
-          pois:  geojson[2].features.length
+          polys: 0,
+          lines: 0,
+          pois:  0
         };
+        for (var i=0; i<geojson.features.length; i++)
+          switch (geojson.features[i].geometry.type) {
+            case "Polygon":
+            case "MultiPolygon":
+              stats.geojson.polys++;
+              break;
+            case "LineString":
+            case "MultiLineString":
+              stats.geojson.lines++;
+              break;
+            case "Point":
+            case "MultiPoint":
+              stats.geojson.pois++;
+              break;
+          }
         overpass.stats = stats;
 
         fire("onGeoJsonReady");
@@ -455,7 +469,7 @@ setTimeout(function() {
         fire("onRawDataPresent");
         // 5. add geojson to map - profit :)
         // auto-tab-switching: if there is only non map-visible data, show it directly
-        if (geojson[0].features.length == 0 && geojson[1].features.length == 0 && geojson[2].features.length == 0) { // no visible data
+        if (geojson.features.length === 0) { // no visible data
           // switch only if there is some unplottable data in the returned json/xml.
           if ((data_mode == "json" && data.elements.length > 0) ||
               (data_mode == "xml" && $("osm",data).children().not("note,meta,bounds").length > 0)) {

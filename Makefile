@@ -3,6 +3,7 @@
 #   * all
 #   * install
 #   * clean
+#   * translations
 # usage:
 #   make && make install install_root=...
 # set install_root for installing into a specific directory
@@ -31,8 +32,6 @@ turbo.js: \
 	libs/CodeMirror/lib/util/multiplex.js \
 	libs/CodeMirror/lib/util/closetag.js \
 	libs/locationfilter/src/locationfilter.js \
-	js/GeoJsonNoVanish.js \
-	js/OSM4Leaflet.js \
 	js/jsmapcss/styleparser.js \
 	js/jsmapcss/Condition.js \
 	js/jsmapcss/Rule.js \
@@ -43,6 +42,9 @@ turbo.js: \
 	js/jsmapcss/RuleSet.js \
 	libs/misc.js \
 	libs/jxon.js \
+	libs/osmtogeojson/osmtogeojson.js \
+	js/GeoJsonNoVanish.js \
+	js/OSM4Leaflet.js \
 	js/configs.js \
 	js/settings.js \
 	js/i18n.js \
@@ -69,6 +71,7 @@ turbo.map.js: \
 	js/jsmapcss/StyleChooser.js \
 	js/jsmapcss/StyleList.js \
 	js/jsmapcss/RuleSet.js \
+	libs/osmtogeojson/osmtogeojson.js \
 	js/OSM4Leaflet.js \
 	js/overpass.js \
 	js/map.js
