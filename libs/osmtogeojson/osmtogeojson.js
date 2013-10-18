@@ -4,7 +4,105 @@ try {
 
 var osmtogeojson = {};
 
-osmtogeojson.toGeojson = function( data ) {
+osmtogeojson.toGeojson = function( data, options ) {
+
+  options = _.merge(
+    {
+      flatProperties: false,
+      uninterestingTags: {
+        "source": true,
+        "source_ref": true,
+        "source:ref": true,
+        "history": true,
+        "attribution": true,
+        "created_by": true,
+        "tiger:county": true,
+        "tiger:tlid": true,
+        "tiger:upload_uuid": true
+      },
+      polygonFeatures: {
+        "building": true,
+        "highway": {
+          "included_values": {
+            "services": true,
+            "rest_area": true,
+            "escape": true
+          }
+        },
+        "natural": {
+          "excluded_values": {
+            "coastline": true,
+            "ridge": true,
+            "arete": true,
+            "tree_row": true
+          }
+        },
+        "landuse": true,
+        "waterway": {
+          "included_values": {
+            "riverbank": true,
+            "dock": true,
+            "boatyard": true,
+            "dam": true
+          }
+        },
+        "amenity": true,
+        "leisure": true,
+        "barrier": {
+          "included_values": {
+            "city_wall": true,
+            "ditch": true,
+            "hedge": true,
+            "retaining_wall": true,
+            "wall": true,
+            "spikes": true
+          }
+        },
+        "railway": {
+          "included_values": {
+            "station": true,
+            "turntable": true,
+            "roundhouse": true,
+            "platform": true
+          }
+        },
+        "area": true,
+        "boundary": true,
+        "man_made": {
+          "excluded_values": {
+            "cutline": true,
+            "embankment": true,
+            "pipeline": true
+          }
+        },
+        "power": {
+          "included_values": {
+            "generator": true,
+            "station": true,
+            "sub_station": true,
+            "transformer": true
+          }
+        },
+        "place": true,
+        "shop": true,
+        "aeroway": {
+          "excluded_values": {
+            "taxiway": true
+          }
+        },
+        "tourism": true,
+        "historic": true,
+        "public_transport": true,
+        "office": true,
+        "building:part": true,
+        "military": true,
+        "ruins": true,
+        "area:highway": true,
+        "craft": true
+      }
+    },
+    options
+  );
 
   var result;
   if ( ((typeof XMLDocument !== "undefined") && data instanceof XMLDocument ||
@@ -122,12 +220,15 @@ osmtogeojson.toGeojson = function( data ) {
     return _convert2geoJSON(nodes,ways,rels);
   }
   function _convert2geoJSON(nodes,ways,rels) {
-    // helper function that checks if there are any tags other than "created_by", "source" or any tag provided in ignore_tags
+    // helper function that checks if there are any tags other than "created_by", "source", etc. or any tag provided in ignore_tags
     function has_interesting_tags(t, ignore_tags) {
       if (typeof ignore_tags !== "object")
         ignore_tags={};
+      if (typeof options.uninterestingTags === "function")
+        return options.uninterestingTags(t, ignore_tags);
       for (var k in t)
-        if (k!="created_by" && k!="source" && ignore_tags[k]===undefined)
+        if (!(options.uninterestingTags[k]===true) &&
+            !(ignore_tags[k]===true || ignore_tags[k]===t[k]))
           return true;
       return false;
     };
@@ -212,6 +313,7 @@ osmtogeojson.toGeojson = function( data ) {
         continue; // lon and lat are required for showing a point
       geojsonnodes.features.push({
         "type"       : "Feature",
+        "id"         : "node/"+pois[i].id,
         "properties" : {
           "type" : "node",
           "id"   : pois[i].id,
@@ -404,6 +506,7 @@ osmtogeojson.toGeojson = function( data ) {
           // mp parsed, now construct the geoJSON
           var feature = {
             "type"       : "Feature",
+            "id"         : "relation/"+rels[i].id,
             "properties" : {
               "type" : "relation",
               "id"   : rels[i].id,
@@ -456,6 +559,7 @@ osmtogeojson.toGeojson = function( data ) {
           way_type = "Polygon";
           var feature = {
             "type"       : "Feature",
+            "id"         : "way/"+outer_way.id,
             "properties" : {
               "type" : "way",
               "id"   : outer_way.id,
@@ -502,6 +606,7 @@ osmtogeojson.toGeojson = function( data ) {
       }
       var feature = {
         "type"       : "Feature",
+        "id"         : "way/"+ways[i].id,
         "properties" : {
           "type" : "way",
           "id"   : ways[i].id,
@@ -529,89 +634,22 @@ osmtogeojson.toGeojson = function( data ) {
     geojson.features = geojson.features.concat(geojsonpolygons.features);
     geojson.features = geojson.features.concat(geojsonlines.features);
     geojson.features = geojson.features.concat(geojsonnodes.features);
+    // optionally, flatten properties
+    if (options.flatProperties) {
+      _.each(geojson.features, function(f) {
+        f.properties = _.merge(
+          f.properties.meta,
+          f.properties.tags,
+          {id: f.properties.type+"/"+f.properties.id}
+        );
+      });
+    }
     return geojson;
   }
   function _isPolygonFeature( tags ) {
-    var polygonFeatures = {
-      "building": true,
-      "highway": {
-        "included_values": {
-          "services": true,
-          "rest_area": true,
-          "escape": true
-        }
-      },
-      "natural": {
-        "excluded_values": {
-          "coastline": true,
-          "ridge": true,
-          "arete": true,
-          "tree_row": true
-        }
-      },
-      "landuse": true,
-      "waterway": {
-        "included_values": {
-          "riverbank": true,
-          "dock": true,
-          "boatyard": true,
-          "dam": true
-        }
-      },
-      "amenity": true,
-      "leisure": true,
-      "barrier": {
-        "included_values": {
-          "city_wall": true,
-          "ditch": true,
-          "hedge": true,
-          "retaining_wall": true,
-          "wall": true,
-          "spikes": true
-        }
-      },
-      "railway": {
-        "included_values": {
-          "station": true,
-          "turntable": true,
-          "roundhouse": true,
-          "platform": true
-        }
-      },
-      "area": true,
-      "boundary": true,
-      "man_made": {
-        "excluded_values": {
-          "cutline": true,
-          "embankment": true,
-          "pipeline": true
-        }
-      },
-      "power": {
-        "included_values": {
-          "generator": true,
-          "station": true,
-          "sub_station": true,
-          "transformer": true
-        }
-      },
-      "place": true,
-      "shop": true,
-      "aeroway": {
-        "excluded_values": {
-          "taxiway": true
-        }
-      },
-      "tourism": true,
-      "historic": true,
-      "public_transport": true,
-      "office": true,
-      "building:part": true,
-      "military": true,
-      "ruins": true,
-      "area:highway": true,
-      "craft": true
-    };
+    var polygonFeatures = options.polygonFeatures;
+    if (typeof polygonFeatures === "function")
+      return polygonFeatures(tags);
     // explicitely tagged non-areas
     if ( tags['area'] === 'no' )
       return false;
