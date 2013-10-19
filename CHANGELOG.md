@@ -1,3 +1,8 @@
+2013-10-18
+----------
+* split-off [osmtogeojson](https://github.com/tyrasd/osmtogeojson) as an external library/tool
+* fix loading of templates with newlines in parameters
+
 2013-10-06
 ----------
 * activate Italian translation
