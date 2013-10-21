@@ -33,8 +33,6 @@
   "settings.server": "Server",
   "settings.force_simple_cors": "Force simple CORS requests",
   "settings.force_simple_cors_expl": "use when the server doesn't support preflighted <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> requests",
-  "settings.start_at_user_location": "Start at user location",
-  "settings.start_at_user_location_expl": "html5 geolocation",
   "settings.disable_autorepair": "Disable warning/autorepair message when Overpass API returns no visible data.",
 
   "settings.section.editor": "Editor",

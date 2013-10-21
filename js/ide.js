@@ -95,71 +95,31 @@ var ide = new(function() {
     i18n.translate();
     ide.waiter.addInfo("i18n ready");
     // check for any get-parameters
-    var override_use_html5_coords = false;
+    var args = {};
     if (location.search != "") {
       var get = location.search.substring(1).split("&");
-      var args = {};
       for (var i=0; i<get.length; i++) {
         var kv = get[i].split("=");
         args[kv[0]] = (kv[1] !== undefined ? kv[1] : true);
       }
-      if (args.q) // compressed query set in url
-        settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(args.q)));
-      if (args.Q) // uncompressed query set in url
-        settings.code["overpass"] = decodeURIComponent(args.Q.replace(/\+/g,"%20"));
-      if (args.c) { // map center & zoom (compressed)
-        var tmp = args.c.match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
-        var decode_coords = function(str) {
-          var coords_cpr = Base64.decodeNum(str);
-          var res = {};
-          res.lat = coords_cpr % (180*100000) / 100000 - 90;
-          res.lng = Math.floor(coords_cpr / (180*100000)) / 100000 - 180;
-          return res;
-        }
-        var coords = decode_coords(tmp[1]);
-        settings.coords_zoom = Base64.decodeNum(tmp[2]);
-        settings.coords_lat = coords.lat;
-        settings.coords_lon = coords.lng;
-        override_use_html5_coords = true;
-      }
-      if (args.C) { // map center & zoom (uncompressed)
-        var tmp = args.C.match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
-        settings.coords_lat = +tmp[1];
-        settings.coords_lon = +tmp[2];
-        settings.coords_zoom = +tmp[3];
-        override_use_html5_coords = true;
-      }
-      if (args.lat && args.lon) { // map center coords (standard osm.org parameters)
-        settings.coords_lat = +args.lat;
-        settings.coords_lon = +args.lon;
-        override_use_html5_coords = true;
-      }
-      if (args.zoom) { // map zoom level (standard osm.org parameter)
-        settings.coords_zoom = +args.zoom;
-      }
-      if (args.R !== undefined) { // indicates that the supplied query shall be executed immediately
-        ide.run_query_on_startup = true;
-      }
-      if (args.template) { // load a template
-        var template = settings.saves[args.template];
-        if (template && template.type == "template") {
-          // build query
-          var q = template.overpass;
-          var params = template.parameters;
-          for (var i=0; i<params.length; i++) {
-            var param = params[i];
-            if (typeof args[param] !== "string") continue;
-            var value = decodeURIComponent(args[param].replace(/\+/g,"%20"));
-            value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
-            // additionally escape curly brackets
-            value = value.replace(/\}/g,"&#125;").replace(/\{/g,"&#123;");
-            q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
-          }
-          settings.code["overpass"] = q;
-        }
-      }
-      settings.save();
     }
+    // parse url string parameters
+    args = turbo.urlParameters(args);
+    // set appropriate settings
+    if (args.has_query) { // query set via url
+      settings.code["overpass"] = args.query;
+    }
+    if (args.has_coords) { // map center coords set via url
+      settings.coords_lat = args.coords.lat;
+      settings.coords_lon = args.coords.lng;
+    }
+    if (args.has_zoom) { // map zoom set via url
+      settings.coords_zoom = args.zoom;
+    }
+    if (args.run_query) { // query autorun activated via url
+      ide.run_query_on_startup = true;
+    }
+    settings.save();
 
     // init page layout
     if (settings.editor_width != "") {
@@ -327,15 +287,6 @@ var ide = new(function() {
       ide.map.inv_opacity_layer.addTo(ide.map);
     scaleControl = new L.Control.Scale({metric:true,imperial:false,});
     scaleControl.addTo(ide.map);
-    if (settings.use_html5_coords && !override_use_html5_coords) {
-      // One-shot position request.
-      try {
-        navigator.geolocation.getCurrentPosition(function (position){
-          var pos = new L.LatLng(position.coords.latitude,position.coords.longitude);
-          ide.map.setView(pos,settings.coords_zoom);
-        });
-      } catch(e) {}
-    }
     ide.map.on('moveend', function() {
       settings.coords_lat = ide.map.getCenter().lat;
       settings.coords_lon = ide.map.getCenter().lng;
@@ -1473,7 +1424,6 @@ var ide = new(function() {
       "http://api.openstreetmap.fr/oapi/",
     ]);
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
-    $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
     $("#settings-dialog input[name=no_autorepair]")[0].checked = settings.no_autorepair;
     // editor options
     $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
@@ -1510,7 +1460,6 @@ var ide = new(function() {
       settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;
       settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
-      settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
       settings.no_autorepair    = $("#settings-dialog input[name=no_autorepair]")[0].checked;
       settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
       var prev_editor_width = settings.editor_width;

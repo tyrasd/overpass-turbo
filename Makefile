@@ -47,6 +47,7 @@ turbo.js: \
 	js/OSM4Leaflet.js \
 	js/configs.js \
 	js/settings.js \
+	js/urlParameters.js \
 	js/i18n.js \
 	js/overpass.js \
 	js/ide.js \
