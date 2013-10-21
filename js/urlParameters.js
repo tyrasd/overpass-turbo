@@ -65,9 +65,17 @@ turbo.urlParameters = function(args) {
           // additionally escape curly brackets
           value = value.replace(/\}/g,"&#125;").replace(/\{/g,"&#123;");
           q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
+          // special case for empty tag value in templates
+          // Overpass API doesn't properly support searching for empty tag values. see drolbr/Overpass-API#53
+          if (param === "value" && value === "") {
+            q = q.replace("{{value=}}\n","");
+            q = q.replace(/v="\{\{value\}\}"/g,'regv="^$"');
+          }
         }
         t.query = q;
         t.has_query = true;
+      } else {
+        console.log("template not found");
       }
     }
 
