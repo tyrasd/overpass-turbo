@@ -106,9 +106,6 @@ var ide = new(function() {
     // parse url string parameters
     args = turbo.urlParameters(args);
     // set appropriate settings
-    if (args.has_query) { // query set via url
-      settings.code["overpass"] = args.query;
-    }
     if (args.has_coords) { // map center coords set via url
       settings.coords_lat = args.coords.lat;
       settings.coords_lon = args.coords.lng;
@@ -254,6 +251,11 @@ var ide = new(function() {
         settings.save();
       });
     }
+    // set query if provided as url parameter or template:
+    if (args.has_query) { // query set via url
+      ide.codeEditor.setValue(args.query);
+    }
+    // init dataviewer
     ide.dataViewer = CodeMirror($("#data")[0], {
       value:'no data loaded yet', 
       lineNumbers: true, 
