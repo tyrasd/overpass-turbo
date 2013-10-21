@@ -339,7 +339,7 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.zoom_to_data");
         L.DomEvent.addListener(link, 'click', function() {
-          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}  
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
@@ -605,7 +605,12 @@ var ide = new(function() {
       ide.dataViewer.setValue(overpass.resultText);
     }
     overpass.handlers["onGeoJsonReady"] = function() {
+      // show layer
       ide.map.addLayer(overpass.osmLayer);
+      // autorun callback (e.g. zoom to data)
+      if (typeof ide.run_query_on_startup === "function") {
+        ide.run_query_on_startup();
+      }
       // display stats
       if (settings.show_data_stats) {
         var stats = overpass.stats;
@@ -649,6 +654,16 @@ var ide = new(function() {
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true)
       ide.update_map();
+      // automatically zoom to data.
+      if (!args.has_coords &&
+          args.has_query &&
+          args.query.match(/\{\{(bbox|center)\}\}/) === null) {
+        ide.run_query_on_startup = function() {
+          ide.run_query_on_startup = null;
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}
+          // todo: zoom only to specific zoomlevel if args.has_zoom is given
+        }
+      }
   } // init()
 
   // returns the current visible bbox as a bbox-query
