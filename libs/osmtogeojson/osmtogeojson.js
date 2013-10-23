@@ -1,6 +1,6 @@
-try {
+if (typeof require !== "undefined") {
   _ = require("lodash");
-} catch(e) {}
+}
 
 var osmtogeojson = {};
 
@@ -225,7 +225,7 @@ osmtogeojson.toGeojson = function( data, options ) {
       if (typeof ignore_tags !== "object")
         ignore_tags={};
       if (typeof options.uninterestingTags === "function")
-        return options.uninterestingTags(t, ignore_tags);
+        return !options.uninterestingTags(t, ignore_tags);
       for (var k in t)
         if (!(options.uninterestingTags[k]===true) &&
             !(ignore_tags[k]===true || ignore_tags[k]===t[k]))
@@ -345,8 +345,9 @@ osmtogeojson.toGeojson = function( data, options ) {
             outer_count++;
         _.each(rels[i].members, function(m) {
           if (wayids[m.ref]) {
-            // TODO: this may not work in the following corner case:
+            // this even works in the following corner case:
             // a multipolygon amenity=xxx with outer line tagged amenity=yyy
+            // see https://github.com/tyrasd/osmtogeojson/issues/7
             if (m.role==="outer" && !has_interesting_tags(wayids[m.ref].tags,rels[i].tags))
               wayids[m.ref].is_multipolygon_outline = true;
             if (m.role==="inner" && !has_interesting_tags(wayids[m.ref].tags))
@@ -418,7 +419,7 @@ osmtogeojson.toGeojson = function( data, options ) {
                   }
                 }
                 if (!what)
-                  break; // Invalid geometry (unclosed ring)
+                  break; // Invalid geometry (dangling way, unclosed ring)
                 ways.splice(i, 1);
                 how.apply(current, what);
               }
@@ -436,10 +437,8 @@ osmtogeojson.toGeojson = function( data, options ) {
                   return true;
               return false;
             }
-            var _pluck = function(from) {
+            var mapCoordinates = function(from) {
               return _.map(from, function(n) {
-                if (n === undefined)
-                  return; 
                 return [+n.lat,+n.lon];
               });
             }
@@ -459,14 +458,16 @@ osmtogeojson.toGeojson = function( data, options ) {
             };
             // stolen from iD/relation.js
             var o, outer;
-            inner = _pluck(inner);
+            // todo: all this coordinate mapping makes this unneccesarily slow.
+            // see the "todo: this is slow! :(" above.
+            inner = mapCoordinates(inner);
             /*for (o = 0; o < outers.length; o++) {
-              outer = _pluck(outers[o]);
+              outer = mapCoordinates(outers[o]);
               if (polygonContainsPolygon(outer, inner))
                 return o;
             }*/
             for (o = 0; o < outers.length; o++) {
-              outer = _pluck(outers[o]);
+              outer = mapCoordinates(outers[o]);
               if (polygonIntersectsPolygon(outer, inner))
                 return o;
             }
@@ -477,30 +478,25 @@ osmtogeojson.toGeojson = function( data, options ) {
             if (o !== undefined)
               mp[o].push(inners[j]);
             else
-              ;//mp.push(inners[j]); // invalid geometry // tyr: why?
+              // so, no outer ring for this inner ring is found.
+              // We're going to ignore holes in empty space.
+              ;
           }
           // sanitize mp-coordinates (remove empty clusters or rings, {lat,lon,...} to [lon,lat]
           var mp_coords = [];
-          mp_coords = _.map(mp, function(cluster) { 
-            var cl = _.map(cluster, function(ring) {
-              if (ring === undefined || ring.length <= 1) {
-                is_tainted = true;
+          mp_coords = _.compact(_.map(mp, function(cluster) { 
+            var cl = _.compact(_.map(cluster, function(ring) {
+              if (ring.length < 4) // todo: is this correct: ring.length < 4 ?
                 return;
-              }
-              return _.map(ring, function(node) {
-                if (node === undefined || node.lat === undefined) {
-                  is_tainted = true;
-                  return;
-                }
+              return _.compact(_.map(ring, function(node) {
                 return [+node.lon,+node.lat];
-              });
-            });
-            if (cl.length == 0) {
-              is_tainted = true;
+              }));
+            }));
+            if (cl.length == 0)
               return;
-            }
             return cl;
-          });
+          }));
+
           if (mp_coords.length == 0)
             continue; // ignore multipolygons without coordinates
           // mp parsed, now construct the geoJSON
