@@ -745,7 +745,9 @@ var ide = new(function() {
       });
       // eventually trim whitespace
       if (typeof trim_ws == "undefined" || trim_ws) {
-        query = query.replace(/((\n|\r)+\s*)/g," "); // remove newlines and some indention whitespace
+        if (this.getQueryLang() !== "OverpassQL" ||
+           !query.match(/\/\//)) // do not trim whitespace of queries eventually containing single line comments
+          query = query.replace(/(\n|\r)+\s*/g," "); // remove newlines and some indention whitespace
       }
     }
     return query;
@@ -1287,6 +1289,9 @@ var ide = new(function() {
         .success(function(d,s,xhr) {
           if (d.protocolversion.major == 1) {
             $.get(JRC_url+"import", {
+              // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
+              // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
+              // See: http://josm.openstreetmap.de/ticket/8566#ticket
               url: settings.server+"interpreter?data="+/*encodeURIComponent*/(ide.getQuery(true,true)),
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
