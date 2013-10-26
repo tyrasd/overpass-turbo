@@ -1024,6 +1024,7 @@ var ide = new(function() {
     var query = ide.getQuery(true);
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
+    // encoding exclamation marks for better command line usability (bash)
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21");
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
     var dialog_buttons= {};
@@ -1292,7 +1293,9 @@ var ide = new(function() {
               // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
               // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
               // See: http://josm.openstreetmap.de/ticket/8566#ticket
-              url: settings.server+"interpreter?data="+/*encodeURIComponent*/(ide.getQuery(true,true)),
+              // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
+              // bad magic. Still looking for a proper fix, though.
+              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(ide.getQuery(true,true)),
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
