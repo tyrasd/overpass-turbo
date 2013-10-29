@@ -1234,6 +1234,29 @@ var ide = new(function() {
       }
       return false;
     });
+    $("#export-dialog a#export-KML").unbind("click").on("click", function() {
+      var geojson = overpass.geojson;
+      if (!geojson)
+        kml_str = i18n.t("export.KML.no_data");
+      else {
+        var kml_str = tokml(geojson);
+      }
+      var d = $("#export-kml-dialog");
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
+      d.dialog({
+        modal:true,
+        width:500,
+        buttons: dialog_buttons,
+      });
+      $("textarea",d)[0].value=kml_str;
+      // make content downloadable as file
+      if (geojson) {
+        var blob = new Blob([kml_str], {type: "application/xml;charset=utf-8"});
+        saveAs(blob, "export.kml");
+      }
+      return false;
+    });
     $("#export-dialog a#export-raw").unbind("click").on("click", function() {
       var raw_str, raw_type;
       var geojson = overpass.geojson;

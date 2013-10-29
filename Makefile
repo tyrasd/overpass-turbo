@@ -55,6 +55,7 @@ turbo.js: \
 	libs/html2canvas/jquery.plugin.html2canvas.js \
 	libs/canvg/rgbcolor.js \
 	libs/canvg/canvg.js \
+	libs/tokml/tokml.js \
 	libs/Blob.js/Blob.js \
 	libs/canvas-toBlob.js/canvas-toBlob.js \
 	libs/FileSaver/FileSaver.js \
