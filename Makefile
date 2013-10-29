@@ -56,6 +56,7 @@ turbo.js: \
 	libs/canvg/rgbcolor.js \
 	libs/canvg/canvg.js \
 	libs/tokml/tokml.js \
+	libs/togpx/togpx.js \
 	libs/Blob.js/Blob.js \
 	libs/canvas-toBlob.js/canvas-toBlob.js \
 	libs/FileSaver/FileSaver.js \
