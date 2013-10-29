@@ -1,19 +1,45 @@
+if (typeof require !== "undefined") {
+  JXON = require("./jxon.js");
+}
+
 function togpx( geojson, options ) {
   options = {
-    creator: options.creator ? options.creator : "togpx";
-    metadata: options.metadata ? options.metadata : undefined,
+    creator: (options && options.creator) ? options.creator : "togpx",
+    metadata: (options && options.metadata) ? options.metadata : undefined,
+    featureTitle: (options && options.featureTitle) ? options.featureTitle : get_feature_title,
+    featureDescription: (options && options.featureDescription) ? options.featureDescription : get_feature_description,
+    featureLink: (options && options.featureLink) ? options.featureLink : undefined
   };
 
-  function get_feature_description(props) {
-    if (props && props.tags) {
-      if (props.tags.name)
-        return props.tags.name;
-      if (props.tags.ref)
-        return props.tags.ref;
-      if (props.tags["addr:housenumber"] && props.tags["addr:street"])
-        return props.tags["addr:street"] + " " + props.tags["addr:housenumber"];
+  function get_feature_title(props) {
+    // a simple default heuristic to determine a title for a given feature
+    // uses a nested `tags` object or the feature's `properties` if present
+    // and then searchs for the following properties to construct a title:
+    // `name`, `ref`, `id`
+    if (typeof props.tags === "object") {
+      var tags_title = get_feature_title(props.tags);
+      if (tags_title !== "")
+        return tags_title;
     }
-    return props.type + " " + props.id;
+    if (props.name)
+      return props.name;
+    if (props.ref)
+      return props.ref;
+    if (props.id)
+      return props.id;
+    return "";
+  }
+  function get_feature_description(props) {
+    // constructs a description for a given feature
+    // uses a nested `tags` object or the feature's `properties` if present
+    // and then searchs for the following properties to construct a title:
+    // name, ref, id
+    if (typeof props.tags === "object")
+      return get_feature_description(props.tags);
+    var res = "";
+    for (var k in props)
+      res += k+"="+props[k]+"\n";
+    return res.substr(0,res.length-1);
   }
   // make gpx object
   var gpx = {"gpx": {
@@ -36,17 +62,21 @@ function togpx( geojson, options ) {
       o = {
         "@lat": f.geometry.coordinates[1],
         "@lon": f.geometry.coordinates[0],
-        "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
-        "name": get_feature_description(f.properties)
+        "name": options.featureTitle(f.properties),
+        "desc": options.featureDescription(f.properties)
       };
+      if (options.featureLink)
+        o.link = { "@href": options.featureLink(f.properties) }
       gpx.gpx.wpt.push(o);
       break;
     // LineStrings
     case "LineString":
       o = {
-        "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
-        "name": get_feature_description(f.properties) 
+        "name": options.featureTitle(f.properties),
+        "desc": options.featureDescription(f.properties)
       };
+      if (options.featureLink)
+        o.link = { "@href": options.featureLink(f.properties) }
       o.trkseg = {trkpt: []};
       f.geometry.coordinates.forEach(function(c) {
         o.trkseg.trkpt.push({"@lat": c[1], "@lon":c[0]});
@@ -57,9 +87,11 @@ function togpx( geojson, options ) {
     case "Polygon":
     case "MultiPolygon":
       o = {
-        "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
-        "name": get_feature_description(f.properties) 
+        "name": options.featureTitle(f.properties),
+        "desc": options.featureDescription(f.properties)
       };
+      if (options.featureLink)
+        o.link = { "@href": options.featureLink(f.properties) }
       o.trkseg = [];
       var coords = f.geometry.coordinates;
       if (f.geometry.type == "Polygon") coords = [coords];

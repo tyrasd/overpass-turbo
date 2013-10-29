@@ -1146,7 +1146,22 @@ var ide = new(function() {
           metadata: {
             "copyright": overpass.copyright, 
             "desc": "Filtered OSM data converted to GPX by overpass turbo",
-            "time": overpass.timestamp,
+            "time": overpass.timestamp
+          },
+          featureTitle: function(props) {
+            if (props.tags) {
+              if (props.tags.name)
+                return props.tags.name;
+              if (props.tags.ref)
+                return props.tags.ref;
+              if (props.tags["addr:housenumber"] && props.tags["addr:street"])
+                return props.tags["addr:street"] + " " + props.tags["addr:housenumber"];
+            }
+            return props.type + "/" + props.id;
+          },
+          //featureDescription: function(props) {},
+          featureLink: function(props) {
+            return "http://osm.org/browse/"+props.type+"/"+props.id;
           }
         });
       }
