@@ -95,71 +95,28 @@ var ide = new(function() {
     i18n.translate();
     ide.waiter.addInfo("i18n ready");
     // check for any get-parameters
-    var override_use_html5_coords = false;
+    var args = {};
     if (location.search != "") {
       var get = location.search.substring(1).split("&");
-      var args = {};
       for (var i=0; i<get.length; i++) {
         var kv = get[i].split("=");
         args[kv[0]] = (kv[1] !== undefined ? kv[1] : true);
       }
-      if (args.q) // compressed query set in url
-        settings.code["overpass"] = lzw_decode(Base64.decode(decodeURIComponent(args.q)));
-      if (args.Q) // uncompressed query set in url
-        settings.code["overpass"] = decodeURIComponent(args.Q.replace(/\+/g,"%20"));
-      if (args.c) { // map center & zoom (compressed)
-        var tmp = args.c.match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
-        var decode_coords = function(str) {
-          var coords_cpr = Base64.decodeNum(str);
-          var res = {};
-          res.lat = coords_cpr % (180*100000) / 100000 - 90;
-          res.lng = Math.floor(coords_cpr / (180*100000)) / 100000 - 180;
-          return res;
-        }
-        var coords = decode_coords(tmp[1]);
-        settings.coords_zoom = Base64.decodeNum(tmp[2]);
-        settings.coords_lat = coords.lat;
-        settings.coords_lon = coords.lng;
-        override_use_html5_coords = true;
-      }
-      if (args.C) { // map center & zoom (uncompressed)
-        var tmp = args.C.match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
-        settings.coords_lat = +tmp[1];
-        settings.coords_lon = +tmp[2];
-        settings.coords_zoom = +tmp[3];
-        override_use_html5_coords = true;
-      }
-      if (args.lat && args.lon) { // map center coords (standard osm.org parameters)
-        settings.coords_lat = +args.lat;
-        settings.coords_lon = +args.lon;
-        override_use_html5_coords = true;
-      }
-      if (args.zoom) { // map zoom level (standard osm.org parameter)
-        settings.coords_zoom = +args.zoom;
-      }
-      if (args.R !== undefined) { // indicates that the supplied query shall be executed immediately
-        ide.run_query_on_startup = true;
-      }
-      if (args.template) { // load a template
-        var template = settings.saves[args.template];
-        if (template && template.type == "template") {
-          // build query
-          var q = template.overpass;
-          var params = template.parameters;
-          for (var i=0; i<params.length; i++) {
-            var param = params[i];
-            if (typeof args[param] !== "string") continue;
-            var value = decodeURIComponent(args[param].replace(/\+/g,"%20"));
-            value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
-            // additionally escape curly brackets
-            value = value.replace(/\}/g,"&#125;").replace(/\{/g,"&#123;");
-            q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
-          }
-          settings.code["overpass"] = q;
-        }
-      }
-      settings.save();
     }
+    // parse url string parameters
+    args = turbo.urlParameters(args);
+    // set appropriate settings
+    if (args.has_coords) { // map center coords set via url
+      settings.coords_lat = args.coords.lat;
+      settings.coords_lon = args.coords.lng;
+    }
+    if (args.has_zoom) { // map zoom set via url
+      settings.coords_zoom = args.zoom;
+    }
+    if (args.run_query) { // query autorun activated via url
+      ide.run_query_on_startup = true;
+    }
+    settings.save();
 
     // init page layout
     if (settings.editor_width != "") {
@@ -189,6 +146,7 @@ var ide = new(function() {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
           "out json xml custom popup timeout maxsize bbox" // initial declarations
+          +" foreach" // block statements
           +" relation rel way node is_in area around user uid newer poly pivot" // queries
           +" out meta quirks body skel ids qt asc" // actions
           //+"r w n br bw" // recursors
@@ -294,6 +252,11 @@ var ide = new(function() {
         settings.save();
       });
     }
+    // set query if provided as url parameter or template:
+    if (args.has_query) { // query set via url
+      ide.codeEditor.setValue(args.query);
+    }
+    // init dataviewer
     ide.dataViewer = CodeMirror($("#data")[0], {
       value:'no data loaded yet', 
       lineNumbers: true, 
@@ -327,15 +290,6 @@ var ide = new(function() {
       ide.map.inv_opacity_layer.addTo(ide.map);
     scaleControl = new L.Control.Scale({metric:true,imperial:false,});
     scaleControl.addTo(ide.map);
-    if (settings.use_html5_coords && !override_use_html5_coords) {
-      // One-shot position request.
-      try {
-        navigator.geolocation.getCurrentPosition(function (position){
-          var pos = new L.LatLng(position.coords.latitude,position.coords.longitude);
-          ide.map.setView(pos,settings.coords_zoom);
-        });
-      } catch(e) {}
-    }
     ide.map.on('moveend', function() {
       settings.coords_lat = ide.map.getCenter().lat;
       settings.coords_lon = ide.map.getCenter().lng;
@@ -386,7 +340,7 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.zoom_to_data");
         L.DomEvent.addListener(link, 'click', function() {
-          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}  
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
@@ -652,7 +606,12 @@ var ide = new(function() {
       ide.dataViewer.setValue(overpass.resultText);
     }
     overpass.handlers["onGeoJsonReady"] = function() {
+      // show layer
       ide.map.addLayer(overpass.osmLayer);
+      // autorun callback (e.g. zoom to data)
+      if (typeof ide.run_query_on_startup === "function") {
+        ide.run_query_on_startup();
+      }
       // display stats
       if (settings.show_data_stats) {
         var stats = overpass.stats;
@@ -696,6 +655,16 @@ var ide = new(function() {
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true)
       ide.update_map();
+      // automatically zoom to data.
+      if (!args.has_coords &&
+          args.has_query &&
+          args.query.match(/\{\{(bbox|center)\}\}/) === null) {
+        ide.run_query_on_startup = function() {
+          ide.run_query_on_startup = null;
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}
+          // todo: zoom only to specific zoomlevel if args.has_zoom is given
+        }
+      }
   } // init()
 
   // returns the current visible bbox as a bbox-query
@@ -776,7 +745,9 @@ var ide = new(function() {
       });
       // eventually trim whitespace
       if (typeof trim_ws == "undefined" || trim_ws) {
-        query = query.replace(/((\n|\r)+\s*)/g," "); // remove newlines and some indention whitespace
+        if (this.getQueryLang() !== "OverpassQL" ||
+           !query.match(/\/\//)) // do not trim whitespace of queries eventually containing single line comments
+          query = query.replace(/(\n|\r)+\s*/g," "); // remove newlines and some indention whitespace
       }
     }
     return query;
@@ -1053,6 +1024,7 @@ var ide = new(function() {
     var query = ide.getQuery(true);
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
+    // encoding exclamation marks for better command line usability (bash)
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21");
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
     var dialog_buttons= {};
@@ -1169,82 +1141,29 @@ var ide = new(function() {
       if (!geojson)
         gpx_str = i18n.t("export.GPX.no_data");
       else {
-        function get_feature_description(props) {
-          if (props && props.tags) {
-            if (props.tags.name)
-              return props.tags.name;
-            if (props.tags.ref)
-              return props.tags.ref;
-            if (props.tags["addr:housenumber"] && props.tags["addr:street"])
-              return props.tags["addr:street"] + " " + props.tags["addr:housenumber"];
-          }
-          return props.type + " " + props.id;
-        }
-        // make gpx object
-        var gpx = {gpx: {
-          "@xmlns":"http://www.topografix.com/GPX/1/1",
-          "@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
-          "@xsi:schemaLocation":"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd",
-          "@version":"1.1",
-          "@creator":configs.appname,
-          "metadata": {
+        gpx_str = togpx(geojson, {
+          creator: configs.appname,
+          metadata: {
             "copyright": overpass.copyright, 
             "desc": "Filtered OSM data converted to GPX by overpass turbo",
-            "time": overpass.timestamp,
+            "time": overpass.timestamp
           },
-          "wpt": [],
-          "trk": [],
-        }};
-        geojson.features.forEach(function(f) {
-          switch (f.geometry.type) {
-          // POIs
-          case "Point":
-            o = {
-              "@lat": f.geometry.coordinates[1],
-              "@lon": f.geometry.coordinates[0],
-              "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
-              "name": get_feature_description(f.properties)
-            };
-            gpx.gpx.wpt.push(o);
-            break;
-          // LineStrings
-          case "LineString":
-            o = {
-              "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
-              "name": get_feature_description(f.properties) 
-            };
-            o.trkseg = {trkpt: []};
-            f.geometry.coordinates.forEach(function(c) {
-              o.trkseg.trkpt.push({"@lat": c[1], "@lon":c[0]});
-            });
-            gpx.gpx.trk.push(o);
-            break;
-          // Polygons / Multipolygons
-          case "Polygon":
-          case "MultiPolygon":
-            o = {
-              "link": { "@href": "http://osm.org/browse/"+f.properties.type+"/"+f.properties.id },
-              "name": get_feature_description(f.properties) 
-            };
-            o.trkseg = [];
-            var coords = f.geometry.coordinates;
-            if (f.geometry.type == "Polygon") coords = [coords];
-            coords.forEach(function(poly) {
-              poly.forEach(function(ring) {
-                var seg = {trkpt: []};
-                ring.forEach(function(c) {
-                  seg.trkpt.push({"@lat": c[1], "@lon":c[0]});
-                });
-                o.trkseg.push(seg);
-              });
-            });
-            gpx.gpx.trk.push(o);
-            break;
-          default:
-            console.log("warning: unsupported geometry type: "+f.geometry.type);
+          featureTitle: function(props) {
+            if (props.tags) {
+              if (props.tags.name)
+                return props.tags.name;
+              if (props.tags.ref)
+                return props.tags.ref;
+              if (props.tags["addr:housenumber"] && props.tags["addr:street"])
+                return props.tags["addr:street"] + " " + props.tags["addr:housenumber"];
+            }
+            return props.type + "/" + props.id;
+          },
+          //featureDescription: function(props) {},
+          featureLink: function(props) {
+            return "http://osm.org/browse/"+props.type+"/"+props.id;
           }
         });
-        gpx_str = JXON.stringify(gpx);
       }
       var d = $("#export-gpx-dialog");
       var dialog_buttons= {};
@@ -1259,6 +1178,29 @@ var ide = new(function() {
       if (geojson) {
         var blob = new Blob([gpx_str], {type: "application/xml;charset=utf-8"});
         saveAs(blob, "export.gpx");
+      }
+      return false;
+    });
+    $("#export-dialog a#export-KML").unbind("click").on("click", function() {
+      var geojson = overpass.geojson;
+      if (!geojson)
+        kml_str = i18n.t("export.KML.no_data");
+      else {
+        var kml_str = tokml(geojson);
+      }
+      var d = $("#export-kml-dialog");
+      var dialog_buttons= {};
+      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
+      d.dialog({
+        modal:true,
+        width:500,
+        buttons: dialog_buttons,
+      });
+      $("textarea",d)[0].value=kml_str;
+      // make content downloadable as file
+      if (geojson) {
+        var blob = new Blob([kml_str], {type: "application/xml;charset=utf-8"});
+        saveAs(blob, "export.kml");
       }
       return false;
     });
@@ -1318,7 +1260,12 @@ var ide = new(function() {
         .success(function(d,s,xhr) {
           if (d.protocolversion.major == 1) {
             $.get(JRC_url+"import", {
-              url: settings.server+"interpreter?data="+/*encodeURIComponent*/(ide.getQuery(true,true)),
+              // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
+              // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
+              // See: http://josm.openstreetmap.de/ticket/8566#ticket
+              // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
+              // bad magic. Still looking for a proper fix, though.
+              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(ide.getQuery(true,true)),
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
@@ -1473,7 +1420,6 @@ var ide = new(function() {
       "http://api.openstreetmap.fr/oapi/",
     ]);
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
-    $("#settings-dialog input[name=use_html5_coords]")[0].checked = settings.use_html5_coords;
     $("#settings-dialog input[name=no_autorepair]")[0].checked = settings.no_autorepair;
     // editor options
     $("#settings-dialog input[name=use_rich_editor]")[0].checked = settings.use_rich_editor;
@@ -1510,7 +1456,6 @@ var ide = new(function() {
       settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;
       settings.force_simple_cors_request = $("#settings-dialog input[name=force_simple_cors_request]")[0].checked;
-      settings.use_html5_coords = $("#settings-dialog input[name=use_html5_coords]")[0].checked;
       settings.no_autorepair    = $("#settings-dialog input[name=no_autorepair]")[0].checked;
       settings.use_rich_editor  = $("#settings-dialog input[name=use_rich_editor]")[0].checked;
       var prev_editor_width = settings.editor_width;

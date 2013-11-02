@@ -124,7 +124,7 @@
         <li><span class="t" t="help.attr.leaflet"></span> <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
         <li><span class="t" t="help.attr.codemirror"></span> <a href="http://codemirror.net/">CodeMirror</a></li>
         <li><span class="t" t="help.attr.jquery"></span> <a href="http://jquery.com/">jQuery</a></li>
-        <li><span class="t" t="help.attr.other_libs"></span> <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a></li>
+        <li><span class="t" t="help.attr.other_libs"></span> <a href="https://github.com/tyrasd/osmtogeojson">osmtogeojson</a>, <a href="https://github.com/tyrasd/togpx">togpx</a>, <a href="https://github.com/mapbox/tokml">tokml</a>, <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a></li>
       </ul>
     </div>
   </div>
@@ -135,7 +135,6 @@
       <p><label><span class="t" t="settings.ui_lang"></span>:</label> <input type="text" name="ui_language" value="" style="width:60px;"/></p>
       <p><label><span class="t" t="settings.server"></span>:</label> <input type="text" name="server" value="" style="width:270px;"/></p>
       <p><input type="checkbox" name="force_simple_cors_request"/>&nbsp;<span class="t" t="settings.force_simple_cors"></span> <small>(<span class="t" t="[html]settings.force_simple_cors_expl"></span>)</small></p>
-      <p><input type="checkbox" name="use_html5_coords"/>&nbsp;<span class="t" t="settings.start_at_user_location"></span> <small>(<span class="t" t="settings.start_at_user_location_expl"></span>)</small></p>
       <p><input type="checkbox" name="no_autorepair"/>&nbsp;<span class="t" t="settings.disable_autorepair"></span></p>
     </div>
     <h3><a class="t" t="settings.section.editor"></a></h3>
@@ -188,6 +187,7 @@
     <div>
     <p class="t" t="[html]export.as_geoJSON"></p>
     <p class="t" t="[html]export.as_GPX"></p>
+    <p class="t" t="[html]export.as_KML"></p>
     <p class="t" t="[html]export.raw"></p>
     <p class="t" t="[html]export.raw_interpreter"></p>
     <p><span class="t" t="[html]export.remote_control"></span> <small>(<span class="t" t="export.remote_control_expl"></span>)</small></p>
@@ -212,6 +212,10 @@
   </div>
   <div title="" id="export-gpx-dialog" class="t dialog" t="[title]export.GPX.title">
     <p class="t" t="export.GPX.expl"></p>
+    <textarea style="width:100%" rows="16" readonly></textarea>
+  </div>
+  <div title="" id="export-kml-dialog" class="t dialog" t="[title]export.KML.title">
+    <p class="t" t="export.KML.expl"></p>
     <textarea style="width:100%" rows="16" readonly></textarea>
   </div>
   <div title="" id="export-raw-dialog" class="t dialog" t="[title]export.raw.title">

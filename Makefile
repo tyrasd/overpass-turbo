@@ -47,6 +47,7 @@ turbo.js: \
 	js/OSM4Leaflet.js \
 	js/configs.js \
 	js/settings.js \
+	js/urlParameters.js \
 	js/i18n.js \
 	js/overpass.js \
 	js/ide.js \
@@ -54,6 +55,8 @@ turbo.js: \
 	libs/html2canvas/jquery.plugin.html2canvas.js \
 	libs/canvg/rgbcolor.js \
 	libs/canvg/canvg.js \
+	libs/tokml/tokml.js \
+	libs/togpx/togpx.js \
 	libs/Blob.js/Blob.js \
 	libs/canvas-toBlob.js/canvas-toBlob.js \
 	libs/FileSaver/FileSaver.js \
