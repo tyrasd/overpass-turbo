@@ -1182,7 +1182,7 @@ var ide = new(function() {
       return false;
     });
     $("#export-dialog a#export-KML").unbind("click").on("click", function() {
-      var geojson = overpass.geojson;
+      var geojson = JSON.parse(constructGeojsonString(overpass.geojson));
       if (!geojson)
         kml_str = i18n.t("export.KML.no_data");
       else {
