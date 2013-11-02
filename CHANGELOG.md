@@ -1,3 +1,11 @@
+2013-11-02
+----------
+* new export format: KML (based on [tokml](https://github.com/mapbox/tokml))
+* improved startup with url-parameters: undoabe query loading, clever auto-zooming to data, handle empty values in templates, …
+* update library [osmtogeojson](https://github.com/tyrasd/osmtogeojson) / new spinn-off library [togpx](https://github.com/tyrasd/togpx)
+* work around JOSM remote-control deficiencies.
+* bugfixes
+
 2013-10-18
 ----------
 * split-off [osmtogeojson](https://github.com/tyrasd/osmtogeojson) as an external library/tool
