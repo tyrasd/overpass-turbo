@@ -2,7 +2,7 @@
 ----------
 * new export format: KML (based on [tokml](https://github.com/mapbox/tokml))
 * improved startup with url-parameters: undoabe query loading, clever auto-zooming to data, handle empty values in templates, …
-* more verbous GPX export (adds all tags as <desc> field)
+* more verbous GPX export (adds all tags as `<desc>` field)
 * update library [osmtogeojson](https://github.com/tyrasd/osmtogeojson) / new spinn-off library [togpx](https://github.com/tyrasd/togpx)
 * work around JOSM remote-control deficiencies
 * bugfixes
