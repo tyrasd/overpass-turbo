@@ -1,3 +1,7 @@
+2013-11-05
+----------
+* update tokml library for better KML export results
+
 2013-11-02
 ----------
 * new export format: KML (based on [tokml](https://github.com/mapbox/tokml))
