@@ -1,12 +1,53 @@
-(function(e){if("function"==typeof bootstrap)bootstrap("tokml",e);else if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else if("undefined"!=typeof ses){if(!ses.ok())return;ses.makeTokml=e}else"undefined"!=typeof window?window.tokml=e():global.tokml=e()})(function(){var define,ses,bootstrap,module,exports;
+!function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.tokml=e():"undefined"!=typeof global?global.tokml=e():"undefined"!=typeof self&&(self.tokml=e())}(function(){var define,module,exports;
 return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = function tokml(geojson) {
+module.exports = function tokml(geojson, options) {
+
+    options = options || {
+        name: 'name',
+        description: 'description',
+    };
+
     return '<?xml version="1.0" encoding="UTF-8"?>' +
         tag('kml',
             tag('Document',
-                geojson.features.map(feature).join('')
+                root(geojson, options)
                ), [['xmlns', 'http://www.opengis.net/kml/2.2']]);
 };
+
+function feature(options) {
+    return function(_) {
+        return tag('Placemark',
+            name(_.properties, options) +
+            description(_.properties, options) +
+            geometry.any(_.geometry) +
+            extendeddata(_.properties));
+    };
+}
+
+function root(_, options) {
+    if (!_.type) return '';
+    switch (_.type) {
+        case 'FeatureCollection': return _.features.map(feature(options)).join('');
+        case 'Feature': return feature(options)(_);
+        default:
+            if (_.type in geometry) {
+                return feature(options)({
+                    type: 'Feature',
+                    geometry: _,
+                    properties: {}
+                });
+            }
+    }
+    return '';
+}
+
+function name(_, options) {
+    return (_[options.name]) ? tag('name', encode(_[options.name])) : '';
+}
+
+function description(_, options) {
+    return (_[options.description]) ? tag('description', encode(_[options.description])) : '';
+}
 
 // ## Geometry Types
 //
@@ -51,7 +92,9 @@ var geometry = {
     any: function(_) {
         if (geometry[_.type]) {
             return geometry[_.type](_);
-        } else { }
+        } else {
+            return '';
+        }
     }
 };
 
@@ -65,13 +108,7 @@ function extendeddata(_) {
 }
 
 function data(_) {
-    return tag('Data', _[1], [['name', _[0]]]);
-}
-
-function feature(_) {
-    return tag('Placemark',
-        geometry.any(_.geometry) +
-        extendeddata(_.properties));
+    return tag('Data', encode(_[1]), [['name', encode(_[0])]]);
 }
 
 // ## Helpers
@@ -89,6 +126,14 @@ function attr(_) {
 
 function tag(el, contents, attributes) {
     return '<' + el + attr(attributes) + '>' + contents + '</' + el + '>';
+}
+
+
+function encode(_) {
+    return (_ || '').replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
 }
 
 },{}]},{},[1])
