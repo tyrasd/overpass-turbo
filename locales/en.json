@@ -35,8 +35,6 @@
   "settings.server": "Server",
   "settings.force_simple_cors": "Force simple CORS requests",
   "settings.force_simple_cors_expl": "use when the server doesn't support preflighted <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> requests",
-  "settings.start_at_user_location": "Start at user location",
-  "settings.start_at_user_location_expl": "html5 geolocation",
   "settings.disable_autorepair": "Disable warning/autorepair message when Overpass API returns no visible data.",
 
   "settings.section.editor": "Editor",
@@ -82,6 +80,7 @@
   "export.section.data": "Data",
   "export.as_geoJSON": "as <a id=\"export-geoJSON\" href=\"\">geoJSON</a>",
   "export.as_GPX": "as <a id=\"export-GPX\" href=\"\">GPX</a>",
+  "export.as_KML": "as <a id=\"export-KML\" href=\"\">KML</a>",
   "export.raw": "raw <a id=\"export-raw\" href=\"\">data</a>",
   "export.raw_interpreter": "raw data from <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API interpreter</a>",
   "export.save_geoJSON_gist": "save GeoJSON to <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
@@ -105,6 +104,10 @@
   "export.GPX.title": "Export - GPX",
   "export.GPX.expl": "The currently shown data as GPX:",
   "export.GPX.no_data": "No GPX data available! Please run a query first.",
+
+  "export.KML.title": "Export - KML",
+  "export.KML.expl": "The currently shown data as KML:",
+  "export.KML.no_data": "No KML data available! Please run a query first.",
 
   "export.raw.title": "Export - raw",
   "export.raw.expl": "The currently shown raw-data:",

@@ -273,7 +273,8 @@ body.loading .modal {
   max-width:35em;
 }
 .ui-autocomplete a{
-  font-weight:normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 .ui-combobox-toggle {
   position: absolute;
