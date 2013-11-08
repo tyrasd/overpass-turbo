@@ -1186,7 +1186,14 @@ var ide = new(function() {
       if (!geojson)
         kml_str = i18n.t("export.KML.no_data");
       else {
-        var kml_str = tokml(geojson);
+        var kml_str = tokml(geojson, {
+          documentName: "overpass-turbo.eu export",
+          documentDescription: "Filtered OSM data converted to KML by overpass turbo.\n"+
+                               "Copyright: "+overpass.copyright+"\n"+
+                               "Timestamp: "+overpass.timestamp,
+          name: "name",
+          description: "description"
+        });
       }
       var d = $("#export-kml-dialog");
       var dialog_buttons= {};
