@@ -100,7 +100,9 @@ var ide = new(function() {
       var get = location.search.substring(1).split("&");
       for (var i=0; i<get.length; i++) {
         var kv = get[i].split("=");
-        args[kv[0]] = (kv[1] !== undefined ? kv[1] : true);
+        args[kv[0]] = (kv[1] !== undefined) ?
+          decodeURIComponent(kv[1].replace(/\+/g,"%20")) :
+          true;
       }
     }
     // parse url string parameters

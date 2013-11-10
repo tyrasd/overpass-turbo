@@ -12,11 +12,11 @@ turbo.urlParameters = function(args) {
     }
 
     if (args.q) { // compressed query set in url
-      t.query = lzw_decode(Base64.decode(decodeURIComponent(args.q)));
+      t.query = lzw_decode(Base64.decode(args.q));
       t.has_query = true;
     }
     if (args.Q) { // uncompressed query set in url
-      t.query = decodeURIComponent(args.Q.replace(/\+/g,"%20"));
+      t.query = args.Q;
       t.has_query = true;
     }
     if (args.c) { // map center & zoom (compressed)
@@ -60,7 +60,7 @@ turbo.urlParameters = function(args) {
         for (var i=0; i<params.length; i++) {
           var param = params[i];
           if (typeof args[param] !== "string") continue;
-          var value = decodeURIComponent(args[param].replace(/\+/g,"%20"));
+          var value = args[param];
           value = value.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
           // additionally escape curly brackets
           value = value.replace(/\}/g,"&#125;").replace(/\{/g,"&#123;");
