@@ -94,19 +94,8 @@ var ide = new(function() {
     // translate ui
     i18n.translate();
     ide.waiter.addInfo("i18n ready");
-    // check for any get-parameters
-    var args = {};
-    if (location.search != "") {
-      var get = location.search.substring(1).split("&");
-      for (var i=0; i<get.length; i++) {
-        var kv = get[i].split("=");
-        args[kv[0]] = (kv[1] !== undefined) ?
-          decodeURIComponent(kv[1].replace(/\+/g,"%20")) :
-          true;
-      }
-    }
     // parse url string parameters
-    args = turbo.urlParameters(args);
+    var args = turbo.urlParameters(location.search);
     // set appropriate settings
     if (args.has_coords) { // map center coords set via url
       settings.coords_lat = args.coords.lat;
