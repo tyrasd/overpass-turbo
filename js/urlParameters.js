@@ -14,6 +14,7 @@ turbo.urlParameters = function(param_str) {
 
   // split parameter string to arguments
   function split(param_str) {
+    var args = {};
     if (typeof param_str === "string" && param_str.length > 0) {
       var get = param_str.substring(1).split("&");
       for (var i=0; i<get.length; i++) {
@@ -25,6 +26,7 @@ turbo.urlParameters = function(param_str) {
         args[key] = val;
       }
     }
+    return args;
   }
   var args = split(param_str);
 
