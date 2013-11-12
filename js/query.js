@@ -13,11 +13,21 @@ turbo.query = function() {
     while (s = query.match(statement)) {
       var s_name = s[1];
       var s_instr = s[2];
-      if (statements[s_name] === undefined) statements[s_name] = "";
-      statements[s_name] += s_instr;
+      var s_replace = "";
+      // if the statement is a shortcut, replace its content.
+      // otherwise save its instructions for later
+      if (shortcuts[s_name] !== undefined) {
+        if (typeof shortcuts[s_name] === "function")
+          s_replace = shortcuts[s_name](s_instr);
+        else
+          s_replace = shortcuts[s_name];
+      } else {
+        if (statements[s_name] === undefined) statements[s_name] = "";
+        statements[s_name] += s_instr;
+      }
       // remove statements, but preserve number of newlines
       var lc = s_instr.split(/\r?\n|\r/).length;
-      query = query.replace(statement, Array(lc).join('\n'));
+      query = query.replace(statement, s_replace+Array(lc).join('\n'));
     }
     // 2. get user defined constants
     var constants = {};

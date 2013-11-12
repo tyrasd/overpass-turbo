@@ -682,6 +682,39 @@ var ide = new(function() {
     else if (lang=="xml")
       return 'lat="'+center.lat+'" lon="'+center.lng+'"';
   }
+  this.relativeTime = function(instr) {
+    var now = Date.now();
+    // very basic differential date
+    instr = instr.match(/(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/);
+    var count = parseInt(instr[1]);
+    var interval;
+    switch (instr[2]) {
+      case "second":
+      case "seconds":
+      interval=1; break;
+      case "minute":
+      case "minutes":
+      interval=60; break;
+      case "hour":
+      case "hours":
+      interval=3600; break;
+      case "day":
+      case "days":
+      default:
+      interval=86400; break;
+      case "week":
+      case "weeks":
+      interval=604800; break;
+      case "month":
+      case "months":
+      interval=2592000; break;
+      case "year":
+      case "years":
+      interval=31536000; break;
+    }
+    var date = now + count*interval*1000;
+    return (new Date(date)).toISOString();
+  }
   /*this returns the current query in the editor.
    * processed (boolean, optional, default: false): determines weather shortcuts should be expanded or not.
    * trim_ws (boolean, optional, default: true): if false, newlines and whitespaces are not touched.*/
@@ -694,7 +727,8 @@ var ide = new(function() {
       var shortcuts = {
         "bbox": ide.map2bbox(this.getQueryLang()),
         "center": ide.map2coord(this.getQueryLang()),
-        "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL")
+        "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL"),
+        "date": ide.relativeTime
       };
       query = queryParser.parse(query, shortcuts);
       // parse mapcss declarations
