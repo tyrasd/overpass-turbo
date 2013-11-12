@@ -4,6 +4,7 @@ var ide = new(function() {
   // == private members ==
   var attribControl = null;
   var scaleControl = null;
+  var queryParser = turbo.query();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
@@ -626,7 +627,6 @@ var ide = new(function() {
       p.openOn(ide.map);
     }
 
-
     // close startup waiter
     ide.waiter.close();
 
@@ -688,32 +688,25 @@ var ide = new(function() {
   this.getQuery = function(processed,trim_ws) {
     var query = ide.codeEditor.getValue();
     if (processed) {
-      // preproces query
-      // expand defined constants
-      var const_defs = query.match(/{{[a-zA-Z0-9_]+=.+?}}/gm);
-      if ($.isArray(const_defs))
-        for (var i=0; i<const_defs.length; i++) {
-          var const_def = const_defs[i].match(/{{([^:=]+?)=(.+?)}}/);
-          query = query.replace(const_defs[i],""); // remove constant definition
-          query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]);
-        }
-      // expand bbox
+      // parse query and process shortcuts
       // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
       query = query.replace(/(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,"$1{{__bbox__global_bbox_xml__ezs4K8__}}$3");
-      query = query.replace(/{{__bbox__global_bbox_xml__ezs4K8__}}/g,ide.map2bbox("OverpassQL"));
-      query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang()));
-      // expand map center
-      query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang()));
+      var shortcuts = {
+        "bbox": ide.map2bbox(this.getQueryLang()),
+        "center": ide.map2coord(this.getQueryLang()),
+        "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL")
+      };
+      query = queryParser.parse(query, shortcuts);
       // parse mapcss declarations
-      var mapcss = query.match(/{{style:[\S\s]*?}}/gm) || [];
-      mapcss.forEach(function(css,i) {
-        mapcss[i] = css.match(/{{style:([\S\s]*?)}}/m)[1];
-      });
-      mapcss = mapcss.join("\n");
+      // todo: make this work for multiple style declarations!
+      var mapcss = "";
+      if (queryParser.hasStatement("style"))
+        mapcss = queryParser.getStatement("style");
       ide.mapcss = mapcss;
       // parse data-source statements
       var data_source = null;
-      if (data_source = query.match(/{{data:(.+?)}}/)) {
+      if (queryParser.hasStatement("data")) {
+        data_source = queryParser.getStatement("data");
         data_source = data_source[1].split(',');
         var data_mode = data_source[0].toLowerCase();
         data_source = data_source.slice(1);
@@ -728,13 +721,8 @@ var ide = new(function() {
         };
       }
       ide.data_source = data_source;
-      // remove remaining (e.g. unknown) mustache templates:
-      (query.match(/{{[\S\s]*?}}/gm) || []).forEach(function(mustache) {
-        // count lines in template and replace mustache with same number of newlines 
-        var lc = mustache.split(/\r?\n|\r/).length;
-        query = query.replace(mustache,Array(lc).join("\n"));
-      });
       // eventually trim whitespace
+      // todo: get rid of this
       if (typeof trim_ws == "undefined" || trim_ws) {
         if (this.getQueryLang() !== "OverpassQL" ||
            !query.match(/\/\//)) // do not trim whitespace of queries eventually containing single line comments
