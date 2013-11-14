@@ -197,7 +197,7 @@ var ide = new(function() {
             }
             // check for inactive ui elements
             var bbox_filter = $(".leaflet-control-buttons-bboxfilter");
-            if (ide.getQuery().match(/\{\{bbox\}\}/)) {
+            if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
               if (bbox_filter.hasClass("disabled")) {
                 bbox_filter.removeClass("disabled");
                 $("span",bbox_filter).css("opacity",1.0);
@@ -715,54 +715,50 @@ var ide = new(function() {
     var date = now + count*interval*1000;
     return (new Date(date)).toISOString();
   }
-  /*this returns the current query in the editor.
-   * processed (boolean, optional, default: false): determines weather shortcuts should be expanded or not.
-   * trim_ws (boolean, optional, default: true): if false, newlines and whitespaces are not touched.*/
-  this.getQuery = function(processed,trim_ws) {
+  /* this returns the current raw query in the editor.
+   * shortcuts are not expanded. */
+  this.getRawQuery = function() {
     var query = ide.codeEditor.getValue();
-    if (processed) {
-      // parse query and process shortcuts
-      // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
-      query = query.replace(/(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,"$1{{__bbox__global_bbox_xml__ezs4K8__}}$3");
-      var shortcuts = {
-        "bbox": ide.map2bbox(this.getQueryLang()),
-        "center": ide.map2coord(this.getQueryLang()),
-        "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL"),
-        "date": ide.relativeTime
+    return query;
+  }
+  /* this returns the current query in the editor.
+   * shortcuts are expanded. */
+  this.getQuery = function() {
+    var query = ide.codeEditor.getValue();
+    // parse query and process shortcuts
+    // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
+    query = query.replace(/(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,"$1{{__bbox__global_bbox_xml__ezs4K8__}}$3");
+    var shortcuts = {
+      "bbox": ide.map2bbox(this.getQueryLang()),
+      "center": ide.map2coord(this.getQueryLang()),
+      "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL"),
+      "date": ide.relativeTime
+    };
+    query = queryParser.parse(query, shortcuts);
+    // parse mapcss declarations
+    // todo: make this work for multiple style declarations!
+    var mapcss = "";
+    if (queryParser.hasStatement("style"))
+      mapcss = queryParser.getStatement("style");
+    ide.mapcss = mapcss;
+    // parse data-source statements
+    var data_source = null;
+    if (queryParser.hasStatement("data")) {
+      data_source = queryParser.getStatement("data");
+      data_source = data_source[1].split(',');
+      var data_mode = data_source[0].toLowerCase();
+      data_source = data_source.slice(1);
+      var options = {};
+      for (var i=0; i<data_source.length; i++) {
+        var tmp = data_source[i].split('=');
+        options[tmp[0]] = tmp[1];
+      }
+      data_source = {
+        mode: data_mode,
+        options: options
       };
-      query = queryParser.parse(query, shortcuts);
-      // parse mapcss declarations
-      // todo: make this work for multiple style declarations!
-      var mapcss = "";
-      if (queryParser.hasStatement("style"))
-        mapcss = queryParser.getStatement("style");
-      ide.mapcss = mapcss;
-      // parse data-source statements
-      var data_source = null;
-      if (queryParser.hasStatement("data")) {
-        data_source = queryParser.getStatement("data");
-        data_source = data_source[1].split(',');
-        var data_mode = data_source[0].toLowerCase();
-        data_source = data_source.slice(1);
-        var options = {};
-        for (var i=0; i<data_source.length; i++) {
-          var tmp = data_source[i].split('=');
-          options[tmp[0]] = tmp[1];
-        }
-        data_source = {
-          mode: data_mode,
-          options: options
-        };
-      }
-      ide.data_source = data_source;
-      // eventually trim whitespace
-      // todo: get rid of this
-      if (typeof trim_ws == "undefined" || trim_ws) {
-        if (this.getQueryLang() !== "OverpassQL" ||
-           !query.match(/\/\//)) // do not trim whitespace of queries eventually containing single line comments
-          query = query.replace(/(\n|\r)+\s*/g," "); // remove newlines and some indention whitespace
-      }
     }
+    ide.data_source = data_source;
     return query;
   }
   this.setQuery = function(query) {
@@ -778,7 +774,7 @@ var ide = new(function() {
   /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
   this.repairQuery = function(repair) {
     // - preparations -
-    var q = ide.getQuery(false,false); // get original query
+    var q = ide.getRawQuery(); // get original query
     // replace comments with placeholders
     // (we do not want to autorepair stuff which is commented out.)
     if (ide.getQueryLang() == "xml") {
@@ -955,7 +951,7 @@ var ide = new(function() {
     dialog_buttons[i18n.t("dialog.save")] = function() {
       var name = $("input[name=save]",this)[0].value;
       settings.saves[htmlentities(name)] = {
-        "overpass": ide.getQuery(),
+        "overpass": ide.getRawQuery(),
         "type": "saved_query"
       };
       settings.save();
@@ -1034,12 +1030,12 @@ var ide = new(function() {
   }
   this.onExportClick = function() {
     // prepare export dialog
-    var query = ide.getQuery(true);
+    var query = ide.getQuery();
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
     // encoding exclamation marks for better command line usability (bash)
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21");
-    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
+    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(query,true);
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
@@ -1285,7 +1281,7 @@ var ide = new(function() {
               // See: http://josm.openstreetmap.de/ticket/8566#ticket
               // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
               // bad magic. Still looking for a proper fix, though.
-              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(ide.getQuery(true,true)),
+              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(ide.getQuery()),
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
@@ -1312,7 +1308,7 @@ var ide = new(function() {
       }
       // first check for possible mistakes in query.
       // todo: move into autorepair "module"
-      var q = ide.getQuery(true,false);
+      var q = ide.getQuery();
       var err = {};
       if (ide.getQueryLang() == "xml") {
         try {
@@ -1559,7 +1555,7 @@ var ide = new(function() {
     $("#map_blank").remove();
 
     // run the query via the overpass object
-    var query = ide.getQuery(true,false);
+    var query = ide.getQuery();
     var query_lang = ide.getQueryLang();
     overpass.run_query(query,query_lang);
   }
