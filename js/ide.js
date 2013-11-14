@@ -722,7 +722,7 @@ var ide = new(function() {
   }
   /* this returns the current query in the editor.
    * shortcuts are expanded. */
-  this.getQuery = function() {
+  this.getQuery = function(callback) {
     var query = ide.getRawQuery();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
@@ -758,7 +758,8 @@ var ide = new(function() {
       };
     }
     ide.data_source = data_source;
-    return query;
+    // call result callback
+    callback(query);
   }
   this.setQuery = function(query) {
     ide.codeEditor.setValue(query);
@@ -1027,8 +1028,8 @@ var ide = new(function() {
     });
   }
   this.onExportClick = function() {
-    // prepare export dialog
-    var query = ide.getQuery();
+   // prepare export dialog
+   ide.getQuery(function(query) {
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
     // encoding exclamation marks for better command line usability (bash)
@@ -1279,7 +1280,7 @@ var ide = new(function() {
               // See: http://josm.openstreetmap.de/ticket/8566#ticket
               // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
               // bad magic. Still looking for a proper fix, though.
-              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(ide.getQuery()),
+              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(query),
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
@@ -1306,7 +1307,7 @@ var ide = new(function() {
       }
       // first check for possible mistakes in query.
       // todo: move into autorepair "module"
-      var q = ide.getQuery();
+      var q = ide.getRawQuery().replace(/{{.*?}}/g,"");
       var err = {};
       if (ide.getQueryLang() == "xml") {
         try {
@@ -1361,6 +1362,7 @@ var ide = new(function() {
       buttons: dialog_buttons,
     });
     $("#export-dialog").accordion();
+   });
   }
   this.onExportImageClick = function() {
     ide.waiter.open(i18n.t("waiter.export_as_image"));
@@ -1553,9 +1555,10 @@ var ide = new(function() {
     $("#map_blank").remove();
 
     // run the query via the overpass object
-    var query = ide.getQuery();
-    var query_lang = ide.getQueryLang();
-    overpass.run_query(query,query_lang);
+    ide.getQuery(function(query) {
+      var query_lang = ide.getQueryLang();
+      overpass.run_query(query,query_lang);
+    });
   }
 
 })(); // end create ide object

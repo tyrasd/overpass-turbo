@@ -33,13 +33,11 @@ describe("ide.query", function () {
         outp: ';foofoo'
       },
     ];
+    var callback = sinon.spy();
     for (var i=0; i<examples.length; i++) {
       ide.codeEditor.getValue = function() {return examples[i].inp };
-      expect(
-        ide.getQuery()
-      ).to.be.eql(
-        examples[i].outp
-      );
+      ide.getQuery(callback);
+      expect(callback).to.have.been.calledWith(examples[i].outp);
     }
     ide.setQuery.restore();
   });
@@ -60,13 +58,11 @@ describe("ide.query", function () {
         outp: '<xml>foofoo</xml>'
       },
     ];
+    var callback = sinon.spy();
     for (var i=0; i<examples.length; i++) {
       ide.codeEditor.getValue = function() {return examples[i].inp };
-      expect(
-        ide.getQuery()
-      ).to.be.eql(
-        examples[i].outp
-      );
+      ide.getQuery(callback);
+      expect(callback).to.have.been.calledWith(examples[i].outp);
     }
     ide.setQuery.restore();
   });
@@ -87,13 +83,11 @@ describe("ide.query", function () {
         outp: '<osm-script bbox="1,2,3,4"/>'
       },
     ];
+    var callback = sinon.spy();
     for (var i=0; i<examples.length; i++) {
       ide.codeEditor.getValue = function() {return examples[i].inp };
-      expect(
-        ide.getQuery()
-      ).to.be.eql(
-        examples[i].outp
-      );
+      ide.getQuery(callback);
+      expect(callback).to.have.been.calledWith(examples[i].outp);
     }
     ide.setQuery.restore();
   });
@@ -110,13 +104,11 @@ describe("ide.query", function () {
         outp: '<around lat="5" lon="6"/>'
       },
     ];
+    var callback = sinon.spy();
     for (var i=0; i<examples.length; i++) {
       ide.codeEditor.getValue = function() {return examples[i].inp };
-      expect(
-        ide.getQuery()
-      ).to.be.eql(
-        examples[i].outp
-      );
+      ide.getQuery(callback);
+      expect(callback).to.have.been.calledWith(examples[i].outp);
     }
     ide.setQuery.restore();
   });
