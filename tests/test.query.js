@@ -36,7 +36,7 @@ describe("ide.query", function () {
     for (var i=0; i<examples.length; i++) {
       ide.codeEditor.getValue = function() {return examples[i].inp };
       expect(
-        ide.getQuery(true,false)
+        ide.getQuery()
       ).to.be.eql(
         examples[i].outp
       );
@@ -63,7 +63,7 @@ describe("ide.query", function () {
     for (var i=0; i<examples.length; i++) {
       ide.codeEditor.getValue = function() {return examples[i].inp };
       expect(
-        ide.getQuery(true,false)
+        ide.getQuery()
       ).to.be.eql(
         examples[i].outp
       );
@@ -90,7 +90,7 @@ describe("ide.query", function () {
     for (var i=0; i<examples.length; i++) {
       ide.codeEditor.getValue = function() {return examples[i].inp };
       expect(
-        ide.getQuery(true,false)
+        ide.getQuery()
       ).to.be.eql(
         examples[i].outp
       );
@@ -113,7 +113,7 @@ describe("ide.query", function () {
     for (var i=0; i<examples.length; i++) {
       ide.codeEditor.getValue = function() {return examples[i].inp };
       expect(
-        ide.getQuery(true,false)
+        ide.getQuery()
       ).to.be.eql(
         examples[i].outp
       );
