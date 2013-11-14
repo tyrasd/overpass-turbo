@@ -1635,9 +1635,7 @@ var ide = new(function() {
 
     switch(ffs.bounds) {
       case "area": 
-        query_parts.push('  <query type="area" into="area">');
-        query_parts.push('    <has-kv k="name" v="'+ffs.area+'"/>');
-        query_parts.push('  </query>');
+        query_parts.push('  <id-query {{nominatimArea:'+ffs.area+'}} into="area"/>');
         bounds_part = '<area-query from="area"/>';
       break;
       case "around":
