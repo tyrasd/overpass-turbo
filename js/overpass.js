@@ -27,7 +27,6 @@ var overpass = new(function() {
                   ide.data_source.options.server) ?
                  ide.data_source.options.server : settings.server;
     // 1. get overpass json data
-    fire("onProgress", "building query");
     if (query_lang == "xml") {
       // beautify not well formed xml queries (workaround for non matching error lines)
       if (!query.match(/^<\?xml/)) {

@@ -18,11 +18,11 @@ describe("ide.autorepair.recurse", function () {
     sinon.stub(ide,"getQueryLang").returns("xml");
     var setQuery = sinon.stub(ide,"setQuery");
     for (var i=0; i<examples.length; i++) {
-      sinon.stub(ide,"getQuery").returns(examples[i].inp);
+      sinon.stub(ide,"getRawQuery").returns(examples[i].inp);
       ide.repairQuery("no visible data");
       var repaired_query = setQuery.getCall(i).args[0];
       expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getQuery.restore();
+      ide.getRawQuery.restore();
     }
     ide.getQueryLang.restore();
     ide.setQuery.restore();
@@ -55,11 +55,11 @@ describe("ide.autorepair.recurse", function () {
     sinon.stub(ide,"getQueryLang").returns("OverpassQL");
     var setQuery = sinon.stub(ide,"setQuery");
     for (var i=0; i<examples.length; i++) {
-      sinon.stub(ide,"getQuery").returns(examples[i].inp);
+      sinon.stub(ide,"getRawQuery").returns(examples[i].inp);
       ide.repairQuery("no visible data");
       var repaired_query = setQuery.getCall(i).args[0];
       expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getQuery.restore();
+      ide.getRawQuery.restore();
     }
     ide.getQueryLang.restore();
     ide.setQuery.restore();
@@ -76,11 +76,11 @@ describe("ide.autorepair.recurse", function () {
     sinon.stub(ide,"getQueryLang").returns("xml");
     var setQuery = sinon.stub(ide,"setQuery");
     for (var i=0; i<examples.length; i++) {
-      sinon.stub(ide,"getQuery").returns(examples[i].inp);
+      sinon.stub(ide,"getRawQuery").returns(examples[i].inp);
       ide.repairQuery("no visible data");
       var repaired_query = setQuery.getCall(i).args[0];
       expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getQuery.restore();
+      ide.getRawQuery.restore();
     }
     ide.getQueryLang.restore();
     ide.setQuery.restore();
@@ -101,11 +101,11 @@ describe("ide.autorepair.recurse", function () {
     sinon.stub(ide,"getQueryLang").returns("xml");
     var setQuery = sinon.stub(ide,"setQuery");
     for (var i=0; i<examples.length; i++) {
-      sinon.stub(ide,"getQuery").returns(examples[i].inp);
+      sinon.stub(ide,"getRawQuery").returns(examples[i].inp);
       ide.repairQuery("no visible data");
       var repaired_query = setQuery.getCall(i).args[0];
       expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getQuery.restore();
+      ide.getRawQuery.restore();
     }
     ide.getQueryLang.restore();
     ide.setQuery.restore();
