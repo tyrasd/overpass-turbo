@@ -718,13 +718,12 @@ var ide = new(function() {
   /* this returns the current raw query in the editor.
    * shortcuts are not expanded. */
   this.getRawQuery = function() {
-    var query = ide.codeEditor.getValue();
-    return query;
+    return ide.codeEditor.getValue();
   }
   /* this returns the current query in the editor.
    * shortcuts are expanded. */
   this.getQuery = function() {
-    var query = ide.codeEditor.getValue();
+    var query = ide.getRawQuery();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
     query = query.replace(/(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,"$1{{__bbox__global_bbox_xml__ezs4K8__}}$3");
@@ -765,8 +764,7 @@ var ide = new(function() {
     ide.codeEditor.setValue(query);
   }
   this.getQueryLang = function() {
-    // note: cannot use this.getQuery() here, as this function is required by that.
-    if ($.trim(ide.codeEditor.getValue().replace(/{{.*?}}/g,"")).match(/^</))
+    if ($.trim(ide.getRawQuery().replace(/{{.*?}}/g,"")).match(/^</))
       return "xml";
     else
       return "OverpassQL";
@@ -990,7 +988,7 @@ var ide = new(function() {
   }
   this.updateShareLink = function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
-    var query = ide.codeEditor.getValue();
+    var query = ide.getRawQuery();
     var compress = ((settings.share_compression == "auto" && query.length > 300) ||
         (settings.share_compression == "on"))
     var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
