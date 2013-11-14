@@ -5,6 +5,7 @@ var ide = new(function() {
   var attribControl = null;
   var scaleControl = null;
   var queryParser = turbo.query();
+  var nominatim = turbo.nominatim();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
@@ -311,7 +312,7 @@ var ide = new(function() {
       ajaxStop: function() {
         if (ide.waiter.ajaxAutoOpened) {
           ide.waiter.close();
-          delete ide.waiter.AjaxAutoOpened;
+          delete ide.waiter.ajaxAutoOpened;
         }
       },
     });
@@ -682,7 +683,7 @@ var ide = new(function() {
     else if (lang=="xml")
       return 'lat="'+center.lat+'" lon="'+center.lng+'"';
   }
-  this.relativeTime = function(instr) {
+  this.relativeTime = function(instr, callback) {
     var now = Date.now();
     // very basic differential date
     instr = instr.match(/(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/);
@@ -713,7 +714,35 @@ var ide = new(function() {
       interval=31536000; break;
     }
     var date = now + count*interval*1000;
-    return (new Date(date)).toISOString();
+    callback((new Date(date)).toISOString());
+  }
+  this.nominatim = function(instr, callback) {
+    var lang = ide.getQueryLang();
+    nominatim.getBest(instr, function(err, res) {
+      if (err) {alert(err); res = "xxx";} // todo: error handling
+      if (lang=="OverpassQL")
+        res = res.osm_type+"("+res.osm_id+");";
+      else if (lang=="xml")
+        res = 'type="'+res.osm_type+'" ref="'+res.osm_id+'"';
+      callback(res);
+    });
+  }
+  this.nominatimArea = function(instr, callback) {
+    var lang = ide.getQueryLang();
+    nominatim.getBest(instr, function(err, res) {
+      if (err) {alert(err); res = "xxx";} // todo: error handling
+      // todo: handling of non-osm results (e.g. postcodes, etc.)
+      var area_ref = 1*res.osm_id;
+      if (res.osm_type == "way")
+        area_ref += 2400000000;
+      if (res.osm_type == "relation")
+        area_ref += 3600000000;
+      if (lang=="OverpassQL")
+        res = "area("+area_ref+");";
+      else if (lang=="xml")
+        res = 'type="area" ref="'+area_ref+'"';
+      callback(res);
+    });
   }
   /* this returns the current raw query in the editor.
    * shortcuts are not expanded. */
@@ -731,35 +760,38 @@ var ide = new(function() {
       "bbox": ide.map2bbox(this.getQueryLang()),
       "center": ide.map2coord(this.getQueryLang()),
       "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL"),
-      "date": ide.relativeTime
+      "date": ide.relativeTime,
+      "nominatim": ide.nominatim,
+      "nominatimArea": ide.nominatimArea
     };
-    query = queryParser.parse(query, shortcuts);
-    // parse mapcss declarations
-    // todo: make this work for multiple style declarations!
-    var mapcss = "";
-    if (queryParser.hasStatement("style"))
-      mapcss = queryParser.getStatement("style");
-    ide.mapcss = mapcss;
-    // parse data-source statements
-    var data_source = null;
-    if (queryParser.hasStatement("data")) {
-      data_source = queryParser.getStatement("data");
-      data_source = data_source[1].split(',');
-      var data_mode = data_source[0].toLowerCase();
-      data_source = data_source.slice(1);
-      var options = {};
-      for (var i=0; i<data_source.length; i++) {
-        var tmp = data_source[i].split('=');
-        options[tmp[0]] = tmp[1];
+    queryParser.parse(query, shortcuts, function(query) {
+      // parse mapcss declarations
+      // todo: make this work for multiple style declarations!
+      var mapcss = "";
+      if (queryParser.hasStatement("style"))
+        mapcss = queryParser.getStatement("style");
+      ide.mapcss = mapcss;
+      // parse data-source statements
+      var data_source = null;
+      if (queryParser.hasStatement("data")) {
+        data_source = queryParser.getStatement("data");
+        data_source = data_source[1].split(',');
+        var data_mode = data_source[0].toLowerCase();
+        data_source = data_source.slice(1);
+        var options = {};
+        for (var i=0; i<data_source.length; i++) {
+          var tmp = data_source[i].split('=');
+          options[tmp[0]] = tmp[1];
+        }
+        data_source = {
+          mode: data_mode,
+          options: options
+        };
       }
-      data_source = {
-        mode: data_mode,
-        options: options
-      };
-    }
-    ide.data_source = data_source;
-    // call result callback
-    callback(query);
+      ide.data_source = data_source;
+      // call result callback
+      callback(query);
+    });
   }
   this.setQuery = function(query) {
     ide.codeEditor.setValue(query);
@@ -1554,6 +1586,7 @@ var ide = new(function() {
       ide.map.removeLayer(overpass.osmLayer);
     $("#map_blank").remove();
 
+    ide.waiter.addInfo("building query");
     // run the query via the overpass object
     ide.getQuery(function(query) {
       var query_lang = ide.getQueryLang();

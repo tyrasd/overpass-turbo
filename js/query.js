@@ -5,7 +5,7 @@ turbo.query = function() {
 
   var parser = {};
 
-  parser.parse = function(query, shortcuts) {
+  parser.parse = function(query, shortcuts, callback) {
     // 1. get list of overpass turbo statements
     statements = {};
     var statement = /{{([A-Za-z]+):([\s\S]*?)}}/;
@@ -14,16 +14,21 @@ turbo.query = function() {
       var s_name = s[1];
       var s_instr = s[2];
       var s_replace = "";
-      // if the statement is a shortcut, replace its content.
-      // otherwise save its instructions for later
+      // save instructions for later
+      if (statements[s_name] === undefined) statements[s_name] = "";
+      statements[s_name] += s_instr;
+      // if the statement is a shortcut, replace its content
       if (shortcuts[s_name] !== undefined) {
-        if (typeof shortcuts[s_name] === "function")
-          s_replace = shortcuts[s_name](s_instr);
-        else
+        // these shortcuts can also be callback functions, like {{date:-1day}}
+        if (typeof shortcuts[s_name] === "function") {
+          shortcuts[s_name](s_instr, function(res) {
+            shortcuts[s_name] = res;
+            // recursively call the parser with updated shortcuts
+            parser.parse(query, shortcuts, callback);
+          });
+          return;
+        } else
           s_replace = shortcuts[s_name];
-      } else {
-        if (statements[s_name] === undefined) statements[s_name] = "";
-        statements[s_name] += s_instr;
       }
       // remove statements, but preserve number of newlines
       var lc = s_instr.split(/\r?\n|\r/).length;
@@ -54,7 +59,7 @@ turbo.query = function() {
       query = query.replace(m[0], Array(lc).join("\n"));
     };
     // return the query
-    return query;
+    callback(query);
   };
 
   parser.hasStatement = function(statement) {

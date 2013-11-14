@@ -48,6 +48,7 @@ turbo.js: \
 	js/configs.js \
 	js/settings.js \
 	js/urlParameters.js \
+	js/nominatim.js \
 	js/query.js \
 	js/i18n.js \
 	js/overpass.js \
