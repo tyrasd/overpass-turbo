@@ -18,13 +18,17 @@ describe("ide.ffs", function () {
     q = q.replace(/<has-kv k="([^"]*)" modv="not" regv="([^"]*)" ?\/>/g,"kvr($1,not,$2);");
     q = q.replace(/<bbox-query \{\{bbox\}\} ?\/>/g,"bbox;");
     q = q.replace(/<area-query( from="[^"]*")? ?\/>/g,"area;");
+    q = q.replace(/<around \{\{nominatimCoords:(.*?)\}\}( radius="[^"]*")? ?\/>/g,"around($1);");
+    q = q.replace(/<newer than="\{\{(date:[^"]*)\}\}" ?\/>/g,"newer($1);");
     q = q.replace(/<newer than="([^"]*)" ?\/>/g,"newer($1);");
+    q = q.replace(/<user (name|uid)="([^"]*)" ?\/>/g,"user($1,$2);");
     q = q.replace(/<union>/g,"(");
     q = q.replace(/<\/union>/g,");");
     q = q.replace(/<query type="([^"]*)">/g,"$1[");
     q = q.replace(/<\/query>/g,"];");
     q = q.replace(/<print mode="([^"]*)"( order="[^"]*")? ?\/>/g,"print($1);");
     q = q.replace(/<recurse type="([^"]*)" ?\/>/g,"recurse($1);");
+    q = q.replace(/\{\{[\s\S]*?\}\}/g,"");
     q = q.replace(/ *\n */g,"");
     return q;
   };
@@ -254,12 +258,55 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[newer({{date:1day}});bbox;];"+
+          "node[newer(date:1day);bbox;];"+
         ");"+
         out_str
       );
     });
-    // todo: more meta searches: id, ...?
+    // user
+    it("user", function () {
+      // user name
+      var search = "user:foo and type:node";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[user(name,foo);bbox;];"+
+        ");"+
+        out_str
+      );
+      // uid
+      search = "uid:123 and type:node";
+      result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[user(uid,123);bbox;];"+
+        ");"+
+        out_str
+      );
+    });
+    // id
+    it("id", function () {
+      // with type
+      var search = "id:123 and type:node";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[id(node,123);bbox;];"+
+        ");"+
+        out_str
+      );
+      // without type
+      search = "id:123";
+      result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[id(node,123);bbox;];"+
+          "way[id(way,123);bbox;];"+
+          "relation[id(relation,123);bbox;];"+
+        ");"+
+        out_str
+      );
+    });
   });
 
   // search-regions
@@ -311,6 +358,17 @@ describe("ide.ffs", function () {
         "areaid(foobar);"+
         "("+
           "node[area;];"+
+        ");"+
+        out_str
+      );
+    });
+    // around
+    it("around", function () {
+      var search = "type:node around foobar";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[around(foobar);];"+
         ");"+
         out_str
       );
