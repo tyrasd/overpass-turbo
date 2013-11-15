@@ -714,7 +714,7 @@ var ide = new(function() {
       case "years":
       interval=31536000; break;
     }
-    var date = now + count*interval*1000;
+    var date = now - count*interval*1000;
     callback((new Date(date)).toISOString());
   }
   this.nominatim = function(instr, callback) {
