@@ -717,7 +717,7 @@ var ide = new(function() {
     var date = now - count*interval*1000;
     callback((new Date(date)).toISOString());
   }
-  this.nominatim = function(instr, callback) {
+  this.nominatimId = function(instr, callback) {
     var lang = ide.getQueryLang();
     nominatim.getBest(instr, function(err, res) {
       if (err) {alert(err); res = "xxx";} // todo: error handling
@@ -745,6 +745,32 @@ var ide = new(function() {
       callback(res);
     });
   }
+  this.nominatimBbox = function(instr, callback) {
+    var lang = ide.getQueryLang();
+    nominatim.getBest(instr, function(err, res) {
+      if (err) {alert(err); res = "xxx";} // todo: error handling
+      var lat1 = Math.min(Math.max(res.boundingbox[0],-90),90);
+      var lat2 = Math.min(Math.max(res.boundingbox[1],-90),90);
+      var lng1 = Math.min(Math.max(res.boundingbox[2],-180),180);
+      var lng2 = Math.min(Math.max(res.boundingbox[3],-180),180);
+      if (lang=="OverpassQL")
+        return lat1+','+lng1+','+lat2+','+lng2;
+      else if (lang=="xml")
+        return 's="'+lat1+'" w="'+lng1+'" n="'+lat2+'" e="'+lng2+'"';
+    });
+  }
+  this.nominatimCoords = function(instr, callback) {
+    var lang = ide.getQueryLang();
+    nominatim.getBest(instr, function(err, res) {
+      if (err) {alert(err); res = "xxx";} // todo: error handling
+      // todo: handling of non-osm results (e.g. postcodes, etc.)
+      if (lang=="OverpassQL")
+        res = res.lat+','+res.lon;
+      else if (lang=="xml")
+        res = 'lat="'+res.lat+'" lon="'+res.lon+'"';
+      callback(res);
+    });
+  }
   /* this returns the current raw query in the editor.
    * shortcuts are not expanded. */
   this.getRawQuery = function() {
@@ -762,8 +788,10 @@ var ide = new(function() {
       "center": ide.map2coord(this.getQueryLang()),
       "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL"),
       "date": ide.relativeTime,
-      "nominatim": ide.nominatim,
-      "nominatimArea": ide.nominatimArea
+      "nominatimId": ide.nominatimId,
+      "nominatimArea": ide.nominatimArea,
+      "nominatimBbox": ide.nominatimBbox,
+      "nominatimCoords": ide.nominatimCoords,
     };
     queryParser.parse(query, shortcuts, function(query) {
       // parse mapcss declarations
