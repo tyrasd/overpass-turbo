@@ -3,6 +3,47 @@ if (typeof turbo === "undefined") turbo={};
 turbo.ffs = function() {
   var ffs = {};
 
+  /* this converts a random boolean expression into a normalized form: 
+   * A∧B∧… ∨ C∧D∧… ∨ …
+   * for example: A∧(B∨C) ⇔ (A∧B)∨(A∧C)
+   */
+  function normalize(query) {
+    var normalized_query = {
+      logical:"or",
+      queries:[]
+    };
+    function normalize_recursive(rem_query) {
+      if (!rem_query.logical) {
+        return [{
+          logical: "and",
+          queries: [rem_query]
+        }];
+      } else if (rem_query.logical === "and") {
+        var c1 = normalize_recursive( rem_query.queries[0] );
+        var c2 = normalize_recursive( rem_query.queries[1] );
+        // return cross product of c1 and c2
+        var c = [];
+        for (var i=0; i<c1.length; i++)
+          for (var j=0; j<c2.length; j++) {
+            c.push({
+              logical: "and",
+              queries: c1[i].queries.concat(c2[j].queries)
+            });
+          }
+        return c;
+      } else if (rem_query.logical === "or") {
+        var c1 = normalize_recursive( rem_query.queries[0] );
+        var c2 = normalize_recursive( rem_query.queries[1] );
+        return [].concat(c1,c2);
+        /*for (var i=0; i<rem_query.queries.length; i++) {
+          normalize_recursive(conditions.concat([rem_query.queries[i]]));
+        }*/
+      }
+    }
+    normalized_query.queries = normalize_recursive(query);
+    return normalized_query;
+  }
+
   ffs.construct_query = function(ffs) {
     try {
       ffs = turbo.ffs.parser.parse(ffs);
@@ -37,42 +78,6 @@ turbo.ffs = function() {
       break;
     }
 
-    function normalize(query) {
-      var normalized_query = {
-        logical:"or",
-        queries:[]
-      };
-      function normalize_recursive(rem_query) {
-        if (!rem_query.logical) {
-          return [{
-            logical: "and",
-            queries: [rem_query]
-          }];
-        } else if (rem_query.logical === "and") {
-          var c1 = normalize_recursive( rem_query.queries[0] );
-          var c2 = normalize_recursive( rem_query.queries[1] );
-          // return cross product of c1 and c2
-          var c = [];
-          for (var i=0; i<c1.length; i++)
-            for (var j=0; j<c2.length; j++) {
-              c.push({
-                logical: "and",
-                queries: c1[i].queries.concat(c2[j].queries)
-              });
-            }
-          return c;
-        } else if (rem_query.logical === "or") {
-          var c1 = normalize_recursive( rem_query.queries[0] );
-          var c2 = normalize_recursive( rem_query.queries[1] );
-          return [].concat(c1,c2);
-          /*for (var i=0; i<rem_query.queries.length; i++) {
-            normalize_recursive(conditions.concat([rem_query.queries[i]]));
-          }*/
-        }
-      }
-      normalized_query.queries = normalize_recursive(query);
-      return normalized_query;
-    }
     function get_query_clause(condition) {
       switch(condition.query) {
         case "key":
