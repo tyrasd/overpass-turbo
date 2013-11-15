@@ -50,10 +50,11 @@ turbo.js: \
 	js/urlParameters.js \
 	js/nominatim.js \
 	js/query.js \
+	js/ffs.js \
+	js/ffs_parser.js \
 	js/i18n.js \
 	js/overpass.js \
 	js/ide.js \
-	js/ffs_parser.js \
 	libs/html2canvas/html2canvas.patched.js \
 	libs/html2canvas/jquery.plugin.html2canvas.js \
 	libs/canvg/rgbcolor.js \
