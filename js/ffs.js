@@ -104,6 +104,8 @@ turbo.ffs = function() {
                 return '<id-query type="'+type+'" ref="'+condition.val+'"/>';
               };
             case "newer":
+              if (condition.val.match(/^-?\d+ ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?$/))
+                return '<newer than="{{date:'+condition.val+'}}"/>';
               return '<newer than="'+condition.val+'"/>';
             case "user":
               return '<user name="'+condition.val+'"/>';
