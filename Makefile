@@ -13,6 +13,7 @@ JS_BEAUTIFIER = $(UGLIFY) -b -i 2 -nm -ns
 JS_COMPILER = $(UGLIFY)
 CSSO = ./node_modules/csso/bin/csso
 CSS_COMPILER = $(CSSO)
+PEGJS = ./node_modules/pegjs/bin/pegjs
 install_root ?= build
 
 all: \
@@ -134,3 +135,6 @@ clean:
 
 translations:
 	node locales/update_locales
+
+ffs:
+	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs_parser.js
