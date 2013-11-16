@@ -86,32 +86,34 @@ turbo.ffs = function() {
     }
 
     function get_query_clause(condition) {
+      var key = htmlentities(condition.key);
+      var val = htmlentities(condition.val);
       switch(condition.query) {
         case "key":
-          return '<has-kv k="'+condition.key+'"/>';
+          return '<has-kv k="'+key+'"/>';
         case "nokey":
-          return '<has-kv k="'+condition.key+'" modv="not" regv="."/>';
+          return '<has-kv k="'+key+'" modv="not" regv="."/>';
         case "eq":
-          return '<has-kv k="'+condition.key+'" v="'+condition.val+'"/>';
+          return '<has-kv k="'+key+'" v="'+val+'"/>';
         case "neq":
-          return '<has-kv k="'+condition.key+'" modv="not" v="'+condition.val+'"/>';
+          return '<has-kv k="'+key+'" modv="not" v="'+val+'"/>';
         case "like":
           // todo: case sensitivity?
-          return '<has-kv k="'+condition.key+'" regv="'+condition.val+'"/>';
+          return '<has-kv k="'+key+'" regv="'+val+'"/>';
         case "meta":
           switch(condition.meta) {
             case "id":
               return function(type) {
-                return '<id-query type="'+type+'" ref="'+condition.val+'"/>';
+                return '<id-query type="'+type+'" ref="'+val+'"/>';
               };
             case "newer":
               if (condition.val.match(/^-?\d+ ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?$/))
-                return '<newer than="{{date:'+condition.val+'}}"/>';
-              return '<newer than="'+condition.val+'"/>';
+                return '<newer than="{{date:'+val+'}}"/>';
+              return '<newer than="'+val+'"/>';
             case "user":
-              return '<user name="'+condition.val+'"/>';
+              return '<user name="'+val+'"/>';
             case "uid":
-              return '<user uid="'+condition.val+'"/>';
+              return '<user uid="'+val+'"/>';
             default:
               alert("unknown query type: meta/"+condition.meta);
           }
