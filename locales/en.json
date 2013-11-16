@@ -189,8 +189,8 @@
   "help.attr.jquery": "Driven by",
   "help.attr.other_libs": "Other libraries:",
 
-  "ffs.title": "query builder",
-  "ffs.intro": "Enter a search query:",
+  "ffs.title": "Query Builder Wizard",
+  "ffs.intro": "Enter a search term:",
   "ffs.placeholder": "search",
   "ffs.examples": "A few examples:",
 
