@@ -71,4 +71,4 @@ turbo.query = function() {
   };
 
   return parser;
-}
+};

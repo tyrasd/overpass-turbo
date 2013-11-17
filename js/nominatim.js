@@ -56,4 +56,4 @@ turbo.nominatim = function() {
   };
 
   return nominatim;
-}
+};
