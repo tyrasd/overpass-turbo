@@ -7,6 +7,7 @@ var i18n = new(function() {
     default_lng,
     "da",
     "de",
+    "es",
     "fr",
     "hr",
     "it",
