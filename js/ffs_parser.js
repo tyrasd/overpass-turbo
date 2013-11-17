@@ -1338,26 +1338,26 @@ turbo.ffs.parser = (function(){
         
         reportFailures++;
         pos0 = pos;
-        if (/^[a-zA-Z0-9_]/.test(input.charAt(pos))) {
+        if (/^[a-zA-Z0-9_\xF6\xFC\xE4\xDF\-]/.test(input.charAt(pos))) {
           result1 = input.charAt(pos);
           pos++;
         } else {
           result1 = null;
           if (reportFailures === 0) {
-            matchFailed("[a-zA-Z0-9_]");
+            matchFailed("[a-zA-Z0-9_\\xF6\\xFC\\xE4\\xDF\\-]");
           }
         }
         if (result1 !== null) {
           result0 = [];
           while (result1 !== null) {
             result0.push(result1);
-            if (/^[a-zA-Z0-9_]/.test(input.charAt(pos))) {
+            if (/^[a-zA-Z0-9_\xF6\xFC\xE4\xDF\-]/.test(input.charAt(pos))) {
               result1 = input.charAt(pos);
               pos++;
             } else {
               result1 = null;
               if (reportFailures === 0) {
-                matchFailed("[a-zA-Z0-9_]");
+                matchFailed("[a-zA-Z0-9_\\xF6\\xFC\\xE4\\xDF\\-]");
               }
             }
           }

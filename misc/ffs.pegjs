@@ -84,7 +84,7 @@ free_form
 /* ==== strings ==== */
 
 string "string"
-  = s:[a-zA-Z0-9_]+ { return s.join(''); }
+  = s:[a-zA-Z0-9_öüäß-]+ { return s.join(''); }
   / parts:('"' DoubleStringCharacters? '"' / "'" SingleStringCharacters? "'") {
       return parts[1];
     }
