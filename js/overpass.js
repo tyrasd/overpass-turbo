@@ -331,7 +331,11 @@ setTimeout(function() {
           pointToLayer: function (feature, latlng) {
             // todo: labels!
             var s = get_feature_style(feature);
-            var stl = s.pointStyles && s.pointStyles["default"] ? s.pointStyles["default"] : {};
+            var stl = _.merge({},
+              s.pointStyles["default"],
+              s.textStyles["default"]
+            );
+            var text;
             if (stl["icon_image"]) {
               // return image marker
               var iconUrl = stl["icon_image"].match(/^url\(['"](.*)['"]\)$/)[1];
@@ -344,6 +348,9 @@ setTimeout(function() {
                 // todo: anchor, shadow?, ...
               });
               return new L.Marker(latlng, {icon: icon});
+            } else if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
+              var icon = new L.PopupIcon(text);
+              return new L.Marker(latlng, {icon: icon});  
             } else if (stl["symbol_shape"]=="circle" || true /*if nothing else is specified*/) {
               // return circle marker
               var r = stl["symbol_size"] || 9; 
