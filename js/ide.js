@@ -647,7 +647,7 @@ var ide = new(function() {
       });
     }
     // run the query immediately, if the appropriate flag was set.
-    if (ide.run_query_on_startup === true)
+    if (ide.run_query_on_startup === true) {
       ide.update_map();
       // automatically zoom to data.
       if (!args.has_coords &&
@@ -660,6 +660,7 @@ var ide = new(function() {
           // todo: zoom only to specific zoomlevel if args.has_zoom is given
         }
       }
+    }
   } // init()
 
   // returns the current visible bbox as a bbox-query
