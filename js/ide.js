@@ -261,7 +261,7 @@ var ide = new(function() {
     ide.map = new L.Map("map", {
       attributionControl:false,
       minZoom:0,
-      maxZoom:19,
+      maxZoom:20,
       worldCopyJump:false,
     });
     var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -269,7 +269,8 @@ var ide = new(function() {
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
       noWrap:true,
-      maxZoom:19,
+      maxNativeZoom:19,
+      maxZoom:ide.map.options.maxZoom,
     });
     attribControl = new L.Control.Attribution({prefix:""});
     attribControl.addAttribution(tilesAttrib);
@@ -333,7 +334,8 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.zoom_to_data");
         L.DomEvent.addListener(link, 'click', function() {
-          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}
+          // hardcoded maxZoom of 18, should be ok for most real-world use-cases
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {maxZoom: 18}); } catch (e) {}
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
@@ -653,7 +655,8 @@ var ide = new(function() {
           args.query.match(/\{\{(bbox|center)\}\}/) === null) {
         ide.run_query_on_startup = function() {
           ide.run_query_on_startup = null;
-          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}
+          // hardcoded maxZoom of 18, should be ok for most real-world use-cases
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {maxZoom: 18}); } catch (e) {}
           // todo: zoom only to specific zoomlevel if args.has_zoom is given
         }
       }
