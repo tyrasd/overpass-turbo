@@ -21,6 +21,7 @@ L.PopupIcon = L.Icon.extend({
 		div.style.position = 'absolute';
 		div.style.width = width + 'px';
 		div.style.bottom = '-3px';
+		div.style.pointerEvents = 'none';
 		div.style.left = (-width / 2) + 'px';
 
 		var contentDiv = document.createElement('div');
@@ -33,6 +34,7 @@ L.PopupIcon = L.Icon.extend({
 		contentDiv.style.borderRadius = '5px';
 		contentDiv.style.margin = '0 auto';
 		contentDiv.style.display = 'table';
+		contentDiv.style.pointerEvents = 'auto';
 
 		var tipcDiv = document.createElement('div');
 		tipcDiv.className = 'leaflet-popup-tip-container';
