@@ -95,6 +95,7 @@ body {
 }
 .nav {
   padding:13px 10px;
+  white-space:nowrap;
 }
 #navs > *, a {
   color: #232323;
@@ -115,9 +116,9 @@ a.external::after {
   background-position: -32px -80px;
 }
 .buttons {
-  float: left;
-  display: block;
+  display: inline-block;
   margin-right: 10px;
+  word-spacing: 2px;
 }
 .tabs {
   display: block;
@@ -130,17 +131,17 @@ a.external::after {
   border-radius: 3px;
   height: 12px;
   line-height: 12px;
-  padding: 6px 10px;
   display: block;
   float: left;
   text-decoration: none;
+  padding: 6px 10px;
   margin: 0px 0px;
   background: #fff;
   background: rgba(255, 255, 255, 0.3);
+  background: #e8e8e8;
 }
 a.button:not(.disabled):not(.active):hover {
-  box-shadow: #fff 0px 0px 5px;
-  background: rgba(0, 0, 0, 0.05);
+  box-shadow: #fff 0px -1px 5px;
 }
 a.button:not(.disabled):not(.active):active /*, a.button:focus*/ {
   box-shadow: #C8C8C8 0px 0px 3px;
@@ -148,19 +149,20 @@ a.button:not(.disabled):not(.active):active /*, a.button:focus*/ {
   outline: 0;
   text-shadow: none;
 }
-.gap {
-  margin-right: 10px;
-}
 .group {
+  margin-right: 0px;
+  display: inline-block;
+}
+.group > .button {
   border-radius: 0;
   border-left: 0;
 }
-.left {
+.group > .button:first-child {
   border-left: 1px solid #ccc;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-.right {
+.group > .button:last-child {
   border-right: 1px solid #ccc;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -171,8 +173,11 @@ a.button:not(.disabled):not(.active):active /*, a.button:focus*/ {
   border-bottom-left-radius:0;
   border-bottom-right-radius:0;
 }
+.tabs a.button {
+  background: #ddd;
+}
 .tabs a.button.active {
-  background: rgba(255,255,255, 0.6);
+  background: #f2f2f2;
 }
 a.button {
   cursor: pointer;
@@ -300,7 +305,8 @@ body.loading .modal {
   display: inline-block;
   font-size:1.8em;
   color: #7A7A7A;
-  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: top;
 }
 #navs .title a {
   text-decoration: none;

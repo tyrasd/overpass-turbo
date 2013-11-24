@@ -74,10 +74,25 @@ body {
   position: relative;
   height:auto;
 }
+.nav {
+  white-space:normal;
+}
+#navs .title {
+  display: block;
+  position: absolute;
+  top: 5px;
+}
+#navs .buttons {
+  display: block;
+  position: relative;
+  top: 25px;
+  margin-bottom: 15px;
+}
 .tabs {
   display: none;
 }
 .button {
+  margin-bottom: 3px;
 }
 div.ui-dialog {
   max-width:100%;

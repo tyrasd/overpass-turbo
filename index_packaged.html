@@ -28,15 +28,21 @@
   <div id="navs">
     <div class="nav">
       <div class="buttons">
-        <a class="t button group left"      accesskey="1" onclick="ide.onRunClick();"      title="" data-t="[title]nav.run_tt;nav.run"          >Run</a>
-        <a class="t button group"           accesskey="2" onclick="ide.onShareClick();"    title="" data-t="[title]nav.share_tt;nav.share"      >Share</a>
-        <a class="t button group right gap" accesskey="3" onclick="ide.onExportClick();"   title="" data-t="[title]nav.export_tt;nav.export"    >Export</a>
-        <a class="t button group left"      accesskey="4" onclick="ide.onSaveClick();"     title="" data-t="[title]nav.save_tt;nav.save"        >Save</a>
-        <a class="t button group right gap" accesskey="5" onclick="ide.onLoadClick();"     title="" data-t="[title]nav.load_tt;nav.load"        >Load</a>
-        <a class="t button group left"      accesskey="9" onclick="ide.onSettingsClick();" title="" data-t="[title]nav.settings_tt;nav.settings">Settings</a>
-        <a class="t button group right"     accesskey="0" onclick="ide.onHelpClick();"     title="" data-t="[title]nav.help_tt;nav.help"        >Help</a>
+        <div class="group">
+          <a class="t button" accesskey="1" onclick="ide.onRunClick();"      title="" data-t="[title]nav.run_tt;nav.run"          >Run</a>
+          <a class="t button" accesskey="2" onclick="ide.onShareClick();"    title="" data-t="[title]nav.share_tt;nav.share"      >Share</a>
+          <a class="t button" accesskey="3" onclick="ide.onExportClick();"   title="" data-t="[title]nav.export_tt;nav.export"    >Export</a>
+        </div>
+        <div class="group">
+          <a class="t button" accesskey="4" onclick="ide.onSaveClick();"     title="" data-t="[title]nav.save_tt;nav.save"        >Save</a>
+          <a class="t button" accesskey="5" onclick="ide.onLoadClick();"     title="" data-t="[title]nav.load_tt;nav.load"        >Load</a>
+        </div>
+        <div class="group">
+          <a class="t button" accesskey="9" onclick="ide.onSettingsClick();" title="" data-t="[title]nav.settings_tt;nav.settings">Settings</a>
+          <a class="t button" accesskey="0" onclick="ide.onHelpClick();"     title="" data-t="[title]nav.help_tt;nav.help"        >Help</a>
+        </div>
       </div>
-      <div class="title"><a href="index.html" class="disabled">overpass turbo <img src="turbo.png" style="opacity:0.3; margin-left:2px;" alt="" /></a></div>
+      <div class="title"><a href="index.html" class="disabled">overpass turbo <img src="turbo.png" style="opacity:0.35; margin-left:2px;" alt="" /></a></div>
       <div class="tabs">
         <a class="t button Map active" title="" data-t="[title]tabs.map_tt;tabs.map"  >Map</a>
         <a class="t button Data"       title="" data-t="[title]tabs.data_tt;tabs.data">Data</a>
