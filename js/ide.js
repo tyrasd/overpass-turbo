@@ -722,7 +722,10 @@ var ide = new(function() {
   }
   this.nominatimId = function(instr, callback) {
     var lang = ide.getQueryLang();
-    nominatim.getBest(instr, function(err, res) {
+    function filter(n) {
+      return n.osm_type && n.osm_id;
+    } 
+    nominatim.getBest(instr,filter, function(err, res) {
       if (err) {alert(err); res = "xxx";} // todo: error handling
       if (lang=="OverpassQL")
         res = res.osm_type+"("+res.osm_id+");";
@@ -733,7 +736,10 @@ var ide = new(function() {
   }
   this.nominatimArea = function(instr, callback) {
     var lang = ide.getQueryLang();
-    nominatim.getBest(instr, function(err, res) {
+    function filter(n) {
+      return n.osm_type && n.osm_id && n.osm_type!=="node";
+    } 
+    nominatim.getBest(instr,filter, function(err, res) {
       if (err) {alert(err); res = "xxx";} // todo: error handling
       // todo: handling of non-osm results (e.g. postcodes, etc.)
       var area_ref = 1*res.osm_id;
