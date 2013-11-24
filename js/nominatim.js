@@ -38,11 +38,16 @@ turbo.nominatim = function() {
     return nominatim;
   };
 
-  nominatim.getBest = function(search, callback) {
+  nominatim.getBest = function(search,filter, callback) {
+    // shift parameters if filter is omitted
+    if (!callback) { callback = filter; filter=null; }
     nominatim.get(search, function(err, data) {
-      if (err)
+      if (err) {
         callback(err,null);
-      else if (data.length === 0)
+        return;
+      }
+      data = data.filter(filter);
+      if (data.length === 0)
         callback("No result found",null)
       else
         callback(err, data[0]);
