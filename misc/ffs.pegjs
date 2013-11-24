@@ -6,11 +6,13 @@ start
   = _ x:geo_query _ { return x }
 
 geo_query
-  = x:query whitespace+ "in" whitespace+ y:string
+  = x:query whitespace+ ( "in bbox" / "IN BBOX" )
+    { return { bounds:"bbox", query:x } }
+  / x:query whitespace+ ( "in" / "IN" ) whitespace+ y:string
     { return { bounds:"area", query:x, area:y } }
-  / x:query whitespace+ "around" whitespace+ y:string
+  / x:query whitespace+ ( "around" / "AROUND" ) whitespace+ y:string
     { return { bounds:"around", query:x, area:y } }
-  / x:query whitespace+ "global"
+  / x:query whitespace+ ( "global" / "GLOBAL" )
     { return { bounds:"global", query:x } }
   / x:query
     { return { bounds:"bbox", query:x } }

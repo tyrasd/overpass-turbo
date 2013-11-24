@@ -167,38 +167,28 @@ turbo.ffs.parser = (function(){
             result1 = null;
           }
           if (result1 !== null) {
-            if (input.substr(pos, 2) === "in") {
-              result2 = "in";
-              pos += 2;
+            if (input.substr(pos, 7) === "in bbox") {
+              result2 = "in bbox";
+              pos += 7;
             } else {
               result2 = null;
               if (reportFailures === 0) {
-                matchFailed("\"in\"");
+                matchFailed("\"in bbox\"");
+              }
+            }
+            if (result2 === null) {
+              if (input.substr(pos, 7) === "IN BBOX") {
+                result2 = "IN BBOX";
+                pos += 7;
+              } else {
+                result2 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"IN BBOX\"");
+                }
               }
             }
             if (result2 !== null) {
-              result4 = parse_whitespace();
-              if (result4 !== null) {
-                result3 = [];
-                while (result4 !== null) {
-                  result3.push(result4);
-                  result4 = parse_whitespace();
-                }
-              } else {
-                result3 = null;
-              }
-              if (result3 !== null) {
-                result4 = parse_string();
-                if (result4 !== null) {
-                  result0 = [result0, result1, result2, result3, result4];
-                } else {
-                  result0 = null;
-                  pos = pos1;
-                }
-              } else {
-                result0 = null;
-                pos = pos1;
-              }
+              result0 = [result0, result1, result2];
             } else {
               result0 = null;
               pos = pos1;
@@ -212,7 +202,7 @@ turbo.ffs.parser = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, x, y) { return { bounds:"area", query:x, area:y } })(pos0, result0[0], result0[4]);
+          result0 = (function(offset, x) { return { bounds:"bbox", query:x } })(pos0, result0[0]);
         }
         if (result0 === null) {
           pos = pos0;
@@ -233,13 +223,24 @@ turbo.ffs.parser = (function(){
               result1 = null;
             }
             if (result1 !== null) {
-              if (input.substr(pos, 6) === "around") {
-                result2 = "around";
-                pos += 6;
+              if (input.substr(pos, 2) === "in") {
+                result2 = "in";
+                pos += 2;
               } else {
                 result2 = null;
                 if (reportFailures === 0) {
-                  matchFailed("\"around\"");
+                  matchFailed("\"in\"");
+                }
+              }
+              if (result2 === null) {
+                if (input.substr(pos, 2) === "IN") {
+                  result2 = "IN";
+                  pos += 2;
+                } else {
+                  result2 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"IN\"");
+                  }
                 }
               }
               if (result2 !== null) {
@@ -278,7 +279,7 @@ turbo.ffs.parser = (function(){
             pos = pos1;
           }
           if (result0 !== null) {
-            result0 = (function(offset, x, y) { return { bounds:"around", query:x, area:y } })(pos0, result0[0], result0[4]);
+            result0 = (function(offset, x, y) { return { bounds:"area", query:x, area:y } })(pos0, result0[0], result0[4]);
           }
           if (result0 === null) {
             pos = pos0;
@@ -299,17 +300,49 @@ turbo.ffs.parser = (function(){
                 result1 = null;
               }
               if (result1 !== null) {
-                if (input.substr(pos, 6) === "global") {
-                  result2 = "global";
+                if (input.substr(pos, 6) === "around") {
+                  result2 = "around";
                   pos += 6;
                 } else {
                   result2 = null;
                   if (reportFailures === 0) {
-                    matchFailed("\"global\"");
+                    matchFailed("\"around\"");
+                  }
+                }
+                if (result2 === null) {
+                  if (input.substr(pos, 6) === "AROUND") {
+                    result2 = "AROUND";
+                    pos += 6;
+                  } else {
+                    result2 = null;
+                    if (reportFailures === 0) {
+                      matchFailed("\"AROUND\"");
+                    }
                   }
                 }
                 if (result2 !== null) {
-                  result0 = [result0, result1, result2];
+                  result4 = parse_whitespace();
+                  if (result4 !== null) {
+                    result3 = [];
+                    while (result4 !== null) {
+                      result3.push(result4);
+                      result4 = parse_whitespace();
+                    }
+                  } else {
+                    result3 = null;
+                  }
+                  if (result3 !== null) {
+                    result4 = parse_string();
+                    if (result4 !== null) {
+                      result0 = [result0, result1, result2, result3, result4];
+                    } else {
+                      result0 = null;
+                      pos = pos1;
+                    }
+                  } else {
+                    result0 = null;
+                    pos = pos1;
+                  }
                 } else {
                   result0 = null;
                   pos = pos1;
@@ -323,19 +356,76 @@ turbo.ffs.parser = (function(){
               pos = pos1;
             }
             if (result0 !== null) {
-              result0 = (function(offset, x) { return { bounds:"global", query:x } })(pos0, result0[0]);
+              result0 = (function(offset, x, y) { return { bounds:"around", query:x, area:y } })(pos0, result0[0], result0[4]);
             }
             if (result0 === null) {
               pos = pos0;
             }
             if (result0 === null) {
               pos0 = pos;
+              pos1 = pos;
               result0 = parse_logical_or();
               if (result0 !== null) {
-                result0 = (function(offset, x) { return { bounds:"bbox", query:x } })(pos0, result0);
+                result2 = parse_whitespace();
+                if (result2 !== null) {
+                  result1 = [];
+                  while (result2 !== null) {
+                    result1.push(result2);
+                    result2 = parse_whitespace();
+                  }
+                } else {
+                  result1 = null;
+                }
+                if (result1 !== null) {
+                  if (input.substr(pos, 6) === "global") {
+                    result2 = "global";
+                    pos += 6;
+                  } else {
+                    result2 = null;
+                    if (reportFailures === 0) {
+                      matchFailed("\"global\"");
+                    }
+                  }
+                  if (result2 === null) {
+                    if (input.substr(pos, 6) === "GLOBAL") {
+                      result2 = "GLOBAL";
+                      pos += 6;
+                    } else {
+                      result2 = null;
+                      if (reportFailures === 0) {
+                        matchFailed("\"GLOBAL\"");
+                      }
+                    }
+                  }
+                  if (result2 !== null) {
+                    result0 = [result0, result1, result2];
+                  } else {
+                    result0 = null;
+                    pos = pos1;
+                  }
+                } else {
+                  result0 = null;
+                  pos = pos1;
+                }
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+              if (result0 !== null) {
+                result0 = (function(offset, x) { return { bounds:"global", query:x } })(pos0, result0[0]);
               }
               if (result0 === null) {
                 pos = pos0;
+              }
+              if (result0 === null) {
+                pos0 = pos;
+                result0 = parse_logical_or();
+                if (result0 !== null) {
+                  result0 = (function(offset, x) { return { bounds:"bbox", query:x } })(pos0, result0);
+                }
+                if (result0 === null) {
+                  pos = pos0;
+                }
               }
             }
           }
