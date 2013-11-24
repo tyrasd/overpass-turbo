@@ -371,9 +371,10 @@ setTimeout(function() {
                     url = url[0];
                     var href = url.match(/^(https?|ftp):\/\//) ? url : 'http://'+url;
                     v = '<a href="'+href+'" target="_blank">'+url+'</a>'
+                  } else {
+                    // hyperlinks for email adresses
+                    v = v.replace(/(([^\s()<>]+)@([^\s()<>]+[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/g,'<a href="mailto:$1" target="_blank">$1</a>');
                   }
-                  // hyperlinks for email adresses
-                  v = v.replace(/(([^\s()<>]+)@([^\s()<>]+[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/g,'<a href="mailto:$1" target="_blank">$1</a>');
                   // hyperlinks for wikipedia entries
                   var wiki_lang, wiki_page;
                   if (((wiki_lang = k.match(/^wikipedia\:(.*)$/)) && (wiki_page = v)) || 

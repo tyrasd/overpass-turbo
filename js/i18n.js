@@ -7,6 +7,7 @@ var i18n = new(function() {
     default_lng,
     "da",
     "de",
+    "es",
     "fr",
     "hr",
     "it",
@@ -51,7 +52,7 @@ var i18n = new(function() {
     // look for all object with the class "t"
     $(".t").each(function(nr,element) {
       // get translation term(s)
-      var terms = $(element).attr("t");
+      var terms = $(element).attr("data-t");
       terms = terms.split(";");
       for (var i=0; i<terms.length; i++) {
         var term = terms[i];
