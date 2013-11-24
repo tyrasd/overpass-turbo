@@ -48,6 +48,8 @@ turbo.ffs.parser = (function(){
         "key_present": parse_key_present,
         "key_not_present": parse_key_not_present,
         "key_like_val": parse_key_like_val,
+        "key_not_like_val": parse_key_not_like_val,
+        "key_substr_val": parse_key_substr_val,
         "type": parse_type,
         "meta": parse_meta,
         "free_form": parse_free_form,
@@ -887,7 +889,13 @@ turbo.ffs.parser = (function(){
                   if (result0 === null) {
                     result0 = parse_key_like_val();
                     if (result0 === null) {
-                      result0 = parse_free_form();
+                      result0 = parse_key_not_like_val();
+                      if (result0 === null) {
+                        result0 = parse_key_substr_val();
+                        if (result0 === null) {
+                          result0 = parse_free_form();
+                        }
+                      }
                     }
                   }
                 }
@@ -1203,17 +1211,6 @@ turbo.ffs.parser = (function(){
                   matchFailed("\"~=\"");
                 }
               }
-              if (result2 === null) {
-                if (input.charCodeAt(pos) === 58) {
-                  result2 = ":";
-                  pos++;
-                } else {
-                  result2 = null;
-                  if (reportFailures === 0) {
-                    matchFailed("\":\"");
-                  }
-                }
-              }
             }
             if (result2 !== null) {
               result3 = parse__();
@@ -1243,6 +1240,114 @@ turbo.ffs.parser = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, x, y) { return { query:"like", key:x, val:y } })(pos0, result0[0], result0[4]);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        return result0;
+      }
+      
+      function parse_key_not_like_val() {
+        var result0, result1, result2, result3, result4;
+        var pos0, pos1;
+        
+        pos0 = pos;
+        pos1 = pos;
+        result0 = parse_string();
+        if (result0 !== null) {
+          result1 = parse__();
+          if (result1 !== null) {
+            if (input.substr(pos, 2) === "!~") {
+              result2 = "!~";
+              pos += 2;
+            } else {
+              result2 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"!~\"");
+              }
+            }
+            if (result2 !== null) {
+              result3 = parse__();
+              if (result3 !== null) {
+                result4 = parse_string();
+                if (result4 !== null) {
+                  result0 = [result0, result1, result2, result3, result4];
+                } else {
+                  result0 = null;
+                  pos = pos1;
+                }
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+        } else {
+          result0 = null;
+          pos = pos1;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, x, y) { return { query:"notlike", key:x, val:y } })(pos0, result0[0], result0[4]);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        return result0;
+      }
+      
+      function parse_key_substr_val() {
+        var result0, result1, result2, result3, result4;
+        var pos0, pos1;
+        
+        pos0 = pos;
+        pos1 = pos;
+        result0 = parse_string();
+        if (result0 !== null) {
+          result1 = parse__();
+          if (result1 !== null) {
+            if (input.charCodeAt(pos) === 58) {
+              result2 = ":";
+              pos++;
+            } else {
+              result2 = null;
+              if (reportFailures === 0) {
+                matchFailed("\":\"");
+              }
+            }
+            if (result2 !== null) {
+              result3 = parse__();
+              if (result3 !== null) {
+                result4 = parse_string();
+                if (result4 !== null) {
+                  result0 = [result0, result1, result2, result3, result4];
+                } else {
+                  result0 = null;
+                  pos = pos1;
+                }
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+        } else {
+          result0 = null;
+          pos = pos1;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, x, y) { return { query:"substr", key:x, val:y } })(pos0, result0[0], result0[4]);
         }
         if (result0 === null) {
           pos = pos0;

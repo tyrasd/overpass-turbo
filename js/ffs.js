@@ -100,6 +100,10 @@ turbo.ffs = function() {
         case "like":
           // todo: case sensitivity?
           return '<has-kv k="'+key+'" regv="'+val+'"/>';
+        case "notlike":
+          return '<has-kv k="'+key+'" modv="not" regv="'+val+'"/>';
+        case "substr":
+          return '<has-kv k="'+key+'" regv="'+val.replace(/([()[{*+.$^\\|?])/g, '\\$1')+'"/>';
         case "meta":
           switch(condition.meta) {
             case "id":
@@ -117,7 +121,6 @@ turbo.ffs = function() {
             default:
               alert("unknown query type: meta/"+condition.meta);
           }
-        // todo: not like !~ operator
         default:
           alert("unknown query type: "+condition.query);
           return false;
@@ -139,8 +142,11 @@ turbo.ffs = function() {
         case "neq":
           return quotes(condition.key)+'!='+quotes(condition.val);
         case "like":
-          // todo: case sensitivity?
           return quotes(condition.key)+'~'+quotes(condition.val);
+        case "notlike":
+          return quotes(condition.key)+'!~'+quotes(condition.val);
+        case "substr":
+          return quotes(condition.key)+':'+quotes(condition.val);
         case "meta":
           switch(condition.meta) {
             case "id":
@@ -154,7 +160,6 @@ turbo.ffs = function() {
             default:
               alert("unknown query type: meta/"+condition.meta);
           }
-        // todo: not like !~ operator
         default:
           alert("unknown query type: "+condition.query);
           return false;

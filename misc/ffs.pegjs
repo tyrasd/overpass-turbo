@@ -49,6 +49,8 @@ statement
   / key_present
   / key_not_present
   / key_like_val
+  / key_not_like_val
+  / key_substr_val
   / free_form
 
 key_eq_val
@@ -68,8 +70,16 @@ key_not_present
     { return { query:"nokey", key:x } }
 
 key_like_val
-  = x:string _ ( "~" / "~=" / ":" ) _ y:string
-    { return { query:"like", key:x, val:y } } 
+  = x:string _ ( "~" / "~=" ) _ y:string
+    { return { query:"like", key:x, val:y } }
+
+key_not_like_val
+  = x:string _ ( "!~" ) _ y:string
+    { return { query:"notlike", key:x, val:y } }
+
+key_substr_val
+  = x:string _ ( ":" ) _ y:string
+    { return { query:"substr", key:x, val:y } }
 
 type
   = "type" _ ":" _ x:string
