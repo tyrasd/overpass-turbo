@@ -59,6 +59,9 @@ turbo.ffs.parser = (function(){
         "DoubleStringCharacter": parse_DoubleStringCharacter,
         "SingleStringCharacter": parse_SingleStringCharacter,
         "SingleEscapeCharacter": parse_SingleEscapeCharacter,
+        "regexstring": parse_regexstring,
+        "RegexStringCharacters": parse_RegexStringCharacters,
+        "RegexStringCharacter": parse_RegexStringCharacter,
         "_": parse__,
         "whitespace": parse_whitespace
       };
@@ -1216,6 +1219,9 @@ turbo.ffs.parser = (function(){
               result3 = parse__();
               if (result3 !== null) {
                 result4 = parse_string();
+                if (result4 === null) {
+                  result4 = parse_regexstring();
+                }
                 if (result4 !== null) {
                   result0 = [result0, result1, result2, result3, result4];
                 } else {
@@ -1239,7 +1245,7 @@ turbo.ffs.parser = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, x, y) { return { query:"like", key:x, val:y } })(pos0, result0[0], result0[4]);
+          result0 = (function(offset, x, y) { return { query:"like", key:x, val:y.regex?y:{regex:y} } })(pos0, result0[0], result0[4]);
         }
         if (result0 === null) {
           pos = pos0;
@@ -1270,6 +1276,9 @@ turbo.ffs.parser = (function(){
               result3 = parse__();
               if (result3 !== null) {
                 result4 = parse_string();
+                if (result4 === null) {
+                  result4 = parse_regexstring();
+                }
                 if (result4 !== null) {
                   result0 = [result0, result1, result2, result3, result4];
                 } else {
@@ -1293,7 +1302,7 @@ turbo.ffs.parser = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, x, y) { return { query:"notlike", key:x, val:y } })(pos0, result0[0], result0[4]);
+          result0 = (function(offset, x, y) { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } })(pos0, result0[0], result0[4]);
         }
         if (result0 === null) {
           pos = pos0;
@@ -1533,26 +1542,26 @@ turbo.ffs.parser = (function(){
         
         reportFailures++;
         pos0 = pos;
-        if (/^[a-zA-Z0-9_\xF6\xFC\xE4\xDF\-]/.test(input.charAt(pos))) {
+        if (/^[a-zA-Z0-9_\xF6\xFC\xE4\xD6\xDC\xC4\xDF\-]/.test(input.charAt(pos))) {
           result1 = input.charAt(pos);
           pos++;
         } else {
           result1 = null;
           if (reportFailures === 0) {
-            matchFailed("[a-zA-Z0-9_\\xF6\\xFC\\xE4\\xDF\\-]");
+            matchFailed("[a-zA-Z0-9_\\xF6\\xFC\\xE4\\xD6\\xDC\\xC4\\xDF\\-]");
           }
         }
         if (result1 !== null) {
           result0 = [];
           while (result1 !== null) {
             result0.push(result1);
-            if (/^[a-zA-Z0-9_\xF6\xFC\xE4\xDF\-]/.test(input.charAt(pos))) {
+            if (/^[a-zA-Z0-9_\xF6\xFC\xE4\xD6\xDC\xC4\xDF\-]/.test(input.charAt(pos))) {
               result1 = input.charAt(pos);
               pos++;
             } else {
               result1 = null;
               if (reportFailures === 0) {
-                matchFailed("[a-zA-Z0-9_\\xF6\\xFC\\xE4\\xDF\\-]");
+                matchFailed("[a-zA-Z0-9_\\xF6\\xFC\\xE4\\xD6\\xDC\\xC4\\xDF\\-]");
               }
             }
           }
@@ -1924,6 +1933,188 @@ turbo.ffs.parser = (function(){
         }
         if (result0 === null) {
           pos = pos0;
+        }
+        return result0;
+      }
+      
+      function parse_regexstring() {
+        var result0, result1, result2, result3;
+        var pos0, pos1;
+        
+        reportFailures++;
+        pos0 = pos;
+        pos1 = pos;
+        if (input.charCodeAt(pos) === 47) {
+          result0 = "/";
+          pos++;
+        } else {
+          result0 = null;
+          if (reportFailures === 0) {
+            matchFailed("\"/\"");
+          }
+        }
+        if (result0 !== null) {
+          result1 = parse_RegexStringCharacters();
+          result1 = result1 !== null ? result1 : "";
+          if (result1 !== null) {
+            if (input.charCodeAt(pos) === 47) {
+              result2 = "/";
+              pos++;
+            } else {
+              result2 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"/\"");
+              }
+            }
+            if (result2 !== null) {
+              if (input.charCodeAt(pos) === 105) {
+                result3 = "i";
+                pos++;
+              } else {
+                result3 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"i\"");
+                }
+              }
+              if (result3 === null) {
+                result3 = "";
+              }
+              result3 = result3 !== null ? result3 : "";
+              if (result3 !== null) {
+                result0 = [result0, result1, result2, result3];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+        } else {
+          result0 = null;
+          pos = pos1;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, parts) {
+              return { regex: parts[1], modifier: parts[3] };
+            })(pos0, result0);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        reportFailures--;
+        if (reportFailures === 0 && result0 === null) {
+          matchFailed("string");
+        }
+        return result0;
+      }
+      
+      function parse_RegexStringCharacters() {
+        var result0, result1;
+        var pos0;
+        
+        pos0 = pos;
+        result1 = parse_RegexStringCharacter();
+        if (result1 !== null) {
+          result0 = [];
+          while (result1 !== null) {
+            result0.push(result1);
+            result1 = parse_RegexStringCharacter();
+          }
+        } else {
+          result0 = null;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, chars) { return chars.join(""); })(pos0, result0);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        return result0;
+      }
+      
+      function parse_RegexStringCharacter() {
+        var result0, result1;
+        var pos0, pos1, pos2;
+        
+        pos0 = pos;
+        pos1 = pos;
+        pos2 = pos;
+        reportFailures++;
+        if (input.charCodeAt(pos) === 47) {
+          result0 = "/";
+          pos++;
+        } else {
+          result0 = null;
+          if (reportFailures === 0) {
+            matchFailed("\"/\"");
+          }
+        }
+        if (result0 === null) {
+          if (input.substr(pos, 2) === "\\/") {
+            result0 = "\\/";
+            pos += 2;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\\\/\"");
+            }
+          }
+        }
+        reportFailures--;
+        if (result0 === null) {
+          result0 = "";
+        } else {
+          result0 = null;
+          pos = pos2;
+        }
+        if (result0 !== null) {
+          if (input.length > pos) {
+            result1 = input.charAt(pos);
+            pos++;
+          } else {
+            result1 = null;
+            if (reportFailures === 0) {
+              matchFailed("any character");
+            }
+          }
+          if (result1 !== null) {
+            result0 = [result0, result1];
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+        } else {
+          result0 = null;
+          pos = pos1;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, char_) { return char_;     })(pos0, result0[1]);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        if (result0 === null) {
+          pos0 = pos;
+          if (input.substr(pos, 2) === "\\/") {
+            result0 = "\\/";
+            pos += 2;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"\\\\/\"");
+            }
+          }
+          if (result0 !== null) {
+            result0 = (function(offset) { return "/";  })(pos0);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
         }
         return result0;
       }

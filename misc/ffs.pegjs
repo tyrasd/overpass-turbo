@@ -70,12 +70,12 @@ key_not_present
     { return { query:"nokey", key:x } }
 
 key_like_val
-  = x:string _ ( "~" / "~=" ) _ y:string
-    { return { query:"like", key:x, val:y } }
+  = x:string _ ( "~" / "~=" ) _ y:(string / regexstring )
+    { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
 
 key_not_like_val
-  = x:string _ ( "!~" ) _ y:string
-    { return { query:"notlike", key:x, val:y } }
+  = x:string _ ( "!~" ) _ y:(string / regexstring )
+    { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
 
 key_substr_val
   = x:string _ ( ":" ) _ y:string
@@ -96,7 +96,7 @@ free_form
 /* ==== strings ==== */
 
 string "string"
-  = s:[a-zA-Z0-9_öüäß-]+ { return s.join(''); }
+  = s:[a-zA-Z0-9_öüäÖÜÄß-]+ { return s.join(''); }
   / parts:('"' DoubleStringCharacters? '"' / "'" SingleStringCharacters? "'") {
       return parts[1];
     }
@@ -135,6 +135,20 @@ SingleEscapeCharacter
         .replace("v", "\x0B") // IE does not recognize "\v".
     }
 
+/* ==== regexes ==== */
+
+regexstring "string"
+  = parts:('/' RegexStringCharacters? '/' ('i'/'')?) {
+      return { regex: parts[1], modifier: parts[3] };
+    }
+
+RegexStringCharacters
+  = chars:RegexStringCharacter+ { return chars.join(""); }
+
+RegexStringCharacter
+  = !('/' / "\\/") char_:. { return char_;     }
+  / "\\/"                  { return "/";  }
+
 
 /* ===== Whitespace ===== */
 
@@ -143,4 +157,3 @@ _ "whitespace"
 
 whitespace "whitespace"
   = [ \t\n\r]
-

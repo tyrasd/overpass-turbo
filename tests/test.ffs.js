@@ -16,6 +16,8 @@ describe("ide.ffs", function () {
     q = q.replace(/<has-kv k="([^"]*)" modv="not" v="([^"]*)" ?\/>/g,"kv($1,not,$2);");
     q = q.replace(/<has-kv k="([^"]*)" regv="([^"]*)" ?\/>/g,"kvr($1,$2);");
     q = q.replace(/<has-kv k="([^"]*)" modv="not" regv="([^"]*)" ?\/>/g,"kvr($1,not,$2);");
+    q = q.replace(/<has-kv k="([^"]*)" regv="([^"]*)" case="ignore" ?\/>/g,"kvr($1,$2,i);");
+    q = q.replace(/<has-kv k="([^"]*)" modv="not" regv="([^"]*)" case="ignore" ?\/>/g,"kvr($1,not,$2,i);");
     q = q.replace(/<bbox-query \{\{bbox\}\} ?\/>/g,"bbox;");
     q = q.replace(/<area-query( from="[^"]*")? ?\/>/g,"area;");
     q = q.replace(/<around \{\{nominatimCoords:(.*?)\}\}( radius="[^"]*")? ?\/>/g,"around($1);");
@@ -101,7 +103,7 @@ describe("ide.ffs", function () {
         out_str
       );
     });
-    /*// not regex key-value
+    // not regex key-value
     it("key!~value", function () {
       var search = "foo!~bar";
       var result = ffs.construct_query(search);
@@ -113,13 +115,39 @@ describe("ide.ffs", function () {
         ");"+
         out_str
       );
-    });*/
+    });
+    // susbtring key-value
+    it("key:value", function () {
+      // normal case: just do a regex search
+      var search = "foo:bar";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[kvr(foo,bar);bbox;];"+
+          "way[kvr(foo,bar);bbox;];"+
+          "relation[kvr(foo,bar);bbox;];"+
+        ");"+
+        out_str
+      );
+      // but also escape special characters
+      search = "foo:'*'";
+      result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[kvr(foo,\\*);bbox;];"+
+          "way[kvr(foo,\\*);bbox;];"+
+          "relation[kvr(foo,\\*);bbox;];"+
+        ");"+
+        out_str
+      );
+    });
   });
 
   // data types
   describe("data types", function () {
     // strings
     it("strings", function () {
+      var search, result;
       // doulbe-quoted string
       search = "\"foo bar\"=*";
       result = ffs.construct_query(search);
@@ -149,6 +177,32 @@ describe("ide.ffs", function () {
           "node[kv(foo bar,asd fasd);bbox;];"+
           "way[kv(foo bar,asd fasd);bbox;];"+
           "relation[kv(foo bar,asd fasd);bbox;];"+
+        ");"+
+        out_str
+      );
+    });
+    // regexes
+    it("regex", function () {
+      var search, result;
+      // simple regex
+      search = "foo~/bar/";
+      result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[kvr(foo,bar);bbox;];"+
+          "way[kvr(foo,bar);bbox;];"+
+          "relation[kvr(foo,bar);bbox;];"+
+        ");"+
+        out_str
+      );
+      // simple regex with modifier
+      search = "foo~/bar/i";
+      result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[kvr(foo,bar,i);bbox;];"+
+          "way[kvr(foo,bar,i);bbox;];"+
+          "relation[kvr(foo,bar,i);bbox;];"+
         ");"+
         out_str
       );

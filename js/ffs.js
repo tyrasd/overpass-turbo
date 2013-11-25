@@ -98,10 +98,13 @@ turbo.ffs = function() {
         case "neq":
           return '<has-kv k="'+key+'" modv="not" v="'+val+'"/>';
         case "like":
-          // todo: case sensitivity?
-          return '<has-kv k="'+key+'" regv="'+val+'"/>';
+          return '<has-kv k="'+key+'" regv="'+htmlentities(condition.val.regex)+'"'
+                 +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +'/>';
         case "notlike":
-          return '<has-kv k="'+key+'" modv="not" regv="'+val+'"/>';
+          return '<has-kv k="'+key+'" modv="not" regv="'+htmlentities(condition.val.regex)+'"'
+                 +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +'/>';
         case "substr":
           return '<has-kv k="'+key+'" regv="'+val.replace(/([()[{*+.$^\\|?])/g, '\\$1')+'"/>';
         case "meta":
@@ -129,8 +132,13 @@ turbo.ffs = function() {
     function get_query_clause_str(condition) {
       function quotes(s) {
         if (s.match(/^[a-zA-Z0-9_]+$/) === null)
-          return '"'+s+'"';
+          return '"'+s.replace(/"/g,'\\"')+'"';
         return s;
+      }
+      function quoteRegex(s) {
+        if (s.regex.match(/^[a-zA-Z0-9_]+$/) === null || s.modifier)
+          return '/'+s.regex.replace(/\//g,'\\/')+'/'+(s.modifier||'');
+        return s.regex;
       }
       switch(condition.query) {
         case "key":
@@ -142,9 +150,9 @@ turbo.ffs = function() {
         case "neq":
           return quotes(condition.key)+'!='+quotes(condition.val);
         case "like":
-          return quotes(condition.key)+'~'+quotes(condition.val);
+          return quotes(condition.key)+'~'+quoteRegex(condition.val);
         case "notlike":
-          return quotes(condition.key)+'!~'+quotes(condition.val);
+          return quotes(condition.key)+'!~'+quoteRegex(condition.val);
         case "substr":
           return quotes(condition.key)+':'+quotes(condition.val);
         case "meta":
