@@ -37,5 +37,5 @@ Development is done in the *master* branch, stable releases are commited to *gh-
 
 This application runs out of the box (no special installation is needed). Just put the repository on a web server (e.g. Apache or something [slimmer](https://gist.github.com/tmcw/4989751)) and point your browser to index.html. Recent versions of Chrome, Firefox and Opera have been tested and should work.
 
-It is possible, to build a compacted/minified version of *turbo* out of the source files. For that, run `make && make install` after installing uglifyjs and csso: `npm install uglify-js csso`.
+It is possible, to build a compacted/minified version of *turbo* out of the source files. For that, run `make && make install` after installing uglifyjs and csso: `npm install uglify-js csso pegjs`.
 

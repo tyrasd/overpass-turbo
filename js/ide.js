@@ -6,6 +6,7 @@ var ide = new(function() {
   var scaleControl = null;
   var queryParser = turbo.query();
   var nominatim = turbo.nominatim();
+  var ffs = turbo.ffs();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
@@ -458,7 +459,7 @@ var ide = new(function() {
           },
         });
         $(inp).autocomplete("option","delay",2000000000); // do not do this at all
-        $(inp).autocomplete().keypress(function(e) {if (e.which==13) $(this).autocomplete("search");});
+        $(inp).autocomplete().keypress(function(e) {if (e.which==13 || e.which==10) $(this).autocomplete("search");});
         return container;
       },
     });
@@ -1070,9 +1071,9 @@ var ide = new(function() {
 
     var warning = '';
     if (share_link.length >= 2000)
-      warning = '<p style="color:orange">'+i18n.t("warning.share.long")+'</p>';
+      warning = '<p class="warning">'+i18n.t("warning.share.long")+'</p>';
     if (share_link.length >= 8000)
-      warning = '<p style="color:red">'+i18n.t("warning.share.very_long")+'</p>';
+      warning = '<p class="warning severe">'+i18n.t("warning.share.very_long")+'</p>';
 
     $("div#share-dialog #share_link_warning").html(warning);
 
@@ -1494,6 +1495,34 @@ var ide = new(function() {
       });
     }});
   }
+  this.onFfsClick = function() {
+    $("#ffs-dialog #ffs-dialog-parse-error").hide();
+    var build_query = function() {
+      // build query and run it immediately
+      if (ide.update_ffs_query()) {
+        $(this).dialog("close");
+        ide.onRunClick();
+      } else {
+        // show parse error message
+        $("#ffs-dialog #ffs-dialog-parse-error").show();
+        $("#ffs-dialog #ffs-dialog-parse-error").effect("shake", {direction:"right",distance:10,times:2}, 300);
+      }
+    };
+    $("#ffs-dialog input").unbind("keypress").bind("keypress", function(e) {
+      if (e.which==13 || e.which==10) {
+        build_query.bind(this.parentElement.parentElement)();
+        e.preventDefault();
+      }
+    });
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.wizard_run")] = build_query;
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
+    $("#ffs-dialog").dialog({
+      modal:true,
+      width:350,
+      buttons: dialog_buttons,
+    });
+  }
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value = settings.ui_language;
     make_combobox($("#settings-dialog input[name=ui_language]"),
@@ -1593,7 +1622,7 @@ var ide = new(function() {
     $("#help-dialog").accordion();
   }
   this.onKeyPress = function(event) {
-    if ((event.keyCode == 120 && event.which == 0) || // F9
+    if ((event.which == 120 && event.charCode == 0) || // F9
         ((event.which == 13 || event.which == 10) && (event.ctrlKey || event.metaKey))) { // Ctrl+Enter
       ide.onRunClick(); // run query
       event.preventDefault();
@@ -1608,6 +1637,10 @@ var ide = new(function() {
     }
     if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey)) { // Ctrl+H
       ide.onHelpClick();
+      event.preventDefault();
+    }
+    if ((String.fromCharCode(event.which).toLowerCase() == 'f') && (event.ctrlKey || event.metaKey) && event.shiftKey ) { // Ctrl+Shift+F
+      ide.onFfsClick();
       event.preventDefault();
     }
     // todo: more shortcuts
@@ -1630,6 +1663,14 @@ var ide = new(function() {
       var query_lang = ide.getQueryLang();
       overpass.run_query(query,query_lang);
     });
+  }
+  this.update_ffs_query = function() {
+    var query = $("#ffs-dialog input[type=text]").val();
+    query = ffs.construct_query(query);
+    if (query === false)
+      return false;
+    ide.setQuery(query);
+    return true;
   }
 
 })(); // end create ide object

@@ -371,3 +371,15 @@ body .ui-tooltip {
   position: absolute;
   right: 24px;
 }
+
+.warning {
+  color: orange;
+}
+.warning.severe {
+  color: red;
+}
+
+/*free form search/query builder*/
+#ffs-dialog input[type="text"] {
+  width: 100%;
+}
