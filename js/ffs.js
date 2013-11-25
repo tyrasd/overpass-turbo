@@ -48,7 +48,7 @@ turbo.ffs = function() {
     try {
       ffs = turbo.ffs.parser.parse(search);
     } catch(e) {
-      alert("parse error :(");
+      //alert("parse error :(");
       return false;
     }
 
@@ -122,10 +122,11 @@ turbo.ffs = function() {
             case "uid":
               return '<user uid="'+val+'"/>';
             default:
-              alert("unknown query type: meta/"+condition.meta);
+              console.log("unknown query type: meta/"+condition.query);
+              return false;
           }
         default:
-          alert("unknown query type: "+condition.query);
+          console.log("unknown query type: "+condition.query);
           return false;
       }
     }
@@ -166,11 +167,10 @@ turbo.ffs = function() {
             case "uid":
               return 'uid:'+quotes(condition.val);
             default:
-              alert("unknown query type: meta/"+condition.meta);
+              return '';
           }
         default:
-          alert("unknown query type: "+condition.query);
-          return false;
+          return '';
       }
     }
 

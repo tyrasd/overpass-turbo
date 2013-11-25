@@ -290,8 +290,11 @@
   </div>
   <!--free form search / wizard-->
   <div title="" id="ffs-dialog" class="t dialog" data-t="[title]ffs.title">
-    <p class="t" data-t="ffs.intro"></p>
     <p><input type="text" autofocus="autofocus" placeholder="" value="" id="ffs-input" class="t" data-t="[placeholder]ffs.placeholder"/></p>
+    <div id="ffs-dialog-parse-error" style="display:none;">
+      <span class="t warning severe" data-t="ffs.parse_error"></span><br/>
+      <span class="t" data-t="[html]ffs.parse_error_expl"></span>
+    </div>
     <p>
       <span class="t" data-t="ffs.examples"></span>
       <ul>

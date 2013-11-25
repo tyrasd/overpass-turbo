@@ -372,43 +372,14 @@ body .ui-tooltip {
   right: 24px;
 }
 
+.warning {
+  color: orange;
+}
+.warning.severe {
+  color: red;
+}
+
 /*free form search/query builder*/
 #ffs-dialog input[type="text"] {
   width: 100%;
-}
-#asd {
-  box-shadow: inset #DDDDDD 0px 1px 3px;
-  font-size: 14px;
-  height: 25px;
-  line-height: 1.1;
-  padding-bottom: 2px;
-  padding-left: 5px;
-  padding-right: 25px;
-  padding-top: 2px;
-  width: 100%;
-   
-  background-attachment: scroll;
-  background-clip: border-box;
-  background-color: rgba(238, 238, 236, 0.804);
-  background-image: none;
-  background-origin: padding-box;
-  background-position: 0% 0%;
-  background-repeat: repeat;
-  background-size: auto;
-  border-bottom-color: currentColor !important;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-bottom-style: none !important;
-  border-bottom-width: 0px !important;
-  border-left-color: currentColor !important;
-  border-left-style: none !important;
-  border-left-width: 0px !important;
-  border-right-color: currentColor !important;
-  border-right-style: none !important;
-  border-right-width: 0px !important;
-  border-top-color: currentColor !important;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-top-style: none !important;
-  border-top-width: 0px !important;
 }

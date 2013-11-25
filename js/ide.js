@@ -1071,9 +1071,9 @@ var ide = new(function() {
 
     var warning = '';
     if (share_link.length >= 2000)
-      warning = '<p style="color:orange">'+i18n.t("warning.share.long")+'</p>';
+      warning = '<p class="warning">'+i18n.t("warning.share.long")+'</p>';
     if (share_link.length >= 8000)
-      warning = '<p style="color:red">'+i18n.t("warning.share.very_long")+'</p>';
+      warning = '<p class="warning severe">'+i18n.t("warning.share.very_long")+'</p>';
 
     $("div#share-dialog #share_link_warning").html(warning);
 
@@ -1496,11 +1496,17 @@ var ide = new(function() {
     }});
   }
   this.onFfsClick = function() {
+    $("#ffs-dialog #ffs-dialog-parse-error").hide();
     var build_query = function() {
-      $(this).dialog("close");
       // build query and run it immediately
-      if (ide.update_ffs_query())
+      if (ide.update_ffs_query()) {
+        $(this).dialog("close");
         ide.onRunClick();
+      } else {
+        // show parse error message
+        $("#ffs-dialog #ffs-dialog-parse-error").show();
+        $("#ffs-dialog #ffs-dialog-parse-error").effect("shake", {direction:"right",distance:10,times:2}, 300);
+      }
     };
     $("#ffs-dialog input").unbind("keypress").bind("keypress", function(e) {
       if (e.which==13 || e.which==10) {
@@ -1513,6 +1519,7 @@ var ide = new(function() {
     dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $("#ffs-dialog").dialog({
       modal:true,
+      width:350,
       buttons: dialog_buttons,
     });
   }
@@ -1659,7 +1666,10 @@ var ide = new(function() {
   }
   this.update_ffs_query = function() {
     var query = $("#ffs-dialog input[type=text]").val();
-    ide.setQuery(ffs.construct_query(query));
+    query = ffs.construct_query(query);
+    if (query === false)
+      return false;
+    ide.setQuery(query);
     return true;
   }
 
