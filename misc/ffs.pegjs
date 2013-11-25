@@ -23,10 +23,12 @@ query
 logical_or
   = x:logical_and whitespace+ ( "or" / "OR" / "|" / "||" ) whitespace+ y:logical_or
     { return { logical:"or", queries:[x,y] } }
+  /*
   / x:logical_and whitespace+ ( "xor" / "XOR" ) whitespace+ y:logical_and
     { return { logical:"xor", queries:[x,y] } }
   / x:logical_and whitespace+ ( "except" / "EXCEPT" ) whitespace+ y:logical_and
     { return { logical:"minus", queries:[x,y] } }
+  */
   / x:logical_and
 
 logical_and

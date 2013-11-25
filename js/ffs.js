@@ -35,9 +35,9 @@ turbo.ffs = function() {
         var c1 = normalize_recursive( rem_query.queries[0] );
         var c2 = normalize_recursive( rem_query.queries[1] );
         return [].concat(c1,c2);
-        /*for (var i=0; i<rem_query.queries.length; i++) {
-          normalize_recursive(conditions.concat([rem_query.queries[i]]));
-        }*/
+
+      } else {
+        alert("unsupported boolean operator: "+rem_query.logical);
       }
     }
     normalized_query.queries = normalize_recursive(query);
