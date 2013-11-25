@@ -46,7 +46,8 @@ turbo.nominatim = function() {
         callback(err,null);
         return;
       }
-      data = data.filter(filter);
+      if (filter)
+        data = data.filter(filter);
       if (data.length === 0)
         callback("No result found",null)
       else
