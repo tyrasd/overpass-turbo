@@ -767,6 +767,7 @@ var ide = new(function() {
         return lat1+','+lng1+','+lat2+','+lng2;
       else if (lang=="xml")
         return 's="'+lat1+'" w="'+lng1+'" n="'+lat2+'" e="'+lng2+'"';
+      callback(res);
     });
   }
   this.nominatimCoords = function(instr, callback) {
