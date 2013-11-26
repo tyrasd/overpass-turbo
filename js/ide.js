@@ -815,7 +815,7 @@ var ide = new(function() {
       var data_source = null;
       if (queryParser.hasStatement("data")) {
         data_source = queryParser.getStatement("data");
-        data_source = data_source[1].split(',');
+        data_source = data_source.split(',');
         var data_mode = data_source[0].toLowerCase();
         data_source = data_source.slice(1);
         var options = {};
