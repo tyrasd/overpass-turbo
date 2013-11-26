@@ -219,6 +219,8 @@
   "error.remote.title": "Remote Control Error",
   "error.remote.incompat": "Error: incompatible JOSM remote control version",
   "error.remote.not_found": "Remote control not found. :( Make sure JOSM is already running and properly configured.",
+  "error.nominatim.title": "Nominatim Error",
+  "error.nominatim.expl": "Could not find anything with the following name:",
 
   "warning.browser.title": "Your browser is not supported :(",
   "warning.browser.expl.1": "The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href=\"http://en.wikipedia.org/wiki/Web_storage#localStorage\">Web Storage API</a> and <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">cross origin resource sharing (CORS)</a>.</small>",

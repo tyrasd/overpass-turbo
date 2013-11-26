@@ -721,13 +721,31 @@ var ide = new(function() {
     var date = now - count*interval*1000;
     callback((new Date(date)).toISOString());
   }
+  function onNominatimError(search,type) {
+    // close waiter
+    ide.waiter.close();
+    // highlight error lines
+    var query = ide.getRawQuery();
+    query = query.split("\n");
+    query.forEach(function(line,i) {
+      if (line.indexOf("{{nominatim"+type+":"+search+"}}") !== -1)
+        ide.highlightError(i+1);
+    });
+    // show error message dialog
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
+    $('<div title="'+i18n.t("error.nominatim.title")+'"><p style="color:red;">'+i18n.t("error.nominatim.expl")+'</p><p><i>'+search+'</i></p></div>').dialog({
+      modal:true,
+      buttons: dialog_buttons,
+    }); // dialog
+  }
   this.nominatimId = function(instr, callback) {
     var lang = ide.getQueryLang();
     function filter(n) {
       return n.osm_type && n.osm_id;
     } 
     nominatim.getBest(instr,filter, function(err, res) {
-      if (err) {alert(err); res = "xxx";} // todo: error handling
+      if (err) return onNominatimError(instr,"Id");
       if (lang=="OverpassQL")
         res = res.osm_type+"("+res.osm_id+");";
       else if (lang=="xml")
@@ -741,8 +759,7 @@ var ide = new(function() {
       return n.osm_type && n.osm_id && n.osm_type!=="node";
     } 
     nominatim.getBest(instr,filter, function(err, res) {
-      if (err) {alert(err); res = "xxx";} // todo: error handling
-      // todo: handling of non-osm results (e.g. postcodes, etc.)
+      if (err) return onNominatimError(instr,"Area");
       var area_ref = 1*res.osm_id;
       if (res.osm_type == "way")
         area_ref += 2400000000;
@@ -758,7 +775,7 @@ var ide = new(function() {
   this.nominatimBbox = function(instr, callback) {
     var lang = ide.getQueryLang();
     nominatim.getBest(instr, function(err, res) {
-      if (err) {alert(err); res = "xxx";} // todo: error handling
+      if (err) return onNominatimError(instr,"Bbox");
       var lat1 = Math.min(Math.max(res.boundingbox[0],-90),90);
       var lat2 = Math.min(Math.max(res.boundingbox[1],-90),90);
       var lng1 = Math.min(Math.max(res.boundingbox[2],-180),180);
@@ -773,8 +790,7 @@ var ide = new(function() {
   this.nominatimCoords = function(instr, callback) {
     var lang = ide.getQueryLang();
     nominatim.getBest(instr, function(err, res) {
-      if (err) {alert(err); res = "xxx";} // todo: error handling
-      // todo: handling of non-osm results (e.g. postcodes, etc.)
+      if (err) return onNominatimError(instr,"Coords");
       if (lang=="OverpassQL")
         res = res.lat+','+res.lon;
       else if (lang=="xml")
