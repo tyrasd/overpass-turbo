@@ -822,7 +822,6 @@ var ide = new(function() {
     };
     queryParser.parse(query, shortcuts, function(query) {
       // parse mapcss declarations
-      // todo: make this work for multiple style declarations!
       var mapcss = "";
       if (queryParser.hasStatement("style"))
         mapcss = queryParser.getStatement("style");
