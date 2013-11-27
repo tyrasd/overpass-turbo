@@ -9,6 +9,8 @@
   "nav.save_tt": "save this query",
   "nav.load": "Load",
   "nav.load_tt": "load saved query or example",
+  "nav.wizard": "Wizard",
+  "nav.wizard_tt": "a query builder",
   "nav.settings": "Settings",
   "nav.settings_tt": "various settings",
   "nav.help": "Help",
@@ -187,6 +189,11 @@
   "help.attr.jquery": "Driven by",
   "help.attr.other_libs": "Other libraries:",
 
+  "ffs.title": "Query Wizard",
+  "ffs.placeholder": "search",
+  "ffs.examples": "A few examples:",
+  "ffs.parse_error": "Sorry, this search cannot be understood.",
+  "ffs.parse_error_expl": "Note that you must use quotation marks with strings containing spaces or special characters and that multiple search filters must be separated by appropriate boolean operators (<i>and</i> or <i>or</i>). Read the <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\">documentation</a> for more information.",
 
   "dialog.dismiss": "dismiss",
   "dialog.cancel": "cancel",
@@ -198,6 +205,7 @@
   "dialog.repair_query": "repair query",
   "dialog.continue_anyway": "continue anyway",
   "dialog.show_data": "show data",
+  "dialog.wizard_run": "build and run query",
 
   "dialog.delete_query.title": "Delete Query?",
   "dialog.delete_query.expl": "Do you really want to delete the following query",
@@ -211,6 +219,8 @@
   "error.remote.title": "Remote Control Error",
   "error.remote.incompat": "Error: incompatible JOSM remote control version",
   "error.remote.not_found": "Remote control not found. :( Make sure JOSM is already running and properly configured.",
+  "error.nominatim.title": "Nominatim Error",
+  "error.nominatim.expl": "Could not find anything with the following name:",
 
   "warning.browser.title": "Your browser is not supported :(",
   "warning.browser.expl.1": "The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href=\"http://en.wikipedia.org/wiki/Web_storage#localStorage\">Web Storage API</a> and <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">cross origin resource sharing (CORS)</a>.</small>",

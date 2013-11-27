@@ -4,6 +4,9 @@ var ide = new(function() {
   // == private members ==
   var attribControl = null;
   var scaleControl = null;
+  var queryParser = turbo.query();
+  var nominatim = turbo.nominatim();
+  var ffs = turbo.ffs();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
@@ -94,19 +97,8 @@ var ide = new(function() {
     // translate ui
     i18n.translate();
     ide.waiter.addInfo("i18n ready");
-    // check for any get-parameters
-    var args = {};
-    if (location.search != "") {
-      var get = location.search.substring(1).split("&");
-      for (var i=0; i<get.length; i++) {
-        var kv = get[i].split("=");
-        args[kv[0]] = (kv[1] !== undefined) ?
-          decodeURIComponent(kv[1].replace(/\+/g,"%20")) :
-          true;
-      }
-    }
     // parse url string parameters
-    args = turbo.urlParameters(args);
+    var args = turbo.urlParameters(location.search);
     // set appropriate settings
     if (args.has_coords) { // map center coords set via url
       settings.coords_lat = args.coords.lat;
@@ -207,7 +199,7 @@ var ide = new(function() {
             }
             // check for inactive ui elements
             var bbox_filter = $(".leaflet-control-buttons-bboxfilter");
-            if (ide.getQuery().match(/\{\{bbox\}\}/)) {
+            if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
               if (bbox_filter.hasClass("disabled")) {
                 bbox_filter.removeClass("disabled");
                 $("span",bbox_filter).css("opacity",1.0);
@@ -270,7 +262,7 @@ var ide = new(function() {
     ide.map = new L.Map("map", {
       attributionControl:false,
       minZoom:0,
-      maxZoom:19,
+      maxZoom:20,
       worldCopyJump:false,
     });
     var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -278,7 +270,8 @@ var ide = new(function() {
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
       noWrap:true,
-      maxZoom:19,
+      maxNativeZoom:19,
+      maxZoom:ide.map.options.maxZoom,
     });
     attribControl = new L.Control.Attribution({prefix:""});
     attribControl.addAttribution(tilesAttrib);
@@ -321,7 +314,7 @@ var ide = new(function() {
       ajaxStop: function() {
         if (ide.waiter.ajaxAutoOpened) {
           ide.waiter.close();
-          delete ide.waiter.AjaxAutoOpened;
+          delete ide.waiter.ajaxAutoOpened;
         }
       },
     });
@@ -342,7 +335,8 @@ var ide = new(function() {
         link.href = 'javascript:return false;';
         link.title = i18n.t("map_controlls.zoom_to_data");
         L.DomEvent.addListener(link, 'click', function() {
-          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}
+          // hardcoded maxZoom of 18, should be ok for most real-world use-cases
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {maxZoom: 18}); } catch (e) {}
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
@@ -465,7 +459,7 @@ var ide = new(function() {
           },
         });
         $(inp).autocomplete("option","delay",2000000000); // do not do this at all
-        $(inp).autocomplete().keypress(function(e) {if (e.which==13) $(this).autocomplete("search");});
+        $(inp).autocomplete().keypress(function(e) {if (e.which==13 || e.which==10) $(this).autocomplete("search");});
         return container;
       },
     });
@@ -637,7 +631,6 @@ var ide = new(function() {
       p.openOn(ide.map);
     }
 
-
     // close startup waiter
     ide.waiter.close();
 
@@ -655,7 +648,7 @@ var ide = new(function() {
       });
     }
     // run the query immediately, if the appropriate flag was set.
-    if (ide.run_query_on_startup === true)
+    if (ide.run_query_on_startup === true) {
       ide.update_map();
       // automatically zoom to data.
       if (!args.has_coords &&
@@ -663,10 +656,12 @@ var ide = new(function() {
           args.query.match(/\{\{(bbox|center)\}\}/) === null) {
         ide.run_query_on_startup = function() {
           ide.run_query_on_startup = null;
-          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds()); } catch (e) {}
+          // hardcoded maxZoom of 18, should be ok for most real-world use-cases
+          try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {maxZoom: 18}); } catch (e) {}
           // todo: zoom only to specific zoomlevel if args.has_zoom is given
         }
       }
+    }
   } // init()
 
   // returns the current visible bbox as a bbox-query
@@ -693,39 +688,149 @@ var ide = new(function() {
     else if (lang=="xml")
       return 'lat="'+center.lat+'" lon="'+center.lng+'"';
   }
-  /*this returns the current query in the editor.
-   * processed (boolean, optional, default: false): determines weather shortcuts should be expanded or not.
-   * trim_ws (boolean, optional, default: true): if false, newlines and whitespaces are not touched.*/
-  this.getQuery = function(processed,trim_ws) {
-    var query = ide.codeEditor.getValue();
-    if (processed) {
-      // preproces query
-      // expand defined constants
-      var const_defs = query.match(/{{[a-zA-Z0-9_]+=.+?}}/gm);
-      if ($.isArray(const_defs))
-        for (var i=0; i<const_defs.length; i++) {
-          var const_def = const_defs[i].match(/{{([^:=]+?)=(.+?)}}/);
-          query = query.replace(const_defs[i],""); // remove constant definition
-          query = query.replace(new RegExp("{{"+const_def[1]+"}}","g"),const_def[2]);
-        }
-      // expand bbox
-      // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
-      query = query.replace(/(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,"$1{{__bbox__global_bbox_xml__ezs4K8__}}$3");
-      query = query.replace(/{{__bbox__global_bbox_xml__ezs4K8__}}/g,ide.map2bbox("OverpassQL"));
-      query = query.replace(/{{bbox}}/g,ide.map2bbox(this.getQueryLang()));
-      // expand map center
-      query = query.replace(/{{center}}/g,ide.map2coord(this.getQueryLang()));
+  this.relativeTime = function(instr, callback) {
+    var now = Date.now();
+    // very basic differential date
+    instr = instr.match(/(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/);
+    var count = parseInt(instr[1]);
+    var interval;
+    switch (instr[2]) {
+      case "second":
+      case "seconds":
+      interval=1; break;
+      case "minute":
+      case "minutes":
+      interval=60; break;
+      case "hour":
+      case "hours":
+      interval=3600; break;
+      case "day":
+      case "days":
+      default:
+      interval=86400; break;
+      case "week":
+      case "weeks":
+      interval=604800; break;
+      case "month":
+      case "months":
+      interval=2592000; break;
+      case "year":
+      case "years":
+      interval=31536000; break;
+    }
+    var date = now - count*interval*1000;
+    callback((new Date(date)).toISOString());
+  }
+  function onNominatimError(search,type) {
+    // close waiter
+    ide.waiter.close();
+    // highlight error lines
+    var query = ide.getRawQuery();
+    query = query.split("\n");
+    query.forEach(function(line,i) {
+      if (line.indexOf("{{nominatim"+type+":"+search+"}}") !== -1)
+        ide.highlightError(i+1);
+    });
+    // show error message dialog
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
+    $('<div title="'+i18n.t("error.nominatim.title")+'"><p style="color:red;">'+i18n.t("error.nominatim.expl")+'</p><p><i>'+search+'</i></p></div>').dialog({
+      modal:true,
+      buttons: dialog_buttons,
+    }); // dialog
+  }
+  this.nominatimId = function(instr, callback) {
+    var lang = ide.getQueryLang();
+    function filter(n) {
+      return n.osm_type && n.osm_id;
+    } 
+    nominatim.getBest(instr,filter, function(err, res) {
+      if (err) return onNominatimError(instr,"Id");
+      if (lang=="OverpassQL")
+        res = res.osm_type+"("+res.osm_id+");";
+      else if (lang=="xml")
+        res = 'type="'+res.osm_type+'" ref="'+res.osm_id+'"';
+      callback(res);
+    });
+  }
+  this.nominatimArea = function(instr, callback) {
+    var lang = ide.getQueryLang();
+    function filter(n) {
+      return n.osm_type && n.osm_id && n.osm_type!=="node";
+    } 
+    nominatim.getBest(instr,filter, function(err, res) {
+      if (err) return onNominatimError(instr,"Area");
+      var area_ref = 1*res.osm_id;
+      if (res.osm_type == "way")
+        area_ref += 2400000000;
+      if (res.osm_type == "relation")
+        area_ref += 3600000000;
+      if (lang=="OverpassQL")
+        res = "area("+area_ref+");";
+      else if (lang=="xml")
+        res = 'type="area" ref="'+area_ref+'"';
+      callback(res);
+    });
+  }
+  this.nominatimBbox = function(instr, callback) {
+    var lang = ide.getQueryLang();
+    nominatim.getBest(instr, function(err, res) {
+      if (err) return onNominatimError(instr,"Bbox");
+      var lat1 = Math.min(Math.max(res.boundingbox[0],-90),90);
+      var lat2 = Math.min(Math.max(res.boundingbox[1],-90),90);
+      var lng1 = Math.min(Math.max(res.boundingbox[2],-180),180);
+      var lng2 = Math.min(Math.max(res.boundingbox[3],-180),180);
+      if (lang=="OverpassQL")
+        return lat1+','+lng1+','+lat2+','+lng2;
+      else if (lang=="xml")
+        return 's="'+lat1+'" w="'+lng1+'" n="'+lat2+'" e="'+lng2+'"';
+      callback(res);
+    });
+  }
+  this.nominatimCoords = function(instr, callback) {
+    var lang = ide.getQueryLang();
+    nominatim.getBest(instr, function(err, res) {
+      if (err) return onNominatimError(instr,"Coords");
+      if (lang=="OverpassQL")
+        res = res.lat+','+res.lon;
+      else if (lang=="xml")
+        res = 'lat="'+res.lat+'" lon="'+res.lon+'"';
+      callback(res);
+    });
+  }
+  /* this returns the current raw query in the editor.
+   * shortcuts are not expanded. */
+  this.getRawQuery = function() {
+    return ide.codeEditor.getValue();
+  }
+  /* this returns the current query in the editor.
+   * shortcuts are expanded. */
+  this.getQuery = function(callback) {
+    var query = ide.getRawQuery();
+    // parse query and process shortcuts
+    // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
+    query = query.replace(/(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,"$1{{__bbox__global_bbox_xml__ezs4K8__}}$3");
+    var shortcuts = {
+      "bbox": ide.map2bbox(this.getQueryLang()),
+      "center": ide.map2coord(this.getQueryLang()),
+      "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL"),
+      "date": ide.relativeTime,
+      "nominatimId": ide.nominatimId,
+      "nominatimArea": ide.nominatimArea,
+      "nominatimBbox": ide.nominatimBbox,
+      "nominatimCoords": ide.nominatimCoords,
+    };
+    queryParser.parse(query, shortcuts, function(query) {
       // parse mapcss declarations
-      var mapcss = query.match(/{{style:[\S\s]*?}}/gm) || [];
-      mapcss.forEach(function(css,i) {
-        mapcss[i] = css.match(/{{style:([\S\s]*?)}}/m)[1];
-      });
-      mapcss = mapcss.join("\n");
+      var mapcss = "";
+      if (queryParser.hasStatement("style"))
+        mapcss = queryParser.getStatement("style");
       ide.mapcss = mapcss;
       // parse data-source statements
       var data_source = null;
-      if (data_source = query.match(/{{data:(.+?)}}/)) {
-        data_source = data_source[1].split(',');
+      if (queryParser.hasStatement("data")) {
+        data_source = queryParser.getStatement("data");
+        data_source = data_source.split(',');
         var data_mode = data_source[0].toLowerCase();
         data_source = data_source.slice(1);
         var options = {};
@@ -739,27 +844,15 @@ var ide = new(function() {
         };
       }
       ide.data_source = data_source;
-      // remove remaining (e.g. unknown) mustache templates:
-      (query.match(/{{[\S\s]*?}}/gm) || []).forEach(function(mustache) {
-        // count lines in template and replace mustache with same number of newlines 
-        var lc = mustache.split(/\r?\n|\r/).length;
-        query = query.replace(mustache,Array(lc).join("\n"));
-      });
-      // eventually trim whitespace
-      if (typeof trim_ws == "undefined" || trim_ws) {
-        if (this.getQueryLang() !== "OverpassQL" ||
-           !query.match(/\/\//)) // do not trim whitespace of queries eventually containing single line comments
-          query = query.replace(/(\n|\r)+\s*/g," "); // remove newlines and some indention whitespace
-      }
-    }
-    return query;
+      // call result callback
+      callback(query);
+    });
   }
   this.setQuery = function(query) {
     ide.codeEditor.setValue(query);
   }
   this.getQueryLang = function() {
-    // note: cannot use this.getQuery() here, as this function is required by that.
-    if ($.trim(ide.codeEditor.getValue().replace(/{{.*?}}/g,"")).match(/^</))
+    if ($.trim(ide.getRawQuery().replace(/{{.*?}}/g,"")).match(/^</))
       return "xml";
     else
       return "OverpassQL";
@@ -767,7 +860,7 @@ var ide = new(function() {
   /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
   this.repairQuery = function(repair) {
     // - preparations -
-    var q = ide.getQuery(false,false); // get original query
+    var q = ide.getRawQuery(); // get original query
     // replace comments with placeholders
     // (we do not want to autorepair stuff which is commented out.)
     if (ide.getQueryLang() == "xml") {
@@ -944,7 +1037,7 @@ var ide = new(function() {
     dialog_buttons[i18n.t("dialog.save")] = function() {
       var name = $("input[name=save]",this)[0].value;
       settings.saves[htmlentities(name)] = {
-        "overpass": ide.getQuery(),
+        "overpass": ide.getRawQuery(),
         "type": "saved_query"
       };
       settings.save();
@@ -983,7 +1076,7 @@ var ide = new(function() {
   }
   this.updateShareLink = function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname;
-    var query = ide.codeEditor.getValue();
+    var query = ide.getRawQuery();
     var compress = ((settings.share_compression == "auto" && query.length > 300) ||
         (settings.share_compression == "on"))
     var inc_coords = $("div#share-dialog input[name=include_coords]")[0].checked;
@@ -994,9 +1087,9 @@ var ide = new(function() {
 
     var warning = '';
     if (share_link.length >= 2000)
-      warning = '<p style="color:orange">'+i18n.t("warning.share.long")+'</p>';
+      warning = '<p class="warning">'+i18n.t("warning.share.long")+'</p>';
     if (share_link.length >= 8000)
-      warning = '<p style="color:red">'+i18n.t("warning.share.very_long")+'</p>';
+      warning = '<p class="warning severe">'+i18n.t("warning.share.very_long")+'</p>';
 
     $("div#share-dialog #share_link_warning").html(warning);
 
@@ -1022,13 +1115,13 @@ var ide = new(function() {
     });
   }
   this.onExportClick = function() {
-    // prepare export dialog
-    var query = ide.getQuery(true);
+   // prepare export dialog
+   ide.getQuery(function(query) {
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
     // encoding exclamation marks for better command line usability (bash)
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21");
-    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(ide.getQuery(true,false),true);
+    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(query,true);
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
@@ -1274,7 +1367,7 @@ var ide = new(function() {
               // See: http://josm.openstreetmap.de/ticket/8566#ticket
               // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
               // bad magic. Still looking for a proper fix, though.
-              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(ide.getQuery(true,true)),
+              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(query),
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
@@ -1301,7 +1394,7 @@ var ide = new(function() {
       }
       // first check for possible mistakes in query.
       // todo: move into autorepair "module"
-      var q = ide.getQuery(true,false);
+      var q = ide.getRawQuery().replace(/{{.*?}}/g,"");
       var err = {};
       if (ide.getQueryLang() == "xml") {
         try {
@@ -1356,6 +1449,7 @@ var ide = new(function() {
       buttons: dialog_buttons,
     });
     $("#export-dialog").accordion();
+   });
   }
   this.onExportImageClick = function() {
     ide.waiter.open(i18n.t("waiter.export_as_image"));
@@ -1416,6 +1510,34 @@ var ide = new(function() {
         saveAs(blob, "export.png");
       });
     }});
+  }
+  this.onFfsClick = function() {
+    $("#ffs-dialog #ffs-dialog-parse-error").hide();
+    var build_query = function() {
+      // build query and run it immediately
+      if (ide.update_ffs_query()) {
+        $(this).dialog("close");
+        ide.onRunClick();
+      } else {
+        // show parse error message
+        $("#ffs-dialog #ffs-dialog-parse-error").show();
+        $("#ffs-dialog #ffs-dialog-parse-error").effect("shake", {direction:"right",distance:10,times:2}, 300);
+      }
+    };
+    $("#ffs-dialog input").unbind("keypress").bind("keypress", function(e) {
+      if (e.which==13 || e.which==10) {
+        build_query.bind(this.parentElement.parentElement)();
+        e.preventDefault();
+      }
+    });
+    var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.wizard_run")] = build_query;
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
+    $("#ffs-dialog").dialog({
+      modal:true,
+      width:350,
+      buttons: dialog_buttons,
+    });
   }
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value = settings.ui_language;
@@ -1516,7 +1638,7 @@ var ide = new(function() {
     $("#help-dialog").accordion();
   }
   this.onKeyPress = function(event) {
-    if ((event.keyCode == 120 && event.which == 0) || // F9
+    if ((event.which == 120 && event.charCode == 0) || // F9
         ((event.which == 13 || event.which == 10) && (event.ctrlKey || event.metaKey))) { // Ctrl+Enter
       ide.onRunClick(); // run query
       event.preventDefault();
@@ -1533,6 +1655,11 @@ var ide = new(function() {
       ide.onHelpClick();
       event.preventDefault();
     }
+    if (((String.fromCharCode(event.which).toLowerCase() == 'b') && (event.ctrlKey || event.metaKey) ) || // Ctrl+B
+        ((String.fromCharCode(event.which).toLowerCase() == 'f') && (event.ctrlKey || event.metaKey) && event.shiftKey ) ) { // Ctrl+Shift+F
+      ide.onFfsClick();
+      event.preventDefault();
+    }
     // todo: more shortcuts
   }
   this.update_map = function() {
@@ -1547,10 +1674,20 @@ var ide = new(function() {
       ide.map.removeLayer(overpass.osmLayer);
     $("#map_blank").remove();
 
+    ide.waiter.addInfo("building query");
     // run the query via the overpass object
-    var query = ide.getQuery(true,false);
-    var query_lang = ide.getQueryLang();
-    overpass.run_query(query,query_lang);
+    ide.getQuery(function(query) {
+      var query_lang = ide.getQueryLang();
+      overpass.run_query(query,query_lang);
+    });
+  }
+  this.update_ffs_query = function() {
+    var query = $("#ffs-dialog input[type=text]").val();
+    query = ffs.construct_query(query);
+    if (query === false)
+      return false;
+    ide.setQuery(query);
+    return true;
   }
 
 })(); // end create ide object

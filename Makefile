@@ -13,6 +13,7 @@ JS_BEAUTIFIER = $(UGLIFY) -b -i 2 -nm -ns
 JS_COMPILER = $(UGLIFY)
 CSSO = ./node_modules/csso/bin/csso
 CSS_COMPILER = $(CSSO)
+PEGJS = ./node_modules/pegjs/bin/pegjs
 install_root ?= build
 
 all: \
@@ -48,6 +49,10 @@ turbo.js: \
 	js/configs.js \
 	js/settings.js \
 	js/urlParameters.js \
+	js/nominatim.js \
+	js/query.js \
+	js/ffs.js \
+	js/ffs_parser.js \
 	js/i18n.js \
 	js/overpass.js \
 	js/ide.js \
@@ -59,7 +64,7 @@ turbo.js: \
 	libs/togpx/togpx.js \
 	libs/Blob.js/Blob.js \
 	libs/canvas-toBlob.js/canvas-toBlob.js \
-	libs/FileSaver/FileSaver.js \
+	libs/FileSaver/FileSaver.js
 
 turbo.js: Makefile
 	@rm -f $@
@@ -130,3 +135,6 @@ clean:
 
 translations:
 	node locales/update_locales
+
+ffs:
+	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs_parser.js
