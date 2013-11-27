@@ -1,3 +1,12 @@
+2013-11-27
+----------
+* **query builder wizard** :) [read more](https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard)
+* new query shortcuts: `{{date:*}}` and `{{nominatim*:*}}` [read more](https://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries)
+* activate map overscaling (+1 more zoomlevel) for easier inspection of very small features
+* upgrade libraries (Leaflet 0.7, Maki 0.3, etc.)
+* activate Spanish translation
+* bugfixes
+
 2013-11-05
 ----------
 * update tokml library for better KML export results
