@@ -115,6 +115,9 @@ a.external::after {
   background-image: url("http://code.jquery.com/ui/1.10.3/themes/smoothness/images/ui-icons_222222_256x240.png");
   background-position: -32px -80px;
 }
+a.external {
+  white-space: nowrap;
+}
 .buttons {
   display: inline-block;
   margin-right: 10px;

@@ -1356,7 +1356,7 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
     $("#export-dialog a#export-josm").unbind("click").on("click", function() {
       var export_dialog = $(this).parents("div.ui-dialog-content").first();
-      var send_to_josm = function() {
+      var send_to_josm = function(query) {
         var JRC_url="http://127.0.0.1:8111/";
         $.getJSON(JRC_url+"version")
         .success(function(d,s,xhr) {
@@ -1424,11 +1424,13 @@ var ide = new(function() {
           ide.repairQuery("xml+metadata");
           $(this).dialog("close");
           export_dialog.dialog("close");
-          send_to_josm();
+          ide.getQuery(function(query) {
+            send_to_josm(query);
+          });
         };
         dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
           $(this).dialog("close");
-          send_to_josm();
+          send_to_josm(query);
         };
         $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.expl.1")+'</p><p>'+i18n.t("warning.incomplete.remote.expl.2")+'</p></div>').dialog({
           modal:true,
@@ -1437,7 +1439,7 @@ var ide = new(function() {
         return false;
       }
       // now send the query to JOSM via remote control
-      send_to_josm();
+      send_to_josm(query);
       return false;
     });
     // open the export dialog
