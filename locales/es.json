@@ -69,7 +69,7 @@
   "export.as_GPX": "como <a id=\"export-GPX\" href=\"\">GPX</a>",
   "export.as_KML": "como <a id=\"export-KML\" href=\"\">KML</a>",
   "export.raw": "<a id=\"export-raw\" href=\"\">datos</a> en bruto",
-  "export.raw_interpreter": "datos en bruto del <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">intérprete Overpass API</a>",
+  "export.raw_interpreter": "raw data directly from <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
   "export.save_geoJSON_gist": "guardar GeoJSON a <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
   "export.section.query": "Consulta",
   "export.as_text": "como <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">texto</a>",

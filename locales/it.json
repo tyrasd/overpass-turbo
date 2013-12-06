@@ -69,7 +69,7 @@
   "export.as_GPX": "come <a id=\"export-GPX\" href=\"\">GPX</a>",
   "export.as_KML": "come <a id=\"export-KML\" href=\"\">KML</a>",
   "export.raw": "dati <a id=\"export-raw\" href=\"\">grezzi</a>",
-  "export.raw_interpreter": "dati grezzi da <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API interpreter</a>",
+  "export.raw_interpreter": "dati grezzi direttamente da <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
   "export.save_geoJSON_gist": "salva GeoJSON come <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
   "export.section.query": "Query",
   "export.as_text": "come <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">testo</a>",
