@@ -69,7 +69,7 @@
   "export.as_GPX": "dưới dạng <a id=\"export-GPX\" href=\"\">GPX</a>",
   "export.as_KML": "dưới dạng <a id=\"export-KML\" href=\"\">KML</a>",
   "export.raw": "<a id=\"export-raw\" href=\"\">dữ liệu</a> thô",
-  "export.raw_interpreter": "dữ liệu thô từ <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">trình thông dịch Overpass API</a>",
+  "export.raw_interpreter": "dữ liệu thô trực tiếp từ <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">API Overpass</a>",
   "export.save_geoJSON_gist": "lưu GeoJSON thành <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
   "export.section.query": "Truy vấn",
   "export.as_text": "dưới dạng <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">văn bản</a>",

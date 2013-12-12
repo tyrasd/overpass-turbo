@@ -69,7 +69,7 @@
   "export.as_GPX": "<a id=\"export-GPX\" href=\"\">GPX</a>形式",
   "export.as_KML": "as <a id=\"export-KML\" href=\"\">KML</a>",
   "export.raw": "生の<a id=\"export-raw\" href=\"\">データ</a>",
-  "export.raw_interpreter": "<a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API インタプリタ</a>から抽出された生データ",
+  "export.raw_interpreter": "raw data directly from <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
   "export.save_geoJSON_gist": "GeoJSONを <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a> として保存",
   "export.section.query": "クエリ",
   "export.as_text": "<a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">テキスト</a>形式",

@@ -1657,7 +1657,7 @@ var ide = new(function() {
       ide.onHelpClick();
       event.preventDefault();
     }
-    if (((String.fromCharCode(event.which).toLowerCase() == 'b') && (event.ctrlKey || event.metaKey) ) || // Ctrl+B
+    if (((String.fromCharCode(event.which).toLowerCase() == 'i') && (event.ctrlKey || event.metaKey) ) || // Ctrl+I
         ((String.fromCharCode(event.which).toLowerCase() == 'f') && (event.ctrlKey || event.metaKey) && event.shiftKey ) ) { // Ctrl+Shift+F
       ide.onFfsClick();
       event.preventDefault();
