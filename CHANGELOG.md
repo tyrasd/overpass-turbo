@@ -1,4 +1,4 @@
-2013-11-27
+2013-12-12
 ----------
 * **query builder wizard** :) [read more](https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard)
 * new query shortcuts: `{{date:*}}` and `{{nominatim*:*}}` [read more](https://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries)
