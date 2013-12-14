@@ -2,6 +2,7 @@
 if (typeof turbo === "undefined") turbo={};
 turbo.ffs = function() {
   var ffs = {};
+  var presets;
 
   /* this converts a random boolean expression into a normalized form: 
    * A∧B∧… ∨ C∧D∧… ∨ …
@@ -125,6 +126,63 @@ turbo.ffs = function() {
               console.log("unknown query type: meta/"+condition.query);
               return false;
           }
+        case "free form":
+          // todo: own module
+          // load presets if not yet present
+          if (!presets) {
+            // load language pack
+            var presets_file = "data/iD_presets.json";
+            try {
+              $.ajax(presets_file,{async:false,dataType:"json"}).success(function(data){
+                presets = data;
+              }).error(function(){
+                console.log("failed to load presets file: "+presets_file);
+              });
+            } catch(e) {
+              console.log("failed to load presets file: "+presets_file);
+            }
+          }
+          // search presets for ffs term
+          var search = condition.free;
+          var candidates = _.values(presets).filter(function(preset) {
+            // todo: other languages?
+            if (preset.searchable===false) return false;
+            return preset.name === search || // todo: case-insensitive, little fuzzyness
+                   (preset.terms && preset.terms.indexOf(search) >= 0);
+          });
+          if (candidates.length === 0)
+            return false;
+          candidates.sort(function(a,b) {
+            return a.name===search - b.name===search;
+          });
+          // todo: what if multiple candidates match?
+          var preset = candidates[0];
+          var types = [];
+          preset.geometry.forEach(function(g) {
+            switch (g) {
+              case "point": 
+              case "vertex": 
+                types.push("node");
+                break;
+              case "line":
+                types.push("way");
+                break;
+              case "area":
+                types.push("way");
+                types.push("relation")
+                break;
+            }
+          });
+          return {
+            types: _.uniq(types),
+            clauses: _.map(preset.tags, function(v,k) {
+              return get_query_clause({
+                query: v==="*" ? "key" : "eq",
+                key: k,
+                val: v
+              });
+            })
+          };
         default:
           console.log("unknown query type: "+condition.query);
           return false;
@@ -169,6 +227,8 @@ turbo.ffs = function() {
             default:
               return '';
           }
+        case "free form":
+          return quotes(condition.free);
         default:
           return '';
       }
@@ -186,7 +246,19 @@ turbo.ffs = function() {
       var clauses_str = [];
       for (var j=0; j<and_query.queries.length; j++) {
         var cond_query = and_query.queries[j];
-        if (cond_query.query === "type") {
+        // todo: looks like some code duplication here could be reduced by refactoring
+        if (cond_query.query === "free form") {
+          // todo: own method?
+          var ffs_clause = get_query_clause(cond_query);
+          if (ffs_clause === false) return false;
+          // restrict possible data types
+          types = types.filter(function(t) {
+            return ffs_clause.types.indexOf(t) != -1;
+          });
+          // add clauses
+          clauses = clauses.concat(ffs_clause.clauses);
+          clauses_str.push(get_query_clause_str(cond_query));
+        } else if (cond_query.query === "type") {
           // restrict possible data types
           types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
         } else {

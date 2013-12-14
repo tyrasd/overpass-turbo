@@ -124,6 +124,7 @@ install: all
 	cp -R libs $(install_root)/libs
 	cp -R icons $(install_root)/icons
 	cp libs/locationfilter/src/img/* $(install_root)/img
+	cp -R data $(install_root)/data
 
 clean:
 	rm -f turbo.js
@@ -135,6 +136,9 @@ clean:
 
 translations:
 	node locales/update_locales
+
+presets:
+	wget "https://github.com/systemed/iD/raw/master/data/presets/presets.json" -O data/iD_presets.json
 
 ffs:
 	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs_parser.js
