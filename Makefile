@@ -52,7 +52,8 @@ turbo.js: \
 	js/nominatim.js \
 	js/query.js \
 	js/ffs.js \
-	js/ffs_parser.js \
+	js/ffs/free.js \
+	js/ffs/parser.js \
 	js/i18n.js \
 	js/overpass.js \
 	js/ide.js \
