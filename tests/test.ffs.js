@@ -365,12 +365,6 @@ describe("ide.ffs", function () {
 
   // search-regions
   describe("regions", function () {
-
-    var ffs;
-    before(function() {
-      ffs = turbo.ffs();
-    });
-
     // global
     it("global", function () {
       var search = "foo=bar and type:node global";
@@ -428,4 +422,85 @@ describe("ide.ffs", function () {
     });
 
   });
+
+  // free form
+  describe("free form", function () {
+
+    before(function() {
+      var fake_ajax = {
+        success: function(cb) { 
+          cb({
+            "amenity/hospital": {
+              "name": "Hospital",
+              "terms": [],
+              "geometry": ["point","area"],
+              "tags": {"amenity": "hospital"}
+            },
+            "amenity/shelter": {
+              "name": "Shelter",
+              "terms": [],
+              "geometry": ["point"],
+              "tags": {"amenity": "shelter"}
+            },
+            "highway": {
+              "name": "Highway",
+              "terms": [],
+              "geometry": ["line"],
+              "tags": {"highway": "*"}
+            }
+          });
+          return fake_ajax;
+        },
+        error: function(cb) {}
+      };
+      sinon.stub($,"ajax").returns(fake_ajax);
+      i18n = {getLanguage: function() {return "en";}};
+    });
+    after(function() {
+      $.ajax.restore();
+    });
+
+    it("preset", function() {
+      var search, result;
+      // preset not found
+      search = "foo";
+      result = ffs.construct_query(search);
+      expect(result).to.equal(false);
+      // preset (points, key-value)
+      search = "Shelter";
+      result = ffs.construct_query(search);
+      expect(result).to.not.equal(false);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[kv(amenity,shelter);bbox;];"+
+        ");"+
+        out_str
+      );
+      // preset (points, areas, key-value)
+      search = "Hospital";
+      result = ffs.construct_query(search);
+      expect(result).to.not.equal(false);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[kv(amenity,hospital);bbox;];"+
+          "way[kv(amenity,hospital);bbox;];"+
+          "relation[kv(amenity,hospital);bbox;];"+
+        ");"+
+        out_str
+      );
+      // preset (lines, key=*)
+      search = "Highway";
+      result = ffs.construct_query(search);
+      expect(result).to.not.equal(false);
+      expect(compact(result)).to.equal(
+        "("+
+          "way[kv(highway);bbox;];"+
+        ");"+
+        out_str
+      );
+
+    });
+
+  });
+
 });
