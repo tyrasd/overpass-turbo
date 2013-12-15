@@ -393,7 +393,6 @@ describe("ide.ffs", function () {
         ");"+
         out_str
       );
-      /*todo
       // explicit
       search = "type:node in bbox";
       result = ffs.construct_query(search);
@@ -402,7 +401,7 @@ describe("ide.ffs", function () {
           "node[bbox;];"+
         ");"+
         out_str
-      );*/
+      );
     });
     // area
     it("in area", function () {
@@ -427,7 +426,6 @@ describe("ide.ffs", function () {
         out_str
       );
     });
-    // todo: around
 
   });
 });
