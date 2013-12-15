@@ -140,6 +140,7 @@ translations:
 
 presets:
 	wget "https://github.com/systemed/iD/raw/master/data/presets/presets.json" -O data/iD_presets.json
+	node data/get_preset_translations
 
 ffs:
 	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs_parser.js

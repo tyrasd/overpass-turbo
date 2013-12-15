@@ -19,6 +19,35 @@ turbo.ffs.free = function() {
       console.log("failed to load presets file: "+presets_file);
     }
   })();
+  // load preset translations
+  (function loadPresetTranslations() {
+    var language = i18n.getLanguage();
+    // skip English, as the preset file already includes all terms. (todo: is that so?)
+    if (language == "en") return; 
+    var translation_file = "data/iD_presets_"+language+".json";
+    try {
+      $.ajax(translation_file,{async:false,dataType:"json"}).success(function(data){
+        // load translated names and terms into presets object
+        _.each(data, function(translation, preset) {
+          preset = presets[preset];
+          preset.translated = true;
+          // save original preset name under alternative terms
+          if (!preset.terms) preset.terms = [];
+          preset.terms.unshift(preset.name);
+          // save translated preset name
+          preset.name = translation.name;
+          // add new terms
+          preset.terms = translation.terms.split(",")
+            .map(function(term) { return term.trim(); })
+            .concat(preset.terms);
+        });
+      }).error(function(){
+        throw new Error();
+      });
+    } catch(e) {
+      console.log("failed to load preset translations file: "+translation_file);
+    }
+  })();
 
   freeFormQuery.get_query_clause = function(condition) {
     // search presets for ffs term

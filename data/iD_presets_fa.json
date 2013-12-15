@@ -1,0 +1,122 @@
+{
+  "aeroway/aerodrome": {
+    "name": "فرودگاه"
+  },
+  "amenity/bank": {
+    "name": "بانک"
+  },
+  "amenity/bar": {
+    "name": "بار"
+  },
+  "amenity/cafe": {
+    "name": "کافه"
+  },
+  "amenity/fire_station": {
+    "name": "ایستگاه آتش نشانی"
+  },
+  "amenity/hospital": {
+    "name": "بیمارستان"
+  },
+  "amenity/library": {
+    "name": "کتابخانه"
+  },
+  "amenity/pharmacy": {
+    "name": "داروخانه"
+  },
+  "amenity/place_of_worship/christian": {
+    "name": "کلیسا"
+  },
+  "amenity/place_of_worship/muslim": {
+    "name": "مسجد"
+  },
+  "amenity/police": {
+    "name": "پليس"
+  },
+  "amenity/post_box": {
+    "name": "صندوق پستی"
+  },
+  "amenity/post_office": {
+    "name": "اداره پست"
+  },
+  "amenity/school": {
+    "name": "مدرسه"
+  },
+  "amenity/theatre": {
+    "name": "تئاتر"
+  },
+  "amenity/university": {
+    "name": "دانشگاه"
+  },
+  "barrier/wall": {
+    "name": "دیوار"
+  },
+  "building": {
+    "name": "ساختمان"
+  },
+  "highway": {
+    "name": "بزرگراه"
+  },
+  "highway/bus_stop": {
+    "name": "ایستاه اتوبوس"
+  },
+  "highway/cycleway": {
+    "name": "مسیر دوچرخه سواری"
+  },
+  "highway/footway": {
+    "name": "مسیر پیاده روی"
+  },
+  "highway/motorway": {
+    "name": "مسیر موتور سواری"
+  },
+  "highway/path": {
+    "name": "مسیر"
+  },
+  "historic/castle": {
+    "name": "قلعه"
+  },
+  "landuse/forest": {
+    "name": "جنگل"
+  },
+  "leisure/park": {
+    "name": "پارک"
+  },
+  "leisure/stadium": {
+    "name": "استودیوم"
+  },
+  "natural/water": {
+    "name": "آب"
+  },
+  "natural/wood": {
+    "name": "چوب"
+  },
+  "office": {
+    "name": "اداره"
+  },
+  "place/locality": {
+    "name": "محلی"
+  },
+  "shop": {
+    "name": "فروشگاه"
+  },
+  "shop/electronics": {
+    "name": "فروشگاه الکترونیک"
+  },
+  "shop/supermarket": {
+    "name": "سوپرمارکت"
+  },
+  "tourism": {
+    "name": "توریستی"
+  },
+  "tourism/hotel": {
+    "name": "هتل"
+  },
+  "tourism/museum": {
+    "name": "موزه"
+  },
+  "tourism/zoo": {
+    "name": "باغ وحش"
+  },
+  "waterway/canal": {
+    "name": "کانال"
+  }
+}
