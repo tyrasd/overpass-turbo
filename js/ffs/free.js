@@ -80,8 +80,13 @@ turbo.ffs.free = function() {
           break;
         case "area":
           types.push("way");
-          types.push("relation")
+          types.push("relation"); // todo: additionally add type=multipolygon?
           break;
+        case "relation":
+          types.push("relation");
+          break;
+        default:
+          console.log("unknown geometry type "+g+" of preset "+preset.name);
       }
     });
     return {
