@@ -111,6 +111,7 @@ install: all
 	mkdir -p $(install_root)/css
 	mkdir -p $(install_root)/img
 	mkdir -p $(install_root)/locales
+	mkdir -p $(install_root)/data
 	cp LICENSE $(install_root)
 	cp turbo.js turbo.min.js $(install_root)
 	cp turbo.map.js turbo.map.min.js $(install_root)
@@ -125,7 +126,7 @@ install: all
 	cp -R libs $(install_root)/libs
 	cp -R icons $(install_root)/icons
 	cp libs/locationfilter/src/img/* $(install_root)/img
-	cp -R data $(install_root)/data
+	cp data/*.json $(install_root)/data
 
 clean:
 	rm -f turbo.js
