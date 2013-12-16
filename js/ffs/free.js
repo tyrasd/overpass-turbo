@@ -12,6 +12,10 @@ turbo.ffs.free = function() {
     try {
       $.ajax(presets_file,{async:false,dataType:"json"}).success(function(data){
         presets = data;
+        _.each(presets, function(preset) {
+          preset.name = preset.name.toLowerCase();
+          preset.terms = !preset.terms ? [] : preset.terms.map(function(term) {return term.toLowerCase();});
+        });
       }).error(function(){
         throw new Error();
       });
@@ -32,13 +36,12 @@ turbo.ffs.free = function() {
           preset = presets[preset];
           preset.translated = true;
           // save original preset name under alternative terms
-          if (!preset.terms) preset.terms = [];
           preset.terms.unshift(preset.name);
           // save translated preset name
-          preset.name = translation.name;
+          preset.name = translation.name.toLowerCase();
           // add new terms
           preset.terms = translation.terms.split(",")
-            .map(function(term) { return term.trim(); })
+            .map(function(term) { return term.trim().toLowerCase(); })
             .concat(preset.terms);
         });
       }).error(function(){
@@ -51,12 +54,12 @@ turbo.ffs.free = function() {
 
   freeFormQuery.get_query_clause = function(condition) {
     // search presets for ffs term
-    var search = condition.free;
+    var search = condition.free.toLowerCase();
     var candidates = _.values(presets).filter(function(preset) {
       // todo: other languages?
       if (preset.searchable===false) return false;
-      return preset.name === search || // todo: case-insensitive, little fuzzyness
-             (preset.terms && preset.terms.indexOf(search) >= 0);
+      return preset.name === search || // todo: little fuzzyness
+             (preset.terms.indexOf(search) >= 0);
     });
     if (candidates.length === 0)
       return false;
