@@ -80,7 +80,7 @@ key_not_like_val
     { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
 
 key_substr_val
-  = x:key_string _ ( ":" ) _ y:string
+  = x:string _ ( ":" ) _ y:string
     { return { query:"substr", key:x, val:y } }
 
 type
