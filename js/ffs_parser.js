@@ -1509,7 +1509,7 @@ turbo.ffs.parser = (function(){
         
         pos0 = pos;
         pos1 = pos;
-        result0 = parse_key_string();
+        result0 = parse_string();
         if (result0 !== null) {
           result1 = parse__();
           if (result1 !== null) {
