@@ -144,4 +144,4 @@ presets:
 	node data/get_preset_translations
 
 ffs:
-	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs_parser.js
+	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js
