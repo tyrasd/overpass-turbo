@@ -74,9 +74,9 @@ turbo.ffs.free = function() {
     });
     candidates.sort(function(a,b) {
       // prefer exact matches
-      if (a.name === search) return 1;
-      if (b.name === search) return -1;
-      return -(a._search_weight - b._search_weight);
+      if (a.name === search) return -1;
+      if (b.name === search) return  1;
+      return a._search_weight - b._search_weight;
     });
     var preset = candidates[0];
     var types = [];
