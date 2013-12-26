@@ -26,7 +26,6 @@ turbo.ffs.free = function() {
   // load preset translations
   (function loadPresetTranslations() {
     var language = i18n.getLanguage();
-    // skip English, as the preset file already includes all terms. (todo: is that so?)
     if (language == "en") return; 
     var translation_file = "data/iD_presets_"+language+".json";
     try {
@@ -55,18 +54,30 @@ turbo.ffs.free = function() {
   freeFormQuery.get_query_clause = function(condition) {
     // search presets for ffs term
     var search = condition.free.toLowerCase();
-    var candidates = _.values(presets).filter(function(preset) {
-      // todo: other languages?
+    // fuzzyness: max lev.dist allowed to still match
+    var fuzzyness = 2+Math.floor(search.length/7);
+    function fuzzyMatch(term) {
+      return levenshteinDistance(term, search) <= fuzzyness;
+    }
+    var candidates = _.filter(presets, function(preset) {
       if (preset.searchable===false) return false;
-      return preset.name === search || // todo: little fuzzyness
-             (preset.terms.indexOf(search) >= 0);
+      if (fuzzyMatch(preset.name)) return true;
+      return preset.terms.some(fuzzyMatch);
     });
     if (candidates.length === 0)
       return false;
-    candidates.sort(function(a,b) {
-      return a.name===search - b.name===search;
+    // sort candidates
+    candidates.forEach(function(preset) {
+      preset._search_weight = _.min([preset.name].concat(preset.terms).map(function(term) {
+        return levenshteinDistance(term,search);
+      }));
     });
-    // todo: what if multiple candidates match?
+    candidates.sort(function(a,b) {
+      // prefer exact matches
+      if (a.name === search) return 1;
+      if (b.name === search) return -1;
+      return -(a._search_weight - b._search_weight);
+    });
     var preset = candidates[0];
     var types = [];
     preset.geometry.forEach(function(g) {
