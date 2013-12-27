@@ -436,7 +436,7 @@ var ide = new(function() {
                   } catch (e) {}
                 }
                 response($.map(data,function(item) {
-                  return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,}
+                  return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,boundingbox:item.boundingbox}
                 }));
               },
               error: function() {
@@ -447,7 +447,10 @@ var ide = new(function() {
           },
           minLength: 2,
           select: function(event,ui) {
-            ide.map.panTo(new L.LatLng(ui.item.lat,ui.item.lon));
+            if (ui.item.boundingbox && ui.item.boundingbox instanceof Array)
+              ide.map.fitBounds(L.latLngBounds([[ui.item.boundingbox[0],ui.item.boundingbox[3]],[ui.item.boundingbox[1],ui.item.boundingbox[2]]]), {maxZoom: 18});
+            else
+              ide.map.panTo(new L.LatLng(ui.item.lat,ui.item.lon));
             this.value="";
             return false;
           },
