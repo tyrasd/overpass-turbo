@@ -1515,18 +1515,40 @@ var ide = new(function() {
   }
   this.onFfsClick = function() {
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
+    $("#ffs-dialog #ffs-dialog-typo").hide();
     var build_query = function() {
       // build query and run it immediately
-      if (ide.update_ffs_query()) {
+      var ffs_result = ide.update_ffs_query();
+      if (ffs_result === true) {
         $(this).dialog("close");
         ide.onRunClick();
       } else {
-        // show parse error message
-        $("#ffs-dialog #ffs-dialog-parse-error").show();
-        $("#ffs-dialog #ffs-dialog-parse-error").effect("shake", {direction:"right",distance:10,times:2}, 300);
+        if (_.isArray(ffs_result)) {
+          // show parse error message
+          $("#ffs-dialog #ffs-dialog-parse-error").hide();
+          $("#ffs-dialog #ffs-dialog-typo").show();
+          var correction = ffs_result.join("");
+          var correction_html = ffs_result.map(function(ffs_result_part,i) {
+            if (i%2===1)
+              return "<b>"+ffs_result_part+"</b>";
+            else
+              return ffs_result_part;
+          }).join("");
+          $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
+          $("#ffs-dialog #ffs-dialog-typo-correction").unbind("click").bind("click", function(e) {
+            $("#ffs-dialog input[type=text]").val(correction);
+            e.preventDefault();
+          });
+          $("#ffs-dialog #ffs-dialog-typo").effect("shake", {direction:"right",distance:10,times:2}, 300);
+        } else {
+          // show parse error message
+          $("#ffs-dialog #ffs-dialog-typo").hide();
+          $("#ffs-dialog #ffs-dialog-parse-error").show();
+          $("#ffs-dialog #ffs-dialog-parse-error").effect("shake", {direction:"right",distance:10,times:2}, 300);
+        }
       }
     };
-    $("#ffs-dialog input").unbind("keypress").bind("keypress", function(e) {
+    $("#ffs-dialog input[type=text]").unbind("keypress").bind("keypress", function(e) {
       if (e.which==13 || e.which==10) {
         build_query.bind(this.parentElement.parentElement)();
         e.preventDefault();
@@ -1684,10 +1706,14 @@ var ide = new(function() {
     });
   }
   this.update_ffs_query = function() {
-    var query = $("#ffs-dialog input[type=text]").val();
-    query = ffs.construct_query(query);
-    if (query === false)
+    var search = $("#ffs-dialog input[type=text]").val();
+    query = ffs.construct_query(search);
+    if (query === false) {
+      var repaired = ffs.repair_search(search);
+      if (repaired)
+        return repaired;
       return false;
+    }
     ide.setQuery(query);
     return true;
   }

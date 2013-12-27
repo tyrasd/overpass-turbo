@@ -127,7 +127,7 @@ turbo.ffs = function() {
               return false;
           }
         case "free form":
-          // todo: own module
+          // own module, special cased below
         default:
           console.log("unknown query type: "+condition.query);
           return false;
@@ -196,7 +196,8 @@ turbo.ffs = function() {
           // eventually load free form query module
           if (!freeFormQuery) freeFormQuery = turbo.ffs.free();
           var ffs_clause = freeFormQuery.get_query_clause(cond_query);
-          if (ffs_clause === false) return false;
+          if (ffs_clause === false)
+            return false;
           // restrict possible data types
           types = types.filter(function(t) {
             return ffs_clause.types.indexOf(t) != -1;
@@ -243,6 +244,50 @@ turbo.ffs = function() {
     query_parts.push('</osm-script>');
 
     return query_parts.join('\n');
+  }
+
+  ffs.repair_search = function(search) {
+    try {
+      ffs = turbo.ffs.parser.parse(search);
+    } catch(e) {
+      return false;
+    }
+
+    function quotes(s) {
+      if (s.match(/^[a-zA-Z0-9_]+$/) === null)
+        return '"'+s.replace(/"/g,'\\"')+'"';
+      return s;
+    }
+
+    var search_parts = [];
+    var repaired = false;
+
+    ffs.query = normalize(ffs.query);
+    ffs.query = _.flatten(_.pluck(ffs.query.queries,"queries"));
+    ffs.query.forEach(function(cond_query) {
+      if (cond_query.query === "free form") {
+        // eventually load free form query module
+        if (!freeFormQuery) freeFormQuery = turbo.ffs.free();
+        var ffs_clause = freeFormQuery.get_query_clause(cond_query);
+        if (ffs_clause === false) {
+          // try to find suggestions for occasional typos
+          var fuzzy = freeFormQuery.fuzzy_search(cond_query);
+          var free_regex = new RegExp("['\"]?"+cond_query.free+"['\"]?");
+          if (fuzzy && search.match(free_regex)) {
+            search_parts = search_parts.concat(search.split(free_regex));
+            search = search_parts.pop();
+            var replacement = quotes(fuzzy);
+            search_parts.push(replacement);
+            repaired = true;
+          }
+        }
+      }
+    });
+    search_parts.push(search);
+
+    if (!repaired)
+      return false;
+    return search_parts;
   }
 
   return ffs;

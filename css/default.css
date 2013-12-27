@@ -389,3 +389,7 @@ body .ui-tooltip {
 #ffs-dialog input[type="text"] {
   width: 100%;
 }
+
+#ffs-dialog-typo a {
+  font-weight: normal;
+}

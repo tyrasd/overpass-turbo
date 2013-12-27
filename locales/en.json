@@ -194,6 +194,7 @@
   "ffs.examples": "A few examples:",
   "ffs.parse_error": "Sorry, this search cannot be understood.",
   "ffs.parse_error_expl": "Note that you must use quotation marks with strings containing spaces or special characters and that multiple search filters must be separated by appropriate boolean operators (<i>and</i> or <i>or</i>). Read the <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\">documentation</a> for more information.",
+  "ffs.typo": "Did you mean:",
 
   "dialog.dismiss": "dismiss",
   "dialog.cancel": "cancel",

@@ -13,6 +13,7 @@ turbo.ffs.free = function() {
       $.ajax(presets_file,{async:false,dataType:"json"}).success(function(data){
         presets = data;
         _.each(presets, function(preset) {
+          preset.nameCased = preset.name;
           preset.name = preset.name.toLowerCase();
           preset.terms = !preset.terms ? [] : preset.terms.map(function(term) {return term.toLowerCase();});
         });
@@ -37,6 +38,7 @@ turbo.ffs.free = function() {
           // save original preset name under alternative terms
           preset.terms.unshift(preset.name);
           // save translated preset name
+          preset.nameCased = translation.name;
           preset.name = translation.name.toLowerCase();
           // add new terms
           preset.terms = translation.terms.split(",")
@@ -54,29 +56,19 @@ turbo.ffs.free = function() {
   freeFormQuery.get_query_clause = function(condition) {
     // search presets for ffs term
     var search = condition.free.toLowerCase();
-    // fuzzyness: max lev.dist allowed to still match
-    var fuzzyness = 2+Math.floor(search.length/7);
-    function fuzzyMatch(term) {
-      return levenshteinDistance(term, search) <= fuzzyness;
-    }
     var candidates = _.filter(presets, function(preset) {
       if (preset.searchable===false) return false;
-      if (fuzzyMatch(preset.name)) return true;
-      return preset.terms.some(fuzzyMatch);
+      if (preset.name === search) return true;
+      return preset.terms.indexOf(search) != -1;
     });
     if (candidates.length === 0)
       return false;
     // sort candidates
-    candidates.forEach(function(preset) {
-      preset._search_weight = _.min([preset.name].concat(preset.terms).map(function(term) {
-        return levenshteinDistance(term,search);
-      }));
-    });
     candidates.sort(function(a,b) {
-      // prefer exact matches
+      // prefer exact name matches
       if (a.name === search) return -1;
       if (b.name === search) return  1;
-      return a._search_weight - b._search_weight;
+      return 0;
     });
     var preset = candidates[0];
     var types = [];
@@ -110,6 +102,34 @@ turbo.ffs.free = function() {
         };
       })
     };
+  }
+
+  freeFormQuery.fuzzy_search = function(condition) {
+    // search presets for ffs term
+    var search = condition.free.toLowerCase();
+    // fuzzyness: max lev.dist allowed to still match
+    var fuzzyness = 2+Math.floor(search.length/7);
+    function fuzzyMatch(term) {
+      return levenshteinDistance(term, search) <= fuzzyness;
+    }
+    var candidates = _.filter(presets, function(preset) {
+      if (preset.searchable===false) return false;
+      if (fuzzyMatch(preset.name)) return true;
+      return preset.terms.some(fuzzyMatch);
+    });
+    if (candidates.length === 0)
+      return false;
+    // sort candidates
+    var preset_weight = function(preset) {
+      preset._search_weight = _.min([preset.name].concat(preset.terms).map(function(term) {
+        return levenshteinDistance(term,search);
+      }));
+    };
+    candidates.sort(function(a,b) {
+      return preset_weight(a) - preset_weight(b);
+    });
+    var preset = candidates[0];
+    return preset.nameCased;
   }
 
 
