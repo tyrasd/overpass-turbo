@@ -1537,6 +1537,7 @@ var ide = new(function() {
           $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
           $("#ffs-dialog #ffs-dialog-typo-correction").unbind("click").bind("click", function(e) {
             $("#ffs-dialog input[type=text]").val(correction);
+            $(this).parent().hide();
             e.preventDefault();
           });
           $("#ffs-dialog #ffs-dialog-typo").effect("shake", {direction:"right",distance:10,times:2}, 300);
