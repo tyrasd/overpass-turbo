@@ -120,8 +120,8 @@ turbo.ffs.free = function() {
     if (candidates.length === 0)
       return false;
     // sort candidates
-    var preset_weight = function(preset) {
-      preset._search_weight = _.min([preset.name].concat(preset.terms).map(function(term) {
+    function preset_weight(preset) {
+      return _.min([preset.name].concat(preset.terms).map(function(term) {
         return levenshteinDistance(term,search);
       }));
     };
