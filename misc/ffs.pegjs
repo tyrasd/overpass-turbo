@@ -66,9 +66,13 @@ key_not_eq_val
 key_present
   = x:string _ ( "=" / "==" ) _ "*"
     { return { query:"key", key:x } }
+  / x:string whitespace+ "is" whitespace+ "not" whitespace+ "null"
+    { return { query:"key", key:x } }
 
 key_not_present
   = x:string _ ( "!=" / "<>" ) _ "*"
+    { return { query:"nokey", key:x } }
+  / x:string whitespace+ "is" whitespace+ "null"
     { return { query:"nokey", key:x } }
 
 key_like_val
