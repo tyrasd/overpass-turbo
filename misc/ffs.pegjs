@@ -74,9 +74,13 @@ key_not_present
 key_like_val
   = x:string _ ( "~" / "~=" ) _ y:(string / regexstring )
     { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
+  / x:string whitespace+ "like" whitespace+ y:(string / regexstring )
+    { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
 
 key_not_like_val
   = x:string _ ( "!~" ) _ y:(string / regexstring )
+    { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
+  / x:string whitespace+ "not" whitespace+ "like" whitespace+ y:(string / regexstring )
     { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
 
 key_substr_val
