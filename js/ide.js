@@ -72,9 +72,10 @@ var ide = new(function() {
       $(".wait-info ul").prepend(li);
     },
     abort: function() {
-      if (typeof ide.waiter.onAbort == "function")
-        ide.waiter.onAbort();
-      ide.waiter.close();
+      if (typeof ide.waiter.onAbort == "function") {
+        ide.waiter.addInfo("aborting");
+        ide.waiter.onAbort(ide.waiter.close);
+      }
     },
   };
 

@@ -35,11 +35,14 @@ var overpass = new(function() {
         query = '<?xml version="1.0" encoding="UTF-8"?>'+query;
       }
     }
-    fire("onProgress", "calling Overpass API interpreter", function() {
+    fire("onProgress", "calling Overpass API interpreter", function(callback) {
       // kill the query on abort
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
-      $.get(server+"kill_my_queries");
+      $.get(server+"kill_my_queries").success(callback).error(function() {
+        console.log("Warning: failed to kill query.");
+        callback();
+      });
     });
     var request_headers = {};
     var additional_get_data = "";
