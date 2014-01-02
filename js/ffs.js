@@ -2,6 +2,7 @@
 if (typeof turbo === "undefined") turbo={};
 turbo.ffs = function() {
   var ffs = {};
+  var freeFormQuery;
 
   /* this converts a random boolean expression into a normalized form: 
    * A∧B∧… ∨ C∧D∧… ∨ …
@@ -125,6 +126,8 @@ turbo.ffs = function() {
               console.log("unknown query type: meta/"+condition.query);
               return false;
           }
+        case "free form":
+          // own module, special cased below
         default:
           console.log("unknown query type: "+condition.query);
           return false;
@@ -169,6 +172,8 @@ turbo.ffs = function() {
             default:
               return '';
           }
+        case "free form":
+          return quotes(condition.free);
         default:
           return '';
       }
@@ -186,7 +191,23 @@ turbo.ffs = function() {
       var clauses_str = [];
       for (var j=0; j<and_query.queries.length; j++) {
         var cond_query = and_query.queries[j];
-        if (cond_query.query === "type") {
+        // todo: looks like some code duplication here could be reduced by refactoring
+        if (cond_query.query === "free form") {
+          // eventually load free form query module
+          if (!freeFormQuery) freeFormQuery = turbo.ffs.free();
+          var ffs_clause = freeFormQuery.get_query_clause(cond_query);
+          if (ffs_clause === false)
+            return false;
+          // restrict possible data types
+          types = types.filter(function(t) {
+            return ffs_clause.types.indexOf(t) != -1;
+          });
+          // add clauses
+          clauses = clauses.concat(ffs_clause.conditions.map(function(condition) {
+            return get_query_clause(condition);
+          }));
+          clauses_str.push(get_query_clause_str(cond_query));
+        } else if (cond_query.query === "type") {
           // restrict possible data types
           types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
         } else {
@@ -223,6 +244,50 @@ turbo.ffs = function() {
     query_parts.push('</osm-script>');
 
     return query_parts.join('\n');
+  }
+
+  ffs.repair_search = function(search) {
+    try {
+      ffs = turbo.ffs.parser.parse(search);
+    } catch(e) {
+      return false;
+    }
+
+    function quotes(s) {
+      if (s.match(/^[a-zA-Z0-9_]+$/) === null)
+        return '"'+s.replace(/"/g,'\\"')+'"';
+      return s;
+    }
+
+    var search_parts = [];
+    var repaired = false;
+
+    ffs.query = normalize(ffs.query);
+    ffs.query = _.flatten(_.pluck(ffs.query.queries,"queries"));
+    ffs.query.forEach(function(cond_query) {
+      if (cond_query.query === "free form") {
+        // eventually load free form query module
+        if (!freeFormQuery) freeFormQuery = turbo.ffs.free();
+        var ffs_clause = freeFormQuery.get_query_clause(cond_query);
+        if (ffs_clause === false) {
+          // try to find suggestions for occasional typos
+          var fuzzy = freeFormQuery.fuzzy_search(cond_query);
+          var free_regex = new RegExp("['\"]?"+cond_query.free+"['\"]?");
+          if (fuzzy && search.match(free_regex)) {
+            search_parts = search_parts.concat(search.split(free_regex));
+            search = search_parts.pop();
+            var replacement = quotes(fuzzy);
+            search_parts.push(replacement);
+            repaired = true;
+          }
+        }
+      }
+    });
+    search_parts.push(search);
+
+    if (!repaired)
+      return false;
+    return search_parts;
   }
 
   return ffs;

@@ -52,7 +52,8 @@ turbo.js: \
 	js/nominatim.js \
 	js/query.js \
 	js/ffs.js \
-	js/ffs_parser.js \
+	js/ffs/free.js \
+	js/ffs/parser.js \
 	js/i18n.js \
 	js/overpass.js \
 	js/ide.js \
@@ -110,6 +111,7 @@ install: all
 	mkdir -p $(install_root)/css
 	mkdir -p $(install_root)/img
 	mkdir -p $(install_root)/locales
+	mkdir -p $(install_root)/data
 	cp LICENSE $(install_root)
 	cp turbo.js turbo.min.js $(install_root)
 	cp turbo.map.js turbo.map.min.js $(install_root)
@@ -124,6 +126,7 @@ install: all
 	cp -R libs $(install_root)/libs
 	cp -R icons $(install_root)/icons
 	cp libs/locationfilter/src/img/* $(install_root)/img
+	cp data/*.json $(install_root)/data
 
 clean:
 	rm -f turbo.js
@@ -136,5 +139,9 @@ clean:
 translations:
 	node locales/update_locales
 
+presets:
+	wget "https://github.com/systemed/iD/raw/master/data/presets/presets.json" -O data/iD_presets.json
+	node data/get_preset_translations
+
 ffs:
-	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs_parser.js
+	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js

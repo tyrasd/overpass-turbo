@@ -56,33 +56,33 @@ statement
   / free_form
 
 key_eq_val
-  = x:string _ ( "=" / "==" ) _ y:string
+  = x:key_string _ ( "=" / "==" ) _ y:string
     { return { query:"eq", key:x, val:y } }
 
 key_not_eq_val
-  = x:string _ ( "!=" / "<>" ) _ y:string
+  = x:key_string _ ( "!=" / "<>" ) _ y:string
     { return { query:"neq", key:x, val:y } }
 
 key_present
-  = x:string _ ( "=" / "==" ) _ "*"
+  = x:key_string _ ( "=" / "==" ) _ "*"
     { return { query:"key", key:x } }
   / x:string whitespace+ "is" whitespace+ "not" whitespace+ "null"
     { return { query:"key", key:x } }
 
 key_not_present
-  = x:string _ ( "!=" / "<>" ) _ "*"
+  = x:key_string _ ( "!=" / "<>" ) _ "*"
     { return { query:"nokey", key:x } }
   / x:string whitespace+ "is" whitespace+ "null"
     { return { query:"nokey", key:x } }
 
 key_like_val
-  = x:string _ ( "~" / "~=" ) _ y:(string / regexstring )
+  = x:key_string _ ( "~" / "~=" ) _ y:(string / regexstring )
     { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
   / x:string whitespace+ "like" whitespace+ y:(string / regexstring )
     { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
 
 key_not_like_val
-  = x:string _ ( "!~" ) _ y:(string / regexstring )
+  = x:key_string _ ( "!~" ) _ y:(string / regexstring )
     { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
   / x:string whitespace+ "not" whitespace+ "like" whitespace+ y:(string / regexstring )
     { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
@@ -104,6 +104,12 @@ free_form
     { return { query:"free form", free:x } }
 
 /* ==== strings ==== */
+
+key_string "Key"
+  = s:[a-zA-Z0-9_:-]+ { return s.join(''); }
+  / parts:('"' DoubleStringCharacters? '"' / "'" SingleStringCharacters? "'") {
+      return parts[1];
+    }
 
 string "string"
   = s:[a-zA-Z0-9_öüäÖÜÄß-]+ { return s.join(''); }

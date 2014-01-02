@@ -42,17 +42,22 @@
   <!--own scripts & styles-->
   <link rel="stylesheet" type="text/css" href="css/default.css" />
   <link rel="stylesheet" type="text/css" media="(max-width: 700px)" href="css/compact.css"/>
+  <!--configs and user settings-->
   <script src="js/configs.js"></script>
   <script src="js/settings.js"></script>
-  <script src="js/urlParameters.js"></script>
+  <!--query-->
   <script src="js/nominatim.js"></script>
   <script src="js/query.js"></script>
+  <!--ffs-->
   <script src="js/ffs.js"></script>
-  <script src="js/ffs_parser.js"></script>
+  <script src="js/ffs/free.js"></script>
+  <script src="js/ffs/parser.js"></script>
+  <!--global modules-->
+  <script src="js/urlParameters.js"></script>
   <script src="js/overpass.js"></script>
   <script src="js/ide.js"></script>
   <script src="js/i18n.js"></script>
-  <!--jsmapcss-->
+  <!--mapcss-->
   <script src="js/jsmapcss/styleparser.js"></script>
   <script src="js/jsmapcss/Condition.js"></script>
   <script src="js/jsmapcss/Rule.js"></script>
@@ -293,7 +298,11 @@
     <p><input type="text" autofocus="autofocus" placeholder="" value="" id="ffs-input" class="t" data-t="[placeholder]ffs.placeholder"/></p>
     <div id="ffs-dialog-parse-error" style="display:none;">
       <span class="t warning severe" data-t="ffs.parse_error"></span><br/>
-      <span class="t" data-t="[html]ffs.parse_error_expl"></span>
+      <small><span class="t" data-t="[html]ffs.parse_error_expl"></span></small>
+    </div>
+    <div id="ffs-dialog-typo" style="display:none;">
+      <span class="t warning" data-t="ffs.typo"></span>&nbsp;
+      <a href="" id="ffs-dialog-typo-correction"></a>
     </div>
     <p>
       <span class="t" data-t="ffs.examples"></span>
