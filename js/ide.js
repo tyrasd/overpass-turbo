@@ -1563,7 +1563,7 @@ var ide = new(function() {
     dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $("#ffs-dialog").dialog({
       modal:true,
-      width:350,
+      minWidth:350,
       buttons: dialog_buttons,
     });
   }
