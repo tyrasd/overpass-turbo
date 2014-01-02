@@ -303,6 +303,10 @@
     "name": "Vending Machine",
     "terms": ""
   },
+  "amenity/veterinary": {
+    "name": "Veterinary",
+    "terms": "pet clinic,veterinarian,animal hospital,pet doctor"
+  },
   "amenity/waste_basket": {
     "name": "Waste Basket",
     "terms": "rubbish bin,litter bin,trash can,garbage can"
@@ -1327,6 +1331,10 @@
     "name": "Disused Railway",
     "terms": ""
   },
+  "railway/funicular": {
+    "name": "Funicular",
+    "terms": "venicular,cliff railway,cable car,cable railway,funicular railway"
+  },
   "railway/halt": {
     "name": "Railway Halt",
     "terms": "break,interrupt,rest,wait,interruption"
@@ -1338,6 +1346,10 @@
   "railway/monorail": {
     "name": "Monorail",
     "terms": ""
+  },
+  "railway/narrow_gauge": {
+    "name": "Narrow Gauge Rail",
+    "terms": "narrow gauge railway,narrow gauge railroad"
   },
   "railway/platform": {
     "name": "Railway Platform",
