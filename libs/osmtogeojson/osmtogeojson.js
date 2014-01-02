@@ -1,10 +1,12 @@
-if (typeof require !== "undefined") {
-  _ = require("lodash");
-}
+!function(o){"object"==typeof exports?module.exports=o():"function"==typeof define&&define.amd?define(o):"undefined"!=typeof window?window.osmtogeojson=o():"undefined"!=typeof global?global.osmtogeojson=o():"undefined"!=typeof self&&(self.osmtogeojson=o())}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var rewind = require("geojson-rewind");
+
+// see https://wiki.openstreetmap.org/wiki/Overpass_turbo/Polygon_Features
+var polygonFeatures = require("./polygon_features.json");
 
 var osmtogeojson = {};
 
-osmtogeojson.toGeojson = function( data, options ) {
+osmtogeojson = function( data, options ) {
 
   options = _.merge(
     {
@@ -20,86 +22,7 @@ osmtogeojson.toGeojson = function( data, options ) {
         "tiger:tlid": true,
         "tiger:upload_uuid": true
       },
-      polygonFeatures: {
-        "building": true,
-        "highway": {
-          "included_values": {
-            "services": true,
-            "rest_area": true,
-            "escape": true
-          }
-        },
-        "natural": {
-          "excluded_values": {
-            "coastline": true,
-            "ridge": true,
-            "arete": true,
-            "tree_row": true
-          }
-        },
-        "landuse": true,
-        "waterway": {
-          "included_values": {
-            "riverbank": true,
-            "dock": true,
-            "boatyard": true,
-            "dam": true
-          }
-        },
-        "amenity": true,
-        "leisure": true,
-        "barrier": {
-          "included_values": {
-            "city_wall": true,
-            "ditch": true,
-            "hedge": true,
-            "retaining_wall": true,
-            "wall": true,
-            "spikes": true
-          }
-        },
-        "railway": {
-          "included_values": {
-            "station": true,
-            "turntable": true,
-            "roundhouse": true,
-            "platform": true
-          }
-        },
-        "area": true,
-        "boundary": true,
-        "man_made": {
-          "excluded_values": {
-            "cutline": true,
-            "embankment": true,
-            "pipeline": true
-          }
-        },
-        "power": {
-          "included_values": {
-            "generator": true,
-            "station": true,
-            "sub_station": true,
-            "transformer": true
-          }
-        },
-        "place": true,
-        "shop": true,
-        "aeroway": {
-          "excluded_values": {
-            "taxiway": true
-          }
-        },
-        "tourism": true,
-        "historic": true,
-        "public_transport": true,
-        "office": true,
-        "building:part": true,
-        "military": true,
-        "ruins": true,
-        "area:highway": true,
-        "craft": true
-      }
+      polygonFeatures: polygonFeatures,
     },
     options
   );
@@ -113,22 +36,27 @@ osmtogeojson.toGeojson = function( data, options ) {
   return result;
 
   function _overpassJSON2geoJSON(json) {
-    // create copy of json to make sure the original object doesn't get altered
-    json = JSON.parse(JSON.stringify(json));
     // sort elements
     var nodes = new Array();
     var ways  = new Array();
     var rels  = new Array();
+    // create copies of individual json objects to make sure the original data doesn't get altered
+    // todo: cloning is slow: see if this can be done differently!
     for (var i=0;i<json.elements.length;i++) {
       switch (json.elements[i].type) {
       case "node":
-        nodes.push(json.elements[i]);
+        var node = json.elements[i];
+        nodes.push(node);
       break;
       case "way":
-        ways.push(json.elements[i]);
+        var way = _.clone(json.elements[i]);
+        way.nodes = _.clone(way.nodes);
+        ways.push(way);
       break;
       case "relation":
-        rels.push(json.elements[i]);
+        var rel = _.clone(json.elements[i]);
+        rel.members = _.clone(rel.members);
+        rels.push(rel);
       break;
       default:
       // type=area (from coord-query) is an example for this case.
@@ -220,6 +148,7 @@ osmtogeojson.toGeojson = function( data, options ) {
     return _convert2geoJSON(nodes,ways,rels);
   }
   function _convert2geoJSON(nodes,ways,rels) {
+
     // helper function that checks if there are any tags other than "created_by", "source", etc. or any tag provided in ignore_tags
     function has_interesting_tags(t, ignore_tags) {
       if (typeof ignore_tags !== "object")
@@ -232,6 +161,21 @@ osmtogeojson.toGeojson = function( data, options ) {
           return true;
       return false;
     };
+    // helper function to extract meta information
+    function build_meta_information(object) {
+      var res = {
+        "timestamp": object.timestamp,
+        "version": object.version,
+        "changeset": object.changeset,
+        "user": object.user,
+        "uid": object.uid
+      };
+      for (k in res)
+        if (res[k] === undefined)
+          delete res[k];
+      return res;
+    }
+
     // some data processing (e.g. filter nodes only used for ways)
     var nodeids = new Object();
     for (var i=0;i<nodes.length;i++) {
@@ -276,6 +220,7 @@ osmtogeojson.toGeojson = function( data, options ) {
         continue; // ignore relations without members (e.g. returned by an ids_only query)
       relids[rels[i].id] = rels[i];
     }
+    var relsmap = {node: {}, way: {}, relation: {}};
     for (var i=0;i<rels.length;i++) {
       if (!_.isArray(rels[i].members))
         continue; // ignore relations without members (e.g. returned by an ids_only query)
@@ -292,15 +237,16 @@ osmtogeojson.toGeojson = function( data, options ) {
             m = relids[rels[i].members[j].ref];
           break;
         }
-        if (m) { // typeof m != "undefined"
-          if (typeof m.relations == "undefined")
-            m.relations = new Array();
-          m.relations.push({
-              "role" : rels[i].members[j].role,
-              "rel" : rels[i].id,
-              "reltags" : rels[i].tags,
-              });
-        }
+        if (!m) continue;
+        var m_type = rels[i].members[j].type;
+        var m_ref = rels[i].members[j].ref;
+        if (typeof relsmap[m_type][m_ref] === "undefined")
+          relsmap[m_type][m_ref] = [];
+        relsmap[m_type][m_ref].push({
+          "role" : rels[i].members[j].role,
+          "rel" : rels[i].id,
+          "reltags" : rels[i].tags,
+        });
       }
     }
     // construct geojson
@@ -318,8 +264,8 @@ osmtogeojson.toGeojson = function( data, options ) {
           "type" : "node",
           "id"   : pois[i].id,
           "tags" : pois[i].tags || {},
-          "relations" : pois[i].relations || [],
-          "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": pois[i].timestamp, "version": pois[i].version, "changeset": pois[i].changeset, "user": pois[i].user, "uid": pois[i].uid}),
+          "relations" : relsmap["node"][pois[i].id] || [],
+          "meta": build_meta_information(pois[i])
         },
         "geometry"   : {
           "type" : "Point",
@@ -343,7 +289,7 @@ osmtogeojson.toGeojson = function( data, options ) {
         for (var j=0;j<rels[i].members.length;j++)
           if (rels[i].members[j].role == "outer")
             outer_count++;
-        _.each(rels[i].members, function(m) {
+        rels[i].members.forEach(function(m) {
           if (wayids[m.ref]) {
             // this even works in the following corner case:
             // a multipolygon amenity=xxx with outer line tagged amenity=yyy
@@ -359,12 +305,27 @@ osmtogeojson.toGeojson = function( data, options ) {
         var simple_mp = false;
         if (outer_count == 1 && !has_interesting_tags(rels[i].tags, {"type":true}))
           simple_mp = true;
+        var feature = null;
         if (!simple_mp) {
+          feature = construct_multipolygon(rels[i], rels[i]);
+        } else {
+          // simple multipolygon
+          var outer_way = rels[i].members.filter(function(m) {return m.role === "outer";})[0];
+          outer_way = wayids[outer_way.ref];
+          if (outer_way === undefined)
+            continue; // abort if outer way object is not present
+          outer_way.is_multipolygon_outline = true;
+          feature = construct_multipolygon(outer_way, rels[i]);
+        }
+        if (feature === false)
+          continue; // abort if feature could not be constructed
+        geojsonpolygons.features.push(feature);
+        function construct_multipolygon(tag_object, rel) {
           var is_tainted = false;
           // prepare mp members
           var members;
-          members = _.filter(rels[i].members, function(m) {return m.type === "way";});
-          members = _.map(members, function(m) {
+          members = rel.members.filter(function(m) {return m.type === "way";});
+          members = members.map(function(m) {
             var way = wayids[m.ref];
             if (way === undefined) { // check for missing ways
               is_tainted = true;
@@ -374,7 +335,7 @@ osmtogeojson.toGeojson = function( data, options ) {
               id: m.ref,
               role: m.role || "outer",
               way: way,
-              nodes: _.filter(way.nodes, function(n) {
+              nodes: way.nodes.filter(function(n) {
                 if (n !== undefined)
                   return true;
                 is_tainted = true;
@@ -426,8 +387,8 @@ osmtogeojson.toGeojson = function( data, options ) {
             }
             return joined;
           }
-          outers = join(_.filter(members, function(m) {return m.role==="outer";}));
-          inners = join(_.filter(members, function(m) {return m.role==="inner";}));
+          outers = join(members.filter(function(m) {return m.role==="outer";}));
+          inners = join(members.filter(function(m) {return m.role==="inner";}));
           // sort rings
           var mp;
           function findOuter(inner) {
@@ -438,7 +399,7 @@ osmtogeojson.toGeojson = function( data, options ) {
               return false;
             }
             var mapCoordinates = function(from) {
-              return _.map(from, function(n) {
+              return from.map(function(n) {
                 return [+n.lat,+n.lon];
               });
             }
@@ -472,7 +433,7 @@ osmtogeojson.toGeojson = function( data, options ) {
                 return o;
             }
           }
-          mp = _.map(outers, function(o) {return [o];});
+          mp = outers.map(function(o) {return [o];});
           for (var j=0; j<inners.length; j++) {
             var o = findOuter(inners[j]);
             if (o !== undefined)
@@ -484,11 +445,11 @@ osmtogeojson.toGeojson = function( data, options ) {
           }
           // sanitize mp-coordinates (remove empty clusters or rings, {lat,lon,...} to [lon,lat]
           var mp_coords = [];
-          mp_coords = _.compact(_.map(mp, function(cluster) { 
-            var cl = _.compact(_.map(cluster, function(ring) {
+          mp_coords = _.compact(mp.map(function(cluster) { 
+            var cl = _.compact(cluster.map(function(ring) {
               if (ring.length < 4) // todo: is this correct: ring.length < 4 ?
                 return;
-              return _.compact(_.map(ring, function(node) {
+              return _.compact(ring.map(function(node) {
                 return [+node.lon,+node.lat];
               }));
             }));
@@ -498,79 +459,31 @@ osmtogeojson.toGeojson = function( data, options ) {
           }));
 
           if (mp_coords.length == 0)
-            continue; // ignore multipolygons without coordinates
+            return false; // ignore multipolygons without coordinates
+          var mp_type = "MultiPolygon";
+          if (mp_coords.length === 1) {
+            mp_type = "Polygon";
+            mp_coords = mp_coords[0];
+          }
           // mp parsed, now construct the geoJSON
           var feature = {
             "type"       : "Feature",
-            "id"         : "relation/"+rels[i].id,
+            "id"         : tag_object.type+"/"+tag_object.id,
             "properties" : {
-              "type" : "relation",
-              "id"   : rels[i].id,
-              "tags" : rels[i].tags || {},
-              "relations" : rels[i].relations || [],
-              "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": rels[i].timestamp, "version": rels[i].version, "changeset": rels[i].changeset, "user": rels[i].user, "uid": rels[i].uid}),
+              "type" : tag_object.type,
+              "id"   : tag_object.id,
+              "tags" : tag_object.tags || {},
+              "relations" :  relsmap[tag_object.type][tag_object.id] || [],
+              "meta": build_meta_information(tag_object)
             },
             "geometry"   : {
-              "type" : "MultiPolygon",
+              "type" : mp_type,
               "coordinates" : mp_coords,
             }
           }
           if (is_tainted)
             feature.properties["tainted"] = true;
-          geojsonpolygons.features.push(feature);
-        } else {
-          // simple multipolygon
-          rels[i].tainted = false;
-          var outer_coords = new Array();
-          var inner_coords = new Array();
-          var outer_way = undefined;
-          for (var j=0;j<rels[i].members.length;j++) {
-            if ((rels[i].members[j].type == "way") &&
-                _.contains(["outer","inner"], rels[i].members[j].role)) {
-              var w = wayids[rels[i].members[j].ref];
-              if (typeof w == "undefined") {
-                rels[i].tainted = true;
-                continue;
-              }
-              var coords = new Array();
-              for (var k=0;k<w.nodes.length;k++) {
-                if (typeof w.nodes[k] == "object")
-                    coords.push([+w.nodes[k].lon, +w.nodes[k].lat]);
-                else
-                  rels[i].tainted = true;
-              }
-              if (rels[i].members[j].role == "outer") {
-                outer_coords.push(coords);
-                outer_way = w;
-                outer_way.is_multipolygon_outline = true;
-              } else if (rels[i].members[j].role == "inner") {
-                inner_coords.push(coords);
-              }
-            }
-          }
-          if (typeof outer_way == "undefined")
-            continue; // abort if outer way object is not present
-          if (outer_coords[0].length == 0)
-            continue; // abort if coordinates of outer way is not present
-          way_type = "Polygon";
-          var feature = {
-            "type"       : "Feature",
-            "id"         : "way/"+outer_way.id,
-            "properties" : {
-              "type" : "way",
-              "id"   : outer_way.id,
-              "tags" : outer_way.tags || {},
-              "relations" : outer_way.relations || [],
-              "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": outer_way.timestamp, "version": outer_way.version, "changeset": outer_way.changeset, "user": outer_way.user, "uid": outer_way.uid}),
-            },
-            "geometry"   : {
-              "type" : way_type,
-              "coordinates" : ([].concat(outer_coords,inner_coords)),
-            }
-          }
-          if (rels[i].tainted)
-            feature.properties["tainted"] = true;
-          geojsonpolygons.features.push(feature);
+          return feature;
         }
       }
     }
@@ -607,8 +520,8 @@ osmtogeojson.toGeojson = function( data, options ) {
           "type" : "way",
           "id"   : ways[i].id,
           "tags" : ways[i].tags || {},
-          "relations" : ways[i].relations || [],
-          "meta": function(o){var res={}; for(k in o) if(o[k] != undefined) res[k]=o[k]; return res;}({"timestamp": ways[i].timestamp, "version": ways[i].version, "changeset": ways[i].changeset, "user": ways[i].user, "uid": ways[i].uid}),
+          "relations" : relsmap["way"][ways[i].id] || [],
+          "meta": build_meta_information(ways[i])
         },
         "geometry"   : {
           "type" : way_type,
@@ -632,7 +545,7 @@ osmtogeojson.toGeojson = function( data, options ) {
     geojson.features = geojson.features.concat(geojsonnodes.features);
     // optionally, flatten properties
     if (options.flatProperties) {
-      _.each(geojson.features, function(f) {
+      geojson.features.forEach(function(f) {
         f.properties = _.merge(
           f.properties.meta,
           f.properties.tags,
@@ -640,6 +553,8 @@ osmtogeojson.toGeojson = function( data, options ) {
         );
       });
     }
+    // fix polygon winding
+    geojson = rewind(geojson, true /*remove for geojson-rewind >0.1.0*/);
     return geojson;
   }
   function _isPolygonFeature( tags ) {
@@ -673,4 +588,215 @@ osmtogeojson.toGeojson = function( data, options ) {
   }
 };
 
-if (typeof module !== 'undefined') module.exports = osmtogeojson;
+// for backwards compatibility
+osmtogeojson.toGeojson = osmtogeojson;
+
+module.exports = osmtogeojson;
+
+},{"./polygon_features.json":2,"geojson-rewind":3}],2:[function(require,module,exports){
+module.exports={
+    "building": true,
+    "highway": {
+        "included_values": {
+            "services": true,
+            "rest_area": true,
+            "escape": true
+        }
+    },
+    "natural": {
+        "excluded_values": {
+            "coastline": true,
+            "ridge": true,
+            "arete": true,
+            "tree_row": true
+        }
+    },
+    "landuse": true,
+    "waterway": {
+        "included_values": {
+            "riverbank": true,
+            "dock": true,
+            "boatyard": true,
+            "dam": true
+        }
+    },
+    "amenity": true,
+    "leisure": true,
+    "barrier": {
+        "included_values": {
+            "city_wall": true,
+            "ditch": true,
+            "hedge": true,
+            "retaining_wall": true,
+            "wall": true,
+            "spikes": true
+        }
+    },
+    "railway": {
+        "included_values": {
+            "station": true,
+            "turntable": true,
+            "roundhouse": true,
+            "platform": true
+        }
+    },
+    "area": true,
+    "boundary": true,
+    "man_made": {
+        "excluded_values": {
+            "cutline": true,
+            "embankment": true,
+            "pipeline": true
+        }
+    },
+    "power": {
+        "included_values": {
+            "generator": true,
+            "station": true,
+            "sub_station": true,
+            "transformer": true
+        }
+    },
+    "place": true,
+    "shop": true,
+    "aeroway": {
+        "excluded_values": {
+            "taxiway": true
+        }
+    },
+    "tourism": true,
+    "historic": true,
+    "public_transport": true,
+    "office": true,
+    "building:part": true,
+    "military": true,
+    "ruins": true,
+    "area:highway": true,
+    "craft": true
+}
+},{}],3:[function(require,module,exports){
+var geojsonArea = require('geojson-area');
+
+module.exports = rewind;
+
+function rewind(gj, outer) {
+    switch ((gj && gj.type) || null) {
+        case 'FeatureCollection':
+            gj.features = gj.features.map(curryOuter(rewind, outer));
+            return gj;
+        case 'Feature':
+            gj.geometry = rewind(gj.geometry, outer);
+            return gj;
+        case 'Polygon':
+        case 'MultiPolygon':
+            return correct(gj, outer);
+        default:
+            return gj;
+    }
+}
+
+function curryOuter(a, b) {
+    return function(_) { return a(_, b); };
+}
+
+function correct(_, outer) {
+    if (_.type === 'Polygon') {
+        _.coordinates = correctRings(_.coordinates, outer);
+    } else if (_.type === 'MultiPolygon') {
+        _.coordinates = _.coordinates.map(curryOuter(correctRings, outer));
+    }
+    return _;
+}
+
+function correctRings(_, outer) {
+    outer = !!outer;
+    _[0] = wind(_[0], !outer);
+    for (var i = 1; i < _.length; i++) {
+        _[i] = wind(_[i], outer);
+    }
+    return _;
+}
+
+function wind(_, dir) {
+    return cw(_) === dir ? _ : _.reverse();
+}
+
+function cw(_) {
+    return geojsonArea.ring(_) >= 0;
+}
+
+},{"geojson-area":4}],4:[function(require,module,exports){
+var wgs84 = require('wgs84');
+
+module.exports.geometry = geometry;
+module.exports.ring = ringArea;
+
+function geometry(_) {
+    if (_.type === 'Polygon') return polygonArea(_.coordinates);
+    else if (_.type === 'MultiPolygon') {
+        var area = 0;
+        for (var i = 0; i < _.coordinates.length; i++) {
+            area += polygonArea(_.coordinates[i]);
+        }
+        return area;
+    } else {
+        return null;
+    }
+}
+
+function polygonArea(coords) {
+    var area = 0;
+    if (coords && coords.length > 0) {
+        area += Math.abs(ringArea(coords[0]));
+        for (var i = 1; i < coords.length; i++) {
+            area -= Math.abs(ringArea(coords[i]));
+        }
+    }
+    return area;
+}
+
+/**
+ * Calculate the approximate area of the polygon were it projected onto
+ *     the earth.  Note that this area will be positive if ring is oriented
+ *     clockwise, otherwise it will be negative.
+ *
+ * Reference:
+ * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for
+ *     Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
+ *     Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
+ *
+ * Returns:
+ * {float} The approximate signed geodesic area of the polygon in square
+ *     meters.
+ */
+
+function ringArea(coords) {
+    var area = 0;
+
+    if (coords.length > 2) {
+        var p1, p2;
+        for (var i = 0; i < coords.length - 1; i++) {
+            p1 = coords[i];
+            p2 = coords[i + 1];
+            area += rad(p2[0] - p1[0]) * (2 + Math.sin(rad(p1[1])) + Math.sin(rad(p2[1])));
+        }
+
+        area = area * wgs84.RADIUS * wgs84.RADIUS / 2;
+    }
+
+    return area;
+}
+
+function rad(_) {
+    return _ * Math.PI / 180;
+}
+
+},{"wgs84":5}],5:[function(require,module,exports){
+module.exports.RADIUS = 6378137;
+module.exports.FLATTENING = 1/298.257223563;
+module.exports.POLAR_RADIUS = 6356752.3142;
+
+},{}]},{},[1])
+(1)
+});
+;
