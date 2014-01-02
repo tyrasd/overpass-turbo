@@ -1,3 +1,10 @@
+2014-01-02
+----------
+* better zoom-to-location tool
+* wizard: add "key is [not] null" and "key [not] like regex" expressions (aliases)
+* wizard: allow colons in keys of key-value searches
+* update osmtogeojson library to version 2.0.0 (exported geojson has polygons with proper winding order now)
+
 2013-12-12
 ----------
 * **query builder wizard** :) [read more](https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard)
