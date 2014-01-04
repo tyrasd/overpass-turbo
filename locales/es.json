@@ -163,6 +163,7 @@
   "ffs.examples": "Algunos ejemplos:",
   "ffs.parse_error": "Lo sentimos, la búsqueda no se entiende.",
   "ffs.parse_error_expl": "Ten en cuenta que debes utilizar comillas con cadenas que contengan espacios o caracteres especiales y múltiples filtros de búsqueda deben estar separados por operadores booleanos correspondientes (<i>and</i> u <i>or</i>). Lee la <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">documentación</a> para más información.",
+  "ffs.typo": "Quisiste decir:",
   "dialog.dismiss": "desechar",
   "dialog.cancel": "cancelar",
   "dialog.save": "guardar",

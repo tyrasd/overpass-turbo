@@ -143,6 +143,10 @@
     "name": "Clinic",
     "terms": "clinic,medical clinic"
   },
+  "amenity/clock": {
+    "name": "Clock",
+    "terms": ""
+  },
   "amenity/college": {
     "name": "College",
     "terms": ""
@@ -727,6 +731,10 @@
     "name": "Residential Road",
     "terms": ""
   },
+  "highway/rest_area": {
+    "name": "Rest Area",
+    "terms": "rest stop,turnout,lay-by"
+  },
   "highway/road": {
     "name": "Unknown Road",
     "terms": ""
@@ -762,6 +770,10 @@
   "highway/service/parking_aisle": {
     "name": "Parking Aisle",
     "terms": ""
+  },
+  "highway/services": {
+    "name": "Service Area",
+    "terms": "services,travel plaza,service station"
   },
   "highway/steps": {
     "name": "Steps",

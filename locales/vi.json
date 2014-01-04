@@ -163,6 +163,7 @@
   "ffs.examples": "Một vài ví dụ:",
   "ffs.parse_error": "Rất tiếc, không hiểu truy vấn này.",
   "ffs.parse_error_expl": "Lưu ý rằng các chuỗi có dấu cách hoặc ký tự đặc biệt phải được đưa vào dấu ngoặc kép và rằng các bộ lọc tìm kiếm phải được nối bằng phép luận lý phù hợp (<i>and</i> và <i>or</i>). Hãy xem thêm chi tiết trong <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard?uselang=vi\" target=\"_blank\">tài liệu</a>.",
+  "ffs.typo": "Có phải bạn muốn:",
   "dialog.dismiss": "bỏ qua",
   "dialog.cancel": "hủy bỏ",
   "dialog.save": "lưu",

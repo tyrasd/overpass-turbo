@@ -163,6 +163,7 @@
   "ffs.examples": "Ein paar Beispiele:",
   "ffs.parse_error": "Leider konnte das nicht verstanden werden.",
   "ffs.parse_error_expl": "Bedenke, dass für Texte Leerzeichen oder spezielle Zeichen Anführungszeichen benutzt werden müssen. Außerdem werden mehrere Suchfilter durch logische Operatoren (<i>and</i> oder <i>or</i>) getrennt. Siehe die <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Dokumentation</a> für mehr Informationen.",
+  "ffs.typo": "Meintest Du:",
   "dialog.dismiss": "OK, verstanden",
   "dialog.cancel": "Abbrechen",
   "dialog.save": "Speichern",
