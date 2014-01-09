@@ -3,6 +3,12 @@
     "name": "Adresse",
     "terms": "Adresse"
   },
+  "aerialway/cable_car": {
+    "name": "Téléphérique"
+  },
+  "aerialway/chair_lift": {
+    "name": "Télésiège"
+  },
   "aeroway": {
     "name": "Aviation",
     "terms": "Piste de décollage, Piste d'atterissage, Piste"
@@ -99,6 +105,9 @@
     "name": "Cinéma",
     "terms": "Cinéma"
   },
+  "amenity/clinic": {
+    "name": "Clinique"
+  },
   "amenity/college": {
     "name": "Enseignement supérieur (non universitaire)",
     "terms": "Institut, École supérieure, Enseignement supérieur, Haute école, CÉGEP, cégep"
@@ -106,6 +115,12 @@
   "amenity/courthouse": {
     "name": "Tribunal",
     "terms": "Palais de Justice, Tribunal"
+  },
+  "amenity/dentist": {
+    "name": "Dentiste"
+  },
+  "amenity/doctor": {
+    "name": "Médecin"
   },
   "amenity/drinking_water": {
     "name": "Eau potable",
@@ -199,6 +214,10 @@
     "name": "Poste de garde",
     "terms": "Poste de garde, gardien"
   },
+  "amenity/recycling": {
+    "name": "Recyclage",
+    "terms": "Recyclage"
+  },
   "amenity/restaurant": {
     "name": "Restaurant",
     "terms": "Restaurant"
@@ -206,6 +225,10 @@
   "amenity/school": {
     "name": "École",
     "terms": "Ecole"
+  },
+  "amenity/shelter": {
+    "name": "Abri",
+    "terms": "Abri"
   },
   "amenity/swimming_pool": {
     "name": "Piscine",
@@ -355,6 +378,125 @@
     "name": "Bâtiment résidentiel",
     "terms": "Bâtiment résidentiel"
   },
+  "craft/blacksmith": {
+    "name": "Forgeron"
+  },
+  "craft/boatbuilder": {
+    "name": "Constructeur de bateaux"
+  },
+  "craft/bookbinder": {
+    "name": "Relieur"
+  },
+  "craft/brewery": {
+    "name": "Brasserie"
+  },
+  "craft/carpenter": {
+    "name": "Charpentier"
+  },
+  "craft/caterer": {
+    "name": "Traiteur"
+  },
+  "craft/clockmaker": {
+    "name": "Horloger"
+  },
+  "craft/confectionary": {
+    "name": "Confiserie"
+  },
+  "craft/dressmaker": {
+    "name": "Couturier"
+  },
+  "craft/electrician": {
+    "name": "Electricien"
+  },
+  "craft/gardener": {
+    "name": "Jardinier"
+  },
+  "craft/glaziery": {
+    "name": "Vitrerie",
+    "terms": "Vitrier"
+  },
+  "craft/handicraft": {
+    "name": "Artisanat",
+    "terms": "Artisan"
+  },
+  "craft/hvac": {
+    "name": "CVC",
+    "terms": "chauffage,ventilation,climatisation,chauffagistes"
+  },
+  "craft/jeweler": {
+    "name": "Bijoutier"
+  },
+  "craft/locksmith": {
+    "name": "Serrurier"
+  },
+  "craft/metal_construction": {
+    "name": "Constructions métalliquess",
+    "terms": "Construction métallique"
+  },
+  "craft/optician": {
+    "name": "Opticien"
+  },
+  "craft/painter": {
+    "name": "peintre"
+  },
+  "craft/photographer": {
+    "name": "Photographe"
+  },
+  "craft/photographic_labratory": {
+    "name": "Laboratoire Photographique"
+  },
+  "craft/plasterer": {
+    "name": "Plâtrier"
+  },
+  "craft/plumber": {
+    "name": "Plombier"
+  },
+  "craft/pottery": {
+    "name": "Pottier"
+  },
+  "craft/roofer": {
+    "name": "Couvreur"
+  },
+  "craft/saddler": {
+    "name": "Sellier"
+  },
+  "craft/sailmaker": {
+    "name": "Voilerie",
+    "terms": "Voilier"
+  },
+  "craft/sawmill": {
+    "name": "Scierie"
+  },
+  "craft/sculpter": {
+    "name": "Sculpteur"
+  },
+  "craft/shoemaker": {
+    "name": "Cordonnier"
+  },
+  "craft/stonemason": {
+    "name": "Tailleur de pierre"
+  },
+  "craft/sweep": {
+    "name": "Ramoneur"
+  },
+  "craft/tailor": {
+    "name": "Tailleur"
+  },
+  "craft/tiler": {
+    "name": "Carreleur"
+  },
+  "craft/tinsmith": {
+    "name": "Ferblantier"
+  },
+  "craft/upholsterer": {
+    "name": "Tapissier"
+  },
+  "craft/watchmaker": {
+    "name": "Horloger"
+  },
+  "embankment": {
+    "name": "Terre-plein"
+  },
   "emergency/ambulance_station": {
     "name": "Station d'ambulance",
     "terms": "Station d'ambulance"
@@ -370,6 +512,24 @@
   "entrance": {
     "name": "Entrée",
     "terms": "Entrée"
+  },
+  "footway/crossing": {
+    "name": "Passage pieton ",
+    "terms": "Passage piéton"
+  },
+  "footway/sidewalk": {
+    "name": "Trottoir",
+    "terms": "Trottoir"
+  },
+  "golf/bunker": {
+    "name": "Bunker"
+  },
+  "golf/fairway": {
+    "name": "Allée (golf)"
+  },
+  "golf/hole": {
+    "name": "Trou de golf",
+    "terms": "Trou de golf"
   },
   "highway": {
     "name": "Route",
@@ -575,6 +735,10 @@
     "name": "Cultures",
     "terms": "Ferme"
   },
+  "landuse/farmland": {
+    "name": "Terre agricole",
+    "terms": "Terre agricole, Cultures"
+  },
   "landuse/farmyard": {
     "name": "Bâtiments de ferme",
     "terms": "Cour de ferme"
@@ -715,6 +879,12 @@
     "name": "Ligne de coupe",
     "terms": "ligne de coupe forestière"
   },
+  "man_made/embankment": {
+    "name": "Terre-plein"
+  },
+  "man_made/flagpole": {
+    "name": "Porte-drapeau"
+  },
   "man_made/lighthouse": {
     "name": "Phare",
     "terms": "Phare"
@@ -754,6 +924,20 @@
   "man_made/water_works": {
     "name": "Station de pompage d'eau potable",
     "terms": "Station de pompage"
+  },
+  "military/airfield": {
+    "name": "Aérodrome"
+  },
+  "military/barracks": {
+    "name": "Caserne",
+    "terms": "Caserne"
+  },
+  "military/bunker": {
+    "name": "Bunker",
+    "terms": "casemate, blockhaus"
+  },
+  "military/range": {
+    "name": "Stand de tir"
   },
   "natural": {
     "name": "Nature",
@@ -867,13 +1051,30 @@
     "name": "Agence immobilière",
     "terms": "Agence immobilière"
   },
+  "office/financial": {
+    "name": "Établissement financier"
+  },
+  "office/government": {
+    "name": "Établissement Public"
+  },
   "office/insurance": {
     "name": "Agence d'assurance",
     "terms": "Agence d'assurance"
   },
+  "office/it": {
+    "name": "Bureau informatique"
+  },
   "office/lawyer": {
     "name": "Cabinet d'avocats",
     "terms": "Cabinet d'avocats"
+  },
+  "office/newspaper": {
+    "name": "Journal",
+    "terms": "Journal, Presse"
+  },
+  "office/ngo": {
+    "name": "ONG",
+    "terms": "ONG"
   },
   "office/physician": {
     "name": "Médecin",
@@ -882,6 +1083,10 @@
   "office/political_party": {
     "name": "Parti politique",
     "terms": "Parti politique"
+  },
+  "office/research": {
+    "name": "Organisme de recherche",
+    "terms": "Centre de recherches"
   },
   "office/telecommunication": {
     "name": "Agence télécom",
@@ -962,6 +1167,12 @@
   "power/transformer": {
     "name": "Transformateur",
     "terms": "Transformateur"
+  },
+  "public_transport/platform": {
+    "name": "Plateforme"
+  },
+  "public_transport/stop_position": {
+    "name": "Arrêt"
   },
   "railway": {
     "name": "Ferroviaire",

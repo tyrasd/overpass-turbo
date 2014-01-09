@@ -3,6 +3,46 @@
     "name": "Indirizzo",
     "terms": "numero civico,indirizzo,cap,città,località,luogo"
   },
+  "aerialway": {
+    "name": "Trasporto a fune",
+    "terms": "seggiovia,funivia,funicolare,cabinovia,slittovia,rotovia,funivia aerea,cestovia,seggiovia navale,sciovia,teleferica,manovia,palorcio"
+  },
+  "aerialway/cable_car": {
+    "name": "Funivia",
+    "terms": "funivia"
+  },
+  "aerialway/chair_lift": {
+    "name": "Seggiovia",
+    "terms": "seggiovia"
+  },
+  "aerialway/gondola": {
+    "name": "Cabinovia",
+    "terms": "cabinovia"
+  },
+  "aerialway/magic_carpet": {
+    "name": "Tapis roulant",
+    "terms": "tappeto rollante"
+  },
+  "aerialway/platter": {
+    "name": "Skilift",
+    "terms": "skylift,sciovia,skilift"
+  },
+  "aerialway/pylon": {
+    "name": "Pilone di trasporto a fune",
+    "terms": "pilone,palone,traliccio"
+  },
+  "aerialway/rope_tow": {
+    "name": "Manovia",
+    "terms": "manovia"
+  },
+  "aerialway/station": {
+    "name": "Stazione trasporto a fune",
+    "terms": "seggiovia,funivia,funicolare,cabinovia,slittovia,rotovia,funivia aerea,cestovia,seggiovia navale,sciovia,teleferica,manovia,palorcio"
+  },
+  "aerialway/t-bar": {
+    "name": "Skilift ad ancora",
+    "terms": "skilift,sciovia"
+  },
   "aeroway": {
     "name": "Aeroporto",
     "terms": "pista aeroportuale,aerei,elicotteri,eliporto,aerodromo,aeroscalo,aerostazione,aeroplani,paracadutisti,aviazione,idroscalo"
@@ -99,6 +139,14 @@
     "name": "Cinema",
     "terms": "cinema,cine,film,cinematografo,proiezione"
   },
+  "amenity/clinic": {
+    "name": "Clinica medica",
+    "terms": "clinica,poliambulatori,policlinica"
+  },
+  "amenity/clock": {
+    "name": "Orologio",
+    "terms": "ora,orario,orologio"
+  },
   "amenity/college": {
     "name": "College",
     "terms": "Accademia"
@@ -106,6 +154,14 @@
   "amenity/courthouse": {
     "name": "Tribunale",
     "terms": "Palazzo di Giustizia"
+  },
+  "amenity/dentist": {
+    "name": "Dentista",
+    "terms": "dentista,odontoiatra,odontotecnico"
+  },
+  "amenity/doctor": {
+    "name": "Medico di base",
+    "terms": "dottore,medico,studio medico"
   },
   "amenity/drinking_water": {
     "name": "Fontanella",
@@ -199,6 +255,10 @@
     "name": "Guardiaparco",
     "terms": "Stazione guardia forestale"
   },
+  "amenity/recycling": {
+    "name": "Isola ecologica",
+    "terms": "riciclo,raccolta differenziata,cestino,pattume,riciclaggio"
+  },
   "amenity/restaurant": {
     "name": "Ristorante",
     "terms": "bar,caffetteria,caffè,ristorante self-service,braceria,trattoria,negozio di ciambelle,bettola,griglieria,venditore di hamburger,venditore di hotdog,pizzeria"
@@ -210,6 +270,10 @@
   "amenity/shelter": {
     "name": "Riparo",
     "terms": "ricovero,rifugio,tettoia,pensilina,bivacco,grotta"
+  },
+  "amenity/studio": {
+    "name": "Studio radiotelevisivo",
+    "terms": "studio,radio,televisione,registrazione,in onda,studio di registrazione"
   },
   "amenity/swimming_pool": {
     "name": "Piscina",
@@ -242,6 +306,10 @@
   "amenity/vending_machine": {
     "name": "Distributore automatico",
     "terms": "distributore automatico,macchinetta"
+  },
+  "amenity/veterinary": {
+    "name": "Veterinario",
+    "terms": "animali,dottore,medicina,farmacia"
   },
   "amenity/waste_basket": {
     "name": "Cestino della spazzatura",
@@ -359,6 +427,54 @@
     "name": "Edificio residenziale",
     "terms": "Edificio residenziale"
   },
+  "craft/blacksmith": {
+    "name": "Maniscalco",
+    "terms": "ferri di cavallo"
+  },
+  "craft/brewery": {
+    "name": "Birrificio",
+    "terms": "birreria,birra"
+  },
+  "craft/carpenter": {
+    "name": "Carpentiere",
+    "terms": "carpenteria,legno"
+  },
+  "craft/clockmaker": {
+    "name": "Costruttore di orologi",
+    "terms": "orologi"
+  },
+  "craft/electrician": {
+    "name": "Elettricista",
+    "terms": "elettronica,elettricità"
+  },
+  "craft/gardener": {
+    "name": "Giardiniere",
+    "terms": "giardinaggio,giardino"
+  },
+  "craft/jeweler": {
+    "name": "Gioielliere",
+    "terms": "gioielli,bigiotteria,orafo,gioielleria"
+  },
+  "craft/locksmith": {
+    "name": "Fabbro",
+    "terms": "fabbro,ferraio,ferro battuto,officina"
+  },
+  "craft/optician": {
+    "name": "Ottico",
+    "terms": "ottica,occhiali"
+  },
+  "craft/photographer": {
+    "name": "Fotografo",
+    "terms": "fotografia,stampe"
+  },
+  "craft/shoemaker": {
+    "name": "Calzolaio",
+    "terms": "scarpe,scarpino,calzature"
+  },
+  "craft/watchmaker": {
+    "name": "Orologiaio",
+    "terms": "orologi,riparazione"
+  },
   "embankment": {
     "name": "Terrapieno",
     "terms": "argine,muraglia,muro,collina,terra"
@@ -386,6 +502,30 @@
   "footway/sidewalk": {
     "name": "Marciapiede",
     "terms": "marciapiedi,passeggio,salvagente,banchina"
+  },
+  "golf/bunker": {
+    "name": "Bunker",
+    "terms": "sabbia"
+  },
+  "golf/fairway": {
+    "name": "Fairway",
+    "terms": "fairway"
+  },
+  "golf/green": {
+    "name": "Gree",
+    "terms": "campo da golf,green"
+  },
+  "golf/hole": {
+    "name": "Buca del golf",
+    "terms": "buca,golf"
+  },
+  "golf/lateral_water_hazard": {
+    "name": "Ostacolo d'acqua laterale",
+    "terms": "buca,acqua,golf,ostacolo"
+  },
+  "golf/water_hazard": {
+    "name": "Ostacolo d'acqua",
+    "terms": "buca,acqua,golf,ostacolo"
   },
   "highway": {
     "name": "Strada",
@@ -451,6 +591,10 @@
     "name": "Residenziale",
     "terms": "Residenziale"
   },
+  "highway/rest_area": {
+    "name": "Area di sosta",
+    "terms": "sosta"
+  },
   "highway/road": {
     "name": "Tipo sconosciuto",
     "terms": "Tipo sconosciuto"
@@ -486,6 +630,10 @@
   "highway/service/parking_aisle": {
     "name": "Corsia di un parcheggio",
     "terms": "Corsia parcheggio"
+  },
+  "highway/services": {
+    "name": "Area di servizio",
+    "terms": "servizio"
   },
   "highway/steps": {
     "name": "Scale",
@@ -935,6 +1083,10 @@
     "name": "Agenzia di viaggi",
     "terms": "travel,tour operator,turismo,viaggi,escursionismo"
   },
+  "piste": {
+    "name": "Piste da sci",
+    "terms": "pista da sci,sci,impianto sciistico,impianto"
+  },
   "place": {
     "name": "Luogo",
     "terms": "Luogo"
@@ -992,8 +1144,8 @@
     "terms": "Pilone elettricità"
   },
   "power/sub_station": {
-    "name": "Sottostazione",
-    "terms": "Sottostazione"
+    "name": "Sottostazione elettrica",
+    "terms": "Sottostazione elettrica,centralina,trasformatore"
   },
   "power/tower": {
     "name": "Traliccio ad alta tensione",
@@ -1023,6 +1175,10 @@
     "name": "Ferrovia in disuso",
     "terms": "Ferrovia di disuso"
   },
+  "railway/funicular": {
+    "name": "Funicolare",
+    "terms": "funicolare,treno,trenino"
+  },
   "railway/halt": {
     "name": "Fermata ferroviaria",
     "terms": "Fermata ferroviaria,fermata,stazione,stazione non custodita,fermata a richiesta"
@@ -1034,6 +1190,10 @@
   "railway/monorail": {
     "name": "Monorotaia",
     "terms": "Monorotaia"
+  },
+  "railway/narrow_gauge": {
+    "name": "Ferrovia a scartamento ridotto",
+    "terms": "scartamento ridotto"
   },
   "railway/platform": {
     "name": "Piattaforma della stazione ferroviaria",
