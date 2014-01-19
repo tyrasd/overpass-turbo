@@ -785,9 +785,9 @@ var ide = new(function() {
       var lng1 = Math.min(Math.max(res.boundingbox[2],-180),180);
       var lng2 = Math.min(Math.max(res.boundingbox[3],-180),180);
       if (lang=="OverpassQL")
-        return lat1+','+lng1+','+lat2+','+lng2;
+        res = lat1+','+lng1+','+lat2+','+lng2;
       else if (lang=="xml")
-        return 's="'+lat1+'" w="'+lng1+'" n="'+lat2+'" e="'+lng2+'"';
+        res = 's="'+lat1+'" w="'+lng1+'" n="'+lat2+'" e="'+lng2+'"';
       callback(res);
     });
   }
