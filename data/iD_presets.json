@@ -624,7 +624,6 @@
         "icon": "hospital",
         "fields": [
             "building_area",
-            "social_facility",
             "address",
             "opening_hours"
         ]
@@ -2416,7 +2415,7 @@
         ]
     },
     "craft/painter": {
-        "name": "painter",
+        "name": "Painter",
         "geometry": [
             "point",
             "area"
