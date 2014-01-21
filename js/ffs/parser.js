@@ -1375,6 +1375,17 @@ turbo.ffs.parser = (function(){
                   matchFailed("\"~=\"");
                 }
               }
+              if (result2 === null) {
+                if (input.substr(pos, 2) === "=~") {
+                  result2 = "=~";
+                  pos += 2;
+                } else {
+                  result2 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"=~\"");
+                  }
+                }
+              }
             }
             if (result2 !== null) {
               result3 = parse__();
