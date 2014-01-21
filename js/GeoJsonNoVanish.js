@@ -24,17 +24,17 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
     this.eachLayer(function(o) {
       if (!o.feature || !o.feature.geometry)
         return; // skip invalid layers
-      if (o.feature.geometry.type == "Point" && !o.object)
+      if (o.feature.geometry.type == "Point" && !o.obj)
         return; // skip node features
       var crs = this._map.options.crs;
-      if (o.object) { // already compressed feature
-        var bounds = o.object.getBounds();
+      if (o.obj) { // already compressed feature
+        var bounds = o.obj.getBounds();
         var p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
         var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
         var d = Math.sqrt(Math.pow(p1.x-p2.x,2)+Math.pow(p1.y-p2.y,2));
         if (d > this.options.threshold || is_max_zoom) {
-          delete o.object.placeholder;
-          this.addLayer(o.object);
+          delete o.obj.placeholder;
+          this.addLayer(o.obj);
           this.removeLayer(o);
         }
         return;
@@ -64,10 +64,10 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
       o.placeholder = c;
       c.feature = f;
       this.resetStyle(c);
-      c.object = o;
+      c.obj = o;
       //c.addEventListener("click dblclick mousedown mouseover mouseout contextmenu", function(e) {
       c.on("click",function(e) {
-        this.object.fireEvent(e.type,e);
+        this.obj.fireEvent(e.type,e);
       });
       this.addLayer(c);
       this.removeLayer(o);
