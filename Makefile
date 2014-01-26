@@ -3,7 +3,9 @@
 #   * all
 #   * install
 #   * clean
-#   * translations
+#   * translations - updates translations from Transifex
+#   * presets - grabs presets and their translations from the iD-Project
+#   * ffs - compiles the ffs/wizard parser
 # usage:
 #   make && make install install_root=...
 # set install_root for installing into a specific directory
