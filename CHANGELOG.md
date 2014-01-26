@@ -1,3 +1,10 @@
+2014-01-26
+----------
+* **intelligent wizard**: using iD's presets to construct queries from simple description of objects
+* improved query-abort behaviour
+* updated translations
+* bugfixes
+
 2014-01-02
 ----------
 * better zoom-to-location tool
