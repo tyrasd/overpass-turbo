@@ -66,25 +66,25 @@ key_not_eq_val
 key_present
   = x:key_string _ ( "=" / "==" ) _ "*"
     { return { query:"key", key:x } }
-  / x:string whitespace+ "is" whitespace+ "not" whitespace+ "null"
+  / x:string whitespace+ ("is" whitespace+ "not" whitespace+ "null" / "IS" whitespace+ "NOT" whitespace+ "NULL")
     { return { query:"key", key:x } }
 
 key_not_present
   = x:key_string _ ( "!=" / "<>" ) _ "*"
     { return { query:"nokey", key:x } }
-  / x:string whitespace+ "is" whitespace+ "null"
+  / x:string whitespace+ ("is" whitespace+ "null" / "IS" whitespace+ "NULL")
     { return { query:"nokey", key:x } }
 
 key_like_val
-  = x:key_string _ ( "~" / "~=" ) _ y:(string / regexstring )
+  = x:key_string _ ( "~" / "~=" / "=~" ) _ y:(string / regexstring )
     { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
-  / x:string whitespace+ "like" whitespace+ y:(string / regexstring )
+  / x:string whitespace+ ("like" / "LIKE") whitespace+ y:(string / regexstring )
     { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
 
 key_not_like_val
   = x:key_string _ ( "!~" ) _ y:(string / regexstring )
     { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
-  / x:string whitespace+ "not" whitespace+ "like" whitespace+ y:(string / regexstring )
+  / x:string whitespace+ ("not" whitespace+ "like" / "NOT" whitespace+ "LIKE") whitespace+ y:(string / regexstring )
     { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
 
 key_substr_val

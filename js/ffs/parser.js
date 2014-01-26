@@ -886,7 +886,7 @@ turbo.ffs.parser = (function(){
       
       function parse_key_present() {
         var result0, result1, result2, result3, result4, result5, result6;
-        var pos0, pos1;
+        var pos0, pos1, pos2;
         
         pos0 = pos;
         pos1 = pos;
@@ -970,6 +970,7 @@ turbo.ffs.parser = (function(){
               result1 = null;
             }
             if (result1 !== null) {
+              pos2 = pos;
               if (input.substr(pos, 2) === "is") {
                 result2 = "is";
                 pos += 2;
@@ -1022,23 +1023,105 @@ turbo.ffs.parser = (function(){
                         }
                       }
                       if (result6 !== null) {
-                        result0 = [result0, result1, result2, result3, result4, result5, result6];
+                        result2 = [result2, result3, result4, result5, result6];
                       } else {
-                        result0 = null;
-                        pos = pos1;
+                        result2 = null;
+                        pos = pos2;
                       }
                     } else {
-                      result0 = null;
-                      pos = pos1;
+                      result2 = null;
+                      pos = pos2;
                     }
                   } else {
-                    result0 = null;
-                    pos = pos1;
+                    result2 = null;
+                    pos = pos2;
                   }
                 } else {
-                  result0 = null;
-                  pos = pos1;
+                  result2 = null;
+                  pos = pos2;
                 }
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+              if (result2 === null) {
+                pos2 = pos;
+                if (input.substr(pos, 2) === "IS") {
+                  result2 = "IS";
+                  pos += 2;
+                } else {
+                  result2 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"IS\"");
+                  }
+                }
+                if (result2 !== null) {
+                  result4 = parse_whitespace();
+                  if (result4 !== null) {
+                    result3 = [];
+                    while (result4 !== null) {
+                      result3.push(result4);
+                      result4 = parse_whitespace();
+                    }
+                  } else {
+                    result3 = null;
+                  }
+                  if (result3 !== null) {
+                    if (input.substr(pos, 3) === "NOT") {
+                      result4 = "NOT";
+                      pos += 3;
+                    } else {
+                      result4 = null;
+                      if (reportFailures === 0) {
+                        matchFailed("\"NOT\"");
+                      }
+                    }
+                    if (result4 !== null) {
+                      result6 = parse_whitespace();
+                      if (result6 !== null) {
+                        result5 = [];
+                        while (result6 !== null) {
+                          result5.push(result6);
+                          result6 = parse_whitespace();
+                        }
+                      } else {
+                        result5 = null;
+                      }
+                      if (result5 !== null) {
+                        if (input.substr(pos, 4) === "NULL") {
+                          result6 = "NULL";
+                          pos += 4;
+                        } else {
+                          result6 = null;
+                          if (reportFailures === 0) {
+                            matchFailed("\"NULL\"");
+                          }
+                        }
+                        if (result6 !== null) {
+                          result2 = [result2, result3, result4, result5, result6];
+                        } else {
+                          result2 = null;
+                          pos = pos2;
+                        }
+                      } else {
+                        result2 = null;
+                        pos = pos2;
+                      }
+                    } else {
+                      result2 = null;
+                      pos = pos2;
+                    }
+                  } else {
+                    result2 = null;
+                    pos = pos2;
+                  }
+                } else {
+                  result2 = null;
+                  pos = pos2;
+                }
+              }
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
               } else {
                 result0 = null;
                 pos = pos1;
@@ -1063,7 +1146,7 @@ turbo.ffs.parser = (function(){
       
       function parse_key_not_present() {
         var result0, result1, result2, result3, result4;
-        var pos0, pos1;
+        var pos0, pos1, pos2;
         
         pos0 = pos;
         pos1 = pos;
@@ -1147,6 +1230,7 @@ turbo.ffs.parser = (function(){
               result1 = null;
             }
             if (result1 !== null) {
+              pos2 = pos;
               if (input.substr(pos, 2) === "is") {
                 result2 = "is";
                 pos += 2;
@@ -1178,15 +1262,68 @@ turbo.ffs.parser = (function(){
                     }
                   }
                   if (result4 !== null) {
-                    result0 = [result0, result1, result2, result3, result4];
+                    result2 = [result2, result3, result4];
                   } else {
-                    result0 = null;
-                    pos = pos1;
+                    result2 = null;
+                    pos = pos2;
                   }
                 } else {
-                  result0 = null;
-                  pos = pos1;
+                  result2 = null;
+                  pos = pos2;
                 }
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+              if (result2 === null) {
+                pos2 = pos;
+                if (input.substr(pos, 2) === "IS") {
+                  result2 = "IS";
+                  pos += 2;
+                } else {
+                  result2 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"IS\"");
+                  }
+                }
+                if (result2 !== null) {
+                  result4 = parse_whitespace();
+                  if (result4 !== null) {
+                    result3 = [];
+                    while (result4 !== null) {
+                      result3.push(result4);
+                      result4 = parse_whitespace();
+                    }
+                  } else {
+                    result3 = null;
+                  }
+                  if (result3 !== null) {
+                    if (input.substr(pos, 4) === "NULL") {
+                      result4 = "NULL";
+                      pos += 4;
+                    } else {
+                      result4 = null;
+                      if (reportFailures === 0) {
+                        matchFailed("\"NULL\"");
+                      }
+                    }
+                    if (result4 !== null) {
+                      result2 = [result2, result3, result4];
+                    } else {
+                      result2 = null;
+                      pos = pos2;
+                    }
+                  } else {
+                    result2 = null;
+                    pos = pos2;
+                  }
+                } else {
+                  result2 = null;
+                  pos = pos2;
+                }
+              }
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
               } else {
                 result0 = null;
                 pos = pos1;
@@ -1236,6 +1373,17 @@ turbo.ffs.parser = (function(){
                 result2 = null;
                 if (reportFailures === 0) {
                   matchFailed("\"~=\"");
+                }
+              }
+              if (result2 === null) {
+                if (input.substr(pos, 2) === "=~") {
+                  result2 = "=~";
+                  pos += 2;
+                } else {
+                  result2 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"=~\"");
+                  }
                 }
               }
             }
@@ -1299,6 +1447,17 @@ turbo.ffs.parser = (function(){
                   matchFailed("\"like\"");
                 }
               }
+              if (result2 === null) {
+                if (input.substr(pos, 4) === "LIKE") {
+                  result2 = "LIKE";
+                  pos += 4;
+                } else {
+                  result2 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"LIKE\"");
+                  }
+                }
+              }
               if (result2 !== null) {
                 result4 = parse_whitespace();
                 if (result4 !== null) {
@@ -1348,8 +1507,8 @@ turbo.ffs.parser = (function(){
       }
       
       function parse_key_not_like_val() {
-        var result0, result1, result2, result3, result4, result5, result6;
-        var pos0, pos1;
+        var result0, result1, result2, result3, result4;
+        var pos0, pos1, pos2;
         
         pos0 = pos;
         pos1 = pos;
@@ -1417,6 +1576,7 @@ turbo.ffs.parser = (function(){
               result1 = null;
             }
             if (result1 !== null) {
+              pos2 = pos;
               if (input.substr(pos, 3) === "not") {
                 result2 = "not";
                 pos += 3;
@@ -1448,31 +1608,84 @@ turbo.ffs.parser = (function(){
                     }
                   }
                   if (result4 !== null) {
-                    result6 = parse_whitespace();
-                    if (result6 !== null) {
-                      result5 = [];
-                      while (result6 !== null) {
-                        result5.push(result6);
-                        result6 = parse_whitespace();
-                      }
-                    } else {
-                      result5 = null;
+                    result2 = [result2, result3, result4];
+                  } else {
+                    result2 = null;
+                    pos = pos2;
+                  }
+                } else {
+                  result2 = null;
+                  pos = pos2;
+                }
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+              if (result2 === null) {
+                pos2 = pos;
+                if (input.substr(pos, 3) === "NOT") {
+                  result2 = "NOT";
+                  pos += 3;
+                } else {
+                  result2 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"NOT\"");
+                  }
+                }
+                if (result2 !== null) {
+                  result4 = parse_whitespace();
+                  if (result4 !== null) {
+                    result3 = [];
+                    while (result4 !== null) {
+                      result3.push(result4);
+                      result4 = parse_whitespace();
                     }
-                    if (result5 !== null) {
-                      result6 = parse_string();
-                      if (result6 === null) {
-                        result6 = parse_regexstring();
-                      }
-                      if (result6 !== null) {
-                        result0 = [result0, result1, result2, result3, result4, result5, result6];
-                      } else {
-                        result0 = null;
-                        pos = pos1;
-                      }
+                  } else {
+                    result3 = null;
+                  }
+                  if (result3 !== null) {
+                    if (input.substr(pos, 4) === "LIKE") {
+                      result4 = "LIKE";
+                      pos += 4;
                     } else {
-                      result0 = null;
-                      pos = pos1;
+                      result4 = null;
+                      if (reportFailures === 0) {
+                        matchFailed("\"LIKE\"");
+                      }
                     }
+                    if (result4 !== null) {
+                      result2 = [result2, result3, result4];
+                    } else {
+                      result2 = null;
+                      pos = pos2;
+                    }
+                  } else {
+                    result2 = null;
+                    pos = pos2;
+                  }
+                } else {
+                  result2 = null;
+                  pos = pos2;
+                }
+              }
+              if (result2 !== null) {
+                result4 = parse_whitespace();
+                if (result4 !== null) {
+                  result3 = [];
+                  while (result4 !== null) {
+                    result3.push(result4);
+                    result4 = parse_whitespace();
+                  }
+                } else {
+                  result3 = null;
+                }
+                if (result3 !== null) {
+                  result4 = parse_string();
+                  if (result4 === null) {
+                    result4 = parse_regexstring();
+                  }
+                  if (result4 !== null) {
+                    result0 = [result0, result1, result2, result3, result4];
                   } else {
                     result0 = null;
                     pos = pos1;
@@ -1494,7 +1707,7 @@ turbo.ffs.parser = (function(){
             pos = pos1;
           }
           if (result0 !== null) {
-            result0 = (function(offset, x, y) { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } })(pos0, result0[0], result0[6]);
+            result0 = (function(offset, x, y) { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } })(pos0, result0[0], result0[4]);
           }
           if (result0 === null) {
             pos = pos0;

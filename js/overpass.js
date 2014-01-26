@@ -35,11 +35,14 @@ var overpass = new(function() {
         query = '<?xml version="1.0" encoding="UTF-8"?>'+query;
       }
     }
-    fire("onProgress", "calling Overpass API interpreter", function() {
+    fire("onProgress", "calling Overpass API interpreter", function(callback) {
       // kill the query on abort
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
-      $.get(server+"kill_my_queries");
+      $.get(server+"kill_my_queries").success(callback).error(function() {
+        console.log("Warning: failed to kill query.");
+        callback();
+      });
     });
     var request_headers = {};
     var additional_get_data = "";
@@ -353,11 +356,11 @@ setTimeout(function() {
             layer.on('click', function(e) {
               var popup = "";
               if (feature.properties.type == "node")
-                popup += "<h2>Node <a href='http://www.openstreetmap.org/browse/node/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
+                popup += "<h2>Node <a href='http://www.openstreetmap.org/node/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else if (feature.properties.type == "way")
-                popup += "<h2>Way <a href='http://www.openstreetmap.org/browse/way/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
+                popup += "<h2>Way <a href='http://www.openstreetmap.org/way/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else if (feature.properties.type == "relation")
-                popup += "<h2>Relation <a href='http://www.openstreetmap.org/browse/relation/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
+                popup += "<h2>Relation <a href='http://www.openstreetmap.org/relation/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else
                 popup += "<h2>"+feature.properties.type+" #"+feature.properties.id+"</h2>";
               if (feature.properties && feature.properties.tags && !$.isEmptyObject(feature.properties.tags)) {
@@ -387,7 +390,7 @@ setTimeout(function() {
               if (feature.properties && feature.properties.relations && !$.isEmptyObject(feature.properties.relations)) {
                 popup += '<h3>Relations:</h3><ul class="plain">';
                 $.each(feature.properties.relations, function (k,v) {
-                  popup += "<li><a href='http://www.openstreetmap.org/browse/relation/"+v["rel"]+"' target='_blank'>"+v["rel"]+"</a>";
+                  popup += "<li><a href='http://www.openstreetmap.org/relation/"+v["rel"]+"' target='_blank'>"+v["rel"]+"</a>";
                   if (v.reltags && 
                       (v.reltags.name || v.reltags.ref || v.reltags.type))
                     popup += " <i>" + 

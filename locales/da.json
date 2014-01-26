@@ -163,6 +163,7 @@
   "ffs.examples": "Nogle få eksempler:",
   "ffs.parse_error": "Beklager, denne søgnings syntaks er forkert.",
   "ffs.parse_error_expl": "Note, du skal bruge anførelsestegn med søgestrenge der indholder mellemrum eller specielle tegn og at multisøgefiltre skal adskilles med den boolske operatorer (<i>and</i> eller <i>or</i>). Læs  <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">dokumentationen</a> med mere information om dette punkt.",
+  "ffs.typo": "Mente du:",
   "dialog.dismiss": "afbryd",
   "dialog.cancel": "fortryd",
   "dialog.save": "gem",

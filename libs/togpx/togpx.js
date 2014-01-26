@@ -1,15 +1,20 @@
-if (typeof require !== "undefined") {
-  JXON = require("./jxon.js");
-}
+!function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.togpx=e():"undefined"!=typeof global?global.togpx=e():"undefined"!=typeof self&&(self.togpx=e())}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+//var JXON = require("jxon");
 
 function togpx( geojson, options ) {
-  options = {
-    creator: (options && options.hasOwnProperty("creator")) ? options.creator : "togpx",
-    metadata: (options && options.hasOwnProperty("metadata")) ? options.metadata : undefined,
-    featureTitle: (options && options.hasOwnProperty("featureTitle")) ? options.featureTitle : get_feature_title,
-    featureDescription: (options && options.hasOwnProperty("featureDescription")) ? options.featureDescription : get_feature_description,
-    featureLink: (options && options.hasOwnProperty("featureLink")) ? options.featureLink : undefined
-  };
+  options = (function (defaults, options) {
+    for (var k in defaults) {
+      if (options.hasOwnProperty(k))
+        defaults[k] = options[k];
+    }
+    return defaults;
+  })({
+    creator: "togpx",
+    metadata: undefined,
+    featureTitle: get_feature_title,
+    featureDescription: get_feature_description,
+    featureLink: undefined
+  }, options || {});
 
   function get_feature_title(props) {
     // a simple default heuristic to determine a title for a given feature
@@ -32,13 +37,15 @@ function togpx( geojson, options ) {
   function get_feature_description(props) {
     // constructs a description for a given feature
     // uses a nested `tags` object or the feature's `properties` if present
-    // and then searchs for the following properties to construct a title:
-    // name, ref, id
+    // and then concatenates all properties to construct a description.
     if (typeof props.tags === "object")
       return get_feature_description(props.tags);
     var res = "";
-    for (var k in props)
+    for (var k in props) {
+      if (typeof props[k] === "object")
+        continue;
       res += k+"="+props[k]+"\n";
+    }
     return res.substr(0,res.length-1);
   }
   function add_feature_link(o, f) {
@@ -115,4 +122,9 @@ function togpx( geojson, options ) {
   return gpx_str;
 };
 
-if (typeof module !== 'undefined') module.exports = togpx;
+module.exports = togpx;
+
+},{}]},{},[1])
+(1)
+});
+;

@@ -1,0 +1,1458 @@
+{
+  "address": {
+    "name": "Адрес",
+    "terms": "адрес"
+  },
+  "aerialway": {
+    "name": "Подъёмник"
+  },
+  "aerialway/cable_car": {
+    "name": "Большая кабина (взад-вперёд)"
+  },
+  "aerialway/chair_lift": {
+    "name": "Ряд кресел"
+  },
+  "aerialway/gondola": {
+    "name": "Гондола-кабина (по кругу)",
+    "terms": "гондола, лодка"
+  },
+  "aerialway/magic_carpet": {
+    "name": "Ковёр-лифт"
+  },
+  "aerialway/pylon": {
+    "name": "Опора канатной дороги"
+  },
+  "aerialway/station": {
+    "name": "Терминал канатной дороги"
+  },
+  "aeroway": {
+    "name": "Взлётная полоса",
+    "terms": "Взлётная полоса"
+  },
+  "aeroway/aerodrome": {
+    "name": "Аэропорт",
+    "terms": "Аэропорт"
+  },
+  "aeroway/apron": {
+    "name": "Перрон",
+    "terms": "Перрон"
+  },
+  "aeroway/gate": {
+    "name": "Выход на посадку",
+    "terms": "Выход на посадку"
+  },
+  "aeroway/hangar": {
+    "name": "Ангар",
+    "terms": "Ангар"
+  },
+  "aeroway/helipad": {
+    "name": "Вертолётная площадка",
+    "terms": "Вертолётная площадка"
+  },
+  "aeroway/runway": {
+    "name": "Взлетная полоса",
+    "terms": "ВПП, Взлётно-посадочная полоса"
+  },
+  "aeroway/taxiway": {
+    "name": "Рулёжная дорожка",
+    "terms": "РД, Рулёжная дорожка"
+  },
+  "aeroway/terminal": {
+    "name": "Терминал аэропорта",
+    "terms": "Терминал аэропорта"
+  },
+  "amenity": {
+    "name": "Инфраструктура",
+    "terms": "Инфраструктура"
+  },
+  "amenity/arts_centre": {
+    "name": "Центр Искусств",
+    "terms": "Художественный центр, Арт-центр, Центр искусств"
+  },
+  "amenity/atm": {
+    "name": "Банкомат",
+    "terms": "банкомат, банковский автомат, АТМ, ATM"
+  },
+  "amenity/bank": {
+    "name": "Банк",
+    "terms": "Банк"
+  },
+  "amenity/bar": {
+    "name": "Бар",
+    "terms": "Бар"
+  },
+  "amenity/bench": {
+    "name": "Скамейка",
+    "terms": "Скамейка"
+  },
+  "amenity/bicycle_parking": {
+    "name": "Велопарковка",
+    "terms": "велопарковка, велопаркинг, парковка для велосипедов, паркинг для велосипедов"
+  },
+  "amenity/bicycle_rental": {
+    "name": "Велопрокат",
+    "terms": "велопрокат, прокат велосипедов, аренда велосипедов"
+  },
+  "amenity/boat_rental": {
+    "name": "Аренда Лодок",
+    "terms": "Прокат Лодок"
+  },
+  "amenity/cafe": {
+    "name": "Кафе",
+    "terms": "Кафе"
+  },
+  "amenity/car_rental": {
+    "name": "Аренда автомобилей",
+    "terms": "Аренда автомобилей, автопрокат"
+  },
+  "amenity/car_sharing": {
+    "name": "Каршеринг",
+    "terms": "Краткосрочная аренда автомобиля"
+  },
+  "amenity/car_wash": {
+    "name": "Автомойка",
+    "terms": "автомойка, мойка машин, мойка автомобилей"
+  },
+  "amenity/childcare": {
+    "name": "Уход за детьми",
+    "terms": "Уход за детьми"
+  },
+  "amenity/cinema": {
+    "name": "Кинотеатр",
+    "terms": "кинотеатр, кино, кинозал, киноплекс, моноэкран, миниплекс, мультиплекс, мегаплекс"
+  },
+  "amenity/clinic": {
+    "name": "Поликлиника",
+    "terms": "клиника, поликлиника, больница"
+  },
+  "amenity/clock": {
+    "name": "Часы"
+  },
+  "amenity/college": {
+    "name": "Колледж",
+    "terms": "ПТУ, колледж, техникум"
+  },
+  "amenity/courthouse": {
+    "name": "Суд",
+    "terms": "Суд"
+  },
+  "amenity/dentist": {
+    "name": "Дантист",
+    "terms": "стоматолог, дантист, зубной врач"
+  },
+  "amenity/doctor": {
+    "name": "Врач",
+    "terms": "врач, доктор"
+  },
+  "amenity/drinking_water": {
+    "name": "Питьевая вода",
+    "terms": "Питьевая вода"
+  },
+  "amenity/embassy": {
+    "name": "Посольство",
+    "terms": "посольство"
+  },
+  "amenity/fast_food": {
+    "name": "Фаст-фуд",
+    "terms": "фастфуд, фаст-фуд, быстрое питание, ресторан быстрого питания"
+  },
+  "amenity/fire_station": {
+    "name": "Пожарная часть",
+    "terms": "Пожарное депо, Пожарная станция, Пожарная часть"
+  },
+  "amenity/fountain": {
+    "name": "Фонтан",
+    "terms": "Фонтан"
+  },
+  "amenity/fuel": {
+    "name": "АЗС",
+    "terms": "АЗС, заправка, автозаправка"
+  },
+  "amenity/grave_yard": {
+    "name": "Кладбище",
+    "terms": "кладбище"
+  },
+  "amenity/hospital": {
+    "name": "Больница",
+    "terms": "Больница, Госпиталь, Стационар"
+  },
+  "amenity/kindergarten": {
+    "name": "Детский сад",
+    "terms": "детский сад, детский садик, садик"
+  },
+  "amenity/library": {
+    "name": "Библиотека",
+    "terms": "библиотека"
+  },
+  "amenity/marketplace": {
+    "name": "Рынок",
+    "terms": "Рынок"
+  },
+  "amenity/parking": {
+    "name": "Автомобильная стоянка"
+  },
+  "amenity/pharmacy": {
+    "name": "Аптека",
+    "terms": "Аптека"
+  },
+  "amenity/place_of_worship": {
+    "name": "Храм",
+    "terms": "церковь, храм, мечеть, синагога"
+  },
+  "amenity/place_of_worship/buddhist": {
+    "name": "Буддийский храм",
+    "terms": "буддийский храм"
+  },
+  "amenity/place_of_worship/christian": {
+    "name": "Церковь",
+    "terms": "церковь, храм"
+  },
+  "amenity/place_of_worship/jewish": {
+    "name": "Синагога",
+    "terms": "синагога"
+  },
+  "amenity/place_of_worship/muslim": {
+    "name": "Мечеть",
+    "terms": "мечеть"
+  },
+  "amenity/police": {
+    "name": "Полиция",
+    "terms": "полиция, милиция"
+  },
+  "amenity/post_box": {
+    "name": "Почтовый ящик",
+    "terms": "Почтовый ящик"
+  },
+  "amenity/post_office": {
+    "name": "Почта",
+    "terms": "почта, почтовое отделение"
+  },
+  "amenity/pub": {
+    "name": "Паб",
+    "terms": "Паб"
+  },
+  "amenity/recycling": {
+    "name": "Переработка мусора"
+  },
+  "amenity/restaurant": {
+    "name": "Ресторан",
+    "terms": "Ресторан, Столовая"
+  },
+  "amenity/school": {
+    "name": "Школа",
+    "terms": "Школа, лицей, гимназия"
+  },
+  "amenity/shelter": {
+    "name": "Укрытие"
+  },
+  "amenity/studio": {
+    "name": "Студия"
+  },
+  "amenity/swimming_pool": {
+    "name": "Бассейн",
+    "terms": "плавательный бассейн, плавательный бассеин"
+  },
+  "amenity/taxi": {
+    "name": "Стоянка такси",
+    "terms": "Стоянка такси"
+  },
+  "amenity/telephone": {
+    "name": "Телефон",
+    "terms": "Телефон"
+  },
+  "amenity/theatre": {
+    "name": "Театр",
+    "terms": "Театр"
+  },
+  "amenity/toilets": {
+    "name": "Туалет",
+    "terms": "туалет"
+  },
+  "amenity/townhall": {
+    "name": "Муниципалитет",
+    "terms": "Муниципалитет"
+  },
+  "amenity/university": {
+    "name": "Университет",
+    "terms": "университет, институт, вуз"
+  },
+  "amenity/vending_machine": {
+    "name": "Торговый Автомат",
+    "terms": "Торговый автомат, автомат, торгомат"
+  },
+  "amenity/waste_basket": {
+    "name": "Мусорная корзина",
+    "terms": "мусорная корзина, урна"
+  },
+  "area": {
+    "name": "Область",
+    "terms": "Область"
+  },
+  "barrier": {
+    "name": "Преграда"
+  },
+  "barrier/block": {
+    "name": "Бетонный блок"
+  },
+  "barrier/bollard": {
+    "name": "Столбики"
+  },
+  "barrier/cattle_grid": {
+    "name": "Сетка для животных"
+  },
+  "barrier/city_wall": {
+    "name": "Городская стена",
+    "terms": "Городская стена"
+  },
+  "barrier/cycle_barrier": {
+    "name": "Барьер для велосипедистов"
+  },
+  "barrier/ditch": {
+    "name": "Траншея",
+    "terms": "канава, ров"
+  },
+  "barrier/entrance": {
+    "name": "Проход"
+  },
+  "barrier/fence": {
+    "name": "Забор",
+    "terms": "Забор, Ограда, Изгородь"
+  },
+  "barrier/gate": {
+    "name": "Ворота",
+    "terms": "ворота"
+  },
+  "barrier/hedge": {
+    "name": "Живая изгородь",
+    "terms": "Живая изгородь, Зелёное ограждение"
+  },
+  "barrier/kissing_gate": {
+    "name": "Преграда для животных"
+  },
+  "barrier/lift_gate": {
+    "name": "Шлагбаум",
+    "terms": "шлагбаум"
+  },
+  "barrier/retaining_wall": {
+    "name": "Укрепляющая стена"
+  },
+  "barrier/stile": {
+    "name": "Турникет"
+  },
+  "barrier/toll_booth": {
+    "name": "Пункт оплаты проезда"
+  },
+  "barrier/wall": {
+    "name": "Стена",
+    "terms": "Стена, Стенка"
+  },
+  "boundary/administrative": {
+    "name": "Административная граница",
+    "terms": "Административная граница"
+  },
+  "building": {
+    "name": "Здание",
+    "terms": "здание, сооружение"
+  },
+  "building/apartments": {
+    "name": "Многоквартирный дом",
+    "terms": "многоэтажка, высотка"
+  },
+  "building/commercial": {
+    "name": "Деловое здание",
+    "terms": "Деловое здание, Коммерческое здание, Деловая недвижимость"
+  },
+  "building/entrance": {
+    "name": "Вход",
+    "terms": "вход, дверь, главный вход"
+  },
+  "building/garage": {
+    "name": "Гараж",
+    "terms": "гараж, ракушка"
+  },
+  "building/house": {
+    "name": "Дом",
+    "terms": "дом, частный дом, изба, хата"
+  },
+  "building/hut": {
+    "name": "Хижина",
+    "terms": "шалаш, землянка, сарай, барак, халупа"
+  },
+  "building/industrial": {
+    "name": "Промышленное здание",
+    "terms": "Промышленное здание, Производственное здание, Индустриальное здание, Цех"
+  },
+  "building/residential": {
+    "name": "Жилой Дом",
+    "terms": "Жилой дом, Жилое здание"
+  },
+  "craft/basket_maker": {
+    "name": "Корзина"
+  },
+  "craft/beekeeper": {
+    "name": "Пчеловод",
+    "terms": "пчеловод, пасечник"
+  },
+  "craft/blacksmith": {
+    "name": "Кузнец"
+  },
+  "craft/boatbuilder": {
+    "name": "Строительство лодок"
+  },
+  "craft/bookbinder": {
+    "name": "Книгосборка"
+  },
+  "craft/carpenter": {
+    "name": "Плотник",
+    "terms": "плотник, столяр"
+  },
+  "craft/carpet_layer": {
+    "name": "Ковровое покрытие"
+  },
+  "craft/clockmaker": {
+    "name": "Часовщик"
+  },
+  "craft/confectionary": {
+    "name": "Кондитерские изделия"
+  },
+  "craft/dressmaker": {
+    "name": "Портной"
+  },
+  "craft/electrician": {
+    "name": "Электрик"
+  },
+  "craft/gardener": {
+    "name": "Садовник"
+  },
+  "craft/handicraft": {
+    "name": "Рукодельник"
+  },
+  "craft/hvac": {
+    "name": "Установка кондиционеров"
+  },
+  "craft/jeweler": {
+    "name": "Ювелир"
+  },
+  "craft/locksmith": {
+    "name": "Изготовление ключей"
+  },
+  "craft/metal_construction": {
+    "name": "Мателоконструкции"
+  },
+  "craft/optician": {
+    "name": "Оптика"
+  },
+  "craft/painter": {
+    "name": "Маляр"
+  },
+  "craft/photographer": {
+    "name": "фотограф",
+    "terms": "фотограф, фото оператор"
+  },
+  "craft/photographic_labratory": {
+    "name": "Фото лаборатория"
+  },
+  "craft/plasterer": {
+    "name": "Скульптор"
+  },
+  "craft/plumber": {
+    "name": "Водопроводчик"
+  },
+  "craft/pottery": {
+    "name": "Портной"
+  },
+  "craft/rigger": {
+    "name": "Мачтовая мастерская"
+  },
+  "craft/roofer": {
+    "name": "Кровельщик"
+  },
+  "craft/saddler": {
+    "name": "Конюх"
+  },
+  "craft/sailmaker": {
+    "name": "Парусный мастер"
+  },
+  "craft/sawmill": {
+    "name": "Лесопилка",
+    "terms": "лесозавод, лесопильня, пилорама, лесопильный завод"
+  },
+  "craft/scaffolder": {
+    "name": "Строительные леса"
+  },
+  "craft/sculpter": {
+    "name": "Скульптор"
+  },
+  "craft/shoemaker": {
+    "name": "Сапожник"
+  },
+  "craft/stonemason": {
+    "name": "Каменщик"
+  },
+  "craft/tailor": {
+    "name": "Портной"
+  },
+  "craft/tiler": {
+    "name": "Плиточник"
+  },
+  "craft/tinsmith": {
+    "name": "Жестянщик"
+  },
+  "craft/upholsterer": {
+    "name": "Мебельщик"
+  },
+  "craft/watchmaker": {
+    "name": "Часовщик"
+  },
+  "craft/window_construction": {
+    "name": "Оконщик"
+  },
+  "embankment": {
+    "name": "Насыпь",
+    "terms": "насыпь"
+  },
+  "emergency/ambulance_station": {
+    "name": "Станция Скорой Помощи",
+    "terms": "Пункт Скорой Помощи, Амбулатория, Пункт Первой Помощи"
+  },
+  "emergency/fire_hydrant": {
+    "name": "Пожарный Кран",
+    "terms": "Пожарный Гидрант, Пожарная Колонка"
+  },
+  "emergency/phone": {
+    "name": "Экстренный телефон",
+    "terms": "аварийный телефон, телефон спасения, 112, 911, 01, 02, 03, 04"
+  },
+  "entrance": {
+    "name": "Вход"
+  },
+  "footway/crossing": {
+    "name": "Пешеходный переход"
+  },
+  "footway/sidewalk": {
+    "name": "Тротуар с дорогой"
+  },
+  "golf/bunker": {
+    "name": "Бункер",
+    "terms": "Песчаная ловушка, Песчаный Бункер, Бункер с песком"
+  },
+  "golf/fairway": {
+    "name": "Фервей",
+    "terms": "Гладкое поле"
+  },
+  "golf/green": {
+    "name": "Грин",
+    "terms": "Короткая трава, Паттинг-грин"
+  },
+  "golf/hole": {
+    "name": "Лунка",
+    "terms": "Лунка для гольфа"
+  },
+  "golf/lateral_water_hazard": {
+    "name": "Боковая водная преграда"
+  },
+  "golf/rough": {
+    "name": "Раф",
+    "terms": "Неровная площадка, Высокая трава"
+  },
+  "golf/water_hazard": {
+    "name": "Водная преграда"
+  },
+  "highway": {
+    "name": "Дорога"
+  },
+  "highway/bridleway": {
+    "name": "Конная тропа"
+  },
+  "highway/bus_stop": {
+    "name": "Автобусная остановка",
+    "terms": "остановка, остановка общественного транспорта, автобусная остановка"
+  },
+  "highway/crossing": {
+    "name": "Пешеходный переход"
+  },
+  "highway/cycleway": {
+    "name": "Велодорожка"
+  },
+  "highway/footway": {
+    "name": "Пешеходная дорожка"
+  },
+  "highway/living_street": {
+    "name": "Жилая улица"
+  },
+  "highway/mini_roundabout": {
+    "name": "Миникруг"
+  },
+  "highway/motorway": {
+    "name": "Автомагистраль"
+  },
+  "highway/motorway_junction": {
+    "name": "Автомагистраль"
+  },
+  "highway/motorway_link": {
+    "name": "Съезд с автомагистрали"
+  },
+  "highway/path": {
+    "name": "Тропа"
+  },
+  "highway/pedestrian": {
+    "name": "Пешеходная дорога"
+  },
+  "highway/primary": {
+    "name": "Дорога регионального значения",
+    "terms": "первичная, региональная"
+  },
+  "highway/primary_link": {
+    "name": "Съезд с дороги регионального значения"
+  },
+  "highway/residential": {
+    "name": "Улица"
+  },
+  "highway/road": {
+    "name": "Дорога неизвестного класса"
+  },
+  "highway/secondary": {
+    "name": "Важная дорога"
+  },
+  "highway/secondary_link": {
+    "name": "Съезд с важной дороги"
+  },
+  "highway/service": {
+    "name": "Проезд"
+  },
+  "highway/service/alley": {
+    "name": "Аллея"
+  },
+  "highway/service/drive-through": {
+    "name": "Сервис не выходя из машины"
+  },
+  "highway/service/driveway": {
+    "name": "Дорога"
+  },
+  "highway/service/emergency_access": {
+    "name": "Неотложная помощь"
+  },
+  "highway/service/parking_aisle": {
+    "name": "Парковочный проезд",
+    "terms": "парковочный проезд"
+  },
+  "highway/steps": {
+    "name": "Лестница",
+    "terms": "лестница, ступени, ступеньки"
+  },
+  "highway/stop": {
+    "name": "Знак Стоп",
+    "terms": "Движение без остановки запрещено, знак стоп"
+  },
+  "highway/tertiary": {
+    "name": "Местная дорога"
+  },
+  "highway/tertiary_link": {
+    "name": "Съезд"
+  },
+  "highway/track": {
+    "name": "Полевая / лесная дорога"
+  },
+  "highway/traffic_signals": {
+    "name": "Светофор",
+    "terms": "светофор"
+  },
+  "highway/trunk": {
+    "name": "Дорога федерального значения"
+  },
+  "highway/trunk_link": {
+    "name": "Съезд с дороги федерального значения",
+    "terms": "Заезд на магистраль, Съезд с магистрали"
+  },
+  "highway/turning_circle": {
+    "name": "Разворот"
+  },
+  "highway/unclassified": {
+    "name": "Обычная дорога"
+  },
+  "historic": {
+    "name": "Историческое место"
+  },
+  "historic/archaeological_site": {
+    "name": "Археологические раскопки"
+  },
+  "historic/boundary_stone": {
+    "name": "Пограничный камень"
+  },
+  "historic/castle": {
+    "name": "Замок"
+  },
+  "historic/memorial": {
+    "name": "Памятник, мемориал",
+    "terms": "памятник, мемориал"
+  },
+  "historic/monument": {
+    "name": "Памятник",
+    "terms": "монумент"
+  },
+  "historic/ruins": {
+    "name": "Развалины"
+  },
+  "historic/wayside_cross": {
+    "name": "Придорожный крест"
+  },
+  "historic/wayside_shrine": {
+    "name": "Придорожная часовня"
+  },
+  "landuse": {
+    "name": "Землепользование"
+  },
+  "landuse/allotments": {
+    "name": "Садовые участки"
+  },
+  "landuse/basin": {
+    "name": "Хранилище сточных вод"
+  },
+  "landuse/cemetery": {
+    "name": "Кладбище",
+    "terms": "кладбище"
+  },
+  "landuse/commercial": {
+    "name": "Коммерческая застройка"
+  },
+  "landuse/construction": {
+    "name": "Стройплощадка"
+  },
+  "landuse/farm": {
+    "name": "Земельные угодья"
+  },
+  "landuse/farmland": {
+    "name": "Сельскохозяйственные угодья"
+  },
+  "landuse/farmyard": {
+    "name": "Ферма"
+  },
+  "landuse/forest": {
+    "name": "Лес"
+  },
+  "landuse/grass": {
+    "name": "Трава"
+  },
+  "landuse/industrial": {
+    "name": "Промышленная застройка"
+  },
+  "landuse/meadow": {
+    "name": "Луг",
+    "terms": "луг"
+  },
+  "landuse/orchard": {
+    "name": "Кустарник",
+    "terms": "фруктовый сад, сад"
+  },
+  "landuse/quarry": {
+    "name": "Карьер",
+    "terms": "карьер, каменоломня, открытая разработка"
+  },
+  "landuse/residential": {
+    "name": "Жилой квартал"
+  },
+  "landuse/retail": {
+    "name": "Торговля"
+  },
+  "landuse/vineyard": {
+    "name": "Виноградник",
+    "terms": "виноградник"
+  },
+  "leisure": {
+    "name": "Отдых"
+  },
+  "leisure/dog_park": {
+    "name": "Площадка для Выгула Собак"
+  },
+  "leisure/garden": {
+    "name": "Сад",
+    "terms": "Парк, Сквер"
+  },
+  "leisure/golf_course": {
+    "name": "Площадка для гольфа"
+  },
+  "leisure/marina": {
+    "name": "Яхтклуб"
+  },
+  "leisure/park": {
+    "name": "Парк",
+    "terms": "парк"
+  },
+  "leisure/pitch": {
+    "name": "Спортплощадка"
+  },
+  "leisure/pitch/american_football": {
+    "name": "Регбийное поле",
+    "terms": "поле для американского футбола"
+  },
+  "leisure/pitch/baseball": {
+    "name": "Бейсбольная площадка"
+  },
+  "leisure/pitch/basketball": {
+    "name": "Баскетбольная площадка"
+  },
+  "leisure/pitch/skateboard": {
+    "name": "Скейт-парк",
+    "terms": "Скейтпарк"
+  },
+  "leisure/pitch/soccer": {
+    "name": "Футбольное поле",
+    "terms": "футбольное поле"
+  },
+  "leisure/pitch/tennis": {
+    "name": "Теннисный корт",
+    "terms": "теннисный корт"
+  },
+  "leisure/pitch/volleyball": {
+    "name": "Волейбольная площадка"
+  },
+  "leisure/playground": {
+    "name": "Детская площадка",
+    "terms": "детская площадка, игровая площадка"
+  },
+  "leisure/slipway": {
+    "name": "Стапель"
+  },
+  "leisure/sports_center": {
+    "name": "Спортивный Комплекс",
+    "terms": "Спортивный центр"
+  },
+  "leisure/stadium": {
+    "name": "Стадион",
+    "terms": "Стадион, спортивная арена"
+  },
+  "leisure/swimming_pool": {
+    "name": "Бассейн"
+  },
+  "leisure/track": {
+    "name": "Гоночная Трасса",
+    "terms": "Трасса для Гонок, Трек, Трасса, Автодром"
+  },
+  "line": {
+    "name": "Линия"
+  },
+  "man_made": {
+    "name": "Сооружения"
+  },
+  "man_made/breakwater": {
+    "name": "Волнорез"
+  },
+  "man_made/cutline": {
+    "name": "Просека",
+    "terms": "просека"
+  },
+  "man_made/embankment": {
+    "name": "Насыпь",
+    "terms": "насыпь"
+  },
+  "man_made/flagpole": {
+    "name": "Флагшток"
+  },
+  "man_made/lighthouse": {
+    "name": "Маяк",
+    "terms": "маяк"
+  },
+  "man_made/observation": {
+    "name": "Смотровая башня",
+    "terms": "Смотровая башня, Обзорная башня"
+  },
+  "man_made/pier": {
+    "name": "Пирс",
+    "terms": "пирс, причал"
+  },
+  "man_made/pipeline": {
+    "name": "Трубопровод",
+    "terms": "трубопровод"
+  },
+  "man_made/survey_point": {
+    "name": "Тригонометрический пункт"
+  },
+  "man_made/tower": {
+    "name": "Башня"
+  },
+  "man_made/wastewater_plant": {
+    "name": "Станция водоочистки",
+    "terms": "станция водоочистки, станция очистки воды, очистные сооружения, водоочистные сооружения"
+  },
+  "man_made/water_tower": {
+    "name": "Водонапорная башня",
+    "terms": "водонапорная башня, водонапорная вышка"
+  },
+  "man_made/water_well": {
+    "name": "Колодец",
+    "terms": "колодец"
+  },
+  "man_made/water_works": {
+    "name": "Станция водоподготовки"
+  },
+  "military/airfield": {
+    "name": "Аэродром"
+  },
+  "military/barracks": {
+    "name": "Бараки"
+  },
+  "military/bunker": {
+    "name": "Бункер"
+  },
+  "military/range": {
+    "name": "Военный полигон"
+  },
+  "natural": {
+    "name": "Природа"
+  },
+  "natural/bay": {
+    "name": "Бухта",
+    "terms": "бухта, залив"
+  },
+  "natural/beach": {
+    "name": "Пляж",
+    "terms": "пляж"
+  },
+  "natural/cliff": {
+    "name": "Скала"
+  },
+  "natural/coastline": {
+    "name": "Береговая линия",
+    "terms": "береговая линия, побережье"
+  },
+  "natural/glacier": {
+    "name": "Ледник"
+  },
+  "natural/grassland": {
+    "name": "Травяной луг"
+  },
+  "natural/heath": {
+    "name": "Поросший луг"
+  },
+  "natural/peak": {
+    "name": "Вершина",
+    "terms": "пик, гора"
+  },
+  "natural/scree": {
+    "name": "Осыпь"
+  },
+  "natural/scrub": {
+    "name": "Кустарник"
+  },
+  "natural/spring": {
+    "name": "Родник"
+  },
+  "natural/tree": {
+    "name": "Дерево",
+    "terms": "дерево"
+  },
+  "natural/water": {
+    "name": "Водоём"
+  },
+  "natural/water/lake": {
+    "name": "Озеро",
+    "terms": "озеро"
+  },
+  "natural/water/pond": {
+    "name": "Пруд",
+    "terms": "пруд"
+  },
+  "natural/water/reservoir": {
+    "name": "Водохранилище"
+  },
+  "natural/wetland": {
+    "name": "Болото",
+    "terms": "болото, заболоченная территория"
+  },
+  "natural/wood": {
+    "name": "Лес"
+  },
+  "office": {
+    "name": "Офисы"
+  },
+  "office/accountant": {
+    "name": "Бухгалтерская контора",
+    "terms": "Бухгалтерская фирма, Бухгалтерский учёт, Аудит"
+  },
+  "office/administrative": {
+    "name": "Административное учреждение"
+  },
+  "office/architect": {
+    "name": "Архитектурная мастерская",
+    "terms": "Архитектурная студия, Дизайнерское бюро, Архитектор"
+  },
+  "office/company": {
+    "name": "Частная фирма",
+    "terms": "Частная компания, Фирма, Организация"
+  },
+  "office/educational_institution": {
+    "name": "Учебное заведение"
+  },
+  "office/employment_agency": {
+    "name": "Кадровое агентство",
+    "terms": "Центр занятости, Биржа труда, Агентство по трудоустройству"
+  },
+  "office/estate_agent": {
+    "name": "Агентство недвижимости",
+    "terms": "Бюро по недвижимости, Риелтор, Риелторская фирма, Риелторская компания,"
+  },
+  "office/financial": {
+    "name": "Финансовая организация"
+  },
+  "office/government": {
+    "name": "Правительственное учреждение"
+  },
+  "office/insurance": {
+    "name": "Страховая компания",
+    "terms": "Страховой агент, Страхование, Автострахование, Полис, ОМС, КАСКО, ОСАГО, Страховка,"
+  },
+  "office/lawyer": {
+    "name": "Юридические услуги",
+    "terms": "Адвокат, Нотариус, Адвокатская контора, Нотариальная контора, Юридическая консультация"
+  },
+  "office/newspaper": {
+    "name": "Редакция газеты",
+    "terms": "Редакция журнала, Газета, Журнал, Периодическое издание, Редакция периодического издания"
+  },
+  "office/ngo": {
+    "name": "Общественная организация",
+    "terms": "Общественное движение, НКО, Неправительственная организация, Некоммерческая организация, Общественный фонд, Общественное учреждение,"
+  },
+  "office/physician": {
+    "name": "Фельдшер"
+  },
+  "office/political_party": {
+    "name": "Политическая партия",
+    "terms": "политическая партия"
+  },
+  "office/research": {
+    "name": "НИИ",
+    "terms": "Научно-исследовательская организация, Научно-исследовательский институт, Центр передовых исследований и разработки"
+  },
+  "office/telecommunication": {
+    "name": "Телеком"
+  },
+  "office/therapist": {
+    "name": "Терапевт"
+  },
+  "office/travel_agent": {
+    "name": "Турагентство",
+    "terms": "Туристическое агентство, Бюро путешествий, Турфирма, Туристическая фирма"
+  },
+  "place": {
+    "name": "Населённый пункт"
+  },
+  "place/city": {
+    "name": "Большой город"
+  },
+  "place/hamlet": {
+    "name": "Малое село"
+  },
+  "place/island": {
+    "name": "Остров",
+    "terms": "остров"
+  },
+  "place/isolated_dwelling": {
+    "name": "Изолированное жильё"
+  },
+  "place/locality": {
+    "name": "Местность"
+  },
+  "place/town": {
+    "name": "Город"
+  },
+  "place/village": {
+    "name": "Деревня"
+  },
+  "point": {
+    "name": "Точка"
+  },
+  "power": {
+    "name": "Электричество"
+  },
+  "power/generator": {
+    "name": "Силовой Генератор",
+    "terms": "Генератор Энергии"
+  },
+  "power/line": {
+    "name": "ЛЭП",
+    "terms": "линия электропередачи, ЛЭП"
+  },
+  "power/minor_line": {
+    "name": "Низковольтная ЛЭП"
+  },
+  "power/pole": {
+    "name": "Столб ЛЭП"
+  },
+  "power/sub_station": {
+    "name": "Трансформаторная подстанция",
+    "terms": "подстанция"
+  },
+  "power/tower": {
+    "name": "Опора ЛЭП"
+  },
+  "power/transformer": {
+    "name": "Трансформатор",
+    "terms": "трансформатор"
+  },
+  "public_transport/platform": {
+    "name": "Платформа"
+  },
+  "public_transport/stop_position": {
+    "name": "Место остановки транспорта",
+    "terms": "остановка"
+  },
+  "railway": {
+    "name": "Железная дорога"
+  },
+  "railway/abandoned": {
+    "name": "Разобранная железная дорога"
+  },
+  "railway/disused": {
+    "name": "Заброшенная железная дорога"
+  },
+  "railway/funicular": {
+    "name": "Фуникулёр"
+  },
+  "railway/halt": {
+    "name": "Железнодорожный остановочный пункт",
+    "terms": "Железнодорожная станция, ЖД станция"
+  },
+  "railway/level_crossing": {
+    "name": "Переезд"
+  },
+  "railway/monorail": {
+    "name": "Монорельс",
+    "terms": "монорельсовая железная дорога, монорельс"
+  },
+  "railway/platform": {
+    "name": "Железнодорожная платформа",
+    "terms": "железнодорожная платформа, ж/д платформа"
+  },
+  "railway/rail": {
+    "name": "Рельсовый путь"
+  },
+  "railway/station": {
+    "name": "Железнодорожная станция",
+    "terms": "железнодорожная станция, ж/д станция"
+  },
+  "railway/subway": {
+    "name": "Метро",
+    "terms": "Метро, Подземка, "
+  },
+  "railway/subway_entrance": {
+    "name": "Вход в метро"
+  },
+  "railway/tram": {
+    "name": "Трамвайные пути"
+  },
+  "relation": {
+    "name": "Отношение"
+  },
+  "route/ferry": {
+    "name": "Паромный маршрут"
+  },
+  "shop": {
+    "name": "Магазин"
+  },
+  "shop/alcohol": {
+    "name": "Винный магазин"
+  },
+  "shop/bakery": {
+    "name": "Хлебный"
+  },
+  "shop/beauty": {
+    "name": "Салон красоты"
+  },
+  "shop/beverages": {
+    "name": "Магазин напитков"
+  },
+  "shop/bicycle": {
+    "name": "Веломагазин"
+  },
+  "shop/books": {
+    "name": "Книжный",
+    "terms": "книги, книжный"
+  },
+  "shop/boutique": {
+    "name": "Бутик"
+  },
+  "shop/butcher": {
+    "name": "Мясной",
+    "terms": "мясной, мясная лавка, мясник"
+  },
+  "shop/car": {
+    "name": "Автодилер"
+  },
+  "shop/car_parts": {
+    "name": "Автозапчасти"
+  },
+  "shop/car_repair": {
+    "name": "Автомастерская"
+  },
+  "shop/chemist": {
+    "name": "Бытовая химия"
+  },
+  "shop/clothes": {
+    "name": "Одежда"
+  },
+  "shop/computer": {
+    "name": "Компьютерный магазин"
+  },
+  "shop/confectionery": {
+    "name": "Кондитерская"
+  },
+  "shop/convenience": {
+    "name": "Продуктовый"
+  },
+  "shop/deli": {
+    "name": "Кулинария"
+  },
+  "shop/department_store": {
+    "name": "Универсам"
+  },
+  "shop/doityourself": {
+    "name": "Магазин \"Сделай сам\""
+  },
+  "shop/dry_cleaning": {
+    "name": "пылесосы",
+    "terms": "химчистка"
+  },
+  "shop/electronics": {
+    "name": "Магазин электроники"
+  },
+  "shop/farm": {
+    "name": "Продуктовый Лоток"
+  },
+  "shop/fishmonger": {
+    "name": "Рыбный магазин"
+  },
+  "shop/florist": {
+    "name": "Цветочный"
+  },
+  "shop/furniture": {
+    "name": "Мебельный"
+  },
+  "shop/garden_centre": {
+    "name": "Садовые принадлежности"
+  },
+  "shop/gift": {
+    "name": "Подарки"
+  },
+  "shop/greengrocer": {
+    "name": "Овощи, фрукты"
+  },
+  "shop/hairdresser": {
+    "name": "Парикмахерская"
+  },
+  "shop/hardware": {
+    "name": "Хозяйственный магазин"
+  },
+  "shop/hifi": {
+    "name": "Техника Hi-fi"
+  },
+  "shop/jewelry": {
+    "name": "Ювелирный"
+  },
+  "shop/kiosk": {
+    "name": "Киоск",
+    "terms": "киоск"
+  },
+  "shop/laundry": {
+    "name": "Прачечная",
+    "terms": "прачечная"
+  },
+  "shop/mall": {
+    "name": "Торговый центр"
+  },
+  "shop/mobile_phone": {
+    "name": "Мобильные телефоны"
+  },
+  "shop/motorcycle": {
+    "name": "Магазин мотоциклов"
+  },
+  "shop/music": {
+    "name": "Музыкальный магазин"
+  },
+  "shop/newsagent": {
+    "name": "Газеты-журналы"
+  },
+  "shop/optician": {
+    "name": "Оптика",
+    "terms": "оптика, очки"
+  },
+  "shop/outdoor": {
+    "name": "Товары для отдыха и туризма"
+  },
+  "shop/pet": {
+    "name": "Зоомагазин"
+  },
+  "shop/photo": {
+    "name": "Магазин Фототоваров",
+    "terms": "Фототовары, Фототехника"
+  },
+  "shop/shoes": {
+    "name": "Обувной"
+  },
+  "shop/sports": {
+    "name": "Спорттовары"
+  },
+  "shop/stationery": {
+    "name": "Канцелярский магазин"
+  },
+  "shop/supermarket": {
+    "name": "Гипермаркет"
+  },
+  "shop/toys": {
+    "name": "Игрушки"
+  },
+  "shop/travel_agency": {
+    "name": "Бюро путешествий"
+  },
+  "shop/tyres": {
+    "name": "Шины, покрышки"
+  },
+  "shop/vacant": {
+    "name": "Закрытый магазин"
+  },
+  "shop/variety_store": {
+    "name": "Товары по одной цене"
+  },
+  "shop/video": {
+    "name": "Видеомагазин"
+  },
+  "tourism": {
+    "name": "Туризм"
+  },
+  "tourism/alpine_hut": {
+    "name": "Альпийский домик"
+  },
+  "tourism/artwork": {
+    "name": "Произведение искусства"
+  },
+  "tourism/attraction": {
+    "name": "Достопримечательность"
+  },
+  "tourism/camp_site": {
+    "name": "Кемпинг"
+  },
+  "tourism/caravan_site": {
+    "name": "Стоянка автодомов"
+  },
+  "tourism/chalet": {
+    "name": "Сельский домик, шале"
+  },
+  "tourism/guest_house": {
+    "name": "Гостевой дом"
+  },
+  "tourism/hostel": {
+    "name": "Хостел",
+    "terms": "хостел"
+  },
+  "tourism/hotel": {
+    "name": "Гостиница",
+    "terms": "гостиница, отель"
+  },
+  "tourism/information": {
+    "name": "Инфопункт"
+  },
+  "tourism/motel": {
+    "name": "Мотель",
+    "terms": "мотель"
+  },
+  "tourism/museum": {
+    "name": "Музей",
+    "terms": "музей"
+  },
+  "tourism/picnic_site": {
+    "name": "Место для пикника"
+  },
+  "tourism/theme_park": {
+    "name": "Парк развлечений"
+  },
+  "tourism/viewpoint": {
+    "name": "Обзорная точка"
+  },
+  "tourism/zoo": {
+    "name": "Зоопарк",
+    "terms": "зоопарк"
+  },
+  "type/boundary": {
+    "name": "Граница"
+  },
+  "type/boundary/administrative": {
+    "name": "Административная граница"
+  },
+  "type/multipolygon": {
+    "name": "Многоугольник"
+  },
+  "type/restriction": {
+    "name": "Ограничение"
+  },
+  "type/route": {
+    "name": "Маршрут"
+  },
+  "type/route/bicycle": {
+    "name": "Велосипедный маршрут"
+  },
+  "type/route/bus": {
+    "name": "Автобусный маршрут"
+  },
+  "type/route/detour": {
+    "name": "Объезд"
+  },
+  "type/route/ferry": {
+    "name": "Паромный маршрут"
+  },
+  "type/route/foot": {
+    "name": "Пешеходный маршрут"
+  },
+  "type/route/hiking": {
+    "name": "Пешеходный Маршрут"
+  },
+  "type/route/pipeline": {
+    "name": "Трубопроводный маршрут"
+  },
+  "type/route/power": {
+    "name": "Маршрут электроэнергии"
+  },
+  "type/route/road": {
+    "name": "Дорожный маршрут"
+  },
+  "type/route/train": {
+    "name": "Железнодорожный маршрут"
+  },
+  "type/route/tram": {
+    "name": "Трамвайный маршрут"
+  },
+  "type/route_master": {
+    "name": "Главное Отношение Маршрута"
+  },
+  "vertex": {
+    "name": "Другое"
+  },
+  "waterway": {
+    "name": "Водный путь"
+  },
+  "waterway/canal": {
+    "name": "Канал",
+    "terms": "канал"
+  },
+  "waterway/dam": {
+    "name": "Дамба"
+  },
+  "waterway/ditch": {
+    "name": "Оросительная канава",
+    "terms": "канава, ров"
+  },
+  "waterway/drain": {
+    "name": "Дренажный канал"
+  },
+  "waterway/river": {
+    "name": "Река"
+  },
+  "waterway/riverbank": {
+    "name": "Поверхность реки"
+  },
+  "waterway/stream": {
+    "name": "Ручей"
+  },
+  "waterway/weir": {
+    "name": "Плотина"
+  }
+}

@@ -1,0 +1,1078 @@
+{
+  "address": {
+    "name": "Adres",
+    "terms": "Adres"
+  },
+  "aeroway": {
+    "name": "Vliegveld",
+    "terms": "Startbaan, landingsbaan"
+  },
+  "aeroway/aerodrome": {
+    "name": "Luchthaven",
+    "terms": "Luchthaven, vliegveld"
+  },
+  "aeroway/apron": {
+    "name": "Platform",
+    "terms": "Taxibaan"
+  },
+  "aeroway/gate": {
+    "name": "Gate",
+    "terms": "Gate"
+  },
+  "aeroway/hangar": {
+    "name": "Hangar",
+    "terms": "Hangar"
+  },
+  "aeroway/helipad": {
+    "name": "Helikopterhaven",
+    "terms": "Helihaven, helikopterdek"
+  },
+  "aeroway/runway": {
+    "name": "Startbaan",
+    "terms": "Startbaan, landingsbaan"
+  },
+  "aeroway/taxiway": {
+    "name": "Taxibaan",
+    "terms": "Taxibaan"
+  },
+  "aeroway/terminal": {
+    "name": "Vliegveldterminal",
+    "terms": "Luchthaventerminal, vertrekhal, aankomsthal"
+  },
+  "amenity": {
+    "name": "Voorziening",
+    "terms": "Voorziening"
+  },
+  "amenity/arts_centre": {
+    "name": "Kunstencentrum"
+  },
+  "amenity/atm": {
+    "name": "Pinautomaat",
+    "terms": "Pinautomaat"
+  },
+  "amenity/bank": {
+    "name": "Bank",
+    "terms": "Bank"
+  },
+  "amenity/bar": {
+    "name": "Café",
+    "terms": "Bar, café"
+  },
+  "amenity/bench": {
+    "name": "Bank",
+    "terms": "Bankje"
+  },
+  "amenity/bicycle_parking": {
+    "name": "Fietsenstalling",
+    "terms": "Fietsenrek, fietsenstalling"
+  },
+  "amenity/bicycle_rental": {
+    "name": "Fietsverhuur",
+    "terms": "Fietsverhuur"
+  },
+  "amenity/boat_rental": {
+    "name": "Bootverhuur"
+  },
+  "amenity/cafe": {
+    "name": "Café",
+    "terms": "Café, bar"
+  },
+  "amenity/car_rental": {
+    "name": "Autoverhuur",
+    "terms": "Autoverhuur"
+  },
+  "amenity/car_sharing": {
+    "name": "Autodelen",
+    "terms": "Autodelen"
+  },
+  "amenity/car_wash": {
+    "name": "Autowasstraat",
+    "terms": "Autowasstraat"
+  },
+  "amenity/childcare": {
+    "name": "Kinderopvang"
+  },
+  "amenity/cinema": {
+    "name": "Bioscoop",
+    "terms": "Bioscoop"
+  },
+  "amenity/college": {
+    "name": "Hogeschool",
+    "terms": "Hogeschool, universiteit"
+  },
+  "amenity/courthouse": {
+    "name": "Rechtbank",
+    "terms": "Rechtzaal"
+  },
+  "amenity/drinking_water": {
+    "name": "Drinkwater",
+    "terms": "Drinkwater"
+  },
+  "amenity/embassy": {
+    "name": "Ambassade",
+    "terms": "Ambassade"
+  },
+  "amenity/fast_food": {
+    "name": "Fastfoodrestaurant",
+    "terms": "Fastfood"
+  },
+  "amenity/fire_station": {
+    "name": "Brandweerkazerne",
+    "terms": "Brandweerkazerne"
+  },
+  "amenity/fountain": {
+    "name": "Fontein",
+    "terms": "Fontein"
+  },
+  "amenity/fuel": {
+    "name": "Tankstation",
+    "terms": "Tankstation, benzinestation"
+  },
+  "amenity/grave_yard": {
+    "name": "Begraafplaats",
+    "terms": "Begraafplaats, kerkhof"
+  },
+  "amenity/hospital": {
+    "name": "Ziekenhuis",
+    "terms": "Ziekenhuis, hospitaal"
+  },
+  "amenity/kindergarten": {
+    "name": "Kindercrèche",
+    "terms": "Kinderdagverblijf, peuterspeelzaal"
+  },
+  "amenity/library": {
+    "name": "Bibliotheek",
+    "terms": "Bibliotheek"
+  },
+  "amenity/marketplace": {
+    "name": "Markt",
+    "terms": "Markt"
+  },
+  "amenity/parking": {
+    "name": "Parkeerplaats"
+  },
+  "amenity/pharmacy": {
+    "name": "Apotheek",
+    "terms": "Apotheek"
+  },
+  "amenity/place_of_worship": {
+    "name": "Gebedshuis",
+    "terms": "Godshuis"
+  },
+  "amenity/place_of_worship/buddhist": {
+    "name": "Boedistische tempel",
+    "terms": "Boedistische tempel"
+  },
+  "amenity/place_of_worship/christian": {
+    "name": "Kerk",
+    "terms": "Kerk"
+  },
+  "amenity/place_of_worship/jewish": {
+    "name": "Synagoge",
+    "terms": "Synagoge, sjoel"
+  },
+  "amenity/place_of_worship/muslim": {
+    "name": "Moskee",
+    "terms": "Moskee"
+  },
+  "amenity/police": {
+    "name": "Politie",
+    "terms": "Politie"
+  },
+  "amenity/post_box": {
+    "name": "Brievenbus",
+    "terms": "Brievenbus"
+  },
+  "amenity/post_office": {
+    "name": "Postkantoor",
+    "terms": "Postkantoor"
+  },
+  "amenity/pub": {
+    "name": "Café",
+    "terms": "Café, bar"
+  },
+  "amenity/ranger_station": {
+    "name": "Boswachtershut"
+  },
+  "amenity/restaurant": {
+    "name": "Restaurant",
+    "terms": "Restaurant"
+  },
+  "amenity/school": {
+    "name": "School",
+    "terms": "School"
+  },
+  "amenity/swimming_pool": {
+    "name": "Zwembad",
+    "terms": "Zwembad"
+  },
+  "amenity/taxi": {
+    "name": "Taxistandplaats",
+    "terms": "Taxistandplaats"
+  },
+  "amenity/telephone": {
+    "name": "Telefoon",
+    "terms": "Telefoon"
+  },
+  "amenity/theatre": {
+    "name": "Theater",
+    "terms": "Theater"
+  },
+  "amenity/toilets": {
+    "name": "Toiletten",
+    "terms": "Toiletten"
+  },
+  "amenity/townhall": {
+    "name": "Gemeentehuis",
+    "terms": "Gemeentehuis, stadhuis"
+  },
+  "amenity/university": {
+    "name": "Universiteit",
+    "terms": "Universtiteit, academie"
+  },
+  "amenity/vending_machine": {
+    "name": "Automaat"
+  },
+  "amenity/waste_basket": {
+    "name": "Prullenbak",
+    "terms": "Prullenbak, afvalbak"
+  },
+  "area": {
+    "name": "Gebied",
+    "terms": "Gebied"
+  },
+  "barrier": {
+    "name": "Barrière"
+  },
+  "barrier/block": {
+    "name": "Blokkade"
+  },
+  "barrier/bollard": {
+    "name": "Poller"
+  },
+  "barrier/cattle_grid": {
+    "name": "Wildrooster"
+  },
+  "barrier/city_wall": {
+    "name": "Stadsmuur"
+  },
+  "barrier/cycle_barrier": {
+    "name": "Slingerhek"
+  },
+  "barrier/ditch": {
+    "name": "Gracht"
+  },
+  "barrier/entrance": {
+    "name": "Ingang"
+  },
+  "barrier/fence": {
+    "name": "Afrastering"
+  },
+  "barrier/gate": {
+    "name": "Hek"
+  },
+  "barrier/hedge": {
+    "name": "Haag of heg"
+  },
+  "barrier/kissing_gate": {
+    "name": "Voetgangershek"
+  },
+  "barrier/lift_gate": {
+    "name": "Slagboom"
+  },
+  "barrier/retaining_wall": {
+    "name": "Keermuur"
+  },
+  "barrier/stile": {
+    "name": "Overstaphek"
+  },
+  "barrier/toll_booth": {
+    "name": "Tolhuisje"
+  },
+  "barrier/wall": {
+    "name": "Muur"
+  },
+  "boundary/administrative": {
+    "name": "Bestuurlijke grens"
+  },
+  "building": {
+    "name": "Gebouw"
+  },
+  "building/apartments": {
+    "name": "Apartementen"
+  },
+  "building/commercial": {
+    "name": "Kantoorgebouw"
+  },
+  "building/entrance": {
+    "name": "Ingang"
+  },
+  "building/garage": {
+    "name": "Garage"
+  },
+  "building/house": {
+    "name": "Huis"
+  },
+  "building/hut": {
+    "name": "Hut"
+  },
+  "building/industrial": {
+    "name": "Industrieel gebouw"
+  },
+  "building/residential": {
+    "name": "Woongebouw"
+  },
+  "emergency/ambulance_station": {
+    "name": "Ambulancestandplaats"
+  },
+  "emergency/fire_hydrant": {
+    "name": "Brandkraan"
+  },
+  "emergency/phone": {
+    "name": "Praatpaal"
+  },
+  "entrance": {
+    "name": "Ingang"
+  },
+  "highway": {
+    "name": "Autosnelweg"
+  },
+  "highway/bridleway": {
+    "name": "Ruiterpad"
+  },
+  "highway/bus_stop": {
+    "name": "Bushalte"
+  },
+  "highway/crossing": {
+    "name": "Oversteekplaats"
+  },
+  "highway/cycleway": {
+    "name": "Fietspad"
+  },
+  "highway/footway": {
+    "name": "Voetpad"
+  },
+  "highway/living_street": {
+    "name": "Woonerf"
+  },
+  "highway/mini_roundabout": {
+    "name": "Minirotonde"
+  },
+  "highway/motorway": {
+    "name": "Snelweg"
+  },
+  "highway/motorway_junction": {
+    "name": "Afslag op autosnelweg"
+  },
+  "highway/motorway_link": {
+    "name": "Invoegstrook"
+  },
+  "highway/path": {
+    "name": "Pad"
+  },
+  "highway/pedestrian": {
+    "name": "Voetgangersgebied"
+  },
+  "highway/primary": {
+    "name": "Provinciale weg"
+  },
+  "highway/primary_link": {
+    "name": "Afrit provinciale weg"
+  },
+  "highway/residential": {
+    "name": "Straat"
+  },
+  "highway/road": {
+    "name": "Onbekende weg"
+  },
+  "highway/secondary": {
+    "name": "Secundaire weg"
+  },
+  "highway/secondary_link": {
+    "name": "Afslag secundaire weg"
+  },
+  "highway/service": {
+    "name": "Toegangsweg"
+  },
+  "highway/service/alley": {
+    "name": "Steeg"
+  },
+  "highway/service/drive-through": {
+    "name": "Drive-in"
+  },
+  "highway/service/driveway": {
+    "name": "Oprit"
+  },
+  "highway/service/emergency_access": {
+    "name": "Hulpdienst toegangsweg"
+  },
+  "highway/service/parking_aisle": {
+    "name": "Rijbaan in parkeergelegenheid"
+  },
+  "highway/steps": {
+    "name": "Trap"
+  },
+  "highway/stop": {
+    "name": "Stopbord"
+  },
+  "highway/tertiary": {
+    "name": "Tertiare weg"
+  },
+  "highway/tertiary_link": {
+    "name": "Afrit tertiaire weg"
+  },
+  "highway/track": {
+    "name": "Veldweg"
+  },
+  "highway/traffic_signals": {
+    "name": "Verkeerslichten"
+  },
+  "highway/trunk": {
+    "name": "Autoweg"
+  },
+  "highway/trunk_link": {
+    "name": "Afrit autoweg"
+  },
+  "highway/turning_circle": {
+    "name": "Keerplein"
+  },
+  "highway/unclassified": {
+    "name": "Ongeclassificeerde weg"
+  },
+  "historic": {
+    "name": "Geschiedskundige plaats"
+  },
+  "historic/archaeological_site": {
+    "name": "Archeologische opgraving"
+  },
+  "historic/boundary_stone": {
+    "name": "Historische grenspaal"
+  },
+  "historic/castle": {
+    "name": "Kasteel"
+  },
+  "historic/memorial": {
+    "name": "Gedenkplaats"
+  },
+  "historic/monument": {
+    "name": "Monument"
+  },
+  "historic/ruins": {
+    "name": "Ruïne"
+  },
+  "historic/wayside_cross": {
+    "name": "Wegkruis"
+  },
+  "historic/wayside_shrine": {
+    "name": "Kruisbeeld"
+  },
+  "landuse": {
+    "name": "Landgebruik"
+  },
+  "landuse/allotments": {
+    "name": "Volkstuinen"
+  },
+  "landuse/basin": {
+    "name": "Waterbekken"
+  },
+  "landuse/cemetery": {
+    "name": "Begraafplaats"
+  },
+  "landuse/commercial": {
+    "name": "Kantoren"
+  },
+  "landuse/construction": {
+    "name": "Bouwterrein"
+  },
+  "landuse/farm": {
+    "name": "Landbouwgrond"
+  },
+  "landuse/farmyard": {
+    "name": "Boerenerf"
+  },
+  "landuse/forest": {
+    "name": "Bosbouw"
+  },
+  "landuse/grass": {
+    "name": "Grasland"
+  },
+  "landuse/industrial": {
+    "name": "Industriegebied"
+  },
+  "landuse/meadow": {
+    "name": "Hooiland"
+  },
+  "landuse/orchard": {
+    "name": "Boomgaard"
+  },
+  "landuse/quarry": {
+    "name": "Mijnbouw"
+  },
+  "landuse/residential": {
+    "name": "Woongebied"
+  },
+  "landuse/retail": {
+    "name": "Detailhandel"
+  },
+  "landuse/vineyard": {
+    "name": "Wijngaard"
+  },
+  "leisure": {
+    "name": "Vrijetijd"
+  },
+  "leisure/common": {
+    "name": "Gemeenschappelijk"
+  },
+  "leisure/dog_park": {
+    "name": "Hondenpark"
+  },
+  "leisure/garden": {
+    "name": "Tuin"
+  },
+  "leisure/golf_course": {
+    "name": "Golfbaan"
+  },
+  "leisure/marina": {
+    "name": "Jachthaven"
+  },
+  "leisure/park": {
+    "name": "Park"
+  },
+  "leisure/pitch": {
+    "name": "Sportveld"
+  },
+  "leisure/pitch/american_football": {
+    "name": "Amerikaans voetbalveld"
+  },
+  "leisure/pitch/baseball": {
+    "name": "Honkbalveld"
+  },
+  "leisure/pitch/basketball": {
+    "name": "Basketbalveld"
+  },
+  "leisure/pitch/skateboard": {
+    "name": "Skatepark"
+  },
+  "leisure/pitch/soccer": {
+    "name": "Voetbalveld"
+  },
+  "leisure/pitch/tennis": {
+    "name": "Tennisbaan"
+  },
+  "leisure/pitch/volleyball": {
+    "name": "Volleybalveld"
+  },
+  "leisure/playground": {
+    "name": "Speelplaats"
+  },
+  "leisure/slipway": {
+    "name": "Botenhelling"
+  },
+  "leisure/sports_center": {
+    "name": "Sportcentrum"
+  },
+  "leisure/stadium": {
+    "name": "Stadion"
+  },
+  "leisure/swimming_pool": {
+    "name": "Zwembad"
+  },
+  "leisure/track": {
+    "name": "Racebaan"
+  },
+  "line": {
+    "name": "Lijn"
+  },
+  "man_made": {
+    "name": "Aangelegd"
+  },
+  "man_made/breakwater": {
+    "name": "Golfbreker"
+  },
+  "man_made/cutline": {
+    "name": "Scheidingslijn"
+  },
+  "man_made/lighthouse": {
+    "name": "Vuurtoren"
+  },
+  "man_made/observation": {
+    "name": "Uitkijktoren"
+  },
+  "man_made/pier": {
+    "name": "Pier"
+  },
+  "man_made/pipeline": {
+    "name": "Pijpleiding"
+  },
+  "man_made/survey_point": {
+    "name": "Landmeetkundig referentiepunt"
+  },
+  "man_made/tower": {
+    "name": "Toren"
+  },
+  "man_made/wastewater_plant": {
+    "name": "Waterzuiveringsinstallatie"
+  },
+  "man_made/water_tower": {
+    "name": "Watertoren"
+  },
+  "man_made/water_well": {
+    "name": "Waterbron"
+  },
+  "man_made/water_works": {
+    "name": "Waterwinstation"
+  },
+  "natural": {
+    "name": "Natuurlijk"
+  },
+  "natural/bay": {
+    "name": "Baai"
+  },
+  "natural/beach": {
+    "name": "Strand"
+  },
+  "natural/cliff": {
+    "name": "Klif"
+  },
+  "natural/coastline": {
+    "name": "Kustlijn"
+  },
+  "natural/glacier": {
+    "name": "Ijsgletsjer"
+  },
+  "natural/grassland": {
+    "name": "Grassen en kruidachtige planten"
+  },
+  "natural/heath": {
+    "name": "Heideveld"
+  },
+  "natural/peak": {
+    "name": "Top"
+  },
+  "natural/scrub": {
+    "name": "Ruigte"
+  },
+  "natural/spring": {
+    "name": "Bron"
+  },
+  "natural/tree": {
+    "name": "Boom"
+  },
+  "natural/water": {
+    "name": "Water"
+  },
+  "natural/water/lake": {
+    "name": "Meer"
+  },
+  "natural/water/pond": {
+    "name": "Vijver"
+  },
+  "natural/water/reservoir": {
+    "name": "Reservoir"
+  },
+  "natural/wetland": {
+    "name": "Moerassen en waterrijke gebieden"
+  },
+  "natural/wood": {
+    "name": "Oerbos"
+  },
+  "office": {
+    "name": "Kantoor"
+  },
+  "office/newspaper": {
+    "name": "Krant"
+  },
+  "office/political_party": {
+    "name": "Politieke Partij"
+  },
+  "office/therapist": {
+    "name": "Therapeut"
+  },
+  "office/travel_agent": {
+    "name": "Reisbureau"
+  },
+  "place": {
+    "name": "Plaats"
+  },
+  "place/city": {
+    "name": "Stad"
+  },
+  "place/hamlet": {
+    "name": "Dorp/gehucht/buurtschap"
+  },
+  "place/island": {
+    "name": "Eiland"
+  },
+  "place/isolated_dwelling": {
+    "name": "Alleenstaande bebouwing"
+  },
+  "place/locality": {
+    "name": "Veldnaam"
+  },
+  "place/town": {
+    "name": "Plaats"
+  },
+  "place/village": {
+    "name": "Dorp"
+  },
+  "point": {
+    "name": "Punt"
+  },
+  "power": {
+    "name": "Stroomvoorziening"
+  },
+  "power/generator": {
+    "name": "Elektriciteitsgenerator"
+  },
+  "power/line": {
+    "name": "Elektriciteitsdraad"
+  },
+  "power/pole": {
+    "name": "Elektriciteitspaal"
+  },
+  "power/sub_station": {
+    "name": "Klein onderstation"
+  },
+  "power/tower": {
+    "name": "Hoogspanningsmast"
+  },
+  "power/transformer": {
+    "name": "Transformator"
+  },
+  "railway": {
+    "name": "Spoorwegemplacement"
+  },
+  "railway/abandoned": {
+    "name": "In onbruik geraakte spoorbaan"
+  },
+  "railway/disused": {
+    "name": "In onbruik geraakte spoorbaan"
+  },
+  "railway/halt": {
+    "name": "Treinhalte"
+  },
+  "railway/level_crossing": {
+    "name": "Gelijkvloerse spoorwegovergang"
+  },
+  "railway/monorail": {
+    "name": "Monorail, magneetzweefbaan"
+  },
+  "railway/platform": {
+    "name": "Perron"
+  },
+  "railway/rail": {
+    "name": "Via een derde spoorrails"
+  },
+  "railway/station": {
+    "name": "Treinstation"
+  },
+  "railway/subway": {
+    "name": "Metro"
+  },
+  "railway/subway_entrance": {
+    "name": "Metrostation"
+  },
+  "railway/tram": {
+    "name": "Tram"
+  },
+  "relation": {
+    "name": "Relatie"
+  },
+  "route/ferry": {
+    "name": "Veerboottraject"
+  },
+  "shop": {
+    "name": "Winkel"
+  },
+  "shop/alcohol": {
+    "name": "Slijterij"
+  },
+  "shop/bakery": {
+    "name": "Bakkerij"
+  },
+  "shop/beauty": {
+    "name": "Schoonheidssalon"
+  },
+  "shop/beverages": {
+    "name": "Drankenwinkel"
+  },
+  "shop/bicycle": {
+    "name": "Fietswinkel"
+  },
+  "shop/books": {
+    "name": "Boekwinkel"
+  },
+  "shop/boutique": {
+    "name": "Boutique"
+  },
+  "shop/butcher": {
+    "name": "Slagerij"
+  },
+  "shop/car": {
+    "name": "Autoshowroom"
+  },
+  "shop/car_parts": {
+    "name": "Auto-onderdelenwinkel"
+  },
+  "shop/car_repair": {
+    "name": "Autogarage"
+  },
+  "shop/chemist": {
+    "name": "Drogist"
+  },
+  "shop/clothes": {
+    "name": "Kledingwinkel"
+  },
+  "shop/computer": {
+    "name": "Computerwinkel"
+  },
+  "shop/confectionery": {
+    "name": "Banketbakkerij"
+  },
+  "shop/convenience": {
+    "name": "Buurtsuper"
+  },
+  "shop/deli": {
+    "name": "Delicatessenwinkel"
+  },
+  "shop/department_store": {
+    "name": "Warenhuis"
+  },
+  "shop/doityourself": {
+    "name": "Bouwmarkt, doe-het-zelfwinkel"
+  },
+  "shop/dry_cleaning": {
+    "name": "Stomerij"
+  },
+  "shop/electronics": {
+    "name": "Bruingoedwinkel"
+  },
+  "shop/farm": {
+    "name": "Groente- en fruitkraam"
+  },
+  "shop/fishmonger": {
+    "name": "Visboer"
+  },
+  "shop/florist": {
+    "name": "Bloemenwinkel"
+  },
+  "shop/furniture": {
+    "name": "Woonwarenhuis"
+  },
+  "shop/garden_centre": {
+    "name": "Tuincentrum"
+  },
+  "shop/gift": {
+    "name": "Cadeauwinkel"
+  },
+  "shop/greengrocer": {
+    "name": "Groenteboer"
+  },
+  "shop/hairdresser": {
+    "name": "Kapper"
+  },
+  "shop/hardware": {
+    "name": "Bouwmarkt"
+  },
+  "shop/hifi": {
+    "name": "Bruingoedwinkel"
+  },
+  "shop/jewelry": {
+    "name": "Juwelier"
+  },
+  "shop/kiosk": {
+    "name": "Kiosk"
+  },
+  "shop/laundry": {
+    "name": "Wasserette"
+  },
+  "shop/locksmith": {
+    "name": "Slotenmaker"
+  },
+  "shop/mall": {
+    "name": "Winkelcentrum"
+  },
+  "shop/mobile_phone": {
+    "name": "Telefoonwinkel"
+  },
+  "shop/motorcycle": {
+    "name": "Motorwinkel"
+  },
+  "shop/music": {
+    "name": "Muziekwinkel"
+  },
+  "shop/newsagent": {
+    "name": "Krantenkiosk"
+  },
+  "shop/optician": {
+    "name": "Opticien"
+  },
+  "shop/outdoor": {
+    "name": "Buitensportzaak"
+  },
+  "shop/pet": {
+    "name": "Dierenwinkel"
+  },
+  "shop/shoes": {
+    "name": "Schoenenwinkel"
+  },
+  "shop/sports": {
+    "name": "Sportzaak"
+  },
+  "shop/stationery": {
+    "name": "Kantoorboekhandel"
+  },
+  "shop/supermarket": {
+    "name": "Supermarkt"
+  },
+  "shop/toys": {
+    "name": "Speelgoedwinkel"
+  },
+  "shop/travel_agency": {
+    "name": "Reisbureau"
+  },
+  "shop/tyres": {
+    "name": "Bandenwinkel"
+  },
+  "shop/vacant": {
+    "name": "Leegstaande winkel"
+  },
+  "shop/variety_store": {
+    "name": "Euroshop"
+  },
+  "shop/video": {
+    "name": "Videotheek"
+  },
+  "tourism": {
+    "name": "Toerisme"
+  },
+  "tourism/alpine_hut": {
+    "name": "Berghut"
+  },
+  "tourism/artwork": {
+    "name": "Kunstwerk"
+  },
+  "tourism/attraction": {
+    "name": "Toeristische attractie"
+  },
+  "tourism/camp_site": {
+    "name": "Camping"
+  },
+  "tourism/caravan_site": {
+    "name": "Terrein voor kampeerwagens"
+  },
+  "tourism/chalet": {
+    "name": "Chalet"
+  },
+  "tourism/guest_house": {
+    "name": "Pension"
+  },
+  "tourism/hostel": {
+    "name": "Jeugdherberg"
+  },
+  "tourism/hotel": {
+    "name": "Hotel"
+  },
+  "tourism/information": {
+    "name": "Informatie"
+  },
+  "tourism/motel": {
+    "name": "Motel"
+  },
+  "tourism/museum": {
+    "name": "Museum"
+  },
+  "tourism/picnic_site": {
+    "name": "Picknickplek"
+  },
+  "tourism/theme_park": {
+    "name": "Themapark"
+  },
+  "tourism/viewpoint": {
+    "name": "Uitzichtpunt"
+  },
+  "tourism/zoo": {
+    "name": "Dierentuin"
+  },
+  "type/boundary": {
+    "name": "Grens"
+  },
+  "type/boundary/administrative": {
+    "name": "Bestuurlijke grens"
+  },
+  "type/multipolygon": {
+    "name": "Meervoudige polygoon"
+  },
+  "type/restriction": {
+    "name": "Beperking"
+  },
+  "type/route": {
+    "name": "Route"
+  },
+  "type/route/bicycle": {
+    "name": "Fietsroute"
+  },
+  "type/route/bus": {
+    "name": "Busroute"
+  },
+  "type/route/detour": {
+    "name": "Omleidingsroute"
+  },
+  "type/route/ferry": {
+    "name": "Veerboottraject"
+  },
+  "type/route/foot": {
+    "name": "Wandelroute"
+  },
+  "type/route/hiking": {
+    "name": "Wandelpad"
+  },
+  "type/route/pipeline": {
+    "name": "Pijpleidingstraject"
+  },
+  "type/route/power": {
+    "name": "Elektriciteitsleidingstraject"
+  },
+  "type/route/road": {
+    "name": "Autoroute"
+  },
+  "type/route/train": {
+    "name": "Treinroute"
+  },
+  "type/route/tram": {
+    "name": "Tramtraject"
+  },
+  "type/route_master": {
+    "name": "Lijn"
+  },
+  "vertex": {
+    "name": "Overige"
+  },
+  "waterway": {
+    "name": "Waterweg"
+  },
+  "waterway/canal": {
+    "name": "Kanaal"
+  },
+  "waterway/dam": {
+    "name": "Dam"
+  },
+  "waterway/ditch": {
+    "name": "Sloot, greppel of gracht"
+  },
+  "waterway/drain": {
+    "name": "Sloot, greppel of gracht"
+  },
+  "waterway/river": {
+    "name": "Rivier"
+  },
+  "waterway/riverbank": {
+    "name": "Rivieroever"
+  },
+  "waterway/stream": {
+    "name": "Beek"
+  },
+  "waterway/weir": {
+    "name": "Stuw"
+  }
+}

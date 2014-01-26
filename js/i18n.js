@@ -20,7 +20,7 @@ var i18n = new(function() {
   this.getSupportedLanguages = function() {
     return [].concat(supported_lngs);
   }
-  this.translate = function(lng) {
+  this.getLanguage = function(lng) {
     lng = lng || settings.ui_language;
     if (lng == "auto") {
       // get user agent's language
@@ -28,6 +28,10 @@ var i18n = new(function() {
         lng = navigator.language.replace(/-.*/,"").toLowerCase();
       } catch(e) {}
     }
+    return lng;
+  }
+  this.translate = function(lng) {
+    lng = i18n.getLanguage(lng);
 
     if ($.inArray(lng,supported_lngs) == -1) {
       console.log("unsupported language: "+lng+" switching back to: "+default_lng);

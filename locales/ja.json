@@ -163,6 +163,7 @@
   "ffs.examples": "適用例: ",
   "ffs.parse_error": "すみません、検索内容を見なおしてみてください。",
   "ffs.parse_error_expl": "検索語句にスペースや特殊記号が含まれている場合は、語句をクォーテーションで括る必要があります。また、複数のフィルタを同時に適用する適切なboolean型の演算子 (<i>and</i> や <i>or</i>)を使ってください。詳しい使い方は <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">ドキュメンテーション</a> を参照してください。",
+  "ffs.typo": "もしかして:",
   "dialog.dismiss": "却下",
   "dialog.cancel": "キャンセル",
   "dialog.save": "保存",

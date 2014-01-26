@@ -163,6 +163,7 @@
   "ffs.examples": "Alcuni esempi:",
   "ffs.parse_error": "Questa ricerca non è stata riconosciuta.",
   "ffs.parse_error_expl": "NOTA: è necessario utilizzare le virgolette per le stringhe che contengono spazi o caratteri speciali. I filtri di ricerca multipli devono essere separati da appositi operatori booleani (<i>and</i> oppure <i> or</i>). Leggere la <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">documentazione </a> per ulteriori informazioni.",
+  "ffs.typo": "Did you mean:",
   "dialog.dismiss": "scarta",
   "dialog.cancel": "annulla",
   "dialog.save": "salva",
