@@ -271,6 +271,22 @@
     "name": "Riparo",
     "terms": "ricovero,rifugio,tettoia,pensilina,bivacco,grotta"
   },
+  "amenity/social_facility": {
+    "name": "Centro socio-assistenziale",
+    "terms": "centro sociale,comunità,cooperativa sociale,centro assistenziale,rsa,casa di riposo,ospizio,servizi sociali,casa famiglia,comunità di recupero"
+  },
+  "amenity/social_facility/food_bank": {
+    "name": "Banco alimentare",
+    "terms": "mensa del povero,mensa caritas"
+  },
+  "amenity/social_facility/group_home": {
+    "name": "Comunità",
+    "terms": "casa comunitaria,terapia di gruppo,comunità"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "Dormitorio",
+    "terms": "ricovero,senzadimora,barboni,senza fissa dimora,senza dimora,senza casa"
+  },
   "amenity/studio": {
     "name": "Studio radiotelevisivo",
     "terms": "studio,radio,televisione,registrazione,in onda,studio di registrazione"
@@ -1026,6 +1042,10 @@
   "office": {
     "name": "Uffici",
     "terms": "Ufficio"
+  },
+  "office/accountant": {
+    "name": "Contabile",
+    "terms": "Commercialista, amministrativo, ragioniere"
   },
   "office/administrative": {
     "name": "Autorità locale",

@@ -3,6 +3,12 @@
     "name": "Dirección",
     "terms": "dirección, domicilio, señas, residencia"
   },
+  "aerialway": {
+    "name": "Pista aérea"
+  },
+  "aerialway/gondola": {
+    "name": "Góndola"
+  },
   "aeroway": {
     "name": "Aerovía",
     "terms": "Zonas de un aeropuerto"
@@ -97,6 +103,12 @@
     "name": "Cine",
     "terms": "cinematógrafo,cine"
   },
+  "amenity/clinic": {
+    "name": "Clínica"
+  },
+  "amenity/clock": {
+    "name": "Reloj"
+  },
   "amenity/college": {
     "name": "Universidad",
     "terms": "facultad,universidad,escuela profesional, instituto"
@@ -104,6 +116,12 @@
   "amenity/courthouse": {
     "name": "Palacio de Justicia",
     "terms": "tribunal, magistratura, judicatura, audiencia,justicia"
+  },
+  "amenity/dentist": {
+    "name": "Dentista"
+  },
+  "amenity/doctor": {
+    "name": "Médico"
   },
   "amenity/drinking_water": {
     "name": "Agua potable",
@@ -240,6 +258,9 @@
   "amenity/vending_machine": {
     "name": "Máquina expendedora"
   },
+  "amenity/veterinary": {
+    "name": "Veterinario"
+  },
   "amenity/waste_basket": {
     "name": "Papelera",
     "terms": "papelera, cubo, contenedor, basura, papeles, deshecho"
@@ -356,6 +377,45 @@
     "name": "Edificio residencial",
     "terms": "bloque"
   },
+  "craft/beekeeper": {
+    "name": "Apicultor"
+  },
+  "craft/blacksmith": {
+    "name": "Herrero"
+  },
+  "craft/hvac": {
+    "name": "Aire acondicionado"
+  },
+  "craft/insulator": {
+    "name": "Aislante"
+  },
+  "craft/metal_construction": {
+    "name": "Construcción metálica"
+  },
+  "craft/photographer": {
+    "name": "Fotógrafo"
+  },
+  "craft/photographic_labratory": {
+    "name": "Laboratorio fotográfico"
+  },
+  "craft/plumber": {
+    "name": "Fontanero"
+  },
+  "craft/pottery": {
+    "terms": "cerámica, cerasmista, alfarería, cantarería, alcaller, alfar"
+  },
+  "craft/saddler": {
+    "terms": "guarnicionero, talabartero, guarnicería"
+  },
+  "craft/sailmaker": {
+    "terms": "Fabricante de velas"
+  },
+  "craft/sculpter": {
+    "terms": "escultor, artista, cincelador, imaginero, tallista, modelista"
+  },
+  "craft/shoemaker": {
+    "name": "zapatero, remendón, zapatería, arreglo de zapatos"
+  },
   "craft/upholsterer": {
     "name": "Tapicero"
   },
@@ -383,6 +443,12 @@
   "footway/sidewalk": {
     "name": "Acera",
     "terms": "acera, paso, bordillo, anden, borde, peatonal, peatón"
+  },
+  "golf/fairway": {
+    "name": "Calle"
+  },
+  "golf/hole": {
+    "name": "Hoyo de golf"
   },
   "highway": {
     "name": "Vía",
@@ -448,6 +514,9 @@
     "name": "Calle urbana",
     "terms": "calle, vía, paseo, avenida, bulevar, rambla, ronda, carrera, arteria, corredera, callejón, travesía, pasadizo, pasaje, rúa, vial, costanilla, callejuela"
   },
+  "highway/rest_area": {
+    "name": "Área de Descanso"
+  },
   "highway/road": {
     "name": "Carretera sin categoría conocida",
     "terms": "calle, ronda, carril, ruta, arteria, rúa, trayecto, avenida, carretera, paseo, camino, vía"
@@ -483,6 +552,9 @@
   "highway/service/parking_aisle": {
     "name": "Pasillo de aparcamiento",
     "terms": "aparcamiento, parking"
+  },
+  "highway/services": {
+    "name": "Área de Servicio"
   },
   "highway/steps": {
     "name": "Escaleras",
@@ -1018,6 +1090,9 @@
   "railway/disused": {
     "name": "Ferrocarril en desuso",
     "terms": "Ferrocarril en deshuso"
+  },
+  "railway/funicular": {
+    "name": "Funicular"
   },
   "railway/halt": {
     "name": "Apeadero",

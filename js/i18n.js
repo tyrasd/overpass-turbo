@@ -5,6 +5,7 @@ var i18n = new(function() {
   var supported_lngs = [
     // translations found in locale/*.json
     default_lng,
+    "ca",
     "da",
     "de",
     "es",

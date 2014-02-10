@@ -8,7 +8,7 @@ turbo.query = function() {
   parser.parse = function(query, shortcuts, callback) {
     // 1. get list of overpass turbo statements
     statements = {};
-    var statement = /{{([A-Za-z]+):([\s\S]*?)}}/;
+    var statement = /{{([A-Za-z0-9_]+):([\s\S]*?)}}/;
     var s;
     while (s = query.match(statement)) {
       var s_name = s[1];
@@ -22,7 +22,9 @@ turbo.query = function() {
         // these shortcuts can also be callback functions, like {{date:-1day}}
         if (typeof shortcuts[s_name] === "function") {
           shortcuts[s_name](s_instr, function(res) {
-            shortcuts[s_name] = res;
+            var seed = Math.round(Math.random()*Math.pow(2,22)); // todo: use some kind of checksum of s_instr if possible
+            shortcuts["__statement__"+s_name+"__"+seed] = res;
+            query = query.replace("{{"+s_name+":"+s_instr+"}}", "{{__statement__"+s_name+"__"+seed+":"+s_instr+"}}");
             // recursively call the parser with updated shortcuts
             parser.parse(query, shortcuts, callback);
           });
@@ -30,13 +32,13 @@ turbo.query = function() {
         } else
           s_replace = shortcuts[s_name];
       }
-      // remove statements, but preserve number of newlines
+      // remove statement, but preserve number of newlines
       var lc = s_instr.split(/\r?\n|\r/).length;
-      query = query.replace(statement, s_replace+Array(lc).join('\n'));
+      query = query.replace("{{"+s_name+":"+s_instr+"}}", s_replace+Array(lc).join('\n'));
     }
     // 2. get user defined constants
     var constants = {};
-    var constant = /{{([A-Za-z0-9]+)=(.+?)}}/;
+    var constant = /{{([A-Za-z0-9_]+)=(.+?)}}/;
     var c;
     while (c = query.match(constant)) {
       var c_name = c[1];
