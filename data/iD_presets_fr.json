@@ -106,7 +106,12 @@
     "terms": "Cinéma"
   },
   "amenity/clinic": {
-    "name": "Clinique"
+    "name": "Clinique",
+    "terms": "Clinique"
+  },
+  "amenity/clock": {
+    "name": "Horloge",
+    "terms": "Horloge"
   },
   "amenity/college": {
     "name": "Enseignement supérieur (non universitaire)",
@@ -117,10 +122,12 @@
     "terms": "Palais de Justice, Tribunal"
   },
   "amenity/dentist": {
-    "name": "Dentiste"
+    "name": "Dentiste",
+    "terms": "Dentiste"
   },
   "amenity/doctor": {
-    "name": "Médecin"
+    "name": "Médecin",
+    "terms": "Docteur, Médecin"
   },
   "amenity/drinking_water": {
     "name": "Eau potable",
@@ -262,6 +269,9 @@
     "name": "Machine distributrice",
     "terms": "Machine distributrice"
   },
+  "amenity/veterinary": {
+    "terms": "Vétérinaire"
+  },
   "amenity/waste_basket": {
     "name": "Corbeille",
     "terms": "Corbeille, Poubelle"
@@ -382,7 +392,8 @@
     "name": "Forgeron"
   },
   "craft/boatbuilder": {
-    "name": "Constructeur de bateaux"
+    "name": "Constructeur de bateaux",
+    "terms": "Constructeur de bâteaux"
   },
   "craft/bookbinder": {
     "name": "Relieur"
@@ -406,7 +417,8 @@
     "name": "Couturier"
   },
   "craft/electrician": {
-    "name": "Electricien"
+    "name": "Electricien",
+    "terms": "Électricien"
   },
   "craft/gardener": {
     "name": "Jardinier"
@@ -424,7 +436,8 @@
     "terms": "chauffage,ventilation,climatisation,chauffagistes"
   },
   "craft/jeweler": {
-    "name": "Bijoutier"
+    "name": "Bijoutier",
+    "terms": "Bijoutier"
   },
   "craft/locksmith": {
     "name": "Serrurier"
@@ -434,13 +447,12 @@
     "terms": "Construction métallique"
   },
   "craft/optician": {
-    "name": "Opticien"
-  },
-  "craft/painter": {
-    "name": "peintre"
+    "name": "Opticien",
+    "terms": "Opticien"
   },
   "craft/photographer": {
-    "name": "Photographe"
+    "name": "Photographe",
+    "terms": "Photographe"
   },
   "craft/photographic_labratory": {
     "name": "Laboratoire Photographique"
@@ -449,7 +461,8 @@
     "name": "Plâtrier"
   },
   "craft/plumber": {
-    "name": "Plombier"
+    "name": "Plombier",
+    "terms": "Plombier"
   },
   "craft/pottery": {
     "name": "Pottier"
@@ -630,6 +643,10 @@
   "highway/service/parking_aisle": {
     "name": "Allée de parking",
     "terms": "Allée de parking, allée de stationnement"
+  },
+  "highway/services": {
+    "name": "Aire de service",
+    "terms": "Aire de service"
   },
   "highway/steps": {
     "name": "Escalier",
@@ -883,7 +900,8 @@
     "name": "Terre-plein"
   },
   "man_made/flagpole": {
-    "name": "Porte-drapeau"
+    "name": "Porte-drapeau",
+    "terms": "Hampe"
   },
   "man_made/lighthouse": {
     "name": "Phare",
@@ -1052,17 +1070,20 @@
     "terms": "Agence immobilière"
   },
   "office/financial": {
-    "name": "Établissement financier"
+    "name": "Établissement financier",
+    "terms": "Bureau financier"
   },
   "office/government": {
-    "name": "Établissement Public"
+    "name": "Établissement Public",
+    "terms": "Bureau du gouvernement"
   },
   "office/insurance": {
     "name": "Agence d'assurance",
     "terms": "Agence d'assurance"
   },
   "office/it": {
-    "name": "Bureau informatique"
+    "name": "Bureau informatique",
+    "terms": "Bureau informatique"
   },
   "office/lawyer": {
     "name": "Cabinet d'avocats",

@@ -271,6 +271,22 @@
     "name": "避難所",
     "terms": "避難所,シェルター,逃げ場"
   },
+  "amenity/social_facility": {
+    "name": "福祉施設",
+    "terms": "福祉施設, 支援施設"
+  },
+  "amenity/social_facility/food_bank": {
+    "name": "フードバンク",
+    "terms": "フードバンク"
+  },
+  "amenity/social_facility/group_home": {
+    "name": "グループホーム",
+    "terms": "グループホーム"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "ホームレス緊急一時宿泊施設",
+    "terms": "ホームレス緊急一時宿泊施設, ホームレスシェルター"
+  },
   "amenity/studio": {
     "name": "スタジオ",
     "terms": "スタジオ"
@@ -521,7 +537,7 @@
   },
   "craft/painter": {
     "name": "塗装業",
-    "terms": "塗装業"
+    "terms": "塗装業, 外装業, ペンキ屋"
   },
   "craft/photographer": {
     "name": "写真屋",

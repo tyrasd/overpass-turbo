@@ -681,7 +681,7 @@
             "dentist's office"
         ],
         "tags": {
-            "amenity": "doctors"
+            "amenity": "dentist"
         },
         "icon": "hospital",
         "fields": [
@@ -1362,6 +1362,95 @@
         ],
         "name": "Shelter"
     },
+    "amenity/social_facility": {
+        "name": "Social Facility",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [],
+        "tags": {
+            "amenity": "social_facility"
+        },
+        "fields": [
+            "social_facility_for",
+            "address",
+            "phone",
+            "opening_hours",
+            "wheelchair",
+            "operator"
+        ]
+    },
+    "amenity/social_facility/food_bank": {
+        "name": "Food Bank",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [],
+        "tags": {
+            "amenity": "social_facility",
+            "social_facility": "food_bank"
+        },
+        "fields": [
+            "social_facility_for",
+            "address",
+            "phone",
+            "opening_hours",
+            "wheelchair",
+            "operator"
+        ]
+    },
+    "amenity/social_facility/group_home": {
+        "name": "Group Home",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "elderly",
+            "old",
+            "senior living"
+        ],
+        "tags": {
+            "amenity": "social_facility",
+            "social_facility": "group_home",
+            "social_facility_for": "senior"
+        },
+        "fields": [
+            "social_facility_for",
+            "address",
+            "phone",
+            "opening_hours",
+            "wheelchair",
+            "operator"
+        ]
+    },
+    "amenity/social_facility/homeless_shelter": {
+        "name": "Homeless Shelter",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "houseless",
+            "unhoused",
+            "displaced"
+        ],
+        "tags": {
+            "amenity": "social_facility",
+            "social_facility": "shelter",
+            "social_facility:for": "homeless"
+        },
+        "fields": [
+            "social_facility_for",
+            "address",
+            "phone",
+            "opening_hours",
+            "wheelchair",
+            "operator"
+        ]
+    },
     "amenity/studio": {
         "name": "Studio",
         "geometry": [
@@ -1827,6 +1916,102 @@
         },
         "name": "Apartments"
     },
+    "building/barn": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "barn"
+        },
+        "name": "Barn"
+    },
+    "building/bunker": {
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "bunker"
+        },
+        "name": "Bunker",
+        "searchable": false
+    },
+    "building/cabin": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "cabin"
+        },
+        "name": "Cabin"
+    },
+    "building/cathedral": {
+        "icon": "place-of-worship",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "cathedral"
+        },
+        "name": "Cathedral"
+    },
+    "building/chapel": {
+        "icon": "place-of-worship",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "chapel"
+        },
+        "name": "Chapel"
+    },
+    "building/church": {
+        "icon": "place-of-worship",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "church"
+        },
+        "name": "Church"
+    },
     "building/commercial": {
         "icon": "commercial",
         "geometry": [
@@ -1838,6 +2023,54 @@
             "building": "commercial"
         },
         "name": "Commercial Building"
+    },
+    "building/construction": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "construction"
+        },
+        "name": "Building Under Construction"
+    },
+    "building/detached": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "detached"
+        },
+        "name": "Detached Home"
+    },
+    "building/dormitory": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "dormitory"
+        },
+        "name": "Dormitory"
     },
     "building/entrance": {
         "icon": "entrance",
@@ -1864,6 +2097,69 @@
         },
         "name": "Garage",
         "icon": "warehouse"
+    },
+    "building/garages": {
+        "icon": "warehouse",
+        "fields": [
+            "capacity"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "garages"
+        },
+        "name": "Garages"
+    },
+    "building/greenhouse": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "greenhouse"
+        },
+        "name": "Greenhouse"
+    },
+    "building/hospital": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "hospital"
+        },
+        "name": "Hospital Building"
+    },
+    "building/hotel": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "hotel"
+        },
+        "name": "Hotel Building"
     },
     "building/house": {
         "icon": "building",
@@ -1907,6 +2203,22 @@
         },
         "name": "Industrial Building"
     },
+    "building/public": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "public"
+        },
+        "name": "Public Building"
+    },
     "building/residential": {
         "icon": "building",
         "fields": [
@@ -1922,6 +2234,167 @@
             "building": "residential"
         },
         "name": "Residential Building"
+    },
+    "building/retail": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "retail"
+        },
+        "name": "Retail Building"
+    },
+    "building/roof": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "roof"
+        },
+        "name": "Roof"
+    },
+    "building/school": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "school"
+        },
+        "name": "School Building"
+    },
+    "building/shed": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "shed"
+        },
+        "name": "Shed"
+    },
+    "building/stable": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "stable"
+        },
+        "name": "Stable"
+    },
+    "building/static_caravan": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "static_caravan"
+        },
+        "name": "Static Mobile Home"
+    },
+    "building/terrace": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "terrace"
+        },
+        "name": "Row Houses"
+    },
+    "building/train_station": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "train_station"
+        },
+        "name": "Train Station",
+        "searchable": false
+    },
+    "building/university": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "university"
+        },
+        "name": "University Building"
+    },
+    "building/warehouse": {
+        "icon": "building",
+        "fields": [
+            "address",
+            "levels"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "building": "warehouse"
+        },
+        "name": "Warehouse"
     },
     "craft/basket_maker": {
         "name": "Basket Maker",
@@ -5684,6 +6157,9 @@
     },
     "railway/station": {
         "icon": "rail",
+        "fields": [
+            "building_area"
+        ],
         "geometry": [
             "point",
             "vertex",

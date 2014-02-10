@@ -271,6 +271,22 @@
     "name": "Nhà trú",
     "terms": "nhà trú, chỗ che chở, nhà trú bão, nhà trú mưa, nhà trú ẩn, điểm trú bão, điểm trú mưa, điểm trú ẩn, túp lều, mái, nóc, cho che cho, nha tru bao, nha tru mua, nha tru an, diem tru bao, diem tru mau, diem tru an, tup leu, mai, noc"
   },
+  "amenity/social_facility": {
+    "name": "Dịch vụ Xã hội",
+    "terms": "dịch vụ xã hội, người vô gia cư, người khuyết tật, trẻ em, trung tâm điều trị nghiện ma túy, trung tâm điều trị nghiện rượu, dich vu xa hoi, nguoi vo gia cu, nguoi khuyet tat, tre em, trung tam dieu tri nghien ma tuy, trung tam dieu tri nghien ruou"
+  },
+  "amenity/social_facility/food_bank": {
+    "name": "Phân phát Thực phẩm",
+    "terms": "nhà phân phát thực phẩm, dịch vụ phân phối thực phẩm, cơ quan cung cấp thực phẩm, cơ quan cung cấp thức ăn, cơ quan cung cấp đồ ăn, giao thức ăn cho người đói, food bank, nha phan phat thuc pham, dich vu phan phoi thuc pham, co quan cung cap thuc pham, co quan cung cap thuc an, co quan cung cap do an, giao thuc an cho nguoi doi"
+  },
+  "amenity/social_facility/group_home": {
+    "name": "Nhà trọ Cộng đồng",
+    "terms": "nhà trọ cộng đồng, nhà tập thể, group home, nha tro cong dong, nha tap the"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "Cứu trợ Người Vô gia cư",
+    "terms": "trung tâm cứu trợ người vô gia cư, trung tâm cho người vô gia cư, nhà tạm trú cho người vô gia cư, trung tam cuu tro nguoi vo gia cu, trung tam cho nguoi vo gia cu, nha tam tru cho nguoi vo gia cu"
+  },
   "amenity/studio": {
     "name": "Studio",
     "terms": "studio, xtuđiô, đài radio, đài rađiô, kênh radio, kênh rađiô, đài vô tuyến, kênh vô tuyến, đài phát thanh, đài TV, kênh TV, đài tivi, kênh tivi, đài truyền hình, kênh truyền hình, đài quảng bá, đài kênh quảng bá, phát tin, kênh phát tin, studio, xtudio, dai radio, dai radio, kenh radio, kenh radio, dai vo tuyen, kenh vo tuyen, dai phat thanh, dai TV, kenh TV, dai tivi, kenh tivi, dai truyen hinh, kenh truyen hinh, dai quang ba, dai kenh quang ba, phat tin, kenh phat tin"

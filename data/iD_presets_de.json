@@ -271,6 +271,22 @@
     "name": "Unterstand",
     "terms": "Unterstand, Schutzdach, Schutzraum, Schuppen"
   },
+  "amenity/social_facility": {
+    "name": "Sozialeinrichtung",
+    "terms": "Sozialeinrichtung, Sozialhilfeeinrichtung"
+  },
+  "amenity/social_facility/food_bank": {
+    "name": "Essensausgabe",
+    "terms": "Essensausgabe, Sozialmarkt"
+  },
+  "amenity/social_facility/group_home": {
+    "name": "Wohngemeinschaft",
+    "terms": "Wohngemeinschaft, Gemeinschaftswohnen"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "Obdachlosenheim",
+    "terms": "Obdachlosenheim, Obdachlosenasyl"
+  },
   "amenity/studio": {
     "name": "Atelier",
     "terms": "Atelier, Werkstatt, Studio"
@@ -521,7 +537,7 @@
   },
   "craft/painter": {
     "name": "Maler",
-    "terms": "Maler, Anstreicher, Lackierer"
+    "terms": "Maler, Anstreicher"
   },
   "craft/photographer": {
     "name": "Fotograf",
@@ -1417,7 +1433,7 @@
   },
   "shop/bicycle": {
     "name": "Fahrradladen",
-    "terms": "Fahrradladen, Fahrrad-Geschäft, Fahrrad-Handlung"
+    "terms": "Fahrradladen, Fahrradgeschäft, Fahrrad-Geschäft, Fahrrad-Handlung"
   },
   "shop/books": {
     "name": "Buchhandlung",

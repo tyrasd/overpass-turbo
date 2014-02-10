@@ -271,6 +271,22 @@
     "name": "Shelter",
     "terms": "Shelter, læskur"
   },
+  "amenity/social_facility": {
+    "name": "Sociale faciliteter",
+    "terms": "Sociale faciliteter"
+  },
+  "amenity/social_facility/food_bank": {
+    "name": "Fødevarebank",
+    "terms": "Fødevarebank, folkekøkken"
+  },
+  "amenity/social_facility/group_home": {
+    "name": "Gruppehjem",
+    "terms": "Gruppehjem"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "Hjemmeløsskur",
+    "terms": "Hjemmeløsskur"
+  },
   "amenity/studio": {
     "name": "Studie",
     "terms": "Studie"
