@@ -1,3 +1,9 @@
+2014-02-10
+----------
+* activate Catalan translation
+* bugfixes
+* updated presets and translations
+
 2014-01-26
 ----------
 * **intelligent wizard**: using iD's presets to construct queries from simple description of objects
