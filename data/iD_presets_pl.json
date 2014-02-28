@@ -96,6 +96,9 @@
     "name": "Kino",
     "terms": "duży ekran,drive-in,film,ruchomy obraz,pokaz zdjęć,zdjęcia,pokaz,silver screen"
   },
+  "amenity/clock": {
+    "name": "Zegar"
+  },
   "amenity/college": {
     "name": "Uczelnia",
     "terms": "uczelnia"
@@ -191,6 +194,9 @@
     "name": "Pub",
     "terms": "pub,piwo,wino"
   },
+  "amenity/recycling": {
+    "name": "Recykling"
+  },
   "amenity/restaurant": {
     "name": "Restauracja",
     "terms": "bar,kawiarnia,stołówka,jadalnia,drive-in,knajpa,jadłodajnia,fast food,grill,gospoda,klub nocny,pizzeria"
@@ -201,6 +207,15 @@
   },
   "amenity/shelter": {
     "name": "Schronienie"
+  },
+  "amenity/social_facility": {
+    "name": "Placówka pomocy społecznej"
+  },
+  "amenity/social_facility/food_bank": {
+    "name": "Bank żywności"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "Schronisko dla bezdomnych"
   },
   "amenity/swimming_pool": {
     "name": "Basen",
@@ -233,6 +248,9 @@
   "amenity/vending_machine": {
     "name": "Automat sprzedający",
     "terms": "automat do sprzedaży"
+  },
+  "amenity/veterinary": {
+    "name": "Weterynarz"
   },
   "amenity/waste_basket": {
     "name": "Kosz na śmieci",
@@ -320,6 +338,9 @@
     "name": "Apartamenty",
     "terms": "blok,kamienica"
   },
+  "building/church": {
+    "name": "Kościół"
+  },
   "building/commercial": {
     "name": "Nieruchomość komercyjna",
     "terms": "sklep,komercyjny,sprzedaż,handlowy"
@@ -347,6 +368,51 @@
   "building/residential": {
     "name": "Budynek mieszkalny",
     "terms": "blok, kamienica, dom, czynszówka"
+  },
+  "building/warehouse": {
+    "name": "Magazyn"
+  },
+  "craft/clockmaker": {
+    "name": "Zegarmistrz"
+  },
+  "craft/confectionary": {
+    "name": "Cukiernik"
+  },
+  "craft/dressmaker": {
+    "name": "Krawiec"
+  },
+  "craft/electrician": {
+    "name": "Elektryk"
+  },
+  "craft/gardener": {
+    "name": "Ogrodnik"
+  },
+  "craft/glaziery": {
+    "name": "Szklarz"
+  },
+  "craft/jeweler": {
+    "name": "Jubiler"
+  },
+  "craft/locksmith": {
+    "name": "Ślusarz"
+  },
+  "craft/optician": {
+    "name": "Optyk"
+  },
+  "craft/painter": {
+    "name": "Malarz"
+  },
+  "craft/photographer": {
+    "name": "Fotograf"
+  },
+  "craft/photographic_labratory": {
+    "name": "Laboratorium fotograficzne"
+  },
+  "craft/plumber": {
+    "name": "Hydraulik"
+  },
+  "craft/roofer": {
+    "name": "Dekarz"
   },
   "emergency/ambulance_station": {
     "name": "Stacja pogotowia ratunkowego",
@@ -435,6 +501,9 @@
     "name": "Droga lokalna",
     "terms": "lokalna, osiedlowa, zamieszkała"
   },
+  "highway/rest_area": {
+    "name": "Obszar wypoczynkowy"
+  },
   "highway/road": {
     "name": "Nieokreślona droga",
     "terms": "droga,nieznana,niewiadoma"
@@ -466,6 +535,9 @@
   },
   "highway/service/parking_aisle": {
     "name": "Uliczka parkingowa"
+  },
+  "highway/services": {
+    "name": "Obszar usługowy"
   },
   "highway/steps": {
     "name": "Schody",
@@ -812,8 +884,24 @@
   "office/architect": {
     "terms": "architekt"
   },
+  "office/educational_institution": {
+    "name": "Instytucja edukacyjna"
+  },
+  "office/employment_agency": {
+    "name": "Agencja zatrudnienia"
+  },
+  "office/estate_agent": {
+    "name": "Biuro nieruchomości"
+  },
+  "office/insurance": {
+    "name": "Biuro ubezpieczeń"
+  },
   "office/political_party": {
+    "name": "Partia polityczna",
     "terms": "partia polityczna"
+  },
+  "office/therapist": {
+    "name": "Terapeuta"
   },
   "office/travel_agent": {
     "name": "Biuro podróży"
@@ -871,6 +959,9 @@
   },
   "power/transformer": {
     "name": "Transformator"
+  },
+  "public_transport/stop_position": {
+    "name": "Miejsce zatrzymania"
   },
   "railway": {
     "name": "Kolej",
@@ -943,6 +1034,9 @@
   "shop/bicycle": {
     "name": "Sklep rowerowy",
     "terms": "sklep rowerowy"
+  },
+  "shop/bookmaker": {
+    "name": "Bukmacher"
   },
   "shop/books": {
     "name": "Księgarnia",
@@ -1046,6 +1140,9 @@
   },
   "shop/locksmith": {
     "name": "Ślusarz"
+  },
+  "shop/lottery": {
+    "name": "Kolektura"
   },
   "shop/mall": {
     "name": "Centrum handlowe"

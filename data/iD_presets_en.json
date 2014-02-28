@@ -1515,6 +1515,10 @@
     "name": "Liquor Store",
     "terms": "alcohol"
   },
+  "shop/art": {
+    "name": "Art Shop",
+    "terms": "art store,art gallery"
+  },
   "shop/bakery": {
     "name": "Bakery",
     "terms": ""
@@ -1529,6 +1533,10 @@
   },
   "shop/bicycle": {
     "name": "Bicycle Shop",
+    "terms": ""
+  },
+  "shop/bookmaker": {
+    "name": "Bookmaker",
     "terms": ""
   },
   "shop/books": {
@@ -1650,6 +1658,10 @@
   "shop/locksmith": {
     "name": "Locksmith",
     "terms": "keys"
+  },
+  "shop/lottery": {
+    "name": "Lottery Shop",
+    "terms": ""
   },
   "shop/mall": {
     "name": "Mall",

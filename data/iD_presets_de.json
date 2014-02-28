@@ -92,7 +92,7 @@
     "terms": "Geldautomat"
   },
   "amenity/bank": {
-    "name": "Bank",
+    "name": "Bank (Geldinstitut)",
     "terms": "Kasse,Kontor,Kreditgenossenschaft,Lagerstelle,Fiskus,Fonds,Vermögen,Investmentfirma,Register,Rücklage,Vorrat,Tresor,Rücklagen,Grundkapital,Vorrat,Lager,Lagerhaus,Sparkasse,Schatz,Treuhandgesellschaft,Tresorraum"
   },
   "amenity/bar": {
@@ -100,7 +100,7 @@
     "terms": "Bar"
   },
   "amenity/bench": {
-    "name": "Bank",
+    "name": "Sitzbank",
     "terms": "Bank, Sitzbank"
   },
   "amenity/bicycle_parking": {
@@ -415,9 +415,45 @@
     "name": "Wohnungen",
     "terms": "Wohnung"
   },
+  "building/barn": {
+    "name": "Scheune",
+    "terms": "Scheune, Stall"
+  },
+  "building/bunker": {
+    "name": "Bunker",
+    "terms": "Bunker, Schutzraum"
+  },
+  "building/cabin": {
+    "name": "Hütte",
+    "terms": "Hütte, Wochenendhaus"
+  },
+  "building/cathedral": {
+    "name": "Kathedrale",
+    "terms": "Kathedrale, Dom"
+  },
+  "building/chapel": {
+    "name": "Kapelle (Sakralbau)",
+    "terms": "Kapelle"
+  },
+  "building/church": {
+    "name": "Kirche",
+    "terms": "Kirche"
+  },
   "building/commercial": {
     "name": "Geschäftshaus",
     "terms": "Gewerbehaus,gewerblich genutztes Gebäude,"
+  },
+  "building/construction": {
+    "name": "im Bau befindliches Gebäude",
+    "terms": "Gebäude im Bau"
+  },
+  "building/detached": {
+    "name": "Doppelhaus",
+    "terms": "Haushälfte, Doppelhaus"
+  },
+  "building/dormitory": {
+    "name": "Schlafsaal",
+    "terms": "Schlafsaal, Dormitorium"
   },
   "building/entrance": {
     "name": "Eingang",
@@ -426,6 +462,22 @@
   "building/garage": {
     "name": "Garage",
     "terms": "Garage"
+  },
+  "building/garages": {
+    "name": "Garagen",
+    "terms": "Garagen"
+  },
+  "building/greenhouse": {
+    "name": "Gewächshaus",
+    "terms": "Glashaus, Gewächshaus, Treibhaus"
+  },
+  "building/hospital": {
+    "name": "Krankenhausgebäude",
+    "terms": "Krankenhausgebäude, Klinikgebäude"
+  },
+  "building/hotel": {
+    "name": "Hotelgebäude",
+    "terms": "Hotelgebäude"
   },
   "building/house": {
     "name": "Haus",
@@ -439,9 +491,53 @@
     "name": "Industriegebäude",
     "terms": "Industriegebäude"
   },
+  "building/public": {
+    "name": "Öffentliches Gebäude",
+    "terms": "Öffentliches Gebäude"
+  },
   "building/residential": {
     "name": "Wohngebäude",
     "terms": "Wohnhaus,Einfamilienhaus,Mehrfamilienhaus"
+  },
+  "building/retail": {
+    "name": "Geschäftsgebäude",
+    "terms": "Geschäftsgebäude, Gebäude mit Läden"
+  },
+  "building/roof": {
+    "name": "Dach",
+    "terms": "Dach"
+  },
+  "building/school": {
+    "name": "Schulgebäude",
+    "terms": "Schulgebäude, Schulhaus"
+  },
+  "building/shed": {
+    "name": "Schuppen",
+    "terms": "Hütte, Baracke"
+  },
+  "building/stable": {
+    "name": "Stall",
+    "terms": "Stall, Stallgebäude"
+  },
+  "building/static_caravan": {
+    "name": "Feststehender Wohnwagen",
+    "terms": "Abgestellter Wohnwagen"
+  },
+  "building/terrace": {
+    "name": "Reihenhäuser",
+    "terms": "Reihenhäuser"
+  },
+  "building/train_station": {
+    "name": "Bahnhof",
+    "terms": "Bahnhof, Haltestelle, Haltepunkt"
+  },
+  "building/university": {
+    "name": "Universitätsgebäude",
+    "terms": "Universitätsgebäude, Campusgebäude"
+  },
+  "building/warehouse": {
+    "name": "Lagerhalle",
+    "terms": "Lagerhaus, Lagergebäude"
   },
   "craft/basket_maker": {
     "name": "Korbflechter",
@@ -885,7 +981,7 @@
   },
   "landuse/commercial": {
     "name": "Gewerbegebiet",
-    "terms": "Gewerbezone,Gewerbegebiet,gewerblich genutzte Gebäude,Buissenes Park,Büros"
+    "terms": "Gewerbezone,Gewerbegebiet,gewerblich genutzte Gebäude,Business Park,Büros"
   },
   "landuse/construction": {
     "name": "Baustelle",
@@ -1419,6 +1515,10 @@
     "name": "Spirituosenladen",
     "terms": "Alkohol"
   },
+  "shop/art": {
+    "name": "Kunsthandlung",
+    "terms": "Kunsthandlung, Kunstladen"
+  },
   "shop/bakery": {
     "name": "Bäckerei",
     "terms": "Bäckerei"
@@ -1434,6 +1534,10 @@
   "shop/bicycle": {
     "name": "Fahrradladen",
     "terms": "Fahrradladen, Fahrradgeschäft, Fahrrad-Geschäft, Fahrrad-Handlung"
+  },
+  "shop/bookmaker": {
+    "name": "Buchmacher",
+    "terms": "Buchmacher"
   },
   "shop/books": {
     "name": "Buchhandlung",
@@ -1554,6 +1658,10 @@
   "shop/locksmith": {
     "name": "Schlosser",
     "terms": "Schlosser, Schlüsseldienst"
+  },
+  "shop/lottery": {
+    "name": "Lottoannahmestelle",
+    "terms": "Lottoannahmestelle"
   },
   "shop/mall": {
     "name": "Einkaufzentrum",
