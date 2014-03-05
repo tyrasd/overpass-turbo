@@ -383,6 +383,10 @@ setTimeout(function() {
                   if (((wiki_lang = k.match(/^wikipedia\:(.*)$/)) && (wiki_page = v)) || 
                       ((k == "wikipedia") && (wiki_lang = v.match(/^([a-zA-Z]+)\:(.*)$/)) && (wiki_page = wiki_lang[2])))
                     v = '<a href="http://'+wiki_lang[1]+'.wikipedia.org/wiki/'+encodeURIComponent(wiki_page)+'" target="_blank">'+v+'</a>';
+                  // hyperlinks for wikidata entries
+                  var wikidata_page;
+                  if ((k == "wikidata") && (wikidata_page = v.match(/^Q[0-9]+$/)))
+                    v = '<a href="https://www.wikidata.org/wiki/'+encodeURIComponent(wikidata_page)+'" target="_blank">'+v+'</a>';
                   popup += "<li>"+k+"="+v+"</li>"
                 });
                 popup += "</ul>";
