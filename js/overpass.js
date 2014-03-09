@@ -385,7 +385,8 @@ setTimeout(function() {
                     v = '<a href="http://'+wiki_lang[1]+'.wikipedia.org/wiki/'+encodeURIComponent(wiki_page)+'" target="_blank">'+v+'</a>';
                   // hyperlinks for wikidata entries
                   var wikidata_page;
-                  if ((k == "wikidata") && (wikidata_page = v.match(/^Q[0-9]+$/)))
+                  if (((k == "wikidata") && (wikidata_page = v.match(/^Q[0-9]+$/))) ||
+                      (k.match(/:wikidata$/) && (wikidata_page = v.match(/^Q[0-9]+$/))))
                     v = '<a href="https://www.wikidata.org/wiki/'+encodeURIComponent(wikidata_page[0])+'" target="_blank">'+v+'</a>';
                   popup += "<li>"+k+"="+v+"</li>"
                 });
