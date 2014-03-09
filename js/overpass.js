@@ -414,6 +414,10 @@ setTimeout(function() {
                 $.each(feature.properties.meta, function (k,v) {
                   k = htmlentities(k);
                   v = htmlentities(v);
+                  if (k == "user")
+                    v = '<a href="http://www.openstreetmap.org/user/'+encodeURIComponent(v)+'" target="_blank">'+v+'</a>';
+                  if (k == "changeset")
+                    v = '<a href="http://www.openstreetmap.org/changeset/'+encodeURIComponent(v)+'" target="_blank">'+v+'</a>';
                   popup += "<li>"+k+"="+v+"</li>";
                 });
                 popup += "</ul>";
