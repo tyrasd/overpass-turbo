@@ -1,3 +1,11 @@
+2014-03-19
+----------
+* add hyperlinks to wikidata entries
+* add hyperlinks to OSM user and changeset pages
+* update translations
+* update presets
+* bump some library versions
+
 2014-02-10
 ----------
 * activate Catalan translation
