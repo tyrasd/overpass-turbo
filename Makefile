@@ -142,7 +142,7 @@ translations:
 	node locales/update_locales
 
 presets:
-	wget "https://github.com/systemed/iD/raw/master/data/presets/presets.json" -O data/iD_presets.json
+	wget "https://github.com/openstreetmap/iD/raw/master/data/presets/presets.json" -O data/iD_presets.json --no-check-certificate
 	node data/get_preset_translations
 
 ffs:

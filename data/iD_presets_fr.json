@@ -3,11 +3,36 @@
     "name": "Adresse",
     "terms": "Adresse"
   },
+  "aerialway": {
+    "name": "Remontée mécanique"
+  },
   "aerialway/cable_car": {
     "name": "Téléphérique"
   },
   "aerialway/chair_lift": {
     "name": "Télésiège"
+  },
+  "aerialway/gondola": {
+    "name": "Gondole"
+  },
+  "aerialway/magic_carpet": {
+    "name": "Bande transporteuse de personnes"
+  },
+  "aerialway/platter": {
+    "name": "Téléski",
+    "terms": "Remonte-pente, tire-fesses, téléski à enrouleurs, téléski à perches débrayables"
+  },
+  "aerialway/pylon": {
+    "name": "Pylône de remontée mécanique"
+  },
+  "aerialway/rope_tow": {
+    "name": "Télécorde"
+  },
+  "aerialway/station": {
+    "name": "Gare de remontée mécanique"
+  },
+  "aerialway/t-bar": {
+    "name": "Téléski bi-place"
   },
   "aeroway": {
     "name": "Aviation",
@@ -237,6 +262,9 @@
     "name": "Abri",
     "terms": "Abri"
   },
+  "amenity/studio": {
+    "name": "Studio"
+  },
   "amenity/swimming_pool": {
     "name": "Piscine",
     "terms": "Piscine"
@@ -270,6 +298,7 @@
     "terms": "Machine distributrice"
   },
   "amenity/veterinary": {
+    "name": "Vétérinaire",
     "terms": "Vétérinaire"
   },
   "amenity/waste_basket": {
@@ -360,6 +389,15 @@
     "name": "Résidence",
     "terms": "Appartements"
   },
+  "building/cathedral": {
+    "name": "Cathédrale"
+  },
+  "building/chapel": {
+    "name": "Chapelle"
+  },
+  "building/church": {
+    "name": "Église"
+  },
   "building/commercial": {
     "name": "Bâtiment commercial",
     "terms": "Bâtiment commercial"
@@ -371,6 +409,12 @@
   "building/garage": {
     "name": "Garage",
     "terms": "Garage"
+  },
+  "building/greenhouse": {
+    "name": "Serre"
+  },
+  "building/hotel": {
+    "name": "Hôtel"
   },
   "building/house": {
     "name": "Maison",
@@ -384,9 +428,24 @@
     "name": "Bâtiment industriel",
     "terms": "Bâtiment industriel"
   },
+  "building/public": {
+    "name": "Établissement public"
+  },
   "building/residential": {
     "name": "Bâtiment résidentiel",
     "terms": "Bâtiment résidentiel"
+  },
+  "building/school": {
+    "name": "Bâtiment d'enseignement"
+  },
+  "building/stable": {
+    "name": "Étable"
+  },
+  "building/train_station": {
+    "name": "Gare ferroviaire"
+  },
+  "building/university": {
+    "name": "Université"
   },
   "craft/blacksmith": {
     "name": "Forgeron"
@@ -607,6 +666,9 @@
   "highway/residential": {
     "name": "Route résidentielle",
     "terms": "Route résidentielle"
+  },
+  "highway/rest_area": {
+    "name": "Aire de repos"
   },
   "highway/road": {
     "name": "Voie de type inconnu",
@@ -1121,6 +1183,9 @@
     "name": "Agence de voyage",
     "terms": "Agence de voyage"
   },
+  "piste": {
+    "name": "Piste de ski"
+  },
   "place": {
     "name": "Toponymie",
     "terms": "Lieu"
@@ -1206,6 +1271,9 @@
   "railway/disused": {
     "name": "Voie ferrée désaffectée",
     "terms": "Voie ferrée non utilisée"
+  },
+  "railway/funicular": {
+    "name": "Funiculaire"
   },
   "railway/halt": {
     "name": "Hall de gare",
