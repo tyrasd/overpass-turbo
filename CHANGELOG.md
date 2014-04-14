@@ -1,3 +1,9 @@
+2014-04-14
+----------
+* update translations
+* fix a bug with multiple overpass-turbo-statements
+* other bugfixes
+
 2014-03-19
 ----------
 * add hyperlinks to wikidata entries
