@@ -695,7 +695,7 @@ var ide = new(function() {
   this.relativeTime = function(instr, callback) {
     var now = Date.now();
     // very basic differential date
-    instr = instr.match(/(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/);
+    instr = instr.toLowerCase().match(/(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/);
     var count = parseInt(instr[1]);
     var interval;
     switch (instr[2]) {
@@ -717,7 +717,7 @@ var ide = new(function() {
       interval=604800; break;
       case "month":
       case "months":
-      interval=2592000; break;
+      interval=2628000; break;
       case "year":
       case "years":
       interval=31536000; break;

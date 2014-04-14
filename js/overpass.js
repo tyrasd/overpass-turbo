@@ -162,7 +162,7 @@ setTimeout(function() {
           //geojson = overpass.overpassJSON2geoJSON(data);
         }
 
-        fire("onProgress", "applying styles");
+        //fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 setTimeout(function() {
         /* own MapCSS-extension:
          * added symbol-* properties

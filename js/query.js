@@ -5,9 +5,10 @@ turbo.query = function() {
 
   var parser = {};
 
-  parser.parse = function(query, shortcuts, callback) {
+  parser.parse = function(query, shortcuts, callback, _found_statements) {
     // 1. get list of overpass turbo statements
     statements = {};
+    if (_found_statements) statements = _found_statements;
     var statement = /{{([A-Za-z0-9_]+):([\s\S]*?)}}/;
     var s;
     while (s = query.match(statement)) {
@@ -26,7 +27,7 @@ turbo.query = function() {
             shortcuts["__statement__"+s_name+"__"+seed] = res;
             query = query.replace("{{"+s_name+":"+s_instr+"}}", "{{__statement__"+s_name+"__"+seed+":"+s_instr+"}}");
             // recursively call the parser with updated shortcuts
-            parser.parse(query, shortcuts, callback);
+            parser.parse(query, shortcuts, callback, statements);
           });
           return;
         } else
