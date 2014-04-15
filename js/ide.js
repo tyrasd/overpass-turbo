@@ -1575,7 +1575,7 @@ var ide = new(function() {
     );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox($("#settings-dialog input[name=server]"), [
-      "http://www.overpass-api.de/api/",
+      "http://overpass-api.de/api/",
       "http://overpass.osm.rambler.ru/cgi/",
       "http://api.openstreetmap.fr/oapi/",
     ]);
