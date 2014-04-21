@@ -16,6 +16,7 @@ var i18n = new(function() {
     "nl",
     //"pt_BR",
     "ru",
+    "uk",
     "vi",
   ];
   this.getSupportedLanguages = function() {
