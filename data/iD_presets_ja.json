@@ -99,6 +99,10 @@
     "name": "バー",
     "terms": "バー,飲み屋,呑み屋,ばー"
   },
+  "amenity/bbq": {
+    "name": "バーベキュー/グリル",
+    "terms": "バーベキュー,グリル,BBQ,飯盒炊爨"
+  },
   "amenity/bench": {
     "name": "ベンチ",
     "terms": "ベンチ"
@@ -192,12 +196,12 @@
     "terms": "墓地,霊園,墓場,お墓,墓苑"
   },
   "amenity/hospital": {
-    "name": "病院",
-    "terms": "病院, 医院,総合病院"
+    "name": "病院の敷地",
+    "terms": "病院の敷地"
   },
   "amenity/kindergarten": {
-    "name": "幼稚園",
-    "terms": "保育園,幼稚園"
+    "name": "幼稚園の敷地",
+    "terms": "幼稚園の敷地, 保育園の敷地"
   },
   "amenity/library": {
     "name": "図書館",
@@ -206,6 +210,10 @@
   "amenity/marketplace": {
     "name": "市場",
     "terms": "市場,マーケット,朝市,マルシェ"
+  },
+  "amenity/nightclub": {
+    "name": "ナイトクラブ",
+    "terms": "ナイトクラブ"
   },
   "amenity/parking": {
     "name": "駐車場",
@@ -264,8 +272,8 @@
     "terms": "レストラン,食堂"
   },
   "amenity/school": {
-    "name": "学校",
-    "terms": "学校,スクール"
+    "name": "学校の敷地",
+    "terms": "学校の敷地, 校庭"
   },
   "amenity/shelter": {
     "name": "避難所",
@@ -639,7 +647,7 @@
     "name": "写真屋",
     "terms": "カメラマン,写真屋"
   },
-  "craft/photographic_labratory": {
+  "craft/photographic_laboratory": {
     "name": "現像所",
     "terms": "現像所"
   },
@@ -1011,6 +1019,10 @@
     "name": "工業用地",
     "terms": "工業用地"
   },
+  "landuse/landfill": {
+    "name": "最終処分場",
+    "terms": "最終処分場"
+  },
   "landuse/meadow": {
     "name": "牧草地",
     "terms": "牧草地"
@@ -1047,6 +1059,10 @@
     "name": "ドッグパーク",
     "terms": "ドッグパーク, ドッグラン"
   },
+  "leisure/firepit": {
+    "name": "焚火",
+    "terms": "焚火,キャンプファイヤー"
+  },
   "leisure/garden": {
     "name": "庭園",
     "terms": "庭園"
@@ -1055,6 +1071,10 @@
     "name": "ゴルフコース",
     "terms": "ゴルフコース"
   },
+  "leisure/ice_rink": {
+    "name": "アイススケート場",
+    "terms": "アイススケート,アイススケート場,アイススケートリンク"
+  },
   "leisure/marina": {
     "name": "マリーナ",
     "terms": "マリーナ, ヨットハーバー"
@@ -1062,6 +1082,10 @@
   "leisure/park": {
     "name": "公園",
     "terms": "公園"
+  },
+  "leisure/picnic_table": {
+    "name": "ピクニックテーブル",
+    "terms": "ピクニックテーブル"
   },
   "leisure/pitch": {
     "name": "スポーツ競技場",
@@ -1391,6 +1415,14 @@
     "name": "地形名",
     "terms": "地形名"
   },
+  "place/neighbourhood": {
+    "name": "小字",
+    "terms": "小字"
+  },
+  "place/suburb": {
+    "name": "自治区",
+    "terms": "自治区"
+  },
   "place/town": {
     "name": "町",
     "terms": "町"
@@ -1615,6 +1647,10 @@
     "name": "生花店",
     "terms": "生花店"
   },
+  "shop/funeral_directors": {
+    "name": "葬儀社",
+    "terms": "葬儀屋, 葬儀業"
+  },
   "shop/furniture": {
     "name": "家具店",
     "terms": "家具店, インテリア用品店"
@@ -1698,6 +1734,10 @@
   "shop/photo": {
     "name": "写真屋",
     "terms": "写真屋"
+  },
+  "shop/seafood": {
+    "name": "魚屋",
+    "terms": "海鮮食品店,魚屋,魚市場"
   },
   "shop/shoes": {
     "name": "靴店",

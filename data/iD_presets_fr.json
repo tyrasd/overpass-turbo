@@ -182,14 +182,6 @@
     "name": "Cimetière",
     "terms": "Cimetière"
   },
-  "amenity/hospital": {
-    "name": "Hôpital",
-    "terms": "Hôpital, Clinique"
-  },
-  "amenity/kindergarten": {
-    "name": "Ecole maternelle",
-    "terms": "Crèche"
-  },
   "amenity/library": {
     "name": "Bibliothèque",
     "terms": "Bibliothèque, Librairie"
@@ -253,10 +245,6 @@
   "amenity/restaurant": {
     "name": "Restaurant",
     "terms": "Restaurant"
-  },
-  "amenity/school": {
-    "name": "École",
-    "terms": "Ecole"
   },
   "amenity/shelter": {
     "name": "Abri",
@@ -512,9 +500,6 @@
   "craft/photographer": {
     "name": "Photographe",
     "terms": "Photographe"
-  },
-  "craft/photographic_labratory": {
-    "name": "Laboratoire Photographique"
   },
   "craft/plasterer": {
     "name": "Plâtrier"

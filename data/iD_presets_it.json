@@ -192,12 +192,12 @@
     "terms": "Cimitero"
   },
   "amenity/hospital": {
-    "name": "Ospedale",
-    "terms": "clinica,pronto soccorso,servizio sanitario,salute,hospice,ospizio,infermeria,istituzione,casa di cura,casa di riposo,sanatorio,ambulatorio,chirurgia,reparto"
+    "name": "Area Ospedaliera",
+    "terms": "ospedale,clinica,pronto soccorso,servizio sanitario,salute,hospice,ospizio,infermeria,istituzione,casa di cura,casa di riposo,sanatorio,ambulatorio,chirurgia,reparto"
   },
   "amenity/kindergarten": {
-    "name": "Scuola d'infanzia",
-    "terms": "scuola di infanzia,asilo,assistenza all'infanzia,asilo d'infanzia"
+    "name": "Area della Scuola dell'infanzia",
+    "terms": "scuola d'infanzia,scuola di infanzia,asilo,assistenza all'infanzia,asilo d'infanzia,scuola materna,scuola dell'infanzia,asilo nido"
   },
   "amenity/library": {
     "name": "Biblioteca",
@@ -206,6 +206,10 @@
   "amenity/marketplace": {
     "name": "Mercato",
     "terms": "Mercato"
+  },
+  "amenity/nightclub": {
+    "name": "Discoteca",
+    "terms": "discoteca,night,locale notturno,balera"
   },
   "amenity/parking": {
     "name": "Parcheggio",
@@ -264,8 +268,8 @@
     "terms": "bar,caffetteria,caffè,ristorante self-service,braceria,trattoria,negozio di ciambelle,bettola,griglieria,venditore di hamburger,venditore di hotdog,pizzeria"
   },
   "amenity/school": {
-    "name": "Scuola",
-    "terms": "accademia,alma mater,lavagna,collegio,dipartimento,disciplina,classe,facoltà,aula,istituto,istituzione,riformatorio,scuola,edificio scolastico,seminario,università"
+    "name": "Area Scolastica",
+    "terms": "scuola,accademia,alma mater,lavagna,collegio,dipartimento,disciplina,classe,facoltà,aula,istituto,istituzione,riformatorio,scuola,edificio scolastico,seminario,università"
   },
   "amenity/shelter": {
     "name": "Riparo",
@@ -507,9 +511,18 @@
     "name": "Magazzino",
     "terms": "magazzino,ripostiglio,rimessa"
   },
+  "craft/beekeeper": {
+    "name": "Apicoltore"
+  },
   "craft/blacksmith": {
     "name": "Maniscalco",
     "terms": "ferri di cavallo"
+  },
+  "craft/boatbuilder": {
+    "name": "Costruttore navale"
+  },
+  "craft/bookbinder": {
+    "name": "Legatoria"
   },
   "craft/brewery": {
     "name": "Birrificio",
@@ -523,6 +536,10 @@
     "name": "Costruttore di orologi",
     "terms": "orologi"
   },
+  "craft/dressmaker": {
+    "name": "Sartoria",
+    "terms": "sarto,merceria,vestiti su misura"
+  },
   "craft/electrician": {
     "name": "Elettricista",
     "terms": "elettronica,elettricità"
@@ -530,6 +547,12 @@
   "craft/gardener": {
     "name": "Giardiniere",
     "terms": "giardinaggio,giardino"
+  },
+  "craft/glaziery": {
+    "name": "Vetreria"
+  },
+  "craft/handicraft": {
+    "name": "Artigiano"
   },
   "craft/jeweler": {
     "name": "Gioielliere",
@@ -543,9 +566,21 @@
     "name": "Ottico",
     "terms": "ottica,occhiali"
   },
+  "craft/painter": {
+    "name": "Pittore"
+  },
   "craft/photographer": {
     "name": "Fotografo",
     "terms": "fotografia,stampe"
+  },
+  "craft/plumber": {
+    "name": "Idraulico"
+  },
+  "craft/sailmaker": {
+    "name": "Velaio"
+  },
+  "craft/sculpter": {
+    "name": "Scultore"
   },
   "craft/shoemaker": {
     "name": "Calzolaio",
@@ -839,6 +874,10 @@
     "name": "Industriale",
     "terms": "Industriale"
   },
+  "landuse/landfill": {
+    "name": "Discarica",
+    "terms": "pattume,isola ecologica"
+  },
   "landuse/meadow": {
     "name": "Coltivazione erbacea",
     "terms": "Prato"
@@ -890,6 +929,10 @@
   "leisure/park": {
     "name": "Parco",
     "terms": "lungomare,tenuta,foresta,giardino,prato,verde,terreni,lotto,pascolo,parco,parco giochi,area ricreativa,piazza,giardino pubblico,bosco"
+  },
+  "leisure/picnic_table": {
+    "name": "Tavolo da picnic",
+    "terms": "tavolo,picnic,pic nic,ristoro,punto ristoro"
   },
   "leisure/pitch": {
     "name": "Campo da gioco",
@@ -1023,6 +1066,9 @@
     "name": "Bunker",
     "terms": "bunker,casamatta"
   },
+  "military/range": {
+    "name": "Poligono di tiro militare"
+  },
   "natural": {
     "name": "Naturale",
     "terms": "Elemento naturale"
@@ -1123,6 +1169,10 @@
     "name": "Agenzia per l'impiego",
     "terms": "interinale,impiego,lavoro,ufficio per l'impiego,ufficio interinale"
   },
+  "office/estate_agent": {
+    "name": "Agente Immobiliare",
+    "terms": "agenzia immobiliare,immobiliare"
+  },
   "office/financial": {
     "name": "Ufficio Finanziario",
     "terms": "finanza,finanziaria,fiduciaria,mag"
@@ -1150,6 +1200,10 @@
   "office/ngo": {
     "name": "Organizzazione non governativa",
     "terms": "ong,ngo,onu,associazione,non profit,nonprofit,no profit,onlus,non lucrativa,senza fini di lucro,cooperativa,cooperazione"
+  },
+  "office/physician": {
+    "name": "Medico",
+    "terms": "medico,chirurgo,ambulatorio"
   },
   "office/political_party": {
     "name": "Sede di partito",
@@ -1194,6 +1248,10 @@
   "place/locality": {
     "name": "Località",
     "terms": "Località (luogo con nome, non popolato)"
+  },
+  "place/suburb": {
+    "name": "Sobborgo",
+    "terms": "sobborgo,quartiere,circoscrizione"
   },
   "place/town": {
     "name": "Centro abitato tra 10000 e 100000 abitanti",
@@ -1502,6 +1560,10 @@
   "shop/photo": {
     "name": "Fotografo",
     "terms": "fotografia,fotografico,fotografo,foto,diapositive,rullini,macchine fotografiche"
+  },
+  "shop/seafood": {
+    "name": "Pescheria",
+    "terms": "pesce fresco,ittica"
   },
   "shop/shoes": {
     "name": "Negozio di scarpe",

@@ -424,6 +424,24 @@
         "terms": [],
         "name": "Bar"
     },
+    "amenity/bbq": {
+        "geometry": [
+            "point"
+        ],
+        "tags": {
+            "amenity": "bbq"
+        },
+        "fields": [
+            "covered",
+            "fuel"
+        ],
+        "terms": [
+            "barbecue",
+            "bbq",
+            "grill"
+        ],
+        "name": "Barbecue/Grill"
+    },
     "amenity/bench": {
         "geometry": [
             "point",
@@ -818,7 +836,8 @@
     "amenity/grave_yard": {
         "icon": "cemetery",
         "fields": [
-            "religion"
+            "religion",
+            "denomination"
         ],
         "geometry": [
             "point",
@@ -2961,18 +2980,18 @@
             "opening_hours"
         ]
     },
-    "craft/photographic_labratory": {
-        "name": "Photographic Labratory",
+    "craft/photographic_laboratory": {
+        "name": "Photographic Laboratory",
         "geometry": [
             "point",
             "area"
         ],
         "terms": [
-            "photographic labratory",
+            "photographic laboratory",
             "film developer"
         ],
         "tags": {
-            "craft": "photographic_labratory"
+            "craft": "photographic_laboratory"
         },
         "icon": "camera",
         "fields": [
@@ -4400,8 +4419,13 @@
     },
     "landuse/cemetery": {
         "icon": "cemetery",
+        "fields": [
+            "religion",
+            "denomination"
+        ],
         "geometry": [
             "point",
+            "vertex",
             "area"
         ],
         "tags": {
@@ -4411,6 +4435,7 @@
         "name": "Cemetery"
     },
     "landuse/commercial": {
+        "icon": "commercial",
         "geometry": [
             "point",
             "area"
@@ -4543,6 +4568,16 @@
         "terms": [],
         "name": "Meadow"
     },
+    "landuse/military": {
+        "geometry": [
+            "area"
+        ],
+        "tags": {
+            "landuse": "military"
+        },
+        "terms": [],
+        "name": "Military"
+    },
     "landuse/orchard": {
         "fields": [
             "trees"
@@ -4570,6 +4605,7 @@
         "name": "Quarry"
     },
     "landuse/residential": {
+        "icon": "building",
         "geometry": [
             "point",
             "area"
@@ -4641,6 +4677,20 @@
         "name": "Dog Park",
         "icon": "dog-park"
     },
+    "leisure/firepit": {
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "leisure": "firepit"
+        },
+        "terms": [
+            "fireplace",
+            "campfire"
+        ],
+        "name": "Firepit"
+    },
     "leisure/garden": {
         "icon": "garden",
         "geometry": [
@@ -4670,6 +4720,27 @@
             "links"
         ],
         "name": "Golf Course"
+    },
+    "leisure/ice_rink": {
+        "icon": "pitch",
+        "fields": [
+            "building_area",
+            "seasonal",
+            "sport_ice"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "hockey",
+            "skating",
+            "curling"
+        ],
+        "tags": {
+            "leisure": "ice_rink"
+        },
+        "name": "Ice Rink"
     },
     "leisure/marina": {
         "icon": "harbor",
@@ -4715,6 +4786,19 @@
             "leisure": "park"
         },
         "name": "Park"
+    },
+    "leisure/picnic_table": {
+        "geometry": [
+            "point"
+        ],
+        "tags": {
+            "leisure": "picnic_table"
+        },
+        "terms": [
+            "bench",
+            "table"
+        ],
+        "name": "Picnic Table"
     },
     "leisure/pitch": {
         "icon": "pitch",
@@ -5899,6 +5983,35 @@
         },
         "name": "Locality"
     },
+    "place/neighbourhood": {
+        "icon": "triangle-stroked",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "place": "neighbourhood"
+        },
+        "terms": [
+            "neighbourhood"
+        ],
+        "name": "Neighborhood"
+    },
+    "place/suburb": {
+        "icon": "triangle-stroked",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "place": "suburb"
+        },
+        "terms": [
+            "Boro",
+            "Quarter"
+        ],
+        "name": "Borough"
+    },
     "place/town": {
         "icon": "town",
         "geometry": [
@@ -6042,6 +6155,7 @@
         "name": "Platform"
     },
     "public_transport/stop_position": {
+        "icon": "bus",
         "fields": [
             "ref",
             "operator",
@@ -6759,7 +6873,8 @@
         "tags": {
             "shop": "fishmonger"
         },
-        "name": "Fishmonger"
+        "name": "Fishmonger",
+        "searchable": false
     },
     "shop/florist": {
         "icon": "shop",
@@ -6777,6 +6892,30 @@
             "shop": "florist"
         },
         "name": "Florist"
+    },
+    "shop/funeral_directors": {
+        "icon": "cemetery",
+        "fields": [
+            "address",
+            "building_area",
+            "religion",
+            "denomination"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "shop": "funeral_directors"
+        },
+        "terms": [
+            "undertaker",
+            "funeral parlour",
+            "funeral parlor",
+            "memorial home"
+        ],
+        "name": "Funeral Home"
     },
     "shop/furniture": {
         "icon": "shop",
@@ -7140,6 +7279,26 @@
             "shop": "photo"
         },
         "name": "Photography Store"
+    },
+    "shop/seafood": {
+        "icon": "shop",
+        "fields": [
+            "address",
+            "building_area",
+            "opening_hours"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "shop": "seafood"
+        },
+        "terms": [
+            "fishmonger"
+        ],
+        "name": "Seafood Shop"
     },
     "shop/shoes": {
         "icon": "shop",
@@ -8005,7 +8164,6 @@
     "waterway/stream": {
         "icon": "waterway-stream",
         "fields": [
-            "layer",
             "tunnel"
         ],
         "geometry": [

@@ -112,6 +112,9 @@
   "amenity/clinic": {
     "name": "Klinika"
   },
+  "amenity/clock": {
+    "name": "Ura"
+  },
   "amenity/college": {
     "name": "Srednja šola",
     "terms": "Šola, SŠ"
@@ -149,14 +152,6 @@
   "amenity/grave_yard": {
     "name": "Pokopališče",
     "terms": "navje,grobišče,žale,britof"
-  },
-  "amenity/hospital": {
-    "name": "Bolnišnica",
-    "terms": "Bolnica, Klinika, Klinični center, Zdravstveni dom"
-  },
-  "amenity/kindergarten": {
-    "name": "Vrtec",
-    "terms": "Jasli, Predšolska vzgoja"
   },
   "amenity/library": {
     "name": "Knjižnica"
@@ -213,13 +208,12 @@
   "amenity/restaurant": {
     "name": "Restavracija"
   },
-  "amenity/school": {
-    "name": "Šola",
-    "terms": "Osnovna šola, OŠ"
-  },
   "amenity/shelter": {
     "name": "Bivak",
     "terms": "Zaklonišče"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "Zatočišče za brezdomce"
   },
   "amenity/swimming_pool": {
     "name": "Plavalni bazen",
@@ -249,6 +243,10 @@
   "amenity/vending_machine": {
     "name": "Prodajni avtomat",
     "terms": "avtomat"
+  },
+  "amenity/veterinary": {
+    "name": "Veterinar",
+    "terms": "Veterinarska klinika"
   },
   "amenity/waste_basket": {
     "name": "Koš za odpadke"
@@ -319,6 +317,18 @@
     "name": "Stanovanja",
     "terms": "Stanovanjski blok"
   },
+  "building/barn": {
+    "name": "Skedenj"
+  },
+  "building/bunker": {
+    "name": "Bunker"
+  },
+  "building/cathedral": {
+    "name": "Katedrala"
+  },
+  "building/church": {
+    "name": "Cerkev"
+  },
   "building/commercial": {
     "name": "Poslovna stavba",
     "terms": "Pisarne"
@@ -330,6 +340,17 @@
   "building/garage": {
     "name": "Garaža",
     "terms": "Garažna hiša"
+  },
+  "building/garages": {
+    "name": "Garaže"
+  },
+  "building/greenhouse": {
+    "name": "Rastlinjak",
+    "terms": "Topla greda"
+  },
+  "building/hotel": {
+    "name": "Hotelsko poslopje",
+    "terms": "Hotelska stavba, Hotel"
   },
   "building/house": {
     "name": "Hiša",
@@ -346,6 +367,29 @@
   "building/residential": {
     "name": "Stanovanjska stavba",
     "terms": "Hiša, Blok, Stanovanjski blok"
+  },
+  "building/roof": {
+    "name": "Nadstrešek",
+    "terms": "Streha"
+  },
+  "building/school": {
+    "name": "Šolsko poslopje",
+    "terms": "Šola"
+  },
+  "building/shed": {
+    "name": "Lopa",
+    "terms": "Uta, Drvarnica"
+  },
+  "building/stable": {
+    "name": "Hlev",
+    "terms": "Štala"
+  },
+  "building/terrace": {
+    "name": "Vrstne hiše",
+    "terms": "Vrstna hiša"
+  },
+  "building/warehouse": {
+    "name": "Skladišče"
   },
   "craft/beekeeper": {
     "name": "Čebelarstvo",
@@ -495,6 +539,9 @@
   "highway/residential": {
     "name": "Stanovanjska ulica",
     "terms": "Ulica, Naselje, Ulica v naselju"
+  },
+  "highway/rest_area": {
+    "name": "Počivališče"
   },
   "highway/road": {
     "name": "Nedoločena cesta"
@@ -913,6 +960,9 @@
     "name": "Opuščena železnica",
     "terms": "Zapuščena železnica"
   },
+  "railway/funicular": {
+    "name": "Vzpenjača"
+  },
   "railway/halt": {
     "name": "Železniško postajališče"
   },
@@ -922,6 +972,9 @@
   },
   "railway/monorail": {
     "name": "Monorail"
+  },
+  "railway/narrow_gauge": {
+    "name": "Ozkotirna železnica"
   },
   "railway/platform": {
     "name": "Železniški peron",
@@ -969,6 +1022,10 @@
   },
   "shop/bicycle": {
     "name": "Kolesarska trgovina"
+  },
+  "shop/bookmaker": {
+    "name": "Knjigovez",
+    "terms": "Knjigoveznica"
   },
   "shop/books": {
     "name": "Knjigarna"
