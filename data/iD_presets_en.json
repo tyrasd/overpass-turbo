@@ -987,6 +987,10 @@
     "name": "Cemetery",
     "terms": ""
   },
+  "landuse/churchyard": {
+    "name": "Churchyard",
+    "terms": ""
+  },
   "landuse/commercial": {
     "name": "Commercial",
     "terms": ""
@@ -1782,6 +1786,10 @@
   "shop/video": {
     "name": "Video Store",
     "terms": ""
+  },
+  "shop/wine": {
+    "name": "Wine Shop",
+    "terms": "winery"
   },
   "tourism": {
     "name": "Tourism",
