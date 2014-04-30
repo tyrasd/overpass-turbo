@@ -27,6 +27,10 @@ all: \
 	turbo.map.min.js
 
 turbo.js: \
+	libs/jquery/jquery-1.11.0.js \
+	libs/lodash/lodash-2.4.1.js \
+	libs/leaflet/leaflet-src.js \
+	libs/jqueryui/jquery-ui.js \
 	libs/CodeMirror/lib/codemirror.js \
 	libs/CodeMirror/mode/javascript/javascript.js \
 	libs/CodeMirror/mode/xml/xml.js \
@@ -96,6 +100,8 @@ turbo.map.js: Makefile
 	$(JS_COMPILER) $< -c -m -o $@
 
 turbo.css: \
+	libs/leaflet/leaflet.css \
+	libs/jqueryui/jquery-ui.css \
 	libs/CodeMirror/lib/codemirror.css \
 	libs/locationfilter/src/locationfilter.css \
 	css/default.css
@@ -112,6 +118,7 @@ install: all
 	mkdir -p $(install_root)
 	mkdir -p $(install_root)/css
 	mkdir -p $(install_root)/img
+	mkdir -p $(install_root)/images
 	mkdir -p $(install_root)/locales
 	mkdir -p $(install_root)/data
 	cp LICENSE $(install_root)
@@ -128,6 +135,8 @@ install: all
 	cp -R libs $(install_root)/libs
 	cp -R icons $(install_root)/icons
 	cp libs/locationfilter/src/img/* $(install_root)/img
+	cp libs/leaflet/images/* $(install_root)/images
+	cp libs/jqueryui/images/* $(install_root)/images
 	cp data/*.json $(install_root)/data
 
 clean:
