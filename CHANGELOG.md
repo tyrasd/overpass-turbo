@@ -1,7 +1,12 @@
+2014-04-30
+----------
+* activate new translations: Ukrainian, Slovenian, Brazilian
+* update presets
+
 2014-04-14
 ----------
 * update translations
-* fix a bug with multiple overpass-turbo-statements
+* fix a bug with multiple overpass-turbo-statements in a single query
 * other bugfixes
 
 2014-03-19
