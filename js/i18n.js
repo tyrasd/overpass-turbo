@@ -14,7 +14,7 @@ var i18n = new(function() {
     "it",
     "ja",
     "nl",
-    "pt_BR",
+    "pt-BR",
     "ru",
     "sl",
     "uk",
