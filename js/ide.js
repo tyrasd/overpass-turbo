@@ -1575,7 +1575,7 @@ var ide = new(function() {
     );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox($("#settings-dialog input[name=server]"), [
-      "http://overpass-api.de/api/",
+      "//overpass-api.de/api/",
       "http://overpass.osm.rambler.ru/cgi/",
       "http://api.openstreetmap.fr/oapi/",
     ]);
@@ -1591,7 +1591,7 @@ var ide = new(function() {
     // map settings
     $("#settings-dialog input[name=tile_server]")[0].value = settings.tile_server;
     make_combobox($("#settings-dialog input[name=tile_server]"), [
-      "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
       //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
       //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
