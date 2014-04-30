@@ -3,6 +3,36 @@
     "name": "Adres",
     "terms": "namiar, numer"
   },
+  "aerialway": {
+    "name": "Wyciąg narciarski"
+  },
+  "aerialway/cable_car": {
+    "name": "Kolejka górska"
+  },
+  "aerialway/chair_lift": {
+    "name": "Wyciag krzesełkowy"
+  },
+  "aerialway/gondola": {
+    "name": "Gondola"
+  },
+  "aerialway/magic_carpet": {
+    "name": "wyciąg narciarski dywanowy"
+  },
+  "aerialway/platter": {
+    "name": "Wyciag talerzykowy"
+  },
+  "aerialway/pylon": {
+    "name": "Podpora wyciagu narciarskiego"
+  },
+  "aerialway/rope_tow": {
+    "name": "Wyrwirączka"
+  },
+  "aerialway/station": {
+    "name": "Stacja wyciagu narciarskiego"
+  },
+  "aerialway/t-bar": {
+    "name": "Wyciag orczykowy podwójny"
+  },
   "aeroway": {
     "name": "Szlak powietrzny"
   },
@@ -96,6 +126,9 @@
     "name": "Kino",
     "terms": "duży ekran,drive-in,film,ruchomy obraz,pokaz zdjęć,zdjęcia,pokaz,silver screen"
   },
+  "amenity/clinic": {
+    "name": "Klinika"
+  },
   "amenity/clock": {
     "name": "Zegar"
   },
@@ -106,6 +139,12 @@
   "amenity/courthouse": {
     "name": "Sąd",
     "terms": "sąd,sprawiedliwość,trybunał"
+  },
+  "amenity/dentist": {
+    "name": "Dentysta"
+  },
+  "amenity/doctor": {
+    "name": "Doktor"
   },
   "amenity/drinking_water": {
     "name": "Woda pitna",
@@ -134,14 +173,6 @@
   "amenity/grave_yard": {
     "name": "Cmentarz",
     "terms": "cmentarz,pochówek"
-  },
-  "amenity/hospital": {
-    "name": "Szpital",
-    "terms": "przychodnia,klinika,pomoc,służba zdrowia,hospicjum,ambulatorium,instytucja,dom opieki,sanatorium,chirurgia,oddział"
-  },
-  "amenity/kindergarten": {
-    "name": "Przedszkole",
-    "terms": "zerówka,żłobek,opieka nad dzieckiem"
   },
   "amenity/library": {
     "name": "Biblioteka",
@@ -201,10 +232,6 @@
     "name": "Restauracja",
     "terms": "bar,kawiarnia,stołówka,jadalnia,drive-in,knajpa,jadłodajnia,fast food,grill,gospoda,klub nocny,pizzeria"
   },
-  "amenity/school": {
-    "name": "Szkoła",
-    "terms": "szkoła"
-  },
   "amenity/shelter": {
     "name": "Schronienie"
   },
@@ -216,6 +243,9 @@
   },
   "amenity/social_facility/homeless_shelter": {
     "name": "Schronisko dla bezdomnych"
+  },
+  "amenity/studio": {
+    "name": "Studio"
   },
   "amenity/swimming_pool": {
     "name": "Basen",
@@ -338,12 +368,27 @@
     "name": "Apartamenty",
     "terms": "blok,kamienica"
   },
+  "building/barn": {
+    "name": "Stodoła"
+  },
+  "building/bunker": {
+    "name": "Bunkier"
+  },
+  "building/cathedral": {
+    "name": "Katedra"
+  },
+  "building/chapel": {
+    "name": "Kaplica"
+  },
   "building/church": {
     "name": "Kościół"
   },
   "building/commercial": {
     "name": "Nieruchomość komercyjna",
     "terms": "sklep,komercyjny,sprzedaż,handlowy"
+  },
+  "building/dormitory": {
+    "name": "Akademik"
   },
   "building/entrance": {
     "name": "Wejście",
@@ -352,6 +397,12 @@
   "building/garage": {
     "name": "Garaż",
     "terms": "garaż"
+  },
+  "building/garages": {
+    "name": "Garaże"
+  },
+  "building/greenhouse": {
+    "name": "Szklarnia"
   },
   "building/house": {
     "name": "Dom",
@@ -365,12 +416,45 @@
     "name": "Budynek przymysłowy",
     "terms": "przemysłowy,produkcyjny,fabryczny,industrialny"
   },
+  "building/public": {
+    "name": "Budynek publiczny"
+  },
   "building/residential": {
     "name": "Budynek mieszkalny",
     "terms": "blok, kamienica, dom, czynszówka"
   },
+  "building/roof": {
+    "name": "Zadaszenie"
+  },
+  "building/shed": {
+    "name": "Szopa"
+  },
+  "building/stable": {
+    "name": "Stajnia"
+  },
+  "building/train_station": {
+    "name": "Stacja kolejowa"
+  },
   "building/warehouse": {
     "name": "Magazyn"
+  },
+  "craft/basket_maker": {
+    "name": "Wikliniarz"
+  },
+  "craft/beekeeper": {
+    "name": "Pszczelarz"
+  },
+  "craft/blacksmith": {
+    "name": "Kowal"
+  },
+  "craft/bookbinder": {
+    "name": "Introligator"
+  },
+  "craft/brewery": {
+    "name": "Gorzelnia"
+  },
+  "craft/caterer": {
+    "name": "Żywieniowiec"
   },
   "craft/clockmaker": {
     "name": "Zegarmistrz"
@@ -390,6 +474,9 @@
   "craft/glaziery": {
     "name": "Szklarz"
   },
+  "craft/handicraft": {
+    "name": "Rzemiosło"
+  },
   "craft/jeweler": {
     "name": "Jubiler"
   },
@@ -405,14 +492,59 @@
   "craft/photographer": {
     "name": "Fotograf"
   },
-  "craft/photographic_labratory": {
-    "name": "Laboratorium fotograficzne"
+  "craft/plasterer": {
+    "name": "Tynkarz"
   },
   "craft/plumber": {
     "name": "Hydraulik"
   },
+  "craft/pottery": {
+    "name": "Garncarstwo"
+  },
+  "craft/rigger": {
+    "name": "Takielarz"
+  },
   "craft/roofer": {
     "name": "Dekarz"
+  },
+  "craft/saddler": {
+    "name": "Rymarz"
+  },
+  "craft/sailmaker": {
+    "name": "Żaglomistrz"
+  },
+  "craft/sawmill": {
+    "name": "Tartak"
+  },
+  "craft/sculpter": {
+    "name": "Rzeźbiarz"
+  },
+  "craft/shoemaker": {
+    "name": "Szewc"
+  },
+  "craft/stonemason": {
+    "name": "Zakład kamieniarski"
+  },
+  "craft/sweep": {
+    "name": "Kominiarz"
+  },
+  "craft/tailor": {
+    "name": "Krawiec"
+  },
+  "craft/tiler": {
+    "name": "Dekarz"
+  },
+  "craft/tinsmith": {
+    "name": "Blacharz"
+  },
+  "craft/upholsterer": {
+    "name": "Tapicer"
+  },
+  "craft/watchmaker": {
+    "name": "Zegarmistrz"
+  },
+  "embankment": {
+    "name": "Nasyp"
   },
   "emergency/ambulance_station": {
     "name": "Stacja pogotowia ratunkowego",
@@ -642,6 +774,9 @@
     "name": "Teren rolny (orny)",
     "terms": "Farma, gospodarstwo, zagroda"
   },
+  "landuse/farmland": {
+    "name": "Pole uprawne"
+  },
   "landuse/farmyard": {
     "name": "Zabudowa rolnicza",
     "terms": "podwórze gospodarskie"
@@ -767,6 +902,9 @@
   "man_made/cutline": {
     "name": "Wycinka"
   },
+  "man_made/embankment": {
+    "name": "Nasyp"
+  },
   "man_made/lighthouse": {
     "name": "Latarnia morska",
     "terms": "latarnia"
@@ -801,6 +939,18 @@
   },
   "man_made/water_works": {
     "name": "Filtracja wody"
+  },
+  "military/airfield": {
+    "name": "Lotnisko"
+  },
+  "military/barracks": {
+    "name": "Koszary"
+  },
+  "military/bunker": {
+    "name": "Bunkier"
+  },
+  "military/range": {
+    "name": "Poligon wojskowy"
   },
   "natural": {
     "name": "Natura"
@@ -843,7 +993,8 @@
     "terms": "rumowisko"
   },
   "natural/scrub": {
-    "name": "Zarośla"
+    "name": "Zarośla",
+    "terms": "Krzaki, zarośla"
   },
   "natural/spring": {
     "name": "Źródło"
@@ -879,9 +1030,11 @@
     "name": "Biuro"
   },
   "office/accountant": {
+    "name": "Księgowy",
     "terms": "księgowy"
   },
   "office/architect": {
+    "name": "Architekt",
     "terms": "architekt"
   },
   "office/educational_institution": {
@@ -896,15 +1049,30 @@
   "office/insurance": {
     "name": "Biuro ubezpieczeń"
   },
+  "office/newspaper": {
+    "name": "Gazeta"
+  },
+  "office/ngo": {
+    "name": "Biuro organizacji pożytku publicznego"
+  },
+  "office/physician": {
+    "name": "Lekarz"
+  },
   "office/political_party": {
     "name": "Partia polityczna",
     "terms": "partia polityczna"
+  },
+  "office/telecommunication": {
+    "name": "Biuro firmy telekomunikacyjnej"
   },
   "office/therapist": {
     "name": "Terapeuta"
   },
   "office/travel_agent": {
     "name": "Biuro podróży"
+  },
+  "piste": {
+    "name": "Trasa narciarska"
   },
   "place": {
     "name": "Miejsce"
@@ -948,6 +1116,9 @@
     "name": "Linia elektryczna",
     "terms": "lina wysokiego napięcia, lina energetyczna"
   },
+  "power/minor_line": {
+    "name": "Linia energetyczna o niskim stopniu ważności"
+  },
   "power/pole": {
     "name": "Słup elektryczny"
   },
@@ -973,6 +1144,9 @@
   },
   "railway/disused": {
     "name": "Nieużywany tor"
+  },
+  "railway/funicular": {
+    "name": "Kolejka"
   },
   "railway/halt": {
     "name": "Stacja kolejowa",

@@ -35,6 +35,10 @@
   "aerialway/station": {
     "name": "Терминал канатной дороги"
   },
+  "aerialway/t-bar": {
+    "name": "Анкерный подъёмник",
+    "terms": "Якорный подъёмник,Бугель"
+  },
   "aeroway": {
     "name": "Взлётная полоса",
     "terms": "Взлётная полоса"
@@ -90,6 +94,9 @@
   "amenity/bar": {
     "name": "Бар",
     "terms": "Бар"
+  },
+  "amenity/bbq": {
+    "name": "Барбекю/Гриль"
   },
   "amenity/bench": {
     "name": "Скамейка",
@@ -184,12 +191,11 @@
     "terms": "кладбище"
   },
   "amenity/hospital": {
-    "name": "Больница",
-    "terms": "Больница, Госпиталь, Стационар"
+    "name": "Территория больницы"
   },
   "amenity/kindergarten": {
-    "name": "Детский сад",
-    "terms": "детский сад, детский садик, садик"
+    "name": "Территория детского сада",
+    "terms": "Детский сад,Детская площадка,Ясли"
   },
   "amenity/library": {
     "name": "Библиотека",
@@ -198,6 +204,9 @@
   "amenity/marketplace": {
     "name": "Рынок",
     "terms": "Рынок"
+  },
+  "amenity/nightclub": {
+    "name": "Ночной клуб"
   },
   "amenity/parking": {
     "name": "Автомобильная стоянка",
@@ -252,8 +261,8 @@
     "terms": "Ресторан, Столовая"
   },
   "amenity/school": {
-    "name": "Школа",
-    "terms": "Школа, лицей, гимназия"
+    "name": "Территория школы",
+    "terms": "Школьная площадка"
   },
   "amenity/shelter": {
     "name": "Укрытие",
@@ -391,6 +400,9 @@
   "building/apartments": {
     "name": "Многоквартирный дом",
     "terms": "многоэтажка, высотка"
+  },
+  "building/barn": {
+    "name": "Амбар"
   },
   "building/bunker": {
     "name": "Бункер"
@@ -537,6 +549,9 @@
   "craft/hvac": {
     "name": "Установка кондиционеров"
   },
+  "craft/insulator": {
+    "name": "Изолятор"
+  },
   "craft/jeweler": {
     "name": "Ювелир",
     "terms": "ювелир"
@@ -553,12 +568,12 @@
   "craft/optician": {
     "name": "Оптика"
   },
+  "craft/painter": {
+    "name": "Маляр"
+  },
   "craft/photographer": {
     "name": "фотограф",
     "terms": "фотограф, фото оператор"
-  },
-  "craft/photographic_labratory": {
-    "name": "Фото лаборатория"
   },
   "craft/plasterer": {
     "name": "Скульптор"
@@ -598,6 +613,9 @@
   },
   "craft/stonemason": {
     "name": "Каменщик"
+  },
+  "craft/sweep": {
+    "name": "Трубочист"
   },
   "craft/tailor": {
     "name": "Портной"
@@ -767,7 +785,8 @@
     "terms": "Подъездная дорога, Подъезд к чему-либо"
   },
   "highway/service/emergency_access": {
-    "name": "Неотложная помощь"
+    "name": "Неотложная помощь",
+    "terms": "Эвакуационный выход, Аварийный выход"
   },
   "highway/service/parking_aisle": {
     "name": "Парковочный проезд",
@@ -890,6 +909,9 @@
     "name": "Промышленная застройка",
     "terms": "Промышленная территория, Производственная территория, Промышленное землепользование"
   },
+  "landuse/landfill": {
+    "name": "Свалка"
+  },
   "landuse/meadow": {
     "name": "Луг",
     "terms": "луг"
@@ -929,6 +951,9 @@
     "name": "Площадка для гольфа",
     "terms": "Поле для гольфа, Гольфполе"
   },
+  "leisure/ice_rink": {
+    "name": "Каток"
+  },
   "leisure/marina": {
     "name": "Яхтклуб",
     "terms": "Марина, Стоянка для яхт"
@@ -936,6 +961,9 @@
   "leisure/park": {
     "name": "Парк",
     "terms": "парк"
+  },
+  "leisure/picnic_table": {
+    "name": "Стол для пикника"
   },
   "leisure/pitch": {
     "name": "Спортплощадка",
@@ -1388,6 +1416,9 @@
     "name": "Веломагазин",
     "terms": "Веломагазин"
   },
+  "shop/bookmaker": {
+    "name": "Букмекер"
+  },
   "shop/books": {
     "name": "Книжный",
     "terms": "книги, книжный"
@@ -1604,7 +1635,8 @@
     "name": "Стоянка автодомов"
   },
   "tourism/chalet": {
-    "name": "Сельский домик, шале"
+    "name": "Сельский домик, шале",
+    "terms": "Шале,Коттедж"
   },
   "tourism/guest_house": {
     "name": "Гостевой дом",

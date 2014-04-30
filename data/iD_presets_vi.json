@@ -99,6 +99,10 @@
     "name": "Quán rượu",
     "terms": "quán rượu, quán nhậu, quán bia, tiệm rượu, tiệm nhậu, tiệm bia, quan ruou, quan nhau, quan bia, tiem ruou, tiem nhau, tiem bia"
   },
+  "amenity/bbq": {
+    "name": "Vỉ nướng",
+    "terms": "vỉ, vỉ nướng thịt, bbq, vi, vi nuong thit"
+  },
   "amenity/bench": {
     "name": "Ghế",
     "terms": "ghế dài, ghế, ghế ngồi, chỗ ngồi, ghe dai, ghe, ghe ngoi, cho ngoi"
@@ -188,16 +192,16 @@
     "terms": "cây xăng, cột xăng, xăng, ét xăng, ét-xăng, nhiên liệu, cay xang, cot xang, xang, et xang, et-xang, nhien lieu"
   },
   "amenity/grave_yard": {
-    "name": "Nghĩa địa",
-    "terms": "nghĩa địa, nghĩa trang, mộ, nghia dia, nghia trang, mo"
+    "name": "Nghĩa địa tại Nhà thờ",
+    "terms": "nghĩa địa tại nhà thờ, nghĩa trang, bãi tha ma, mộ, nghia dia tai nha tho, nghia trang, bai tha ma, mo"
   },
   "amenity/hospital": {
-    "name": "Bệnh viện",
-    "terms": "bệnh viện, nhà thương, phòng khám khẩn cấp, phòng khẩn cấp, benh vien, nha thuong, phong kham khan cap, phong khan cap"
+    "name": "Sân Bệnh viện",
+    "terms": "sân bệnh viện, sân nhà thương, sân trung tâm y tế, san benh vien, san nha thuong, san trung tam y te"
   },
   "amenity/kindergarten": {
-    "name": "Nhà trẻ",
-    "terms": "nhà giữ trẻ, mẫu giáo, trường mẫu giáo, mầm non, trường mầm non, nha giu tre, mau giao, truong mau giao, mam non, truong mam non"
+    "name": "Sân Nhà trẻ",
+    "terms": "sân nhà trẻ, sân nhà giữ trẻ, sân trường mẫu giáo, sân trường mầm non, san nha tre, san nha giu tre, san truong mau giao, san truong mam non"
   },
   "amenity/library": {
     "name": "Thư viện",
@@ -206,6 +210,10 @@
   "amenity/marketplace": {
     "name": "Chợ phiên",
     "terms": "chợ phiên, chợ trời, chợ xổm, chợ, cho phien, cho troi, cho xom, cho"
+  },
+  "amenity/nightclub": {
+    "name": "Câu lạc bộ Giải trí",
+    "terms": "câu lạc bộ giải trí, clb giải trí, câu lạc bộ đêm, clb đêm, vũ trường, hộp đêm, câu lạc bộ, sàn nhảy về đêm, cau lac bo giai tri, clb giai tri, cau lac bo dem, clb dem, vu truong, hop dem, cau lac bo, san nhay ve dem"
   },
   "amenity/parking": {
     "name": "Bãi Đậu xe",
@@ -264,8 +272,8 @@
     "terms": "quán ăn, nhà hàng, tiệm ăn, nhà ăn, phòng ăn, quán ăn nhanh, nhà hàng ăn nhanh, quán ăn qua loa, căng tin, căng-tin, xe đẩy, quán rượu, quán bia, tiệm rượu, hiệu chả cá, quán chả nướng, quán phở, tiệm phở, quán cơm, quán bánh cuốn, tiệm bánh cuốn, quán bánh mì, tiệm bánh mì, quán bánh xèo, tiệm bánh xèo, quán chè, tiệm chè, quán gỏi cuốn, quán bún, quán hải sản, quán gà, quán cà ri, quán cà-ri, tiệm cà ri, tiệm cà-ri, quan an, nha hang, tiem an, nha an, phong an, quan an nhanh, nha hang an nhanh, quan an qua loa, can tin, cang-tin, xe day, quan ruou, quan bia, tiem ruou, hieu cha ca, quan cha nuong, quan pho, tiem pho, quan com, quan banh cuon, tiem banh cuon, quan banh mi, tiem banh mi, quan banh xeo, tiem banh xeo, quan che, tiem che, quan goi cuon, quan bun, quan hai san, quan ga, quan ca ri, quan ca-ri, tiem ca ri, tiem ca-ri"
   },
   "amenity/school": {
-    "name": "Nhà trường",
-    "terms": "trường, trường học, nhà trường, học viện, trường tư, trường tư thực, trường công, trường công lập, tiểu học, trường tiểu học, trung học, trường trung học, trung học cơ sở, trường trung học cơ sở, THCS, TTHCS, trung học phổ thông, trường trung học phổ thông, THPT, TTHPT, trung học chuyên nghiệp, trường trung học chuyên nghiệp, THCN, TTHCN, cao đẳng, trường cao đẳng, CĐ, đại học, trường đại học, ĐH, trường dòng, khoa, học, truong, truong hoc, nha truong, hoc vien, truong tu, truong tu thuc, truong cong, truong cong lap, tieu hoc, ttruong tieu hoc, trung hoc, truong trung hoc, truong hoc co so, truong trung hoc co so, trung hoc pho nghiep, cao dang, truong cao dang, CD, dai hoc, truong dai hoc, DH, truong dong, khoa, hoc"
+    "name": "Sân Trường",
+    "terms": "sân trường, sân trường học, sân nhà trường, sân trung tâm giáo dục, san truong, san truong hoc, san nha truong, san trung tam giao duc"
   },
   "amenity/shelter": {
     "name": "Nhà trú",
@@ -639,7 +647,7 @@
     "name": "Chụp hình",
     "terms": "nhà chụp hình, nhà nhiếp ảnh, phòng chụp hình, phòng nhiếp ảnh, cửa hàng chụp hình, tiệm chụp hình, tiệm nhiếp ảnh, cửa hàng nhiếp ảnh, chân dung, bức tranh, hình ảnh, máy ảnh, nha chup hinh, nha nhiep anh, phong chup hinh, phong nhiep anh, cua hang chup hinh, tiem chup hinh, tiem nhiep anh, cua hang nhiep anh, chan dung, buc tranh, hinh anh, may anh"
   },
-  "craft/photographic_labratory": {
+  "craft/photographic_laboratory": {
     "name": "Rửa Hình",
     "terms": "buồng tối, tiệm rửa ảnh, tiệm rửa hình, cửa hàng rửa ảnh, cửa hàng rửa hình, buong toi, tiem rua anh, tiem rua hinh, cua hang rua anh, cua hang rua hinh"
   },
@@ -805,7 +813,7 @@
   },
   "highway/living_street": {
     "name": "Đường Dân sinh",
-    "terms": "đường dân sinh, phố sống, khu nhà ở, duong dan sinh, pho song, khu nha o"
+    "terms": "đường dân sinh, dân sinh, phố sống, khu nhà ở, duong dan sinh, dan sinh, pho song, khu nha o"
   },
   "highway/mini_roundabout": {
     "name": "Đường vòng Nhỏ",
@@ -841,7 +849,7 @@
   },
   "highway/residential": {
     "name": "Ngõ Dân cư",
-    "terms": "ngõ dân cư, ngõ, đường dân cư, dân cư, kiệt, ngo dan cu, ngo, duong dan cu, dan cu, kiet"
+    "terms": "ngõ dân cư, ngõ dân sinh, ngõ, đường dân cư, dân cư, đường dân sinh, dân sinh, kiệt, ngo dan cu, ngo dan sinh, ngo, duong dan cu, dan cu, duong dan sinh, dan sinh, kiet"
   },
   "highway/rest_area": {
     "name": "Khu Vệ sinh và Nơi Nghỉ ngơi",
@@ -977,7 +985,7 @@
   },
   "landuse/cemetery": {
     "name": "Nghĩa địa",
-    "terms": "nghĩa địa, nghĩa trang, nghia dia, nghia trang"
+    "terms": "nghĩa địa, nghĩa trang, bãi tha ma, mộ, nghia dia, nghia trang, bai tha ma, mo"
   },
   "landuse/commercial": {
     "name": "Thương mại",
@@ -1011,6 +1019,10 @@
     "name": "Công nghiệp",
     "terms": "công nghiệp, nhà máy, xưởng, cong nghiep, nha may, xuong"
   },
+  "landuse/landfill": {
+    "name": "Bãi rác",
+    "terms": "bãi rác thải, bãi rác, bãi chứa rác, bãi chôn rác, bãi chất thải, bãi chôn chất thải, bai rac thai, bai rac, bai chua rac, bai chon rac, bai chat thai, bai chon chat thai"
+  },
   "landuse/meadow": {
     "name": "Đồng cỏ",
     "terms": "đồng cỏ, bãi cỏ, dong co, bai co"
@@ -1025,7 +1037,7 @@
   },
   "landuse/residential": {
     "name": "Dân cư",
-    "terms": "dân cư, nhà ở, hàng xóm, dan cu, nha o, hang xom"
+    "terms": "dân cư, nhà ở, dân sinh, hàng xóm, dan cu, nha o, dan sinh, hang xom"
   },
   "landuse/retail": {
     "name": "Bán lẻ",
@@ -1047,6 +1059,10 @@
     "name": "Công viên dành cho Chó",
     "terms": "công viên chó, công viên cho chó, công viên dành cho chó, công viên chó chạy nhảy, cong vien cho, cong vien cho cho, cong vien danh cho cho, cong vien cho chay nhay"
   },
+  "leisure/firepit": {
+    "name": "Hố Lửa",
+    "terms": "hố lửa, lửa trại, lửa mừng, ho lua, lua trai, lua mung"
+  },
   "leisure/garden": {
     "name": "Vườn",
     "terms": "vườn, làm vườn, vuon, lam vuon"
@@ -1055,6 +1071,10 @@
     "name": "Sân Golf",
     "terms": "sân golf, sân gôn, san golf, san gon"
   },
+  "leisure/ice_rink": {
+    "name": "Sân Băng",
+    "terms": "sân băng, sân trượt băng, trượt băng, khúc côn cầu, san bang, san truot bang, truot bang, khuc con cau"
+  },
   "leisure/marina": {
     "name": "Bến tàu",
     "terms": "bến tàu, ben tau"
@@ -1062,6 +1082,10 @@
   "leisure/park": {
     "name": "Công viên",
     "terms": "công viên, vườn, vườn hoa, vườn cây, bãi cỏ, bãi cỏ xanh, thảm cỏ xanh, vành đai xanh, sân chơi, khu vui chơi, khu vui chơi trẻ em, khu chơi trẻ em, quảng trường, rừng, cong vien, vuon, vuon hoa, vuon cay, bai co, bai co xanh, tham co xanh, vanh dai xanh, san choi, khu vui choi, khu vui choi tre em, khu choi tre em, quang truong, rung"
+  },
+  "leisure/picnic_table": {
+    "name": "Bàn ăn Ngoài trời",
+    "terms": "bàn ăn ngoài trời, bàn ghế dã ngoại, bàn ghế dài, ban an ngoai troi, ban ghe da ngoai, ban ghe dai"
   },
   "leisure/pitch": {
     "name": "Sân cỏ",
@@ -1391,6 +1415,14 @@
     "name": "Địa phương",
     "terms": "địa phương, dia phuong"
   },
+  "place/neighbourhood": {
+    "name": "Hàng xóm",
+    "terms": "hàng xóm, khu phố, hang xom, khu pho"
+  },
+  "place/suburb": {
+    "name": "Quận",
+    "terms": "quận, ngoại ô, phố, quan, ngoai o, pho"
+  },
   "place/town": {
     "name": "Thị xã",
     "terms": "thị xã, TX, thi xa"
@@ -1615,6 +1647,10 @@
     "name": "Tiệm Hoa",
     "terms": "quầy bán hoa, tiệm bán hoa, chỗ bán hoa, nơi bán hoa, cửa hàng hoa, cửa hàng bán hoa, nơi bán hoa, bông hoa, quay ban hoa, tiem ban hoa, cho ban hoa, noi ban hoa, cua hang hoa, cua hang ban hoa, noi ban hoa, bong hoa"
   },
+  "shop/funeral_directors": {
+    "name": "Nhà quàn",
+    "terms": "nhà quàn, nhà tang lễ, nha quan, nha tang le"
+  },
   "shop/furniture": {
     "name": "Cửa hàng Nội thất",
     "terms": "cửa hàng đồ đạc, chỗ đồ đạc, cửa hàng bán đồ đạc, tiệm bán đồ đạc, quầy bán đồ đạc, nơi bán đồ đạc, đồ gỗ, giường, bàn, ghế, đèn, cua hang do dac, cho do dac, cua hang ban do dac, tiem ban do dac, quay ban do dac, noi ban do dac, do go, giuong, ban, ghe, den"
@@ -1698,6 +1734,10 @@
   "shop/photo": {
     "name": "Tiệm Chụp Hình",
     "terms": "tiệm chụp hình, tiệm lấy hình, tiệm lấy ảnh, tiệm nhiếp ảnh, cửa hàng chụp hình, cửa hàng lấy hình, cửa hàng lấy ảnh, cửa hàng nhiếp ảnh, tiem chup hinh, tiem lay hinh, tiem lay anh, tiem nhiep anh, cua hang chup hinh, cua hang lay hinh, cua hang lay anh, cua hang nhiep anh"
+  },
+  "shop/seafood": {
+    "name": "Tiệm Hải sản",
+    "terms": "tiệm hải sản, tiệm cá, tiem hai san, tiem ca"
   },
   "shop/shoes": {
     "name": "Tiệm Giày",

@@ -99,6 +99,10 @@
     "name": "Bar",
     "terms": ""
   },
+  "amenity/bbq": {
+    "name": "Barbecue/Grill",
+    "terms": "barbecue,bbq,grill"
+  },
   "amenity/bench": {
     "name": "Bench",
     "terms": ""
@@ -643,9 +647,9 @@
     "name": "Photographer",
     "terms": "photographer"
   },
-  "craft/photographic_labratory": {
-    "name": "Photographic Labratory",
-    "terms": "photographic labratory,film developer"
+  "craft/photographic_laboratory": {
+    "name": "Photographic Laboratory",
+    "terms": "photographic laboratory,film developer"
   },
   "craft/plasterer": {
     "name": "Plasterer",
@@ -983,6 +987,10 @@
     "name": "Cemetery",
     "terms": ""
   },
+  "landuse/churchyard": {
+    "name": "Churchyard",
+    "terms": ""
+  },
   "landuse/commercial": {
     "name": "Commercial",
     "terms": ""
@@ -1023,6 +1031,10 @@
     "name": "Meadow",
     "terms": ""
   },
+  "landuse/military": {
+    "name": "Military",
+    "terms": ""
+  },
   "landuse/orchard": {
     "name": "Orchard",
     "terms": ""
@@ -1055,6 +1067,10 @@
     "name": "Dog Park",
     "terms": ""
   },
+  "leisure/firepit": {
+    "name": "Firepit",
+    "terms": "fireplace,campfire"
+  },
   "leisure/garden": {
     "name": "Garden",
     "terms": ""
@@ -1063,6 +1079,10 @@
     "name": "Golf Course",
     "terms": "links"
   },
+  "leisure/ice_rink": {
+    "name": "Ice Rink",
+    "terms": "hockey,skating,curling"
+  },
   "leisure/marina": {
     "name": "Marina",
     "terms": ""
@@ -1070,6 +1090,10 @@
   "leisure/park": {
     "name": "Park",
     "terms": "esplanade,estate,forest,garden,grass,green,grounds,lawn,lot,meadow,parkland,place,playground,plaza,pleasure garden,recreation area,square,tract,village green,woodland"
+  },
+  "leisure/picnic_table": {
+    "name": "Picnic Table",
+    "terms": "bench,table"
   },
   "leisure/pitch": {
     "name": "Sport Pitch",
@@ -1399,6 +1423,14 @@
     "name": "Locality",
     "terms": ""
   },
+  "place/neighbourhood": {
+    "name": "Neighborhood",
+    "terms": "neighbourhood"
+  },
+  "place/suburb": {
+    "name": "Borough",
+    "terms": "Boro,Quarter"
+  },
   "place/town": {
     "name": "Town",
     "terms": ""
@@ -1623,6 +1655,10 @@
     "name": "Florist",
     "terms": ""
   },
+  "shop/funeral_directors": {
+    "name": "Funeral Home",
+    "terms": "undertaker,funeral parlour,funeral parlor,memorial home"
+  },
   "shop/furniture": {
     "name": "Furniture Store",
     "terms": ""
@@ -1707,6 +1743,10 @@
     "name": "Photography Store",
     "terms": ""
   },
+  "shop/seafood": {
+    "name": "Seafood Shop",
+    "terms": "fishmonger"
+  },
   "shop/shoes": {
     "name": "Shoe Store",
     "terms": ""
@@ -1746,6 +1786,10 @@
   "shop/video": {
     "name": "Video Store",
     "terms": ""
+  },
+  "shop/wine": {
+    "name": "Wine Shop",
+    "terms": "winery"
   },
   "tourism": {
     "name": "Tourism",

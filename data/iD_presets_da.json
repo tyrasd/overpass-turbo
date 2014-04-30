@@ -99,6 +99,10 @@
     "name": "Bar",
     "terms": "Bar"
   },
+  "amenity/bbq": {
+    "name": "Barbecue/Grill",
+    "terms": "Barbecue/Grill"
+  },
   "amenity/bench": {
     "name": "Bænk",
     "terms": "Bænk, Havebænk, Parkbænk"
@@ -192,12 +196,12 @@
     "terms": "Kirkegård, Gravsted"
   },
   "amenity/hospital": {
-    "name": "Hospital",
-    "terms": "Hospital, Sygehus"
+    "name": "Hospitalsområde",
+    "terms": "Hospitalsområde"
   },
   "amenity/kindergarten": {
-    "name": "Børnehave",
-    "terms": "Børnehave, Vuggestue, Dagpleje, Fritidshjem"
+    "name": "Børnehaveområde",
+    "terms": "Børnehaveområde"
   },
   "amenity/library": {
     "name": "Bibliotek",
@@ -206,6 +210,10 @@
   "amenity/marketplace": {
     "name": "Markedsplads",
     "terms": "Markedsplads"
+  },
+  "amenity/nightclub": {
+    "name": "Natklub",
+    "terms": "Natklub, Natclub"
   },
   "amenity/parking": {
     "name": "Bilparkering",
@@ -264,8 +272,8 @@
     "terms": "Restaurant, Spisested, Spisehus"
   },
   "amenity/school": {
-    "name": "Skole",
-    "terms": "Skole, Folkeskole, Privatskole"
+    "name": "Skolegrund",
+    "terms": "Skoleområde, Skolegrund"
   },
   "amenity/shelter": {
     "name": "Shelter",
@@ -639,10 +647,6 @@
     "name": "Fotograf",
     "terms": "Fotograf"
   },
-  "craft/photographic_labratory": {
-    "name": "Fotolaboratorie",
-    "terms": "Fotolaboratorie"
-  },
   "craft/plasterer": {
     "name": "Oppudser",
     "terms": "Oppudser"
@@ -1011,6 +1015,10 @@
     "name": "Industriområde",
     "terms": "Industriområde, Fabriksområde"
   },
+  "landuse/landfill": {
+    "name": "Losseplads",
+    "terms": "Losseplads, Affaldsplads"
+  },
   "landuse/meadow": {
     "name": "Eng",
     "terms": "Eng"
@@ -1047,6 +1055,10 @@
     "name": "Hundepark",
     "terms": "Hundepark"
   },
+  "leisure/firepit": {
+    "name": "Lejrbålsplads",
+    "terms": "Lejrbålsplads, Bålplads"
+  },
   "leisure/garden": {
     "name": "Have",
     "terms": "Have"
@@ -1055,6 +1067,10 @@
     "name": "Golfbane",
     "terms": "Golfbane, Golfkurser"
   },
+  "leisure/ice_rink": {
+    "name": "Skøjtebane",
+    "terms": "Skøjtebane"
+  },
   "leisure/marina": {
     "name": "Lystbådehavn",
     "terms": "Lystbådehavn, Marina"
@@ -1062,6 +1078,10 @@
   "leisure/park": {
     "name": "Park",
     "terms": "Park, Parkområde"
+  },
+  "leisure/picnic_table": {
+    "name": "Picnicborg",
+    "terms": "Picnicbord, Frokostbord"
   },
   "leisure/pitch": {
     "name": "Sportsbane",
@@ -1391,6 +1411,14 @@
     "name": "Lokalitet",
     "terms": "Lokalitet"
   },
+  "place/neighbourhood": {
+    "name": "Nabolag",
+    "terms": "Nabolag"
+  },
+  "place/suburb": {
+    "name": "Bydel",
+    "terms": "Bydel"
+  },
   "place/town": {
     "name": "By",
     "terms": "By"
@@ -1614,6 +1642,10 @@
   "shop/florist": {
     "name": "Blomsterbutik",
     "terms": "Blomsterbutik, Blomsterforretning"
+  },
+  "shop/funeral_directors": {
+    "name": "Bedemandsforretning",
+    "terms": "Bedemandsforretning, Begravelsesbutik"
   },
   "shop/furniture": {
     "name": "Møbelforhandler",

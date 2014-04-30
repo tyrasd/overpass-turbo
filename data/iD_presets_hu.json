@@ -143,12 +143,6 @@
   "amenity/grave_yard": {
     "name": "Sírkert"
   },
-  "amenity/hospital": {
-    "name": "Kórház"
-  },
-  "amenity/kindergarten": {
-    "name": "Óvoda"
-  },
   "amenity/library": {
     "name": "Könyvtár"
   },
@@ -198,9 +192,6 @@
   },
   "amenity/restaurant": {
     "name": "Étterem"
-  },
-  "amenity/school": {
-    "name": "Iskola"
   },
   "amenity/shelter": {
     "name": "Menedék",
