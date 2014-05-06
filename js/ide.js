@@ -143,7 +143,7 @@ var ide = new(function() {
           "out json xml custom popup timeout maxsize bbox" // initial declarations
           +" foreach" // block statements
           +" relation rel way node is_in area around user uid newer poly pivot" // queries
-          +" out meta body skel ids qt asc" // actions
+          +" out meta body skel tags ids qt asc" // actions
           +" center bb geom" // geometry types
           //+"r w n br bw" // recursors
         ),
