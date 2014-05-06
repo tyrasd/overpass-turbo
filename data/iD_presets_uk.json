@@ -144,7 +144,8 @@
     "terms": "Marketplace, hbyjr,базар,базарна площа"
   },
   "amenity/parking": {
-    "name": "Автостоянка"
+    "name": "Автостоянка",
+    "terms": "стоянка, паркування, парковка, fdnjcnjzyrf"
   },
   "amenity/pharmacy": {
     "name": "Аптека",

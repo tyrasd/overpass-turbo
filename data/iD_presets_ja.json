@@ -135,6 +135,10 @@
     "name": "車の洗浄",
     "terms": "洗車機, 洗車, 車洗浄, カーウォッシュ"
   },
+  "amenity/charging_station": {
+    "name": "充電スタンド",
+    "terms": "充電ステーション, 急速充電システム, 充電スタンド, 給電スタンド"
+  },
   "amenity/childcare": {
     "name": "保育施設",
     "terms": "託児所,保育園,幼稚園,学童保育"
@@ -154,6 +158,10 @@
   "amenity/college": {
     "name": "単科大学",
     "terms": "大学,短大,専門学校,高専"
+  },
+  "amenity/compressed_air": {
+    "name": "空気入れ",
+    "terms": "空気入れ, エアー調整"
   },
   "amenity/courthouse": {
     "name": "裁判所",
@@ -987,6 +995,10 @@
     "name": "霊園",
     "terms": "霊園, 墓地"
   },
+  "landuse/churchyard": {
+    "name": "教会の敷地",
+    "terms": "教会, 教会の敷地"
+  },
   "landuse/commercial": {
     "name": "オフィス地区",
     "terms": "ビジネス街,オフィス街,オフィス地区"
@@ -1026,6 +1038,10 @@
   "landuse/meadow": {
     "name": "牧草地",
     "terms": "牧草地"
+  },
+  "landuse/military": {
+    "name": "軍事",
+    "terms": "軍事,自衛隊"
   },
   "landuse/orchard": {
     "name": "果樹園",
@@ -1778,6 +1794,10 @@
   "shop/video": {
     "name": "ビデオソフト店",
     "terms": "ビデオソフト店, DVD店"
+  },
+  "shop/wine": {
+    "name": "ワイン店",
+    "terms": "ワイン店, 酒屋"
   },
   "tourism": {
     "name": "観光",
