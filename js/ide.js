@@ -1224,7 +1224,7 @@ var ide = new(function() {
         dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
         $('<div title="'+i18n.t("export.geoJSON_gist.title")+'">'+
           '<p>'+i18n.t("export.geoJSON_gist.gist")+'&nbsp;<a href="'+data.html_url+'" target="_blank" class="external">'+data.id+'</a></p>'+
-          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#gist:anonymous/'+data.id+'" target="_blank" class="external">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'</a></p>'+
+          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#id=gist:anonymous/'+data.id+'" target="_blank" class="external">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'</a></p>'+
           '</div>').dialog({
           modal:true,
           buttons: dialog_buttons,
