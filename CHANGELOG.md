@@ -1,4 +1,10 @@
-2014-04-30
+2014-05-08
+----------
+* update translations & presets
+* highlight new Overpass QL keywords
+* fix exported links to geojson.io
+
+~~2014-04-30~~
 ----------
 * activate new translations: Ukrainian, Slovenian, Brazilian
 * update presets
