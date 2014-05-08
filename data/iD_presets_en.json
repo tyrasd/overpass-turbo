@@ -135,6 +135,10 @@
     "name": "Car Wash",
     "terms": ""
   },
+  "amenity/charging_station": {
+    "name": "Charging Station",
+    "terms": "EV,Electric Vehicle,Supercharger"
+  },
   "amenity/childcare": {
     "name": "Childcare",
     "terms": "nursery,orphanage,playgroup"
@@ -153,6 +157,10 @@
   },
   "amenity/college": {
     "name": "College",
+    "terms": ""
+  },
+  "amenity/compressed_air": {
+    "name": "Compressed Air",
     "terms": ""
   },
   "amenity/courthouse": {

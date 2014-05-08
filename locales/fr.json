@@ -85,7 +85,7 @@
   "export.geoJSON_gist.geojsonio": "Editer avec with geojson.io:",
   "export.geoJSON_gist.geojsonio_link": "geojson.io",
   "export.GPX.title": "Exporter - GPX",
-  "export.GPX.expl": "The currently shown data as GPX:",
+  "export.GPX.expl": "L'affichage actuelle des données est en GPX :",
   "export.GPX.no_data": "Pas de données GPX disponibles, veuillez exécuter une requête d'abord.",
   "export.KML.title": "Export - KML",
   "export.KML.expl": "The currently shown data as KML:",

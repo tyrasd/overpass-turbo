@@ -279,7 +279,9 @@
         ],
         "fields": [
             "ref",
-            "surface"
+            "surface",
+            "length",
+            "width"
         ],
         "tags": {
             "aeroway": "runway"
@@ -560,6 +562,7 @@
         "name": "Car Sharing"
     },
     "amenity/car_wash": {
+        "icon": "car",
         "geometry": [
             "point",
             "area"
@@ -571,6 +574,25 @@
             "building_area"
         ],
         "name": "Car Wash"
+    },
+    "amenity/charging_station": {
+        "icon": "car",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "amenity": "charging_station"
+        },
+        "fields": [
+            "operator"
+        ],
+        "terms": [
+            "EV",
+            "Electric Vehicle",
+            "Supercharger"
+        ],
+        "name": "Charging Station"
     },
     "amenity/childcare": {
         "icon": "school",
@@ -673,6 +695,17 @@
         },
         "terms": [],
         "name": "College"
+    },
+    "amenity/compressed_air": {
+        "icon": "car",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "amenity": "compressed_air"
+        },
+        "name": "Compressed Air"
     },
     "amenity/courthouse": {
         "fields": [
@@ -3479,6 +3512,8 @@
         "fields": [
             "surface",
             "lit",
+            "width",
+            "structure",
             "access"
         ],
         "geometry": [
@@ -3614,9 +3649,10 @@
     },
     "highway/bridleway": {
         "fields": [
-            "access",
             "surface",
-            "structure"
+            "width",
+            "structure",
+            "access"
         ],
         "icon": "highway-bridleway",
         "geometry": [
@@ -3673,9 +3709,10 @@
         "fields": [
             "surface",
             "lit",
+            "width",
+            "oneway",
             "structure",
-            "access",
-            "oneway"
+            "access"
         ],
         "geometry": [
             "line"
@@ -3689,9 +3726,11 @@
     "highway/footway": {
         "icon": "highway-footway",
         "fields": [
+            "surface",
+            "lit",
+            "width",
             "structure",
-            "access",
-            "surface"
+            "access"
         ],
         "geometry": [
             "line",
@@ -3815,10 +3854,11 @@
     "highway/path": {
         "icon": "highway-path",
         "fields": [
+            "surface",
+            "width",
             "structure",
             "access",
             "sac_scale",
-            "surface",
             "incline",
             "trail_visibility",
             "ref"
@@ -3834,9 +3874,12 @@
     },
     "highway/pedestrian": {
         "fields": [
-            "access",
+            "surface",
+            "lit",
+            "width",
             "oneway",
-            "surface"
+            "structure",
+            "access"
         ],
         "geometry": [
             "line",
@@ -4103,8 +4146,10 @@
     },
     "highway/steps": {
         "fields": [
-            "access",
-            "surface"
+            "surface",
+            "lit",
+            "width",
+            "access"
         ],
         "icon": "highway-steps",
         "geometry": [
@@ -4819,7 +4864,8 @@
         "icon": "pitch",
         "fields": [
             "sport",
-            "surface"
+            "surface",
+            "lit"
         ],
         "geometry": [
             "point",
@@ -4834,7 +4880,8 @@
     "leisure/pitch/american_football": {
         "icon": "america-football",
         "fields": [
-            "surface"
+            "surface",
+            "lit"
         ],
         "geometry": [
             "point",
@@ -4849,6 +4896,9 @@
     },
     "leisure/pitch/baseball": {
         "icon": "baseball",
+        "fields": [
+            "lit"
+        ],
         "geometry": [
             "point",
             "area"
@@ -4864,7 +4914,8 @@
         "icon": "basketball",
         "fields": [
             "surface",
-            "hoops"
+            "hoops",
+            "lit"
         ],
         "geometry": [
             "point",
@@ -4880,7 +4931,8 @@
     "leisure/pitch/skateboard": {
         "icon": "pitch",
         "fields": [
-            "surface"
+            "surface",
+            "lit"
         ],
         "geometry": [
             "point",
@@ -4896,7 +4948,8 @@
     "leisure/pitch/soccer": {
         "icon": "soccer",
         "fields": [
-            "surface"
+            "surface",
+            "lit"
         ],
         "geometry": [
             "point",
@@ -4912,7 +4965,8 @@
     "leisure/pitch/tennis": {
         "icon": "tennis",
         "fields": [
-            "surface"
+            "surface",
+            "lit"
         ],
         "geometry": [
             "point",
@@ -4928,7 +4982,8 @@
     "leisure/pitch/volleyball": {
         "icon": "pitch",
         "fields": [
-            "surface"
+            "surface",
+            "lit"
         ],
         "geometry": [
             "point",
@@ -5011,7 +5066,9 @@
     "leisure/track": {
         "icon": "pitch",
         "fields": [
-            "surface"
+            "surface",
+            "lit",
+            "width"
         ],
         "geometry": [
             "point",
@@ -6670,7 +6727,7 @@
         "name": "Car Dealership"
     },
     "shop/car_parts": {
-        "icon": "shop",
+        "icon": "car",
         "fields": [
             "address",
             "building_area",
@@ -6687,7 +6744,7 @@
         "name": "Car Parts Store"
     },
     "shop/car_repair": {
-        "icon": "shop",
+        "icon": "car",
         "fields": [
             "address",
             "building_area",
@@ -8132,6 +8189,9 @@
     },
     "waterway/canal": {
         "icon": "waterway-canal",
+        "fields": [
+            "width"
+        ],
         "geometry": [
             "line"
         ],
@@ -8182,7 +8242,8 @@
     "waterway/river": {
         "icon": "waterway-river",
         "fields": [
-            "tunnel"
+            "tunnel",
+            "width"
         ],
         "geometry": [
             "line"
@@ -8220,7 +8281,8 @@
     "waterway/stream": {
         "icon": "waterway-stream",
         "fields": [
-            "tunnel"
+            "tunnel",
+            "width"
         ],
         "geometry": [
             "line"
@@ -30900,7 +30962,7 @@
             "shop": "car_repair"
         },
         "name": "Peugeot",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -30919,7 +30981,7 @@
             "shop": "car_repair"
         },
         "name": "Kwik Fit",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -30938,7 +31000,7 @@
             "shop": "car_repair"
         },
         "name": "ATU",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -30957,7 +31019,7 @@
             "shop": "car_repair"
         },
         "name": "Kwik-Fit",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -30976,7 +31038,7 @@
             "shop": "car_repair"
         },
         "name": "Midas",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -30995,7 +31057,7 @@
             "shop": "car_repair"
         },
         "name": "Feu Vert",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31014,7 +31076,7 @@
             "shop": "car_repair"
         },
         "name": "Norauto",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31033,7 +31095,7 @@
             "shop": "car_repair"
         },
         "name": "Speedy",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31052,7 +31114,7 @@
             "shop": "car_repair"
         },
         "name": "Автозапчасти",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31071,7 +31133,7 @@
             "shop": "car_repair"
         },
         "name": "Renault",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31090,7 +31152,7 @@
             "shop": "car_repair"
         },
         "name": "Pit Stop",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31109,7 +31171,7 @@
             "shop": "car_repair"
         },
         "name": "Jiffy Lube",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31128,7 +31190,7 @@
             "shop": "car_repair"
         },
         "name": "Шиномонтаж",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31147,7 +31209,7 @@
             "shop": "car_repair"
         },
         "name": "СТО",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31166,7 +31228,7 @@
             "shop": "car_repair"
         },
         "name": "O'Reilly Auto Parts",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31185,7 +31247,7 @@
             "shop": "car_repair"
         },
         "name": "Carglass",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31204,7 +31266,7 @@
             "shop": "car_repair"
         },
         "name": "шиномонтаж",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31223,7 +31285,7 @@
             "shop": "car_repair"
         },
         "name": "Citroen",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31242,7 +31304,7 @@
             "shop": "car_repair"
         },
         "name": "Euromaster",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31261,7 +31323,7 @@
             "shop": "car_repair"
         },
         "name": "Firestone",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31280,7 +31342,7 @@
             "shop": "car_repair"
         },
         "name": "AutoZone",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31299,7 +31361,7 @@
             "shop": "car_repair"
         },
         "name": "Автосервис",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31318,7 +31380,7 @@
             "shop": "car_repair"
         },
         "name": "Advance Auto Parts",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",
@@ -31337,7 +31399,7 @@
             "shop": "car_repair"
         },
         "name": "Roady",
-        "icon": "shop",
+        "icon": "car",
         "geometry": [
             "point",
             "vertex",

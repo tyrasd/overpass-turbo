@@ -833,6 +833,9 @@
     "name": "Cementiri",
     "terms": "Cementiri, Camp Sant"
   },
+  "landuse/churchyard": {
+    "name": "Terrenys d'església"
+  },
   "landuse/commercial": {
     "name": "Zona comercial"
   },
@@ -863,6 +866,9 @@
   },
   "landuse/meadow": {
     "name": "Prat"
+  },
+  "landuse/military": {
+    "name": "Militar"
   },
   "landuse/orchard": {
     "name": "Verger"
@@ -1469,6 +1475,9 @@
   },
   "shop/video": {
     "name": "Botiga de vídeos"
+  },
+  "shop/wine": {
+    "name": "Botiga de vins"
   },
   "tourism": {
     "name": "Turisme"

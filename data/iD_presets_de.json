@@ -135,6 +135,10 @@
     "name": "Autowäsche",
     "terms": "Auto-Waschanlage, Waschanlage"
   },
+  "amenity/charging_station": {
+    "name": "Ladestation",
+    "terms": "Ladestation"
+  },
   "amenity/childcare": {
     "name": "Kindertagesbetreuung",
     "terms": "Hort"
@@ -154,6 +158,10 @@
   "amenity/college": {
     "name": "Hochschule",
     "terms": "Hochschule, Kolleg"
+  },
+  "amenity/compressed_air": {
+    "name": "Druckluft",
+    "terms": "Druckluft, Pressluft"
   },
   "amenity/courthouse": {
     "name": "Gericht",
@@ -647,6 +655,10 @@
     "name": "Fotograf",
     "terms": "Fotograf, Fotostudio, Fotoatelier"
   },
+  "craft/photographic_laboratory": {
+    "name": "Fotolabor",
+    "terms": "Fotolabor, fotografisches Labor"
+  },
   "craft/plasterer": {
     "name": "Stuckateur",
     "terms": "Stuckateur, Kaschierer, Gipser, Verputzer"
@@ -983,6 +995,10 @@
     "name": "Friedhof",
     "terms": "Friedhof, Friedwald"
   },
+  "landuse/churchyard": {
+    "name": "Kirchhof",
+    "terms": "Kirchhof, Friedhof, Gottesacker, Leichenhof"
+  },
   "landuse/commercial": {
     "name": "Gewerbegebiet",
     "terms": "Gewerbezone,Gewerbegebiet,gewerblich genutzte Gebäude,Business Park,Büros"
@@ -1022,6 +1038,10 @@
   "landuse/meadow": {
     "name": "Weide",
     "terms": "Wiese, Weide"
+  },
+  "landuse/military": {
+    "name": "Militär",
+    "terms": "Militär, Armee, Landesverteidigung"
   },
   "landuse/orchard": {
     "name": "Obstplantage",
@@ -1731,6 +1751,10 @@
     "name": "Fotofachgeschäft",
     "terms": "Fotoladen, Fotograf, Fotogeschäft"
   },
+  "shop/seafood": {
+    "name": "Fischgeschäft",
+    "terms": "Fischgeschäft, Meeresfrüchtegeschäft"
+  },
   "shop/shoes": {
     "name": "Schuhgeschäft",
     "terms": "Schuhgeschäft"
@@ -1770,6 +1794,10 @@
   "shop/video": {
     "name": "Videothek",
     "terms": "Video-Geschäft, DVD-Geschäft"
+  },
+  "shop/wine": {
+    "name": "Vinothek",
+    "terms": "Weinladen, Weinhandlung, Weinhaus, Enothek"
   },
   "tourism": {
     "name": "Tourismus",
