@@ -81,29 +81,19 @@ turbo.urlParameters = function(param_str) {
         var param = params[i];
         var value = args[param];
         if (typeof value !== "string") value="???";
-        //// todo: move the following sanity conversion to ffs code:
-        //// replace newlines and tabs to xml entities for better legibility
-        // value = htmlentities(value).replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
         function quotes(s) {
           if (s.match(/^[a-zA-Z0-9_]+$/) === null)
             return '"'+s.replace(/"/g,'\\"')+'"';
           return s;
         }
         q = q.replace("{{"+param+"}}",quotes(value));
-        //// todo: move the following sanity conversion to ffs code:
-        //// special case for empty tag value
-        //// Overpass API doesn't properly support searching for empty tag values. see drolbr/Overpass-API#53
-        // if (param === "value" && value === "") {
-        //   q = q.replace("{{value=}}\n","");
-        //   q = q.replace(/v="\{\{value\}\}"/g,'regv="^$"');
-        // }
       }
-      args.w = q;
+      args.w = q; // let the wizard do the work
     } else {
       console.log("template not found");
     }
   }
-  if (args.w) { // construct a query by the wizard
+  if (args.w) { // construct a query using the wizard
     var ffs = turbo.ffs();
     var query = ffs.construct_query(args.w);
     if (query) {

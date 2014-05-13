@@ -87,8 +87,25 @@ turbo.ffs = function() {
     }
 
     function get_query_clause(condition) {
-      var key = htmlentities(condition.key);
-      var val = htmlentities(condition.val);
+      function esc(str) {
+        // overpass API gets confused over tabs and newline characters
+        // see https://github.com/drolbr/Overpass-API/issues/91
+        return htmlentities(str).replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
+      }
+      var key = esc(condition.key);
+      var val = esc(condition.val);
+      // special case for empty values
+      // see https://github.com/drolbr/Overpass-API/issues/53
+      if (val === '') {
+        if (condition.query === "eq") {
+          condition.query = "like";
+          condition.val={regex:'^$'};
+        } else if (condition.query === "neq") {
+          condition.query = "notlike";
+          condition.val={regex:'^$'};
+        }
+      }
+      // construct the query clause
       switch(condition.query) {
         case "key":
           return '<has-kv k="'+key+'"/>';
@@ -99,11 +116,11 @@ turbo.ffs = function() {
         case "neq":
           return '<has-kv k="'+key+'" modv="not" v="'+val+'"/>';
         case "like":
-          return '<has-kv k="'+key+'" regv="'+htmlentities(condition.val.regex)+'"'
+          return '<has-kv k="'+key+'" regv="'+esc(condition.val.regex)+'"'
                  +(condition.val.modifier==="i"?' case="ignore"':'')
                  +'/>';
         case "notlike":
-          return '<has-kv k="'+key+'" modv="not" regv="'+htmlentities(condition.val.regex)+'"'
+          return '<has-kv k="'+key+'" modv="not" regv="'+esc(condition.val.regex)+'"'
                  +(condition.val.modifier==="i"?' case="ignore"':'')
                  +'/>';
         case "substr":
@@ -123,7 +140,7 @@ turbo.ffs = function() {
             case "uid":
               return '<user uid="'+val+'"/>';
             default:
-              console.log("unknown query type: meta/"+condition.query);
+              console.log("unknown query type: meta/"+condition.meta);
               return false;
           }
         case "free form":
