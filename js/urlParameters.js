@@ -75,25 +75,30 @@ turbo.urlParameters = function(param_str) {
     var template = settings.saves[args.template];
     if (template && template.type == "template") {
       // build query
-      var q = template.overpass;
+      var q = template.wizard;
       var params = template.parameters;
       for (var i=0; i<params.length; i++) {
         var param = params[i];
-        if (typeof args[param] !== "string") continue;
         var value = args[param];
-        value = htmlentities(value).replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
-        // additionally escape curly brackets
-        value = value.replace(/\}/g,"&#125;").replace(/\{/g,"&#123;");
-        q = q.replace("{{"+param+"=???}}","{{"+param+"="+value+"}}");
-        // special case for empty tag value in templates
-        // Overpass API doesn't properly support searching for empty tag values. see drolbr/Overpass-API#53
-        if (param === "value" && value === "") {
-          q = q.replace("{{value=}}\n","");
-          q = q.replace(/v="\{\{value\}\}"/g,'regv="^$"');
+        if (typeof value !== "string") value="???";
+        //// todo: move the following sanity conversion to ffs code:
+        //// replace newlines and tabs to xml entities for better legibility
+        // value = htmlentities(value).replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
+        function quotes(s) {
+          if (s.match(/^[a-zA-Z0-9_]+$/) === null)
+            return '"'+s.replace(/"/g,'\\"')+'"';
+          return s;
         }
+        q = q.replace("{{"+param+"}}",quotes(value));
+        //// todo: move the following sanity conversion to ffs code:
+        //// special case for empty tag value
+        //// Overpass API doesn't properly support searching for empty tag values. see drolbr/Overpass-API#53
+        // if (param === "value" && value === "") {
+        //   q = q.replace("{{value=}}\n","");
+        //   q = q.replace(/v="\{\{value\}\}"/g,'regv="^$"');
+        // }
       }
-      t.query = q;
-      t.has_query = true;
+      args.w = q;
     } else {
       console.log("template not found");
     }

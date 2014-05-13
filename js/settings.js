@@ -70,7 +70,7 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",28);
+var settings = new Settings("overpass-ide",29);
 
 // map coordinates
 settings.define_setting("coords_lat","Float",41.890,1);
@@ -201,10 +201,36 @@ settings.define_upgrade_callback(27, function(s) {
   };
   s.save();
 });
-
 settings.define_upgrade_callback(28, function(s) {
   // generalize URLs to not explicitly use http protocol
   s.server = s.server.replace(/^http:\/\//,"//");
   s.tile_server = s.tile_server.replace(/^http:\/\//,"//");
+  s.save();
+});
+settings.define_upgrade_callback(29, function(s) {
+  // remove templates
+  _.each(s.saves, function(save, name) {
+    if (save.type !== "template") return;
+    switch (name) {
+      case "key":
+        save.wizard = "{{key}}=*";
+      break;
+      case "key-type":
+        save.wizard = "{{key}}=* and type:{{type}}";
+      break;
+      case "key-value":
+        save.wizard = "{{key}}={{value}}";
+      break;
+      case "key-value-type":
+        save.wizard = "{{key}}={{value}} and type:{{type}}";
+      break;
+      case "type-id":
+        save.wizard = "type:{{type}} and id:{{id}}";
+      break;
+      default:
+        return;
+    }
+    delete save.overpass;
+  });
   s.save();
 });
