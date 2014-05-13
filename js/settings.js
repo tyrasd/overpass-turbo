@@ -70,7 +70,10 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",29);
+var settings = new Settings(
+  configs.appname !== "overpass-ide" ? configs.appname : "overpass-ide", // todo: use appname consistently
+  29 // settings version number
+);
 
 // map coordinates
 settings.define_setting("coords_lat","Float",41.890,1);
