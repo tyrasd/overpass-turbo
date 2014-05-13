@@ -356,11 +356,11 @@ setTimeout(function() {
             layer.on('click', function(e) {
               var popup = "";
               if (feature.properties.type == "node")
-                popup += "<h2>Node <a href='http://www.openstreetmap.org/node/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
+                popup += "<h2>Node <a href='//www.openstreetmap.org/node/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else if (feature.properties.type == "way")
-                popup += "<h2>Way <a href='http://www.openstreetmap.org/way/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
+                popup += "<h2>Way <a href='//www.openstreetmap.org/way/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else if (feature.properties.type == "relation")
-                popup += "<h2>Relation <a href='http://www.openstreetmap.org/relation/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
+                popup += "<h2>Relation <a href='//www.openstreetmap.org/relation/"+feature.properties.id+"' target='_blank'>"+feature.properties.id+"</a></h2>";
               else
                 popup += "<h2>"+feature.properties.type+" #"+feature.properties.id+"</h2>";
               if (feature.properties && feature.properties.tags && !$.isEmptyObject(feature.properties.tags)) {
@@ -382,12 +382,12 @@ setTimeout(function() {
                   var wiki_lang, wiki_page;
                   if (((wiki_lang = k.match(/^wikipedia\:(.*)$/)) && (wiki_page = v)) || 
                       ((k == "wikipedia") && (wiki_lang = v.match(/^([a-zA-Z]+)\:(.*)$/)) && (wiki_page = wiki_lang[2])))
-                    v = '<a href="http://'+wiki_lang[1]+'.wikipedia.org/wiki/'+encodeURIComponent(wiki_page)+'" target="_blank">'+v+'</a>';
+                    v = '<a href="//'+wiki_lang[1]+'.wikipedia.org/wiki/'+encodeURIComponent(wiki_page)+'" target="_blank">'+v+'</a>';
                   // hyperlinks for wikidata entries
                   var wikidata_page;
                   if (((k == "wikidata") && (wikidata_page = v.match(/^Q[0-9]+$/))) ||
                       (k.match(/:wikidata$/) && (wikidata_page = v.match(/^Q[0-9]+$/))))
-                    v = '<a href="https://www.wikidata.org/wiki/'+encodeURIComponent(wikidata_page[0])+'" target="_blank">'+v+'</a>';
+                    v = '<a href="//www.wikidata.org/wiki/'+encodeURIComponent(wikidata_page[0])+'" target="_blank">'+v+'</a>';
                   popup += "<li>"+k+"="+v+"</li>"
                 });
                 popup += "</ul>";
@@ -395,7 +395,7 @@ setTimeout(function() {
               if (feature.properties && feature.properties.relations && !$.isEmptyObject(feature.properties.relations)) {
                 popup += '<h3>Relations:</h3><ul class="plain">';
                 $.each(feature.properties.relations, function (k,v) {
-                  popup += "<li><a href='http://www.openstreetmap.org/relation/"+v["rel"]+"' target='_blank'>"+v["rel"]+"</a>";
+                  popup += "<li><a href='//www.openstreetmap.org/relation/"+v["rel"]+"' target='_blank'>"+v["rel"]+"</a>";
                   if (v.reltags && 
                       (v.reltags.name || v.reltags.ref || v.reltags.type))
                     popup += " <i>" + 
@@ -415,9 +415,9 @@ setTimeout(function() {
                   k = htmlentities(k);
                   v = htmlentities(v);
                   if (k == "user")
-                    v = '<a href="http://www.openstreetmap.org/user/'+encodeURIComponent(v)+'" target="_blank">'+v+'</a>';
+                    v = '<a href="//www.openstreetmap.org/user/'+encodeURIComponent(v)+'" target="_blank">'+v+'</a>';
                   if (k == "changeset")
-                    v = '<a href="http://www.openstreetmap.org/changeset/'+encodeURIComponent(v)+'" target="_blank">'+v+'</a>';
+                    v = '<a href="//www.openstreetmap.org/changeset/'+encodeURIComponent(v)+'" target="_blank">'+v+'</a>';
                   popup += "<li>"+k+"="+v+"</li>";
                 });
                 popup += "</ul>";
