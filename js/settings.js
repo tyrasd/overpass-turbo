@@ -225,7 +225,7 @@ settings.define_upgrade_callback(29, function(s) {
         save.wizard = "{{key}}={{value}} and type:{{type}}";
       break;
       case "type-id":
-        save.wizard = "type:{{type}} and id:{{id}}";
+        save.wizard = "type:{{type}} and id:{{id}} global";
       break;
       default:
         return;
