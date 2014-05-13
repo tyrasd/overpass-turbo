@@ -246,6 +246,7 @@ turbo.ffs = function() {
     return query_parts.join('\n');
   }
 
+  // this is a "did you mean …" mechanism against typos in preset names
   ffs.repair_search = function(search) {
     try {
       ffs = turbo.ffs.parser.parse(search);
