@@ -98,6 +98,16 @@ turbo.urlParameters = function(param_str) {
       console.log("template not found");
     }
   }
+  if (args.w) { // construct a query by the wizard
+    var ffs = turbo.ffs();
+    var query = ffs.construct_query(args.w);
+    if (query) {
+      t.query = query;
+      t.has_query = true;
+    } else {
+      console.log("invalid wizard syntax");
+    }
+  }
 
   return t;
 };
