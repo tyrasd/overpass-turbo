@@ -19,9 +19,9 @@ turbo.urlParameters = function(param_str) {
       var get = param_str.substring(1).split("&");
       for (var i=0; i<get.length; i++) {
         var kv = get[i].split("=");
-        var key = decodeURIComponent(kv[0].replace(/\+/g,"%20"));
-        var val = (kv[1] !== undefined) ?
-          decodeURIComponent(kv[1].replace(/\+/g,"%20")) :
+        var key = decodeURIComponent(kv.shift().replace(/\+/g,"%20"));
+        var val = (kv.length > 0) ?
+          decodeURIComponent(kv.join("=").replace(/\+/g,"%20")) :
           true;
         args[key] = val;
       }
