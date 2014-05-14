@@ -68,9 +68,6 @@ turbo.urlParameters = function(param_str) {
     t.zoom = +args.zoom;
     t.has_zoom = true;
   }
-  if (args.R !== undefined) { // indicates that the supplied query shall be executed immediately
-    t.run_query = true;
-  }
   if (args.template) { // load a template
     var template = settings.saves[args.template];
     if (template && template.type == "template") {
@@ -102,6 +99,10 @@ turbo.urlParameters = function(param_str) {
     } else {
       console.log("invalid wizard syntax");
     }
+  }
+  if (args.R !== undefined) { // indicates that the supplied query shall be executed immediately
+    if (t.has_query) // only run if there is also a query to execute
+      t.run_query = true;
   }
 
   return t;
