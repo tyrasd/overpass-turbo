@@ -3,6 +3,7 @@
 #   * all
 #   * install
 #   * clean
+#   * test - runs the test suite
 #   * translations - updates translations from Transifex
 #   * presets - grabs presets and their translations from the iD-Project
 #   * ffs - compiles the ffs/wizard parser
@@ -146,6 +147,9 @@ clean:
 	rm -f turbo.map.min.js
 	rm -f turbo.css
 	rm -f turbo.min.css
+
+test:
+	mocha-phantomjs tests/index.html
 
 translations:
 	node locales/update_locales
