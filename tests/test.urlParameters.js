@@ -71,9 +71,9 @@ describe("ide.urlParameters", function () {
   });
   // RUN flag
   it("RUN flag", function () {
-    var args = turbo.urlParameters("?R");
+    var args = turbo.urlParameters("?Q=foo&R");
     expect(args.run_query).to.be.equal(true);
-    var args = turbo.urlParameters("?R=true");
+    var args = turbo.urlParameters("?Q=foo&R=true");
     expect(args.run_query).to.be.equal(true);
   });
   // template
