@@ -93,12 +93,13 @@ var ide = new(function() {
       $('#warning-unsupported-browser').dialog({modal:true});
     }
     // load settings
+    ide.waiter.addInfo("load settings");
     settings.load();
-    ide.waiter.addInfo("settings loaded");
     // translate ui
+    ide.waiter.addInfo("translate ui");
     i18n.translate();
-    ide.waiter.addInfo("i18n ready");
     // parse url string parameters
+    ide.waiter.addInfo("parse url parameters");
     var args = turbo.urlParameters(location.search);
     // set appropriate settings
     if (args.has_coords) { // map center coords set via url
@@ -113,6 +114,7 @@ var ide = new(function() {
     }
     settings.save();
 
+    ide.waiter.addInfo("initialize page");
     // init page layout
     if (settings.editor_width != "") {
       $("#editor").css("width",settings.editor_width);
