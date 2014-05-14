@@ -87,7 +87,7 @@ turbo.urlParameters = function(param_str) {
       }
       args.w = q; // let the wizard do the work
     } else {
-      console.log("template not found");
+      console.log("template not found: "+args.template);
     }
   }
   if (args.w) { // construct a query using the wizard
@@ -97,7 +97,7 @@ turbo.urlParameters = function(param_str) {
       t.query = query;
       t.has_query = true;
     } else {
-      console.log("invalid wizard syntax");
+      console.log("invalid wizard syntax:\n  "+args.w);
     }
   }
   if (args.R !== undefined) { // indicates that the supplied query shall be executed immediately
