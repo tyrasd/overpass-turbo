@@ -56,7 +56,6 @@
   "load.delete_query": "eliminar esta consulta",
   "load.saved_queries": "Consultas guardadas",
   "load.examples": "Ejemplos",
-  "load.templates": "Plantillas",
   "load.no_saved_query": "aún no guardaste la consulta",
   "export.title": "Exportar",
   "export.section.map": "Mapa",

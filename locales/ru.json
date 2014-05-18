@@ -56,7 +56,6 @@
   "load.delete_query": "удалить этот запрос",
   "load.saved_queries": "Избранные запросы",
   "load.examples": "Примеры",
-  "load.templates": "Шаблоны",
   "load.no_saved_query": "нет сохранённых запросов",
   "export.title": "Экспорт",
   "export.section.map": "Карта",

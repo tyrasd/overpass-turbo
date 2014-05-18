@@ -56,7 +56,6 @@
   "load.delete_query": "delete this query",
   "load.saved_queries": "Opgeslagen bevragingen",
   "load.examples": "Examples",
-  "load.templates": "Sjablonen",
   "load.no_saved_query": "er werd nog geen bevraging opgeslagen",
   "export.title": "Export",
   "export.section.map": "Kaart",

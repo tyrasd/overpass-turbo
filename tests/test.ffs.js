@@ -503,4 +503,34 @@ describe("ide.ffs", function () {
 
   });
 
+  // sanity conversions for special conditions
+  describe("special cases", function () {
+    // empty value
+    it("empty value", function () {
+      var search = "foo='' and type:way";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "way[kvr(foo,^$);bbox;];"+
+        ");"+
+        out_str
+      );
+    });
+    // newlines, tabs
+    it("newlines, tabs", function () {
+      var search = "(foo='\t' or foo='\n' or foo='\r' or asd='\\t') and type:way";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "way[kv(foo,&#09;);bbox;];"+
+          "way[kv(foo,&#10;);bbox;];"+
+          "way[kv(foo,&#13;);bbox;];"+
+          "way[kv(asd,&#09;);bbox;];"+
+        ");"+
+        out_str
+      );
+    });
+
+  });
+
 });

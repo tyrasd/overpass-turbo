@@ -70,7 +70,10 @@ examples = {
 examples_initial_example = "Drinking Water";
 
 // global settings object
-var settings = new Settings("overpass-ide",27);
+var settings = new Settings(
+  configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
+  30 // settings version number
+);
 
 // map coordinates
 settings.define_setting("coords_lat","Float",41.890,1);
@@ -199,5 +202,72 @@ settings.define_upgrade_callback(27, function(s) {
     type: "example",
     overpass: "<!--\nThis example shows how the data can be styled.\nHere, some common amenities are displayed in \ndifferent colors.\n\nRead more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\n-->\n<osm-script output=\"json\">\n  <query type=\"node\">\n    <has-kv k=\"amenity\"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode=\"body\"/>\n  <query type=\"way\">\n    <has-kv k=\"amenity\"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode=\"body\"/>\n  <recurse type=\"down\"/>\n  <print mode=\"skeleton\"/>\n</osm-script>\n\n{{style: /* this is the MapCSS stylesheet */\nnode, area\n{ color:gray; fill-color:gray; }\n\nnode[amenity=drinking_water],\nnode[amenity=fountain]\n{ color:blue; fill-color:blue; }\n\nnode[amenity=place_of_worship],\narea[amenity=place_of_worship]\n{ color:grey; fill-color:grey; }\n\nnode[amenity=~/(restaurant|hotel|cafe)/],\narea[amenity=~/(restaurant|hotel|cafe)/]\n{ color:red; fill-color:red; }\n\nnode[amenity=parking],\narea[amenity=parking]\n{ color:yellow; fill-color:yellow; }\n\nnode[amenity=bench]\n{ color:brown; fill-color:brown; }\n\nnode[amenity=~/(kindergarten|school|university)/],\narea[amenity=~/(kindergarten|school|university)/]\n{ color:green; fill-color:green; }\n}}"
   };
+  s.save();
+});
+settings.define_upgrade_callback(28, function(s) {
+  // generalize URLs to not explicitly use http protocol
+  s.server = s.server.replace(/^http:\/\//,"//");
+  s.tile_server = s.tile_server.replace(/^http:\/\//,"//");
+  s.save();
+});
+settings.define_upgrade_callback(29, function(s) {
+  // convert templates to wizard-syntax
+  _.each(s.saves, function(save, name) {
+    if (save.type !== "template") return;
+    switch (name) {
+      case "key":
+        save.wizard = "{{key}}=*";
+      break;
+      case "key-type":
+        save.wizard = "{{key}}=* and type:{{type}}";
+      break;
+      case "key-value":
+        save.wizard = "{{key}}={{value}}";
+      break;
+      case "key-value-type":
+        save.wizard = "{{key}}={{value}} and type:{{type}}";
+      break;
+      case "type-id":
+        save.wizard = "type:{{type}} and id:{{id}} global";
+      break;
+      default:
+        return;
+    }
+    delete save.overpass;
+  });
+  s.save();
+});
+
+settings.define_upgrade_callback(30, function(s) {
+  // add comments for templates
+  var chooseAndRun = "\nChoose your region and hit the Run button above!";
+  _.each(s.saves, function(save, name) {
+    if (save.type !== "template") return;
+    switch (name) {
+      case "key":
+        save.comment = "This query looks for nodes, ways and relations \nwith the given key.";
+        save.comment += chooseAndRun;
+      break;
+      case "key-type":
+        save.comment = "This query looks for nodes, ways or relations \nwith the given key.";
+        save.comment += chooseAndRun;
+      break;
+      case "key-value":
+        save.comment = "This query looks for nodes, ways and relations \nwith the given key/value combination.";
+        save.comment += chooseAndRun;
+      break;
+      case "key-value-type":
+        save.comment = "This query looks for nodes, ways or relations \nwith the given key/value combination.";
+        save.comment += chooseAndRun;
+      break;
+      case "type-id":
+        save.comment = "This query looks for a node, way or relation \nwith the given id.";
+        save.comment += "\nTo execute, hit the Run button above!";
+      break;
+      default:
+        return;
+    }
+    delete save.overpass;
+  });
   s.save();
 });

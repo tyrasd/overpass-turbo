@@ -93,12 +93,13 @@ var ide = new(function() {
       $('#warning-unsupported-browser').dialog({modal:true});
     }
     // load settings
+    ide.waiter.addInfo("load settings");
     settings.load();
-    ide.waiter.addInfo("settings loaded");
     // translate ui
+    ide.waiter.addInfo("translate ui");
     i18n.translate();
-    ide.waiter.addInfo("i18n ready");
     // parse url string parameters
+    ide.waiter.addInfo("parse url parameters");
     var args = turbo.urlParameters(location.search);
     // set appropriate settings
     if (args.has_coords) { // map center coords set via url
@@ -113,6 +114,7 @@ var ide = new(function() {
     }
     settings.save();
 
+    ide.waiter.addInfo("initialize page");
     // init page layout
     if (settings.editor_width != "") {
       $("#editor").css("width",settings.editor_width);
@@ -425,7 +427,7 @@ var ide = new(function() {
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+configs.appname, {
+            $.ajax("//nominatim.openstreetmap.org/search"+"?X-Requested-With="+configs.appname, {
               data:{
                 format:"json",
                 q: request.term
@@ -1014,9 +1016,10 @@ var ide = new(function() {
     var has_saved_query = false;
     for(var example in settings.saves) {
       var type = settings.saves[example].type;
+      if (type == 'template') continue;
       $('<li>'+
           '<a href="" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
-          (type != 'template' ? '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>' : '')+
+          '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
         '</li>').appendTo("#load-dialog ul."+type);
       if (type == "saved_query")
         has_saved_query = true;
@@ -1131,7 +1134,7 @@ var ide = new(function() {
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="'+i18n.t("export.map_view.title")+'">'+
-        '<h4>'+i18n.t("export.map_view.permalink")+'</h4>'+'<p><a href="http://www.openstreetmap.org/#map='+ide.map.getZoom()+'/'+L.Util.formatNum(ide.map.getCenter().lat)+'/'+L.Util.formatNum(ide.map.getCenter().lng)+'" target="_blank">'+i18n.t("export.map_view.permalink_osm")+'</a></p>'+
+        '<h4>'+i18n.t("export.map_view.permalink")+'</h4>'+'<p><a href="//www.openstreetmap.org/#map='+ide.map.getZoom()+'/'+L.Util.formatNum(ide.map.getCenter().lat)+'/'+L.Util.formatNum(ide.map.getCenter().lng)+'" target="_blank">'+i18n.t("export.map_view.permalink_osm")+'</a></p>'+
         '<h4>'+i18n.t("export.map_view.center")+'</h4><p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>('+i18n.t("export.map_view.center_expl")+')</small></p>'+
         '<h4>'+i18n.t("export.map_view.bounds")+'</h4><p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>'+
         (ide.map.bboxfilter.isEnabled() ?
@@ -1363,6 +1366,7 @@ var ide = new(function() {
       var export_dialog = $(this).parents("div.ui-dialog-content").first();
       var send_to_josm = function(query) {
         var JRC_url="http://127.0.0.1:8111/";
+        if (location.protocol === "https:") JRC_url = "https://127.0.0.1:8112/"
         $.getJSON(JRC_url+"version")
         .success(function(d,s,xhr) {
           if (d.protocolversion.major == 1) {
@@ -1576,7 +1580,7 @@ var ide = new(function() {
     );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox($("#settings-dialog input[name=server]"), [
-      "http://overpass-api.de/api/",
+      "//overpass-api.de/api/",
       "http://overpass.osm.rambler.ru/cgi/",
       "http://api.openstreetmap.fr/oapi/",
     ]);
@@ -1592,7 +1596,7 @@ var ide = new(function() {
     // map settings
     $("#settings-dialog input[name=tile_server]")[0].value = settings.tile_server;
     make_combobox($("#settings-dialog input[name=tile_server]"), [
-      "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
       //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
       //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
