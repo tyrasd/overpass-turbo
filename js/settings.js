@@ -71,7 +71,7 @@ examples_initial_example = "Drinking Water";
 
 // global settings object
 var settings = new Settings(
-  configs.appname !== "overpass-ide" ? configs.appname : "overpass-ide", // todo: use appname consistently
+  configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
   30 // settings version number
 );
 
