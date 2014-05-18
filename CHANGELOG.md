@@ -1,3 +1,10 @@
+2014-05-18
+----------
+* remote control the query wizard via an [URL-parameter](http://wiki.openstreetmap.org/wiki/Overpass_turbo/Development#Wizard).
+* wizard works around some Overpass API "specialities"
+* better status messages during start-up
+* don't load libraries from external CDN's (for faster startup, possibility to enable usage of page via https)
+
 2014-05-08
 ----------
 * update translations & presets
