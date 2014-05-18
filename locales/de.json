@@ -56,7 +56,6 @@
   "load.delete_query": "Diese Abfrage löschen",
   "load.saved_queries": "Gespeicherte Abfragen",
   "load.examples": "Beispiele",
-  "load.templates": "Vorlagen",
   "load.no_saved_query": "Noch wurde keine Abfrage gespeichert.",
   "export.title": "Exportieren",
   "export.section.map": "Karte",

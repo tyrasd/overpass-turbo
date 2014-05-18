@@ -56,7 +56,6 @@
   "load.delete_query": "クエリを削除",
   "load.saved_queries": "保存したクエリ",
   "load.examples": "例",
-  "load.templates": "テンプレート",
   "load.no_saved_query": "保存済みのクエリがありません",
   "export.title": "エクスポート",
   "export.section.map": "地図",

@@ -56,7 +56,6 @@
   "load.delete_query": "Supprimer cette requête",
   "load.saved_queries": "Requêtes enregistrées",
   "load.examples": "Exemples",
-  "load.templates": "Modèles",
   "load.no_saved_query": "Pas encore de requête enregistrée",
   "export.title": "Exporter",
   "export.section.map": "Carte",

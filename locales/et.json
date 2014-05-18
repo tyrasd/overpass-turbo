@@ -56,7 +56,6 @@
   "load.delete_query": "delete this query",
   "load.saved_queries": "Salvestatud päringud",
   "load.examples": "Examples",
-  "load.templates": "Mallid",
   "load.no_saved_query": "no saved query yet",
   "export.title": "Export",
   "export.section.map": "Map",
