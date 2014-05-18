@@ -72,7 +72,7 @@ examples_initial_example = "Drinking Water";
 // global settings object
 var settings = new Settings(
   configs.appname !== "overpass-ide" ? configs.appname : "overpass-ide", // todo: use appname consistently
-  29 // settings version number
+  30 // settings version number
 );
 
 // map coordinates
@@ -211,7 +211,7 @@ settings.define_upgrade_callback(28, function(s) {
   s.save();
 });
 settings.define_upgrade_callback(29, function(s) {
-  // remove templates
+  // convert templates to wizard-syntax
   _.each(s.saves, function(save, name) {
     if (save.type !== "template") return;
     switch (name) {
@@ -229,6 +229,40 @@ settings.define_upgrade_callback(29, function(s) {
       break;
       case "type-id":
         save.wizard = "type:{{type}} and id:{{id}} global";
+      break;
+      default:
+        return;
+    }
+    delete save.overpass;
+  });
+  s.save();
+});
+
+settings.define_upgrade_callback(30, function(s) {
+  // add comments for templates
+  var chooseAndRun = "\nChoose your region and hit the Run button above!";
+  _.each(s.saves, function(save, name) {
+    if (save.type !== "template") return;
+    switch (name) {
+      case "key":
+        save.comment = "This query looks for nodes, ways and relations \nwith the given key.";
+        save.comment += chooseAndRun;
+      break;
+      case "key-type":
+        save.comment = "This query looks for nodes, ways or relations \nwith the given key.";
+        save.comment += chooseAndRun;
+      break;
+      case "key-value":
+        save.comment = "This query looks for nodes, ways and relations \nwith the given key/value combination.";
+        save.comment += chooseAndRun;
+      break;
+      case "key-value-type":
+        save.comment = "This query looks for nodes, ways or relations \nwith the given key/value combination.";
+        save.comment += chooseAndRun;
+      break;
+      case "type-id":
+        save.comment = "This query looks for a node, way or relation \nwith the given id.";
+        save.comment += "\nTo execute, hit the Run button above!";
       break;
       default:
         return;

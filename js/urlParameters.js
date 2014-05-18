@@ -86,13 +86,14 @@ turbo.urlParameters = function(param_str) {
         q = q.replace("{{"+param+"}}",quotes(value));
       }
       args.w = q; // let the wizard do the work
+      var wizard_comment = template.comment;
     } else {
       console.log("template not found: "+args.template);
     }
   }
   if (args.w) { // construct a query using the wizard
     var ffs = turbo.ffs();
-    var query = ffs.construct_query(args.w);
+    var query = ffs.construct_query(args.w, wizard_comment);
     if (query) {
       t.query = query;
       t.has_query = true;
