@@ -88,8 +88,7 @@
   "export.as_text": "as <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">text</a>",
   "export.to_xml": "convert to <a id=\"export-convert-xml\" href=\"\" target=\"_blank\" class=\"external\">Overpass-XML</a>",
   "export.to_ql": "convert to (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>) <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL</a>",
-  "export.remote_control": "load into <a id=\"export-josm\" href=\"\">JOSM</a>",
-  "export.remote_control_expl": "only for queries returning valid OSM-XML with meta data",
+  "export.editors": "load data into an OSM editor:",
 
   "export.geoJSON.title": "Export - GeoJSON",
   "export.geoJSON.expl": "The currently shown data as GeoJSON:",

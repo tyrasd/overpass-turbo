@@ -1265,7 +1265,47 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
-    $("#export-dialog a#export-josm").unbind("click").on("click", function() {
+    
+    // OSM editors
+    // first check for possible mistakes in query.
+    var validEditorQuery = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+    // * Level0
+    var exportToLevel0 = $("#export-dialog a#export-editors-level0");
+    exportToLevel0.unbind("click");
+    function constructLevel0Link(query) {
+      return "http://level0.osmz.ru/?url="+
+              encodeURIComponent(
+                settings.server+"interpreter?data="+encodeURIComponent(query)
+              );
+    }
+    if (validEditorQuery) {
+      exportToLevel0[0].href = constructLevel0Link(query);
+    } else {
+      exportToLevel0[0].href = "";
+      exportToLevel0.bind("click", function() {
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.repair_query")] = function() {
+          ide.repairQuery("xml+metadata");
+          ide.getQuery(function(query) {
+            exportToLevel0.unbind("click");
+            exportToLevel0[0].href = constructLevel0Link(query);
+            $(this).dialog("close");
+          });
+        };
+        dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
+          exportToLevel0.unbind("click");
+          exportToLevel0[0].href = constructLevel0Link(query);
+          $(this).dialog("close");
+        };
+        $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.expl.1")+'</p><p>'+i18n.t("warning.incomplete.remote.expl.2")+'</p></div>').dialog({
+          modal:true,
+          buttons: dialog_buttons,
+        });
+        return false;
+      });
+    }
+    // * JOSM
+    $("#export-dialog a#export-editors-josm").unbind("click").on("click", function() {
       var export_dialog = $(this).parents("div.ui-dialog-content").first();
       var send_to_josm = function(query) {
         var JRC_url="http://127.0.0.1:8111/";
@@ -1287,7 +1327,7 @@ var ide = new(function() {
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
-              export_dialog.dialog("close");
+              console.log("successfully invoked JOSM remote constrol");
             });
           } else {
             var dialog_buttons= {};
@@ -1318,15 +1358,16 @@ var ide = new(function() {
         var dialog_buttons= {};
         dialog_buttons[i18n.t("dialog.repair_query")] = function() {
           ide.repairQuery("xml+metadata");
-          $(this).dialog("close");
-          export_dialog.dialog("close");
           ide.getQuery(function(query) {
             send_to_josm(query);
+            $(this).dialog("close");
+            export_dialog.dialog("close");
           });
         };
         dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
-          $(this).dialog("close");
           send_to_josm(query);
+          $(this).dialog("close");
+          export_dialog.dialog("close");
         };
         $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.expl.1")+'</p><p>'+i18n.t("warning.incomplete.remote.expl.2")+'</p></div>').dialog({
           modal:true,
