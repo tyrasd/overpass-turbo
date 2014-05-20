@@ -479,19 +479,27 @@ setTimeout(function() {
 setTimeout(function() {
         overpass.resultText = jqXHR.responseText;
         fire("onRawDataPresent");
-        // 5. add geojson to map - profit :)
-        // auto-tab-switching: if there is only non map-visible data, show it directly
+        // todo: the following would profit from some unit testing
+        // this is needed for auto-tab-switching: if there is only non map-visible data, show it directly
         if (geojson.features.length === 0) { // no visible data
           // switch only if there is some unplottable data in the returned json/xml.
           if ((data_mode == "json" && data.elements.length > 0) ||
               (data_mode == "xml" && $("osm",data).children().not("note,meta,bounds").length > 0)) {
             // check for "only areas returned"
-            if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type!="area") return false; return true;})(data.elements)) ||
+            if ((data_mode == "json" && _.all(data.elements, {type:"area"})) ||
                 (data_mode == "xml" && $("osm",data).children().not("note,meta,bounds,area").length == 0))
               empty_msg = "only areas returned";
-            // check for "ids_only"
-            else if ((data_mode == "json" && (function(e) {for(var i=0;i<e.length;e++) if (e[i].type=="node") return true; return false;})(data.elements)) ||
-                     (data_mode == "xml" && $("osm",data).children().filter("node").length != 0))
+            // check for "ids_only" or "tags" on nodes
+            else if ((data_mode == "json" && _.some(data.elements, {type:"node"})) ||
+                     (data_mode == "xml" && $("osm",data).children().filter("node").length > 0))
+              empty_msg = "no coordinates returned";
+            // check for "ids_only" or "tags" on ways
+            else if ((data_mode == "json" && _.some(data.elements, {type:"way"}) && !_.some(_.filter(data.elements, {type:"way"}), "nodes")) ||
+                     (data_mode == "xml" && $("osm",data).children().filter("way").length > 0 && $("osm",data).children().filter("way").children().filter("nd").length == 0))
+              empty_msg = "no coordinates returned";
+            // check for "ids_only" or "tags" on relations
+            else if ((data_mode == "json" && _.some(data.elements, {type:"relation"}) && !_.some(_.filter(data.elements, {type:"relation"}), "members")) ||
+                     (data_mode == "xml" && $("osm",data).children().filter("relation").length > 0 && $("osm",data).children().filter("relation").children().filter("member").length == 0))
               empty_msg = "no coordinates returned";
             else
               empty_msg = "no visible data";
