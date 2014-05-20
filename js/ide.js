@@ -867,116 +867,19 @@ var ide = new(function() {
   /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
   this.repairQuery = function(repair) {
     // - preparations -
-    var q = ide.getRawQuery(); // get original query
-    // replace comments with placeholders
-    // (we do not want to autorepair stuff which is commented out.)
-    if (ide.getQueryLang() == "xml") {
-      var comments = {};
-      var cs = q.match(/<!--[\s\S]*?-->/g) || [];
-      for (var i=0; i<cs.length; i++) {
-        var placeholder = "<!--"+Math.random().toString()+"-->"; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i],placeholder);
-        comments[placeholder] = cs[i];
-      }
-    } else {
-      var comments = {};
-      var cs = q.match(/\/\*[\s\S]*?\*\//g) || []; // multiline comments: /*...*/
-      for (var i=0; i<cs.length; i++) {
-        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i],placeholder);
-        comments[placeholder] = cs[i];
-      }
-      var cs = q.match(/\/\/[^\n]*/g) || []; // single line coments: //...
-      for (var i=0; i<cs.length; i++) {
-        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i],placeholder);
-        comments[placeholder] = cs[i];
-      }
-    }
+    var q = ide.getRawQuery(), // get original query
+        lng = ide.getQueryLang();
+    var autorepair = turbo.autorepair(q, lng);
     // - repairs -
-    // repair missing recurse statements
     if (repair == "no visible data") {
-      if (ide.getQueryLang() == "xml") {
-        // do some fancy mixture between regex magic and xml as html parsing :€
-        var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g) || [];
-        for (var i=0;i<prints.length;i++) {
-          var ws = prints[i].match(/^\n?(\s*)/)[1]; // amount of whitespace in fromt of each print statement
-          var from = $("print",$.parseXML(prints[i])).attr("from");
-          var add1,add2,add3;
-          if (from) { 
-            add1 = ' into="'+from+'"'; add2 = ' set="'+from+'"'; add3 = ' from="'+from+'"'; 
-          } else {
-            add1 = ''; add2 = ''; add3 = ''; 
-          }
-          q = q.replace(prints[i],"\n"+ws+"<!-- added by auto repair -->\n"+ws+"<union"+add1+">\n"+ws+"  <item"+add2+"/>\n"+ws+"  <recurse"+add3+' type="down"/>\n'+ws+"</union>\n"+ws+"<!-- end of auto repair --><autorepair>"+i+"</autorepair>");
-        }
-        for (var i=0;i<prints.length;i++) 
-          q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
-      } else {
-        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g) || [];
-        for (var i=0;i<outs.length;i++) {
-          var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
-          var from = outs[i].match(/\.([^;.]+?)\s+?out/);
-          var add;
-          if (from)
-            add = "(."+from[1]+";."+from[1]+" >;)->."+from[1]+";";
-          else
-            add = "(._;>;);";
-          q = q.replace(outs[i],ws+"/*added by auto repair*/"+ws+add+ws+"/*end of auto repair*/<autorepair>"+i+"</autorepair>");
-        }
-        for (var i=0;i<outs.length;i++) 
-          q = q.replace("<autorepair>"+i+"</autorepair>", outs[i]);
-      }
+      // repair missing recurse statements
+      autorepair.recurse();
     } else if (repair == "xml+metadata") {
-      if (ide.getQueryLang() == "xml") {
-        // 1. fix <osm-script output=*
-        var src = q.match(/<osm-script([^>]*)>/);
-        if (src) {
-          var output = $("osm-script",$.parseXML(src[0]+"</osm-script>")).attr("output");
-          if (output && output != "xml") {
-            var new_src = src[0].replace(output,"xml");
-            q = q.replace(src[0],new_src+"<!-- fixed by auto repair -->");
-          }
-        }
-        // 2. fix <print mode=*
-        var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g) || [];
-        for (var i=0;i<prints.length;i++) {
-          var mode = $("print",$.parseXML(prints[i])).attr("mode");
-          if (mode == "meta")
-            continue;
-          var new_print = prints[i];
-          if (mode)
-            new_print = new_print.replace(mode,"meta");
-          else
-            new_print = new_print.replace("<print",'<print mode="meta"');
-          q = q.replace(prints[i],new_print+"<!-- fixed by auto repair -->");
-        }
-      } else {
-        // 1. fix [out:*]
-        var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
-            ///^\s*\[\s*out\s*:\s*([^\]\s]+)/);
-        if (out && out[1] != "xml")
-          q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
-        // 2. fix out *
-        var prints = q.match(/out[^:;]*;/g) || [];
-        for (var i=0;i<prints.length;i++) {
-          if (prints[i].match(/\s(meta)/))
-            continue;
-          var new_print = prints[i].replace(/\s(body|skel|ids)/,"").replace("out","out meta");
-          q = q.replace(prints[i],new_print+"/*fixed by auto repair*/");
-        }
-        // 3. expand placeholded comments
-        for(var placeholder in comments) {
-          q = q.replace(placeholder,comments[placeholder]);
-        }
-      }
+      // repair output for OSM editors
+      autorepair.editors();
     }
-    // - cleanup -
-    // expand placeholded comments
-    for(var placeholder in comments) {
-      q = q.replace(placeholder,comments[placeholder]);
-    }
-    ide.setQuery(q);
+    // - set repaired query -
+    ide.setQuery(autorepair.getQuery());
   }
   this.highlightError = function(line) {
     ide.codeEditor.setLineClass(line-1,null,"errorline");
@@ -1402,32 +1305,12 @@ var ide = new(function() {
         });
       }
       // first check for possible mistakes in query.
-      // todo: move into autorepair "module"
-      var q = ide.getRawQuery().replace(/{{.*?}}/g,"");
-      var err = {};
-      if (ide.getQueryLang() == "xml") {
-        try {
-          var xml = $.parseXML("<x>"+q+"</x>");
-        } catch(e) {
-          err.xml = true;
-        }
-        if (!err.xml) {
-          $("print",xml).each(function(i,p) { if($(p).attr("mode")!=="meta") err.meta=true; });
-          var out = $("osm-script",xml).attr("output");
-          if (out !== undefined && out !== "xml")
-            err.output = true;
-        }
+      var valid = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+      if (valid) {
+        // now send the query to JOSM via remote control
+        send_to_josm(query);
+        return false;
       } else {
-        // ignore comments
-        q=q.replace(/\/\*[\s\S]*?\*\//g,"");
-        q=q.replace(/\/\/[^\n]*/g,"");
-        var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
-        if (out && out[1] != "xml")
-          err.output = true;
-        var prints = q.match(/out([^:;]*);/g);
-        $(prints).each(function(i,p) {if (p.match(/(body|skel|ids)/) || !p.match(/meta/)) err.meta=true;});
-      }
-      if (!$.isEmptyObject(err)) {
         var dialog_buttons= {};
         dialog_buttons[i18n.t("dialog.repair_query")] = function() {
           ide.repairQuery("xml+metadata");
@@ -1447,9 +1330,6 @@ var ide = new(function() {
         });
         return false;
       }
-      // now send the query to JOSM via remote control
-      send_to_josm(query);
-      return false;
     });
     // open the export dialog
     var dialog_buttons= {};

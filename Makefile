@@ -58,6 +58,7 @@ turbo.js: \
 	js/urlParameters.js \
 	js/nominatim.js \
 	js/query.js \
+	js/autorepair.js \
 	js/ffs.js \
 	js/ffs/free.js \
 	js/ffs/parser.js \
