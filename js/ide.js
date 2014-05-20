@@ -1274,12 +1274,16 @@ var ide = new(function() {
         .success(function(d,s,xhr) {
           if (d.protocolversion.major == 1) {
             $.get(JRC_url+"import", {
-              // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
-              // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
-              // See: http://josm.openstreetmap.de/ticket/8566#ticket
-              // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
-              // bad magic. Still looking for a proper fix, though.
-              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(query),
+              url:
+                // JOSM doesn't handle protocol-less links very well
+                settings.server.replace(/\/\//,"http://")+
+                // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
+                // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
+                // See: http://josm.openstreetmap.de/ticket/8566#ticket
+                // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
+                // bad magic. Still looking for a proper fix, though.
+                "interpreter?fixme=JOSM-ticket-8566&data="+
+                encodeURIComponent(query),
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
