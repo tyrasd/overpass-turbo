@@ -1286,10 +1286,11 @@ var ide = new(function() {
         var dialog_buttons= {};
         dialog_buttons[i18n.t("dialog.repair_query")] = function() {
           ide.repairQuery("xml+metadata");
+          var message_dialog = $(this);
           ide.getQuery(function(query) {
             exportToLevel0.unbind("click");
             exportToLevel0[0].href = constructLevel0Link(query);
-            $(this).dialog("close");
+            message_dialog.dialog("close");
           });
         };
         dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
@@ -1358,9 +1359,10 @@ var ide = new(function() {
         var dialog_buttons= {};
         dialog_buttons[i18n.t("dialog.repair_query")] = function() {
           ide.repairQuery("xml+metadata");
+          var message_dialog = $(this);
           ide.getQuery(function(query) {
             send_to_josm(query);
-            $(this).dialog("close");
+            message_dialog.dialog("close");
             export_dialog.dialog("close");
           });
         };
