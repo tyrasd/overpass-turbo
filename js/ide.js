@@ -1276,7 +1276,7 @@ var ide = new(function() {
             $.get(JRC_url+"import", {
               url:
                 // JOSM doesn't handle protocol-less links very well
-                settings.server.replace(/\/\//,"http://")+
+                settings.server.replace(/^\/\//,location.protocol+"//")+
                 // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
                 // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
                 // See: http://josm.openstreetmap.de/ticket/8566#ticket
