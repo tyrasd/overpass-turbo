@@ -1106,7 +1106,7 @@ var ide = new(function() {
 
     // automatically minify urls if enabled
     if (configs.short_url_service != "") {
-      $.get(configs.short_url_service+shared_query, function(data) {
+      $.get(configs.short_url_service+encodeURIComponent(share_link), function(data) {
         $("div#share-dialog #share_link_a")[0].href=data;
         $("div#share-dialog #share_link_textarea")[0].value=data;
       });
