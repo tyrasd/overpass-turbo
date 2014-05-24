@@ -763,6 +763,26 @@
             "opening_hours"
         ]
     },
+    "amenity/dojo": {
+        "icon": "pitch",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "martial arts",
+            "dojo",
+            "dojang"
+        ],
+        "tags": {
+            "amenity": "dojo"
+        },
+        "fields": [
+            "address",
+            "sport"
+        ],
+        "name": "Dojo / Martial Arts Academy"
+    },
     "amenity/drinking_water": {
         "icon": "water",
         "geometry": [
@@ -1009,6 +1029,20 @@
         },
         "terms": [],
         "name": "Car Parking"
+    },
+    "amenity/parking_entrance": {
+        "icon": "entrance",
+        "geometry": [
+            "vertex"
+        ],
+        "tags": {
+            "amenity": "parking_entrance"
+        },
+        "fields": [
+            "access_simple",
+            "ref"
+        ],
+        "name": "Parking Garage Entrance/Exit"
     },
     "amenity/pharmacy": {
         "icon": "pharmacy",
@@ -2162,7 +2196,7 @@
         "tags": {
             "building": "entrance"
         },
-        "name": "Entrance",
+        "name": "Entrance/Exit",
         "searchable": false
     },
     "building/garage": {
@@ -3487,13 +3521,15 @@
             "access_simple",
             "address"
         ],
-        "name": "Entrance"
+        "name": "Entrance/Exit"
     },
     "footway/crossing": {
         "fields": [
             "crossing",
             "access",
-            "surface"
+            "surface",
+            "sloped_curb",
+            "tactile_paving"
         ],
         "geometry": [
             "line"
@@ -3502,11 +3538,30 @@
             "highway": "footway",
             "footway": "crossing"
         },
+        "terms": [],
+        "name": "Crossing"
+    },
+    "footway/crosswalk": {
+        "fields": [
+            "crossing",
+            "access",
+            "surface",
+            "sloped_curb",
+            "tactile_paving"
+        ],
+        "geometry": [
+            "line"
+        ],
+        "tags": {
+            "highway": "footway",
+            "footway": "crossing",
+            "crossing": "zebra"
+        },
         "terms": [
             "crosswalk",
             "zebra crossing"
         ],
-        "name": "Crossing"
+        "name": "Crosswalk"
     },
     "footway/sidewalk": {
         "fields": [
@@ -3525,6 +3580,15 @@
         },
         "terms": [],
         "name": "Sidewalk"
+    },
+    "ford": {
+        "geometry": [
+            "vertex"
+        ],
+        "tags": {
+            "ford": "yes"
+        },
+        "name": "Ford"
     },
     "golf/bunker": {
         "icon": "golf",
@@ -3698,11 +3762,27 @@
         "tags": {
             "highway": "crossing"
         },
+        "terms": [],
+        "name": "Crossing"
+    },
+    "highway/crosswalk": {
+        "fields": [
+            "crossing",
+            "sloped_curb",
+            "tactile_paving"
+        ],
+        "geometry": [
+            "vertex"
+        ],
+        "tags": {
+            "highway": "crossing",
+            "crossing": "zebra"
+        },
         "terms": [
             "crosswalk",
             "zebra crossing"
         ],
-        "name": "Crossing"
+        "name": "Crosswalk"
     },
     "highway/cycleway": {
         "icon": "highway-cycleway",
@@ -3799,7 +3879,7 @@
     "highway/motorway": {
         "icon": "highway-motorway",
         "fields": [
-            "oneway",
+            "oneway_yes",
             "maxspeed",
             "structure",
             "access",
@@ -3826,7 +3906,7 @@
         "fields": [
             "ref"
         ],
-        "name": "Motorway Junction"
+        "name": "Motorway Junction / Exit"
     },
     "highway/motorway_link": {
         "icon": "highway-motorway-link",
@@ -5022,6 +5102,7 @@
         "name": "Slipway"
     },
     "leisure/sports_center": {
+        "icon": "pitch",
         "geometry": [
             "point",
             "area"
@@ -5032,10 +5113,13 @@
         "terms": [
             "gym"
         ],
-        "icon": "sports",
-        "name": "Sports Center"
+        "fields": [
+            "sport"
+        ],
+        "name": "Sports Center / Gym"
     },
     "leisure/stadium": {
+        "icon": "pitch",
         "geometry": [
             "point",
             "area"
@@ -6761,7 +6845,7 @@
         "name": "Car Repair Shop"
     },
     "shop/chemist": {
-        "icon": "shop",
+        "icon": "chemist",
         "fields": [
             "address",
             "building_area",
@@ -7082,7 +7166,7 @@
         "name": "Greengrocer"
     },
     "shop/hairdresser": {
-        "icon": "shop",
+        "icon": "hairdresser",
         "fields": [
             "address",
             "building_area",
@@ -7238,7 +7322,7 @@
         "name": "Mall"
     },
     "shop/mobile_phone": {
-        "icon": "shop",
+        "icon": "mobilephone",
         "fields": [
             "address",
             "building_area",
@@ -7255,7 +7339,7 @@
         "name": "Mobile Phone Store"
     },
     "shop/motorcycle": {
-        "icon": "shop",
+        "icon": "scooter",
         "fields": [
             "address",
             "building_area",
@@ -7964,8 +8048,107 @@
         "name": "Restriction",
         "icon": "restriction",
         "fields": [
-            "restriction"
+            "restriction",
+            "except"
         ]
+    },
+    "type/restriction/no_left_turn": {
+        "name": "No Left Turn",
+        "geometry": [
+            "relation"
+        ],
+        "tags": {
+            "type": "restriction",
+            "restriction": "no_left_turn"
+        },
+        "fields": [
+            "except"
+        ],
+        "icon": "restriction-no-left-turn"
+    },
+    "type/restriction/no_right_turn": {
+        "name": "No Right Turn",
+        "geometry": [
+            "relation"
+        ],
+        "tags": {
+            "type": "restriction",
+            "restriction": "no_right_turn"
+        },
+        "fields": [
+            "except"
+        ],
+        "icon": "restriction-no-right-turn"
+    },
+    "type/restriction/no_straight_on": {
+        "name": "No Straight On",
+        "geometry": [
+            "relation"
+        ],
+        "tags": {
+            "type": "restriction",
+            "restriction": "no_straight_on"
+        },
+        "fields": [
+            "except"
+        ],
+        "icon": "restriction-no-straight-on"
+    },
+    "type/restriction/no_u_turn": {
+        "name": "No U-turn",
+        "geometry": [
+            "relation"
+        ],
+        "tags": {
+            "type": "restriction",
+            "restriction": "no_u_turn"
+        },
+        "fields": [
+            "except"
+        ],
+        "icon": "restriction-no-u-turn"
+    },
+    "type/restriction/only_left_turn": {
+        "name": "Left Turn Only",
+        "geometry": [
+            "relation"
+        ],
+        "tags": {
+            "type": "restriction",
+            "restriction": "only_left_turn"
+        },
+        "fields": [
+            "except"
+        ],
+        "icon": "restriction-only-left-turn"
+    },
+    "type/restriction/only_right_turn": {
+        "name": "Right Turn Only",
+        "geometry": [
+            "relation"
+        ],
+        "tags": {
+            "type": "restriction",
+            "restriction": "only_right_turn"
+        },
+        "fields": [
+            "except"
+        ],
+        "icon": "restriction-only-right-turn"
+    },
+    "type/restriction/only_straight_on": {
+        "name": "No Turns",
+        "geometry": [
+            "relation"
+        ],
+        "tags": {
+            "type": "restriction",
+            "restriction": "only_straight_on"
+        },
+        "fields": [
+            "except"
+        ],
+        "icon": "restriction-only-straight-on"
     },
     "type/route": {
         "geometry": [
@@ -30791,7 +30974,7 @@
             "shop": "chemist"
         },
         "name": "Müller",
-        "icon": "shop",
+        "icon": "chemist",
         "geometry": [
             "point",
             "vertex",
@@ -30810,7 +30993,7 @@
             "shop": "chemist"
         },
         "name": "Schlecker",
-        "icon": "shop",
+        "icon": "chemist",
         "geometry": [
             "point",
             "vertex",
@@ -30829,7 +31012,7 @@
             "shop": "chemist"
         },
         "name": "Etos",
-        "icon": "shop",
+        "icon": "chemist",
         "geometry": [
             "point",
             "vertex",
@@ -30848,7 +31031,7 @@
             "shop": "chemist"
         },
         "name": "Bipa",
-        "icon": "shop",
+        "icon": "chemist",
         "geometry": [
             "point",
             "vertex",
@@ -30867,7 +31050,7 @@
             "shop": "chemist"
         },
         "name": "Rossmann",
-        "icon": "shop",
+        "icon": "chemist",
         "geometry": [
             "point",
             "vertex",
@@ -30886,7 +31069,7 @@
             "shop": "chemist"
         },
         "name": "DM Drogeriemarkt",
-        "icon": "shop",
+        "icon": "chemist",
         "geometry": [
             "point",
             "vertex",
@@ -30905,7 +31088,7 @@
             "shop": "chemist"
         },
         "name": "Ihr Platz",
-        "icon": "shop",
+        "icon": "chemist",
         "geometry": [
             "point",
             "vertex",
@@ -30924,7 +31107,7 @@
             "shop": "chemist"
         },
         "name": "Douglas",
-        "icon": "shop",
+        "icon": "chemist",
         "geometry": [
             "point",
             "vertex",
@@ -30943,7 +31126,7 @@
             "shop": "chemist"
         },
         "name": "Kruidvat",
-        "icon": "shop",
+        "icon": "chemist",
         "geometry": [
             "point",
             "vertex",
@@ -32346,24 +32529,6 @@
             "shop": "car"
         },
         "name": "Volvo",
-        "icon": "car",
-        "geometry": [
-            "point",
-            "vertex",
-            "area"
-        ],
-        "fields": [
-            "address",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
-    "shop/car/Ford": {
-        "tags": {
-            "name": "Ford",
-            "shop": "car"
-        },
-        "name": "Ford",
         "icon": "car",
         "geometry": [
             "point",
@@ -36187,7 +36352,7 @@
             "shop": "mobile_phone"
         },
         "name": "Билайн",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36206,7 +36371,7 @@
             "shop": "mobile_phone"
         },
         "name": "ソフトバンクショップ (SoftBank shop)",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36225,7 +36390,7 @@
             "shop": "mobile_phone"
         },
         "name": "Vodafone",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36244,7 +36409,7 @@
             "shop": "mobile_phone"
         },
         "name": "O2",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36263,7 +36428,7 @@
             "shop": "mobile_phone"
         },
         "name": "Carphone Warehouse",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36282,7 +36447,7 @@
             "shop": "mobile_phone"
         },
         "name": "Orange",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36301,7 +36466,7 @@
             "shop": "mobile_phone"
         },
         "name": "Verizon Wireless",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36320,7 +36485,7 @@
             "shop": "mobile_phone"
         },
         "name": "Sprint",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36339,7 +36504,7 @@
             "shop": "mobile_phone"
         },
         "name": "T-Mobile",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36358,7 +36523,7 @@
             "shop": "mobile_phone"
         },
         "name": "МТС",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36377,7 +36542,7 @@
             "shop": "mobile_phone"
         },
         "name": "Евросеть",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36396,7 +36561,7 @@
             "shop": "mobile_phone"
         },
         "name": "Bell",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36415,7 +36580,7 @@
             "shop": "mobile_phone"
         },
         "name": "The Phone House",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36434,7 +36599,7 @@
             "shop": "mobile_phone"
         },
         "name": "SFR",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36453,7 +36618,7 @@
             "shop": "mobile_phone"
         },
         "name": "Связной",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36472,7 +36637,7 @@
             "shop": "mobile_phone"
         },
         "name": "Мегафон",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36491,7 +36656,7 @@
             "shop": "mobile_phone"
         },
         "name": "AT&T",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36510,7 +36675,7 @@
             "shop": "mobile_phone"
         },
         "name": "ドコモショップ (docomo shop)",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36529,7 +36694,7 @@
             "shop": "mobile_phone"
         },
         "name": "au",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36548,7 +36713,7 @@
             "shop": "mobile_phone"
         },
         "name": "Movistar",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36567,7 +36732,7 @@
             "shop": "mobile_phone"
         },
         "name": "Bitė",
-        "icon": "shop",
+        "icon": "mobilephone",
         "geometry": [
             "point",
             "vertex",
@@ -36624,7 +36789,7 @@
             "shop": "hairdresser"
         },
         "name": "Klier",
-        "icon": "shop",
+        "icon": "hairdresser",
         "geometry": [
             "point",
             "vertex",
@@ -36643,7 +36808,7 @@
             "shop": "hairdresser"
         },
         "name": "Supercuts",
-        "icon": "shop",
+        "icon": "hairdresser",
         "geometry": [
             "point",
             "vertex",
@@ -36662,7 +36827,7 @@
             "shop": "hairdresser"
         },
         "name": "Hairkiller",
-        "icon": "shop",
+        "icon": "hairdresser",
         "geometry": [
             "point",
             "vertex",
@@ -36681,7 +36846,7 @@
             "shop": "hairdresser"
         },
         "name": "Great Clips",
-        "icon": "shop",
+        "icon": "hairdresser",
         "geometry": [
             "point",
             "vertex",
@@ -36700,7 +36865,7 @@
             "shop": "hairdresser"
         },
         "name": "Парикмахерская",
-        "icon": "shop",
+        "icon": "hairdresser",
         "geometry": [
             "point",
             "vertex",
@@ -36719,7 +36884,7 @@
             "shop": "hairdresser"
         },
         "name": "Стиль",
-        "icon": "shop",
+        "icon": "hairdresser",
         "geometry": [
             "point",
             "vertex",
@@ -36738,7 +36903,7 @@
             "shop": "hairdresser"
         },
         "name": "Fryzjer",
-        "icon": "shop",
+        "icon": "hairdresser",
         "geometry": [
             "point",
             "vertex",
@@ -36757,7 +36922,7 @@
             "shop": "hairdresser"
         },
         "name": "Franck Provost",
-        "icon": "shop",
+        "icon": "hairdresser",
         "geometry": [
             "point",
             "vertex",
@@ -36776,7 +36941,7 @@
             "shop": "hairdresser"
         },
         "name": "Салон красоты",
-        "icon": "shop",
+        "icon": "hairdresser",
         "geometry": [
             "point",
             "vertex",
@@ -36814,7 +36979,7 @@
             "shop": "motorcycle"
         },
         "name": "Yamaha",
-        "icon": "shop",
+        "icon": "scooter",
         "geometry": [
             "point",
             "vertex",

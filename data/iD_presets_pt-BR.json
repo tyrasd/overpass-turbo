@@ -135,6 +135,10 @@
     "name": "Lavagem de Veículos",
     "terms": "Lavagem de Veículos, Lava jato"
   },
+  "amenity/charging_station": {
+    "name": "Estação de Carregamento",
+    "terms": "Estação de Recarga, Estação de Carga Elétrica, Tomada de Cargamento, Tomada de Recarga"
+  },
   "amenity/childcare": {
     "name": "Creche",
     "terms": "Creche"
@@ -154,6 +158,10 @@
   "amenity/college": {
     "name": "Faculdade",
     "terms": "faculdade, educação superior, curso superior"
+  },
+  "amenity/compressed_air": {
+    "name": "Ar Comprimido",
+    "terms": "Ar Comprimido"
   },
   "amenity/courthouse": {
     "name": "Tribunal",
@@ -463,10 +471,6 @@
     "name": "Dormitório",
     "terms": "Alojamento Estudantil, República Estudantil, Dormitório"
   },
-  "building/entrance": {
-    "name": "Entrada",
-    "terms": "Entrada"
-  },
   "building/garage": {
     "name": "Garagem",
     "terms": "Garagem"
@@ -742,10 +746,6 @@
   "emergency/phone": {
     "name": "Telefone de Emergência",
     "terms": "Telefone de Emergência"
-  },
-  "entrance": {
-    "name": "Entrada",
-    "terms": "Entrada"
   },
   "footway/crossing": {
     "name": "Travessia de Pedestres",

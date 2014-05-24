@@ -412,10 +412,6 @@
     "name": "Akademik",
     "terms": "Akademik, bursa, "
   },
-  "building/entrance": {
-    "name": "Wejście",
-    "terms": "wejście,drzwi"
-  },
   "building/garage": {
     "name": "Garaż",
     "terms": "garaż"
@@ -593,10 +589,6 @@
   "emergency/phone": {
     "name": "Telefon alarmowy",
     "terms": "telefon,alarmowy,alarm"
-  },
-  "entrance": {
-    "name": "Wejście",
-    "terms": "wejście,przejście"
   },
   "footway/crossing": {
     "name": "Przejście dla pieszych",
