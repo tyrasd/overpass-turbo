@@ -83,13 +83,13 @@ settings.define_setting("coords_zoom","Integer",16,1);
 settings.define_setting("code","Object",examples[examples_initial_example],1);
 settings.define_setting("saves","Object",examples,1);
 // api server
-settings.define_setting("server","String","http://overpass-api.de/api/",1);
+settings.define_setting("server","String",configs.defaultServer,1);
 // sharing options
 settings.define_setting("share_compression","String","auto",1);
 settings.define_setting("share_include_pos","Boolean",false,1);
 // code editor & map view
 settings.define_setting("use_rich_editor","Boolean",true,1);
-settings.define_setting("tile_server","String","http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",1);
+settings.define_setting("tile_server","String",configs.defaultTiles,1);
 settings.define_setting("enable_crosshairs","Boolean",false,1);
 // export settings
 settings.define_setting("export_image_scale","Boolean",true,1);

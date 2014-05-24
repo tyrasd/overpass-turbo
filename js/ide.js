@@ -269,7 +269,7 @@ var ide = new(function() {
       maxZoom:20,
       worldCopyJump:false,
     });
-    var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    var tilesUrl = settings.tile_server;
     var tilesAttrib = '&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
@@ -1506,11 +1506,7 @@ var ide = new(function() {
       ["auto"].concat(i18n.getSupportedLanguages())
     );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
-    make_combobox($("#settings-dialog input[name=server]"), [
-      "//overpass-api.de/api/",
-      "http://overpass.osm.rambler.ru/cgi/",
-      "http://api.openstreetmap.fr/oapi/",
-    ]);
+    make_combobox($("#settings-dialog input[name=server]"), configs.suggestedServers);
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=no_autorepair]")[0].checked = settings.no_autorepair;
     // editor options
@@ -1522,13 +1518,7 @@ var ide = new(function() {
     make_combobox($("#settings-dialog input[name=share_compression]"),["auto","on","off"]);
     // map settings
     $("#settings-dialog input[name=tile_server]")[0].value = settings.tile_server;
-    make_combobox($("#settings-dialog input[name=tile_server]"), [
-      "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-      //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
-      //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
-      //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
-    ]);
+    make_combobox($("#settings-dialog input[name=tile_server]"), configs.suggestedTiles);
     $("#settings-dialog input[name=background_opacity]")[0].value = settings.background_opacity;
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
     $("#settings-dialog input[name=disable_poiomatic]")[0].checked = settings.disable_poiomatic;
