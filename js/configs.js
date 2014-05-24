@@ -6,7 +6,7 @@ var configs = {
     "http://overpass.osm.rambler.ru/cgi/",
     "http://api.openstreetmap.fr/oapi/",
   ],
-  defaultTiles: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  defaultTiles: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   suggestedTiles: [
     "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
