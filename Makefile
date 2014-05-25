@@ -7,6 +7,7 @@
 #   * translations - updates translations from Transifex
 #   * presets - grabs presets and their translations from the iD-Project
 #   * ffs - compiles the ffs/wizard parser
+#   * icons - update icon sets))
 # usage:
 #   make && make install install_root=...
 # set install_root for installing into a specific directory
@@ -161,3 +162,10 @@ presets:
 
 ffs:
 	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js
+
+icons: maki
+
+maki:
+	wget https://github.com/mapbox/maki/zipball/mb-pages -O icons/maki.zip
+	yes | unzip -ju icons/maki.zip */renders/*.png -d icons/maki/
+	rm icons/maki.zip
