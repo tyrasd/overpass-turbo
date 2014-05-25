@@ -163,7 +163,7 @@ presets:
 ffs:
 	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js
 
-icons: icons-maki, icons-mapnik
+icons: icons-maki icons-mapnik
 
 icons-maki:
 	wget https://github.com/mapbox/maki/zipball/mb-pages -O icons/maki.zip
