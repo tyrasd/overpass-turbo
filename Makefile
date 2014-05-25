@@ -7,6 +7,7 @@
 #   * translations - updates translations from Transifex
 #   * presets - grabs presets and their translations from the iD-Project
 #   * ffs - compiles the ffs/wizard parser
+#   * icons - update icon sets))
 # usage:
 #   make && make install install_root=...
 # set install_root for installing into a specific directory
@@ -58,6 +59,7 @@ turbo.js: \
 	js/urlParameters.js \
 	js/nominatim.js \
 	js/query.js \
+	js/autorepair.js \
 	js/ffs.js \
 	js/ffs/free.js \
 	js/ffs/parser.js \
@@ -160,3 +162,15 @@ presets:
 
 ffs:
 	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js
+
+icons: icons-maki icons-mapnik
+
+icons-maki:
+	wget https://github.com/mapbox/maki/zipball/mb-pages -O icons/maki.zip
+	yes | unzip -ju icons/maki.zip */renders/*.png -d icons/maki/
+	rm icons/maki.zip
+
+icons-mapnik:
+	wget https://github.com/gravitystorm/openstreetmap-carto/archive/master.zip -O icons/mapnik.zip
+	yes | unzip -ju icons/mapnik.zip */symbols/*.png -d icons/mapnik/
+	rm icons/mapnik.zip

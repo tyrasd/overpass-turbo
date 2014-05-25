@@ -361,9 +361,6 @@
     "name": "Kollégium",
     "terms": "Kollégium, Diákszálló, Diákotthon"
   },
-  "building/entrance": {
-    "name": "Bejárat"
-  },
   "building/garage": {
     "name": "Garázs"
   },
@@ -521,9 +518,6 @@
   },
   "emergency/phone": {
     "name": "Segélykérő telefon"
-  },
-  "entrance": {
-    "name": "Bejárat"
   },
   "footway/crossing": {
     "name": "Kereszteződés"

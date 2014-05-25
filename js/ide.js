@@ -269,7 +269,7 @@ var ide = new(function() {
       maxZoom:20,
       worldCopyJump:false,
     });
-    var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    var tilesUrl = settings.tile_server;
     var tilesAttrib = '&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
@@ -867,116 +867,19 @@ var ide = new(function() {
   /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
   this.repairQuery = function(repair) {
     // - preparations -
-    var q = ide.getRawQuery(); // get original query
-    // replace comments with placeholders
-    // (we do not want to autorepair stuff which is commented out.)
-    if (ide.getQueryLang() == "xml") {
-      var comments = {};
-      var cs = q.match(/<!--[\s\S]*?-->/g) || [];
-      for (var i=0; i<cs.length; i++) {
-        var placeholder = "<!--"+Math.random().toString()+"-->"; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i],placeholder);
-        comments[placeholder] = cs[i];
-      }
-    } else {
-      var comments = {};
-      var cs = q.match(/\/\*[\s\S]*?\*\//g) || []; // multiline comments: /*...*/
-      for (var i=0; i<cs.length; i++) {
-        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i],placeholder);
-        comments[placeholder] = cs[i];
-      }
-      var cs = q.match(/\/\/[^\n]*/g) || []; // single line coments: //...
-      for (var i=0; i<cs.length; i++) {
-        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i],placeholder);
-        comments[placeholder] = cs[i];
-      }
-    }
+    var q = ide.getRawQuery(), // get original query
+        lng = ide.getQueryLang();
+    var autorepair = turbo.autorepair(q, lng);
     // - repairs -
-    // repair missing recurse statements
     if (repair == "no visible data") {
-      if (ide.getQueryLang() == "xml") {
-        // do some fancy mixture between regex magic and xml as html parsing :€
-        var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g) || [];
-        for (var i=0;i<prints.length;i++) {
-          var ws = prints[i].match(/^\n?(\s*)/)[1]; // amount of whitespace in fromt of each print statement
-          var from = $("print",$.parseXML(prints[i])).attr("from");
-          var add1,add2,add3;
-          if (from) { 
-            add1 = ' into="'+from+'"'; add2 = ' set="'+from+'"'; add3 = ' from="'+from+'"'; 
-          } else {
-            add1 = ''; add2 = ''; add3 = ''; 
-          }
-          q = q.replace(prints[i],"\n"+ws+"<!-- added by auto repair -->\n"+ws+"<union"+add1+">\n"+ws+"  <item"+add2+"/>\n"+ws+"  <recurse"+add3+' type="down"/>\n'+ws+"</union>\n"+ws+"<!-- end of auto repair --><autorepair>"+i+"</autorepair>");
-        }
-        for (var i=0;i<prints.length;i++) 
-          q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
-      } else {
-        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g) || [];
-        for (var i=0;i<outs.length;i++) {
-          var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
-          var from = outs[i].match(/\.([^;.]+?)\s+?out/);
-          var add;
-          if (from)
-            add = "(."+from[1]+";."+from[1]+" >;)->."+from[1]+";";
-          else
-            add = "(._;>;);";
-          q = q.replace(outs[i],ws+"/*added by auto repair*/"+ws+add+ws+"/*end of auto repair*/<autorepair>"+i+"</autorepair>");
-        }
-        for (var i=0;i<outs.length;i++) 
-          q = q.replace("<autorepair>"+i+"</autorepair>", outs[i]);
-      }
+      // repair missing recurse statements
+      autorepair.recurse();
     } else if (repair == "xml+metadata") {
-      if (ide.getQueryLang() == "xml") {
-        // 1. fix <osm-script output=*
-        var src = q.match(/<osm-script([^>]*)>/);
-        if (src) {
-          var output = $("osm-script",$.parseXML(src[0]+"</osm-script>")).attr("output");
-          if (output && output != "xml") {
-            var new_src = src[0].replace(output,"xml");
-            q = q.replace(src[0],new_src+"<!-- fixed by auto repair -->");
-          }
-        }
-        // 2. fix <print mode=*
-        var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g) || [];
-        for (var i=0;i<prints.length;i++) {
-          var mode = $("print",$.parseXML(prints[i])).attr("mode");
-          if (mode == "meta")
-            continue;
-          var new_print = prints[i];
-          if (mode)
-            new_print = new_print.replace(mode,"meta");
-          else
-            new_print = new_print.replace("<print",'<print mode="meta"');
-          q = q.replace(prints[i],new_print+"<!-- fixed by auto repair -->");
-        }
-      } else {
-        // 1. fix [out:*]
-        var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
-            ///^\s*\[\s*out\s*:\s*([^\]\s]+)/);
-        if (out && out[1] != "xml")
-          q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
-        // 2. fix out *
-        var prints = q.match(/out[^:;]*;/g) || [];
-        for (var i=0;i<prints.length;i++) {
-          if (prints[i].match(/\s(meta)/))
-            continue;
-          var new_print = prints[i].replace(/\s(body|skel|ids)/,"").replace("out","out meta");
-          q = q.replace(prints[i],new_print+"/*fixed by auto repair*/");
-        }
-        // 3. expand placeholded comments
-        for(var placeholder in comments) {
-          q = q.replace(placeholder,comments[placeholder]);
-        }
-      }
+      // repair output for OSM editors
+      autorepair.editors();
     }
-    // - cleanup -
-    // expand placeholded comments
-    for(var placeholder in comments) {
-      q = q.replace(placeholder,comments[placeholder]);
-    }
-    ide.setQuery(q);
+    // - set repaired query -
+    ide.setQuery(autorepair.getQuery());
   }
   this.highlightError = function(line) {
     ide.codeEditor.setLineClass(line-1,null,"errorline");
@@ -1362,7 +1265,48 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
-    $("#export-dialog a#export-josm").unbind("click").on("click", function() {
+    
+    // OSM editors
+    // first check for possible mistakes in query.
+    var validEditorQuery = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+    // * Level0
+    var exportToLevel0 = $("#export-dialog a#export-editors-level0");
+    exportToLevel0.unbind("click");
+    function constructLevel0Link(query) {
+      return "http://level0.osmz.ru/?url="+
+              encodeURIComponent(
+                settings.server+"interpreter?data="+encodeURIComponent(query)
+              );
+    }
+    if (validEditorQuery) {
+      exportToLevel0[0].href = constructLevel0Link(query);
+    } else {
+      exportToLevel0[0].href = "";
+      exportToLevel0.bind("click", function() {
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.repair_query")] = function() {
+          ide.repairQuery("xml+metadata");
+          var message_dialog = $(this);
+          ide.getQuery(function(query) {
+            exportToLevel0.unbind("click");
+            exportToLevel0[0].href = constructLevel0Link(query);
+            message_dialog.dialog("close");
+          });
+        };
+        dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
+          exportToLevel0.unbind("click");
+          exportToLevel0[0].href = constructLevel0Link(query);
+          $(this).dialog("close");
+        };
+        $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.expl.1")+'</p><p>'+i18n.t("warning.incomplete.remote.expl.2")+'</p></div>').dialog({
+          modal:true,
+          buttons: dialog_buttons,
+        });
+        return false;
+      });
+    }
+    // * JOSM
+    $("#export-dialog a#export-editors-josm").unbind("click").on("click", function() {
       var export_dialog = $(this).parents("div.ui-dialog-content").first();
       var send_to_josm = function(query) {
         var JRC_url="http://127.0.0.1:8111/";
@@ -1384,7 +1328,7 @@ var ide = new(function() {
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
-              export_dialog.dialog("close");
+              console.log("successfully invoked JOSM remote constrol");
             });
           } else {
             var dialog_buttons= {};
@@ -1406,44 +1350,26 @@ var ide = new(function() {
         });
       }
       // first check for possible mistakes in query.
-      // todo: move into autorepair "module"
-      var q = ide.getRawQuery().replace(/{{.*?}}/g,"");
-      var err = {};
-      if (ide.getQueryLang() == "xml") {
-        try {
-          var xml = $.parseXML("<x>"+q+"</x>");
-        } catch(e) {
-          err.xml = true;
-        }
-        if (!err.xml) {
-          $("print",xml).each(function(i,p) { if($(p).attr("mode")!=="meta") err.meta=true; });
-          var out = $("osm-script",xml).attr("output");
-          if (out !== undefined && out !== "xml")
-            err.output = true;
-        }
+      var valid = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+      if (valid) {
+        // now send the query to JOSM via remote control
+        send_to_josm(query);
+        return false;
       } else {
-        // ignore comments
-        q=q.replace(/\/\*[\s\S]*?\*\//g,"");
-        q=q.replace(/\/\/[^\n]*/g,"");
-        var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
-        if (out && out[1] != "xml")
-          err.output = true;
-        var prints = q.match(/out([^:;]*);/g);
-        $(prints).each(function(i,p) {if (p.match(/(body|skel|ids)/) || !p.match(/meta/)) err.meta=true;});
-      }
-      if (!$.isEmptyObject(err)) {
         var dialog_buttons= {};
         dialog_buttons[i18n.t("dialog.repair_query")] = function() {
           ide.repairQuery("xml+metadata");
-          $(this).dialog("close");
-          export_dialog.dialog("close");
+          var message_dialog = $(this);
           ide.getQuery(function(query) {
             send_to_josm(query);
+            message_dialog.dialog("close");
+            export_dialog.dialog("close");
           });
         };
         dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
-          $(this).dialog("close");
           send_to_josm(query);
+          $(this).dialog("close");
+          export_dialog.dialog("close");
         };
         $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.expl.1")+'</p><p>'+i18n.t("warning.incomplete.remote.expl.2")+'</p></div>').dialog({
           modal:true,
@@ -1451,9 +1377,6 @@ var ide = new(function() {
         });
         return false;
       }
-      // now send the query to JOSM via remote control
-      send_to_josm(query);
-      return false;
     });
     // open the export dialog
     var dialog_buttons= {};
@@ -1583,11 +1506,7 @@ var ide = new(function() {
       ["auto"].concat(i18n.getSupportedLanguages())
     );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
-    make_combobox($("#settings-dialog input[name=server]"), [
-      "//overpass-api.de/api/",
-      "http://overpass.osm.rambler.ru/cgi/",
-      "http://api.openstreetmap.fr/oapi/",
-    ]);
+    make_combobox($("#settings-dialog input[name=server]"), configs.suggestedServers);
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=no_autorepair]")[0].checked = settings.no_autorepair;
     // editor options
@@ -1599,13 +1518,7 @@ var ide = new(function() {
     make_combobox($("#settings-dialog input[name=share_compression]"),["auto","on","off"]);
     // map settings
     $("#settings-dialog input[name=tile_server]")[0].value = settings.tile_server;
-    make_combobox($("#settings-dialog input[name=tile_server]"), [
-      "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-      //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
-      //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
-      //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
-    ]);
+    make_combobox($("#settings-dialog input[name=tile_server]"), configs.suggestedTiles);
     $("#settings-dialog input[name=background_opacity]")[0].value = settings.background_opacity;
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
     $("#settings-dialog input[name=disable_poiomatic]")[0].checked = settings.disable_poiomatic;

@@ -175,6 +175,10 @@
     "name": "Doctor",
     "terms": "doctor,doctor's office"
   },
+  "amenity/dojo": {
+    "name": "Dojo / Martial Arts Academy",
+    "terms": "martial arts,dojo,dojang"
+  },
   "amenity/drinking_water": {
     "name": "Drinking Water",
     "terms": "water fountain,potable water"
@@ -225,6 +229,10 @@
   },
   "amenity/parking": {
     "name": "Car Parking",
+    "terms": ""
+  },
+  "amenity/parking_entrance": {
+    "name": "Parking Garage Entrance/Exit",
     "terms": ""
   },
   "amenity/pharmacy": {
@@ -472,7 +480,7 @@
     "terms": ""
   },
   "building/entrance": {
-    "name": "Entrance",
+    "name": "Entrance/Exit",
     "terms": ""
   },
   "building/garage": {
@@ -752,15 +760,23 @@
     "terms": ""
   },
   "entrance": {
-    "name": "Entrance",
+    "name": "Entrance/Exit",
     "terms": ""
   },
   "footway/crossing": {
     "name": "Crossing",
+    "terms": ""
+  },
+  "footway/crosswalk": {
+    "name": "Crosswalk",
     "terms": "crosswalk,zebra crossing"
   },
   "footway/sidewalk": {
     "name": "Sidewalk",
+    "terms": ""
+  },
+  "ford": {
+    "name": "Ford",
     "terms": ""
   },
   "golf/bunker": {
@@ -809,6 +825,10 @@
   },
   "highway/crossing": {
     "name": "Crossing",
+    "terms": ""
+  },
+  "highway/crosswalk": {
+    "name": "Crosswalk",
     "terms": "crosswalk,zebra crossing"
   },
   "highway/cycleway": {
@@ -832,7 +852,7 @@
     "terms": ""
   },
   "highway/motorway_junction": {
-    "name": "Motorway Junction",
+    "name": "Motorway Junction / Exit",
     "terms": ""
   },
   "highway/motorway_link": {
@@ -1144,7 +1164,7 @@
     "terms": ""
   },
   "leisure/sports_center": {
-    "name": "Sports Center",
+    "name": "Sports Center / Gym",
     "terms": "gym"
   },
   "leisure/stadium": {
@@ -1881,6 +1901,34 @@
   },
   "type/restriction": {
     "name": "Restriction",
+    "terms": ""
+  },
+  "type/restriction/no_left_turn": {
+    "name": "No Left Turn",
+    "terms": ""
+  },
+  "type/restriction/no_right_turn": {
+    "name": "No Right Turn",
+    "terms": ""
+  },
+  "type/restriction/no_straight_on": {
+    "name": "No Straight On",
+    "terms": ""
+  },
+  "type/restriction/no_u_turn": {
+    "name": "No U-turn",
+    "terms": ""
+  },
+  "type/restriction/only_left_turn": {
+    "name": "Left Turn Only",
+    "terms": ""
+  },
+  "type/restriction/only_right_turn": {
+    "name": "Right Turn Only",
+    "terms": ""
+  },
+  "type/restriction/only_straight_on": {
+    "name": "No Turns",
     "terms": ""
   },
   "type/route": {

@@ -135,6 +135,10 @@
     "name": "Bilvask",
     "terms": "Bilvask, Automobilvask"
   },
+  "amenity/charging_station": {
+    "name": "Opladerstation",
+    "terms": "Opladerstation, elbilopladerstation"
+  },
   "amenity/childcare": {
     "name": "Børnepasning",
     "terms": "Børnehave, Børnepasning, Vuggestue, Dagpleje, Fritidshjem"
@@ -154,6 +158,10 @@
   "amenity/college": {
     "name": "Gymnasie",
     "terms": "Gymnasie, Handelsgymnasie"
+  },
+  "amenity/compressed_air": {
+    "name": "Luftpumpe",
+    "terms": "Luftpumpe, Billuftpumpe"
   },
   "amenity/courthouse": {
     "name": "Domstolsbygning",
@@ -218,6 +226,10 @@
   "amenity/parking": {
     "name": "Bilparkering",
     "terms": "Bilparkering"
+  },
+  "amenity/parking_entrance": {
+    "name": "Parkeringsgarage Indgang/Udgang",
+    "terms": "Parkeringsgarage Indgang/Udgang, Parkeringskælder Indgang/Udgang"
   },
   "amenity/pharmacy": {
     "name": "Apotek",
@@ -464,8 +476,8 @@
     "terms": " Kollegie, Klubværelse, Kollegium"
   },
   "building/entrance": {
-    "name": "Indgang",
-    "terms": "Indgang"
+    "name": "Indgang/Udgang",
+    "terms": "Indgang/Udgang"
   },
   "building/garage": {
     "name": "Garage",
@@ -744,8 +756,8 @@
     "terms": "Nødtelefon, Nødopkaldstelefon"
   },
   "entrance": {
-    "name": "Indgang",
-    "terms": "Indgang, Indgangsparti"
+    "name": "Indgang/Udgang",
+    "terms": "Indgang/Udgang"
   },
   "footway/crossing": {
     "name": "Kryds",
@@ -754,6 +766,10 @@
   "footway/sidewalk": {
     "name": "Fortov",
     "terms": "Fortov"
+  },
+  "ford": {
+    "name": "Vadested",
+    "terms": "Vadested"
   },
   "golf/bunker": {
     "name": "Sandbunker",
