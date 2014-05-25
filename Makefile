@@ -171,6 +171,6 @@ icons-maki:
 	rm icons/maki.zip
 
 icons-mapnik:
-	wget https://github.com/openstreetmap/mapnik-stylesheets/archive/master.zip -O icons/mapnik.zip
+	wget https://github.com/gravitystorm/openstreetmap-carto/archive/master.zip -O icons/mapnik.zip
 	yes | unzip -ju icons/mapnik.zip */symbols/*.png -d icons/mapnik/
 	rm icons/mapnik.zip
