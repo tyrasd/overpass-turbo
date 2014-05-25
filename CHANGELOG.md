@@ -1,3 +1,11 @@
+2014-05-25
+----------
+* add export to [Level0](https://github.com/Zverik/Level0#readme) (OSM editor)
+* improved query auto-repair (should less often kick in unnecessarily)
+* bugfixes
+* updated icon sets, translations, presets
+* allow external URL shortening services in configs
+
 2014-05-18
 ----------
 * remote control the query wizard via an [URL-parameter](http://wiki.openstreetmap.org/wiki/Overpass_turbo/Development#Wizard).
