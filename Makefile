@@ -163,9 +163,14 @@ presets:
 ffs:
 	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js
 
-icons: maki
+icons: icons-maki, icons-mapnik
 
-maki:
+icons-maki:
 	wget https://github.com/mapbox/maki/zipball/mb-pages -O icons/maki.zip
 	yes | unzip -ju icons/maki.zip */renders/*.png -d icons/maki/
 	rm icons/maki.zip
+
+icons-mapnik:
+	wget https://github.com/openstreetmap/mapnik-stylesheets/archive/master.zip -O icons/mapnik.zip
+	yes | unzip -ju icons/mapnik.zip */symbols/*.png -d icons/mapnik/
+	rm icons/mapnik.zip
