@@ -14,6 +14,11 @@ var configs = {
     //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
     //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
   ],
+  defaultMapView: {
+    lat: 41.890,
+    lon: 12.492,
+    zoom: 16
+  },
   short_url_service: "",
   html2canvas_use_proxy: false,
 }
