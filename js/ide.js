@@ -399,17 +399,20 @@ var ide = new(function() {
         link.setAttribute("data-t", "[title]map_controlls.toggle_data");
         i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
+          e.preventDefault();
           if (ide.map.hasLayer(overpass.osmLayer))
             ide.map.removeLayer(overpass.osmLayer);
           else
             ide.map.addLayer(overpass.osmLayer);
-          $("#map_blank").remove();
-          $("#data_stats").remove();
         }, ide.map);
         return container;
       },
     });
     ide.map.addControl(new MapButtons());
+    // prevent propagation of doubleclicks on map controls
+    $(".leaflet-control-buttons > a").bind('dblclick', function(e) {
+      e.stopPropagation();
+    });
     // add tooltips to map controls
     $(".leaflet-control-buttons > a").tooltip({
       items: "a[title]",
