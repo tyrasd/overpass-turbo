@@ -117,12 +117,14 @@ setTimeout(function() {
               errmsg = data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"");
               // do some magic cleanup for better legibility of the actual error message
               errmsg = errmsg.replace(/<p>The data included in this document is from .*?<\/p>/,"");
-              errmsg = errmsg.replace(/open64: \d+ Success \/osm3s_v\d+\.\d+\.\d+_osm_base (\w+::)*\w+\./,"[…]");
+              var fullerrmsg = errmsg;
+              errmsg = errmsg.replace(/open64: 0 Success \/osm3s_v\d+\.\d+\.\d+_osm_base (\w+::)*\w+\./,"[…]");
             }
             if (typeof data == "object" && jqXHR.responseXML)
               errmsg = "<p>"+$.trim($("remark",data).text())+"</p>";
             if (typeof data == "object" && data.remark)
               errmsg = "<p>"+$.trim(data.remark)+"</p>";
+            console.log("Overpass API error", fullerrmsg || errmsg); // write (full) error message to console for easier debugging
             fire("onQueryError", errmsg);
             data_mode = "error";
             // parse errors and highlight error lines
