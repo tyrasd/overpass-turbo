@@ -396,10 +396,13 @@ var ide = new(function() {
         $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
         link.href = 'javascript:return false;';
         link.className += " t";
-        link.setAttribute("data-t", "[title]map_controlls.clear_data");
+        link.setAttribute("data-t", "[title]map_controlls.toggle_data");
         i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
-          ide.map.removeLayer(overpass.osmLayer);
+          if (ide.map.hasLayer(overpass.osmLayer))
+            ide.map.removeLayer(overpass.osmLayer);
+          else
+            ide.map.addLayer(overpass.osmLayer);
           $("#map_blank").remove();
           $("#data_stats").remove();
         }, ide.map);

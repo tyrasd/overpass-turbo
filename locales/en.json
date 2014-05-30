@@ -26,7 +26,7 @@
   "map_controlls.select_bbox": "manually select bbox",
   "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "toggle wide map",
-  "map_controlls.clear_data": "clear data overlay",
+  "map_controlls.toggle_data": "toggle data overlay",
   "map_controlls.suggest_zoom_to_data" : "click here to show the data",
 
   "settings.title": "Settings",
