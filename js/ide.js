@@ -439,6 +439,10 @@ var ide = new(function() {
         inp.id = "search";
         // hack against focus stealing leaflet :/
         inp.onclick = function() {this.focus();}
+        // prevent propagation of doubleclicks to map container
+        container.ondblclick = function(e) {
+          e.stopPropagation();
+        };
         // autocomplete functionality
         $(inp).autocomplete({
           source: function(request,response) {
