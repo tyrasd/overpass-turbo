@@ -175,6 +175,10 @@
     "name": "医院",
     "terms": "医者,医師"
   },
+  "amenity/dojo": {
+    "name": "道場",
+    "terms": "道場"
+  },
   "amenity/drinking_water": {
     "name": "水飲み場",
     "terms": "水飲み場"
@@ -763,6 +767,10 @@
     "name": "横断歩道",
     "terms": "横断歩道, 自転車横断帯"
   },
+  "footway/crosswalk": {
+    "name": "横断歩道",
+    "terms": "横断歩道, 歩行者踏切"
+  },
   "footway/sidewalk": {
     "name": "歩道",
     "terms": "歩道"
@@ -818,6 +826,10 @@
   "highway/crossing": {
     "name": "横断歩道",
     "terms": "横断歩道, 自転車横断帯"
+  },
+  "highway/crosswalk": {
+    "name": "横断歩道",
+    "terms": "横断歩道"
   },
   "highway/cycleway": {
     "name": "自転車道",
@@ -1152,8 +1164,8 @@
     "terms": "進水路, スリップウェイ"
   },
   "leisure/sports_center": {
-    "name": "スポーツセンター",
-    "terms": "スポーツセンター"
+    "name": "スポーツセンター／ジム",
+    "terms": "スポーツセンター, ジム, フィットネスクラブ"
   },
   "leisure/stadium": {
     "name": "スタジアム",
@@ -1890,6 +1902,34 @@
   "type/restriction": {
     "name": "進行方向制限",
     "terms": "進行方向制限"
+  },
+  "type/restriction/no_left_turn": {
+    "name": "左折禁止",
+    "terms": "左折禁止"
+  },
+  "type/restriction/no_right_turn": {
+    "name": "右折禁止",
+    "terms": "右折禁止"
+  },
+  "type/restriction/no_straight_on": {
+    "name": "直進禁止",
+    "terms": "直進禁止"
+  },
+  "type/restriction/no_u_turn": {
+    "name": "転回禁止",
+    "terms": "転回禁止, Uターン禁止"
+  },
+  "type/restriction/only_left_turn": {
+    "name": "左折のみ可",
+    "terms": "左折のみ可"
+  },
+  "type/restriction/only_right_turn": {
+    "name": "右折のみ可",
+    "terms": "右折のみ可"
+  },
+  "type/restriction/only_straight_on": {
+    "name": "直進のみ可",
+    "terms": "直進のみ可"
   },
   "type/route": {
     "name": "ルート",

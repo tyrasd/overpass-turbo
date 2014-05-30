@@ -175,6 +175,10 @@
     "name": "Læge",
     "terms": "Læge, Doktor"
   },
+  "amenity/dojo": {
+    "name": "Dojo/Kampsports akdemi",
+    "terms": "Dojo/Kampsports akdemi"
+  },
   "amenity/drinking_water": {
     "name": "Drikkevand",
     "terms": "<oversæt med synonymer eller beslægtet termer for 'Drikkevand', adskilt med kommaer>"
@@ -763,6 +767,10 @@
     "name": "Kryds",
     "terms": "Kryds"
   },
+  "footway/crosswalk": {
+    "name": "Fodgængerovergang",
+    "terms": "Fodgængerovergang"
+  },
   "footway/sidewalk": {
     "name": "Fortov",
     "terms": "Fortov"
@@ -819,6 +827,10 @@
     "name": "Kryds",
     "terms": "Kryds"
   },
+  "highway/crosswalk": {
+    "name": "Fodgængerovergang",
+    "terms": "Fodgængerovergang"
+  },
   "highway/cycleway": {
     "name": "Cykelsti",
     "terms": "Cykelsti"
@@ -840,8 +852,8 @@
     "terms": "Motorvej"
   },
   "highway/motorway_junction": {
-    "name": "Motorvejskryds",
-    "terms": "Motorvejskryds"
+    "name": "Motorvejsafkørsel/ Udkørsel",
+    "terms": "Motorvejsafkørsel/ Udkørsel"
   },
   "highway/motorway_link": {
     "name": "Motorvejsafkørsel",
@@ -1152,8 +1164,8 @@
     "terms": "Bådrampe, Skibsrampe"
   },
   "leisure/sports_center": {
-    "name": "Sportscenter",
-    "terms": "Sportscenter"
+    "name": "Sportscenter/Gymnastik",
+    "terms": "Sportscenter/Gymnastik"
   },
   "leisure/stadium": {
     "name": "Stadion",
@@ -1890,6 +1902,34 @@
   "type/restriction": {
     "name": "Restriktion",
     "terms": "Restriktion"
+  },
+  "type/restriction/no_left_turn": {
+    "name": "Ingen venstresving",
+    "terms": "Ingen venstresving"
+  },
+  "type/restriction/no_right_turn": {
+    "name": "Ingen højresving",
+    "terms": "Ingen højresving"
+  },
+  "type/restriction/no_straight_on": {
+    "name": "Ingen lige ud kørsel",
+    "terms": "Ingen lige ud kørsel"
+  },
+  "type/restriction/no_u_turn": {
+    "name": "Ingen U-vending",
+    "terms": "Ingen U-vending"
+  },
+  "type/restriction/only_left_turn": {
+    "name": "Kun venstresving tilladt",
+    "terms": "Kun venstresving tilladt"
+  },
+  "type/restriction/only_right_turn": {
+    "name": "Kun højresving tilladt",
+    "terms": "Kun højresving tilladt"
+  },
+  "type/restriction/only_straight_on": {
+    "name": "Ingen sving tilladt",
+    "terms": "Ingen sving tilladt"
   },
   "type/route": {
     "name": "Rute",

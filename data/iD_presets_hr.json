@@ -555,9 +555,6 @@
   "highway/motorway": {
     "name": "Autocesta"
   },
-  "highway/motorway_junction": {
-    "name": "Sjecište autoceste"
-  },
   "highway/motorway_link": {
     "name": "Pristupna cesta autoceste"
   },
@@ -778,10 +775,6 @@
   "leisure/slipway": {
     "name": "Navoz za brodove",
     "terms": "istezalište"
-  },
-  "leisure/sports_center": {
-    "name": "Sportski centar",
-    "terms": "sportski centar,sport,dvorana,sportska dvorana,stadion,igralište"
   },
   "leisure/stadium": {
     "name": "Stadion"

@@ -494,9 +494,6 @@
   "highway/motorway": {
     "name": "Snelweg"
   },
-  "highway/motorway_junction": {
-    "name": "Afslag op autosnelweg"
-  },
   "highway/motorway_link": {
     "name": "Invoegstrook"
   },
@@ -716,9 +713,6 @@
   },
   "leisure/slipway": {
     "name": "Botenhelling"
-  },
-  "leisure/sports_center": {
-    "name": "Sportcentrum"
   },
   "leisure/stadium": {
     "name": "Stadion"

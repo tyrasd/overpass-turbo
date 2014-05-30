@@ -552,9 +552,6 @@
   "highway/motorway": {
     "name": "Autópálya"
   },
-  "highway/motorway_junction": {
-    "name": "Autópálya elágazás"
-  },
   "highway/motorway_link": {
     "name": "Autópálya felhajtó"
   },
@@ -775,9 +772,6 @@
   },
   "leisure/slipway": {
     "name": "Sólya"
-  },
-  "leisure/sports_center": {
-    "name": "Sportközpont"
   },
   "leisure/stadium": {
     "name": "Stadion"
