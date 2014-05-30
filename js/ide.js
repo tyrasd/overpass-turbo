@@ -207,17 +207,17 @@ var ide = new(function() {
               if (bbox_filter.hasClass("disabled")) {
                 bbox_filter.removeClass("disabled");
                 $("span",bbox_filter).css("opacity",1.0);
-                bbox_filter.css("pointer-events","");
                 bbox_filter.css("cursor","");
-                bbox_filter.tooltip("enable");
+                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox");
+                i18n.translate_ui(bbox_filter[0]);
               }
             } else {
               if (!bbox_filter.hasClass("disabled")) {
                 bbox_filter.addClass("disabled");
                 $("span",bbox_filter).css("opacity",0.5);
-                bbox_filter.css("pointer-events","none");
                 bbox_filter.css("cursor","default");
-                bbox_filter.tooltip("disable");
+                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox_disabled");
+                i18n.translate_ui(bbox_filter[0]);
               }
             }
           },500);
