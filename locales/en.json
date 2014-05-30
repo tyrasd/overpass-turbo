@@ -253,6 +253,8 @@
   "data_stats.pois": "pois",
   "data_stats.lines": "lines",
   "data_stats.polygons": "polygons",
+  "data_stats.lag": "Currentness of data",
+  "data_stats.lag.expl": "behind main OSM db",
 
   "map.intentionally_blank": "This map intentionally left blank."
 }

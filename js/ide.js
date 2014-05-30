@@ -651,7 +651,32 @@ var ide = new(function() {
           ", "+i18n.t("data_stats.polygons")+":&nbsp;"+stats.geojson.polys+
           "</small>"
         );
-        $('<div id="data_stats" style="z-index:5; display:block; position:absolute; bottom:0px; right:0; width:auto; text-align:right; padding: 0 0.5em; background-color:#eee; opacity: 0.8;">'+stats_txt+'</div>').appendTo("#map");
+        $(
+          '<div id="data_stats" class="stats">'
+          +stats_txt
+          +'</div>'
+        ).insertAfter("#map");
+        // show more stats as a tooltip
+        var backlog = function () { return Math.round((new Date() - new Date(overpass.timestamp))/1000/60*10)/10; };
+        $("#data_stats").tooltip({
+          items: "div",
+          tooltipClass: "stats",
+          content: function () {
+            return "<div>"
+            //+"<small>more</small>&nbsp;&ndash;<br>"
+            +i18n.t("data_stats.lag")+": "
+            +backlog()+"&nbsp;min <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+            +"</div>"
+          },
+          hide: {
+            effect: "fadeOut",
+            duration: 100
+          },
+          position: {
+            my: "left bottom-5",
+            at: "left top"
+          }
+        });
       }
     }
     overpass.handlers["onPopupReady"] = function(p) {
@@ -1428,7 +1453,8 @@ var ide = new(function() {
     onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
-      $("#data_stats").show();
+      if (settings.show_data_stats)
+        $("#data_stats").show();
       $("#map .leaflet-control-container .leaflet-top").show();
       ide.waiter.addInfo("rendering map data");
       // 2. render overlay data onto canvas
