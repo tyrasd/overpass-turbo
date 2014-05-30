@@ -55,9 +55,10 @@ var i18n = new(function() {
       console.log("failed to load language file: "+lng_file);
     }
   }
-  this.translate_ui = function() {
+  this.translate_ui = function(element) {
+    // if a DOM object is provided, only translate that one, otherwise
     // look for all object with the class "t"
-    $(".t").each(function(nr,element) {
+    $(element || ".t").each(function(nr,element) {
       // get translation term(s)
       var terms = $(element).attr("data-t");
       terms = terms.split(";");

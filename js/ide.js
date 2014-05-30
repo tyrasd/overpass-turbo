@@ -337,7 +337,9 @@ var ide = new(function() {
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata leaflet-bar-part leaflet-bar-part-top", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.zoom_to_data");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.zoom_to_data");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function() {
           // hardcoded maxZoom of 18, should be ok for most real-world use-cases
           try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {maxZoom: 18}); } catch (e) {}
@@ -345,7 +347,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.localize_user");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.localize_user");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function() {
           // One-shot position request.
           try {
@@ -358,7 +362,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.select_bbox");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.select_bbox");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
           if ($(e.target).parent().hasClass("disabled")) // check if this button is enabled
             return;
@@ -373,7 +379,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-fullscreen leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.toggle_wide_map");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.toggle_wide_map");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
           $("#dataviewer").toggleClass("fullscreen");
           ide.map.invalidateSize();
@@ -387,7 +395,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.clear_data");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.clear_data");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
           ide.map.removeLayer(overpass.osmLayer);
           $("#map_blank").remove();
