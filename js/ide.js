@@ -510,7 +510,10 @@ var ide = new(function() {
           if (typeof layer.setStyle == "function")
             layer.setStyle(stl); // other objects (pois, ways)
         } else
-          layer.eachLayer(function(l) {l.setStyle(stl);}); // for multipolygons!
+          layer.eachLayer(function(layer) {
+            if (typeof layer.setStyle == "function")
+              layer.setStyle(stl);
+          }); // for multipolygons!
       }
     });
 

@@ -356,10 +356,13 @@ setTimeout(function() {
               return new L.Marker(latlng, {icon: icon});
             } else if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
               var icon = new L.PopupIcon(text);
-              return new L.Marker(latlng, {icon: icon});  
+              var r = stl["symbol_size"] || 9;
+              var textmarker = new L.Marker(latlng, {icon: icon}),
+                  circlemarker = new L.CircleMarker(latlng, {radius: r});
+              return new L.FeatureGroup([circlemarker, textmarker]);
             } else if (stl["symbol_shape"]=="circle" || true /*if nothing else is specified*/) {
               // return circle marker
-              var r = stl["symbol_size"] || 9; 
+              var r = stl["symbol_size"] || 9;
               return new L.CircleMarker(latlng, {
                 radius: r,
               });
