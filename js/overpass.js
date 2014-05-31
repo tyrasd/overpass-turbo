@@ -286,7 +286,7 @@ setTimeout(function() {
             latlng = latlngs[Math.floor(latlngs.length/2)];
           } // todo: multilinestrings, multipoints
           if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
-            var textIcon = new L.PopupIcon(text);
+            var textIcon = new L.PopupIcon(text, {color: "rgba(255,255,255,0.8)"});
             var textmarker = new L.Marker(latlng, {icon: textIcon});
             return new L.FeatureGroup(_.compact([layer, textmarker]));
           }

@@ -416,3 +416,6 @@ body .ui-tooltip {
 .leaflet-dummy-none-marker {
   display: none;
 }
+.leaflet-popup-tip-container {
+  opacity: 0.8;
+}
