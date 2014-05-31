@@ -3,6 +3,7 @@
 
 var overpass = new(function() {
   // == private members ==
+  var originalGeom2Layer;
   // == public members ==
   this.handlers = {};
 
@@ -19,6 +20,25 @@ var overpass = new(function() {
   }
 
   // == public methods ==
+
+  this.init = function() {
+    // register mapcss extensions
+    /* own MapCSS-extension:
+     * added symbol-* properties
+     * TODO: implement symbol-shape = marker|square?|shield?|...
+     */
+    styleparser.PointStyle.prototype.properties.push('symbol_shape','symbol_size','symbol_stroke_width','symbol_stroke_color','symbol_stroke_opacity','symbol_fill_color','symbol_fill_opacity');
+    styleparser.PointStyle.prototype.symbol_shape = "";
+    styleparser.PointStyle.prototype.symbol_size = NaN;
+    styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
+    styleparser.PointStyle.prototype.symbol_stroke_color = null;
+    styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
+    styleparser.PointStyle.prototype.symbol_fill_color = null;
+    styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
+
+    // prepare some Leaflet hacks
+    originalGeom2Layer = L.GeoJSON.geometryToLayer;
+  }
 
   // updates the map
   this.run_query = function (query, query_lang) {
@@ -170,20 +190,6 @@ setTimeout(function() {
 
         //fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 setTimeout(function() {
-        /* own MapCSS-extension:
-         * added symbol-* properties
-         * TODO: implement symbol-shape = marker|square?|shield?|...
-         */
-        if (styleparser.PointStyle.prototype.properties['symbol_shape'] === undefined) {
-          styleparser.PointStyle.prototype.properties.push('symbol_shape','symbol_size','symbol_stroke_width','symbol_stroke_color','symbol_stroke_opacity','symbol_fill_color','symbol_fill_opacity');
-          styleparser.PointStyle.prototype.symbol_shape = "";
-          styleparser.PointStyle.prototype.symbol_size = NaN;
-          styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
-          styleparser.PointStyle.prototype.symbol_stroke_color = null;
-          styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
-          styleparser.PointStyle.prototype.symbol_fill_color = null;
-          styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
-        }
         // test user supplied mapcss stylesheet
         var user_mapcss = ide.mapcss; 
         try {
@@ -265,6 +271,24 @@ setTimeout(function() {
           return s;
         };
 
+        L.GeoJSON.geometryToLayer = function(feature, pointToLayer /*,…*/) {
+          var s = get_feature_style(feature);
+          var stl = s.textStyles["default"] || {};
+          var layer = originalGeom2Layer.apply(this, arguments);
+
+          var latlng;
+          if (feature.geometry.type=="Point") {
+            latlng = layer.getLatLng();
+          } else {
+            latlng = layer.getBounds().getCenter();
+          } // todo: multilinestrings, multipoints
+          if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
+            var textIcon = new L.PopupIcon(text);
+            var textmarker = new L.Marker(latlng, {icon: textIcon});
+            return new L.FeatureGroup(_.compact([layer, textmarker]));
+          }
+          return layer;
+        }
         //overpass.geojsonLayer = 
           //new L.GeoJSON(null, {
           //new L.GeoJsonNoVanish(null, {
@@ -337,10 +361,7 @@ setTimeout(function() {
           pointToLayer: function (feature, latlng) {
             // todo: labels!
             var s = get_feature_style(feature);
-            var stl = _.merge({},
-              s.pointStyles["default"],
-              s.textStyles["default"]
-            );
+            var stl = s.pointStyles["default"] || {};
             var text;
             var marker;
             if (stl["icon_image"]) {
@@ -364,13 +385,7 @@ setTimeout(function() {
                 radius: r,
               });
             }
-            if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
-              var textIcon = new L.PopupIcon(text);
-              var textmarker = new L.Marker(latlng, {icon: textIcon});
-              return new L.FeatureGroup(_.compact([marker, textmarker]));
-            } else {
-              return marker;
-            }
+            return marker;
           },
           onEachFeature : function (feature, layer) {
             layer.on('click', function(e) {
