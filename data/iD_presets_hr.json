@@ -3,6 +3,40 @@
     "name": "Adresa",
     "terms": "kućna adresa,adresa,kućni broj"
   },
+  "aerialway": {
+    "name": "Žičara",
+    "terms": "vučnica"
+  },
+  "aerialway/cable_car": {
+    "name": "Skijaški vlak",
+    "terms": "uspinjača"
+  },
+  "aerialway/chair_lift": {
+    "name": "Sjedežnica",
+    "terms": "sedežnica"
+  },
+  "aerialway/gondola": {
+    "name": "Kabinska žičara",
+    "terms": "Gondola"
+  },
+  "aerialway/magic_carpet": {
+    "name": "Skijaški tepih"
+  },
+  "aerialway/platter": {
+    "name": "Tanjurić"
+  },
+  "aerialway/pylon": {
+    "name": "Stup žičare"
+  },
+  "aerialway/rope_tow": {
+    "name": "Konop za vuču skijaša"
+  },
+  "aerialway/station": {
+    "name": "Stanica žičare"
+  },
+  "aerialway/t-bar": {
+    "name": "Sidro"
+  },
   "aeroway": {
     "name": "Zračni promet",
     "terms": "zračni promet,avionski promet,zrakoplovni promet"
@@ -96,6 +130,12 @@
     "name": "Kino",
     "terms": "dvorana za gledanje filmova,kinematograf,kino dvorana"
   },
+  "amenity/clinic": {
+    "name": "Klinika"
+  },
+  "amenity/clock": {
+    "name": "Sat"
+  },
   "amenity/college": {
     "name": "Fakultet",
     "terms": "koledž,fakultet,veleučilište,visoko učilište"
@@ -103,6 +143,12 @@
   "amenity/courthouse": {
     "name": "Zgrada suda",
     "terms": "sudnica"
+  },
+  "amenity/dentist": {
+    "name": "Zubar"
+  },
+  "amenity/doctor": {
+    "name": "Doktor"
   },
   "amenity/drinking_water": {
     "name": "Pitka voda",
@@ -133,12 +179,7 @@
     "terms": "groblje"
   },
   "amenity/hospital": {
-    "name": "Bolnica",
-    "terms": "ambulanta,hitna pomoć,medicinska bolnica,lječilište"
-  },
-  "amenity/kindergarten": {
-    "name": "Dječji vrtić",
-    "terms": "dječji vrtić,jaslice,vrtić"
+    "name": "Bolničko zemljište"
   },
   "amenity/library": {
     "name": "Knjižnica",
@@ -196,13 +237,15 @@
     "name": "Rendžerska postaja",
     "terms": "rendžerska postaja,rendžerska služba,stanica rendžerske službe,rendžerska stanica,rendžer"
   },
+  "amenity/recycling": {
+    "name": "Recikliranje"
+  },
   "amenity/restaurant": {
     "name": "Restoran",
     "terms": "restoran,buffet,zdravljak,zalogajnica"
   },
-  "amenity/school": {
-    "name": "Škola",
-    "terms": "škola,gimnazija"
+  "amenity/shelter": {
+    "name": "Sklonište"
   },
   "amenity/swimming_pool": {
     "name": "Sportski bazen",
@@ -236,6 +279,9 @@
     "name": "Automat za prodaju",
     "terms": "aparat za prodaju sokova,aparat za prodaju slatkiša,aparat za prodaju,aparat za kupovinu,prodajni aparat,automat za prodaju,automat za kupovinu,prodajni automat,automat za kavu"
   },
+  "amenity/veterinary": {
+    "name": "Veterinar"
+  },
   "amenity/waste_basket": {
     "name": "Kanta za smeće",
     "terms": "smeće,koš za smeće,kanta za smeće"
@@ -268,7 +314,8 @@
     "terms": "jarak,rov,prokop,šanac,jama,kanal"
   },
   "barrier/entrance": {
-    "name": "Ulaz"
+    "name": "Ulaz",
+    "terms": "ulaz "
   },
   "barrier/fence": {
     "name": "Ograda",
@@ -308,14 +355,43 @@
   "building/apartments": {
     "name": "Apartmani"
   },
+  "building/barn": {
+    "name": "Ambar",
+    "terms": "žitnica, štagalj"
+  },
+  "building/bunker": {
+    "name": "Bunker"
+  },
+  "building/cathedral": {
+    "name": "Katedrala"
+  },
+  "building/chapel": {
+    "name": "Kapelica"
+  },
+  "building/church": {
+    "name": "Crkva"
+  },
   "building/commercial": {
     "name": "Poslovna zgrada"
   },
-  "building/entrance": {
-    "name": "Ulaz"
+  "building/detached": {
+    "name": "Samostojni dom"
   },
   "building/garage": {
     "name": "Garaža"
+  },
+  "building/garages": {
+    "name": "Garaže"
+  },
+  "building/greenhouse": {
+    "name": "Staklenik",
+    "terms": "Plastenik"
+  },
+  "building/hospital": {
+    "name": "Zgrada bolnice"
+  },
+  "building/hotel": {
+    "name": "Zgrada hotela"
   },
   "building/house": {
     "name": "Kuća"
@@ -330,6 +406,111 @@
   "building/residential": {
     "name": "Stambena zgrada"
   },
+  "building/retail": {
+    "name": "Trgovinska zgrada"
+  },
+  "building/roof": {
+    "name": "Krov"
+  },
+  "building/school": {
+    "name": "Školska zgrada"
+  },
+  "building/shed": {
+    "name": "Šupa"
+  },
+  "building/stable": {
+    "name": "Staja"
+  },
+  "building/train_station": {
+    "name": "Željeznička stanica"
+  },
+  "building/university": {
+    "name": "Zgrada fakulteta"
+  },
+  "building/warehouse": {
+    "name": "Skladište"
+  },
+  "craft/beekeeper": {
+    "name": "Pčelar"
+  },
+  "craft/blacksmith": {
+    "name": "Kovač"
+  },
+  "craft/boatbuilder": {
+    "name": "Brodograditelj"
+  },
+  "craft/brewery": {
+    "name": "Pivara"
+  },
+  "craft/carpenter": {
+    "name": "Stolar"
+  },
+  "craft/clockmaker": {
+    "name": "Urar (ručni satovi)"
+  },
+  "craft/confectionary": {
+    "name": "Trgovina slatkišima"
+  },
+  "craft/dressmaker": {
+    "name": "Krojač"
+  },
+  "craft/electrician": {
+    "name": "Električar"
+  },
+  "craft/gardener": {
+    "name": "Vrtlar"
+  },
+  "craft/glaziery": {
+    "name": "Staklarna"
+  },
+  "craft/jeweler": {
+    "name": "Draguljar"
+  },
+  "craft/key_cutter": {
+    "name": "Ključar"
+  },
+  "craft/locksmith": {
+    "name": "Bravar"
+  },
+  "craft/optician": {
+    "name": "Optičar"
+  },
+  "craft/painter": {
+    "name": "Slikar"
+  },
+  "craft/photographer": {
+    "name": "Fotograf"
+  },
+  "craft/plumber": {
+    "name": "Vodoinstalater"
+  },
+  "craft/pottery": {
+    "name": "Lončarstvo"
+  },
+  "craft/roofer": {
+    "name": "Krovopokrivač"
+  },
+  "craft/sawmill": {
+    "name": "Pilana"
+  },
+  "craft/sculpter": {
+    "name": "Kipar"
+  },
+  "craft/shoemaker": {
+    "name": "Obućar"
+  },
+  "craft/stonemason": {
+    "name": "Zidar"
+  },
+  "craft/sweep": {
+    "name": "Dimnjačar"
+  },
+  "craft/tailor": {
+    "name": "Krojač"
+  },
+  "craft/watchmaker": {
+    "name": "Urar"
+  },
   "emergency/ambulance_station": {
     "name": "Garaža hitne pomoći",
     "terms": "garaža hitne pomoći,stanica hitne pomoći,stanica za hitnu pomoć,hitna pomoć"
@@ -341,8 +522,8 @@
   "emergency/phone": {
     "name": "Telefon za nuždu"
   },
-  "entrance": {
-    "name": "Ulaz"
+  "golf/rough": {
+    "name": "Grubo"
   },
   "highway": {
     "name": "Prometnica"
@@ -374,9 +555,6 @@
   "highway/motorway": {
     "name": "Autocesta"
   },
-  "highway/motorway_junction": {
-    "name": "Sjecište autoceste"
-  },
   "highway/motorway_link": {
     "name": "Pristupna cesta autoceste"
   },
@@ -394,6 +572,9 @@
   },
   "highway/residential": {
     "name": "Ulica"
+  },
+  "highway/rest_area": {
+    "name": "Odmorište"
   },
   "highway/road": {
     "name": "Nepoznata cesta"
@@ -421,6 +602,9 @@
   },
   "highway/service/parking_aisle": {
     "name": "Parkirališni prolaz"
+  },
+  "highway/services": {
+    "name": "Odmorište"
   },
   "highway/steps": {
     "name": "Stepenice"
@@ -532,7 +716,7 @@
     "name": "Stambeno"
   },
   "landuse/retail": {
-    "name": "Maloprodajna trgovina"
+    "name": "Maloprodaja"
   },
   "landuse/vineyard": {
     "name": "Vinograd"
@@ -591,10 +775,6 @@
   "leisure/slipway": {
     "name": "Navoz za brodove",
     "terms": "istezalište"
-  },
-  "leisure/sports_center": {
-    "name": "Sportski centar",
-    "terms": "sportski centar,sport,dvorana,sportska dvorana,stadion,igralište"
   },
   "leisure/stadium": {
     "name": "Stadion"
@@ -660,6 +840,12 @@
   "man_made/water_works": {
     "name": "Vodocrpilište",
     "terms": "vodocrpilište,vodovod,vodovodna instalacija,vađenje pitke vode"
+  },
+  "military/barracks": {
+    "name": "Vojarna"
+  },
+  "military/bunker": {
+    "name": "Bunker"
   },
   "natural": {
     "name": "Prirodne značajke",
@@ -744,6 +930,21 @@
   "office": {
     "name": "Ured"
   },
+  "office/accountant": {
+    "name": "Računovođa"
+  },
+  "office/architect": {
+    "name": "Arhitekt"
+  },
+  "office/ngo": {
+    "name": "Nevladina organizacija"
+  },
+  "office/travel_agent": {
+    "name": "Putnička agencija"
+  },
+  "piste": {
+    "name": "Skijaška staza"
+  },
   "place": {
     "name": "Mjesto",
     "terms": "mjesto,naseljeno mjesto"
@@ -792,6 +993,9 @@
     "name": "Dalekovod",
     "terms": "dalekovod,električni vod,strujni vod"
   },
+  "power/minor_line": {
+    "name": "Mali dalekovod"
+  },
   "power/pole": {
     "name": "Električni stup",
     "terms": "stup dalekovoda"
@@ -808,6 +1012,13 @@
     "name": "Transformator",
     "terms": "transformator, transformator el. energije,transformator struje"
   },
+  "public_transport/platform": {
+    "name": "Stajalište",
+    "terms": "platforma"
+  },
+  "public_transport/stop_position": {
+    "name": "Stop pozicija"
+  },
   "railway": {
     "name": "Željeznica",
     "terms": "željeznica"
@@ -820,6 +1031,9 @@
     "name": "Željeznička pruga izvan uporabe",
     "terms": "željeznička pruga izvan uporabe,pruga koja se ne koristi,nekorištena željeznička pruga,nekorištena željeznica,pruga izvan uporabe"
   },
+  "railway/funicular": {
+    "name": "Uspinjača"
+  },
   "railway/halt": {
     "name": "Željeznička stanica",
     "terms": "željeznička stanica,željeznička postaja,stanica za vlak"
@@ -831,6 +1045,9 @@
   "railway/monorail": {
     "name": "Jednotračna željeznička pruga",
     "terms": "monorail željeznička pruga,pruga sa jednim kolosjekom"
+  },
+  "railway/narrow_gauge": {
+    "name": "Uskotračna željeznica"
   },
   "railway/platform": {
     "name": "Željeznički peron",
@@ -979,6 +1196,10 @@
   },
   "shop/locksmith": {
     "name": "Bravar"
+  },
+  "shop/lottery": {
+    "name": "Dućan igara na sreću",
+    "terms": "lutrija"
   },
   "shop/mall": {
     "name": "Trgovački centar",

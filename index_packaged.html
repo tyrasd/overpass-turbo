@@ -6,17 +6,11 @@
   <title>overpass turbo</title>
   <link rel="icon" href="turbo.png" type="image/png" />
   <!--jQuery-->
-  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
   <!--lodash-->
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.3.0/lodash.min.js"></script>
   <!--CodeMirror-->
   <!--leaflet-->
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
   <!--leaflet extensions-->
   <!--jQuery UI-->
-  <link type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="Stylesheet" />
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
   <!--own scripts & styles-->
   <link rel="stylesheet" type="text/css" href="turbo.min.css" />
   <link rel="stylesheet" type="text/css" media="(max-width: 700px)" href="css/compact.css"/>
@@ -185,10 +179,6 @@
     <div>
       <ul class="plain example"></ul>
     </div>
-    <h4 class="t" data-t="load.templates"></h4>
-    <div>
-      <ul class="plain template"></ul>
-    </div>
   </div>
   <!--export-->
   <div title="" id="export-dialog" class="t dialog" data-t="[title]export.title">
@@ -199,7 +189,7 @@
     <p class="t" data-t="[html]export.as_KML"></p>
     <p class="t" data-t="[html]export.raw"></p>
     <p class="t" data-t="[html]export.raw_interpreter"></p>
-    <p><span class="t" data-t="[html]export.remote_control"></span> <small>(<span class="t" data-t="export.remote_control_expl"></span>)</small></p>
+    <p><span class="t" data-t="export.editors"></span> <a id="export-editors-josm" href="">JOSM</a>, <a id="export-editors-level0" href="" target="_blank" class="external">Level0</a></p>
     <p class="t" data-t="[html]export.save_geoJSON_gist"></p>
     </div>
     <h4 class="t" data-t="export.section.map"></h4>

@@ -24,8 +24,9 @@
   "map_controlls.zoom_to_data": "zoom to data",
   "map_controlls.localize_user": "locate me!",
   "map_controlls.select_bbox": "manually select bbox",
+  "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "toggle wide map",
-  "map_controlls.clear_data": "clear data overlay",
+  "map_controlls.toggle_data": "toggle data overlay",
   "map_controlls.suggest_zoom_to_data" : "click here to show the data",
 
   "settings.title": "Settings",
@@ -66,7 +67,6 @@
   "load.delete_query": "delete this query",
   "load.saved_queries": "Saved Queries",
   "load.examples": "Examples",
-  "load.templates": "Templates",
   "load.no_saved_query": "no saved query yet",
 
   "export.title": "Export",
@@ -89,8 +89,7 @@
   "export.as_text": "as <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">text</a>",
   "export.to_xml": "convert to <a id=\"export-convert-xml\" href=\"\" target=\"_blank\" class=\"external\">Overpass-XML</a>",
   "export.to_ql": "convert to (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>) <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL</a>",
-  "export.remote_control": "load into <a id=\"export-josm\" href=\"\">JOSM</a>",
-  "export.remote_control_expl": "only for queries returning valid OSM-XML with meta data",
+  "export.editors": "load data into an OSM editor:",
 
   "export.geoJSON.title": "Export - GeoJSON",
   "export.geoJSON.expl": "The currently shown data as GeoJSON:",
@@ -254,6 +253,8 @@
   "data_stats.pois": "pois",
   "data_stats.lines": "lines",
   "data_stats.polygons": "polygons",
+  "data_stats.lag": "Currentness of data",
+  "data_stats.lag.expl": "behind main OSM db",
 
   "map.intentionally_blank": "This map intentionally left blank."
 }

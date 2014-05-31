@@ -65,12 +65,6 @@
   "amenity/grave_yard": {
     "name": "Surnuaed"
   },
-  "amenity/hospital": {
-    "name": "Haigla"
-  },
-  "amenity/kindergarten": {
-    "name": "Lasteaed"
-  },
   "amenity/library": {
     "name": "Raamatukogu"
   },
@@ -103,9 +97,6 @@
   },
   "amenity/restaurant": {
     "name": "Restoraan"
-  },
-  "amenity/school": {
-    "name": "Kool"
   },
   "amenity/swimming_pool": {
     "name": "Ujumisbassein"
@@ -161,9 +152,6 @@
   "building/commercial": {
     "name": "Ärihoone"
   },
-  "building/entrance": {
-    "name": "Sissepääs"
-  },
   "building/house": {
     "name": "Maja"
   },
@@ -175,9 +163,6 @@
   },
   "emergency/phone": {
     "name": "Hädaabi telefon"
-  },
-  "entrance": {
-    "name": "Sissepääs"
   },
   "highway": {
     "name": "Tee"
@@ -205,9 +190,6 @@
   },
   "highway/motorway": {
     "name": "Kiirtee"
-  },
-  "highway/motorway_junction": {
-    "name": "Kiirtee liiklussõlm"
   },
   "highway/path": {
     "name": "Rada"

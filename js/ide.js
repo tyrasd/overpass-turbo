@@ -93,12 +93,13 @@ var ide = new(function() {
       $('#warning-unsupported-browser').dialog({modal:true});
     }
     // load settings
+    ide.waiter.addInfo("load settings");
     settings.load();
-    ide.waiter.addInfo("settings loaded");
     // translate ui
+    ide.waiter.addInfo("translate ui");
     i18n.translate();
-    ide.waiter.addInfo("i18n ready");
     // parse url string parameters
+    ide.waiter.addInfo("parse url parameters");
     var args = turbo.urlParameters(location.search);
     // set appropriate settings
     if (args.has_coords) { // map center coords set via url
@@ -113,6 +114,7 @@ var ide = new(function() {
     }
     settings.save();
 
+    ide.waiter.addInfo("initialize page");
     // init page layout
     if (settings.editor_width != "") {
       $("#editor").css("width",settings.editor_width);
@@ -143,7 +145,8 @@ var ide = new(function() {
           "out json xml custom popup timeout maxsize bbox" // initial declarations
           +" foreach" // block statements
           +" relation rel way node is_in area around user uid newer poly pivot" // queries
-          +" out meta quirks body skel ids qt asc" // actions
+          +" out meta body skel tags ids qt asc" // actions
+          +" center bb geom" // geometry types
           //+"r w n br bw" // recursors
         ),
       });
@@ -204,17 +207,17 @@ var ide = new(function() {
               if (bbox_filter.hasClass("disabled")) {
                 bbox_filter.removeClass("disabled");
                 $("span",bbox_filter).css("opacity",1.0);
-                bbox_filter.css("pointer-events","");
                 bbox_filter.css("cursor","");
-                bbox_filter.tooltip("enable");
+                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox");
+                i18n.translate_ui(bbox_filter[0]);
               }
             } else {
               if (!bbox_filter.hasClass("disabled")) {
                 bbox_filter.addClass("disabled");
                 $("span",bbox_filter).css("opacity",0.5);
-                bbox_filter.css("pointer-events","none");
                 bbox_filter.css("cursor","default");
-                bbox_filter.tooltip("disable");
+                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox_disabled");
+                i18n.translate_ui(bbox_filter[0]);
               }
             }
           },500);
@@ -266,7 +269,7 @@ var ide = new(function() {
       maxZoom:20,
       worldCopyJump:false,
     });
-    var tilesUrl = settings.tile_server;//"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    var tilesUrl = settings.tile_server;
     var tilesAttrib = '&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
@@ -334,7 +337,9 @@ var ide = new(function() {
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata leaflet-bar-part leaflet-bar-part-top", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.zoom_to_data");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.zoom_to_data");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function() {
           // hardcoded maxZoom of 18, should be ok for most real-world use-cases
           try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {maxZoom: 18}); } catch (e) {}
@@ -342,7 +347,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.localize_user");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.localize_user");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function() {
           // One-shot position request.
           try {
@@ -355,7 +362,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.select_bbox");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.select_bbox");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
           if ($(e.target).parent().hasClass("disabled")) // check if this button is enabled
             return;
@@ -370,7 +379,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-fullscreen leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.toggle_wide_map");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.toggle_wide_map");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
           $("#dataviewer").toggleClass("fullscreen");
           ide.map.invalidateSize();
@@ -384,16 +395,24 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.clear_data");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.toggle_data");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
-          ide.map.removeLayer(overpass.osmLayer);
-          $("#map_blank").remove();
-          $("#data_stats").remove();
+          e.preventDefault();
+          if (ide.map.hasLayer(overpass.osmLayer))
+            ide.map.removeLayer(overpass.osmLayer);
+          else
+            ide.map.addLayer(overpass.osmLayer);
         }, ide.map);
         return container;
       },
     });
     ide.map.addControl(new MapButtons());
+    // prevent propagation of doubleclicks on map controls
+    $(".leaflet-control-buttons > a").bind('dblclick', function(e) {
+      e.stopPropagation();
+    });
     // add tooltips to map controls
     $(".leaflet-control-buttons > a").tooltip({
       items: "a[title]",
@@ -420,11 +439,15 @@ var ide = new(function() {
         inp.id = "search";
         // hack against focus stealing leaflet :/
         inp.onclick = function() {this.focus();}
+        // prevent propagation of doubleclicks to map container
+        container.ondblclick = function(e) {
+          e.stopPropagation();
+        };
         // autocomplete functionality
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("http://nominatim.openstreetmap.org/search"+"?X-Requested-With="+configs.appname, {
+            $.ajax("//nominatim.openstreetmap.org/search"+"?X-Requested-With="+configs.appname, {
               data:{
                 format:"json",
                 q: request.term
@@ -628,7 +651,32 @@ var ide = new(function() {
           ", "+i18n.t("data_stats.polygons")+":&nbsp;"+stats.geojson.polys+
           "</small>"
         );
-        $('<div id="data_stats" style="z-index:5; display:block; position:absolute; bottom:0px; right:0; width:auto; text-align:right; padding: 0 0.5em; background-color:#eee; opacity: 0.8;">'+stats_txt+'</div>').appendTo("#map");
+        $(
+          '<div id="data_stats" class="stats">'
+          +stats_txt
+          +'</div>'
+        ).insertAfter("#map");
+        // show more stats as a tooltip
+        var backlog = function () { return Math.round((new Date() - new Date(overpass.timestamp))/1000/60*10)/10; };
+        $("#data_stats").tooltip({
+          items: "div",
+          tooltipClass: "stats",
+          content: function () {
+            return "<div>"
+            //+"<small>more</small>&nbsp;&ndash;<br>"
+            +i18n.t("data_stats.lag")+": "
+            +backlog()+"&nbsp;min <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+            +"</div>"
+          },
+          hide: {
+            effect: "fadeOut",
+            duration: 100
+          },
+          position: {
+            my: "left bottom-5",
+            at: "left top"
+          }
+        });
       }
     }
     overpass.handlers["onPopupReady"] = function(p) {
@@ -695,7 +743,7 @@ var ide = new(function() {
   this.relativeTime = function(instr, callback) {
     var now = Date.now();
     // very basic differential date
-    instr = instr.match(/(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/);
+    instr = instr.toLowerCase().match(/(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/);
     var count = parseInt(instr[1]);
     var interval;
     switch (instr[2]) {
@@ -717,7 +765,7 @@ var ide = new(function() {
       interval=604800; break;
       case "month":
       case "months":
-      interval=2592000; break;
+      interval=2628000; break;
       case "year":
       case "years":
       interval=31536000; break;
@@ -864,116 +912,19 @@ var ide = new(function() {
   /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
   this.repairQuery = function(repair) {
     // - preparations -
-    var q = ide.getRawQuery(); // get original query
-    // replace comments with placeholders
-    // (we do not want to autorepair stuff which is commented out.)
-    if (ide.getQueryLang() == "xml") {
-      var comments = {};
-      var cs = q.match(/<!--[\s\S]*?-->/g) || [];
-      for (var i=0; i<cs.length; i++) {
-        var placeholder = "<!--"+Math.random().toString()+"-->"; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i],placeholder);
-        comments[placeholder] = cs[i];
-      }
-    } else {
-      var comments = {};
-      var cs = q.match(/\/\*[\s\S]*?\*\//g) || []; // multiline comments: /*...*/
-      for (var i=0; i<cs.length; i++) {
-        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i],placeholder);
-        comments[placeholder] = cs[i];
-      }
-      var cs = q.match(/\/\/[^\n]*/g) || []; // single line coments: //...
-      for (var i=0; i<cs.length; i++) {
-        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i],placeholder);
-        comments[placeholder] = cs[i];
-      }
-    }
+    var q = ide.getRawQuery(), // get original query
+        lng = ide.getQueryLang();
+    var autorepair = turbo.autorepair(q, lng);
     // - repairs -
-    // repair missing recurse statements
     if (repair == "no visible data") {
-      if (ide.getQueryLang() == "xml") {
-        // do some fancy mixture between regex magic and xml as html parsing :€
-        var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g) || [];
-        for (var i=0;i<prints.length;i++) {
-          var ws = prints[i].match(/^\n?(\s*)/)[1]; // amount of whitespace in fromt of each print statement
-          var from = $("print",$.parseXML(prints[i])).attr("from");
-          var add1,add2,add3;
-          if (from) { 
-            add1 = ' into="'+from+'"'; add2 = ' set="'+from+'"'; add3 = ' from="'+from+'"'; 
-          } else {
-            add1 = ''; add2 = ''; add3 = ''; 
-          }
-          q = q.replace(prints[i],"\n"+ws+"<!-- added by auto repair -->\n"+ws+"<union"+add1+">\n"+ws+"  <item"+add2+"/>\n"+ws+"  <recurse"+add3+' type="down"/>\n'+ws+"</union>\n"+ws+"<!-- end of auto repair --><autorepair>"+i+"</autorepair>");
-        }
-        for (var i=0;i<prints.length;i++) 
-          q = q.replace("<autorepair>"+i+"</autorepair>", prints[i]);
-      } else {
-        var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g) || [];
-        for (var i=0;i<outs.length;i++) {
-          var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
-          var from = outs[i].match(/\.([^;.]+?)\s+?out/);
-          var add;
-          if (from)
-            add = "(."+from[1]+";."+from[1]+" >;)->."+from[1]+";";
-          else
-            add = "(._;>;);";
-          q = q.replace(outs[i],ws+"/*added by auto repair*/"+ws+add+ws+"/*end of auto repair*/<autorepair>"+i+"</autorepair>");
-        }
-        for (var i=0;i<outs.length;i++) 
-          q = q.replace("<autorepair>"+i+"</autorepair>", outs[i]);
-      }
+      // repair missing recurse statements
+      autorepair.recurse();
     } else if (repair == "xml+metadata") {
-      if (ide.getQueryLang() == "xml") {
-        // 1. fix <osm-script output=*
-        var src = q.match(/<osm-script([^>]*)>/);
-        if (src) {
-          var output = $("osm-script",$.parseXML(src[0]+"</osm-script>")).attr("output");
-          if (output && output != "xml") {
-            var new_src = src[0].replace(output,"xml");
-            q = q.replace(src[0],new_src+"<!-- fixed by auto repair -->");
-          }
-        }
-        // 2. fix <print mode=*
-        var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g) || [];
-        for (var i=0;i<prints.length;i++) {
-          var mode = $("print",$.parseXML(prints[i])).attr("mode");
-          if (mode == "meta")
-            continue;
-          var new_print = prints[i];
-          if (mode)
-            new_print = new_print.replace(mode,"meta");
-          else
-            new_print = new_print.replace("<print",'<print mode="meta"');
-          q = q.replace(prints[i],new_print+"<!-- fixed by auto repair -->");
-        }
-      } else {
-        // 1. fix [out:*]
-        var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
-            ///^\s*\[\s*out\s*:\s*([^\]\s]+)/);
-        if (out && out[1] != "xml")
-          q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
-        // 2. fix out *
-        var prints = q.match(/out[^:;]*;/g) || [];
-        for (var i=0;i<prints.length;i++) {
-          if (prints[i].match(/\s(meta)/))
-            continue;
-          var new_print = prints[i].replace(/\s(body|skel|ids)/,"").replace("out","out meta");
-          q = q.replace(prints[i],new_print+"/*fixed by auto repair*/");
-        }
-        // 3. expand placeholded comments
-        for(var placeholder in comments) {
-          q = q.replace(placeholder,comments[placeholder]);
-        }
-      }
+      // repair output for OSM editors
+      autorepair.editors();
     }
-    // - cleanup -
-    // expand placeholded comments
-    for(var placeholder in comments) {
-      q = q.replace(placeholder,comments[placeholder]);
-    }
-    ide.setQuery(q);
+    // - set repaired query -
+    ide.setQuery(autorepair.getQuery());
   }
   this.highlightError = function(line) {
     ide.codeEditor.setLineClass(line-1,null,"errorline");
@@ -1013,9 +964,10 @@ var ide = new(function() {
     var has_saved_query = false;
     for(var example in settings.saves) {
       var type = settings.saves[example].type;
+      if (type == 'template') continue;
       $('<li>'+
           '<a href="" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
-          (type != 'template' ? '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>' : '')+
+          '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
         '</li>').appendTo("#load-dialog ul."+type);
       if (type == "saved_query")
         has_saved_query = true;
@@ -1102,7 +1054,7 @@ var ide = new(function() {
 
     // automatically minify urls if enabled
     if (configs.short_url_service != "") {
-      $.get(configs.short_url_service+shared_query, function(data) {
+      $.get(configs.short_url_service+encodeURIComponent(share_link), function(data) {
         $("div#share-dialog #share_link_a")[0].href=data;
         $("div#share-dialog #share_link_textarea")[0].value=data;
       });
@@ -1130,7 +1082,7 @@ var ide = new(function() {
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="'+i18n.t("export.map_view.title")+'">'+
-        '<h4>'+i18n.t("export.map_view.permalink")+'</h4>'+'<p><a href="http://www.openstreetmap.org/#map='+ide.map.getZoom()+'/'+L.Util.formatNum(ide.map.getCenter().lat)+'/'+L.Util.formatNum(ide.map.getCenter().lng)+'" target="_blank">'+i18n.t("export.map_view.permalink_osm")+'</a></p>'+
+        '<h4>'+i18n.t("export.map_view.permalink")+'</h4>'+'<p><a href="//www.openstreetmap.org/#map='+ide.map.getZoom()+'/'+L.Util.formatNum(ide.map.getCenter().lat)+'/'+L.Util.formatNum(ide.map.getCenter().lng)+'" target="_blank">'+i18n.t("export.map_view.permalink_osm")+'</a></p>'+
         '<h4>'+i18n.t("export.map_view.center")+'</h4><p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>('+i18n.t("export.map_view.center_expl")+')</small></p>'+
         '<h4>'+i18n.t("export.map_view.bounds")+'</h4><p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>'+
         (ide.map.bboxfilter.isEnabled() ?
@@ -1223,7 +1175,7 @@ var ide = new(function() {
         dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
         $('<div title="'+i18n.t("export.geoJSON_gist.title")+'">'+
           '<p>'+i18n.t("export.geoJSON_gist.gist")+'&nbsp;<a href="'+data.html_url+'" target="_blank" class="external">'+data.id+'</a></p>'+
-          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#gist:anonymous/'+data.id+'" target="_blank" class="external">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'</a></p>'+
+          '<p>'+i18n.t("export.geoJSON_gist.geojsonio")+'&nbsp;<a href="http://geojson.io/#id=gist:anonymous/'+data.id+'" target="_blank" class="external">'+i18n.t("export.geoJSON_gist.geojsonio_link")+'</a></p>'+
           '</div>').dialog({
           modal:true,
           buttons: dialog_buttons,
@@ -1358,24 +1310,70 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
-    $("#export-dialog a#export-josm").unbind("click").on("click", function() {
+    
+    // OSM editors
+    // first check for possible mistakes in query.
+    var validEditorQuery = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+    // * Level0
+    var exportToLevel0 = $("#export-dialog a#export-editors-level0");
+    exportToLevel0.unbind("click");
+    function constructLevel0Link(query) {
+      return "http://level0.osmz.ru/?url="+
+              encodeURIComponent(
+                settings.server+"interpreter?data="+encodeURIComponent(query)
+              );
+    }
+    if (validEditorQuery) {
+      exportToLevel0[0].href = constructLevel0Link(query);
+    } else {
+      exportToLevel0[0].href = "";
+      exportToLevel0.bind("click", function() {
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.repair_query")] = function() {
+          ide.repairQuery("xml+metadata");
+          var message_dialog = $(this);
+          ide.getQuery(function(query) {
+            exportToLevel0.unbind("click");
+            exportToLevel0[0].href = constructLevel0Link(query);
+            message_dialog.dialog("close");
+          });
+        };
+        dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
+          exportToLevel0.unbind("click");
+          exportToLevel0[0].href = constructLevel0Link(query);
+          $(this).dialog("close");
+        };
+        $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.expl.1")+'</p><p>'+i18n.t("warning.incomplete.remote.expl.2")+'</p></div>').dialog({
+          modal:true,
+          buttons: dialog_buttons,
+        });
+        return false;
+      });
+    }
+    // * JOSM
+    $("#export-dialog a#export-editors-josm").unbind("click").on("click", function() {
       var export_dialog = $(this).parents("div.ui-dialog-content").first();
       var send_to_josm = function(query) {
         var JRC_url="http://127.0.0.1:8111/";
+        if (location.protocol === "https:") JRC_url = "https://127.0.0.1:8112/"
         $.getJSON(JRC_url+"version")
         .success(function(d,s,xhr) {
           if (d.protocolversion.major == 1) {
             $.get(JRC_url+"import", {
-              // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
-              // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
-              // See: http://josm.openstreetmap.de/ticket/8566#ticket
-              // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
-              // bad magic. Still looking for a proper fix, though.
-              url: settings.server+"interpreter?fixme=JOSM-ticket-8566&data="+encodeURIComponent(query),
+              url:
+                // JOSM doesn't handle protocol-less links very well
+                settings.server.replace(/^\/\//,location.protocol+"//")+
+                // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
+                // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
+                // See: http://josm.openstreetmap.de/ticket/8566#ticket
+                // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
+                // bad magic. Still looking for a proper fix, though.
+                "interpreter?fixme=JOSM-ticket-8566&data="+
+                encodeURIComponent(query),
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
-              export_dialog.dialog("close");
+              console.log("successfully invoked JOSM remote constrol");
             });
           } else {
             var dialog_buttons= {};
@@ -1397,44 +1395,26 @@ var ide = new(function() {
         });
       }
       // first check for possible mistakes in query.
-      // todo: move into autorepair "module"
-      var q = ide.getRawQuery().replace(/{{.*?}}/g,"");
-      var err = {};
-      if (ide.getQueryLang() == "xml") {
-        try {
-          var xml = $.parseXML("<x>"+q+"</x>");
-        } catch(e) {
-          err.xml = true;
-        }
-        if (!err.xml) {
-          $("print",xml).each(function(i,p) { if($(p).attr("mode")!=="meta") err.meta=true; });
-          var out = $("osm-script",xml).attr("output");
-          if (out !== undefined && out !== "xml")
-            err.output = true;
-        }
+      var valid = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+      if (valid) {
+        // now send the query to JOSM via remote control
+        send_to_josm(query);
+        return false;
       } else {
-        // ignore comments
-        q=q.replace(/\/\*[\s\S]*?\*\//g,"");
-        q=q.replace(/\/\/[^\n]*/g,"");
-        var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
-        if (out && out[1] != "xml")
-          err.output = true;
-        var prints = q.match(/out([^:;]*);/g);
-        $(prints).each(function(i,p) {if (p.match(/(body|skel|ids)/) || !p.match(/meta/)) err.meta=true;});
-      }
-      if (!$.isEmptyObject(err)) {
         var dialog_buttons= {};
         dialog_buttons[i18n.t("dialog.repair_query")] = function() {
           ide.repairQuery("xml+metadata");
-          $(this).dialog("close");
-          export_dialog.dialog("close");
+          var message_dialog = $(this);
           ide.getQuery(function(query) {
             send_to_josm(query);
+            message_dialog.dialog("close");
+            export_dialog.dialog("close");
           });
         };
         dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
-          $(this).dialog("close");
           send_to_josm(query);
+          $(this).dialog("close");
+          export_dialog.dialog("close");
         };
         $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.remote.expl.1")+'</p><p>'+i18n.t("warning.incomplete.remote.expl.2")+'</p></div>').dialog({
           modal:true,
@@ -1442,9 +1422,6 @@ var ide = new(function() {
         });
         return false;
       }
-      // now send the query to JOSM via remote control
-      send_to_josm(query);
-      return false;
     });
     // open the export dialog
     var dialog_buttons= {};
@@ -1476,7 +1453,8 @@ var ide = new(function() {
     onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
-      $("#data_stats").show();
+      if (settings.show_data_stats)
+        $("#data_stats").show();
       $("#map .leaflet-control-container .leaflet-top").show();
       ide.waiter.addInfo("rendering map data");
       // 2. render overlay data onto canvas
@@ -1574,11 +1552,7 @@ var ide = new(function() {
       ["auto"].concat(i18n.getSupportedLanguages())
     );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
-    make_combobox($("#settings-dialog input[name=server]"), [
-      "http://www.overpass-api.de/api/",
-      "http://overpass.osm.rambler.ru/cgi/",
-      "http://api.openstreetmap.fr/oapi/",
-    ]);
+    make_combobox($("#settings-dialog input[name=server]"), configs.suggestedServers);
     $("#settings-dialog input[name=force_simple_cors_request]")[0].checked = settings.force_simple_cors_request;
     $("#settings-dialog input[name=no_autorepair]")[0].checked = settings.no_autorepair;
     // editor options
@@ -1590,13 +1564,7 @@ var ide = new(function() {
     make_combobox($("#settings-dialog input[name=share_compression]"),["auto","on","off"]);
     // map settings
     $("#settings-dialog input[name=tile_server]")[0].value = settings.tile_server;
-    make_combobox($("#settings-dialog input[name=tile_server]"), [
-      "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-      //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
-      //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
-      //"http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg",
-    ]);
+    make_combobox($("#settings-dialog input[name=tile_server]"), configs.suggestedTiles);
     $("#settings-dialog input[name=background_opacity]")[0].value = settings.background_opacity;
     $("#settings-dialog input[name=enable_crosshairs]")[0].checked = settings.enable_crosshairs;
     $("#settings-dialog input[name=disable_poiomatic]")[0].checked = settings.disable_poiomatic;

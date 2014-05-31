@@ -116,11 +116,27 @@
   "amenity/cinema": {
     "name": "Mozi"
   },
+  "amenity/clinic": {
+    "name": "Klinika",
+    "terms": "Klinika, Rendelőintézet"
+  },
+  "amenity/clock": {
+    "name": "Óra",
+    "terms": "Óra"
+  },
   "amenity/college": {
     "name": "Főiskola"
   },
   "amenity/courthouse": {
     "name": "Bíróság"
+  },
+  "amenity/dentist": {
+    "name": "Fogorvos",
+    "terms": "Fogorvos, Fogász, Fogászat"
+  },
+  "amenity/doctor": {
+    "name": "Orvos",
+    "terms": "Orvos, Doktor"
   },
   "amenity/drinking_water": {
     "name": "Ivóvíz"
@@ -206,6 +222,14 @@
     "name": "Menedék",
     "terms": "fedett, fedél, esőház, esőkunyhó, menedékház"
   },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "Hajléktalan menedék",
+    "terms": "Hajléktalan menedék"
+  },
+  "amenity/studio": {
+    "name": "Stúdió",
+    "terms": "Stúdió"
+  },
   "amenity/swimming_pool": {
     "name": "Úszómedence"
   },
@@ -230,6 +254,10 @@
   "amenity/vending_machine": {
     "name": "Árusító automata",
     "terms": "italautomata, italgép"
+  },
+  "amenity/veterinary": {
+    "name": "Állatorvos",
+    "terms": "Állatorvos, Állatorvosi rendelő"
   },
   "amenity/waste_basket": {
     "name": "Szemetes"
@@ -298,14 +326,59 @@
   "building/apartments": {
     "name": "Lakások"
   },
+  "building/barn": {
+    "name": "Pajta",
+    "terms": "Pajta"
+  },
+  "building/bunker": {
+    "name": "Bunker",
+    "terms": "Bunker"
+  },
+  "building/cabin": {
+    "name": "Faház",
+    "terms": "Faház"
+  },
+  "building/cathedral": {
+    "name": "Katedrális",
+    "terms": "Katedrális, Székesegyház"
+  },
+  "building/chapel": {
+    "name": "Kápolna",
+    "terms": "Kápolna, Imaház"
+  },
+  "building/church": {
+    "name": "Templom",
+    "terms": "Templom, Plébánia, Imaház"
+  },
   "building/commercial": {
     "name": "Kereskedelmi épület"
   },
-  "building/entrance": {
-    "name": "Bejárat"
+  "building/construction": {
+    "name": "Ház építés alatt",
+    "terms": "Ház építés alatt"
+  },
+  "building/dormitory": {
+    "name": "Kollégium",
+    "terms": "Kollégium, Diákszálló, Diákotthon"
   },
   "building/garage": {
     "name": "Garázs"
+  },
+  "building/garages": {
+    "name": "Garazsak",
+    "terms": "Garazsak"
+  },
+  "building/greenhouse": {
+    "name": "Üvegház",
+    "terms": "Üvegház"
+  },
+  "building/hospital": {
+    "name": "Kórházi épület",
+    "terms": "Kórházi épület"
+  },
+  "building/hotel": {
+    "name": "Hotel épület",
+    "terms": "Hotel épület"
   },
   "building/house": {
     "name": "Ház"
@@ -317,9 +390,121 @@
     "name": "Ipari épület",
     "terms": "Gyárépület"
   },
+  "building/public": {
+    "name": "Nyilvános épület",
+    "terms": "Nyilvános épület"
+  },
   "building/residential": {
     "name": "Lakóépület",
     "terms": "Lakóház, lakás, ház"
+  },
+  "building/roof": {
+    "name": "Tető",
+    "terms": "Tető"
+  },
+  "building/school": {
+    "name": "Iskolaépület",
+    "terms": "Iskolaépület"
+  },
+  "building/shed": {
+    "name": "Kunyhó",
+    "terms": "Kunyhó, Fészer, Pajta"
+  },
+  "building/terrace": {
+    "name": "Sorház",
+    "terms": "Sorház"
+  },
+  "building/train_station": {
+    "name": "Vasútállomás",
+    "terms": "Vasútállomás, Vasúti megálló"
+  },
+  "building/university": {
+    "name": "Egyetemi épület",
+    "terms": "Egyetemi épület"
+  },
+  "building/warehouse": {
+    "name": "Raktár",
+    "terms": "Raktár, Lerakat"
+  },
+  "craft/basket_maker": {
+    "name": "Kosárfonó",
+    "terms": "Kosárfonó"
+  },
+  "craft/beekeeper": {
+    "name": "Méhész",
+    "terms": "Méhész"
+  },
+  "craft/blacksmith": {
+    "name": "Patkolókovács",
+    "terms": "Patkolókovács"
+  },
+  "craft/boatbuilder": {
+    "name": "Hajógyáros",
+    "terms": "Hajógyáros"
+  },
+  "craft/bookbinder": {
+    "name": "Könyvkötő",
+    "terms": "Könyvkötő"
+  },
+  "craft/brewery": {
+    "name": "Sörfőzde",
+    "terms": "Sörfőzde, Sörfőző"
+  },
+  "craft/carpenter": {
+    "name": "Asztalos",
+    "terms": "Asztalos, Ács"
+  },
+  "craft/electrician": {
+    "name": "Villanyszerelő",
+    "terms": "Villanyszerelő"
+  },
+  "craft/gardener": {
+    "name": "Kertész",
+    "terms": "Kertész"
+  },
+  "craft/insulator": {
+    "name": "Szigetelő",
+    "terms": "Szigetelő"
+  },
+  "craft/jeweler": {
+    "name": "Ékszerész",
+    "terms": "Ékszerész, Ékszeres"
+  },
+  "craft/key_cutter": {
+    "name": "Kulcsos",
+    "terms": "Kulcsos, Kulcskészítő, Kulcsmásoló"
+  },
+  "craft/optician": {
+    "name": "Szemész",
+    "terms": "Szemész"
+  },
+  "craft/painter": {
+    "name": "Festő",
+    "terms": "Festő, Festőművész"
+  },
+  "craft/photographer": {
+    "name": "Fotós",
+    "terms": "Fotós, Fotográfus"
+  },
+  "craft/photographic_laboratory": {
+    "name": "Fotólabor",
+    "terms": "Fotólabor"
+  },
+  "craft/shoemaker": {
+    "name": "Cipész",
+    "terms": "Cipész, Cipőkészítő"
+  },
+  "craft/sweep": {
+    "name": "Kéményseprő",
+    "terms": "Kéményseprő"
+  },
+  "craft/tailor": {
+    "name": "Szabó",
+    "terms": "Szabó"
+  },
+  "craft/watchmaker": {
+    "name": "Órás",
+    "terms": "Órás"
   },
   "embankment": {
     "name": "Töltés"
@@ -333,9 +518,6 @@
   },
   "emergency/phone": {
     "name": "Segélykérő telefon"
-  },
-  "entrance": {
-    "name": "Bejárat"
   },
   "footway/crossing": {
     "name": "Kereszteződés"
@@ -369,9 +551,6 @@
   },
   "highway/motorway": {
     "name": "Autópálya"
-  },
-  "highway/motorway_junction": {
-    "name": "Autópálya elágazás"
   },
   "highway/motorway_link": {
     "name": "Autópálya felhajtó"
@@ -515,6 +694,10 @@
   "landuse/meadow": {
     "name": "Rét"
   },
+  "landuse/military": {
+    "name": "Katonai",
+    "terms": "Katonai, Honvédségi"
+  },
   "landuse/orchard": {
     "name": "Gyümölcsös"
   },
@@ -540,6 +723,10 @@
     "name": "Kutyafuttató",
     "terms": "Kutyasétáltató"
   },
+  "leisure/firepit": {
+    "name": "Tűzrakó hely",
+    "terms": "Tűzrakó hely"
+  },
   "leisure/garden": {
     "name": "Kert"
   },
@@ -551,6 +738,10 @@
   },
   "leisure/park": {
     "name": "Park"
+  },
+  "leisure/picnic_table": {
+    "name": "Piknikasztal",
+    "terms": "Piknikasztal"
   },
   "leisure/pitch": {
     "name": "Sportpálya"
@@ -581,9 +772,6 @@
   },
   "leisure/slipway": {
     "name": "Sólya"
-  },
-  "leisure/sports_center": {
-    "name": "Sportközpont"
   },
   "leisure/stadium": {
     "name": "Stadion"
@@ -811,6 +999,10 @@
   "place/locality": {
     "name": "Lakatlan hely"
   },
+  "place/neighbourhood": {
+    "name": "Környék",
+    "terms": "Környék, Negyed"
+  },
   "place/town": {
     "name": "Város"
   },
@@ -861,6 +1053,10 @@
   "railway/disused": {
     "name": "Használaton kívüli vasút"
   },
+  "railway/funicular": {
+    "name": "Sikló",
+    "terms": "Sikló, Siklóvasút"
+  },
   "railway/halt": {
     "name": "Vasúti megállóhely",
     "terms": "megállóhely"
@@ -870,6 +1066,10 @@
   },
   "railway/monorail": {
     "name": "Egysínű vasút"
+  },
+  "railway/narrow_gauge": {
+    "name": "Kisvasút",
+    "terms": "Kisvasút, Keskeny nyomközű vasút"
   },
   "railway/platform": {
     "name": "Vasúti platform"

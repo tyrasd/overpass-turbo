@@ -99,6 +99,10 @@
     "name": "バー",
     "terms": "バー,飲み屋,呑み屋,ばー"
   },
+  "amenity/bbq": {
+    "name": "バーベキュー/グリル",
+    "terms": "バーベキュー,グリル,BBQ,飯盒炊爨"
+  },
   "amenity/bench": {
     "name": "ベンチ",
     "terms": "ベンチ"
@@ -131,6 +135,10 @@
     "name": "車の洗浄",
     "terms": "洗車機, 洗車, 車洗浄, カーウォッシュ"
   },
+  "amenity/charging_station": {
+    "name": "充電スタンド",
+    "terms": "充電ステーション, 急速充電システム, 充電スタンド, 給電スタンド"
+  },
   "amenity/childcare": {
     "name": "保育施設",
     "terms": "託児所,保育園,幼稚園,学童保育"
@@ -151,6 +159,10 @@
     "name": "単科大学",
     "terms": "大学,短大,専門学校,高専"
   },
+  "amenity/compressed_air": {
+    "name": "空気入れ",
+    "terms": "空気入れ, エアー調整"
+  },
   "amenity/courthouse": {
     "name": "裁判所",
     "terms": "裁判所"
@@ -162,6 +174,10 @@
   "amenity/doctor": {
     "name": "医院",
     "terms": "医者,医師"
+  },
+  "amenity/dojo": {
+    "name": "道場",
+    "terms": "道場"
   },
   "amenity/drinking_water": {
     "name": "水飲み場",
@@ -192,12 +208,12 @@
     "terms": "墓地,霊園,墓場,お墓,墓苑"
   },
   "amenity/hospital": {
-    "name": "病院",
-    "terms": "病院, 医院,総合病院"
+    "name": "病院の敷地",
+    "terms": "病院の敷地"
   },
   "amenity/kindergarten": {
-    "name": "幼稚園",
-    "terms": "保育園,幼稚園"
+    "name": "幼稚園の敷地",
+    "terms": "幼稚園の敷地, 保育園の敷地"
   },
   "amenity/library": {
     "name": "図書館",
@@ -207,9 +223,17 @@
     "name": "市場",
     "terms": "市場,マーケット,朝市,マルシェ"
   },
+  "amenity/nightclub": {
+    "name": "ナイトクラブ",
+    "terms": "ナイトクラブ"
+  },
   "amenity/parking": {
     "name": "駐車場",
     "terms": "駐車場"
+  },
+  "amenity/parking_entrance": {
+    "name": "駐車場の出入口",
+    "terms": "駐車場の出入口"
   },
   "amenity/pharmacy": {
     "name": "薬局",
@@ -264,12 +288,28 @@
     "terms": "レストラン,食堂"
   },
   "amenity/school": {
-    "name": "学校",
-    "terms": "学校,スクール"
+    "name": "学校の敷地",
+    "terms": "学校の敷地, 校庭"
   },
   "amenity/shelter": {
     "name": "避難所",
     "terms": "避難所,シェルター,逃げ場"
+  },
+  "amenity/social_facility": {
+    "name": "福祉施設",
+    "terms": "福祉施設, 支援施設"
+  },
+  "amenity/social_facility/food_bank": {
+    "name": "フードバンク",
+    "terms": "フードバンク"
+  },
+  "amenity/social_facility/group_home": {
+    "name": "グループホーム",
+    "terms": "グループホーム"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "ホームレス緊急一時宿泊施設",
+    "terms": "ホームレス緊急一時宿泊施設, ホームレスシェルター"
   },
   "amenity/studio": {
     "name": "スタジオ",
@@ -399,21 +439,73 @@
     "name": "アパート",
     "terms": "アパート"
   },
+  "building/barn": {
+    "name": "納屋",
+    "terms": "納屋"
+  },
+  "building/bunker": {
+    "name": "掩体壕",
+    "terms": "掩体壕, 掩蔽壕"
+  },
+  "building/cabin": {
+    "name": "ログハウス",
+    "terms": "ログハウス"
+  },
+  "building/cathedral": {
+    "name": "大聖堂",
+    "terms": "大聖堂"
+  },
+  "building/chapel": {
+    "name": "礼拝堂",
+    "terms": "礼拝堂"
+  },
+  "building/church": {
+    "name": "教会",
+    "terms": "教会"
+  },
   "building/commercial": {
     "name": "オフィスビル",
     "terms": "オフィスビル"
   },
+  "building/construction": {
+    "name": "建設中の建物",
+    "terms": "建設中の建物"
+  },
+  "building/detached": {
+    "name": "一戸建て住宅",
+    "terms": "一戸建て住宅"
+  },
+  "building/dormitory": {
+    "name": "寮",
+    "terms": "寮"
+  },
   "building/entrance": {
     "name": "出入口",
-    "terms": "出入口, エントランス"
+    "terms": "出入口, 入口, 出口"
   },
   "building/garage": {
     "name": "車庫",
-    "terms": "車庫,ガレージ"
+    "terms": "車庫, ガレージ"
+  },
+  "building/garages": {
+    "name": "集合車庫",
+    "terms": "集合車庫"
+  },
+  "building/greenhouse": {
+    "name": "温室",
+    "terms": "温室"
+  },
+  "building/hospital": {
+    "name": "病院の建物",
+    "terms": "病院の建物, 病棟"
+  },
+  "building/hotel": {
+    "name": "ホテルの建物",
+    "terms": "ホテルの建物, 宿泊棟"
   },
   "building/house": {
-    "name": "住宅",
-    "terms": "住宅"
+    "name": "連結住宅",
+    "terms": "連結住宅"
   },
   "building/hut": {
     "name": "小屋",
@@ -423,9 +515,53 @@
     "name": "工場",
     "terms": "工場"
   },
+  "building/public": {
+    "name": "公共施設",
+    "terms": "公共施設"
+  },
   "building/residential": {
     "name": "住宅",
     "terms": "住宅, アパート, マンション"
+  },
+  "building/retail": {
+    "name": "商業施設",
+    "terms": "商業施設, 店舗"
+  },
+  "building/roof": {
+    "name": "屋根",
+    "terms": "屋根, 屋根付きテラス"
+  },
+  "building/school": {
+    "name": "校舎",
+    "terms": "校舎, 学校の建物"
+  },
+  "building/shed": {
+    "name": "格納庫",
+    "terms": "格納庫, 離れ"
+  },
+  "building/stable": {
+    "name": "厩",
+    "terms": "厩, 馬小屋"
+  },
+  "building/static_caravan": {
+    "name": "トレーラーハウス",
+    "terms": "トレーラーハウス"
+  },
+  "building/terrace": {
+    "name": "テラスハウス",
+    "terms": "テラスハウス, 長屋"
+  },
+  "building/train_station": {
+    "name": "駅舎",
+    "terms": "駅舎"
+  },
+  "building/university": {
+    "name": "大学",
+    "terms": "大学, 大学の建物"
+  },
+  "building/warehouse": {
+    "name": "倉庫",
+    "terms": "倉庫, 蔵"
   },
   "craft/basket_maker": {
     "name": "かご製造所",
@@ -521,13 +657,13 @@
   },
   "craft/painter": {
     "name": "塗装業",
-    "terms": "塗装業"
+    "terms": "塗装業, 外装業, ペンキ屋"
   },
   "craft/photographer": {
     "name": "写真屋",
     "terms": "カメラマン,写真屋"
   },
-  "craft/photographic_labratory": {
+  "craft/photographic_laboratory": {
     "name": "現像所",
     "terms": "現像所"
   },
@@ -625,15 +761,23 @@
   },
   "entrance": {
     "name": "出入口",
-    "terms": "出入口"
+    "terms": "出入口, 入口, 出口"
   },
   "footway/crossing": {
     "name": "横断歩道",
     "terms": "横断歩道, 自転車横断帯"
   },
+  "footway/crosswalk": {
+    "name": "横断歩道",
+    "terms": "横断歩道, 歩行者踏切"
+  },
   "footway/sidewalk": {
     "name": "歩道",
     "terms": "歩道"
+  },
+  "ford": {
+    "name": "洗い越し",
+    "terms": "洗い越し, 浅瀬"
   },
   "golf/bunker": {
     "name": "サンドトラップ",
@@ -682,6 +826,10 @@
   "highway/crossing": {
     "name": "横断歩道",
     "terms": "横断歩道, 自転車横断帯"
+  },
+  "highway/crosswalk": {
+    "name": "横断歩道",
+    "terms": "横断歩道"
   },
   "highway/cycleway": {
     "name": "自転車道",
@@ -867,6 +1015,10 @@
     "name": "霊園",
     "terms": "霊園, 墓地"
   },
+  "landuse/churchyard": {
+    "name": "教会の敷地",
+    "terms": "教会, 教会の敷地"
+  },
   "landuse/commercial": {
     "name": "オフィス地区",
     "terms": "ビジネス街,オフィス街,オフィス地区"
@@ -899,9 +1051,17 @@
     "name": "工業用地",
     "terms": "工業用地"
   },
+  "landuse/landfill": {
+    "name": "最終処分場",
+    "terms": "最終処分場"
+  },
   "landuse/meadow": {
     "name": "牧草地",
     "terms": "牧草地"
+  },
+  "landuse/military": {
+    "name": "軍事",
+    "terms": "軍事,自衛隊"
   },
   "landuse/orchard": {
     "name": "果樹園",
@@ -935,6 +1095,10 @@
     "name": "ドッグパーク",
     "terms": "ドッグパーク, ドッグラン"
   },
+  "leisure/firepit": {
+    "name": "焚火",
+    "terms": "焚火,キャンプファイヤー"
+  },
   "leisure/garden": {
     "name": "庭園",
     "terms": "庭園"
@@ -943,6 +1107,10 @@
     "name": "ゴルフコース",
     "terms": "ゴルフコース"
   },
+  "leisure/ice_rink": {
+    "name": "アイススケート場",
+    "terms": "アイススケート,アイススケート場,アイススケートリンク"
+  },
   "leisure/marina": {
     "name": "マリーナ",
     "terms": "マリーナ, ヨットハーバー"
@@ -950,6 +1118,10 @@
   "leisure/park": {
     "name": "公園",
     "terms": "公園"
+  },
+  "leisure/picnic_table": {
+    "name": "ピクニックテーブル",
+    "terms": "ピクニックテーブル"
   },
   "leisure/pitch": {
     "name": "スポーツ競技場",
@@ -992,8 +1164,8 @@
     "terms": "進水路, スリップウェイ"
   },
   "leisure/sports_center": {
-    "name": "スポーツセンター",
-    "terms": "スポーツセンター"
+    "name": "スポーツセンター／ジム",
+    "terms": "スポーツセンター, ジム, フィットネスクラブ"
   },
   "leisure/stadium": {
     "name": "スタジアム",
@@ -1279,6 +1451,14 @@
     "name": "地形名",
     "terms": "地形名"
   },
+  "place/neighbourhood": {
+    "name": "小字",
+    "terms": "小字"
+  },
+  "place/suburb": {
+    "name": "自治区",
+    "terms": "自治区"
+  },
   "place/town": {
     "name": "町",
     "terms": "町"
@@ -1403,6 +1583,10 @@
     "name": "酒店",
     "terms": "酒店, 酒屋"
   },
+  "shop/art": {
+    "name": "美術工芸品店",
+    "terms": "美術工芸品店, 美術品店, アートショップ,工芸品店"
+  },
   "shop/bakery": {
     "name": "パン屋",
     "terms": "パン屋, ベーカリー"
@@ -1418,6 +1602,10 @@
   "shop/bicycle": {
     "name": "自転車店",
     "terms": "自転車店"
+  },
+  "shop/bookmaker": {
+    "name": "公営競技投票券売り場",
+    "terms": "公営競技投票券売り場, 馬券売り場, 車券売り場, 舟券売り場"
   },
   "shop/books": {
     "name": "書店",
@@ -1495,6 +1683,10 @@
     "name": "生花店",
     "terms": "生花店"
   },
+  "shop/funeral_directors": {
+    "name": "葬儀社",
+    "terms": "葬儀屋, 葬儀業"
+  },
   "shop/furniture": {
     "name": "家具店",
     "terms": "家具店, インテリア用品店"
@@ -1539,6 +1731,10 @@
     "name": "錠前屋",
     "terms": "錠前屋"
   },
+  "shop/lottery": {
+    "name": "宝くじ売り場",
+    "terms": "宝くじ売り場"
+  },
   "shop/mall": {
     "name": "ショッピングセンター",
     "terms": "ショッピングセンター, ショッピングモール, 複合商業施設"
@@ -1574,6 +1770,10 @@
   "shop/photo": {
     "name": "写真屋",
     "terms": "写真屋"
+  },
+  "shop/seafood": {
+    "name": "魚屋",
+    "terms": "海鮮食品店,魚屋,魚市場"
   },
   "shop/shoes": {
     "name": "靴店",
@@ -1614,6 +1814,10 @@
   "shop/video": {
     "name": "ビデオソフト店",
     "terms": "ビデオソフト店, DVD店"
+  },
+  "shop/wine": {
+    "name": "ワイン店",
+    "terms": "ワイン店, 酒屋"
   },
   "tourism": {
     "name": "観光",
@@ -1698,6 +1902,34 @@
   "type/restriction": {
     "name": "進行方向制限",
     "terms": "進行方向制限"
+  },
+  "type/restriction/no_left_turn": {
+    "name": "左折禁止",
+    "terms": "左折禁止"
+  },
+  "type/restriction/no_right_turn": {
+    "name": "右折禁止",
+    "terms": "右折禁止"
+  },
+  "type/restriction/no_straight_on": {
+    "name": "直進禁止",
+    "terms": "直進禁止"
+  },
+  "type/restriction/no_u_turn": {
+    "name": "転回禁止",
+    "terms": "転回禁止, Uターン禁止"
+  },
+  "type/restriction/only_left_turn": {
+    "name": "左折のみ可",
+    "terms": "左折のみ可"
+  },
+  "type/restriction/only_right_turn": {
+    "name": "右折のみ可",
+    "terms": "右折のみ可"
+  },
+  "type/restriction/only_straight_on": {
+    "name": "直進のみ可",
+    "terms": "直進のみ可"
   },
   "type/route": {
     "name": "ルート",

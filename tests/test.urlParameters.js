@@ -71,19 +71,21 @@ describe("ide.urlParameters", function () {
   });
   // RUN flag
   it("RUN flag", function () {
-    var args = turbo.urlParameters("?R");
+    var args = turbo.urlParameters("?Q=foo&R");
     expect(args.run_query).to.be.equal(true);
-    var args = turbo.urlParameters("?R=true");
+    var args = turbo.urlParameters("?Q=foo&R=true");
     expect(args.run_query).to.be.equal(true);
   });
   // template
   it("template", function () {
+    sinon.stub(turbo,"ffs").returns({construct_query: function(x) {return x;}});
     var orig_ss = settings.saves;
-    settings.saves = {"T":{"type":"template","parameters":["p"],"overpass":"{{p=???}}"}}
+    settings.saves = {"T":{"type":"template","parameters":["p"],"wizard":"{{p}}"}}
     var args = turbo.urlParameters("?template=T&p=foo");
     expect(args.has_query).to.be.equal(true);
-    expect(args.query).to.be.equal("{{p=foo}}");
+    expect(args.query).to.be.equal("foo");
     settings.saves = orig_ss;
+    turbo.ffs.restore();
   });
 
 
