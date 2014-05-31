@@ -42,7 +42,6 @@ turbo.js: \
 	libs/CodeMirror/lib/util/closetag.js \
 	libs/locationfilter/src/locationfilter.js \
 	libs/mapbbcode/PopupIcon.js \
-	libs/mapbbcode/LetterIcon.js \
 	js/jsmapcss/styleparser.js \
 	js/jsmapcss/Condition.js \
 	js/jsmapcss/Rule.js \
