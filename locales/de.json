@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "auf die Daten zoomen",
   "map_controlls.localize_user": "zum Benutzer-Standort gehen",
   "map_controlls.select_bbox": "bbox manuell selektieren",
+  "map_controlls.select_bbox_disabled": "Inaktiv, weil die aktuelle Abfrage keine Bounding-Box benötigt.",
   "map_controlls.toggle_wide_map": "Karte vergrößern/verkleinern",
-  "map_controlls.clear_data": "Datenschicht leeren",
+  "map_controlls.toggle_data": "Daten aus- und wieder einblenden",
   "map_controlls.suggest_zoom_to_data": "hier klicken um die Daten anzuzeigen",
   "settings.title": "Einstellungen",
   "settings.section.general": "Allgemeines",
@@ -212,5 +213,7 @@
   "data_stats.pois": "POIs",
   "data_stats.lines": "Linien",
   "data_stats.polygons": "Polygone",
+  "data_stats.lag": "Aktualität der Daten",
+  "data_stats.lag.expl": "Rückstand zur zentralen OSM Datenbank",
   "map.intentionally_blank": "Diese Karte ist leer."
 }

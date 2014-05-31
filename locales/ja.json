@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "データへズーム",
   "map_controlls.localize_user": "表示を現在地へ移動",
   "map_controlls.select_bbox": "矩形範囲を手動で設定",
+  "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "地図表示変更",
-  "map_controlls.clear_data": "データの重ねあわせ表示をクリア",
+  "map_controlls.toggle_data": "toggle data overlay",
   "map_controlls.suggest_zoom_to_data": "データを表示",
   "settings.title": "設定",
   "settings.section.general": "全般設定",
@@ -212,5 +213,7 @@
   "data_stats.pois": "POI",
   "data_stats.lines": "ライン",
   "data_stats.polygons": "ポリゴン",
+  "data_stats.lag": "Currentness of data",
+  "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "この地図表示は意図して空白になっています。"
 }

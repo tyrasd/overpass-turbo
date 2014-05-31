@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "acercar a los datos",
   "map_controlls.localize_user": "¡localízame!",
   "map_controlls.select_bbox": "seleccionar manualmente el bbox",
+  "map_controlls.select_bbox_disabled": "inhabilitado como la consulta actual que no requiere un bbox",
   "map_controlls.toggle_wide_map": "Alternar ampliar mapa",
-  "map_controlls.clear_data": "limpiar datos superpuestos",
+  "map_controlls.toggle_data": "intercambiar la superposición de datos",
   "map_controlls.suggest_zoom_to_data": "haz clic aquí para ver los datos",
   "settings.title": "Configuraciones",
   "settings.section.general": "Configuraciones generales",
@@ -212,5 +213,7 @@
   "data_stats.pois": "pdi",
   "data_stats.lines": "líneas",
   "data_stats.polygons": "polígonos",
+  "data_stats.lag": "Actualidad de los datos",
+  "data_stats.lag.expl": "detrás de la principal base de datos OSM",
   "map.intentionally_blank": "Este mapa se dejó en blanco intencionalmente."
 }

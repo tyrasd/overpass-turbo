@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "перейти до даних",
   "map_controlls.localize_user": "знайди мене!",
   "map_controlls.select_bbox": "вибрати прямокутник вручну",
+  "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "мапа на всю ширину",
-  "map_controlls.clear_data": "очистити шар даних",
+  "map_controlls.toggle_data": "toggle data overlay",
   "map_controlls.suggest_zoom_to_data": "натисніть сюди для перегляду даних",
   "settings.title": "Налаштування",
   "settings.section.general": "Загальні налаштування",
@@ -212,5 +213,7 @@
   "data_stats.pois": "цікаві точки",
   "data_stats.lines": "лінії",
   "data_stats.polygons": "полігони",
+  "data_stats.lag": "Currentness of data",
+  "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "Мапа навмисно не містить даних."
 }

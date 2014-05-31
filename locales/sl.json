@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "zoom to data",
   "map_controlls.localize_user": "locate me!",
   "map_controlls.select_bbox": "ročno izberi področje",
+  "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "toggle wide map",
-  "map_controlls.clear_data": "clear data overlay",
+  "map_controlls.toggle_data": "toggle data overlay",
   "map_controlls.suggest_zoom_to_data": "click here to show the data",
   "settings.title": "Nastavitve",
   "settings.section.general": "Splošne nastavitve",
@@ -212,5 +213,7 @@
   "data_stats.pois": "točke",
   "data_stats.lines": "črte",
   "data_stats.polygons": "poligoni",
+  "data_stats.lag": "Currentness of data",
+  "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "This map intentionally left blank."
 }

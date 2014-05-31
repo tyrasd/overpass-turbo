@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "inzoomen op gegevens",
   "map_controlls.localize_user": "locate me!",
   "map_controlls.select_bbox": "gebied manueel selecteren",
+  "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "Brede/smalle weergave",
-  "map_controlls.clear_data": "clear data overlay",
+  "map_controlls.toggle_data": "toggle data overlay",
   "map_controlls.suggest_zoom_to_data": "click here to show the data",
   "settings.title": "Settings",
   "settings.section.general": "Algemene instellingen",
@@ -212,5 +213,7 @@
   "data_stats.pois": "Interessepunten",
   "data_stats.lines": "lijnen",
   "data_stats.polygons": "polygons",
+  "data_stats.lag": "Currentness of data",
+  "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "This map intentionally left blank."
 }

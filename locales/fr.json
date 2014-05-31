@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "zoomer sur les données",
   "map_controlls.localize_user": "Localisez-moi !",
   "map_controlls.select_bbox": "sélection manuelle des limites bbox",
+  "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "agrandir la carte",
-  "map_controlls.clear_data": "supprimer la surcouche des données",
+  "map_controlls.toggle_data": "toggle data overlay",
   "map_controlls.suggest_zoom_to_data": "cliquer ici pour montrer les données",
   "settings.title": "Paramètres",
   "settings.section.general": "Paramètres généraux",
@@ -212,5 +213,7 @@
   "data_stats.pois": "points d'intérêt - POIs",
   "data_stats.lines": "lignes",
   "data_stats.polygons": "polygones",
+  "data_stats.lag": "Currentness of data",
+  "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "La carte est volontairement laissée vide."
 }

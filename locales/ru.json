@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "перейти к данным",
   "map_controlls.localize_user": "найди меня!",
   "map_controlls.select_bbox": "выбрать прямоугольник вручную",
+  "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "карта во всю ширину",
-  "map_controlls.clear_data": "очистить слой данных",
+  "map_controlls.toggle_data": "toggle data overlay",
   "map_controlls.suggest_zoom_to_data": "нажмите сюда для просмотра данных",
   "settings.title": "Настройка",
   "settings.section.general": "Общие настройки",
@@ -212,5 +213,7 @@
   "data_stats.pois": "POI",
   "data_stats.lines": "линии",
   "data_stats.polygons": "полигоны",
+  "data_stats.lag": "Currentness of data",
+  "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "Карта намеренно не содержит данных."
 }
