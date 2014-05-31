@@ -279,8 +279,11 @@ setTimeout(function() {
           var latlng;
           if (feature.geometry.type=="Point") {
             latlng = layer.getLatLng();
-          } else {
+          } else if (feature.geometry.type=="Polygon" || feature.geometry.type=="MultiPolygon") {
             latlng = layer.getBounds().getCenter();
+          } else if (feature.geometry.type=="LineString") {
+            var latlngs = layer.getLatLngs();
+            latlng = latlngs[Math.floor(latlngs.length/2)];
           } // todo: multilinestrings, multipoints
           if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
             var textIcon = new L.PopupIcon(text);
