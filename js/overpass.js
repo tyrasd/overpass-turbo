@@ -342,6 +342,7 @@ setTimeout(function() {
               s.textStyles["default"]
             );
             var text;
+            var marker;
             if (stl["icon_image"]) {
               // return image marker
               var iconUrl = stl["icon_image"].match(/^url\(['"](.*)['"]\)$/)[1];
@@ -353,19 +354,22 @@ setTimeout(function() {
                 iconSize: iconSize,
                 // todo: anchor, shadow?, ...
               });
-              return new L.Marker(latlng, {icon: icon});
-            } else if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
-              var icon = new L.PopupIcon(text);
-              var r = stl["symbol_size"] || 9;
-              var textmarker = new L.Marker(latlng, {icon: icon}),
-                  circlemarker = new L.CircleMarker(latlng, {radius: r});
-              return new L.FeatureGroup([circlemarker, textmarker]);
+              marker = new L.Marker(latlng, {icon: icon});
+            } else if (stl["symbol_shape"]=="none") {
+              marker = new L.Marker(latlng, {icon: new L.DivIcon({iconSize: [0,0], html: "", className: "leaflet-dummy-none-marker"})});
             } else if (stl["symbol_shape"]=="circle" || true /*if nothing else is specified*/) {
               // return circle marker
               var r = stl["symbol_size"] || 9;
-              return new L.CircleMarker(latlng, {
+              marker = new L.CircleMarker(latlng, {
                 radius: r,
               });
+            }
+            if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
+              var textIcon = new L.PopupIcon(text);
+              var textmarker = new L.Marker(latlng, {icon: textIcon});
+              return new L.FeatureGroup(_.compact([marker, textmarker]));
+            } else {
+              return marker;
             }
           },
           onEachFeature : function (feature, layer) {

@@ -412,3 +412,7 @@ body .ui-tooltip {
   font-size: 12px;
   border-radius: 0;
 }
+
+.leaflet-dummy-none-marker {
+  display: none;
+}
