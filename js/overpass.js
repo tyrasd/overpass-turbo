@@ -279,11 +279,19 @@ setTimeout(function() {
           var latlng;
           if (feature.geometry.type=="Point") {
             latlng = layer.getLatLng();
-          } else if (feature.geometry.type=="Polygon" || feature.geometry.type=="MultiPolygon") {
+          } else if (feature.geometry.type=="Polygon") {
             latlng = layer.getBounds().getCenter();
+          } else if (feature.geometry.type=="MultiPolygon") {
+            latlng = layer.getLayers()[0].getBounds().getCenter();
           } else if (feature.geometry.type=="LineString") {
             var latlngs = layer.getLatLngs();
-            latlng = latlngs[Math.floor(latlngs.length/2)];
+            if (latlngs.length % 2 == 1)
+              latlng = latlngs[Math.floor(latlngs.length/2)];
+            else {
+              var latlng1 = latlngs[Math.floor(latlngs.length/2)],
+                  latlng2 = latlngs[Math.floor(latlngs.length/2-1)];
+              latlng = L.latLng([ (latlng1.lat+latlng2.lat)/2, (latlng1.lng+latlng2.lng)/2 ]);
+            }
           } // todo: multilinestrings, multipoints
           if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
             var textIcon = new L.PopupIcon(text, {color: "rgba(255,255,255,0.8)"});
