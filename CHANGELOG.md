@@ -1,3 +1,12 @@
+2014-06-06
+----------
+* MapCSS: implemented text markers
+* show additional data stats when hovering object counter box
+* some UI improvements (better tooltips, toggle data overlay)
+* bugixes in UI translations
+* make more stuff configurable for custom installations
+* updated some external libraries (leaflet, jQuery)
+
 2014-05-25
 ----------
 * add export to [Level0](https://github.com/Zverik/Level0#readme) (OSM editor)
