@@ -266,11 +266,11 @@ var ide = new(function() {
     ide.map = new L.Map("map", {
       attributionControl:false,
       minZoom:0,
-      maxZoom:20,
+      maxZoom:configs.maxMapZoom,
       worldCopyJump:false,
     });
     var tilesUrl = settings.tile_server;
-    var tilesAttrib = '&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
+    var tilesAttrib = configs.tileServerAttribution;
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
       noWrap:true,
