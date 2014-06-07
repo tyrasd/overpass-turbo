@@ -3,6 +3,7 @@
 
 var overpass = new(function() {
   // == private members ==
+  var originalGeom2Layer;
   // == public members ==
   this.handlers = {};
 
@@ -19,6 +20,25 @@ var overpass = new(function() {
   }
 
   // == public methods ==
+
+  this.init = function() {
+    // register mapcss extensions
+    /* own MapCSS-extension:
+     * added symbol-* properties
+     * TODO: implement symbol-shape = marker|square?|shield?|...
+     */
+    styleparser.PointStyle.prototype.properties.push('symbol_shape','symbol_size','symbol_stroke_width','symbol_stroke_color','symbol_stroke_opacity','symbol_fill_color','symbol_fill_opacity');
+    styleparser.PointStyle.prototype.symbol_shape = "";
+    styleparser.PointStyle.prototype.symbol_size = NaN;
+    styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
+    styleparser.PointStyle.prototype.symbol_stroke_color = null;
+    styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
+    styleparser.PointStyle.prototype.symbol_fill_color = null;
+    styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
+
+    // prepare some Leaflet hacks
+    originalGeom2Layer = L.GeoJSON.geometryToLayer;
+  }
 
   // updates the map
   this.run_query = function (query, query_lang) {
@@ -113,12 +133,18 @@ setTimeout(function() {
           if (is_error) {
             // this really looks like an error message, so lets open an additional modal error message
             var errmsg = "?";
-            if (typeof data == "string")
+            if (typeof data == "string") {
               errmsg = data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"");
+              // do some magic cleanup for better legibility of the actual error message
+              errmsg = errmsg.replace(/<p>The data included in this document is from .*?<\/p>/,"");
+              var fullerrmsg = errmsg;
+              errmsg = errmsg.replace(/open64: 0 Success \/osm3s_v\d+\.\d+\.\d+_osm_base (\w+::)*\w+\./,"[…]");
+            }
             if (typeof data == "object" && jqXHR.responseXML)
               errmsg = "<p>"+$.trim($("remark",data).text())+"</p>";
             if (typeof data == "object" && data.remark)
               errmsg = "<p>"+$.trim(data.remark)+"</p>";
+            console.log("Overpass API error", fullerrmsg || errmsg); // write (full) error message to console for easier debugging
             fire("onQueryError", errmsg);
             data_mode = "error";
             // parse errors and highlight error lines
@@ -164,20 +190,6 @@ setTimeout(function() {
 
         //fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 setTimeout(function() {
-        /* own MapCSS-extension:
-         * added symbol-* properties
-         * TODO: implement symbol-shape = marker|square?|shield?|...
-         */
-        if (styleparser.PointStyle.prototype.properties['symbol_shape'] === undefined) {
-          styleparser.PointStyle.prototype.properties.push('symbol_shape','symbol_size','symbol_stroke_width','symbol_stroke_color','symbol_stroke_opacity','symbol_fill_color','symbol_fill_opacity');
-          styleparser.PointStyle.prototype.symbol_shape = "";
-          styleparser.PointStyle.prototype.symbol_size = NaN;
-          styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
-          styleparser.PointStyle.prototype.symbol_stroke_color = null;
-          styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
-          styleparser.PointStyle.prototype.symbol_fill_color = null;
-          styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
-        }
         // test user supplied mapcss stylesheet
         var user_mapcss = ide.mapcss; 
         try {
@@ -259,6 +271,35 @@ setTimeout(function() {
           return s;
         };
 
+        L.GeoJSON.geometryToLayer = function(feature, pointToLayer /*,…*/) {
+          var s = get_feature_style(feature);
+          var stl = s.textStyles["default"] || {};
+          var layer = originalGeom2Layer.apply(this, arguments);
+
+          var latlng;
+          if (feature.geometry.type=="Point") {
+            latlng = layer.getLatLng();
+          } else if (feature.geometry.type=="Polygon") {
+            latlng = layer.getBounds().getCenter();
+          } else if (feature.geometry.type=="MultiPolygon") {
+            latlng = layer.getLayers()[0].getBounds().getCenter();
+          } else if (feature.geometry.type=="LineString") {
+            var latlngs = layer.getLatLngs();
+            if (latlngs.length % 2 == 1)
+              latlng = latlngs[Math.floor(latlngs.length/2)];
+            else {
+              var latlng1 = latlngs[Math.floor(latlngs.length/2)],
+                  latlng2 = latlngs[Math.floor(latlngs.length/2-1)];
+              latlng = L.latLng([ (latlng1.lat+latlng2.lat)/2, (latlng1.lng+latlng2.lng)/2 ]);
+            }
+          } // todo: multilinestrings, multipoints
+          if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
+            var textIcon = new L.PopupIcon(text, {color: "rgba(255,255,255,0.8)"});
+            var textmarker = new L.Marker(latlng, {icon: textIcon});
+            return new L.FeatureGroup(_.compact([layer, textmarker]));
+          }
+          return layer;
+        }
         //overpass.geojsonLayer = 
           //new L.GeoJSON(null, {
           //new L.GeoJsonNoVanish(null, {
@@ -331,7 +372,9 @@ setTimeout(function() {
           pointToLayer: function (feature, latlng) {
             // todo: labels!
             var s = get_feature_style(feature);
-            var stl = s.pointStyles && s.pointStyles["default"] ? s.pointStyles["default"] : {};
+            var stl = s.pointStyles["default"] || {};
+            var text;
+            var marker;
             if (stl["icon_image"]) {
               // return image marker
               var iconUrl = stl["icon_image"].match(/^url\(['"](.*)['"]\)$/)[1];
@@ -343,14 +386,17 @@ setTimeout(function() {
                 iconSize: iconSize,
                 // todo: anchor, shadow?, ...
               });
-              return new L.Marker(latlng, {icon: icon});
+              marker = new L.Marker(latlng, {icon: icon});
+            } else if (stl["symbol_shape"]=="none") {
+              marker = new L.Marker(latlng, {icon: new L.DivIcon({iconSize: [0,0], html: "", className: "leaflet-dummy-none-marker"})});
             } else if (stl["symbol_shape"]=="circle" || true /*if nothing else is specified*/) {
               // return circle marker
-              var r = stl["symbol_size"] || 9; 
-              return new L.CircleMarker(latlng, {
+              var r = stl["symbol_size"] || 9;
+              marker = new L.CircleMarker(latlng, {
                 radius: r,
               });
             }
+            return marker;
           },
           onEachFeature : function (feature, layer) {
             layer.on('click', function(e) {

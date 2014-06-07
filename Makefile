@@ -29,7 +29,7 @@ all: \
 	turbo.map.min.js
 
 turbo.js: \
-	libs/jquery/jquery-1.11.0.js \
+	libs/jquery/jquery-1.11.1.js \
 	libs/lodash/lodash-2.4.1.js \
 	libs/leaflet/leaflet-src.js \
 	libs/jqueryui/jquery-ui.js \
@@ -41,6 +41,7 @@ turbo.js: \
 	libs/CodeMirror/lib/util/multiplex.js \
 	libs/CodeMirror/lib/util/closetag.js \
 	libs/locationfilter/src/locationfilter.js \
+	libs/mapbbcode/PopupIcon.js \
 	js/jsmapcss/styleparser.js \
 	js/jsmapcss/Condition.js \
 	js/jsmapcss/Rule.js \

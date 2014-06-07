@@ -76,9 +76,9 @@ var settings = new Settings(
 );
 
 // map coordinates
-settings.define_setting("coords_lat","Float",41.890,1);
-settings.define_setting("coords_lon","Float",12.492,1);
-settings.define_setting("coords_zoom","Integer",16,1);
+settings.define_setting("coords_lat","Float",configs.defaultMapView.lat,1);
+settings.define_setting("coords_lon","Float",configs.defaultMapView.lat,1);
+settings.define_setting("coords_zoom","Integer",configs.defaultMapView.zoom,1);
 // saves
 settings.define_setting("code","Object",examples[examples_initial_example],1);
 settings.define_setting("saves","Object",examples,1);

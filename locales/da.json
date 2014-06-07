@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "zoom hen til geodata",
   "map_controlls.localize_user": "lokaliserer mig!",
   "map_controlls.select_bbox": "manuelt valgt geografisk boks",
+  "map_controlls.select_bbox_disabled": "slået fra da nuværende søgning ikke kræver en geografisk boks",
   "map_controlls.toggle_wide_map": "skift til bredt kort",
-  "map_controlls.clear_data": "nulstil geodata lag",
+  "map_controlls.toggle_data": "skift mellem geodatalag",
   "map_controlls.suggest_zoom_to_data": "Klik her for at vise geodata",
   "settings.title": "Indstillinger",
   "settings.section.general": "Generelle indstillinger",
@@ -212,5 +213,7 @@
   "data_stats.pois": "POIs",
   "data_stats.lines": "linjer",
   "data_stats.polygons": "polygoner",
+  "data_stats.lag": "aktualitet af geodata",
+  "data_stats.lag.expl": "bag OSM databasen",
   "map.intentionally_blank": "Kortet er forsætligt tomt."
 }

@@ -207,17 +207,17 @@ var ide = new(function() {
               if (bbox_filter.hasClass("disabled")) {
                 bbox_filter.removeClass("disabled");
                 $("span",bbox_filter).css("opacity",1.0);
-                bbox_filter.css("pointer-events","");
                 bbox_filter.css("cursor","");
-                bbox_filter.tooltip("enable");
+                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox");
+                i18n.translate_ui(bbox_filter[0]);
               }
             } else {
               if (!bbox_filter.hasClass("disabled")) {
                 bbox_filter.addClass("disabled");
                 $("span",bbox_filter).css("opacity",0.5);
-                bbox_filter.css("pointer-events","none");
                 bbox_filter.css("cursor","default");
-                bbox_filter.tooltip("disable");
+                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox_disabled");
+                i18n.translate_ui(bbox_filter[0]);
               }
             }
           },500);
@@ -266,11 +266,11 @@ var ide = new(function() {
     ide.map = new L.Map("map", {
       attributionControl:false,
       minZoom:0,
-      maxZoom:20,
+      maxZoom:configs.maxMapZoom,
       worldCopyJump:false,
     });
     var tilesUrl = settings.tile_server;
-    var tilesAttrib = '&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
+    var tilesAttrib = configs.tileServerAttribution;
     var tiles = new L.TileLayer(tilesUrl,{
       attribution:tilesAttrib,
       noWrap:true,
@@ -337,7 +337,9 @@ var ide = new(function() {
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata leaflet-bar-part leaflet-bar-part-top", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.zoom_to_data");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.zoom_to_data");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function() {
           // hardcoded maxZoom of 18, should be ok for most real-world use-cases
           try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {maxZoom: 18}); } catch (e) {}
@@ -345,7 +347,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.localize_user");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.localize_user");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function() {
           // One-shot position request.
           try {
@@ -358,7 +362,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.select_bbox");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.select_bbox");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
           if ($(e.target).parent().hasClass("disabled")) // check if this button is enabled
             return;
@@ -373,7 +379,9 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-fullscreen leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.toggle_wide_map");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.toggle_wide_map");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
           $("#dataviewer").toggleClass("fullscreen");
           ide.map.invalidateSize();
@@ -387,16 +395,24 @@ var ide = new(function() {
         link = L.DomUtil.create('a', "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
         link.href = 'javascript:return false;';
-        link.title = i18n.t("map_controlls.clear_data");
+        link.className += " t";
+        link.setAttribute("data-t", "[title]map_controlls.toggle_data");
+        i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
-          ide.map.removeLayer(overpass.osmLayer);
-          $("#map_blank").remove();
-          $("#data_stats").remove();
+          e.preventDefault();
+          if (ide.map.hasLayer(overpass.osmLayer))
+            ide.map.removeLayer(overpass.osmLayer);
+          else
+            ide.map.addLayer(overpass.osmLayer);
         }, ide.map);
         return container;
       },
     });
     ide.map.addControl(new MapButtons());
+    // prevent propagation of doubleclicks on map controls
+    $(".leaflet-control-buttons > a").bind('dblclick', function(e) {
+      e.stopPropagation();
+    });
     // add tooltips to map controls
     $(".leaflet-control-buttons > a").tooltip({
       items: "a[title]",
@@ -423,6 +439,10 @@ var ide = new(function() {
         inp.id = "search";
         // hack against focus stealing leaflet :/
         inp.onclick = function() {this.focus();}
+        // prevent propagation of doubleclicks to map container
+        container.ondblclick = function(e) {
+          e.stopPropagation();
+        };
         // autocomplete functionality
         $(inp).autocomplete({
           source: function(request,response) {
@@ -490,9 +510,15 @@ var ide = new(function() {
           if (typeof layer.setStyle == "function")
             layer.setStyle(stl); // other objects (pois, ways)
         } else
-          layer.eachLayer(function(l) {l.setStyle(stl);}); // for multipolygons!
+          layer.eachLayer(function(layer) {
+            if (typeof layer.setStyle == "function")
+              layer.setStyle(stl);
+          }); // for multipolygons!
       }
     });
+
+    // init overpass object
+    overpass.init();
 
     // event handlers for overpass object
     overpass.handlers["onProgress"] = function(msg,abortcallback) {
@@ -631,7 +657,32 @@ var ide = new(function() {
           ", "+i18n.t("data_stats.polygons")+":&nbsp;"+stats.geojson.polys+
           "</small>"
         );
-        $('<div id="data_stats" style="z-index:5; display:block; position:absolute; bottom:0px; right:0; width:auto; text-align:right; padding: 0 0.5em; background-color:#eee; opacity: 0.8;">'+stats_txt+'</div>').appendTo("#map");
+        $(
+          '<div id="data_stats" class="stats">'
+          +stats_txt
+          +'</div>'
+        ).insertAfter("#map");
+        // show more stats as a tooltip
+        var backlog = function () { return Math.round((new Date() - new Date(overpass.timestamp))/1000/60*10)/10; };
+        $("#data_stats").tooltip({
+          items: "div",
+          tooltipClass: "stats",
+          content: function () {
+            return "<div>"
+            //+"<small>more</small>&nbsp;&ndash;<br>"
+            +i18n.t("data_stats.lag")+": "
+            +backlog()+"&nbsp;min <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+            +"</div>"
+          },
+          hide: {
+            effect: "fadeOut",
+            duration: 100
+          },
+          position: {
+            my: "left bottom-5",
+            at: "left top"
+          }
+        });
       }
     }
     overpass.handlers["onPopupReady"] = function(p) {
@@ -1408,7 +1459,8 @@ var ide = new(function() {
     onrendered: function(canvas) {
       if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
       if (!settings.export_image_scale) scaleControl.addTo(ide.map);
-      $("#data_stats").show();
+      if (settings.show_data_stats)
+        $("#data_stats").show();
       $("#map .leaflet-control-container .leaflet-top").show();
       ide.waiter.addInfo("rendering map data");
       // 2. render overlay data onto canvas

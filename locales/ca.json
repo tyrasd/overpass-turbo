@@ -22,8 +22,9 @@
   "map_controlls.zoom_to_data": "zoom to data",
   "map_controlls.localize_user": "ubica'm!",
   "map_controlls.select_bbox": "manually select bbox",
+  "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "toggle wide map",
-  "map_controlls.clear_data": "clear data overlay",
+  "map_controlls.toggle_data": "toggle data overlay",
   "map_controlls.suggest_zoom_to_data": "feu clic aquí per mostrar les dades",
   "settings.title": "Configuració",
   "settings.section.general": "Configuració general",
@@ -212,5 +213,7 @@
   "data_stats.pois": "punts d'interès",
   "data_stats.lines": "línies",
   "data_stats.polygons": "polígons",
+  "data_stats.lag": "Currentness of data",
+  "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "Aquest mapa s'ha deixat intencionadament en blanc."
 }
