@@ -134,11 +134,11 @@ setTimeout(function() {
             // this really looks like an error message, so lets open an additional modal error message
             var errmsg = "?";
             if (typeof data == "string") {
-              errmsg = data.replace(/((.|\n)*<body>|<\/body>(.|\n)*)/g,"");
+              errmsg = data.replace(/([\S\s]*<body>)/,"").replace(/(<\/body>[\S\s]*)/,"");
               // do some magic cleanup for better legibility of the actual error message
               errmsg = errmsg.replace(/<p>The data included in this document is from .*?<\/p>/,"");
               var fullerrmsg = errmsg;
-              errmsg = errmsg.replace(/open64: 0 Success \/osm3s_v\d+\.\d+\.\d+_osm_base (\w+::)*\w+\./,"[…]");
+              errmsg = errmsg.replace(/open64: 0 Success \/obsm3s_v\d+\.\d+\.\d+_osm_base (\w+::)*\w+\./,"[…]");
             }
             if (typeof data == "object" && jqXHR.responseXML)
               errmsg = "<p>"+$.trim($("remark",data).text())+"</p>";
