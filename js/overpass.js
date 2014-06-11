@@ -138,7 +138,7 @@ setTimeout(function() {
               // do some magic cleanup for better legibility of the actual error message
               errmsg = errmsg.replace(/<p>The data included in this document is from .*?<\/p>/,"");
               var fullerrmsg = errmsg;
-              errmsg = errmsg.replace(/open64: 0 Success \/obsm3s_v\d+\.\d+\.\d+_osm_base (\w+::)*\w+\./,"[…]");
+              errmsg = errmsg.replace(/open64: 0 Success \/osm3s_v\d+\.\d+\.\d+_osm_base (\w+::)*\w+\./,"[…]");
             }
             if (typeof data == "object" && jqXHR.responseXML)
               errmsg = "<p>"+$.trim($("remark",data).text())+"</p>";
