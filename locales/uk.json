@@ -117,7 +117,7 @@
   "help.title": "Довідка",
   "help.section.introduction": "Вступ",
   "help.intro.1": " Сайт <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">overpass turbo</a> дозволяє запускати запити до <a href=\"http://overpass-api.de\">Overpass API</a> та аналізувати отримані дані <a href=\"http://www.openstreetmap.org\">OpenStreetMap</a> на інтерактивній мапі.",
-  "help.intro.2": " Тут можна виконувати <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide\">запити</a>у форматах XML або OverpassQL.  Отримані дані xml або json обробляються і, якщо можливо, відображаються на мапі. Докладніше про <i>overpass turbo</i> написано у <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">вікі OSM</a>. ",
+  "help.intro.2": " Тут можна виконувати <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide\">запити</a> у форматах XML або OverpassQL.  Отримані дані xml або json обробляються і, якщо можливо, відображаються на мапі. Докладніше про <i>overpass turbo</i> написано у <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">вікі OSM</a>. ",
   "help.intro.shortcuts": "У тексті запиту можна використовувати такі скорочення: ",
   "help.intro.shortcuts.bbox": "значення меж відображається області мапи",
   "help.intro.shortcuts.center": "координати центру мапи",
