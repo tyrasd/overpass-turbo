@@ -1,3 +1,8 @@
+2014-06-22
+----------
+* bugfixes
+* update translations
+
 2014-06-06
 ----------
 * MapCSS: implemented text markers
