@@ -1,3 +1,8 @@
+2014-07-14
+----------
+* bugfixes
+* update translations and presets
+
 2014-06-22
 ----------
 * bugfixes
