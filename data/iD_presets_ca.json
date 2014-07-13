@@ -414,7 +414,7 @@
     "name": "Búnquer"
   },
   "building/cabin": {
-    "name": "Cabina"
+    "name": "Cabana"
   },
   "building/cathedral": {
     "name": "Catedral"
@@ -597,7 +597,7 @@
     "name": "Terrisseria"
   },
   "craft/rigger": {
-    "name": "Aparellador"
+    "name": "Armador d'embarcacions"
   },
   "craft/roofer": {
     "name": "Constructor de teulades"
@@ -815,6 +815,9 @@
   },
   "highway/stop": {
     "name": "Senyal de stop"
+  },
+  "highway/street_lamp": {
+    "name": "Fanal"
   },
   "highway/tertiary": {
     "name": "Carretera terciària",
@@ -1563,6 +1566,9 @@
   "shop/supermarket": {
     "name": "Supermercat",
     "terms": "Supermercat, Súper, Hipermercat, Híper"
+  },
+  "shop/tailor": {
+    "name": "Sastreria"
   },
   "shop/toys": {
     "name": "Botiga de joguines",

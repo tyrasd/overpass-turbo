@@ -818,6 +818,10 @@
     "name": "Segnale di stop",
     "terms": "segnale di stop,cartello di stop,stop, lo stop"
   },
+  "highway/street_lamp": {
+    "name": "Lampione stradale",
+    "terms": "lampada,lampione,luce,neon,alogena,sodio"
+  },
   "highway/tertiary": {
     "name": "Terziaria",
     "terms": "Terziaria"
@@ -1652,6 +1656,10 @@
   "shop/supermarket": {
     "name": "Supermercato",
     "terms": "bazar,boutique,negozio,discount,mercato delle pulci,galleria,centro commerciale,mercato,outlet,chiosco,supermercato,negozio dell'usato"
+  },
+  "shop/tailor": {
+    "name": "Sartoria",
+    "terms": "sarto,vestiti,abiti"
   },
   "shop/toys": {
     "name": "Negozio di giocattoli",

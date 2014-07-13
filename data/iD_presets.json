@@ -1660,8 +1660,7 @@
             "toilets/disposal",
             "operator",
             "building_area",
-            "fee",
-            "access_simple"
+            "access_toilets"
         ],
         "geometry": [
             "point",
@@ -3351,7 +3350,8 @@
             "address",
             "operator",
             "opening_hours"
-        ]
+        ],
+        "searchable": false
     },
     "craft/tiler": {
         "name": "Tiler",
@@ -4255,6 +4255,27 @@
             "stop sign"
         ],
         "name": "Stop Sign"
+    },
+    "highway/street_lamp": {
+        "geometry": [
+            "point",
+            "vertex"
+        ],
+        "tags": {
+            "highway": "street_lamp"
+        },
+        "fields": [
+            "lamp_type",
+            "ref"
+        ],
+        "terms": [
+            "streetlight",
+            "street light",
+            "lamp",
+            "light",
+            "gaslight"
+        ],
+        "name": "Street Lamp"
     },
     "highway/tertiary": {
         "icon": "highway-tertiary",
@@ -7568,6 +7589,27 @@
             "shop": "supermarket"
         },
         "name": "Supermarket"
+    },
+    "shop/tailor": {
+        "name": "Tailor",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "tailor",
+            "clothes"
+        ],
+        "tags": {
+            "shop": "tailor"
+        },
+        "icon": "clothing-store",
+        "fields": [
+            "building_area",
+            "address",
+            "operator",
+            "opening_hours"
+        ]
     },
     "shop/toys": {
         "icon": "shop",

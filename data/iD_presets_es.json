@@ -46,7 +46,7 @@
   },
   "aeroway/aerodrome": {
     "name": "Aeropuerto",
-    "terms": "aeropuerto, aeródromo, base aérea, campo de aviación, terminal aérea"
+    "terms": "aeropuerto, aeródromo, base aérea, campo de aviación, terminal aérea, avión, aeronave"
   },
   "aeroway/apron": {
     "name": "Plataforma de estacionamiento",
@@ -62,7 +62,7 @@
   },
   "aeroway/helipad": {
     "name": "Helipuerto",
-    "terms": "helisuperficie,plataforma para helicópteros,helipad"
+    "terms": "helipuerto, pista de aterrizaje para helicópteros, pista de despegue para helicópteros, helicóptero"
   },
   "aeroway/runway": {
     "name": "Pista de aeropuerto",
@@ -89,7 +89,7 @@
   },
   "amenity/bank": {
     "name": "Banco",
-    "terms": "banco,banca,bancario,cooperativa de ahorro y crédito,cooperativa de crédito,SACCO,financiera,entidad bancaria"
+    "terms": "banco, bancario, cooperativa de ahorro y crédito, cooperativa de crédito, financiera, entidad bancaria"
   },
   "amenity/bar": {
     "name": "Bar",
@@ -116,7 +116,7 @@
   },
   "amenity/cafe": {
     "name": "Cafetería",
-    "terms": "café,cafetería,bar"
+    "terms": "café, cafetería, té, salón de té, bar, restaurante"
   },
   "amenity/car_rental": {
     "name": "Alquiler de automóviles",
@@ -139,7 +139,7 @@
   },
   "amenity/cinema": {
     "name": "Cine",
-    "terms": "cinematógrafo,cine"
+    "terms": "cine, sala de cine, cinematógrafo, cinemateca, película, film, filme, vídeo"
   },
   "amenity/clinic": {
     "name": "Clínica",
@@ -157,7 +157,7 @@
   },
   "amenity/courthouse": {
     "name": "Palacio de justicia",
-    "terms": "tribunal, magistratura, judicatura, audiencia,justicia"
+    "terms": "palacio de justicia, juzgado, corte judicial, corte, oficina judicial, tribunal, magistratura, judicatura, audiencia, justicia"
   },
   "amenity/dentist": {
     "name": "Dentista",
@@ -166,6 +166,10 @@
   "amenity/doctor": {
     "name": "Médico",
     "terms": "médico, doctor, facultativo, medicina, curador"
+  },
+  "amenity/dojo": {
+    "name": "Academia de artes marciales",
+    "terms": "dojo, academia, artes marciales, karate, judo, taekwondo, kendo, ninjutsu"
   },
   "amenity/drinking_water": {
     "name": "Agua potable",
@@ -197,7 +201,7 @@
   },
   "amenity/hospital": {
     "name": "Hospital",
-    "terms": "Recinto hospitalario"
+    "terms": "Recinto hospitalario, hospital, clínica"
   },
   "amenity/kindergarten": {
     "name": "Jardín de infancia",
@@ -228,7 +232,7 @@
   },
   "amenity/place_of_worship": {
     "name": "Lugar de culto",
-    "terms": "templo, basílica, capilla, colegiata, parroquia, santuario, ermita, oratorio,iglesia, basílica, catedral, sinagoga, mezquita, pagoda,morabito, rábida,templo,aljama"
+    "terms": "templo, basílica, capilla, colegiata, parroquia, santuario, ermita, oratorio, iglesia, catedral, sinagoga, mezquita, pagoda, morabito, rábida, aljama, religión"
   },
   "amenity/place_of_worship/buddhist": {
     "name": "Templo budista",
@@ -236,23 +240,23 @@
   },
   "amenity/place_of_worship/christian": {
     "name": "Iglesia",
-    "terms": "templo, basílica, capilla, colegiata, parroquia, santuario, ermita, oratorio,iglesia, basílica, catedral"
+    "terms": "templo, basílica, capilla, colegiata, parroquia, santuario, ermita, oratorio, iglesia, catedral, oratorio, religión"
   },
   "amenity/place_of_worship/jewish": {
     "name": "Sinagoga",
-    "terms": "templo, aljama,sinagoga"
+    "terms": "templo, aljama, sinagoga, judío, religión"
   },
   "amenity/place_of_worship/muslim": {
     "name": "Mezquita",
-    "terms": "mezquita,morabito, rábida"
+    "terms": "mezquita, morabito, rábida, musulmán, religión"
   },
   "amenity/police": {
     "name": "Policía",
-    "terms": "policía,comisaría,gendarmería,cuartel,guardia civil"
+    "terms": "policía, comisaría, gendarmería, cuartel, guardia civil, guardia municipal"
   },
   "amenity/post_box": {
     "name": "Buzón de correos",
-    "terms": "buzón, casillero, apartado, correos, correo"
+    "terms": "buzón, casillero, apartado, correo, carta, encomienda"
   },
   "amenity/post_office": {
     "name": "Oficina de correos",
@@ -271,11 +275,11 @@
   },
   "amenity/restaurant": {
     "name": "Restaurante",
-    "terms": "restaurante,restorán, comedor, ambigú, bufé, mesón, taberna"
+    "terms": "restaurante, restorán, comedor, ambigú, bufé, mesón, taberna, comida, bebida, plaza de comida"
   },
   "amenity/school": {
     "name": "Escuela",
-    "terms": "Recinto escolar"
+    "terms": "recinto escolar, terreno escolar, escuela, colegio, instituto"
   },
   "amenity/shelter": {
     "name": "Refugio",
@@ -313,15 +317,15 @@
   },
   "amenity/theatre": {
     "name": "Teatro",
-    "terms": "Teatro"
+    "terms": "teatro, anfiteatro, arte, cultura, escenografía, música, sonido, espectáculo"
   },
   "amenity/toilets": {
-    "name": "Aseos",
+    "name": "Baños",
     "terms": "baños, baño, aseo, letrina, lavabo, servicio, tocador, ducha"
   },
   "amenity/townhall": {
     "name": "Ayuntamiento",
-    "terms": "ayuntamiento,alcaldía, municipio, municipalidad, corporación, concejo, consistorio, cabildo"
+    "terms": "ayuntamiento, alcaldía, municipio, municipalidad, municipal, corporación, concejo, consistorio, cabildo, gobierno local, gobierno municipal, alcalde, intendente, concejales, ediles, comuna, casa consistorial"
   },
   "amenity/university": {
     "name": "Universidad",
@@ -736,6 +740,10 @@
     "name": "Acera",
     "terms": "acera, paso, bordillo, anden, borde, peatonal, peatón"
   },
+  "ford": {
+    "name": "Vado",
+    "terms": "Vado, paso, cruce"
+  },
   "golf/bunker": {
     "name": "Búnker"
   },
@@ -762,7 +770,7 @@
     "name": "Obstáculo de agua"
   },
   "highway": {
-    "name": "Vía",
+    "name": "Carretera",
     "terms": "calle, cañada, ronda, carril, pista, ruta, arteria, rúa, trayecto, avenida, carretera, paseo, camino, senda"
   },
   "highway/bridleway": {
@@ -774,8 +782,8 @@
     "terms": "parada, bus, autobús, marquesina"
   },
   "highway/crossing": {
-    "name": "Cruce peatonal",
-    "terms": "cruce peatonal, paso peatonal, paso de cebra, paso de peatones, paso semafórico"
+    "name": "Cruce",
+    "terms": "cruce peatonal, paso peatonal, franja peatonal, paso de cebra, paso de peatones, paso semafórico, peatón, ciudadano"
   },
   "highway/crosswalk": {
     "name": "Cruce peatonal",
@@ -786,8 +794,8 @@
     "terms": "Camino para bicicletas, senda ciclable, sendero ciclista, carril bici"
   },
   "highway/footway": {
-    "name": "Vía urbana peatonal",
-    "terms": "Camino peatonal"
+    "name": "Sendero peatonal",
+    "terms": "camino peatonal, sendero peatonal, peatón, sendero natural"
   },
   "highway/living_street": {
     "name": "Calle residencial",
@@ -802,7 +810,7 @@
     "terms": "autopista, autovía, vía rápida"
   },
   "highway/motorway_junction": {
-    "name": "Cruce / salida de autopista",
+    "name": "Cruce/salida de autopista",
     "terms": "enlace, acceso, autopista, autovía, salida"
   },
   "highway/motorway_link": {
@@ -895,7 +903,7 @@
   },
   "highway/traffic_signals": {
     "name": "Semáforos",
-    "terms": "señal, tráfico, semáforo"
+    "terms": "semáforo, señal de tráfico, luces de tráfico, luces de señalización, luces de parado, señal, tráfico, tránsito, control"
   },
   "highway/trunk": {
     "name": "Carretera troncal",
@@ -966,7 +974,8 @@
     "terms": "cementerio, camposanto, necrópolis, sacramental"
   },
   "landuse/churchyard": {
-    "name": "Camposanto"
+    "name": "Camposanto",
+    "terms": "cementerio, camposanto, tumbas"
   },
   "landuse/commercial": {
     "name": "Comercial",
@@ -1020,7 +1029,7 @@
     "terms": "cantera"
   },
   "landuse/residential": {
-    "name": "Suelo Urbano residencial",
+    "name": "Residencial",
     "terms": "zona, residencial, urbano, suelo"
   },
   "landuse/retail": {
@@ -1062,7 +1071,7 @@
   },
   "leisure/park": {
     "name": "Parque",
-    "terms": "parque, jardín"
+    "terms": "parque, plaza, recreación, natural, plazuela, recreación, jardines"
   },
   "leisure/picnic_table": {
     "name": "Mesa de picnic",
@@ -1162,7 +1171,7 @@
     "terms": "tubería, cañería, caño, conducto, red"
   },
   "man_made/survey_point": {
-    "name": "Vértice geodésico",
+    "name": "Punto geodésico",
     "terms": "Vértice geodésico"
   },
   "man_made/tower": {
@@ -1387,6 +1396,9 @@
   "place/neighbourhood": {
     "name": "Barrio",
     "terms": "barrio, vecindario, vecindad"
+  },
+  "place/suburb": {
+    "name": "Burgo"
   },
   "place/town": {
     "name": "Ciudad",
@@ -1737,7 +1749,8 @@
     "terms": "tienda, alquiler, renta, tienda de vídeos, videoclub, alquiler de vídeos, renta de vídeos"
   },
   "shop/wine": {
-    "name": "Vinoteca, Tienda de vinos"
+    "name": "Vinoteca, Tienda de vinos",
+    "terms": "vinatería, vinos, espirituosos, licorería, bebidas"
   },
   "tourism": {
     "name": "Turismo",
@@ -1830,11 +1843,21 @@
     "name": "No girar a la derecha",
     "terms": "no girar a la derecha, prohibido girar a la derecha"
   },
+  "type/restriction/no_straight_on": {
+    "name": "Prohibido seguir de frente",
+    "terms": "continuar, recto, de frente, a derecho"
+  },
+  "type/restriction/no_u_turn": {
+    "name": "Prohibido cambiar de sentido",
+    "terms": "giro en U, cambio de sentido"
+  },
   "type/restriction/only_left_turn": {
-    "name": "Sólo girar a la izquierda"
+    "name": "Sólo girar a la izquierda",
+    "terms": "giro, izquierda"
   },
   "type/restriction/only_right_turn": {
-    "name": "Sólo girar a la derecha"
+    "name": "Sólo girar a la derecha",
+    "terms": "giro, derecha"
   },
   "type/restriction/only_straight_on": {
     "name": "No girar",

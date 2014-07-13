@@ -175,6 +175,10 @@
     "name": "Médico",
     "terms": "Doutor, Médico"
   },
+  "amenity/dojo": {
+    "name": "Academia de Artes Marciais",
+    "terms": "Academia de Artes Marciais"
+  },
   "amenity/drinking_water": {
     "name": "Água Potável",
     "terms": "Água Potável, Bebedouro"
@@ -226,6 +230,10 @@
   "amenity/parking": {
     "name": "Estacionamento",
     "terms": "estacionamento,parada"
+  },
+  "amenity/parking_entrance": {
+    "name": "Entrada/Saída de Estacionamento",
+    "terms": "Entrada/Saída de Estacionamento, Entrada/Saída de Garagem"
   },
   "amenity/pharmacy": {
     "name": "Farmácia",
@@ -470,6 +478,10 @@
   "building/dormitory": {
     "name": "Dormitório",
     "terms": "Alojamento Estudantil, República Estudantil, Dormitório"
+  },
+  "building/entrance": {
+    "name": "Entrada/Saída",
+    "terms": "Entrada/Saída"
   },
   "building/garage": {
     "name": "Garagem",
@@ -747,9 +759,17 @@
     "name": "Telefone de Emergência",
     "terms": "Telefone de Emergência"
   },
+  "entrance": {
+    "name": "Entrada/Saída",
+    "terms": "Entrada/Saída"
+  },
   "footway/crossing": {
     "name": "Travessia de Pedestres",
     "terms": "faixa de segurança,cruzamento,passagem"
+  },
+  "footway/crosswalk": {
+    "name": "Travessia de Pedestres",
+    "terms": "Travessia de Pedestres"
   },
   "footway/sidewalk": {
     "name": "Calçada",
@@ -803,12 +823,16 @@
     "name": "Travessia de Pedestres",
     "terms": "Interseção"
   },
+  "highway/crosswalk": {
+    "name": "Travessia de Pedestres",
+    "terms": "Travessia de Pedestres"
+  },
   "highway/cycleway": {
     "name": "Ciclovia",
     "terms": "Ciclovia"
   },
   "highway/footway": {
-    "name": "Pista de Caminhada",
+    "name": "Caminho de Pedestre",
     "terms": "Via de Pedestre, Caminho de Pedestre, Passeio, Calçada"
   },
   "highway/living_street": {
@@ -823,12 +847,16 @@
     "name": "Autoestrada",
     "terms": "Autoestrada, Via Expressa"
   },
+  "highway/motorway_junction": {
+    "name": "Acesso / Saída de Autoestrada",
+    "terms": "Acesso / Saída de Autoestrada"
+  },
   "highway/motorway_link": {
     "name": "Ligação de Autoestrada",
     "terms": "Acesso a Autoestrada"
   },
   "highway/path": {
-    "name": "Trilha Não-Automotiva",
+    "name": "Caminho",
     "terms": "Trilha"
   },
   "highway/pedestrian": {
@@ -892,7 +920,7 @@
     "terms": "Área de Serviço"
   },
   "highway/steps": {
-    "name": "Via com Degraus",
+    "name": "Escada",
     "terms": "Degraus, Escada, Escadaria"
   },
   "highway/stop": {
@@ -980,7 +1008,7 @@
     "terms": "Bacia"
   },
   "landuse/cemetery": {
-    "name": "Cemitério Secular",
+    "name": "Cemitério",
     "terms": "Sepulcrário, Cemitério"
   },
   "landuse/churchyard": {
@@ -1048,7 +1076,7 @@
     "terms": "Varejo, comércio"
   },
   "landuse/vineyard": {
-    "name": "Vinha",
+    "name": "Vinhedo",
     "terms": "Vinha, Vinhedo"
   },
   "leisure": {
@@ -1130,6 +1158,10 @@
   "leisure/slipway": {
     "name": "Rampa Náutica",
     "terms": "Rampa Náutica"
+  },
+  "leisure/sports_center": {
+    "name": "Centro Esportivo / Academia",
+    "terms": "Ginásio de Esportes, Ginásio Poliesportivo, Academia"
   },
   "leisure/stadium": {
     "name": "Estádio",
@@ -1755,6 +1787,10 @@
     "name": "Supermercado",
     "terms": "Supermercado"
   },
+  "shop/tailor": {
+    "name": "Alfaiate",
+    "terms": "Alfaiate"
+  },
   "shop/toys": {
     "name": "Loja de Brinquedos",
     "terms": "Loja de Brinquedos"
@@ -1866,6 +1902,34 @@
   "type/restriction": {
     "name": "Restrição",
     "terms": "Restrição"
+  },
+  "type/restriction/no_left_turn": {
+    "name": "Proibido Curva à Esquerda",
+    "terms": "Proibido Curva à Esquerda"
+  },
+  "type/restriction/no_right_turn": {
+    "name": "Proibido Curva à Direita",
+    "terms": "Proibido Curva à Direita"
+  },
+  "type/restriction/no_straight_on": {
+    "name": "Proibido Seguir em Frente",
+    "terms": "Proibido Seguir em Frente"
+  },
+  "type/restriction/no_u_turn": {
+    "name": "Proibido Retornar",
+    "terms": "Proibido Retornar"
+  },
+  "type/restriction/only_left_turn": {
+    "name": "Curva à Esquerda Obrigatória",
+    "terms": "Curva à Esquerda Obrigatória"
+  },
+  "type/restriction/only_right_turn": {
+    "name": "Curva à Direita Obrigatória",
+    "terms": "Curva à Direita Obrigatória"
+  },
+  "type/restriction/only_straight_on": {
+    "name": "Proibido curva à direita e à esquerda",
+    "terms": "Proibido curva à direita e à esquerda"
   },
   "type/route": {
     "name": "Rota",
