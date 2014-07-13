@@ -3,7 +3,7 @@
 var request = require('request'),
     fs = require('fs');
 
-var api = 'https://github.com/systemed/iD/raw/master/dist/locales/';
+var api = 'https://github.com/openstreetmap/iD/raw/master/dist/locales/';
 var outdir = './data/';
 var localesdir = './locales/';
 
