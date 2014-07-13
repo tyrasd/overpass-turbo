@@ -22,6 +22,8 @@ $(document).ready(function() {
     getQueryLang: function() {return ($.trim(settings.code["overpass"]).match(/^</))?"xml":"OverpassQL";},
     update_map: function() {overpass.run_query(ide.getQuery(true,false),ide.getQueryLang());},
   };
+  styleparser.PointStyle = function() {}; styleparser.PointStyle.prototype.properties = []; // hack
+  overpass.init();
   // (very raw) compatibility check
   if (jQuery.support.cors != true ||
       false) {

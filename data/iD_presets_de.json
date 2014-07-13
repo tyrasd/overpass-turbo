@@ -272,7 +272,7 @@
     "terms": "Post, Postamt"
   },
   "amenity/pub": {
-    "name": "Pub",
+    "name": "Kneipe",
     "terms": "Kneipe, Pub"
   },
   "amenity/ranger_station": {
@@ -360,7 +360,7 @@
     "terms": "Fläche,Areal"
   },
   "barrier": {
-    "name": "Barrieren",
+    "name": "Barriere",
     "terms": "Barriere, Hindernis"
   },
   "barrier/block": {
@@ -931,6 +931,10 @@
     "name": "Stoppschild",
     "terms": "Halt,Stop,Stopp"
   },
+  "highway/street_lamp": {
+    "name": "Straßenlaterne",
+    "terms": "Straßenlaterne, Straßenlampe"
+  },
   "highway/tertiary": {
     "name": "Kreisstraße",
     "terms": "Drittrangige Straße"
@@ -968,7 +972,7 @@
     "terms": "historische Stätte"
   },
   "historic/archaeological_site": {
-    "name": "Archeologische Stätte",
+    "name": "Archäologische Stätte",
     "terms": "Archäologische Stätte, Ausgrabung"
   },
   "historic/boundary_stone": {
@@ -1128,7 +1132,7 @@
     "terms": "Sportplatz, Sportfeld, Spielfeld"
   },
   "leisure/pitch/american_football": {
-    "name": "American Football Feld",
+    "name": "American-Football-Feld",
     "terms": "American Football Platz"
   },
   "leisure/pitch/baseball": {
@@ -1740,7 +1744,7 @@
     "terms": "Einkaufszentrum, Mall"
   },
   "shop/mobile_phone": {
-    "name": "Handy-Laden",
+    "name": "Mobiltelefonladen",
     "terms": "Handygeschäft"
   },
   "shop/motorcycle": {
@@ -1790,6 +1794,10 @@
   "shop/supermarket": {
     "name": "Supermarkt",
     "terms": "Supermarkt"
+  },
+  "shop/tailor": {
+    "name": "Schneider",
+    "terms": "Schneider, Herrenschneider"
   },
   "shop/toys": {
     "name": "Spielwarengeschäft",

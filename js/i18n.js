@@ -9,6 +9,7 @@ var i18n = new(function() {
     "da",
     "de",
     "es",
+    "et",
     "fr",
     "hr",
     "it",

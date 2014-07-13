@@ -844,8 +844,8 @@
     "terms": "đường dân sinh, dân sinh, phố sống, khu nhà ở, duong dan sinh, dan sinh, pho song, khu nha o"
   },
   "highway/mini_roundabout": {
-    "name": "Đường vòng Nhỏ",
-    "terms": "đường vòng nhỏ, duong vong nho"
+    "name": "Bùng binh Nhỏ",
+    "terms": "bùng binh nhỏ, đường vòng nhỏ, bung binh nho, duong vong nho"
   },
   "highway/motorway": {
     "name": "Đường Cao tốc",
@@ -930,6 +930,10 @@
   "highway/stop": {
     "name": "Bảng Dừng lại",
     "terms": "bảng dừng lại, biển dừng lại, bảng dừng xe, biển dừng xe, bang dung lai, bien dung lai, bang dung xe, bien dung xe"
+  },
+  "highway/street_lamp": {
+    "name": "Cột Đèn",
+    "terms": "cột đèn, đèn đường phố, cot den, den duong pho"
   },
   "highway/tertiary": {
     "name": "Phố",
@@ -1790,6 +1794,10 @@
   "shop/supermarket": {
     "name": "Siêu thị",
     "terms": "siêu thị, chợ siêu thị, sieu thi, cho sieu thi"
+  },
+  "shop/tailor": {
+    "name": "Tiệm May",
+    "terms": "tiệm may, cửa hàng may, thợ may, may quần áo, tiem may, cua hang may, tho may, may quan ao"
   },
   "shop/toys": {
     "name": "Tiệm Đồ chơi",

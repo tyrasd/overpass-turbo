@@ -149,6 +149,9 @@
     "name": "Uczelnia",
     "terms": "uczelnia"
   },
+  "amenity/compressed_air": {
+    "name": "Kompresor"
+  },
   "amenity/courthouse": {
     "name": "Sąd",
     "terms": "sąd,sprawiedliwość,trybunał"
@@ -159,6 +162,9 @@
   },
   "amenity/doctor": {
     "name": "Doktor"
+  },
+  "amenity/dojo": {
+    "name": "Dojo/szkoła sztuk walki"
   },
   "amenity/drinking_water": {
     "name": "Woda pitna",
@@ -188,6 +194,12 @@
     "name": "Cmentarz",
     "terms": "cmentarz,pochówek"
   },
+  "amenity/hospital": {
+    "name": "Teren szpitala"
+  },
+  "amenity/kindergarten": {
+    "name": "Teren przedszkola"
+  },
   "amenity/library": {
     "name": "Biblioteka",
     "terms": "biblioteka,czytelnia"
@@ -202,6 +214,9 @@
   },
   "amenity/parking": {
     "name": "Parking samochodowy"
+  },
+  "amenity/parking_entrance": {
+    "name": "Wjazd/wyjazd z parkingu/garażu"
   },
   "amenity/pharmacy": {
     "name": "Apteka",
@@ -250,6 +265,9 @@
     "name": "Restauracja",
     "terms": "bar,kawiarnia,stołówka,jadalnia,drive-in,knajpa,jadłodajnia,fast food,grill,gospoda,klub nocny,pizzeria"
   },
+  "amenity/school": {
+    "name": "Teren szkoły"
+  },
   "amenity/shelter": {
     "name": "Schronienie",
     "terms": "schronienie, "
@@ -260,6 +278,9 @@
   "amenity/social_facility/food_bank": {
     "name": "Bank żywności",
     "terms": "Bank żywności, "
+  },
+  "amenity/social_facility/group_home": {
+    "name": "Wspólny dom"
   },
   "amenity/social_facility/homeless_shelter": {
     "name": "Schronisko dla bezdomnych"
@@ -395,6 +416,9 @@
   "building/bunker": {
     "name": "Bunkier"
   },
+  "building/cabin": {
+    "name": "Chata"
+  },
   "building/cathedral": {
     "name": "Katedra",
     "terms": "Katedra, "
@@ -411,12 +435,18 @@
     "name": "Nieruchomość komercyjna",
     "terms": "sklep,komercyjny,sprzedaż,handlowy"
   },
+  "building/construction": {
+    "name": "Budynek w budowie"
+  },
   "building/detached": {
     "name": "Dom wolnostojący"
   },
   "building/dormitory": {
     "name": "Akademik",
     "terms": "Akademik, bursa, "
+  },
+  "building/entrance": {
+    "name": "Wejście/wyjście"
   },
   "building/garage": {
     "name": "Garaż",
@@ -428,6 +458,12 @@
   "building/greenhouse": {
     "name": "Szklarnia",
     "terms": "Szklarnia"
+  },
+  "building/hospital": {
+    "name": "Budynek szpitala"
+  },
+  "building/hotel": {
+    "name": "Budynek hotelu"
   },
   "building/house": {
     "name": "Dom",
@@ -448,6 +484,9 @@
     "name": "Budynek mieszkalny",
     "terms": "blok, kamienica, dom, czynszówka"
   },
+  "building/retail": {
+    "name": "Budynek handlu detalicznego"
+  },
   "building/roof": {
     "name": "Zadaszenie",
     "terms": "Dach,"
@@ -461,9 +500,18 @@
   "building/stable": {
     "name": "Stajnia"
   },
+  "building/static_caravan": {
+    "name": "Stojący dom na kołach"
+  },
+  "building/terrace": {
+    "name": "Domki szeregowe"
+  },
   "building/train_station": {
     "name": "Stacja kolejowa",
     "terms": "Stacja kolejowa, "
+  },
+  "building/university": {
+    "name": "Budynek uczelni"
   },
   "building/warehouse": {
     "name": "Magazyn"
@@ -477,12 +525,21 @@
   "craft/blacksmith": {
     "name": "Kowal"
   },
+  "craft/boatbuilder": {
+    "name": "Budowa statków"
+  },
   "craft/bookbinder": {
     "name": "Introligator"
   },
   "craft/brewery": {
     "name": "Gorzelnia",
     "terms": "Gorzelnia, "
+  },
+  "craft/carpenter": {
+    "name": "Cieśla"
+  },
+  "craft/carpet_layer": {
+    "name": "Układanie dywanów"
   },
   "craft/caterer": {
     "name": "Żywieniowiec"
@@ -512,6 +569,9 @@
   "craft/hvac": {
     "name": "Klimatyzacja"
   },
+  "craft/insulator": {
+    "name": "Kładzenie izolacji"
+  },
   "craft/jeweler": {
     "name": "Jubiler"
   },
@@ -520,6 +580,9 @@
   },
   "craft/locksmith": {
     "name": "Ślusarz"
+  },
+  "craft/metal_construction": {
+    "name": "Konstrukcje metalowe"
   },
   "craft/optician": {
     "name": "Optyk",
@@ -558,6 +621,9 @@
   "craft/sawmill": {
     "name": "Tartak"
   },
+  "craft/scaffolder": {
+    "name": "Rusztowania"
+  },
   "craft/sculpter": {
     "name": "Rzeźbiarz"
   },
@@ -587,6 +653,9 @@
   "craft/watchmaker": {
     "name": "Zegarmistrz"
   },
+  "craft/window_construction": {
+    "name": "Montaż okien"
+  },
   "embankment": {
     "name": "Nasyp"
   },
@@ -602,9 +671,15 @@
     "name": "Telefon alarmowy",
     "terms": "telefon,alarmowy,alarm"
   },
+  "entrance": {
+    "name": "Wejście/wyjście"
+  },
   "footway/crossing": {
     "name": "Przejście dla pieszych",
     "terms": "przejście dla pieszych, "
+  },
+  "footway/crosswalk": {
+    "name": "Przejście dla pieszych"
   },
   "footway/sidewalk": {
     "name": "Chodnik",
@@ -632,6 +707,9 @@
     "name": "Przejście dla pieszych",
     "terms": "skrzyżowanie,krzyżówka"
   },
+  "highway/crosswalk": {
+    "name": "Przejście dla pieszych"
+  },
   "highway/cycleway": {
     "name": "Ścieżka rowerowa",
     "terms": "droga,rowerowa,ścieżka,rowerów"
@@ -651,6 +729,9 @@
   "highway/motorway": {
     "name": "Autostrada",
     "terms": "autostrada"
+  },
+  "highway/motorway_junction": {
+    "name": "Wjazd/zjazd z autostrady"
   },
   "highway/motorway_link": {
     "name": "Autostrada - wjazd/zjazd",
@@ -807,6 +888,9 @@
     "name": "Cmentarz",
     "terms": "cmentarz"
   },
+  "landuse/churchyard": {
+    "name": "Dziedziniec kościelny"
+  },
   "landuse/commercial": {
     "name": "Handlowy"
   },
@@ -936,6 +1020,9 @@
     "name": "Pochylnia okrętowa",
     "terms": "pochylnia"
   },
+  "leisure/sports_center": {
+    "name": "Centrum sportowe"
+  },
   "leisure/stadium": {
     "name": "Stadion",
     "terms": "stadion"
@@ -963,6 +1050,9 @@
   },
   "man_made/embankment": {
     "name": "Nasyp"
+  },
+  "man_made/flagpole": {
+    "name": "Maszt flagowy"
   },
   "man_made/lighthouse": {
     "name": "Latarnia morska",
@@ -1094,9 +1184,15 @@
     "name": "Księgowy",
     "terms": "księgowy"
   },
+  "office/administrative": {
+    "name": "Biuro administracji"
+  },
   "office/architect": {
     "name": "Architekt",
     "terms": "architekt"
+  },
+  "office/company": {
+    "name": "Biuro prywatnego przedsiębiorstwa"
   },
   "office/educational_institution": {
     "name": "Instytucja edukacyjna"
@@ -1108,9 +1204,21 @@
   "office/estate_agent": {
     "name": "Biuro nieruchomości"
   },
+  "office/financial": {
+    "name": "Biuro finansowe"
+  },
+  "office/government": {
+    "name": "Biuro rządowe"
+  },
   "office/insurance": {
     "name": "Biuro ubezpieczeń",
     "terms": "Agencja ubezpieczeniowa"
+  },
+  "office/it": {
+    "name": "Biuro branży IT (informatycznej)"
+  },
+  "office/lawyer": {
+    "name": "Biuro prawnicze"
   },
   "office/newspaper": {
     "name": "Gazeta"
@@ -1124,6 +1232,9 @@
   "office/political_party": {
     "name": "Partia polityczna",
     "terms": "partia polityczna"
+  },
+  "office/research": {
+    "name": "Biuro badawcze"
   },
   "office/telecommunication": {
     "name": "Biuro firmy telekomunikacyjnej"
@@ -1199,6 +1310,9 @@
   "power/transformer": {
     "name": "Transformator"
   },
+  "public_transport/platform": {
+    "name": "Miejsce oczekiwania"
+  },
   "public_transport/stop_position": {
     "name": "Miejsce zatrzymania"
   },
@@ -1265,6 +1379,9 @@
   },
   "shop/alcohol": {
     "name": "Sklep monopolowy"
+  },
+  "shop/art": {
+    "name": "Sklep z dziełami sztuki"
   },
   "shop/bakery": {
     "name": "Piekarnia",
@@ -1427,6 +1544,9 @@
   "shop/photo": {
     "name": "sklep fotograficzny"
   },
+  "shop/seafood": {
+    "name": "Sklep z owocami morza"
+  },
   "shop/shoes": {
     "name": "Sklep obuwniczy"
   },
@@ -1555,6 +1675,9 @@
   },
   "type/restriction/only_right_turn": {
     "name": "Nakaz skrętu w prawo"
+  },
+  "type/restriction/only_straight_on": {
+    "name": "Nakaz jazdy prosto"
   },
   "type/route": {
     "name": "Trasa",

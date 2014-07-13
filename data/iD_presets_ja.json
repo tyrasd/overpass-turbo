@@ -931,6 +931,10 @@
     "name": "一時停止標識",
     "terms": "一時停止標識"
   },
+  "highway/street_lamp": {
+    "name": "街路灯",
+    "terms": "街灯, 街路灯"
+  },
   "highway/tertiary": {
     "name": "一般道（2車線以上）",
     "terms": "一般道（2車線以上）"
@@ -1041,7 +1045,7 @@
   },
   "landuse/forest": {
     "name": "人工林",
-    "terms": "人工林, 営林, 保安林, 鉄道林"
+    "terms": "人工林, 二次林, 営林, 保安林, 鉄道林"
   },
   "landuse/grass": {
     "name": "草地",
@@ -1790,6 +1794,10 @@
   "shop/supermarket": {
     "name": "スーパーマーケット",
     "terms": "スーパーマーケット, スーパー"
+  },
+  "shop/tailor": {
+    "name": "仕立て屋",
+    "terms": "仕立て屋,テイラー,洋裁店"
   },
   "shop/toys": {
     "name": "玩具店",
