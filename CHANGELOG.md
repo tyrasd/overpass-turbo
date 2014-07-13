@@ -1,5 +1,6 @@
 2014-07-14
 ----------
+* activate Estonian translation
 * bugfixes
 * update translations and presets
 
