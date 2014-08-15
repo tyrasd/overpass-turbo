@@ -331,6 +331,7 @@
         "tags": {
             "amenity": "*"
         },
+        "searchable": false,
         "name": "Amenity"
     },
     "amenity/arts_centre": {
@@ -506,6 +507,37 @@
             "operator"
         ],
         "name": "Boat Rental"
+    },
+    "amenity/bureau_de_change": {
+        "icon": "bank",
+        "fields": [
+            "operator"
+        ],
+        "geometry": [
+            "point",
+            "vertex"
+        ],
+        "tags": {
+            "amenity": "bureau_de_change"
+        },
+        "name": "Currency Exchange",
+        "terms": [
+            "bureau de change",
+            "money changer"
+        ]
+    },
+    "amenity/bus_station": {
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "amenity": "bus_station"
+        },
+        "fields": [
+            "operator"
+        ],
+        "name": "Bus Station"
     },
     "amenity/cafe": {
         "icon": "cafe",
@@ -3938,9 +3970,12 @@
             "width",
             "structure",
             "access",
-            "sac_scale",
             "incline",
+            "sac_scale",
             "trail_visibility",
+            "mtb/scale",
+            "mtb/scale/uphill",
+            "mtb/scale/imba",
             "ref"
         ],
         "geometry": [
@@ -4323,12 +4358,16 @@
     "highway/track": {
         "icon": "highway-track",
         "fields": [
-            "tracktype",
-            "oneway",
-            "maxspeed",
+            "surface",
+            "width",
             "structure",
             "access",
-            "surface"
+            "incline",
+            "tracktype",
+            "smoothness",
+            "mtb/scale",
+            "mtb/scale/uphill",
+            "mtb/scale/imba"
         ],
         "geometry": [
             "line"

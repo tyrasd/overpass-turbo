@@ -80,7 +80,7 @@
     "terms": "Flughafen,Terminal,Flughafenterminal,Abfertigungsgebäude,Abfertigungshalle"
   },
   "amenity": {
-    "name": "Einrichtungen",
+    "name": "Einrichtung",
     "terms": "Einrichtung, Nützlichkeit"
   },
   "amenity/arts_centre": {
@@ -118,6 +118,10 @@
   "amenity/boat_rental": {
     "name": "Bootvermietung",
     "terms": "Bootsverleih"
+  },
+  "amenity/bus_station": {
+    "name": "Busbahnhof",
+    "terms": "Omnibusbahnhof, ZOB"
   },
   "amenity/cafe": {
     "name": "Café",
@@ -212,7 +216,7 @@
     "terms": "Krankenhaus, Klinik, Klinikgelände, Hospital"
   },
   "amenity/kindergarten": {
-    "name": "Kindergartengelände",
+    "name": "Kindergarten",
     "terms": "Kindergarten, Spielplatz, Sandkasten"
   },
   "amenity/library": {
@@ -240,7 +244,7 @@
     "terms": "Apotheke"
   },
   "amenity/place_of_worship": {
-    "name": "Gebetsort",
+    "name": "Andachtsstätte",
     "terms": "Abtei,Basilika,geweihter Ort,Kathedrale,Altarraum,Kantorei,Kapelle,Kirche,Kirchgemeinde,Gotteshaus,Gebetshaus,Dom,Moschee,Oratorium,Heiligtum,Sacellum,Schrein,Synagoge,Tabernakel,Tempel"
   },
   "amenity/place_of_worship/buddhist": {
@@ -268,7 +272,7 @@
     "terms": "Briefkasten,Postkasten,Postbriefkasten"
   },
   "amenity/post_office": {
-    "name": "Poststelle",
+    "name": "Post",
     "terms": "Post, Postamt"
   },
   "amenity/pub": {
@@ -341,7 +345,7 @@
   },
   "amenity/university": {
     "name": "Universität",
-    "terms": "Hochschule"
+    "terms": "Universität, Hochschule"
   },
   "amenity/vending_machine": {
     "name": "Automat",
@@ -821,7 +825,7 @@
   },
   "highway/bus_stop": {
     "name": "Bushaltestelle",
-    "terms": "Bushaltestelle"
+    "terms": "Bushaltestelle, Verkehrshalt, Halt, Haltestelle, Endhaltestelle, Endstelle"
   },
   "highway/crossing": {
     "name": "Fußgängerüberweg",
@@ -857,7 +861,7 @@
   },
   "highway/motorway_link": {
     "name": "Autobahnanschluss",
-    "terms": "Auffahrt"
+    "terms": "Autobahnanschluss, Autobahnauffahrt, Autobahnabfahrt, Auffahrt, Abfahrt"
   },
   "highway/path": {
     "name": "Pfad",
@@ -873,7 +877,7 @@
   },
   "highway/primary_link": {
     "name": "Bundesstraßenanschluss",
-    "terms": "Auffahrt"
+    "terms": "Bundesstraßenanschluss, Bundesstraßenauffahrt, Bundesstraßenabfahrt, Auffahrt, Abfahrt"
   },
   "highway/residential": {
     "name": "Wohngebietsstraße",
@@ -893,7 +897,7 @@
   },
   "highway/secondary_link": {
     "name": "Landesstraßenanschluss",
-    "terms": "Auffahrt"
+    "terms": "Landesstraßenanschluss, Landesstraßenauffahrt, Landesstraßenabfahrt, Auffahrt, Abfahrt"
   },
   "highway/service": {
     "name": "Erschließungsweg",
@@ -940,7 +944,7 @@
     "terms": "Drittrangige Straße"
   },
   "highway/tertiary_link": {
-    "name": "Kreisstraßenanschluss",
+    "name": "Kreisstraßenanschluss, Kreisstraßenauffahrt, Kreisstraßenabfahrt, Auffahrt, Abfahrt",
     "terms": "Auffahrt"
   },
   "highway/track": {
@@ -957,7 +961,7 @@
   },
   "highway/trunk_link": {
     "name": "Schnellstraßenanschluss",
-    "terms": "Auffahrt"
+    "terms": "Schnellstraßenanschluss, Schnellstraßenauffahrt, Schnellstraßenabfahrt, Auffahrt, Abfahrt"
   },
   "highway/turning_circle": {
     "name": "Wendestelle",
@@ -1032,8 +1036,8 @@
     "terms": "Baugebiet, Baustelle, Großbaustelle"
   },
   "landuse/farm": {
-    "name": "Bauernhof",
-    "terms": "Bauernhof, Farm"
+    "name": " Landwirtschaftliche Fläche",
+    "terms": "Acker, Feld, Plantage, Tierhaltung"
   },
   "landuse/farmland": {
     "name": "Acker",
@@ -1292,7 +1296,7 @@
     "terms": "Gletscher"
   },
   "natural/grassland": {
-    "name": "Grasland",
+    "name": "Wiese",
     "terms": "Weide, Wiese, Grünland"
   },
   "natural/heath": {
@@ -1512,7 +1516,7 @@
     "terms": "Halte-Plattform"
   },
   "public_transport/stop_position": {
-    "name": "Halteplatz",
+    "name": "Halteposition",
     "terms": "Verkehrshalt, Halt"
   },
   "railway": {
@@ -1532,8 +1536,8 @@
     "terms": "Standseilbahn, Seilbahn, Drahtseilbahn, Kettenbahn"
   },
   "railway/halt": {
-    "name": "Bahn-Haltestelle",
-    "terms": "Bahn-Haltestelle, Zug-Haltestelle, Haltestelle"
+    "name": "Eisenbahn-Haltestelle",
+    "terms": "Bahn-Haltestelle, Zug-Haltestelle, Haltestelle, Haltepunkt"
   },
   "railway/level_crossing": {
     "name": "Bahnübergang",
@@ -1557,7 +1561,7 @@
   },
   "railway/station": {
     "name": "Bahnhof",
-    "terms": "Bahnhof"
+    "terms": "Bahnhof, Haltepunkt, Haltestelle"
   },
   "railway/subway": {
     "name": "U-Bahn",
@@ -1569,7 +1573,7 @@
   },
   "railway/tram": {
     "name": "Straßenbahn",
-    "terms": "Straßenbahn"
+    "terms": "Straßenbahn, Bim, Tramway, Stadtbahn"
   },
   "relation": {
     "name": "Relation",
@@ -1653,7 +1657,7 @@
   },
   "shop/convenience": {
     "name": "Gemischtwarenhandel",
-    "terms": "Kaufgeschäft"
+    "terms": "Gemischtwarenladen, Kaufgeschäft"
   },
   "shop/deli": {
     "name": "Feinkostladen",
@@ -1704,7 +1708,7 @@
     "terms": "Geschenkeladen, Geschenkehandlung"
   },
   "shop/greengrocer": {
-    "name": "Obst- u. Gemüsehändler",
+    "name": "Gemüsehändler",
     "terms": "Obsthandlung, Gemüsehandlung, Obst- und Gemüsehandlung"
   },
   "shop/hairdresser": {
@@ -1817,7 +1821,7 @@
   },
   "shop/variety_store": {
     "name": "Gemischtwarenhandel",
-    "terms": "Gemischtwarenladen"
+    "terms": "Gemischtwarenladen, Kaufgeschäft"
   },
   "shop/video": {
     "name": "Videothek",
@@ -1848,7 +1852,7 @@
     "terms": "Campingplatz, Zeltplatz"
   },
   "tourism/caravan_site": {
-    "name": "Wohnmobilstellplatz",
+    "name": "Campingplatz",
     "terms": "Wohnwagenpark, Campingplatz"
   },
   "tourism/chalet": {

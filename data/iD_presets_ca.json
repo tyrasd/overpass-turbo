@@ -106,6 +106,9 @@
   "amenity/boat_rental": {
     "name": "Lloguer d'embarcacions"
   },
+  "amenity/bus_station": {
+    "name": "Estació d'autobusos"
+  },
   "amenity/cafe": {
     "name": "Cafè",
     "terms": "Cafè, bar, cafeteria"
@@ -208,7 +211,7 @@
   },
   "amenity/parking": {
     "name": "Aparcament",
-    "terms": "Aparcament, Pàrquing, Garatge"
+    "terms": "Aparcament, Pàrquing, Garatge, Parking, parking"
   },
   "amenity/parking_entrance": {
     "name": "Entrada de Garatge/Sortida"

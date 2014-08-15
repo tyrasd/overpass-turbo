@@ -31,7 +31,8 @@
     "terms": "Pylône de remontée mécanique"
   },
   "aerialway/rope_tow": {
-    "name": "Télécorde"
+    "name": "Télécorde",
+    "terms": "Téléski, Tire-fesse, Télécorde"
   },
   "aerialway/station": {
     "name": "Gare de remontée mécanique",
@@ -116,6 +117,10 @@
     "name": "Location de bateau",
     "terms": "Location de bateaux"
   },
+  "amenity/bus_station": {
+    "name": "Gare routière",
+    "terms": "Gare, Arrêt, Arrêt de bus"
+  },
   "amenity/cafe": {
     "name": "Café",
     "terms": "Café"
@@ -131,6 +136,10 @@
   "amenity/car_wash": {
     "name": "Lavage de voiture, Lave auto",
     "terms": "Lavage de voiture, lave auto"
+  },
+  "amenity/charging_station": {
+    "name": "Borne de recharge",
+    "terms": "Station de recharge, Borne de recharge"
   },
   "amenity/childcare": {
     "name": "Garderie",
@@ -553,7 +562,8 @@
     "name": "Confiserie"
   },
   "craft/dressmaker": {
-    "name": "Couturier"
+    "name": "Couturier",
+    "terms": "Couturier, Tailleur, Designer textile"
   },
   "craft/electrician": {
     "name": "Electricien",
@@ -682,6 +692,10 @@
     "name": "Passage pieton ",
     "terms": "Passage piéton"
   },
+  "footway/crosswalk": {
+    "name": "Passage piéton",
+    "terms": "Passage piéton, Zébra, Passage zébré"
+  },
   "footway/sidewalk": {
     "name": "Trottoir",
     "terms": "Trottoir"
@@ -715,7 +729,7 @@
   },
   "highway/bus_stop": {
     "name": "Arrêt de bus",
-    "terms": "Arrêt de bus"
+    "terms": "Arrêt de bus, Gare, Gare routière"
   },
   "highway/crossing": {
     "name": "Passage piéton",
@@ -1331,7 +1345,12 @@
     "terms": "Localité"
   },
   "place/neighbourhood": {
-    "name": "Voisinage"
+    "name": "Voisinage",
+    "terms": "Environs, Voisinage, Quartier"
+  },
+  "place/suburb": {
+    "name": "Commune",
+    "terms": "Commune, Municipalité, District, Arrondissement, Bourough"
   },
   "place/town": {
     "name": "Ville (10.000-100.000 habitants)",
@@ -1382,7 +1401,7 @@
     "terms": "Quai"
   },
   "public_transport/stop_position": {
-    "name": "Arrêt",
+    "name": "Position exacte d’arrêt du vehicule sur le « way » d’une route de transport en commun",
     "terms": "Arrêt"
   },
   "railway": {
@@ -1401,8 +1420,8 @@
     "name": "Funiculaire"
   },
   "railway/halt": {
-    "name": "Hall de gare",
-    "terms": "Halte ferroviaire"
+    "name": "Halte ferroviaire",
+    "terms": "Arrêt ferroviaire, Arrêt"
   },
   "railway/level_crossing": {
     "name": "Passage à niveau",
@@ -1416,16 +1435,16 @@
     "name": "Voie étroite"
   },
   "railway/platform": {
-    "name": "Quai de gare",
-    "terms": "Quai de gare"
+    "name": "Quai de gare ferroviaire",
+    "terms": "Quai de gare, Quai"
   },
   "railway/rail": {
     "name": "Voie ferrée",
     "terms": "Rail"
   },
   "railway/station": {
-    "name": "Gare",
-    "terms": "Gare ferroviaire, Gare"
+    "name": "Gare ferroviaire",
+    "terms": "Gare ferroviaire, Gare, Arrêt"
   },
   "railway/subway": {
     "name": "Métro",
@@ -1515,8 +1534,8 @@
     "terms": "Confiserie"
   },
   "shop/convenience": {
-    "name": "Magasin d'appoint",
-    "terms": "Dépanneur"
+    "name": "Petite épicerie du coin",
+    "terms": "Supérette, Petite épicerie du coin"
   },
   "shop/deli": {
     "name": "Épicerie de luxe",
@@ -1651,7 +1670,7 @@
   },
   "shop/supermarket": {
     "name": "Supermarché",
-    "terms": "Supermarché, épicerie"
+    "terms": "Supermarché"
   },
   "shop/tailor": {
     "name": "Tailleur"
@@ -1673,8 +1692,8 @@
     "terms": "Espace vacant, lot vacant"
   },
   "shop/variety_store": {
-    "name": "Magasin à prix unique",
-    "terms": "Magasin à 1$, magasin à un dollar"
+    "name": "Supérette, Petite épicerie du coin",
+    "terms": "Épicerie"
   },
   "shop/video": {
     "name": "Vidéo-club",
