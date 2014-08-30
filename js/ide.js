@@ -1050,7 +1050,7 @@ var ide = new(function() {
     var warning = '';
     if (share_link.length >= 2000)
       warning = '<p class="warning">'+i18n.t("warning.share.long")+'</p>';
-    if (share_link.length >= 8000)
+    if (share_link.length >= 4000)
       warning = '<p class="warning severe">'+i18n.t("warning.share.very_long")+'</p>';
 
     $("div#share-dialog #share_link_warning").html(warning);
