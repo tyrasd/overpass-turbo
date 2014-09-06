@@ -202,6 +202,8 @@ turbo.ffs = function() {
           return quotes(condition.key)+'!='+quotes(condition.val);
         case "like":
           return quotes(condition.key)+'~'+quoteRegex(condition.val);
+        case "likelike":
+          return '~'+quotes(condition.key)+'~'+quoteRegex(condition.val);
         case "notlike":
           return quotes(condition.key)+'!~'+quoteRegex(condition.val);
         case "substr":
@@ -250,19 +252,19 @@ turbo.ffs = function() {
             return ffs_clause.types.indexOf(t) != -1;
           });
           // add clauses
+          clauses_str.push(get_query_clause_str(cond_query));
           clauses = clauses.concat(ffs_clause.conditions.map(function(condition) {
             return get_query_clause(condition);
           }));
-          clauses_str.push(get_query_clause_str(cond_query));
         } else if (cond_query.query === "type") {
           // restrict possible data types
           types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
         } else {
           // add another query clause
+          clauses_str.push(get_query_clause_str(cond_query));
           var clause = get_query_clause(cond_query);
           if (clause === false) return false;
           clauses.push(clause);
-          clauses_str.push(get_query_clause_str(cond_query));
         }
       }
       clauses_str = clauses_str.join(' and ');
