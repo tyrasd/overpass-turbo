@@ -96,8 +96,16 @@ turbo.ffs = function() {
         // see https://github.com/drolbr/Overpass-API/issues/91
         return htmlentities(str).replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
       }
+      function escRegexp(str) {
+        return str.replace(/([()[{*+.$^\\|?])/g, '\\$1');
+      }
       var key = esc(condition.key);
       var val = esc(condition.val);
+      // convert substring searches into matching regexp ones
+      if (condition.query === "substr") {
+        condition.query = "like";
+        condition.val={regex:escRegexp(condition.val)};
+      }
       // special case for empty values
       // see https://github.com/drolbr/Overpass-API/issues/53
       if (val === '') {
@@ -107,6 +115,22 @@ turbo.ffs = function() {
         } else if (condition.query === "neq") {
           condition.query = "notlike";
           condition.val={regex:'^$'};
+        }
+      }
+      // special case for empty values
+      // see https://github.com/drolbr/Overpass-API/issues/53#issuecomment-26325122
+      if (key === '') {
+        if (condition.query === "key") {
+          condition.query = "likelike";
+          key='^$';
+          condition.val={regex: '.*'};
+        } else if (condition.query === "eq") {
+          condition.query = "likelike";
+          key='^$';
+          condition.val={regex: '^'+escRegexp(condition.val)+'$'};
+        } else if (condition.query === "like") {
+          condition.query = "likelike";
+          key='^$';
         }
       }
       // construct the query clause
@@ -131,8 +155,6 @@ turbo.ffs = function() {
           return '<has-kv k="'+key+'" modv="not" regv="'+esc(condition.val.regex)+'"'
                  +(condition.val.modifier==="i"?' case="ignore"':'')
                  +'/>';
-        case "substr":
-          return '<has-kv k="'+key+'" regv="'+val.replace(/([()[{*+.$^\\|?])/g, '\\$1')+'"/>';
         case "meta":
           switch(condition.meta) {
             case "id":

@@ -530,6 +530,36 @@ describe("ide.ffs", function () {
         out_str
       );
     });
+    // empty key
+    it("empty key", function () {
+      var search = "''=bar and type:way";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "way[krvr(^$,^bar$);bbox;];"+
+        ");"+
+        out_str
+      );
+      // make sure stuff in the value section gets escaped properly
+      search = "''='*' and type:way";
+      result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "way[krvr(^$,^\\*$);bbox;];"+
+        ");"+
+        out_str
+      );
+      // does also work for =*, ~ and : searches
+      search = "(''=* or ''~/.*/) and type:way";
+      result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "way[krvr(^$,.*);bbox;];"+
+          "way[krvr(^$,.*);bbox;];"+
+        ");"+
+        out_str
+      );
+    });
     // newlines, tabs
     it("newlines, tabs", function () {
       var search = "(foo='\t' or foo='\n' or foo='\r' or asd='\\t') and type:way";
