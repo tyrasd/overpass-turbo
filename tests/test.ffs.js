@@ -58,9 +58,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kvr(foo,not,.);bbox;];"+
-          "way[kvr(foo,not,.);bbox;];"+
-          "relation[kvr(foo,not,.);bbox;];"+
+          "node[kvr(foo,not,.*);bbox;];"+
+          "way[kvr(foo,not,.*);bbox;];"+
+          "relation[kvr(foo,not,.*);bbox;];"+
         ");"+
         out_str
       );

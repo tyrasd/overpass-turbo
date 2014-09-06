@@ -138,7 +138,7 @@ turbo.ffs = function() {
         case "key":
           return '<has-kv k="'+key+'"/>';
         case "nokey":
-          return '<has-kv k="'+key+'" modv="not" regv="."/>';
+          return '<has-kv k="'+key+'" modv="not" regv=".*"/>';
         case "eq":
           return '<has-kv k="'+key+'" v="'+val+'"/>';
         case "neq":
