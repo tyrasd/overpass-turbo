@@ -107,21 +107,21 @@ free_form
 
 key_string "Key"
   = s:[a-zA-Z0-9_:-]+ { return s.join(''); }
-  / parts:('"' DoubleStringCharacters? '"' / "'" SingleStringCharacters? "'") {
+  / parts:('"' DoubleStringCharacters '"' / "'" SingleStringCharacters "'") {
       return parts[1];
     }
 
 string "string"
   = s:[a-zA-Z0-9_öüäÖÜÄß-]+ { return s.join(''); }
-  / parts:('"' DoubleStringCharacters? '"' / "'" SingleStringCharacters? "'") {
+  / parts:('"' DoubleStringCharacters '"' / "'" SingleStringCharacters "'") {
       return parts[1];
     }
 
 DoubleStringCharacters
-  = chars:DoubleStringCharacter+ { return chars.join(""); }
+  = chars:DoubleStringCharacter* { return chars.join(""); }
 
 SingleStringCharacters
-  = chars:SingleStringCharacter+ { return chars.join(""); }
+  = chars:SingleStringCharacter* { return chars.join(""); }
 
 DoubleStringCharacter
   = !('"' / "\\") char_:.        { return char_;     }
@@ -154,7 +154,7 @@ SingleEscapeCharacter
 /* ==== regexes ==== */
 
 regexstring "string"
-  = parts:('/' RegexStringCharacters? '/' ('i'/'')?) {
+  = parts:('/' (RegexStringCharacters) '/' ('i'/'')?) {
       return { regex: parts[1], modifier: parts[3] };
     }
 
