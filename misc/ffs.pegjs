@@ -51,6 +51,7 @@ statement
   / key_present
   / key_not_present
   / key_like_val
+  / like_key_like_val
   / key_not_like_val
   / key_substr_val
   / free_form
@@ -80,6 +81,10 @@ key_like_val
     { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
   / x:string whitespace+ ("like" / "LIKE") whitespace+ y:(string / regexstring )
     { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
+
+like_key_like_val
+  = "~" _ x:string/*(key_string / regexstring)*/ _ ( "~" / "~=" / "=~" ) _ y:(string / regexstring )
+    { return { query:"likelike", key:x, val:y.regex?y:{regex:y} } }
 
 key_not_like_val
   = x:key_string _ ( "!~" ) _ y:(string / regexstring )

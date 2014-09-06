@@ -123,6 +123,10 @@ turbo.ffs = function() {
           return '<has-kv k="'+key+'" regv="'+esc(condition.val.regex)+'"'
                  +(condition.val.modifier==="i"?' case="ignore"':'')
                  +'/>';
+        case "likelike":
+          return '<has-kv regk="'+key+'" regv="'+esc(condition.val.regex)+'"'
+                 +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +'/>';
         case "notlike":
           return '<has-kv k="'+key+'" modv="not" regv="'+esc(condition.val.regex)+'"'
                  +(condition.val.modifier==="i"?' case="ignore"':'')

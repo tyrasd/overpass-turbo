@@ -18,6 +18,7 @@ describe("ide.ffs", function () {
     q = q.replace(/<has-kv k="([^"]*)" modv="not" regv="([^"]*)" ?\/>/g,"kvr($1,not,$2);");
     q = q.replace(/<has-kv k="([^"]*)" regv="([^"]*)" case="ignore" ?\/>/g,"kvr($1,$2,i);");
     q = q.replace(/<has-kv k="([^"]*)" modv="not" regv="([^"]*)" case="ignore" ?\/>/g,"kvr($1,not,$2,i);");
+    q = q.replace(/<has-kv regk="([^"]*)" regv="([^"]*)" ?\/>/g,"krvr($1,$2);");
     q = q.replace(/<bbox-query \{\{bbox\}\} ?\/>/g,"bbox;");
     q = q.replace(/<area-query( from="[^"]*")? ?\/>/g,"area;");
     q = q.replace(/<around \{\{nominatimCoords:(.*?)\}\}( radius="[^"]*")? ?\/>/g,"around($1);");
@@ -99,6 +100,19 @@ describe("ide.ffs", function () {
           "node[kvr(foo,bar);bbox;];"+
           "way[kvr(foo,bar);bbox;];"+
           "relation[kvr(foo,bar);bbox;];"+
+        ");"+
+        out_str
+      );
+    });
+    // regex key
+    it("~key~value", function () {
+      var search = "~foo~bar";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        "("+
+          "node[krvr(foo,bar);bbox;];"+
+          "way[krvr(foo,bar);bbox;];"+
+          "relation[krvr(foo,bar);bbox;];"+
         ");"+
         out_str
       );
