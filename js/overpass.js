@@ -225,7 +225,7 @@ setTimeout(function() {
           // tainted objects
           +"way:tainted, relation:tainted {dashes:5,8;} \n"
           // placeholder points
-          +"way:placeholder, relation:placeholder {fill-color:red;} \n"
+          +"way:placeholder, relation:placeholder {fill-color:#f22;} \n"
           // highlighted features
           +"node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n"
           // user supplied mapcss
@@ -266,6 +266,7 @@ setTimeout(function() {
             } 
           }, $.extend(
             feature.properties && feature.properties.tainted ? {":tainted": true} : {},
+            feature.properties && feature.properties.geometry ? {":placeholder": true} : {},
             feature.is_placeholder ? {":placeholder": true} : {},
             hasInterestingTags(feature.properties) ? {":tagged":true} : {":untagged": true},
             highlight ? {":active": true} : {},
