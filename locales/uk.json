@@ -214,6 +214,7 @@
   "data_stats.lines": "лінії",
   "data_stats.polygons": "полігони",
   "data_stats.lag": "Currentness of data",
+  "data_stats.lag_areas": "Currentness of areas",
   "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "Мапа навмисно не містить даних."
 }

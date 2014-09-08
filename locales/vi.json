@@ -214,6 +214,7 @@
   "data_stats.lines": "đường kẻ",
   "data_stats.polygons": "đa giác",
   "data_stats.lag": "Độ trễ dữ liệu",
+  "data_stats.lag_areas": "Currentness of areas",
   "data_stats.lag.expl": "trễ hơn CSDL chính của OSM",
   "map.intentionally_blank": "Bản đồ này được chủ ý để trống."
 }

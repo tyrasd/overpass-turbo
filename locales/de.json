@@ -214,6 +214,7 @@
   "data_stats.lines": "Linien",
   "data_stats.polygons": "Polygone",
   "data_stats.lag": "Aktualität der Daten",
+  "data_stats.lag_areas": "Aktualität der Areas",
   "data_stats.lag.expl": "Rückstand zur zentralen OSM-Datenbank",
   "map.intentionally_blank": "Diese Karte ist leer."
 }

@@ -214,6 +214,7 @@
   "data_stats.lines": "ライン",
   "data_stats.polygons": "ポリゴン",
   "data_stats.lag": "データの最新性",
+  "data_stats.lag_areas": "Currentness of areas",
   "data_stats.lag.expl": "メインOSMデータベース経由",
   "map.intentionally_blank": "この地図表示は意図して空白になっています。"
 }
