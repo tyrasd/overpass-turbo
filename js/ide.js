@@ -1150,6 +1150,9 @@ var ide = new(function() {
           // * tainted: indicates that the feature's geometry is incomplete
           if (p.tainted)
             f.properties["@tainted"] = p.tainted;
+          // * geometry: indicates that the feature's geometry is approximated via the Overpass geometry types "center" or "bounds"
+          if (p.geometry)
+            f.properties["@geometry"] = p.geometry;
           // expose relation membership (complex data type)
           if (p.relations && p.relations.length > 0)
             f.properties["@relations"] = p.relations;
