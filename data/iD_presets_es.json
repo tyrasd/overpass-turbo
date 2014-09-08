@@ -109,10 +109,13 @@
   },
   "amenity/bicycle_rental": {
     "name": "Alquiler de bicicletas",
-    "terms": "bicicleta, bici, alquiler, rent"
+    "terms": "alquiler de bicicletas, préstamo de bicicletas, bici, bicicleta"
   },
   "amenity/boat_rental": {
     "name": "Alquiler de barcos"
+  },
+  "amenity/bus_station": {
+    "name": "Estación de autobuses"
   },
   "amenity/cafe": {
     "name": "Cafetería",
@@ -889,6 +892,9 @@
     "name": "Señal de Stop",
     "terms": "señal de detención, señal de parada, señal, stop, detención, parada"
   },
+  "highway/street_lamp": {
+    "name": "Lámpara de alumbrado público"
+  },
   "highway/tertiary": {
     "name": "Carretera terciaria",
     "terms": "calle, ronda, carril, ruta, arteria, rúa, trayecto, avenida, carretera, paseo, camino, vía, local, terciaria"
@@ -1086,7 +1092,7 @@
     "terms": "Cancha de fútbol americano"
   },
   "leisure/pitch/baseball": {
-    "name": "Diamante de Béisbol",
+    "name": "Diamante de béisbol",
     "terms": "Campo de Beisbol"
   },
   "leisure/pitch/basketball": {
@@ -1274,7 +1280,7 @@
   },
   "natural/water/pond": {
     "name": "Estanque",
-    "terms": "Estanque"
+    "terms": "estanque, charca, pozo de agua, agua estancada"
   },
   "natural/water/reservoir": {
     "name": "Embalse",
@@ -1383,7 +1389,7 @@
   },
   "place/island": {
     "name": "Isla",
-    "terms": "Isla"
+    "terms": "isla"
   },
   "place/isolated_dwelling": {
     "name": "Vivienda aislada",
@@ -1525,7 +1531,7 @@
   },
   "shop/art": {
     "name": "Tienda de arte",
-    "terms": "Galería de arte"
+    "terms": "tienda de arte, galería de arte, sala de arte, arte, cultura, pintura, dibujo, escultura, cuadro, retrato, exposición"
   },
   "shop/bakery": {
     "name": "Panadería",
@@ -1533,7 +1539,7 @@
   },
   "shop/beauty": {
     "name": "Salón de belleza",
-    "terms": "salón de belleza, estética"
+    "terms": "salón de belleza, estética, belleza, cuidado personal, embellecimiento"
   },
   "shop/beverages": {
     "name": "Tienda de bebidas",
@@ -1541,7 +1547,7 @@
   },
   "shop/bicycle": {
     "name": "Tienda de bicicletas",
-    "terms": "tienda de bicicletas, bici, bicicleta, taller de bicicletas"
+    "terms": "tienda de bicicletas, taller de bicicletas, reparación de bicicletas, bici, bicicleta"
   },
   "shop/bookmaker": {
     "name": "Librero"
@@ -1568,7 +1574,7 @@
   },
   "shop/car_repair": {
     "name": "Taller de reparación de automóviles",
-    "terms": "reparación, automóvil, vehículo, carro, coche, taller"
+    "terms": "taller mecánico, mecánico, chapero, reparación, automóvil, vehículo, carro, coche, taller"
   },
   "shop/chemist": {
     "name": "Droguería",
@@ -1635,7 +1641,7 @@
   },
   "shop/gift": {
     "name": "Tienda de regalos",
-    "terms": "tienda, comercio, local, regalo, obsequio"
+    "terms": "tienda, comercio, local, regalo, obsequio, presentes"
   },
   "shop/greengrocer": {
     "name": "Frutería",
@@ -1670,8 +1676,8 @@
     "terms": "cerrajero, cerradura, candado"
   },
   "shop/lottery": {
-    "name": "Administración de Lotería",
-    "terms": "Administración de loterías, Venta de lotería"
+    "name": "Tienda de lotería",
+    "terms": "lotería, juego"
   },
   "shop/mall": {
     "name": "Centro comercial",
@@ -1709,7 +1715,7 @@
     "terms": "fotografía, tienda , establecimiento, fotógrafo, cámara, retratista, revelado"
   },
   "shop/seafood": {
-    "name": "Tienda de Mariscos"
+    "name": "Tienda de frutos de mar"
   },
   "shop/shoes": {
     "name": "Zapatería",
@@ -1724,6 +1730,9 @@
   "shop/supermarket": {
     "name": "Supermercado",
     "terms": "supermercado, autoservicio, mercado, hipermercado, alimentación, víveres"
+  },
+  "shop/tailor": {
+    "name": "Sastre"
   },
   "shop/toys": {
     "name": "Tienda de juguetes",
@@ -1749,7 +1758,7 @@
     "terms": "tienda, alquiler, renta, tienda de vídeos, videoclub, alquiler de vídeos, renta de vídeos"
   },
   "shop/wine": {
-    "name": "Vinoteca, Tienda de vinos",
+    "name": "Tienda de vinos",
     "terms": "vinatería, vinos, espirituosos, licorería, bebidas"
   },
   "tourism": {

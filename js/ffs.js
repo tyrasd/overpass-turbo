@@ -96,8 +96,16 @@ turbo.ffs = function() {
         // see https://github.com/drolbr/Overpass-API/issues/91
         return htmlentities(str).replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
       }
+      function escRegexp(str) {
+        return str.replace(/([()[{*+.$^\\|?])/g, '\\$1');
+      }
       var key = esc(condition.key);
       var val = esc(condition.val);
+      // convert substring searches into matching regexp ones
+      if (condition.query === "substr") {
+        condition.query = "like";
+        condition.val={regex:escRegexp(condition.val)};
+      }
       // special case for empty values
       // see https://github.com/drolbr/Overpass-API/issues/53
       if (val === '') {
@@ -109,12 +117,28 @@ turbo.ffs = function() {
           condition.val={regex:'^$'};
         }
       }
+      // special case for empty values
+      // see https://github.com/drolbr/Overpass-API/issues/53#issuecomment-26325122
+      if (key === '') {
+        if (condition.query === "key") {
+          condition.query = "likelike";
+          key='^$';
+          condition.val={regex: '.*'};
+        } else if (condition.query === "eq") {
+          condition.query = "likelike";
+          key='^$';
+          condition.val={regex: '^'+escRegexp(condition.val)+'$'};
+        } else if (condition.query === "like") {
+          condition.query = "likelike";
+          key='^$';
+        }
+      }
       // construct the query clause
       switch(condition.query) {
         case "key":
           return '<has-kv k="'+key+'"/>';
         case "nokey":
-          return '<has-kv k="'+key+'" modv="not" regv="."/>';
+          return '<has-kv k="'+key+'" modv="not" regv=".*"/>';
         case "eq":
           return '<has-kv k="'+key+'" v="'+val+'"/>';
         case "neq":
@@ -123,12 +147,14 @@ turbo.ffs = function() {
           return '<has-kv k="'+key+'" regv="'+esc(condition.val.regex)+'"'
                  +(condition.val.modifier==="i"?' case="ignore"':'')
                  +'/>';
+        case "likelike":
+          return '<has-kv regk="'+key+'" regv="'+esc(condition.val.regex)+'"'
+                 +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +'/>';
         case "notlike":
           return '<has-kv k="'+key+'" modv="not" regv="'+esc(condition.val.regex)+'"'
                  +(condition.val.modifier==="i"?' case="ignore"':'')
                  +'/>';
-        case "substr":
-          return '<has-kv k="'+key+'" regv="'+val.replace(/([()[{*+.$^\\|?])/g, '\\$1')+'"/>';
         case "meta":
           switch(condition.meta) {
             case "id":
@@ -176,6 +202,8 @@ turbo.ffs = function() {
           return quotes(condition.key)+'!='+quotes(condition.val);
         case "like":
           return quotes(condition.key)+'~'+quoteRegex(condition.val);
+        case "likelike":
+          return '~'+quotes(condition.key)+'~'+quoteRegex(condition.val);
         case "notlike":
           return quotes(condition.key)+'!~'+quoteRegex(condition.val);
         case "substr":
@@ -224,19 +252,19 @@ turbo.ffs = function() {
             return ffs_clause.types.indexOf(t) != -1;
           });
           // add clauses
+          clauses_str.push(get_query_clause_str(cond_query));
           clauses = clauses.concat(ffs_clause.conditions.map(function(condition) {
             return get_query_clause(condition);
           }));
-          clauses_str.push(get_query_clause_str(cond_query));
         } else if (cond_query.query === "type") {
           // restrict possible data types
           types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
         } else {
           // add another query clause
+          clauses_str.push(get_query_clause_str(cond_query));
           var clause = get_query_clause(cond_query);
           if (clause === false) return false;
           clauses.push(clause);
-          clauses_str.push(get_query_clause_str(cond_query));
         }
       }
       clauses_str = clauses_str.join(' and ');

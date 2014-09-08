@@ -119,6 +119,10 @@
     "name": "貸しボート",
     "terms": "貸しボート"
   },
+  "amenity/bus_station": {
+    "name": "バスターミナル",
+    "terms": "バスターミナル"
+  },
   "amenity/cafe": {
     "name": "喫茶店",
     "terms": "喫茶店,カフェ"

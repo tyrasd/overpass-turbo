@@ -119,6 +119,10 @@
     "name": "Noleggio barche",
     "terms": "noleggio barche,noleggio,barche,porto,negozio"
   },
+  "amenity/bus_station": {
+    "name": "Stazione degli autobus",
+    "terms": "autobus,bus,tram,stazione,fermata,capolinea"
+  },
   "amenity/cafe": {
     "name": "Caffè",
     "terms": "caffè,te,bar"

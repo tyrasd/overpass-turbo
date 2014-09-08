@@ -107,7 +107,7 @@
   "export.image.attribution_missing": "Make sure to include proper attributions when distributing this image!",
   "share.title": "Comparteix",
   "share.header": "Enllaç permanent",
-  "share.copy_this_link": "Copy this <a href=\"\" id=\"share_link_a\">link</a> to share the current code:",
+  "share.copy_this_link": "Copieu aquest <a href=\"\" id=\"share_link_a\">enllaç</a> per a compartir el codi actual:",
   "share.options": "Opcions",
   "share.incl_map_state": "include current map state",
   "share.run_immediately": "execut aquesta consulta immediatament després de carregar-la",
@@ -201,7 +201,7 @@
   "warning.share.very_long": "Warning: This share-link is very long. It is likely to fail under normal circumstances (browsers, webservers). Use with caution!",
   "warning.huge_data.title": "Grans quantitats de dades",
   "warning.huge_data.expl.1": "This query returned quite a lot of data (approx. {{amount_txt}}).",
-  "warning.huge_data.expl.2": "Your browser may have a hard time trying to render this. Do you really want to continue?",
+  "warning.huge_data.expl.2": "És possible que el navegador estigui molta estona renderitzant això. Voleu continuar?",
   "waiter.processing_query": "s'està processant la consulta...",
   "waiter.export_as_image": "exporta com a imatge...",
   "data_stats.loaded": "Carregat",
@@ -214,6 +214,7 @@
   "data_stats.lines": "línies",
   "data_stats.polygons": "polígons",
   "data_stats.lag": "Currentness of data",
+  "data_stats.lag_areas": "Currentness of areas",
   "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "Aquest mapa s'ha deixat intencionadament en blanc."
 }

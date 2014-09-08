@@ -98,6 +98,8 @@ var ide = new(function() {
     // translate ui
     ide.waiter.addInfo("translate ui");
     i18n.translate();
+    // set up additional libraries
+    moment.locale(i18n.getLanguage());
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
     var args = turbo.urlParameters(location.search);
@@ -663,24 +665,36 @@ var ide = new(function() {
           +'</div>'
         ).insertAfter("#map");
         // show more stats as a tooltip
-        var backlog = function () { return Math.round((new Date() - new Date(overpass.timestamp))/1000/60*10)/10; };
+        var backlogOverpass = function () {
+          return moment(overpass.timestamp, moment.ISO_8601).fromNow(true);
+          //return Math.round((new Date() - new Date(overpass.timestamp))/1000/60*10)/10;
+        };
+        var backlogOverpassAreas = function () {
+          return moment(overpass.timestampAreas, moment.ISO_8601).fromNow(true);
+        };
         $("#data_stats").tooltip({
           items: "div",
           tooltipClass: "stats",
           content: function () {
-            return "<div>"
-            //+"<small>more</small>&nbsp;&ndash;<br>"
-            +i18n.t("data_stats.lag")+": "
-            +backlog()+"&nbsp;min <small>"+i18n.t("data_stats.lag.expl")+"</small>"
-            +"</div>"
+            var str = "<div>"
+              //+"<small>more</small>&nbsp;&ndash;<br>"
+              +i18n.t("data_stats.lag")+": "
+              +backlogOverpass()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+            if (overpass.timestampAreas) {
+              str+="<br>"
+              +i18n.t("data_stats.lag_areas")+": "
+              +backlogOverpassAreas()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+            }
+            str+="</div>";
+            return str;
           },
           hide: {
             effect: "fadeOut",
             duration: 100
           },
           position: {
-            my: "left bottom-5",
-            at: "left top"
+            my: "right bottom-5",
+            at: "right top"
           }
         });
       }
@@ -1050,7 +1064,7 @@ var ide = new(function() {
     var warning = '';
     if (share_link.length >= 2000)
       warning = '<p class="warning">'+i18n.t("warning.share.long")+'</p>';
-    if (share_link.length >= 8000)
+    if (share_link.length >= 4000)
       warning = '<p class="warning severe">'+i18n.t("warning.share.very_long")+'</p>';
 
     $("div#share-dialog #share_link_warning").html(warning);
@@ -1136,6 +1150,9 @@ var ide = new(function() {
           // * tainted: indicates that the feature's geometry is incomplete
           if (p.tainted)
             f.properties["@tainted"] = p.tainted;
+          // * geometry: indicates that the feature's geometry is approximated via the Overpass geometry types "center" or "bounds"
+          if (p.geometry)
+            f.properties["@geometry"] = p.geometry;
           // expose relation membership (complex data type)
           if (p.relations && p.relations.length > 0)
             f.properties["@relations"] = p.relations;
@@ -1586,6 +1603,7 @@ var ide = new(function() {
       // reload ui if language has been changed
       if (settings.ui_language != new_ui_language) {
         i18n.translate(new_ui_language);
+        moment.locale(new_ui_language);
       }
       settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;

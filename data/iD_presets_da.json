@@ -119,6 +119,10 @@
     "name": "Bådudlejning",
     "terms": "Bådudlejning, lystbådudlejning"
   },
+  "amenity/bus_station": {
+    "name": "Busstation",
+    "terms": "Busstation, Rutebilsstation"
+  },
   "amenity/cafe": {
     "name": "Cafe",
     "terms": "Cafe, Café"

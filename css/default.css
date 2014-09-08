@@ -411,6 +411,10 @@ body .ui-tooltip {
 .stats {
   font-size: 12px;
   border-radius: 0;
+  white-space: nowrap;
+}
+.stats.ui-tooltip {
+  max-width: none;
 }
 
 .leaflet-dummy-none-marker {

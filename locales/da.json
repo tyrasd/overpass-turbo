@@ -214,6 +214,7 @@
   "data_stats.lines": "linjer",
   "data_stats.polygons": "polygoner",
   "data_stats.lag": "aktualitet af geodata",
+  "data_stats.lag_areas": "Currentness of areas",
   "data_stats.lag.expl": "bag OSM databasen",
   "map.intentionally_blank": "Kortet er forsætligt tomt."
 }

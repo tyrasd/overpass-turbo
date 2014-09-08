@@ -214,6 +214,7 @@
   "data_stats.lines": "jooni",
   "data_stats.polygons": "hulknurki",
   "data_stats.lag": "Andmete ajakohasus",
+  "data_stats.lag_areas": "Currentness of areas",
   "data_stats.lag.expl": "maas OSM andmebaasist",
   "map.intentionally_blank": "See kaart on jäetud sihilikult tühjaks"
 }

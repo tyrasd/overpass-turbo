@@ -52,6 +52,7 @@ turbo.js: \
 	js/jsmapcss/RuleSet.js \
 	libs/misc.js \
 	libs/jxon.js \
+	libs/momentjs/moment-with-locales.min.js \
 	libs/osmtogeojson/osmtogeojson.js \
 	js/GeoJsonNoVanish.js \
 	js/OSM4Leaflet.js \
@@ -162,7 +163,7 @@ presets:
 	node data/get_preset_translations
 
 ffs:
-	$(PEGJS) -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js
+	$(PEGJS) -o size -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js
 
 icons: icons-maki icons-mapnik
 

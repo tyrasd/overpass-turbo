@@ -214,6 +214,7 @@
   "data_stats.lines": "lignes",
   "data_stats.polygons": "polygones",
   "data_stats.lag": "Currentness of data",
+  "data_stats.lag_areas": "Currentness of areas",
   "data_stats.lag.expl": "behind main OSM db",
   "map.intentionally_blank": "La carte est volontairement laissée vide."
 }

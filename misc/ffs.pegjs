@@ -51,6 +51,7 @@ statement
   / key_present
   / key_not_present
   / key_like_val
+  / like_key_like_val
   / key_not_like_val
   / key_substr_val
   / free_form
@@ -81,6 +82,10 @@ key_like_val
   / x:string whitespace+ ("like" / "LIKE") whitespace+ y:(string / regexstring )
     { return { query:"like", key:x, val:y.regex?y:{regex:y} } }
 
+like_key_like_val
+  = "~" _ x:string/*(key_string / regexstring)*/ _ ( "~" / "~=" / "=~" ) _ y:(string / regexstring )
+    { return { query:"likelike", key:x, val:y.regex?y:{regex:y} } }
+
 key_not_like_val
   = x:key_string _ ( "!~" ) _ y:(string / regexstring )
     { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
@@ -107,21 +112,21 @@ free_form
 
 key_string "Key"
   = s:[a-zA-Z0-9_:-]+ { return s.join(''); }
-  / parts:('"' DoubleStringCharacters? '"' / "'" SingleStringCharacters? "'") {
+  / parts:('"' DoubleStringCharacters '"' / "'" SingleStringCharacters "'") {
       return parts[1];
     }
 
 string "string"
   = s:[a-zA-Z0-9_öüäÖÜÄß-]+ { return s.join(''); }
-  / parts:('"' DoubleStringCharacters? '"' / "'" SingleStringCharacters? "'") {
+  / parts:('"' DoubleStringCharacters '"' / "'" SingleStringCharacters "'") {
       return parts[1];
     }
 
 DoubleStringCharacters
-  = chars:DoubleStringCharacter+ { return chars.join(""); }
+  = chars:DoubleStringCharacter* { return chars.join(""); }
 
 SingleStringCharacters
-  = chars:SingleStringCharacter+ { return chars.join(""); }
+  = chars:SingleStringCharacter* { return chars.join(""); }
 
 DoubleStringCharacter
   = !('"' / "\\") char_:.        { return char_;     }
@@ -154,7 +159,7 @@ SingleEscapeCharacter
 /* ==== regexes ==== */
 
 regexstring "string"
-  = parts:('/' RegexStringCharacters? '/' ('i'/'')?) {
+  = parts:('/' (RegexStringCharacters) '/' ('i'/'')?) {
       return { regex: parts[1], modifier: parts[3] };
     }
 

@@ -1,3 +1,12 @@
+2014-09-08
+----------
+* support for Overpass "center" and "bounds" geometry output
+* wizard supports regex key searches via new `~"keyregex"~="valueregex"` syntax
+* show currentness of Overpass areas in data stats tooltip (incl. improved date formatting)
+* minor improvements to the wizard's query construction algorithm
+* bugfixes
+* update translations, presets and icon sets
+
 2014-07-14
 ----------
 * activate Estonian translation

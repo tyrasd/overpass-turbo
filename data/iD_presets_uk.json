@@ -3,6 +3,25 @@
     "name": "Адреса",
     "terms": "Address, адреса, місце"
   },
+  "aerialway": {
+    "name": "Канатна дорога",
+    "terms": "Aerialway, rfyfnyf ljhjuf"
+  },
+  "aerialway/cable_car": {
+    "name": "Фунікулер",
+    "terms": "Cable car, aeysrekth"
+  },
+  "aerialway/chair_lift": {
+    "name": "Крісельний підйомник",
+    "terms": "Chair lift, rhsctkmybq gslqjvybr"
+  },
+  "aerialway/gondola": {
+    "name": "Гондоли",
+    "terms": "Gondola, Ujyljkb"
+  },
+  "aerialway/magic_carpet": {
+    "name": "Стрічковий транспортер"
+  },
   "aeroway": {
     "name": "Аеропорт",
     "terms": "Aeroway, аеропорт, повітряний транспорт,повітряне сполучення"
@@ -75,6 +94,10 @@
     "name": "Прокат човнів",
     "terms": "Boat Rental,ghjrfn xjdysd, катамарани"
   },
+  "amenity/bus_station": {
+    "name": "Автобусна станція",
+    "terms": "Bus Station, fdnjecyf cnfywsz"
+  },
   "amenity/cafe": {
     "name": "Кафе",
     "terms": "Cafe, rfat"
@@ -91,6 +114,10 @@
     "name": "Автомийка",
     "terms": "Car Wash, fdnjvbqrf, мийка"
   },
+  "amenity/charging_station": {
+    "name": "Зарядна станція",
+    "terms": "Charging station, pfhzlyf cnfywsz"
+  },
   "amenity/childcare": {
     "name": "Дитяча кімната",
     "terms": "Childcare, lbnzxf rsvyfnf, догляд за дітьми, ігрова зона, ігрова кімната"
@@ -99,6 +126,10 @@
     "name": "Кінотеатр",
     "terms": "Cinema, rsyjntfnh,кіно,кінематографія"
   },
+  "amenity/clock": {
+    "name": "Годинник",
+    "terms": "Clock, ujlbyybr"
+  },
   "amenity/college": {
     "name": "Коледж",
     "terms": "College, rjktl,училище,технікум"
@@ -106,6 +137,14 @@
   "amenity/courthouse": {
     "name": "Суд",
     "terms": "Courthouse, cel, суд"
+  },
+  "amenity/dentist": {
+    "name": "Дантист",
+    "terms": "Dentist, lfynbcn"
+  },
+  "amenity/doctor": {
+    "name": "Лікар",
+    "terms": "Doctor, Ksrfh"
   },
   "amenity/drinking_water": {
     "name": "Питна вода",
@@ -135,6 +174,14 @@
     "name": "Цвинтар",
     "terms": "Graveyard, wdbynfh,кладовище"
   },
+  "amenity/hospital": {
+    "name": "Територія лікарні",
+    "terms": "Hospital grounds, nthbnjhsz ksrfhys"
+  },
+  "amenity/kindergarten": {
+    "name": "Територія дитсадка",
+    "terms": "Kindergarten grounds, nthbnjhsz lbncflrf"
+  },
   "amenity/library": {
     "name": "Бібліотека",
     "terms": "Library, sksjntrf"
@@ -142,6 +189,10 @@
   "amenity/marketplace": {
     "name": "Ринок",
     "terms": "Marketplace, hbyjr,базар,базарна площа"
+  },
+  "amenity/nightclub": {
+    "name": "Нічний клуб",
+    "terms": "Nightclub, ysxybq rke"
   },
   "amenity/parking": {
     "name": "Автостоянка",
@@ -198,8 +249,20 @@
     "name": "Ресторан",
     "terms": "Restaurant, htcnjhfy"
   },
+  "amenity/school": {
+    "name": "Територія школи",
+    "terms": "School grounds, nthbnjhsz irjkb"
+  },
   "amenity/shelter": {
     "name": "Притулок"
+  },
+  "amenity/social_facility": {
+    "name": "Соціальний центр",
+    "terms": "Social facility, cjwsfkmybq wtynh"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "Притулок для бездомних",
+    "terms": "Homeless shelter, ghbnekjr lkz tpljvyb"
   },
   "amenity/swimming_pool": {
     "name": "Басейн",
@@ -232,6 +295,10 @@
   "amenity/vending_machine": {
     "name": "Торговельний автомат",
     "terms": "Vending Machine,njhujdtkmybq fdnjvfn, торгівельний автомат, торговий автомат"
+  },
+  "amenity/veterinary": {
+    "name": "Ветеринарна лікарня",
+    "terms": "Veterinary, dtnthbyfhyf ksrfhyz"
   },
   "amenity/waste_basket": {
     "name": "Бак для сміття",
@@ -307,7 +374,7 @@
   },
   "barrier/wall": {
     "name": "Стіна",
-    "terms": "Wall,cnsyf"
+    "terms": "wall, cnsyf"
   },
   "boundary/administrative": {
     "name": "Адміністративний кордон",
@@ -321,13 +388,49 @@
     "name": "Житло",
     "terms": "Apartments,bnkj"
   },
+  "building/bunker": {
+    "name": "Бункер",
+    "terms": "Bunker, eyrth"
+  },
+  "building/cathedral": {
+    "name": "Собор",
+    "terms": "Cathedral, cjjh"
+  },
+  "building/chapel": {
+    "name": "Каплиця",
+    "terms": "Chapel, rfgkbwz"
+  },
+  "building/church": {
+    "name": "Церква",
+    "terms": "Church, wthrdf"
+  },
   "building/commercial": {
     "name": "Комерційна нерухомість",
     "terms": "Commercial Building,rjvthwsqyf ythejvscnm"
   },
+  "building/entrance": {
+    "name": "Вхід/Вихід",
+    "terms": "Entrance, exit, dsl, dbsl"
+  },
   "building/garage": {
     "name": "Гараж",
     "terms": "Garage,ufhf"
+  },
+  "building/garages": {
+    "name": "Гаражі",
+    "terms": "Garages, ufhfs"
+  },
+  "building/greenhouse": {
+    "name": "Теплиця",
+    "terms": "Greenhouse, ntgkbwz"
+  },
+  "building/hospital": {
+    "name": "Госпіталь",
+    "terms": "Hospital, ujcgsnfkm"
+  },
+  "building/hotel": {
+    "name": "Готель",
+    "terms": "Hotel, ujntkm"
   },
   "building/house": {
     "name": "Дім",
@@ -344,6 +447,52 @@
   "building/residential": {
     "name": "Житлова будівля",
     "terms": "Residential Building,bnkjdf elsdkz"
+  },
+  "building/retail": {
+    "name": "Роздрібна торгівля",
+    "terms": "Retail, hjplhsyf njdusdkz"
+  },
+  "building/roof": {
+    "name": "Дах",
+    "terms": "Roof, lf, накриття"
+  },
+  "building/school": {
+    "name": "Школа",
+    "terms": "School, irjkf"
+  },
+  "building/stable": {
+    "name": "Стайні",
+    "terms": "Stable, cnfqys"
+  },
+  "building/train_station": {
+    "name": "Залізнична станція",
+    "terms": "Train station, pfkspybxyf cnfywsz"
+  },
+  "building/university": {
+    "name": "Університет",
+    "terms": "University, eysdthcbntn"
+  },
+  "building/warehouse": {
+    "name": "Склад",
+    "terms": "warehouse, crkfl"
+  },
+  "craft/blacksmith": {
+    "name": "Коваль"
+  },
+  "craft/boatbuilder": {
+    "name": "Корабельня",
+    "terms": "Boat builder, rjhffkmyz"
+  },
+  "craft/electrician": {
+    "name": "Електрик"
+  },
+  "craft/hvac": {
+    "name": "Опалення, вентиляція та кондиціювання повітря",
+    "terms": "HVAC, jgfktyyz, dbynbkzwsz, rjylbwsdfyyz gjdsnhz"
+  },
+  "craft/optician": {
+    "name": "Окуліст",
+    "terms": "Optician, jrekscn"
   },
   "craft/photographer": {
     "name": "Фотограф"
@@ -573,7 +722,8 @@
     "terms": "Farm,athvf"
   },
   "landuse/farmland": {
-    "name": "Сільгосп. угіддя"
+    "name": "Сільгосп. угіддя",
+    "terms": "farmland, афкьдфтв, поля, поле, сільськогосподарські угіддя"
   },
   "landuse/farmyard": {
     "name": "Двір ферми",
@@ -839,7 +989,7 @@
   },
   "natural/wetland": {
     "name": "Заболочені землі",
-    "terms": "Wetland,pfjkjxtys ptvks"
+    "terms": "Wetland,pfjkjxtys ptvks, болото"
   },
   "natural/wood": {
     "name": "Дерева",

@@ -119,6 +119,9 @@
     "name": "Aluguel de Barcos",
     "terms": "Aluguel de Embarcações"
   },
+  "amenity/bus_station": {
+    "name": "Rodoviária"
+  },
   "amenity/cafe": {
     "name": "Cafeteria",
     "terms": "Cafeteria, Café"

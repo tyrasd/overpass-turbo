@@ -119,6 +119,10 @@
     "name": "Cho thuê Tàu",
     "terms": "dịch vụ cho thuê tàu, chỗ thuê tàu, tiệm thuê tàu, thuê tàu, dịch vụ cho mướn tàu, chỗ mướn tàu, tiệm mướn tàu, mướn tàu, dịch vụ cho thuê thuyền, chỗ thuê thuyền, tiệm thuê thuyền, thuê thuyền, dịch vụ cho mướn thuyền, chỗ mướn thuyền, tiệm mướn thuyền, mướn thuyền, dich vu cho thue tau, cho thue tau, tiem thue tau, thue tau, dich vu cho muon tau, cho muon tau, tiem muon tau, muon tau, dich vu cho thue thuyen, cho thue thuyen, tiem thue thuyen, thue thuyen, dich vu cho muon thuyen, cho muon thuyen, tiem muon thuyen, muon thuyen"
   },
+  "amenity/bus_station": {
+    "name": "Ga Xe buýt",
+    "terms": "ga xe buýt, nhà ga xe buýt, nhà ga buýt, ga buýt, ga xe buyt, nha ga xe buyt, nha ga buyt, ga buyt"
+  },
   "amenity/cafe": {
     "name": "Quán Cà phê",
     "terms": "cà phê, quán cà phê, trà, quán trà, ca phe, quan ca phe, tra, quan tra"
