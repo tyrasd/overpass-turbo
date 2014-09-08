@@ -5,7 +5,7 @@
 * show currentness of Overpass areas in data stats tooltip (incl. improved date formatting)
 * minor improvements to the wizard's query construction algorithm
 * bugfixes
-* update translations and presets
+* update translations, presets and icon sets
 
 2014-07-14
 ----------
