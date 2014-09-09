@@ -145,8 +145,9 @@ var ide = new(function() {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
           "out json xml custom popup timeout maxsize bbox" // initial declarations
+          +" date diff adiff" //attic declarations
           +" foreach" // block statements
-          +" relation rel way node is_in area around user uid newer poly pivot" // queries
+          +" relation rel way node is_in area around user uid newer changed poly pivot" // queries
           +" out meta body skel tags ids qt asc" // actions
           +" center bb geom" // geometry types
           //+"r w n br bw" // recursors
