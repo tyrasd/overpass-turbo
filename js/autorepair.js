@@ -100,10 +100,10 @@ turbo.autorepair = function(q, lng) {
       }
     } else {
       // 1. fix [out:*]
-      var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
+      var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;?/);
           ///^\s*\[\s*out\s*:\s*([^\]\s]+)/);
       if (out && out[1] != "xml")
-        q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
+        q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;?)/,"$1xml$3/*fixed by auto repair*/");
       // 2. fix out *
       var prints = q.match(/out[^:;]*;/g) || [];
       for (var i=0;i<prints.length;i++) {
