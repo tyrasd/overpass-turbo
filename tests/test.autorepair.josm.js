@@ -69,12 +69,12 @@ describe("ide.autorepair.josm", function () {
         outp: '<print mode="meta"/><!-- fixed by auto repair -->'
       },
       { // trivial case 2
-        inp: '<osm-script output="json"><print/></osm-script>',
-        outp: '<osm-script output="xml"><!-- fixed by auto repair --><print mode="meta"/><!-- fixed by auto repair --></osm-script>'
+        inp: '<osm-script output="xml"><print/></osm-script>',
+        outp: '<osm-script output="xml"><print mode="meta"/><!-- fixed by auto repair --></osm-script>'
       },
       { // more complex real world example
-        inp: '<osm-script output="json">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body" order="quadtile"/>\n</osm-script>',
-        outp: '<osm-script output="xml"><!-- fixed by auto repair -->\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/><!-- fixed by auto repair -->\n</osm-script>'
+        inp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body" order="quadtile"/>\n</osm-script>',
+        outp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/><!-- fixed by auto repair -->\n</osm-script>'
       },
     ];
     sinon.stub(ide,"getQueryLang").returns("xml");
@@ -98,12 +98,12 @@ describe("ide.autorepair.josm", function () {
         outp: 'out meta;/*fixed by auto repair*/'
       },
       { // trivial case 2
-        inp: '[out:json];out;',
-        outp: '[out:xml];/*fixed by auto repair*/out meta;/*fixed by auto repair*/'
+        inp: '[out:xml];out;',
+        outp: '[out:xml];out meta;/*fixed by auto repair*/'
       },
       { // more complex real world example
-        inp: '/*bla*/\n[out:json];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out qt;',
-        outp: '/*bla*/\n[out:xml];/*fixed by auto repair*/\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;/*fixed by auto repair*/'
+        inp: '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out qt;',
+        outp: '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;/*fixed by auto repair*/'
       },
     ];
     sinon.stub(ide,"getQueryLang").returns("OverpassQL");
