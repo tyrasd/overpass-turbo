@@ -101,9 +101,91 @@ describe("ide.autorepair.josm", function () {
         inp: '[out:xml];out;',
         outp: '[out:xml];out meta;/*fixed by auto repair*/'
       },
+      { // non meta output mode
+        inp: 'out skel;out body;out ids;out tags;',
+        outp: 'out meta;/*fixed by auto repair*/out meta;/*fixed by auto repair*/out meta;/*fixed by auto repair*/out meta;/*fixed by auto repair*/'
+      },
+      { // combined with other output options
+        inp: 'out body qt 100;',
+        outp: 'out meta qt 100;/*fixed by auto repair*/'
+      },
       { // more complex real world example
         inp: '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out qt;',
         outp: '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;/*fixed by auto repair*/'
+      },
+    ];
+    sinon.stub(ide,"getQueryLang").returns("OverpassQL");
+    var setQuery = sinon.stub(ide,"setQuery");
+    for (var i=0; i<examples.length; i++) {
+      sinon.stub(ide,"getRawQuery").returns(examples[i].inp);
+      ide.repairQuery("xml+metadata");
+      var repaired_query = setQuery.getCall(i).args[0];
+      expect(repaired_query).to.be.eql(examples[i].outp);
+      ide.getRawQuery.restore();
+    }
+    ide.getQueryLang.restore();
+    ide.setQuery.restore();
+  });
+
+  // overpass complex geometries
+  it("repair overpass geometry options (xml query)", function () {
+    var examples = [
+      { // center geometry
+        inp: '<print mode="meta" geometry="center"/>',
+        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+      },
+      { // bounds geometry
+        inp: '<print mode="meta" geometry="bounds"/>',
+        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+      },
+      { // full geometry
+        inp: '<print mode="meta" geometry="full"/>',
+        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+      },
+      { // full geometry with from output mode
+        inp: '<print mode="body" geometry="full"/>',
+        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+      },
+      { // full geometry with named input set
+        inp: '<print from="foo" mode="meta" geometry="full"/>',
+        outp: '<union into="foo"><item set="foo"/><recurse from="foo" type="down"/></union><print from="foo" mode="meta"/><!-- fixed by auto repair -->'
+      },
+    ];
+    sinon.stub(ide,"getQueryLang").returns("xml");
+    var setQuery = sinon.stub(ide,"setQuery");
+    for (var i=0; i<examples.length; i++) {
+      sinon.stub(ide,"getRawQuery").returns(examples[i].inp);
+      ide.repairQuery("xml+metadata");
+      var repaired_query = setQuery.getCall(i).args[0];
+      expect(repaired_query).to.be.eql(examples[i].outp);
+      ide.getRawQuery.restore();
+    }
+    ide.getQueryLang.restore();
+    ide.setQuery.restore();
+  });
+
+  // overpass complex geometries
+  it("repair overpass geometry options (OverpassQL query)", function () {
+    var examples = [
+      { // center geometry
+        inp: 'out meta center;',
+        outp: '(._;>;); out meta;/*fixed by auto repair*/'
+      },
+      { // bounds geometry
+        inp: 'out meta bb;',
+        outp: '(._;>;); out meta;/*fixed by auto repair*/'
+      },
+      { // full geometry
+        inp: 'out meta geom;',
+        outp: '(._;>;); out meta;/*fixed by auto repair*/'
+      },
+      { // combined with wrong output mode
+        inp: 'out body geom;',
+        outp: '(._;>;); out meta;/*fixed by auto repair*/'
+      },
+      { // named input set
+        inp: '.foo out meta geom;',
+        outp: '(.foo;.foo >;)->.foo; .foo out meta;/*fixed by auto repair*/'
       },
     ];
     sinon.stub(ide,"getQueryLang").returns("OverpassQL");
