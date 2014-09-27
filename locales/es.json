@@ -214,7 +214,7 @@
   "data_stats.lines": "líneas",
   "data_stats.polygons": "polígonos",
   "data_stats.lag": "Actualidad de los datos",
-  "data_stats.lag_areas": "Currentness of areas",
+  "data_stats.lag_areas": "Actualidad de las áreas",
   "data_stats.lag.expl": "detrás de la principal base de datos OSM",
   "map.intentionally_blank": "Este mapa se dejó en blanco intencionalmente."
 }
