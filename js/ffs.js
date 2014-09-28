@@ -56,7 +56,7 @@ turbo.ffs = function() {
     var query_parts = [];
     var bounds_part;
 
-    query_parts.push('/*');
+    query_parts.push('<!--');
     if (comment) {
       query_parts.push(comment)
     } else {
@@ -64,22 +64,22 @@ turbo.ffs = function() {
       query_parts.push('The original search was:');
       query_parts.push('“'+search+'”');
     }
-    query_parts.push('*/');
-    query_parts.push('[out:json][timeout:25];');
+    query_parts.push('-->');
+    query_parts.push('<osm-script output="json" timeout="25">');
 
     switch(ffs.bounds) {
       case "area": 
-        query_parts.push('// fetch area “'+ffs.area+'” to search in');
-        query_parts.push('{{nominatimArea:'+ffs.area+'}} (._)->.searchArea;');
-        bounds_part = '(area.searchArea)';
+        query_parts.push('  <!-- fetch area “'+ffs.area+'” to search in -->');
+        query_parts.push('  <id-query {{nominatimArea:'+ffs.area+'}} into="area"/>');
+        bounds_part = '<area-query from="area"/>';
       break;
       case "around":
-        query_parts.push('// adjust the search radius (in meters) here');
-        query_parts.push('{{radius=1000}}');
-        bounds_part = 'around({{nominatimCoords:'+ffs.area+'}}, radius={{radius}})';
+        query_parts.push('  <!-- adjust the search radius (in meters) here -->');
+        query_parts.push('  {{radius=1000}}');
+        bounds_part = '<around {{nominatimCoords:'+ffs.area+'}} radius="{{radius}}"/>';
       break;
       case "bbox":
-        bounds_part = '({{bbox}})';
+        bounds_part = '<bbox-query {{bbox}}/>';
       break;
       case "global":
         bounds_part = undefined;
@@ -136,37 +136,39 @@ turbo.ffs = function() {
       // construct the query clause
       switch(condition.query) {
         case "key":
-          return '["'+key+'"]';
+          return '<has-kv k="'+key+'"/>';
         case "nokey":
-          return '["'+key+'"!~.*]';
+          return '<has-kv k="'+key+'" modv="not" regv=".*"/>';
         case "eq":
-          return '["'+key+'"="'+val+'"]';
+          return '<has-kv k="'+key+'" v="'+val+'"/>';
         case "neq":
-          return '["'+key+'"!="'+val+'"]';
+          return '<has-kv k="'+key+'" modv="not" v="'+val+'"/>';
         case "like":
-          return '["'+key+'"~"'+esc(condition.val.regex)+'"'
-                 //todo: +(condition.val.modifier==="i"?' case="ignore"':'')
-                 +']';
+          return '<has-kv k="'+key+'" regv="'+esc(condition.val.regex)+'"'
+                 +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +'/>';
         case "likelike":
-          return '[~"'+key+'"~"'+esc(condition.val.regex)+'"'
-                 //todo: +(condition.val.modifier==="i"?' case="ignore"':'')
-                 +']';
+          return '<has-kv regk="'+key+'" regv="'+esc(condition.val.regex)+'"'
+                 +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +'/>';
         case "notlike":
-          return '["'+key+'"!~"'+esc(condition.val.regex)+'"'
-                 //todo: +(condition.val.modifier==="i"?' case="ignore"':'')
-                 +']';
+          return '<has-kv k="'+key+'" modv="not" regv="'+esc(condition.val.regex)+'"'
+                 +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +'/>';
         case "meta":
           switch(condition.meta) {
             case "id":
-              return '('+val+')';
+              return function(type) {
+                return '<id-query type="'+type+'" ref="'+val+'"/>';
+              };
             case "newer":
               if (condition.val.match(/^-?\d+ ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?$/))
-                return '(newer:"{{date:'+val+'}}")';
-              return '(newer:"'+val+'")';
+                return '<newer than="{{date:'+val+'}}"/>';
+              return '<newer than="'+val+'"/>';
             case "user":
-              return '(user:"'+val+'")';
+              return '<user name="'+val+'"/>';
             case "uid":
-              return '(uid:"'+val+'")';
+              return '<user uid="'+val+'"/>';
             default:
               console.log("unknown query type: meta/"+condition.meta);
               return false;
@@ -228,8 +230,8 @@ turbo.ffs = function() {
 
     ffs.query = normalize(ffs.query);
 
-    query_parts.push('// gather results');
-    query_parts.push('(');
+    query_parts.push('  <!-- gather results -->');
+    query_parts.push('  <union>');
     for (var i=0; i<ffs.query.queries.length; i++) {
       var and_query = ffs.query.queries[i];
 
@@ -268,23 +270,27 @@ turbo.ffs = function() {
       clauses_str = clauses_str.join(' and ');
 
       // construct query
-      query_parts.push('  // query part for: “'+clauses_str+'”')
+      query_parts.push('    <!-- query part for: “'+clauses_str+'” -->')
       for (var t=0; t<types.length; t++) {
-        var buffer = '  '+types[t];
+        query_parts.push('    <query type="'+types[t]+'">');
         for (var c=0; c<clauses.length; c++)
-          buffer += clauses[c];
+          if (typeof clauses[c] !== "function")
+            query_parts.push('      '+clauses[c]);
+          else
+            query_parts.push('      '+clauses[c](types[t]));
         if (bounds_part)
-          buffer += bounds_part;
-        buffer += ';';
-        query_parts.push(buffer);
+          query_parts.push('      '+bounds_part);
+        query_parts.push('    </query>');
       }
     }
-    query_parts.push(');');
+    query_parts.push('  </union>');
 
-    query_parts.push('// print results');
-    query_parts.push('out body;');
-    query_parts.push('>;');
-    query_parts.push('out skel qt;');
+    query_parts.push('  <!-- print results -->');
+    query_parts.push('  <print mode="body"/>');
+    query_parts.push('  <recurse type="down"/>');
+    query_parts.push('  <print mode="skeleton" order="quadtile"/>');
+
+    query_parts.push('</osm-script>');
 
     return query_parts.join('\n');
   }
