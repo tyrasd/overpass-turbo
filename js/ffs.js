@@ -92,9 +92,9 @@ turbo.ffs = function() {
 
     function get_query_clause(condition) {
       function esc(str) {
-        // overpass API gets confused over tabs and newline characters
-        // see https://github.com/drolbr/Overpass-API/issues/91
-        return htmlentities(str).replace(/\t/g,"&#09;").replace(/\n/g,"&#10;").replace(/\r/g,"&#13;");
+        // see http://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL#Escaping
+        return str.replace(/\\/g,"\\\\").replace(/"/g,"\\\"") // need to escape those
+                  .replace(/\t/g,"\\t").replace(/\n/g,"\\n"); // also escape newlines an tabs for better readability of the query
       }
       function escRegexp(str) {
         return str.replace(/([()[{*+.$^\\|?])/g, '\\$1');
@@ -117,7 +117,7 @@ turbo.ffs = function() {
           condition.val={regex:'^$'};
         }
       }
-      // special case for empty values
+      // special case for empty keys
       // see https://github.com/drolbr/Overpass-API/issues/53#issuecomment-26325122
       if (key === '') {
         if (condition.query === "key") {
@@ -138,7 +138,7 @@ turbo.ffs = function() {
         case "key":
           return '["'+key+'"]';
         case "nokey":
-          return '["'+key+'"!~.*]';
+          return '["'+key+'"!~".*"]';
         case "eq":
           return '["'+key+'"="'+val+'"]';
         case "neq":
