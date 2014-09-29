@@ -145,15 +145,15 @@ turbo.ffs = function() {
           return '["'+key+'"!="'+val+'"]';
         case "like":
           return '["'+key+'"~"'+esc(condition.val.regex)+'"'
-                 //todo: +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +(condition.val.modifier==="i"?',i"':'')
                  +']';
         case "likelike":
           return '[~"'+key+'"~"'+esc(condition.val.regex)+'"'
-                 //todo: +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +(condition.val.modifier==="i"?',i"':'')
                  +']';
         case "notlike":
           return '["'+key+'"!~"'+esc(condition.val.regex)+'"'
-                 //todo: +(condition.val.modifier==="i"?' case="ignore"':'')
+                 +(condition.val.modifier==="i"?',i"':'')
                  +']';
         case "meta":
           switch(condition.meta) {
