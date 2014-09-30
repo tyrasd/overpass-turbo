@@ -6,36 +6,18 @@ describe("ide.ffs", function () {
   });
 
   function compact(q) {
-    q = q.replace(/<\!--[\s\S]*?-->/g,"");
-    q = q.replace(/<osm-script output="json" timeout="([^"]*)" ?>/,"");
-    q = q.replace(/<\/osm-script>/,"");
-    q = q.replace(/<id-query type="([^"]*)" ref="([^"]*)" ?\/>/g,"id($1,$2);");
-    q = q.replace(/<id-query \{\{nominatimArea:(.*?)\}\}( into="[^"]*")? ?\/>/g,"areaid($1);");
-    q = q.replace(/<has-kv k="([^"]*)" ?\/>/g,"kv($1);");
-    q = q.replace(/<has-kv k="([^"]*)" v="([^"]*)" ?\/>/g,"kv($1,$2);");
-    q = q.replace(/<has-kv k="([^"]*)" modv="not" v="([^"]*)" ?\/>/g,"kv($1,not,$2);");
-    q = q.replace(/<has-kv k="([^"]*)" regv="([^"]*)" ?\/>/g,"kvr($1,$2);");
-    q = q.replace(/<has-kv k="([^"]*)" modv="not" regv="([^"]*)" ?\/>/g,"kvr($1,not,$2);");
-    q = q.replace(/<has-kv k="([^"]*)" regv="([^"]*)" case="ignore" ?\/>/g,"kvr($1,$2,i);");
-    q = q.replace(/<has-kv k="([^"]*)" modv="not" regv="([^"]*)" case="ignore" ?\/>/g,"kvr($1,not,$2,i);");
-    q = q.replace(/<has-kv regk="([^"]*)" regv="([^"]*)" ?\/>/g,"krvr($1,$2);");
-    q = q.replace(/<bbox-query \{\{bbox\}\} ?\/>/g,"bbox;");
-    q = q.replace(/<area-query( from="[^"]*")? ?\/>/g,"area;");
-    q = q.replace(/<around \{\{nominatimCoords:(.*?)\}\}( radius="[^"]*")? ?\/>/g,"around($1);");
-    q = q.replace(/<newer than="\{\{(date:[^"]*)\}\}" ?\/>/g,"newer($1);");
-    q = q.replace(/<newer than="([^"]*)" ?\/>/g,"newer($1);");
-    q = q.replace(/<user (name|uid)="([^"]*)" ?\/>/g,"user($1,$2);");
-    q = q.replace(/<union>/g,"(");
-    q = q.replace(/<\/union>/g,");");
-    q = q.replace(/<query type="([^"]*)">/g,"$1[");
-    q = q.replace(/<\/query>/g,"];");
-    q = q.replace(/<print mode="([^"]*)"( order="[^"]*")? ?\/>/g,"print($1);");
-    q = q.replace(/<recurse type="([^"]*)" ?\/>/g,"recurse($1);");
+    q = q.replace(/\/\*[\s\S]*?\*\//g,"");
+    q = q.replace(/\/\/.*/g,"");
+    q = q.replace(/\[out:json\]\[timeout:.*?\];/,"");
+    q = q.replace(/\(\{\{bbox\}\}\)/g,"(bbox)");
+    q = q.replace(/\{\{nominatimArea:([^\}]*)\}\}/g,"area($1);");
+    q = q.replace(/\{\{nominatimCoords:([^\}]*)\}\}/g,"coords:$1");
+    q = q.replace(/\{\{date:([^\}]*)\}\}/g,"date:$1");
     q = q.replace(/\{\{[\s\S]*?\}\}/g,"");
     q = q.replace(/ *\n */g,"");
     return q;
   };
-  var out_str = "print(body);recurse(down);print(skeleton);";
+  var out_str = "out body;>;out skel qt;";
 
   // basic conditions
   describe("basic conditions", function () {
@@ -45,9 +27,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo);bbox;];"+
-          "way[kv(foo);bbox;];"+
-          "relation[kv(foo);bbox;];"+
+          "node[\"foo\"](bbox);"+
+          "way[\"foo\"](bbox);"+
+          "relation[\"foo\"](bbox);"+
         ");"+
         out_str
       );
@@ -58,9 +40,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kvr(foo,not,.*);bbox;];"+
-          "way[kvr(foo,not,.*);bbox;];"+
-          "relation[kvr(foo,not,.*);bbox;];"+
+          "node[\"foo\"!~\".*\"](bbox);"+
+          "way[\"foo\"!~\".*\"](bbox);"+
+          "relation[\"foo\"!~\".*\"](bbox);"+
         ");"+
         out_str
       );
@@ -71,9 +53,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo,bar);bbox;];"+
-          "way[kv(foo,bar);bbox;];"+
-          "relation[kv(foo,bar);bbox;];"+
+          "node[\"foo\"=\"bar\"](bbox);"+
+          "way[\"foo\"=\"bar\"](bbox);"+
+          "relation[\"foo\"=\"bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -84,9 +66,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo,not,bar);bbox;];"+
-          "way[kv(foo,not,bar);bbox;];"+
-          "relation[kv(foo,not,bar);bbox;];"+
+          "node[\"foo\"!=\"bar\"](bbox);"+
+          "way[\"foo\"!=\"bar\"](bbox);"+
+          "relation[\"foo\"!=\"bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -97,9 +79,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kvr(foo,bar);bbox;];"+
-          "way[kvr(foo,bar);bbox;];"+
-          "relation[kvr(foo,bar);bbox;];"+
+          "node[\"foo\"~\"bar\"](bbox);"+
+          "way[\"foo\"~\"bar\"](bbox);"+
+          "relation[\"foo\"~\"bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -110,9 +92,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[krvr(foo,bar);bbox;];"+
-          "way[krvr(foo,bar);bbox;];"+
-          "relation[krvr(foo,bar);bbox;];"+
+          "node[~\"foo\"~\"bar\"](bbox);"+
+          "way[~\"foo\"~\"bar\"](bbox);"+
+          "relation[~\"foo\"~\"bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -123,9 +105,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kvr(foo,not,bar);bbox;];"+
-          "way[kvr(foo,not,bar);bbox;];"+
-          "relation[kvr(foo,not,bar);bbox;];"+
+          "node[\"foo\"!~\"bar\"](bbox);"+
+          "way[\"foo\"!~\"bar\"](bbox);"+
+          "relation[\"foo\"!~\"bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -137,9 +119,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kvr(foo,bar);bbox;];"+
-          "way[kvr(foo,bar);bbox;];"+
-          "relation[kvr(foo,bar);bbox;];"+
+          "node[\"foo\"~\"bar\"](bbox);"+
+          "way[\"foo\"~\"bar\"](bbox);"+
+          "relation[\"foo\"~\"bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -148,9 +130,9 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kvr(foo,\\*);bbox;];"+
-          "way[kvr(foo,\\*);bbox;];"+
-          "relation[kvr(foo,\\*);bbox;];"+
+          "node[\"foo\"~\"\\\\*\"](bbox);"+
+          "way[\"foo\"~\"\\\\*\"](bbox);"+
+          "relation[\"foo\"~\"\\\\*\"](bbox);"+
         ");"+
         out_str
       );
@@ -167,9 +149,9 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo bar);bbox;];"+
-          "way[kv(foo bar);bbox;];"+
-          "relation[kv(foo bar);bbox;];"+
+          "node[\"foo bar\"](bbox);"+
+          "way[\"foo bar\"](bbox);"+
+          "relation[\"foo bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -177,9 +159,9 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(asd,foo bar);bbox;];"+
-          "way[kv(asd,foo bar);bbox;];"+
-          "relation[kv(asd,foo bar);bbox;];"+
+          "node[\"asd\"=\"foo bar\"](bbox);"+
+          "way[\"asd\"=\"foo bar\"](bbox);"+
+          "relation[\"asd\"=\"foo bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -188,9 +170,9 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo bar,asd fasd);bbox;];"+
-          "way[kv(foo bar,asd fasd);bbox;];"+
-          "relation[kv(foo bar,asd fasd);bbox;];"+
+          "node[\"foo bar\"=\"asd fasd\"](bbox);"+
+          "way[\"foo bar\"=\"asd fasd\"](bbox);"+
+          "relation[\"foo bar\"=\"asd fasd\"](bbox);"+
         ");"+
         out_str
       );
@@ -203,9 +185,9 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kvr(foo,bar);bbox;];"+
-          "way[kvr(foo,bar);bbox;];"+
-          "relation[kvr(foo,bar);bbox;];"+
+          "node[\"foo\"~\"bar\"](bbox);"+
+          "way[\"foo\"~\"bar\"](bbox);"+
+          "relation[\"foo\"~\"bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -214,9 +196,9 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kvr(foo,bar,i);bbox;];"+
-          "way[kvr(foo,bar,i);bbox;];"+
-          "relation[kvr(foo,bar,i);bbox;];"+
+          "node[\"foo\"~\"bar\",i](bbox);"+
+          "way[\"foo\"~\"bar\",i](bbox);"+
+          "relation[\"foo\"~\"bar\",i](bbox);"+
         ");"+
         out_str
       );
@@ -231,9 +213,9 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo,bar);kv(asd,fasd);bbox;];"+
-          "way[kv(foo,bar);kv(asd,fasd);bbox;];"+
-          "relation[kv(foo,bar);kv(asd,fasd);bbox;];"+
+          "node[\"foo\"=\"bar\"][\"asd\"=\"fasd\"](bbox);"+
+          "way[\"foo\"=\"bar\"][\"asd\"=\"fasd\"](bbox);"+
+          "relation[\"foo\"=\"bar\"][\"asd\"=\"fasd\"](bbox);"+
         ");"+
         out_str
       );
@@ -244,12 +226,12 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo,bar);bbox;];"+
-          "way[kv(foo,bar);bbox;];"+
-          "relation[kv(foo,bar);bbox;];"+
-          "node[kv(asd,fasd);bbox;];"+
-          "way[kv(asd,fasd);bbox;];"+
-          "relation[kv(asd,fasd);bbox;];"+
+          "node[\"foo\"=\"bar\"](bbox);"+
+          "way[\"foo\"=\"bar\"](bbox);"+
+          "relation[\"foo\"=\"bar\"](bbox);"+
+          "node[\"asd\"=\"fasd\"](bbox);"+
+          "way[\"asd\"=\"fasd\"](bbox);"+
+          "relation[\"asd\"=\"fasd\"](bbox);"+
         ");"+
         out_str
       );
@@ -260,18 +242,18 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo);kv(asd);bbox;];"+
-          "way[kv(foo);kv(asd);bbox;];"+
-          "relation[kv(foo);kv(asd);bbox;];"+
-          "node[kv(foo);kv(fasd);bbox;];"+
-          "way[kv(foo);kv(fasd);bbox;];"+
-          "relation[kv(foo);kv(fasd);bbox;];"+
-          "node[kv(bar);kv(asd);bbox;];"+
-          "way[kv(bar);kv(asd);bbox;];"+
-          "relation[kv(bar);kv(asd);bbox;];"+
-          "node[kv(bar);kv(fasd);bbox;];"+
-          "way[kv(bar);kv(fasd);bbox;];"+
-          "relation[kv(bar);kv(fasd);bbox;];"+
+          "node[\"foo\"][\"asd\"](bbox);"+
+          "way[\"foo\"][\"asd\"](bbox);"+
+          "relation[\"foo\"][\"asd\"](bbox);"+
+          "node[\"foo\"][\"fasd\"](bbox);"+
+          "way[\"foo\"][\"fasd\"](bbox);"+
+          "relation[\"foo\"][\"fasd\"](bbox);"+
+          "node[\"bar\"][\"asd\"](bbox);"+
+          "way[\"bar\"][\"asd\"](bbox);"+
+          "relation[\"bar\"][\"asd\"](bbox);"+
+          "node[\"bar\"][\"fasd\"](bbox);"+
+          "way[\"bar\"][\"fasd\"](bbox);"+
+          "relation[\"bar\"][\"fasd\"](bbox);"+
         ");"+
         out_str
       );
@@ -287,7 +269,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo,bar);bbox;];"+
+          "node[\"foo\"=\"bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -296,8 +278,8 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo,bar);bbox;];"+
-          "way[kv(foo,bar);bbox;];"+
+          "node[\"foo\"=\"bar\"](bbox);"+
+          "way[\"foo\"=\"bar\"](bbox);"+
         ");"+
         out_str
       );
@@ -317,7 +299,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[newer(2000-01-01T01:01:01Z);bbox;];"+
+          "node(newer:\"2000-01-01T01:01:01Z\")(bbox);"+
         ");"+
         out_str
       );
@@ -326,7 +308,7 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[newer(date:1day);bbox;];"+
+          "node(newer:\"date:1day\")(bbox);"+
         ");"+
         out_str
       );
@@ -338,7 +320,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[user(name,foo);bbox;];"+
+          "node(user:\"foo\")(bbox);"+
         ");"+
         out_str
       );
@@ -347,7 +329,7 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[user(uid,123);bbox;];"+
+          "node(uid:123)(bbox);"+
         ");"+
         out_str
       );
@@ -359,7 +341,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[id(node,123);bbox;];"+
+          "node(123)(bbox);"+
         ");"+
         out_str
       );
@@ -368,9 +350,9 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[id(node,123);bbox;];"+
-          "way[id(way,123);bbox;];"+
-          "relation[id(relation,123);bbox;];"+
+          "node(123)(bbox);"+
+          "way(123)(bbox);"+
+          "relation(123)(bbox);"+
         ");"+
         out_str
       );
@@ -385,7 +367,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(foo,bar);];"+
+          "node[\"foo\"=\"bar\"];"+
         ");"+
         out_str
       );
@@ -397,7 +379,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[bbox;];"+
+          "node(bbox);"+
         ");"+
         out_str
       );
@@ -406,7 +388,7 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[bbox;];"+
+          "node(bbox);"+
         ");"+
         out_str
       );
@@ -416,9 +398,9 @@ describe("ide.ffs", function () {
       var search = "type:node in foobar";
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
-        "areaid(foobar);"+
+        "area(foobar); (._)->.searchArea;"+
         "("+
-          "node[area;];"+
+          "node(area.searchArea);"+
         ");"+
         out_str
       );
@@ -429,7 +411,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node[around(foobar);];"+
+          "node(around:coords:foobar,);"+
         ");"+
         out_str
       );
@@ -486,7 +468,7 @@ describe("ide.ffs", function () {
       expect(result).to.not.equal(false);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(amenity,shelter);bbox;];"+
+          "node[\"amenity\"=\"shelter\"](bbox);"+
         ");"+
         out_str
       );
@@ -496,9 +478,9 @@ describe("ide.ffs", function () {
       expect(result).to.not.equal(false);
       expect(compact(result)).to.equal(
         "("+
-          "node[kv(amenity,hospital);bbox;];"+
-          "way[kv(amenity,hospital);bbox;];"+
-          "relation[kv(amenity,hospital);bbox;];"+
+          "node[\"amenity\"=\"hospital\"](bbox);"+
+          "way[\"amenity\"=\"hospital\"](bbox);"+
+          "relation[\"amenity\"=\"hospital\"](bbox);"+
         ");"+
         out_str
       );
@@ -508,7 +490,7 @@ describe("ide.ffs", function () {
       expect(result).to.not.equal(false);
       expect(compact(result)).to.equal(
         "("+
-          "way[kv(highway);bbox;];"+
+          "way[\"highway\"](bbox);"+
         ");"+
         out_str
       );
@@ -525,7 +507,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "way[kvr(foo,^$);bbox;];"+
+          "way[\"foo\"~\"^$\"](bbox);"+
         ");"+
         out_str
       );
@@ -536,7 +518,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "way[krvr(^$,^bar$);bbox;];"+
+          "way[~\"^$\"~\"^bar$\"](bbox);"+
         ");"+
         out_str
       );
@@ -545,31 +527,30 @@ describe("ide.ffs", function () {
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "way[krvr(^$,^\\*$);bbox;];"+
+          "way[~\"^$\"~\"^\\\\*$\"](bbox);"+
         ");"+
         out_str
       );
       // does also work for =*, ~ and : searches
-      search = "(''=* or ''~/.*/) and type:way";
+      search = "(''=* or ''~/.../) and type:way";
       result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "way[krvr(^$,.*);bbox;];"+
-          "way[krvr(^$,.*);bbox;];"+
+          "way[~\"^$\"~\".*\"](bbox);"+
+          "way[~\"^$\"~\"...\"](bbox);"+
         ");"+
         out_str
       );
     });
     // newlines, tabs
     it("newlines, tabs", function () {
-      var search = "(foo='\t' or foo='\n' or foo='\r' or asd='\\t') and type:way";
+      var search = "(foo='\t' or foo='\n' or asd='\\t') and type:way";
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "way[kv(foo,&#09;);bbox;];"+
-          "way[kv(foo,&#10;);bbox;];"+
-          "way[kv(foo,&#13;);bbox;];"+
-          "way[kv(asd,&#09;);bbox;];"+
+          "way[\"foo\"=\"\\t\"](bbox);"+
+          "way[\"foo\"=\"\\n\"](bbox);"+
+          "way[\"asd\"=\"\\t\"](bbox);"+
         ");"+
         out_str
       );
