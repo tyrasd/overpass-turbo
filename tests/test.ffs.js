@@ -411,7 +411,7 @@ describe("ide.ffs", function () {
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
-          "node(around:coords:foobar,);"+
+          "node(around:,coords:foobar);"+
         ");"+
         out_str
       );

@@ -76,7 +76,7 @@ turbo.ffs = function() {
       case "around":
         query_parts.push('// adjust the search radius (in meters) here');
         query_parts.push('{{radius=1000}}');
-        bounds_part = '(around:{{nominatimCoords:'+ffs.area+'}},{{radius}})';
+        bounds_part = '(around:{{radius}},{{nominatimCoords:'+ffs.area+'}})';
       break;
       case "bbox":
         bounds_part = '({{bbox}})';
