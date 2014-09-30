@@ -76,7 +76,7 @@ turbo.ffs = function() {
       case "around":
         query_parts.push('// adjust the search radius (in meters) here');
         query_parts.push('{{radius=1000}}');
-        bounds_part = 'around({{nominatimCoords:'+ffs.area+'}}, radius={{radius}})';
+        bounds_part = '(around:{{nominatimCoords:'+ffs.area+'}},{{radius}})';
       break;
       case "bbox":
         bounds_part = '({{bbox}})';
@@ -92,6 +92,7 @@ turbo.ffs = function() {
 
     function get_query_clause(condition) {
       function esc(str) {
+        if (typeof str !== "string") return;
         // see http://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL#Escaping
         return str.replace(/\\/g,"\\\\").replace(/"/g,"\\\"") // need to escape those
                   .replace(/\t/g,"\\t").replace(/\n/g,"\\n"); // also escape newlines an tabs for better readability of the query
@@ -145,15 +146,15 @@ turbo.ffs = function() {
           return '["'+key+'"!="'+val+'"]';
         case "like":
           return '["'+key+'"~"'+esc(condition.val.regex)+'"'
-                 +(condition.val.modifier==="i"?',i"':'')
+                 +(condition.val.modifier==="i"?',i':'')
                  +']';
         case "likelike":
           return '[~"'+key+'"~"'+esc(condition.val.regex)+'"'
-                 +(condition.val.modifier==="i"?',i"':'')
+                 +(condition.val.modifier==="i"?',i':'')
                  +']';
         case "notlike":
           return '["'+key+'"!~"'+esc(condition.val.regex)+'"'
-                 +(condition.val.modifier==="i"?',i"':'')
+                 +(condition.val.modifier==="i"?',i':'')
                  +']';
         case "meta":
           switch(condition.meta) {
@@ -166,7 +167,7 @@ turbo.ffs = function() {
             case "user":
               return '(user:"'+val+'")';
             case "uid":
-              return '(uid:"'+val+'")';
+              return '(uid:'+val+')';
             default:
               console.log("unknown query type: meta/"+condition.meta);
               return false;
@@ -189,38 +190,42 @@ turbo.ffs = function() {
           return '/'+s.regex.replace(/\//g,'\\/')+'/'+(s.modifier||'');
         return s.regex;
       }
+      function quoteResult(s) {
+        // these strings are to be used within c-style comments, thus any comment-ending sequence in these strings will break the result.
+        return s.replace(/\*\//g,'[…]').replace(/\n/g,'[…]');
+      }
       switch(condition.query) {
         case "key":
-          return quotes(condition.key)+'=*';
+          return quoteResult(quotes(condition.key)+'=*');
         case "nokey":
-          return quotes(condition.key)+'!=*';
+          return quoteResult(quotes(condition.key)+'!=*');
         case "eq":
-          return quotes(condition.key)+'='+quotes(condition.val);
+          return quoteResult(quotes(condition.key)+'='+quotes(condition.val));
         case "neq":
-          return quotes(condition.key)+'!='+quotes(condition.val);
+          return quoteResult(quotes(condition.key)+'!='+quotes(condition.val));
         case "like":
-          return quotes(condition.key)+'~'+quoteRegex(condition.val);
+          return quoteResult(quotes(condition.key)+'~'+quoteRegex(condition.val));
         case "likelike":
-          return '~'+quotes(condition.key)+'~'+quoteRegex(condition.val);
+          return quoteResult('~'+quotes(condition.key)+'~'+quoteRegex(condition.val));
         case "notlike":
-          return quotes(condition.key)+'!~'+quoteRegex(condition.val);
+          return quoteResult(quotes(condition.key)+'!~'+quoteRegex(condition.val));
         case "substr":
-          return quotes(condition.key)+':'+quotes(condition.val);
+          return quoteResult(quotes(condition.key)+':'+quotes(condition.val));
         case "meta":
           switch(condition.meta) {
             case "id":
-              return 'id:'+quotes(condition.val);
+              return quoteResult('id:'+quotes(condition.val));
             case "newer":
-              return 'newer:'+quotes(condition.val);
+              return quoteResult('newer:'+quotes(condition.val));
             case "user":
-              return 'user:'+quotes(condition.val);
+              return quoteResult('user:'+quotes(condition.val));
             case "uid":
-              return 'uid:'+quotes(condition.val);
+              return quoteResult('uid:'+quotes(condition.val));
             default:
               return '';
           }
         case "free form":
-          return quotes(condition.free);
+          return quoteResult(quotes(condition.free));
         default:
           return '';
       }
