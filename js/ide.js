@@ -812,7 +812,7 @@ var ide = new(function() {
       buttons: dialog_buttons,
     }); // dialog
   }
-  this.nominatimId = function(instr, callback) {
+  this.geocodeId = function(instr, callback) {
     var lang = ide.getQueryLang();
     function filter(n) {
       return n.osm_type && n.osm_id;
@@ -820,13 +820,13 @@ var ide = new(function() {
     nominatim.getBest(instr,filter, function(err, res) {
       if (err) return onNominatimError(instr,"Id");
       if (lang=="OverpassQL")
-        res = res.osm_type+"("+res.osm_id+");";
+        res = res.osm_type+"("+res.osm_id+")";
       else if (lang=="xml")
         res = 'type="'+res.osm_type+'" ref="'+res.osm_id+'"';
       callback(res);
     });
   }
-  this.nominatimArea = function(instr, callback) {
+  this.geocodeArea = function(instr, callback) {
     var lang = ide.getQueryLang();
     function filter(n) {
       return n.osm_type && n.osm_id && n.osm_type!=="node";
@@ -839,13 +839,13 @@ var ide = new(function() {
       if (res.osm_type == "relation")
         area_ref += 3600000000;
       if (lang=="OverpassQL")
-        res = "area("+area_ref+");";
+        res = "area("+area_ref+")";
       else if (lang=="xml")
         res = 'type="area" ref="'+area_ref+'"';
       callback(res);
     });
   }
-  this.nominatimBbox = function(instr, callback) {
+  this.geocodeBbox = function(instr, callback) {
     var lang = ide.getQueryLang();
     nominatim.getBest(instr, function(err, res) {
       if (err) return onNominatimError(instr,"Bbox");
@@ -860,7 +860,7 @@ var ide = new(function() {
       callback(res);
     });
   }
-  this.nominatimCoords = function(instr, callback) {
+  this.geocodeCoords = function(instr, callback) {
     var lang = ide.getQueryLang();
     nominatim.getBest(instr, function(err, res) {
       if (err) return onNominatimError(instr,"Coords");
@@ -888,10 +888,19 @@ var ide = new(function() {
       "center": ide.map2coord(this.getQueryLang()),
       "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL"),
       "date": ide.relativeTime,
-      "nominatimId": ide.nominatimId,
-      "nominatimArea": ide.nominatimArea,
-      "nominatimBbox": ide.nominatimBbox,
-      "nominatimCoords": ide.nominatimCoords,
+      "geocodeId": ide.geocodeId,
+      "geocodeArea": ide.geocodeArea,
+      "geocodeBbox": ide.geocodeBbox,
+      "geocodeCoords": ide.geocodeCoords,
+      // legacy 
+      "nominatimId": function(instr,callback) {
+        ide.geocodeId(instr, function(result) { callback(result+';'); });
+      },
+      "nominatimArea": function(instr,callback) {
+        ide.geocodeArea(instr, function(result) { callback(result+';'); });
+      },
+      "nominatimBbox": ide.geocodeBbox,
+      "nominatimCoords": ide.geocodeCoords,
     };
     queryParser.parse(query, shortcuts, function(query) {
       // parse mapcss declarations

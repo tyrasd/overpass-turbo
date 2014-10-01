@@ -76,13 +76,13 @@ turbo.ffs = function() {
     switch(ffs.bounds) {
       case "area": 
         query_parts.push('// fetch area “'+ffs.area+'” to search in');
-        query_parts.push('{{nominatimArea:'+ffs.area+'}} (._)->.searchArea;');
+        query_parts.push('{{geocodeArea:'+ffs.area+'}}->.searchArea;');
         bounds_part = '(area.searchArea)';
       break;
       case "around":
         query_parts.push('// adjust the search radius (in meters) here');
         query_parts.push('{{radius=1000}}');
-        bounds_part = '(around:{{radius}},{{nominatimCoords:'+ffs.area+'}})';
+        bounds_part = '(around:{{radius}},{{geocodeCoords:'+ffs.area+'}})';
       break;
       case "bbox":
         bounds_part = '({{bbox}})';
