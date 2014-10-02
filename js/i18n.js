@@ -31,9 +31,14 @@ var i18n = new(function() {
     if (lng == "auto") {
       // get user agent's language
       try {
-        lng = navigator.language;
-        if (!$.inArray(lng,supported_lngs)) // fall back to generic language file if no country-specific i18n is found
-          lng = lng.replace(/-.*/,"").toLowerCase();
+        lng = navigator.language.toLowerCase();
+        // sanitize inconsistent use of lower and upper case spelling
+        var parts;
+        if (parts = lng.match(/(.*)-(.*)/))
+          lng = parts[1]+'-'+parts[2].toUpperCase();
+        // fall back to generic language file if no country-specific i18n is found
+        if (!$.inArray(lng,supported_lngs))
+          lng = lng.replace(/-.*/,"");
       } catch(e) {}
     }
     return lng;
