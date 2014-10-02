@@ -10,8 +10,8 @@ describe("ide.ffs", function () {
     q = q.replace(/\/\/.*/g,"");
     q = q.replace(/\[out:json\]\[timeout:.*?\];/,"");
     q = q.replace(/\(\{\{bbox\}\}\)/g,"(bbox)");
-    q = q.replace(/\{\{nominatimArea:([^\}]*)\}\}/g,"area($1);");
-    q = q.replace(/\{\{nominatimCoords:([^\}]*)\}\}/g,"coords:$1");
+    q = q.replace(/\{\{geocodeArea:([^\}]*)\}\}/g,"area($1)");
+    q = q.replace(/\{\{geocodeCoords:([^\}]*)\}\}/g,"coords:$1");
     q = q.replace(/\{\{date:([^\}]*)\}\}/g,"date:$1");
     q = q.replace(/\{\{[\s\S]*?\}\}/g,"");
     q = q.replace(/ *\n */g,"");
@@ -398,7 +398,7 @@ describe("ide.ffs", function () {
       var search = "type:node in foobar";
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
-        "area(foobar); (._)->.searchArea;"+
+        "area(foobar)->.searchArea;"+
         "("+
           "node(area.searchArea);"+
         ");"+
