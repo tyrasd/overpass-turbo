@@ -31,7 +31,9 @@ var i18n = new(function() {
     if (lng == "auto") {
       // get user agent's language
       try {
-        lng = navigator.language.replace(/-.*/,"").toLowerCase();
+        lng = navigator.language;
+        if (!$.inArray(lng,supported_lngs)) // fall back to generic language file if no country-specific i18n is found
+          lng = lng.replace(/-.*/,"").toLowerCase();
       } catch(e) {}
     }
     return lng;
