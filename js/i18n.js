@@ -15,11 +15,13 @@ var i18n = new(function() {
     "it",
     "ja",
     "nl",
+    "no",
     "pt-BR",
     "ru",
     "sl",
     "uk",
     "vi",
+    "zh-TW"
   ];
   this.getSupportedLanguages = function() {
     return [].concat(supported_lngs);
