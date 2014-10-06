@@ -484,7 +484,7 @@ setTimeout(function() {
                 latlng = e.target.getLatLng(); // node-ish features (circles, markers, icons, placeholders)
               else
                 latlng = e.latlng; // all other (lines, polygons, multipolygons)
-              var p = L.popup({},this).setLatLng(latlng).setContent(popup);
+              var p = L.popup({maxHeight:600},this).setLatLng(latlng).setContent(popup);
               p.layer = layer;
               fire("onPopupReady", p);
             });
