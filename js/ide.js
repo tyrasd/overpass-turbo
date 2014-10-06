@@ -1698,14 +1698,18 @@ var ide = new(function() {
       overpass.run_query(query,query_lang);
     });
   }
-  this.update_ffs_query = function() {
-    var search = $("#ffs-dialog input[type=text]").val();
+  this.update_ffs_query = function(s) {
+    var search = s || $("#ffs-dialog input[type=text]").val();
     query = ffs.construct_query(search);
     if (query === false) {
       var repaired = ffs.repair_search(search);
-      if (repaired)
+      if (repaired) {
         return repaired;
-      return false;
+      } else {
+        if (s) return false;
+        // try to parse as generic ffs search
+        return this.update_ffs_query('"'+search+'"');
+      }
     }
     ide.setQuery(query);
     return true;

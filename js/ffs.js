@@ -49,7 +49,7 @@ turbo.ffs = function() {
     try {
       ffs = turbo.ffs.parser.parse(search);
     } catch(e) {
-      //alert("parse error :(");
+      console.log("ffs parse error");
       return false;
     }
 
