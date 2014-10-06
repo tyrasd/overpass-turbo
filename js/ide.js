@@ -1651,7 +1651,7 @@ var ide = new(function() {
       width:450,
       buttons: dialog_buttons,
     });
-    $("#help-dialog").accordion();
+    $("#help-dialog").accordion({heightStyle: "content"});
   }
   this.onKeyPress = function(event) {
     if ((event.which == 120 && event.charCode == 0) || // F9

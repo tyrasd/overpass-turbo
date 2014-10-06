@@ -137,12 +137,18 @@
   "help.title": "Help",
 
   "help.section.introduction": "Introduction",
-  "help.intro.1": "With <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">overpass turbo</a> you can run <a href=\"http://overpass-api.de\">Overpass API</a> queries and analyse the resulting <a href=\"http://www.openstreetmap.org\">OpenStreetMap</a> data interactively on a map.",
-  "help.intro.2": "You can run xml styled or OverpassQL <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide\">queries</a>. Returned xml or json data is parsed and (if possible) shown on the map. For more information about <i>overpass turbo</i> take a look at the <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">OSM wiki</a>.",
+  "help.intro.0": "This is <i>overpass turbo</i>, a web-based data filtering tool for <a href=\"http://www.openstreetmap.org\">OpenStreetMap</a>.",
+  "help.intro.1": "With overpass turbo you can run <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API\">Overpass API</a> queries and analyse the resulting OSM data interactively on a map.",
+  "help.intro.2": "More information about <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo\">overpass turbo</a> and how to write <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API/Language_Guide\">Overpass queries</a> can be found in the OSM wiki.",
+
+  "help.section.queries" : "Overpass Queries",
   "help.intro.shortcuts": "One can use the following handy shortcuts in the query:",
   "help.intro.shortcuts.bbox": "bounding box coordinates of the current map view",
   "help.intro.shortcuts.center": "map center coordinates",
+  "help.intro.shortcuts.date": "ISO 8601 date-time-string a certain time interval ago (e.g. “24 hours”)",
+  "help.intro.shortcuts.style": "defines a <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\">MapCSS stylesheet</a>",
   "help.intro.shortcuts.custom": "Arbitrary shortcuts can be defined by putting <i>{{shortcut=value}}</i> somewhere in the script.",
+  "help.intro.shortcuts.more": "More Overpass shortcuts, additional information about the above and usage examples can be found in the <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\">OSM wiki</a>.",
 
   "help.section.ide": "IDE",
   "help.ide.share.title": "Sharing",
@@ -151,6 +157,7 @@
   "help.ide.save_load.expl": "You can also save and load your queries. For a start, there are a few example queries preloaded. Take a look at them for a short glimpse of what overpass can do.",
   "help.ide.keyboard.title": "Keyboard shortcuts:",
   "help.ide.keyboard.run": "Run the current query.",
+  "help.ide.keyboard.wizard": "Start the query wizard.",
   "help.ide.keyboard.load_save": "Load (open) / Save a query.",
   "help.ide.keyboard.help": "Open this help dialog.",
 
