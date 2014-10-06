@@ -619,6 +619,7 @@ var ide = new(function() {
       dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
       $('<div title="'+i18n.t("error.query.title")+'"><p style="color:red;">'+i18n.t("error.query.expl")+'</p>'+errmsg+"</div>").dialog({
         modal:true,
+        maxHeight:600,
         buttons: dialog_buttons,
       });
     }
