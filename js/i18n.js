@@ -2,29 +2,33 @@
 
 var i18n = new(function() {
   var default_lng = "en";
-  var supported_lngs = [
+  var languages = {
     // translations found in locale/*.json
-    default_lng,
-    "ca",
-    "da",
-    "de",
-    "es",
-    "et",
-    "fr",
-    "hr",
-    "it",
-    "ja",
-    "nl",
-    "no",
-    "pt-BR",
-    "ru",
-    "sl",
-    "uk",
-    "vi",
-    "zh-TW"
-  ];
+    "en":    "English",
+    "ca":    "Catalan",
+    "da":    "Danish",
+    "de":    "German",
+    "es":    "Spanish",
+    "et":    "Estonian",
+    "fr":    "French",
+    "hr":    "Hungarian",
+    "it":    "Italian",
+    "ja":    "Japanese",
+    "nl":    "Dutch",
+    "no":    "Norwegian",
+    "pt-BR": "Portuguese (Brazil)",
+    "ru":    "Russian",
+    "sl":    "Slovenian",
+    "uk":    "Ukrainian",
+    "vi":    "Vietnamese",
+    "zh-TW": "Chinese (Taiwan)"
+  };
+  var supported_lngs = _.keys(languages);
   this.getSupportedLanguages = function() {
-    return [].concat(supported_lngs);
+    return supported_lngs;
+  }
+  this.getSupportedLanguagesDescriptions = function() {
+    return languages;
   }
   this.getLanguage = function(lng) {
     lng = lng || settings.ui_language;

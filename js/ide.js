@@ -1572,8 +1572,15 @@ var ide = new(function() {
   }
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value = settings.ui_language;
-    make_combobox($("#settings-dialog input[name=ui_language]"),
-      ["auto"].concat(i18n.getSupportedLanguages())
+    var lngDescs = i18n.getSupportedLanguagesDescriptions();
+    make_combobox(
+      $("#settings-dialog input[name=ui_language]"),
+      (["auto"].concat(i18n.getSupportedLanguages())).map(function(lng) {
+        return {
+          value: lng,
+          label: lng=="auto" ? "auto" : lng+' - '+lngDescs[lng]
+        }
+      })
     );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox($("#settings-dialog input[name=server]"), configs.suggestedServers);
