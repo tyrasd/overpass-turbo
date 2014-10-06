@@ -32,6 +32,8 @@ var i18n = new(function() {
       // get user agent's language
       try {
         lng = navigator.language.toLowerCase();
+        // hardcode some language fallbacks
+        if (lng === "nb") lng = "no"; // Norwegian Bokmål
         // sanitize inconsistent use of lower and upper case spelling
         var parts;
         if (parts = lng.match(/(.*)-(.*)/))
