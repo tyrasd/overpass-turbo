@@ -134,10 +134,6 @@
   "share.incl_map_state": "include current map state",
   "share.run_immediately": "run this query immediately after loading",
 
-  "welcome.title": "Welcome",
-  "welcome.text.1": "Hello, this is <i>overpass turbo</i>, a web-based data filtering tool for <a href=\"http://www.openstreetmap.org\">OpenStreetMap</a>. Running <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API\">Overpass API</a> queries, it makes the goodness of OSM's geo-data accessible to everyone.",
-  "welcome.text.2": "You can go ahead with your Overpass queries, or take a look at the <a href=\"javascript:ide.onHelpClick();\">help page</a> for a start.",
-
   "help.title": "Help",
 
   "help.section.introduction": "Introduction",
