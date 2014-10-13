@@ -16,6 +16,7 @@ var i18n = new(function() {
     "ja":    "Japanese",
     "nl":    "Dutch",
     "no":    "Norwegian",
+    "pl":    "Polish",
     "pt-BR": "Portuguese (Brazil)",
     "ru":    "Russian",
     "sl":    "Slovenian",
