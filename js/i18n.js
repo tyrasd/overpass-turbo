@@ -1,6 +1,25 @@
 // global i18n object
 
 var i18n = new(function() {
+  function browser_locale() {
+    /* taken from https://github.com/maxogden/browser-locale by Max Ogden, BSD licensed */
+    var lang
+    
+    if (navigator.languages) {
+      // chrome does not currently set navigator.language correctly https://code.google.com/p/chromium/issues/detail?id=101138
+      // but it does set the first element of navigator.languages correctly
+      lang = navigator.languages[0]
+    } else if (navigator.userLanguage) {
+      // IE only
+      lang = navigator.userLanguage
+    } else {
+      // as of this writing the latest version of firefox + safari set this correctly
+      lang = navigator.language
+    }
+    
+    return lang
+  }
+
   var default_lng = "en";
   var languages = {
     // translations found in locale/*.json
@@ -36,17 +55,17 @@ var i18n = new(function() {
     if (lng == "auto") {
       // get user agent's language
       try {
-        lng = navigator.language.toLowerCase();
-        // hardcode some language fallbacks
-        if (lng === "nb") lng = "no"; // Norwegian Bokmål
-        // sanitize inconsistent use of lower and upper case spelling
-        var parts;
-        if (parts = lng.match(/(.*)-(.*)/))
-          lng = parts[1]+'-'+parts[2].toUpperCase();
-        // fall back to generic language file if no country-specific i18n is found
-        if (!$.inArray(lng,supported_lngs))
-          lng = lng.replace(/-.*/,"");
+        lng = browser_locale().toLowerCase();
       } catch(e) {}
+      // hardcode some language fallbacks
+      if (lng === "nb") lng = "no"; // Norwegian Bokmål
+      // sanitize inconsistent use of lower and upper case spelling
+      var parts;
+      if (parts = lng.match(/(.*)-(.*)/))
+        lng = parts[1]+'-'+parts[2].toUpperCase();
+      // fall back to generic language file if no country-specific i18n is found
+      if (!$.inArray(lng,supported_lngs))
+        lng = lng.replace(/-.*/,"");
     }
     return lng;
   }
