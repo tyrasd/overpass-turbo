@@ -64,7 +64,7 @@ var i18n = new(function() {
       if (parts = lng.match(/(.*)-(.*)/))
         lng = parts[1]+'-'+parts[2].toUpperCase();
       // fall back to generic language file if no country-specific i18n is found
-      if (!$.inArray(lng,supported_lngs))
+      if ($.inArray(lng,supported_lngs) == -1)
         lng = lng.replace(/-.*/,"");
     }
     return lng;
