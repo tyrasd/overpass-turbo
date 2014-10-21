@@ -158,7 +158,6 @@
   "help.attr.software": "Software & bibliotheken",
   "help.attr.leaflet": "Kaart aangemaakt met",
   "help.attr.codemirror": "Editor powered by",
-  "help.attr.jquery": "Aangedreven door",
   "help.attr.other_libs": "Andere bibliotheken:",
   "ffs.title": "Query Wizard",
   "ffs.placeholder": "search",

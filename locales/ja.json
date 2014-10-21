@@ -158,7 +158,6 @@
   "help.attr.software": "Software & Libraries",
   "help.attr.leaflet": "Map powered by",
   "help.attr.codemirror": "Editor powered by",
-  "help.attr.jquery": "Driven by",
   "help.attr.other_libs": "Other libraries:",
   "ffs.title": "クエリウィザード",
   "ffs.placeholder": "検索",

@@ -158,7 +158,6 @@
   "help.attr.software": "Logiciel et bibliothèques",
   "help.attr.leaflet": "Carte propulsée par",
   "help.attr.codemirror": "Éditeur propulsé par",
-  "help.attr.jquery": "Driven by",
   "help.attr.other_libs": "Autres bibliothèques :",
   "ffs.title": "Query Wizard",
   "ffs.placeholder": "rechercher",

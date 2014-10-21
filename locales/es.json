@@ -158,7 +158,6 @@
   "help.attr.software": "Software y bibliotecas",
   "help.attr.leaflet": "Mapa provisto por",
   "help.attr.codemirror": "Editor provisto por",
-  "help.attr.jquery": "Impulsado por",
   "help.attr.other_libs": "Otras bibliotecas:",
   "ffs.title": "Asistente para consultas",
   "ffs.placeholder": "buscar",

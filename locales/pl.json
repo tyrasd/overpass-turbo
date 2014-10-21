@@ -158,7 +158,6 @@
   "help.attr.software": "Software i biblioteki",
   "help.attr.leaflet": "Mapa obsługiwana przez",
   "help.attr.codemirror": "Edytor:",
-  "help.attr.jquery": "Napędzane przez",
   "help.attr.other_libs": "Pozostałe biblioteki:",
   "ffs.title": "Query Wizard",
   "ffs.placeholder": "szukaj",

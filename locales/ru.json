@@ -158,7 +158,6 @@
   "help.attr.software": "Программы и библиотеки",
   "help.attr.leaflet": "Карта предоставлена",
   "help.attr.codemirror": "Редактор на движке",
-  "help.attr.jquery": "Работает на",
   "help.attr.other_libs": "Другие библиотеки:",
   "ffs.title": "Помощник по составлению запросов",
   "ffs.placeholder": "поиск",
