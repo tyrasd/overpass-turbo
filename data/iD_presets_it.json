@@ -119,6 +119,10 @@
     "name": "Noleggio barche",
     "terms": "noleggio barche,noleggio,barche,porto,negozio"
   },
+  "amenity/bureau_de_change": {
+    "name": "Cambiavalute",
+    "terms": "cambi,ufficio cambi,cambio,valuta,cambiovaluta"
+  },
   "amenity/bus_station": {
     "name": "Stazione degli autobus",
     "terms": "autobus,bus,tram,stazione,fermata,capolinea"
@@ -139,9 +143,8 @@
     "name": "Autolavaggio",
     "terms": "Autolavaggio"
   },
-  "amenity/childcare": {
-    "name": "Doposcuola",
-    "terms": "Assistenza infanzia"
+  "amenity/charging_station": {
+    "name": "Stazione di ricarica"
   },
   "amenity/cinema": {
     "name": "Cinema",
@@ -155,9 +158,8 @@
     "name": "Orologio",
     "terms": "ora,orario,orologio"
   },
-  "amenity/college": {
-    "name": "College",
-    "terms": "Accademia"
+  "amenity/compressed_air": {
+    "name": "Aria Compressa"
   },
   "amenity/courthouse": {
     "name": "Tribunale",
@@ -206,10 +208,6 @@
   "amenity/hospital": {
     "name": "Area Ospedaliera",
     "terms": "ospedale,clinica,pronto soccorso,servizio sanitario,salute,hospice,ospizio,infermeria,istituzione,casa di cura,casa di riposo,sanatorio,ambulatorio,chirurgia,reparto"
-  },
-  "amenity/kindergarten": {
-    "name": "Area della Scuola dell'infanzia",
-    "terms": "scuola d'infanzia,scuola di infanzia,asilo,assistenza all'infanzia,asilo d'infanzia,scuola materna,scuola dell'infanzia,asilo nido"
   },
   "amenity/library": {
     "name": "Biblioteca",
@@ -299,10 +297,6 @@
     "name": "Banco alimentare",
     "terms": "mensa del povero,mensa caritas"
   },
-  "amenity/social_facility/group_home": {
-    "name": "Comunità",
-    "terms": "casa comunitaria,terapia di gruppo,comunità"
-  },
   "amenity/social_facility/homeless_shelter": {
     "name": "Dormitorio",
     "terms": "ricovero,senzadimora,barboni,senza fissa dimora,senza dimora,senza casa"
@@ -336,8 +330,7 @@
     "terms": "sala del comune,palazzo di governo,tribunale,munipio"
   },
   "amenity/university": {
-    "name": "Università",
-    "terms": "college"
+    "name": "Area universitaria"
   },
   "amenity/vending_machine": {
     "name": "Distributore automatico",
@@ -580,6 +573,9 @@
     "name": "Costruttore di orologi",
     "terms": "orologi"
   },
+  "craft/confectionary": {
+    "name": "Pasticceria"
+  },
   "craft/dressmaker": {
     "name": "Sartoria",
     "terms": "sarto,merceria,vestiti su misura"
@@ -637,6 +633,9 @@
   "craft/shoemaker": {
     "name": "Calzolaio",
     "terms": "scarpe,scarpino,calzature"
+  },
+  "craft/upholsterer": {
+    "name": "Tappezziere"
   },
   "craft/watchmaker": {
     "name": "Orologiaio",
@@ -765,6 +764,10 @@
   "highway/primary_link": {
     "name": "Svincolo primario",
     "terms": "Svincolo primario"
+  },
+  "highway/raceway": {
+    "name": "Circuito",
+    "terms": "pista,autodromo,pista automobilistica,pista motoristica"
   },
   "highway/residential": {
     "name": "Residenziale",
@@ -1046,6 +1049,10 @@
     "name": "Parco giochi",
     "terms": "area giochi,scivolo,parco,giochi"
   },
+  "leisure/running_track": {
+    "name": "Pista di atletica",
+    "terms": "atletica,tartan,pista"
+  },
   "leisure/slipway": {
     "name": "Scivolo per barche",
     "terms": "Rampa per la messa in acqua di imbarcazioni"
@@ -1063,8 +1070,8 @@
     "terms": "Piscina"
   },
   "leisure/track": {
-    "name": "Pista",
-    "terms": "Pista automobilistica"
+    "name": "Pista (sport non motoristici)",
+    "terms": "circuito"
   },
   "line": {
     "name": "Linea",
@@ -1453,6 +1460,10 @@
     "name": "Negozio di liquori",
     "terms": "alcool,liquori,grappa,rum,vodka"
   },
+  "shop/antiques": {
+    "name": "Antiquario",
+    "terms": "antichità,mobili antichi"
+  },
   "shop/art": {
     "name": "Negozio di opere d'arte",
     "terms": "opere d'arte,quadri,sculture,galleria"
@@ -1501,6 +1512,10 @@
     "name": "Autofficina",
     "terms": "Officina"
   },
+  "shop/carpet": {
+    "name": "Negozio di tappeti",
+    "terms": "tappeti,persiani"
+  },
   "shop/chemist": {
     "name": "Drogheria",
     "terms": "Articoli di pulizia e bellezza"
@@ -1512,10 +1527,6 @@
   "shop/computer": {
     "name": "Negozio di informatica",
     "terms": "Negozio di computer"
-  },
-  "shop/confectionery": {
-    "name": "Negozio per dolciumi",
-    "terms": "caramelle,bonbon"
   },
   "shop/convenience": {
     "name": "Minimarket",
@@ -1589,10 +1600,6 @@
     "name": "Gioielliere",
     "terms": "Gioielleria"
   },
-  "shop/kiosk": {
-    "name": "Chiosco",
-    "terms": "Chiosco"
-  },
   "shop/laundry": {
     "name": "Lavanderia",
     "terms": "Lavanderia"
@@ -1621,17 +1628,9 @@
     "name": "Negozio di musica",
     "terms": "Negozio di nusica"
   },
-  "shop/newsagent": {
-    "name": "Edicola",
-    "terms": "Edicola"
-  },
   "shop/optician": {
     "name": "Ottico",
     "terms": "Ottico"
-  },
-  "shop/outdoor": {
-    "name": "Negozio per sport all'aperto",
-    "terms": "Negozio all'aperto"
   },
   "shop/pet": {
     "name": "Negozio di animali",

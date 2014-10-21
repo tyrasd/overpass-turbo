@@ -65,9 +65,6 @@
   "amenity/clock": {
     "name": "Klokke"
   },
-  "amenity/college": {
-    "name": "Videregående skole"
-  },
   "amenity/doctor": {
     "name": "Doktor"
   },
@@ -145,9 +142,6 @@
   },
   "amenity/townhall": {
     "name": "Rådhus"
-  },
-  "amenity/university": {
-    "name": "Universitet"
   },
   "amenity/waste_basket": {
     "name": "Søppel"
@@ -407,9 +401,6 @@
   "man_made/water_tower": {
     "name": "Vanntårn"
   },
-  "man_made/water_well": {
-    "name": "brønn"
-  },
   "man_made/water_works": {
     "name": "Vannfiltreringsanlegg"
   },
@@ -545,9 +536,6 @@
   "shop/bicycle": {
     "name": "Sykkelbutikk"
   },
-  "shop/books": {
-    "name": "Bokhandler"
-  },
   "shop/butcher": {
     "name": "Slakter"
   },
@@ -593,9 +581,6 @@
   "shop/jewelry": {
     "name": "Smykkeforhandler"
   },
-  "shop/kiosk": {
-    "name": "Kiosk"
-  },
   "shop/laundry": {
     "name": "Vaskeri"
   },
@@ -610,9 +595,6 @@
   },
   "shop/music": {
     "name": "Musikkforretning"
-  },
-  "shop/newsagent": {
-    "name": "Avisutsalg"
   },
   "shop/optician": {
     "name": "Optiker"

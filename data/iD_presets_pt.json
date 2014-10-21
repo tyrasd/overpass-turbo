@@ -104,8 +104,8 @@
     "terms": "Barbacue/Grill, Barbacue, Carne Assada"
   },
   "amenity/bench": {
-    "name": "Assento",
-    "terms": "Banco, Assento, Banco de Sentar, Sentar"
+    "name": "Banco de Sentar",
+    "terms": "Bench, Banco, Assento, Sentar"
   },
   "amenity/bicycle_parking": {
     "name": "Parque de Bicicletas",
@@ -118,6 +118,10 @@
   "amenity/boat_rental": {
     "name": "Aluguer de Barcos",
     "terms": "Boat Rental"
+  },
+  "amenity/bureau_de_change": {
+    "name": "Posto de Câmbio",
+    "terms": "Currency Exchange, Troca de Dinheiro"
   },
   "amenity/bus_station": {
     "name": "Estação de Autocarros",
@@ -144,8 +148,8 @@
     "terms": "Charging Station, Estação de recarga, Energia, Bateria"
   },
   "amenity/childcare": {
-    "name": "Creche",
-    "terms": "Área de Cuidados Infantis"
+    "name": "Berçário / Creche",
+    "terms": "Nursery/Childcare, cuidados Infantis"
   },
   "amenity/cinema": {
     "name": "Cinema",
@@ -161,7 +165,7 @@
   },
   "amenity/college": {
     "name": "Colégio",
-    "terms": "Colégio, Colégio Interno, Escola Privada, Privada, Externatos, Semiprivado"
+    "terms": "College Grounds, Colégio, Colégio Interno, Escola Privada, Privada, Externatos, Semiprivado"
   },
   "amenity/compressed_air": {
     "name": "Máquina de Ar Comprimido",
@@ -217,7 +221,7 @@
   },
   "amenity/kindergarten": {
     "name": "Jardim Infantil / Infantário",
-    "terms": "Pré-Escola, Pré Escola"
+    "terms": "Preschool/Kindergarten Grounds, Pré-Escola, Pré Escola"
   },
   "amenity/library": {
     "name": "Biblioteca",
@@ -236,7 +240,7 @@
     "terms": "Estacionamento, Lugar de Estacionamento"
   },
   "amenity/parking_entrance": {
-    "name": "Entrada / Saída de Parque de \nEstacionamento",
+    "name": "Entrada / Saída de Estacionamento",
     "terms": "Parking Garage Entrance/Exit"
   },
   "amenity/pharmacy": {
@@ -264,7 +268,7 @@
     "terms": "Muçulmano, Mesquita"
   },
   "amenity/police": {
-    "name": "Polícia",
+    "name": "Posto de Polícia",
     "terms": "Polícia, GNR, G.N.R., PSP, P.S.P., Polícia de Segurança Pública, Guarda Nacional Republicana"
   },
   "amenity/post_box": {
@@ -308,8 +312,8 @@
     "terms": "Food Bank, Alimento, Comida"
   },
   "amenity/social_facility/group_home": {
-    "name": "Pousada Pública",
-    "terms": "Group Home, Hostel, Casa Comunitária"
+    "name": "Lar de Idosos",
+    "terms": "Elderly Group Home"
   },
   "amenity/social_facility/homeless_shelter": {
     "name": "Abrigo para os Sem-Abrigo",
@@ -345,7 +349,7 @@
   },
   "amenity/university": {
     "name": "Universidade",
-    "terms": "Universidade, Faculdade, Instituto, Politécnico"
+    "terms": "University Grounds, Universidade, Faculdade, Instituto, Politécnico"
   },
   "amenity/vending_machine": {
     "name": "Máquina de Vendas Automática",
@@ -467,6 +471,10 @@
     "name": "Igreja",
     "terms": "Church"
   },
+  "building/college": {
+    "name": "Edifíco Colegial ",
+    "terms": "College Building"
+  },
   "building/commercial": {
     "name": "Escritório",
     "terms": "Prédio Comercial, Edifício Comercial"
@@ -519,6 +527,10 @@
     "name": "Industria",
     "terms": "Edifício Industrial, Manufactura, Fábrica"
   },
+  "building/kindergarten": {
+    "name": "Edifício de Jardim Infantil / Infantário",
+    "terms": "Preschool/Kindergarten Building"
+  },
   "building/public": {
     "name": "Edifício Público",
     "terms": "Public Building"
@@ -566,6 +578,10 @@
   "building/warehouse": {
     "name": "Armazém",
     "terms": "Warehouse, Arrecadação"
+  },
+  "craft": {
+    "name": "Ofício",
+    "terms": "Craft, Arofissão, Artesanato"
   },
   "craft/basket_maker": {
     "name": "Criador de Cestas",
@@ -747,6 +763,10 @@
     "name": "Fabrico de Vidro",
     "terms": "Window Construction"
   },
+  "craft/winery": {
+    "name": "Adega",
+    "terms": "Winery, Bodega, Vinhos"
+  },
   "embankment": {
     "name": "Aterro Elevado",
     "terms": "Embankment, Elevação do Terreno"
@@ -868,16 +888,20 @@
     "terms": "Trilha, Caminho"
   },
   "highway/pedestrian": {
-    "name": "Praça / Rua Pedonal",
-    "terms": "Pedonal, Pedestre"
+    "name": "Praça",
+    "terms": "Pedestrian, Rua Pedonal, Rua Pedestre"
   },
   "highway/primary": {
-    "name": "Estrada Nacional (Primária)",
-    "terms": "Estrada Principal, Rodovia Principal, Estrada Primária, Rodovia Primária, Primário"
+    "name": "Estrada Primária",
+    "terms": "Primary Road, Estrada Nacional, Rodovia Principal, Estrada Primária, Rodovia Primária, Primário"
   },
   "highway/primary_link": {
-    "name": "Nó de Ligação a uma Estrada Nacional (Primária)",
-    "terms": "Ligação Estrada Nacional, Ligação Rodovia Nacional, Ligação Nacional,  Ligação Estrada Principal, Entrada Estrada Nacional, Entrada Rodovia Nacional, Entrada Nacional, Entrada Estrada Nacional, Saída Nacional, Saída Rodovia Nacional, Saída Nacional, Saída Estrada Nacional,"
+    "name": "Nó de Ligação a uma Estrada Primária",
+    "terms": "Primary Link, Ligação Estrada Nacional, Ligação Rodovia Nacional, Ligação Nacional,  Ligação Estrada Principal, Entrada Estrada Nacional, Entrada Rodovia Nacional, Entrada Nacional, Entrada Estrada Nacional, Saída Nacional, Saída Rodovia Nacional, Saída Nacional, Saída Estrada Nacional,"
+  },
+  "highway/raceway": {
+    "name": "Circuito de Corrida Automóvel",
+    "terms": "Motor Raceway"
   },
   "highway/residential": {
     "name": "Rua Residencial",
@@ -888,16 +912,16 @@
     "terms": "Rest Area, Posto de Descanço"
   },
   "highway/road": {
-    "name": "Estrada Incógnita",
+    "name": "Estrada com Classificação Desconhecida",
     "terms": "Estrada Genérica, Rodovia Genérica, Estrada Desconhecida, Rodovia Desconhecida"
   },
   "highway/secondary": {
-    "name": "Estrada Regional (Secundária)",
-    "terms": "Estrada Secundária, Rodovia Secundária, Secundário"
+    "name": "Estrada Secundária",
+    "terms": "Secondary Road, Estrada Regional, Rodovia Secundária, Secundário"
   },
   "highway/secondary_link": {
-    "name": "Nó de ligação a uma Estrada Regional (Secundária)",
-    "terms": "Ligação Estrada Regional, Ligação Rodovia Regional, Ligação Regional,  Ligação Estrada Secundária, Entrada Estrada Regional, Entrada Rodovia Regional, Entrada Regional, Entrada Estrada Secundária, Saída Regional, Saída Rodovia Regional, Saída Regional, Saída Estrada Secundária"
+    "name": "Nó de Ligação a uma Estrada Secundária",
+    "terms": "Secondary Link, Ligação Estrada Regional, Ligação Rodovia Regional, Ligação Regional,  Ligação Estrada Secundária, Entrada Estrada Regional, Entrada Rodovia Regional, Entrada Regional, Entrada Estrada Secundária, Saída Regional, Saída Rodovia Regional, Saída Regional, Saída Estrada Secundária"
   },
   "highway/service": {
     "name": "Estrada de Serviço",
@@ -940,12 +964,12 @@
     "terms": "Street Lamp, Poste de Luz, Lâmpada, Luz, Iluminação"
   },
   "highway/tertiary": {
-    "name": "Estrada / Caminho Municipal (Terciária)",
-    "terms": "Estrada Terciária, Rodovia Terciária, Terciário, Caminho Municipal"
+    "name": "Estrada Terciária",
+    "terms": "Tertiary Road, Estrada Municipal, Caminho Municipal, Rodovia Terciária, Terciário, Caminho Municipal"
   },
   "highway/tertiary_link": {
-    "name": "Nó de ligação a uma Estrada / Caminho \n\nMunicipal (Terciária)",
-    "terms": "Ligação Estrada Municipal, Ligação Rodovia Municipal, Ligação Municipal,  Ligação Estrada Terciária, Entrada Estrada Municipal, Entrada Rodovia Municipal, Entrada Municipal, Entrada Estrada Terciária, Saída Municipal, Saída Rodovia Municipal, Saída Municipal, Saída Estrada Municipal"
+    "name": "Nó de Ligação a uma Estrada Terciária",
+    "terms": "Tertiary Link, Ligação Estrada Municipal, Ligação Rodovia Municipal, Ligação Municipal,  Ligação Estrada Terciária, Entrada Estrada Municipal, Entrada Rodovia Municipal, Entrada Municipal, Entrada Estrada Terciária, Saída Municipal, Saída Rodovia Municipal, Saída Municipal, Saída Estrada Municipal"
   },
   "highway/track": {
     "name": "Estrada Florestal / Agrícola",
@@ -968,8 +992,8 @@
     "terms": "Inversão de Marcha"
   },
   "highway/unclassified": {
-    "name": "Estrada Sem Classificação Ofícial",
-    "terms": "Estrada Não-Classificada"
+    "name": "Estrada sem Classificação",
+    "terms": "Unclassified, Estrada Não-Classificada"
   },
   "historic": {
     "name": "Local Histórico",
@@ -1024,7 +1048,7 @@
     "terms": "Cemitério, Vala"
   },
   "landuse/churchyard": {
-    "name": "Átrio da Igreja",
+    "name": "Adro da Igreja",
     "terms": "Churchyard, Área da Igreja, Zona da Igreja, Praça da Igreja"
   },
   "landuse/commercial": {
@@ -1096,7 +1120,7 @@
     "terms": "Lazer, Diversão, Leisure"
   },
   "leisure/common": {
-    "name": "Comum",
+    "name": "Baldio",
     "terms": "Common"
   },
   "leisure/dog_park": {
@@ -1167,6 +1191,10 @@
     "name": "Parque Infantil",
     "terms": "Parque Infantil, Escorrega, Baloiço, Escorregas, Baloiços"
   },
+  "leisure/running_track": {
+    "name": "Pista de Corrida",
+    "terms": "Racing Track, Pista de Atletismo"
+  },
   "leisure/slipway": {
     "name": "Rampa para Barcos",
     "terms": "Slipway"
@@ -1184,8 +1212,8 @@
     "terms": "Piscina, Swimming Pool"
   },
   "leisure/track": {
-    "name": "Pista de Corrida",
-    "terms": "Race Track, Pista Automobilística, Circuito"
+    "name": "Circuito de Corrida (não Motorizada)",
+    "terms": "Racetrack (non-Motorsport), Circuito de Bicicletas"
   },
   "line": {
     "name": "Linha",
@@ -1245,7 +1273,7 @@
   },
   "man_made/water_well": {
     "name": "Poço de Água",
-    "terms": "Water well"
+    "terms": "Water Well"
   },
   "man_made/water_works": {
     "name": "Estação de Captação e Tratamento de Água",
@@ -1280,7 +1308,7 @@
     "terms": "praia"
   },
   "natural/cliff": {
-    "name": "Falésia / Arriba",
+    "name": "Precipício",
     "terms": "Escarpa"
   },
   "natural/coastline": {
@@ -1288,7 +1316,7 @@
     "terms": "Costa, Orla"
   },
   "natural/fell": {
-    "name": "Tunturi",
+    "name": "Encosta",
     "terms": "Fell"
   },
   "natural/glacier": {
@@ -1372,7 +1400,7 @@
     "terms": "Educacional Institution, Escola"
   },
   "office/employment_agency": {
-    "name": "Centro de Emprego",
+    "name": "Agência de Emprego",
     "terms": "Employment Agency, Agência de Emprego"
   },
   "office/estate_agent": {
@@ -1460,8 +1488,8 @@
     "terms": "Localidade"
   },
   "place/neighbourhood": {
-    "name": "Vizinhança",
-    "terms": "Neigborhood, Bairro"
+    "name": "Bairro",
+    "terms": "Neigborhood, Vizinhança"
   },
   "place/suburb": {
     "name": "Borough",
@@ -1496,16 +1524,16 @@
     "terms": "Minor Power Line, Linha de Transmissão Menor, Linha de Energia Menor"
   },
   "power/pole": {
-    "name": "Poste de Eletricidade",
-    "terms": "Poste de Eletricidade"
+    "name": "Torre de Baixa Tensão",
+    "terms": "Power Pole, Poste de Eletricidade"
   },
   "power/sub_station": {
     "name": "Subestação",
     "terms": "Substation"
   },
   "power/tower": {
-    "name": "Torre de Alta Tensão",
-    "terms": "Torre de Alta-Tensão, Poste de Alta-Tensão"
+    "name": "Torre de Média e Alta Tensão",
+    "terms": "High-Voltage Tower, Torre de Alta-Tensão, Poste de Alta-Tensão"
   },
   "power/transformer": {
     "name": "Transformador de Distribuição",
@@ -1591,17 +1619,41 @@
     "name": "Loja de Bebidas Alcoólicas",
     "terms": "Alcool"
   },
+  "shop/anime": {
+    "name": "Loja de Anime",
+    "terms": "Anime Shop, Loja de material Asiático, Manga, Anime"
+  },
+  "shop/antiques": {
+    "name": "Loja de Antiguidades",
+    "terms": "Antiques Shop"
+  },
   "shop/art": {
-    "name": "Loja de Arte",
-    "terms": "Art Shop, Venda de Arte, Exposição"
+    "name": "Galeria de Arte",
+    "terms": "Art Gallery, Art Shop, Exposição"
+  },
+  "shop/baby_goods": {
+    "name": "Loja de Acessórios para Bebés",
+    "terms": "Baby Goods Store, Loja de Roupa, Carrinho, Brinquedos"
+  },
+  "shop/bag": {
+    "name": "Loja de Malas / Bagagem",
+    "terms": "Bag/Luggage Store"
   },
   "shop/bakery": {
     "name": "Padaria",
     "terms": "Padaria"
   },
+  "shop/bathroom_furnishing": {
+    "name": "Loja de Assessórios para Casas de Banho",
+    "terms": "Bathroom Furnishing Store"
+  },
   "shop/beauty": {
     "name": "Loja de Beleza",
     "terms": "Loja de Beleza"
+  },
+  "shop/bed": {
+    "name": "Loja de Camas / Colchões",
+    "terms": "Bedding/Mattress Store"
   },
   "shop/beverages": {
     "name": "Loja de Bebidas",
@@ -1617,7 +1669,7 @@
   },
   "shop/books": {
     "name": "Livraria",
-    "terms": "Livraria"
+    "terms": "Book Store, Loja de Livros"
   },
   "shop/boutique": {
     "name": "Boutique",
@@ -1626,6 +1678,10 @@
   "shop/butcher": {
     "name": "Talho",
     "terms": "Talho"
+  },
+  "shop/candles": {
+    "name": "Loja de Velas",
+    "terms": "Candle Shop"
   },
   "shop/car": {
     "name": "Loja de Automóveis",
@@ -1639,9 +1695,21 @@
     "name": "Oficina de Automóveis",
     "terms": "Ofinina de Automóveis"
   },
+  "shop/carpet": {
+    "name": "Loja de Carpetes / Tapetes",
+    "terms": "Carpet Store"
+  },
+  "shop/cheese": {
+    "name": "Loja de Queijos",
+    "terms": "Cheese Store"
+  },
   "shop/chemist": {
     "name": "Drogaria",
     "terms": "Chemist"
+  },
+  "shop/chocolate": {
+    "name": "Loja de Chocolate",
+    "terms": "Chocolate Store"
   },
   "shop/clothes": {
     "name": "Loja de Roupas",
@@ -1653,11 +1721,31 @@
   },
   "shop/confectionery": {
     "name": "Confeitaria",
-    "terms": "Confectionery"
+    "terms": "Candy Store, Loja de Gomas"
   },
   "shop/convenience": {
     "name": "Loja de Conveniência",
     "terms": "Loja de Conviniência"
+  },
+  "shop/copyshop": {
+    "name": "Loja de Fotocópias",
+    "terms": "Copy Store"
+  },
+  "shop/cosmetics": {
+    "name": "Loja de Cosmetica",
+    "terms": "Cosmetics"
+  },
+  "shop/craft": {
+    "name": "Loja de Artes e Ofícios",
+    "terms": "Arts and Crafts Store"
+  },
+  "shop/curtain": {
+    "name": "Loja de Curtinas",
+    "terms": "Curtain Store"
+  },
+  "shop/dairy": {
+    "name": "Loja de Lacticínios",
+    "terms": "Dairy Store, Produtos Lácteos"
   },
   "shop/deli": {
     "name": "Loja de Gourmet / Delicacias",
@@ -1673,15 +1761,27 @@
   },
   "shop/dry_cleaning": {
     "name": "Limpeza a Seco",
-    "terms": "Dry Cleaners"
+    "terms": "Dry Cleaner"
   },
   "shop/electronics": {
     "name": "Loja de Eletrónica de Consumo",
     "terms": "Loja de Eletrodomésticos"
   },
+  "shop/erotic": {
+    "name": "Sex Shop",
+    "terms": "Erotic Store"
+  },
+  "shop/fabric": {
+    "name": "Loja de Tecidos",
+    "terms": "Fabric Store"
+  },
   "shop/farm": {
     "name": "Barraca de Produtos do Campo",
     "terms": "Barraca de Fruta, Barraca de Legumes, Barraca de Hortaliças, Barraca de Batatas"
+  },
+  "shop/fashion": {
+    "name": "Loja de Moda",
+    "terms": "Fashion Store"
   },
   "shop/fishmonger": {
     "name": "Peixaria",
@@ -1691,9 +1791,17 @@
     "name": "Florista",
     "terms": "Florista"
   },
+  "shop/frame": {
+    "name": "Loja de Molduras",
+    "terms": "Framing Shop"
+  },
   "shop/funeral_directors": {
     "name": "Agência Funerária",
     "terms": "Funeral Home, Casa Funerária, Agência Mortuária, Casa Mortuária"
+  },
+  "shop/furnace": {
+    "name": "Fábrica de Fornos",
+    "terms": "Furnace Store, Loja de Fornos"
   },
   "shop/furniture": {
     "name": "Loja de Mobiliário",
@@ -1719,9 +1827,21 @@
     "name": "Loja de Ferragens",
     "terms": "Hardware Store"
   },
+  "shop/hearing_aids": {
+    "name": "Loja de Aparelhos Auditivos",
+    "terms": "Hearing Aids Store"
+  },
+  "shop/herbalist": {
+    "name": "Herbalista",
+    "terms": "Herbalist"
+  },
   "shop/hifi": {
     "name": "Loja de Alta Fidelidade",
     "terms": "Hifi Store, Som"
+  },
+  "shop/interior_decoration": {
+    "name": "Loja de Decoração de Interiores",
+    "terms": "Interior Decoration Store"
   },
   "shop/jewelry": {
     "name": "Joalharia",
@@ -1729,11 +1849,19 @@
   },
   "shop/kiosk": {
     "name": "Quiosque",
-    "terms": "Quiosque"
+    "terms": "News Kiosk"
+  },
+  "shop/kitchen": {
+    "name": "Loja de Materiais de Culinária",
+    "terms": "Kitchen Design Store"
   },
   "shop/laundry": {
     "name": "Lavandaria",
     "terms": "Laundry, Roupa, Secagem"
+  },
+  "shop/leather": {
+    "name": "Loja de Peles",
+    "terms": "Leather Store, Loja de Cabedais"
   },
   "shop/locksmith": {
     "name": "Serralheiro",
@@ -1747,9 +1875,21 @@
     "name": "Centro Comercial",
     "terms": "Mall, Shopping"
   },
+  "shop/massage": {
+    "name": "Loja de Massagens",
+    "terms": "Massage Shop, Massagista"
+  },
+  "shop/medical_supply": {
+    "name": "Loja de Materiais Médicos ",
+    "terms": "Medical Supply Store"
+  },
   "shop/mobile_phone": {
     "name": "Loja de Telemóveis",
     "terms": "Loja de Telemóveis"
+  },
+  "shop/money_lender": {
+    "name": "Emprestador de Dinheiro",
+    "terms": "Money Lender"
   },
   "shop/motorcycle": {
     "name": "Loja de Motas",
@@ -1759,17 +1899,33 @@
     "name": "Loja de Música",
     "terms": "Loja de Música"
   },
+  "shop/musical_instrument": {
+    "name": "Loja de Instrumentos Musicais",
+    "terms": "Musical Instrument Store, Guitarra, Piano, Violino, Bateria, Som"
+  },
   "shop/newsagent": {
-    "name": "Loja de Jornais e Revistas",
-    "terms": "Newsagent"
+    "name": "Loja de Jornais / Revistas",
+    "terms": "Newspaper/Magazine Shop"
   },
   "shop/optician": {
     "name": "Loja de Ótica / Oculos",
     "terms": "Optician"
   },
+  "shop/organic": {
+    "name": "Loja de Material Orgânico",
+    "terms": "Organic Good Store"
+  },
   "shop/outdoor": {
-    "name": "Loja de Artigos p/Atividades ao Ar Livre",
-    "terms": "Outdoor Store"
+    "name": "Loja de Equipamento Outdoor",
+    "terms": "Outdoors Store, Caminada, Escalada, Passeio"
+  },
+  "shop/paint": {
+    "name": "Loja de Tintas",
+    "terms": "Paint Store, Tintas"
+  },
+  "shop/pawnbroker": {
+    "name": "Loja de Penhoras",
+    "terms": "Pawn Shop"
   },
   "shop/pet": {
     "name": "Loja de Animais",
@@ -1779,9 +1935,29 @@
     "name": "Loja de Fotografia",
     "terms": "Photography Store, Fotográfo"
   },
+  "shop/pyrotechnics": {
+    "name": "Loja de Pirotécnia",
+    "terms": "Fireworks Store, Fogo de Artifício"
+  },
+  "shop/radiotechnics": {
+    "name": "Loja de Componentes de Eletrónicos / Rádio",
+    "terms": "Radio/Electronic Component Store"
+  },
+  "shop/religion": {
+    "name": "Loja de Artigos Religiosos",
+    "terms": "Religious Store, Religião"
+  },
+  "shop/scuba_diving": {
+    "name": "Loja de Equipamento para Mergulho",
+    "terms": "Scuba Diving Shop"
+  },
   "shop/seafood": {
     "name": "Loja de Frutos do Mar",
     "terms": "Seafood Shop, Camarão, Lagosta, Caranguejo, Ameijoas, Mexilhões"
+  },
+  "shop/second_hand": {
+    "name": "Loja de Produtos em Segunda Mão",
+    "terms": "Consignment/Thrift Store, Loja de Consignação"
   },
   "shop/shoes": {
     "name": "Sapataria",
@@ -1803,6 +1979,22 @@
     "name": "Alfaiate",
     "terms": "Tailor, Vestido, Fato, Roupa"
   },
+  "shop/tattoo": {
+    "name": "Estúdio de Tatuagens ",
+    "terms": "Tattoo Parlor, Tatuagens "
+  },
+  "shop/tea": {
+    "name": "Loja de Chá",
+    "terms": "Tea Store"
+  },
+  "shop/ticket": {
+    "name": "Bilheteira",
+    "terms": "Ticket Seller, Bilheteria, Bilhete, Ingresso"
+  },
+  "shop/tobacco": {
+    "name": "Tabacaria",
+    "terms": "Tobacco Shop, Loja de Tabaco"
+  },
   "shop/toys": {
     "name": "Loja de Brinquedos",
     "terms": "Loja de Brinquedos"
@@ -1819,6 +2011,10 @@
     "name": "Loja Vazia",
     "terms": "Vacant Shop"
   },
+  "shop/vacuum_cleaner": {
+    "name": "Loja de Aspiradores",
+    "terms": "Vacuum Cleaner Store"
+  },
   "shop/variety_store": {
     "name": "Loja dos Chineses",
     "terms": "Variety Store, Loja dos 300, Loja dos Trezentos javascript:;"
@@ -1826,6 +2022,22 @@
   "shop/video": {
     "name": "Videoclube",
     "terms": "Video Store"
+  },
+  "shop/video_games": {
+    "name": "Loja de Videojogos",
+    "terms": "Video Game Store, Jogos de Computador, Consola"
+  },
+  "shop/water_sports": {
+    "name": "Loja de Material de Natação",
+    "terms": "Watersport/Swim Shop, Material de Banho"
+  },
+  "shop/weapons": {
+    "name": "Armaria",
+    "terms": "Weapon Shop, Loja de Armas"
+  },
+  "shop/window_blind": {
+    "name": "Loja de Estores",
+    "terms": "Window Blind Store"
   },
   "shop/wine": {
     "name": "Loja de Vinhos",
@@ -1872,7 +2084,7 @@
     "terms": "Hotel"
   },
   "tourism/information": {
-    "name": "Outros Pontos de Informação Turística",
+    "name": "Informação Turística",
     "terms": "Informação"
   },
   "tourism/motel": {

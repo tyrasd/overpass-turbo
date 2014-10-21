@@ -52,26 +52,32 @@
     "terms": "flygplats, flygfält, flyghamn, aerodrom, landningsplats, lufthamn"
   },
   "aeroway/apron": {
-    "name": "Parkering av flygplan (Apron)"
+    "name": "Parkering av flygplan (Apron)",
+    "terms": "Flygplansparkering, flygplansplatta, flygplattsplatta, flygparkering, parkering av flygplan, parkering av plan, apron"
   },
   "aeroway/gate": {
-    "name": "Gate"
+    "name": "Gate",
+    "terms": "Gate, flyggate, flygplattsgate"
   },
   "aeroway/hangar": {
-    "name": "Hangar"
+    "name": "Hangar",
+    "terms": "Hangar, garage för flygplan, flygplanshall, flygverkstad, flygplangarage, flyggarage"
   },
   "aeroway/helipad": {
     "name": "Helikopterplatta",
     "terms": "Helipad, Helikopterplatta"
   },
   "aeroway/runway": {
-    "name": "Start- och landningsbana"
+    "name": "Start- och landningsbana",
+    "terms": "Startbana, landningsbana, rullbana, landa, landning"
   },
   "aeroway/taxiway": {
-    "name": "Taxibana"
+    "name": "Taxibana",
+    "terms": "Taxibana, transportbana, flygplansväg, transportsträcka"
   },
   "aeroway/terminal": {
-    "name": "Flygterminal"
+    "name": "Flygterminal",
+    "terms": "Flygplatsterminal, terminal, avgångshall, ankomsthall, flygterminal, flygplats"
   },
   "amenity": {
     "name": "Facilitet",
@@ -113,6 +119,10 @@
     "name": "Båtuthyrning",
     "terms": "Båtuthyrning, båtlån, båtleasing, lånebåt, hyrbåt"
   },
+  "amenity/bureau_de_change": {
+    "name": "Växlingskontor",
+    "terms": "Växlingskontor, växling, valuta, pengar, pengaväxling, resecheckar "
+  },
   "amenity/bus_station": {
     "name": "Busstation",
     "terms": "Busstation, bussterminal, terminal, Busshållplats, resecenter, buss"
@@ -139,7 +149,7 @@
   },
   "amenity/childcare": {
     "name": "Barnomsorg",
-    "terms": "Barnomsorg, Förskola, Dagis, Barnhem, Dagmamma"
+    "terms": "Barnomsorg, Förskola, Dagis, Barnhem, Dagmamma, daghem"
   },
   "amenity/cinema": {
     "name": "Biograf",
@@ -152,6 +162,10 @@
   "amenity/clock": {
     "name": "Klocka",
     "terms": "Klocka, ur, urtavla, kyrkklocka, tidur, solur, väggur, väggklocka"
+  },
+  "amenity/college": {
+    "name": "Gymnasieområde",
+    "terms": "Gymnasium, gymnasie, college, vidareutbildning, gymnasiumområde, gymnasieområde"
   },
   "amenity/compressed_air": {
     "name": "Tryckluft",
@@ -334,7 +348,8 @@
     "terms": "Stadshus, förvaltning, myndighet, ämbetsverk, representation, fullmäktige, riksdag, parlament, kommunalhus, samlingsplats, folkets hus, samlingslokal,"
   },
   "amenity/university": {
-    "name": "Universitet"
+    "name": "Universitetsområde",
+    "terms": "Universitet, universitetsområde, högskola, högskoleområde, college,\nakademi, universitetsbyggnad, lärosäte"
   },
   "amenity/vending_machine": {
     "name": "Varuautomat",
@@ -456,6 +471,10 @@
     "name": "Kyrka",
     "terms": "Kyrka, kyrkobyggnad, gudshus, tempel, kapell, bönehus, böneplats, missionshus, gudstjänstlokal"
   },
+  "building/college": {
+    "name": "Gymnasiebyggnad",
+    "terms": "Gymnasie, gymnasium, gymnasiebyggnad"
+  },
   "building/commercial": {
     "name": "Kommersiell byggnad",
     "terms": "Kommersiell byggnad, kommersiellt, affärsbyggnad, handelsbyggnad"
@@ -508,6 +527,10 @@
     "name": "Industribyggnad",
     "terms": "Industribyggnad, fabrik, industri, lager"
   },
+  "building/kindergarten": {
+    "name": "Förskolebyggnad",
+    "terms": "Förskola, dagis, daghem, lekskola, kindergarten, lekis,  förskolebyggnad, dagisbyggnad, dagishus, förskolehus"
+  },
   "building/public": {
     "name": "Publik byggnad",
     "terms": "Publik byggnad, allmän byggnad, offentlig byggnad"
@@ -548,9 +571,17 @@
     "name": "Järnvägsstation",
     "terms": "Järnvägsstation, centralstation, central, huvudbangård, tågstation, järnvägshållplats, tåghållplats"
   },
+  "building/university": {
+    "name": "Universitetsbyggnad",
+    "terms": "Universitetsbyggnad, högskolebyggnad, universitet, högskola, högskolebyggnad"
+  },
   "building/warehouse": {
     "name": "Lagerhus",
     "terms": "Lagerhus, lager, upplag, magasin, depå, packhus, lada"
+  },
+  "craft": {
+    "name": "Hantverk",
+    "terms": "Hantverk, skrå, slöjd, hantverkare"
   },
   "craft/basket_maker": {
     "name": "Korgtillverkare",
@@ -732,6 +763,10 @@
     "name": "Fönstertillverkare",
     "terms": "Fönstertillverkare, dörrtillverkare, fönsterinstallatör, dörrinstallatör, dörr, dörrar, fönster, fönsterleverantör, dörrleverantör, fönstermontör, dörrmontör"
   },
+  "craft/winery": {
+    "name": "Vinfabrik",
+    "terms": "Vinfabrik, vineri, vinframställnig, vin, vinproduktion, Vinframställning"
+  },
   "embankment": {
     "name": "Vägbank",
     "terms": "Upphöjning, barnvall, vall, bank, Vägbank"
@@ -863,6 +898,10 @@
   "highway/primary_link": {
     "name": "Anslutning, primär väg",
     "terms": "Anslutning, påfart, avfart, huvudväg, riksväg, primär väg, primärväg"
+  },
+  "highway/raceway": {
+    "name": "Motorracerbana",
+    "terms": " racerbana, motorracerbana, motorbana, tävlingsbana, motortävling, rally, rallybana, kappkörning, gokart, go-kart, tävlingsbana"
   },
   "highway/residential": {
     "name": "Bostadsgata",
@@ -1152,6 +1191,10 @@
     "name": "Lekplats",
     "terms": "Lekplats, lekområde, lekpark"
   },
+  "leisure/running_track": {
+    "name": "Kapplöpningsbana",
+    "terms": "Kapplöpningsbana, löpbana, motionsspår, Löparbana "
+  },
   "leisure/slipway": {
     "name": "Stapelbädd",
     "terms": "Stapelbädd, Sjösättningsplats, staplar, varv, docka, fartygsdocka, torrdocka, båtramp"
@@ -1169,8 +1212,8 @@
     "terms": "Simbassäng, bassäng, swimmingpool, pool, simning, simma"
   },
   "leisure/track": {
-    "name": "Tävlingsbana",
-    "terms": "Tävlingsbana, kapplöpningsbana, springbana, springning, cykling, travbana, galoppbana, hundkapplöpning, hästkapplöpning"
+    "name": "Tävlingsbana (Icke motorsport)",
+    "terms": "Tävlingsbana, cykeltävling, hundkapplöpning, hästkapplöpning, galoppbana, travbana, löpbana"
   },
   "line": {
     "name": "Linje",
@@ -1277,29 +1320,40 @@
     "terms": "Fjäll, trädgräns, högfjäll, fjällanskap"
   },
   "natural/glacier": {
-    "name": "Glassiär"
+    "name": "Glassiär",
+    "terms": "Glassiär, landis, ismassa, jökel, gletscher"
   },
   "natural/grassland": {
-    "name": "Grässlätt"
+    "name": "Grässlätt",
+    "terms": "Grässlätt, gräsfällt, äng"
   },
   "natural/heath": {
-    "name": "Hed"
+    "name": "Hed",
+    "terms": "hed, äng, gräs, slättmark, slätt, tundra, stäpp, alvar, kalmark"
   },
   "natural/peak": {
     "name": "Bergstopp",
     "terms": "Bergstopp, berg, alp, hjässa, kalott, klack, klint, klätt"
   },
+  "natural/scree": {
+    "name": "Stensamling",
+    "terms": "Stensamling, röse, Taluskon, stenras, stenanhopning"
+  },
   "natural/scrub": {
-    "name": "busksnår"
+    "name": "busksnår",
+    "terms": "busksnår, Buskskog, snår, sly"
   },
   "natural/spring": {
-    "name": "Källa"
+    "name": "Källa",
+    "terms": "källa, vattenställe, vattenhål, källsprång, källåder, källflöde, källdrag, springflöde"
   },
   "natural/tree": {
-    "name": "Träd"
+    "name": "Träd",
+    "terms": "träd, trä, trädstam, stam; barrträd, lövträd, gran, ek, björk, stock"
   },
   "natural/water": {
-    "name": "Vatten"
+    "name": "Vatten",
+    "terms": "vatten, vattensamling, sjö, damm, reservoar, göl, tjärn"
   },
   "natural/water/lake": {
     "name": "Sjö",
@@ -1310,22 +1364,112 @@
     "terms": "damm, tjärn, göl "
   },
   "natural/water/reservoir": {
-    "name": "Reservoar"
+    "name": "Reservoar",
+    "terms": "reservoar, tank, damm, fördämning"
   },
   "natural/wetland": {
-    "name": "Våtmark"
+    "name": "Våtmark",
+    "terms": "Våtmark, sankmark, myr, sump, kärr, mosse, torvmark, sumpmark, träsk, moras, mad"
   },
   "natural/wood": {
-    "name": "Skog"
+    "name": "Skog (utan skogsbruk)",
+    "terms": "skog, Urskog, djungel, bush, regnskog, vildmark"
   },
   "office": {
-    "name": "Kontor"
+    "name": "Kontor",
+    "terms": "Kontor, tjänster, tjänsteman, tjänstemän, byrå, expedition"
+  },
+  "office/accountant": {
+    "name": "Revisor",
+    "terms": "Revisor, revision, räkenskapsgranskare, granskningsman, kontrollant"
+  },
+  "office/administrative": {
+    "name": "Lokal myndighet",
+    "terms": "Lokal myndighet, myndighet, kommun, kommunkontor, kommunbyggnad"
+  },
+  "office/architect": {
+    "name": "Arkitekt",
+    "terms": "Arkitekt, byggnadskonstnär, byggnadskonst, ritningar"
+  },
+  "office/company": {
+    "name": "Företagskontor",
+    "terms": "Företagskontor, kontor, företag, expedition, kundmottagning"
+  },
+  "office/educational_institution": {
+    "name": "Utbildningskontor",
+    "terms": "Utbildningskontor, expedition, skolexpedition, rektorsexpedition, rektor, skolledning"
+  },
+  "office/employment_agency": {
+    "name": "Arbetsförmedling",
+    "terms": "Arbetsförmedling, arbetsförmedlingen, arbetslös, arbetssökande, förmedling"
+  },
+  "office/estate_agent": {
+    "name": "Mäklare/bostadsförmedling",
+    "terms": "Bostadsförmedling, fastighetsförmedling, husförmedling, mäklare, egendom, mark, fastighet, fastighetsmäklare, bostadsuthyrning, fastighetsuthyrning, kontorsuthyrning"
+  },
+  "office/financial": {
+    "name": "Bankkontor",
+    "terms": "Bankkontor, finanskontor, ekonomi, finans, bank, ekonomisk"
+  },
+  "office/government": {
+    "name": "Myndighet",
+    "terms": "Myndighet, myndighetskontor, statlig myndighet"
+  },
+  "office/insurance": {
+    "name": "Försäkringskontor",
+    "terms": "Försäkringskontor, försäkringar, försäkringsförmedling"
+  },
+  "office/it": {
+    "name": "IT-kontor",
+    "terms": "IT-kontor, datorföretag, dataföretag, IT-företag, informationsteknologi, dotcomföretag, IT-kunsult, datakonsult, datorkonsult, helpdesk"
+  },
+  "office/lawyer": {
+    "name": "Advokatkontor",
+    "terms": "Advokatkontor, advokat, jurist, juridiskt ombud, rättsombud, ombud, jurist, försvarare, lagman"
+  },
+  "office/newspaper": {
+    "name": "Tidningsredaktion",
+    "terms": "Tidningsredaktion, tidning, nyhetsredaktion, redaktion, tidningslokal, utgivare, tidskrift, magasin"
+  },
+  "office/ngo": {
+    "name": "Icke-statlig organisation",
+    "terms": "Icke-statlig organisation, organisation, hjälporganisation, fackförening, ideell förening, ideell, förening, icke-kommersiel, frivilligorganisation, frivillig, intresseorganisation"
+  },
+  "office/physician": {
+    "name": "Läkare",
+    "terms": "Läkare, husläkare, doktorspraktik, medicinare"
+  },
+  "office/political_party": {
+    "name": "Politiskt parti",
+    "terms": "Politiskt parti, politik, parti"
+  },
+  "office/research": {
+    "name": "Forskning och utveckling",
+    "terms": "Forskning och utveckling, forskning, utveckling, vetenskapligt studium, vetenskapligt arbete, undersökning, efterforskning, research"
+  },
+  "office/telecommunication": {
+    "name": "Telekom",
+    "terms": "Telekom, telefoni, telefoner, telefon, internet, internetcafé, surfning, surfcafé mobil, mobiltelefon, mobiltelefoni"
+  },
+  "office/therapist": {
+    "name": "Terapeut",
+    "terms": "Terapeut, behandling, behandlare, psykolog, psykoterapeut, psykologi, terapi, Arbetsterapi, arbetsterapeut, Fysioterapi,sjukgymnast, logoped, Språkterapi, Talterapi, Röstterapi, Kemoterapi, cellgiftsbehandling, Radioterapi, Farmakoterapi, Samtalsterapi, Psykoterapi, Kognitiv beteendeterapi, beteendeterapi, kbt, Kognitiv terapi, Beteendeterapi, Psykoanalys, Sexterapi, Familjeterapi"
+  },
+  "office/travel_agent": {
+    "name": "Resebyrå ",
+    "terms": "Resebyrå, reseförmedlare, resförmedlare, researrangör, biljettförsäljning, resesamordnare"
+  },
+  "piste": {
+    "name": "Pist/skidspår",
+    "terms": "Pist, skidspår, skidbacke, slalombacke, skidbana, utförsåkning, längdskidåkning, längdskidspår"
   },
   "place": {
-    "name": "Plats"
+    "name": "Plats",
+    "terms": "Plats, ort, ställe, samhälle, stad, trakt, bygd, tätort, förort, stadsdel, by, boplats"
   },
   "place/city": {
-    "name": "Större stad"
+    "name": "Större stad",
+    "terms": "Större stad, stad, storstad, metropol, världsstad, huvudstad"
   },
   "place/hamlet": {
     "name": "By",
@@ -1336,10 +1480,20 @@
     "terms": "ö, holme, skär, kobbe, klippa, rev, atoll"
   },
   "place/isolated_dwelling": {
-    "name": "Isolerad boplats"
+    "name": "Isolerad boplats",
+    "terms": "Isolerad boplats, boplats, bosättning"
   },
   "place/locality": {
-    "name": "Plats"
+    "name": "Plats",
+    "terms": "Plats, obefolkad plats, ställe, trakt, lokalitet, läge"
+  },
+  "place/neighbourhood": {
+    "name": "Kvarter",
+    "terms": "Kvarter, närområde, bostadsområde, stadsdel, område"
+  },
+  "place/suburb": {
+    "name": "Borough",
+    "terms": "Borough, kommun"
   },
   "place/town": {
     "name": "Mellanstor stad",
@@ -1350,298 +1504,628 @@
     "terms": "tätort, ort"
   },
   "point": {
-    "name": "Punkt"
+    "name": "Punkt",
+    "terms": "Punkt, fläck, läge, ställe, plats"
   },
   "power": {
-    "name": "Kraft"
+    "name": "Elförsörjning",
+    "terms": "El, elförsörjning, kraft, ström, strömförsörjning"
   },
   "power/generator": {
-    "name": "Kraftgenerator"
+    "name": "Elgenerator",
+    "terms": "Elgenerator, kraftgenerator, generator, strömtillverkning, kraftkälla"
   },
   "power/line": {
-    "name": "Kraftledning"
+    "name": "Högspänningsledning",
+    "terms": "kraftledning, elledning, högspänningsledning, högspänning"
+  },
+  "power/minor_line": {
+    "name": "Mindre kraftledning",
+    "terms": "Kraftledning, elledning"
   },
   "power/pole": {
-    "name": "Kraftledningsstolpe"
+    "name": "Kraftledningsstolpe",
+    "terms": "Kraftledningsstolpe, elledningsstolpe, stolpe, kraftledningsmast, elledningsmast, mast"
   },
   "power/sub_station": {
-    "name": "Transformator"
+    "name": "Fördelningsstation",
+    "terms": "Transformator, elomvandling, elskåp, fördelningsstation, stadsnätstation, elfördelning"
   },
   "power/tower": {
-    "name": "Högspänningsmast"
+    "name": "Högspänningsmast",
+    "terms": "Högspänningsmast, kraftledningsstolpe, kraftledningsmast, mast"
   },
   "power/transformer": {
-    "name": "Transformator"
+    "name": "Transformator",
+    "terms": "Transformator, nätstation, elomvandling"
+  },
+  "public_transport/platform": {
+    "name": "Plattform",
+    "terms": "Plattform, väntplats, påstigningsplats, avsats, perrong"
+  },
+  "public_transport/stop_position": {
+    "name": "Stopposition",
+    "terms": "Stopposition, busshållplats, hållplats"
   },
   "railway": {
-    "name": "Järnväg"
+    "name": "Järnväg",
+    "terms": "Järnväg, rälsbana, tågbana, tågräls, räls, spår, spårtrafik, tåg, rälsbana"
   },
   "railway/abandoned": {
-    "name": "Övergiven järnväg"
+    "name": "Riven järnväg",
+    "terms": "Riven järnväg, borttagen järnväg"
   },
   "railway/disused": {
-    "name": "Oanvänd järnväg"
+    "name": "Oanvänd järnväg",
+    "terms": "Oanvänd järnväg, övergiven järnväg, övergiven tågbana, oanvänd tågbana"
+  },
+  "railway/funicular": {
+    "name": "Bergbana ",
+    "terms": "Bergbana"
+  },
+  "railway/halt": {
+    "name": "Mindre järnvägshållplats",
+    "terms": "Mindre järnvägshållplats, hållplats, järnvägshållplats, avstigningsplats, påstigningsplats, tågstopp"
   },
   "railway/level_crossing": {
     "name": "Plankorsning",
     "terms": "Korsning, järnvägskorsning, kryss, vägkors, kors, vägkors, vägskäl, gatukorsning, plankorsning"
   },
   "railway/monorail": {
-    "name": "Monorail"
+    "name": "Monorail",
+    "terms": "Monorail, enskensbana, balkbana"
+  },
+  "railway/narrow_gauge": {
+    "name": "Smalspårbana",
+    "terms": "Smalspårbana, smalspår"
   },
   "railway/platform": {
-    "name": "Perrong"
+    "name": "Perrong",
+    "terms": "perrong, plattform, väntplan, väntplats"
   },
   "railway/rail": {
-    "name": "Räls"
+    "name": "Räls",
+    "terms": "Räls, järnvägsspår, spår, bana"
   },
   "railway/station": {
-    "name": "Järnvägsstation"
+    "name": "Järnvägsstation",
+    "terms": "Järnvägsstation, station, central, centralstation"
   },
   "railway/subway": {
-    "name": "Tunnelbana"
+    "name": "Tunnelbana",
+    "terms": "Tunnelbana, T-bana, metro"
   },
   "railway/subway_entrance": {
-    "name": "Tunnelbaneingång"
+    "name": "Tunnelbaneingång",
+    "terms": "Tunnelbaneingång, tunnelbanenergång, t-baneingång, t-banenedgång"
   },
   "railway/tram": {
     "name": "Spårvagn",
     "terms": "Spårvagn, spårväg, motorvagn"
   },
   "relation": {
-    "name": "Relation"
+    "name": "Relation",
+    "terms": "Relation, relaterat, förbindelse, förhållande, samband, anknytning, koppling, kontext"
   },
   "route/ferry": {
-    "name": "Färjerutt"
+    "name": "Färjerutt",
+    "terms": "Färjerutt, båtrutt, rutt, färjelinje, båtlinje, färja, båt i linjetrafik"
   },
   "shop": {
-    "name": "Affär"
+    "name": "Affär",
+    "terms": "Affär, shop, butik"
   },
   "shop/alcohol": {
-    "name": "Vin-och-spritaffär"
+    "name": "Vin-och-spritaffär",
+    "terms": "Vinaffär, spritaffär, vin- och sprit, vin- och spritaffär, systemet, systembolaget, bolaget"
+  },
+  "shop/anime": {
+    "name": "Anime-affär",
+    "terms": "Anime, animēshon, manga, mangastil, Kodomo, Shōjo, shoujo, shojo, Josei, Shōnen"
+  },
+  "shop/antiques": {
+    "name": "Antikaffär",
+    "terms": "Antikaffär, antikshop, antikt, antikvitetsaffär, antikvariat"
+  },
+  "shop/art": {
+    "name": "Konstgalleri",
+    "terms": "Konstgalleri, konst, konstaffär, tavlor, statyer, kulturer, galleri"
+  },
+  "shop/baby_goods": {
+    "name": "Babyprodukter",
+    "terms": "Bäbis, Baby, småbarn, barnkläder, babykläder, bäbiskläder, blöjor, nappflaskor, nappar, barnvagnar, spjälsängar, Babyprodukter"
+  },
+  "shop/bag": {
+    "name": "Väskaffär",
+    "terms": "Väskaffär, väskor, resväskor, bagage, bagageväskor, handväskor"
   },
   "shop/bakery": {
-    "name": "Bageri"
+    "name": "Bageri",
+    "terms": "Bageri, bröd, baka, bullar, bagare"
+  },
+  "shop/bathroom_furnishing": {
+    "name": "Badrumsinredning",
+    "terms": "Badrumsinredning, badrum"
   },
   "shop/beauty": {
-    "name": "Skönhetssalong"
+    "name": "Skönhetssalong",
+    "terms": "Skönhetssalong, skönhet, skönhetsbehandlingar, nagelsalong, solarium, shiatsu, massage, spa, hälsoanläggning, kuranstalt, kurort, kosmetik, smink"
+  },
+  "shop/bed": {
+    "name": "Sängaffär",
+    "terms": "Sängaffär, sängar, madrasser, kuddar, täcken, påslakan, lakan"
   },
   "shop/beverages": {
-    "name": "Dryckaffär"
+    "name": "Dryckaffär",
+    "terms": "Dryck, alkohol, läsk, dricka, läskedryck"
   },
   "shop/bicycle": {
-    "name": "Cykelaffär"
+    "name": "Cykelaffär",
+    "terms": "Cykelaffär, cykel, cykelreparatör, cykelförsäljning"
+  },
+  "shop/bookmaker": {
+    "name": "Vadslagning",
+    "terms": "Vadslagning, vadhållning, dobbel, spel, trav, Stryktipset, måltipset"
   },
   "shop/books": {
-    "name": "Bokhandel"
+    "name": "Bokhandel",
+    "terms": "Bokhandel, bokförsäljning, bokförsäljning, antikvariat"
   },
   "shop/boutique": {
-    "name": "Boutique (Dyra kläder och accessoarer)"
+    "name": "Boutique (Dyra kläder och accessoarer)",
+    "terms": "Boutique, modeaffär, accessoarer, kläder, finkläder, klänningar, smycken"
   },
   "shop/butcher": {
-    "name": "Slaktare"
+    "name": "Slaktare",
+    "terms": "Slaktare, kött, köttaffär, köttstyckare; charkuterist, charkuterihandlare, styckare, chark"
+  },
+  "shop/candles": {
+    "name": "Ljusaffär",
+    "terms": "Ljusaffär, ljus, värmeljus, mysljus, stearinljus, ljusstakar"
   },
   "shop/car": {
-    "name": "Bilhandlare"
+    "name": "Bilhandlare",
+    "terms": "Bilhandlare, bilsäljare, bilförsäljning, bilfirma, bilverkstad, bilreparatör, biltillbehör"
   },
   "shop/car_parts": {
-    "name": "Bildelar"
+    "name": "Biltillbehör",
+    "terms": "Bildelar, biltillbehör, reservdelar, bilreservdelar"
   },
   "shop/car_repair": {
-    "name": "Bilverkstad"
+    "name": "Bilverkstad",
+    "terms": "Bilverkstad, verkstad, bilreparatör"
+  },
+  "shop/carpet": {
+    "name": "Mattaffär",
+    "terms": "Mattaffär, mattor"
+  },
+  "shop/cheese": {
+    "name": "Ostaffär",
+    "terms": "Ostaffär, ost, ostar, ostbutik"
   },
   "shop/chemist": {
-    "name": "Kemiaffär (hygien,  kosmetika & städ)"
+    "name": "Kemiaffär (hygien,  kosmetika & städ)",
+    "terms": "Kemiaffär, kemi, hygien, hygienartiklar, kosmetik, smink, kosmetika, städ, städmaterial, rengöring, rengöringsmedel"
+  },
+  "shop/chocolate": {
+    "name": "Chokladaffär",
+    "terms": "Chokladaffär, Choklad, pralin, praliner, konfekt"
   },
   "shop/clothes": {
-    "name": "Klädaffär"
+    "name": "Klädaffär",
+    "terms": "Klädaffär, kläder, klädbutik, ekipering"
   },
   "shop/computer": {
-    "name": "Datorbutik"
+    "name": "Datorbutik",
+    "terms": "Datorbutik, datoraffär, data, dator, datorer, datorhårdvara, datorprogram, datortförsäljning "
   },
   "shop/confectionery": {
-    "name": "Godisaffär"
+    "name": "Godisaffär",
+    "terms": "konfektbutik, godisaffär, godisbutik, godis, konfektyr, godis, karameller, choklad, sötsaker"
   },
   "shop/convenience": {
-    "name": "Närbutik"
+    "name": "Närbutik",
+    "terms": "Närbutik, kvartersbutik, livsmedelbutik, livsmedel, mataffär"
+  },
+  "shop/copyshop": {
+    "name": "Tryckeri",
+    "terms": "Copyshop, tryckeri, kopiering"
+  },
+  "shop/cosmetics": {
+    "name": "Sminkaffär",
+    "terms": "Sminkaffär, smink, kosmetika, kosmetikaffär"
+  },
+  "shop/craft": {
+    "name": "Konst- och hantverksbutik",
+    "terms": "Konsthantverk, konstverk, hantverk, slöjd"
+  },
+  "shop/curtain": {
+    "name": "Gardinaffär",
+    "terms": "Gardinaffär, gardiner, draperier"
+  },
+  "shop/dairy": {
+    "name": "Mejeriaffär",
+    "terms": "Mejeriaffär, mejeri, mjölk, mjölkaffär"
   },
   "shop/deli": {
-    "name": "Delikatessaffär"
+    "name": "Delikatessaffär",
+    "terms": "Delikatessaffär, delikatess, delikatesser, finmat"
   },
   "shop/department_store": {
-    "name": "Varuhus"
+    "name": "Varuhus",
+    "terms": "Varuhus, affärshus"
   },
   "shop/doityourself": {
-    "name": "Byggmarknad"
+    "name": "Byggmarknad",
+    "terms": "Byggmarknad, bygghandel, Gör-det-själv, gördetsjälv, gör det själv, byggvaruhus, indie, byggsatser, byggsats, verktyg, järnaffär, handverktyg, elverktyg, heminredning, inredning, byggmaterial"
   },
   "shop/dry_cleaning": {
-    "name": "Kemtvätt"
+    "name": "Kemtvätt",
+    "terms": "Kemtvättar, kemisk tvätt"
   },
   "shop/electronics": {
-    "name": "Elektronikbutik"
+    "name": "Elektronikbutik",
+    "terms": "Elektronikbutik, hemelektronik, TV, radio, dator, datorer, kylskåp, spisar, vitvaror, tvättmaskin, torktumlare, hushållsapparater, kablar, batterier"
+  },
+  "shop/erotic": {
+    "name": "Sexshop",
+    "terms": "Sex, sexshop, sexaffär, erotik, erotikaffär, erotisk, sexfilmer, porr, porrfilmer, sexleksaker, underkläder, kondomer, pornografi, porrfilmer, sexfilmer, porrtidningar"
+  },
+  "shop/fabric": {
+    "name": "Tygaffär",
+    "terms": "Tygaffär, tyger, tyg, sömnad"
   },
   "shop/farm": {
     "name": "Gårdsbutik",
     "terms": "Gårdsbutik, närproducerat, egenproducerat"
   },
+  "shop/fashion": {
+    "name": "Modebutik",
+    "terms": "Modebutik, klädaffär, kläder, modekläder, mode"
+  },
   "shop/fishmonger": {
-    "name": "Fiskhandlare"
+    "name": "Fiskhandlare",
+    "terms": "Fiskhandlare, fisk, skaldjur, fiskdisk, fiskförsäljning"
   },
   "shop/florist": {
-    "name": "Florist"
+    "name": "Florist",
+    "terms": "Florist, blommor, blomförsäljning, bukett, blomsterbindare, blomsterhandlare "
+  },
+  "shop/frame": {
+    "name": "Ramaffär",
+    "terms": "Ramaffär, ramar, inramning"
+  },
+  "shop/funeral_directors": {
+    "name": "Begravningsbyrå",
+    "terms": "begravningsbyrå, begravningsceremoni, begravning, bodelning, jordfästning, gravsättning, kremering"
+  },
+  "shop/furnace": {
+    "name": "Värmepannor",
+    "terms": "Värmepannor, pannor, uppvärmning, ugnar, värmesystem, ugn, kakelugn, kamin"
   },
   "shop/furniture": {
-    "name": "Möbelaffär"
+    "name": "Möbelaffär",
+    "terms": "Möbelaffär, möbelgrossist, möbelvaruhus, inredning"
   },
   "shop/garden_centre": {
-    "name": "Trädgårdscenter"
+    "name": "Trädgårdscenter",
+    "terms": "Trädgårdscenter, plantskola, blommor, blomkrukor, krukväxter, buskar, träd, trädgårdsväxter, trädgård, trädgårdsverktyg, planteringsjord, jord"
   },
   "shop/gift": {
-    "name": "Presentbutik"
+    "name": "Presentbutik",
+    "terms": "Presentbutik, presenter, gratulationskort, grattiskort, gåvor, gåva, present, souvenirbutik, souvenir, souvenirer"
   },
   "shop/greengrocer": {
-    "name": "Grönsakshandlare"
+    "name": "Grönsakshandlare",
+    "terms": "Grönsakshandlare, grönsaker, frukt, frukthandlare, frukthandel, vegetabiliskt"
   },
   "shop/hairdresser": {
-    "name": "Hårfrissör"
+    "name": "Hårfrisör",
+    "terms": "Hårfrisör, frisör, hår, hårklippning, hårtvätt, rakning, hårfärgning, skägg, hårförlängning, skönhet, skönhetssalong, salong, barberare, stylist, hårkreatör, hårkonstnär"
   },
   "shop/hardware": {
-    "name": "Järnaffär"
+    "name": "Järnaffär",
+    "terms": "Järnaffär, järnhandlare, skruv, skruvar, bult, bultar, spik, krokar, järnbeslag, järntillbehör, metallverktyg, verktyg, bygg, el, vvs, trädgårdsredskap, redskap, handverktyg, elverktyg, köksutrustning, badrum, kök, hushållsprodukter, lås, nycklar, nyckeltillverkning"
+  },
+  "shop/hearing_aids": {
+    "name": "Hörapparater",
+    "terms": "Hörapparater, hörselskada, hörselskadade, hörhjälpmedel, hörsel"
+  },
+  "shop/herbalist": {
+    "name": "Medicinalväxter",
+    "terms": "medicinalväxter, örter, läkande örter"
   },
   "shop/hifi": {
-    "name": "HiFi-butik"
+    "name": "HiFi-butik",
+    "terms": "HIFI-butik, hifi, ljud, ljudåtergivning, förstärkare, högtalare, ljudanläggning, audio, stereo, stereoanläggning"
+  },
+  "shop/interior_decoration": {
+    "name": "Inredningsaffär",
+    "terms": "Inredningsaffär, inredning, dekoration"
   },
   "shop/jewelry": {
-    "name": "Juvelerare"
+    "name": "Juvelerare",
+    "terms": "Juvelare, smycken, halsband, ring, ringar, örhänge, örhängen, klocka, klockor, guld, silver"
   },
   "shop/kiosk": {
-    "name": "Kiosk"
+    "name": "Kiosk",
+    "terms": "Kiosk, gatukök, tidningar, godis, cigaretter, tobak, snus, dryck, läsk, butik, snabbmat, glass, korv"
+  },
+  "shop/kitchen": {
+    "name": "Köksinredning",
+    "terms": "Köksinredning, kök, bänkskivor, köksskåp, skåpluckor"
   },
   "shop/laundry": {
-    "name": "Tvättinrättning"
+    "name": "Tvättinrättning",
+    "terms": "Tvättinrättning, tvätteri, tvättemat, tvättstuga, tvättautomat"
+  },
+  "shop/leather": {
+    "name": "Läderaffär",
+    "terms": "Läderaffär, läder, läderjackor, läderkläder"
+  },
+  "shop/locksmith": {
+    "name": "Låssmed",
+    "terms": "Låssmed, nyckeltillverkning, nyckelkopiering, nyckel, lås, låsinstallation, dyrkning"
+  },
+  "shop/lottery": {
+    "name": "Lotteri",
+    "terms": "Lotteri, lottdragning, bingospel, hasardspel, hasard, tombola, lottförsäljningen, lottstånd"
   },
   "shop/mall": {
-    "name": "Galleria"
+    "name": "Köpcenter",
+    "terms": "Varuhus, shoppingcenter, affärshus, shoppingcentrum, köpcentrum, köpcenter"
+  },
+  "shop/massage": {
+    "name": "Massage",
+    "terms": "Massage, massagebehandling, thaimassage"
+  },
+  "shop/medical_supply": {
+    "name": "Medicinsk utrustning ",
+    "terms": "medicinsk utrustning, Träningsbollar, Bandage, Kryckor, ledstöd, Ortopedteknik, blodtrycksmätare, Glucometer,glukometer, hjälpmedel, rullstol"
   },
   "shop/mobile_phone": {
-    "name": "Mobiltelefonbutik"
+    "name": "Mobiltelefoner",
+    "terms": "Mobiltelefoner, mobiltelefon, mobiltelefoni, telefon, telefonbutik, mobiltelefonbutik"
+  },
+  "shop/money_lender": {
+    "name": "Långivare",
+    "terms": "Långivare, utlåning, utlåningsinstitution, mikrolån, telefonlån, pantbank"
   },
   "shop/motorcycle": {
-    "name": "Återförsäljare av motorcyklar"
+    "name": "Återförsäljare av motorcyklar",
+    "terms": "Motorcykel, motorcyklar, motorcykelåterförsäljare, motorcykelbutik, motorcykeltillbehör"
   },
   "shop/music": {
-    "name": "Musikaffär"
+    "name": "Musikaffär",
+    "terms": "Musikaffär, musikbutik, CD-affär, CD, kasset, vinyl, LP, skivaffär , skivbutik"
+  },
+  "shop/musical_instrument": {
+    "name": "Musikinstrument",
+    "terms": "Musikinstrument, instrument, noter"
   },
   "shop/newsagent": {
-    "name": "Tidningsaffär"
+    "name": "Tidningsaffär",
+    "terms": "Tidningsaffär, pressbyrå, pressbyrån, kiosk, tidningskiosk, tidningsställ, tidningar, magasin, tidskrifter"
   },
   "shop/optician": {
-    "name": "Optiker"
+    "name": "Optiker",
+    "terms": "Optiker, synundersökning, glasögon, linser"
+  },
+  "shop/organic": {
+    "name": "Ekologiska livsmedel",
+    "terms": "ekologiskt, miljövänligt"
   },
   "shop/outdoor": {
-    "name": "Friluftsaffär"
+    "name": "Friluftsaffär",
+    "terms": "Friluftsaffär, camping, campingutrustning, vandring, vandringsutrustning, tält, klätterutrustning, klättring, friluftsliv, uteliv"
+  },
+  "shop/paint": {
+    "name": "Färgbutik",
+    "terms": "Färgbutik, färg, målarfärg, målning"
+  },
+  "shop/pawnbroker": {
+    "name": "Pantbank",
+    "terms": "pantbank, pantbanken, \tpantbelåning,\tpantlånekontor, varubelåning, pant"
   },
   "shop/pet": {
-    "name": "Djurbutik"
+    "name": "Djurbutik",
+    "terms": "Djuraffär, djur, husdjur, hund, hundar, katt, katter, djurmat, djurtillbehör, djurburar, akvarium"
+  },
+  "shop/photo": {
+    "name": "Fotoaffär ",
+    "terms": "fotoaffär, bild, foto, video, fotografi, fotoredigering, framkallning, ram, kameratillbehör, kamera, kameror, filmkamera, fotokamera, konvertering"
+  },
+  "shop/pyrotechnics": {
+    "name": "Fyrverkerier",
+    "terms": "fyrverkerier, smällare, tomtebloss, raketer, nyårsraketer, pyroteknik"
+  },
+  "shop/radiotechnics": {
+    "name": "Radio/Elektronikbutik",
+    "terms": "Radio, radiobutik, elektronik, elektronikbutik, radiotillbehör, elektronikkomponenter"
+  },
+  "shop/religion": {
+    "name": "Religiös butik",
+    "terms": "Religiös, religion, biblar, psalmböcker, kyrkobutik"
+  },
+  "shop/scuba_diving": {
+    "name": "Dykarbutik",
+    "terms": "Dykning, Dykarbutik, dykutrustning"
+  },
+  "shop/seafood": {
+    "name": "Fiskaffär",
+    "terms": "Fiskaffär, fisk, skaldjur, fiskhandlare, bläckfisk, räkor, hummer, krabba, ostron, musslor"
+  },
+  "shop/second_hand": {
+    "name": "Second hand",
+    "terms": "Second hand, loppis, loppmarknad, secondhand "
   },
   "shop/shoes": {
-    "name": "Skoaffär"
+    "name": "Skoaffär",
+    "terms": "Skoaffär, skor, skobutik"
   },
   "shop/sports": {
-    "name": "Sportaffär"
+    "name": "Sportaffär",
+    "terms": "Sportaffär, sportutrustning, sportkläder, träningskläder, träningsutrustning, träningsskor, löpskor"
   },
   "shop/stationery": {
-    "name": "Pappershandel"
+    "name": "Pappershandel",
+    "terms": "pappersvaror , pappershandel, papper, anteckningsböcker, grattiskort, kuvert, pennor, Kontorsmaterial "
   },
   "shop/supermarket": {
     "name": "Snabbköp",
     "terms": "självbetjäningsbutik, självköp, supermarket, snabbköp, dagligvarubutik, affär, mataffär"
   },
+  "shop/tailor": {
+    "name": "Skräddare",
+    "terms": "Skräddare, kläder"
+  },
+  "shop/tattoo": {
+    "name": "Tatueringsstudio",
+    "terms": "Tatueringsstudio, tatueringssalong, tatuera, tatuerare, tatuering, "
+  },
+  "shop/tea": {
+    "name": "Te-butik",
+    "terms": "Te, the, te, påste, örtte, thé, teblad"
+  },
+  "shop/ticket": {
+    "name": "Biljettförsäljning",
+    "terms": "Biljettförsäljning, biljetter, biljettkassa, biljettsäljare, biljettkontor, biljettlucka, biljettåterförsäljare"
+  },
+  "shop/tobacco": {
+    "name": "Tobaksbutik",
+    "terms": "Tobaksbutik, tobak, rökning, pipa, pipor, snus, cigaretter,  cigarett, cigarr, cigarrer, röktillbehör"
+  },
   "shop/toys": {
-    "name": "Leksaksaffär"
+    "name": "Leksaksaffär",
+    "terms": "Leksaksaffär, leksaker, barnsaker"
   },
   "shop/travel_agency": {
-    "name": "Resebyrå"
+    "name": "Resebyrå",
+    "terms": "Resebyrå, reseagent, biljettförsäljning, charter, charterflyg, charterresa "
   },
   "shop/tyres": {
-    "name": "Däckfirma"
+    "name": "Däckfirma",
+    "terms": "Däckfirma, däckbyte, hjulbyte, däckförsäljning, hjulförsäljning, fälgar, däck, hjul, fälg, balansering, "
   },
   "shop/vacant": {
-    "name": "Tom lokal"
+    "name": "Tom lokal",
+    "terms": "Tom lokal, vakant lokal, lokal för uthyrning, uthyrning"
+  },
+  "shop/vacuum_cleaner": {
+    "name": "Dammsugarbutik",
+    "terms": "Dammsugarbutik, dammsugare, dammsugaråterförsäljare, dammsugarpåsar, dammsugartillbehör"
   },
   "shop/variety_store": {
-    "name": "Fyndbutik"
+    "name": "Fyndbutik",
+    "terms": "Fyndbutik, billigt,lågpris, lågprisbutik, fynd, överskott, överskottsaffär"
   },
   "shop/video": {
-    "name": "Videobutik"
+    "name": "Videobutik",
+    "terms": "Videobutik, filmbutik, filmförsäljning, filmuthyrning, DVD, VHS"
+  },
+  "shop/video_games": {
+    "name": "TV-spel",
+    "terms": "TV-spel, videospel, konsolspel, spelkonsoler, datorspel, dataspel, tvspel"
+  },
+  "shop/water_sports": {
+    "name": "Vattensport/simning ",
+    "terms": "Vattensport, simning, badkläder"
+  },
+  "shop/weapons": {
+    "name": "Vapenaffär",
+    "terms": "Vapenaffär, vapen, ammunition, jakt, skjutvapen"
+  },
+  "shop/window_blind": {
+    "name": "Persienner",
+    "terms": "Persienner, spjälgardin, jalusi, markis, rullgardin, spjäljalusi"
   },
   "shop/wine": {
-    "name": "Vinaffär"
+    "name": "Vinaffär",
+    "terms": "Vinaffär, systembolaget, systemet, vin, vinförsäljning"
   },
   "tourism": {
-    "name": "Turism"
+    "name": "Turism",
+    "terms": "Turism, sevärdhet, turistattraktion, turistmagnat"
   },
   "tourism/alpine_hut": {
-    "name": "Fjällstuga"
+    "name": "Fjällstation",
+    "terms": "Fjällstuga, fjällstation"
   },
   "tourism/artwork": {
-    "name": "Konst"
+    "name": "Publik konst",
+    "terms": "Konst, publik konst, gatukonst, offentlig konst"
   },
   "tourism/attraction": {
-    "name": "Turistattraktion"
+    "name": "Turistattraktion",
+    "terms": "Turistattraktion, sevärdhet, sevärdighet"
   },
   "tourism/camp_site": {
-    "name": "Kampingplats"
+    "name": "Campingplats",
+    "terms": "Campingplats, camping, husvagn, tält, campinganläggning"
   },
   "tourism/caravan_site": {
-    "name": "Ställplats"
+    "name": "Ställplats",
+    "terms": "Ställplats, campingplats, camping, husvagnscamping, husbilscamping, fricamping"
   },
   "tourism/chalet": {
-    "name": "Stuga"
+    "name": "Campingstuga",
+    "terms": "Campingstuga, stuga, sommarstuga"
   },
   "tourism/guest_house": {
     "name": "Gästhus",
-    "terms": "Gästhus, vandrarhem, övernattningsställe, logi"
+    "terms": "Gästhus, vandrarhem, övernattningsställe, logi, pensionat , Bed & Breakfast."
   },
   "tourism/hostel": {
-    "name": "Vandrarhem"
+    "name": "Vandrarhem",
+    "terms": "Vandrarhem, övernattningsställe"
   },
   "tourism/hotel": {
-    "name": "Hotell"
+    "name": "Hotell",
+    "terms": "Hotell, hotellanläggning, värdshus"
   },
   "tourism/information": {
-    "name": "Information"
+    "name": "Information",
+    "terms": "Information, informationskällan, Turistbyråer , turistkontor, karta, informationskarta, infokarta, Informationstavla"
   },
   "tourism/motel": {
-    "name": "Motel"
+    "name": "Motel",
+    "terms": "Motell, hotell, motorhotell, väghotell"
   },
   "tourism/museum": {
     "name": "Museum",
     "terms": "museum, samling, konstsamling, museibyggnad, vetenskap, historia, historik, historia, konst, arkeologi"
   },
   "tourism/picnic_site": {
-    "name": "Picknickplats"
+    "name": "Picknickplats",
+    "terms": "Picknickplats, rastplats, picknick, utflykt"
   },
   "tourism/theme_park": {
-    "name": "Temapark"
+    "name": "Nöjespark",
+    "terms": "Temapark, nöjespark, åkattraktioner, tivoli, nöjesfält, nöjesplats"
   },
   "tourism/viewpoint": {
-    "name": "Utsiktspunkt"
+    "name": "Utsiktspunkt",
+    "terms": "Utsiktsplats, utsikt, vy"
   },
   "tourism/zoo": {
-    "name": "Zoo"
+    "name": "Zoo",
+    "terms": "Zoo, zoologisk trädgård, djurpark"
   },
   "type/boundary": {
-    "name": "Gräns"
+    "name": "Gräns",
+    "terms": "Gräns, gränslinje, administrativ gräns"
   },
   "type/boundary/administrative": {
-    "name": "Administrativ gräns"
+    "name": "Administrativ gräns",
+    "terms": "Administrativ gräns, gräns, stat, territorium, administrativ enhet"
   },
   "type/multipolygon": {
-    "name": "Multipolygon"
+    "name": "Multipolygon",
+    "terms": "Multipolygon,  polygon, komplex yta"
   },
   "type/restriction": {
-    "name": "Restriktion"
+    "name": "Restriktion",
+    "terms": "Restriktion, inskränkning, förbehåll, begränsning"
   },
   "type/restriction/no_left_turn": {
     "name": "Ingen vänstersväng",
@@ -1672,58 +2156,80 @@
     "terms": "Inga svängar, rakt fram, ingen sväng"
   },
   "type/route": {
-    "name": "Rutt"
+    "name": "Rutt",
+    "terms": "rutt, färdväg, färdled"
   },
   "type/route/bicycle": {
-    "name": "cykelrutt"
+    "name": "Cykelrutt",
+    "terms": "Cykelrutt, cykelled, cykelförbindelse, cykelnät"
   },
   "type/route/bus": {
-    "name": "Bussrutt"
+    "name": "Busslinje",
+    "terms": "Bussrutt, bussväg, bussled, busslinje"
   },
   "type/route/detour": {
-    "name": "Alternativ rutt"
+    "name": "Alternativ rutt",
+    "terms": "Alternativ rutt, alternativ väg, omväg"
   },
   "type/route/ferry": {
-    "name": "Färjerutt"
+    "name": "Färjerutt",
+    "terms": "Färjerutt, båtrutt, båtlinjetrafik"
   },
   "type/route/foot": {
-    "name": "Vandringsrutt"
+    "name": "Vandringsled",
+    "terms": "Vandringsrutt, vandringsled, stig"
+  },
+  "type/route/hiking": {
+    "name": "Vandringsled",
+    "terms": "Vandringsrutt, vandringsled, stig"
   },
   "type/route/pipeline": {
-    "name": "Rörledningsrutt"
+    "name": "Rörledningsrutt",
+    "terms": "Rörledningsrutt, rörledning, pipeline, oljeledning, vattenledning, avloppsledning"
   },
   "type/route/power": {
-    "name": "Kraftledningsrutt"
+    "name": "Kraftledningsrutt",
+    "terms": "Kraftledningsrutt, kraftledning, elförsörjning, elnät"
   },
   "type/route/road": {
-    "name": "Vägrutt"
+    "name": "Vägrutt",
+    "terms": "Vägrutt, vägnät, vägförbindelse"
   },
   "type/route/train": {
-    "name": "Tågrutt"
+    "name": "Tågrutt",
+    "terms": "Tågrutt, tågnät, järnvägsrutt, järnväg, järnvägsförbindelse"
   },
   "type/route/tram": {
-    "name": "Spårvagnsrutt"
+    "name": "Spårvagnsrutt",
+    "terms": "Spårvagnsrutt, spårvagn, spårvagnsnät, spårvagnsräls, spårvagnsförbindelse "
   },
   "type/route_master": {
-    "name": "Huvudrutt"
+    "name": "Huvudrutt",
+    "terms": "Huvudrutt, huvudförbindelse, huvudväg"
   },
   "vertex": {
-    "name": "Annat"
+    "name": "Annat",
+    "terms": "Annat, övrigt"
   },
   "waterway": {
-    "name": "Vattenväg"
+    "name": "Vattenväg",
+    "terms": "Vattenväg, vattenflöde"
   },
   "waterway/canal": {
-    "name": "Kanal"
+    "name": "Kanal",
+    "terms": "Kanal, vattenväg, vattenled"
   },
   "waterway/dam": {
-    "name": "Fördämning"
+    "name": "Fördämning",
+    "terms": "damm, reservoar, fördämning, vattensamling"
   },
   "waterway/ditch": {
-    "name": "Dike"
+    "name": "Dike",
+    "terms": "Dike, fåra"
   },
   "waterway/drain": {
-    "name": "Dränering"
+    "name": "Dränering",
+    "terms": "dränering, avrinning, dagvatten, dagvattenavrinning "
   },
   "waterway/river": {
     "name": "Flod",
@@ -1738,6 +2244,7 @@
     "terms": "vattendrag, bäck, dike"
   },
   "waterway/weir": {
-    "name": "Dam"
+    "name": "Damm",
+    "terms": "damm, reservoar, fördämning, vattensamling"
   }
 }

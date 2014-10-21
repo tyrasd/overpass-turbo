@@ -57,7 +57,7 @@
     "name": "Tuletõrjedepoo"
   },
   "amenity/fountain": {
-    "name": "Purskaev"
+    "name": "Purskkaev"
   },
   "amenity/fuel": {
     "name": "Bensiinijaam"
@@ -93,10 +93,10 @@
     "name": "Postkontor"
   },
   "amenity/pub": {
-    "name": "Pubi"
+    "name": "Kõrts"
   },
   "amenity/restaurant": {
-    "name": "Restoraan"
+    "name": "Restoran"
   },
   "amenity/swimming_pool": {
     "name": "Ujumisbassein"
@@ -109,9 +109,6 @@
   },
   "amenity/toilets": {
     "name": "Tualett"
-  },
-  "amenity/university": {
-    "name": "Ülikool"
   },
   "amenity/waste_basket": {
     "name": "Prügikast"
@@ -149,17 +146,89 @@
   "building/apartments": {
     "name": "Korterid"
   },
+  "building/church": {
+    "name": "Kirik"
+  },
   "building/commercial": {
     "name": "Ärihoone"
+  },
+  "building/construction": {
+    "name": "Ehitusjärgus hoone"
+  },
+  "building/detached": {
+    "name": "Eramu"
+  },
+  "building/dormitory": {
+    "name": "Ühiselamu"
+  },
+  "building/entrance": {
+    "name": "Sissepääs"
+  },
+  "building/garage": {
+    "name": "Garaaz"
+  },
+  "building/garages": {
+    "name": "Garaazid"
+  },
+  "building/greenhouse": {
+    "name": "Kasvuhoone"
+  },
+  "building/hospital": {
+    "name": "Haigla"
+  },
+  "building/hotel": {
+    "name": "Hotell"
   },
   "building/house": {
     "name": "Maja"
   },
+  "building/hut": {
+    "name": "Onn"
+  },
   "building/industrial": {
     "name": "Tööstushoone"
   },
+  "building/kindergarten": {
+    "name": "Lasteaed"
+  },
+  "building/public": {
+    "name": "Avalik hoone"
+  },
   "building/residential": {
     "name": "Elamu"
+  },
+  "building/roof": {
+    "name": "Katus"
+  },
+  "building/train_station": {
+    "name": "Raudteejaam"
+  },
+  "building/university": {
+    "name": "Ülikool"
+  },
+  "building/warehouse": {
+    "name": "Ladu"
+  },
+  "craft/basket_maker": {
+    "name": "Korvimeister"
+  },
+  "craft/beekeeper": {
+    "name": "Mesinik"
+  },
+  "craft/blacksmith": {
+    "name": "Sepikoda"
+  },
+  "craft/boatbuilder": {
+    "name": "Paadiehitaja"
+  },
+  "craft/bookbinder": {
+    "name": "Raamatuköitja"
+  },
+  "craft/brewery": {
+    "name": "Pruulikoda"
+  },
+  "craft/carpenter": {
+    "name": "Puusepp"
   },
   "emergency/phone": {
     "name": "Hädaabi telefon"
@@ -168,7 +237,7 @@
     "name": "Tee"
   },
   "highway/bridleway": {
-    "name": "Ratsutamistee"
+    "name": "Ratsutamise rada"
   },
   "highway/bus_stop": {
     "name": "Bussipeatus"
@@ -243,16 +312,16 @@
     "name": "Surnuaed"
   },
   "landuse/commercial": {
-    "name": "Kommertsmaa"
+    "name": "Ärimaa"
   },
   "landuse/forest": {
-    "name": "Mets"
+    "name": "Metsamaa"
   },
   "landuse/grass": {
     "name": "Muru"
   },
   "landuse/industrial": {
-    "name": "Tüüstuslik"
+    "name": "Tootmismaa"
   },
   "landuse/meadow": {
     "name": "Niit"
@@ -264,10 +333,10 @@
     "name": "Karjäär"
   },
   "landuse/residential": {
-    "name": "Elamupiirkond"
+    "name": "Elamumaa"
   },
   "landuse/retail": {
-    "name": "Kaubanduslik"
+    "name": "Jaekaubandus"
   },
   "landuse/vineyard": {
     "name": "Viinapuuaed"
@@ -328,9 +397,6 @@
   },
   "man_made/water_tower": {
     "name": "Veetorn"
-  },
-  "man_made/water_well": {
-    "name": "Veekaev"
   },
   "natural": {
     "name": "Looduslik"
@@ -467,9 +533,6 @@
   "shop/bicycle": {
     "name": "Rattapood"
   },
-  "shop/books": {
-    "name": "Raamatupood"
-  },
   "shop/butcher": {
     "name": "Lihapood"
   },
@@ -488,12 +551,6 @@
   "shop/computer": {
     "name": "Arvutipood"
   },
-  "shop/confectionery": {
-    "name": "Kommipood"
-  },
-  "shop/dry_cleaning": {
-    "name": "Keemiline puhastus"
-  },
   "shop/electronics": {
     "name": "Elektroonikapood"
   },
@@ -508,9 +565,6 @@
   },
   "shop/hairdresser": {
     "name": "Juuksurisalong"
-  },
-  "shop/kiosk": {
-    "name": "Kiosk"
   },
   "shop/laundry": {
     "name": "Pesumaja"
@@ -561,7 +615,7 @@
     "name": "Kunstiteos"
   },
   "tourism/attraction": {
-    "name": "\tTurismiatraktsioon"
+    "name": "Turismiatraktsioon"
   },
   "tourism/caravan_site": {
     "name": "Karavanipark"

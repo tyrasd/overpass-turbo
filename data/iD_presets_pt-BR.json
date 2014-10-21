@@ -65,7 +65,7 @@
   },
   "aeroway/helipad": {
     "name": "Heliponto",
-    "terms": "Heliporto, Heliponto, ponto de pouso de helicópteros"
+    "terms": "Heliponto, ponto de pouso de helicópteros"
   },
   "aeroway/runway": {
     "name": "Pista de Pouso e Decolagem",
@@ -119,8 +119,13 @@
     "name": "Aluguel de Barcos",
     "terms": "Aluguel de Embarcações"
   },
+  "amenity/bureau_de_change": {
+    "name": "Câmbio",
+    "terms": "Câmbio, Casa de Câmbio"
+  },
   "amenity/bus_station": {
-    "name": "Rodoviária"
+    "name": "Rodoviária",
+    "terms": "Rodoviária, Terminal Rodoviário"
   },
   "amenity/cafe": {
     "name": "Cafeteria",
@@ -143,8 +148,7 @@
     "terms": "Estação de Recarga, Estação de Carga Elétrica, Tomada de Cargamento, Tomada de Recarga"
   },
   "amenity/childcare": {
-    "name": "Creche",
-    "terms": "Creche"
+    "name": "Berçário/Creche"
   },
   "amenity/cinema": {
     "name": "Cinema",
@@ -157,10 +161,6 @@
   "amenity/clock": {
     "name": "Relógio",
     "terms": "Relógio"
-  },
-  "amenity/college": {
-    "name": "Faculdade",
-    "terms": "faculdade, educação superior, curso superior"
   },
   "amenity/compressed_air": {
     "name": "Ar Comprimido",
@@ -214,10 +214,6 @@
     "name": "Hospital",
     "terms": "clínica,sala de emergência,serviço de saúde,hospício,enfermaria,instituição,asilo,sanatório,cirurgia"
   },
-  "amenity/kindergarten": {
-    "name": "Escola Infantil",
-    "terms": "Creche, Pré-escola, Cuidados infantis, Bebês, Centro de Educação Infantil, CEI"
-  },
   "amenity/library": {
     "name": "Biblioteca",
     "terms": "Biblioteca"
@@ -227,15 +223,15 @@
     "terms": "Feira"
   },
   "amenity/nightclub": {
-    "name": "Danceteria",
+    "name": "Boate",
     "terms": "Discoteca, Boate, Casa Noturna"
   },
   "amenity/parking": {
     "name": "Estacionamento",
-    "terms": "estacionamento,parada"
+    "terms": "estacionamento, parada"
   },
   "amenity/parking_entrance": {
-    "name": "Entrada/Saída de Estacionamento",
+    "name": "Entrada/Saída de estacionamento interno",
     "terms": "Entrada/Saída de Estacionamento, Entrada/Saída de Garagem"
   },
   "amenity/pharmacy": {
@@ -243,7 +239,7 @@
     "terms": "Farmácia, Drogaria, Farmácia de Manipulação"
   },
   "amenity/place_of_worship": {
-    "name": "Local de Prática Religiosa",
+    "name": "Templo Religioso",
     "terms": "Local de Culto, Lugar de Adoração, Abadia, Basílica, Betel, Catedral, Mor, Capela, Igreja, Aprisco, Casa de Deus, Casa de oração, Casa de adoração, Mesquita, Oratório, Paróquia, Santuário, Sinagoga, Tabernáculo, Templo"
   },
   "amenity/place_of_worship/buddhist": {
@@ -280,7 +276,7 @@
   },
   "amenity/ranger_station": {
     "name": "Estação de Patrulha",
-    "terms": "Patrulha, Ranger"
+    "terms": "Patrulha"
   },
   "amenity/recycling": {
     "name": "Reciclagem",
@@ -305,10 +301,6 @@
   "amenity/social_facility/food_bank": {
     "name": "Banco de Alimentos",
     "terms": "Banco de Alimentos"
-  },
-  "amenity/social_facility/group_home": {
-    "name": "Lar Compartilhado",
-    "terms": "Lar Compartilhado"
   },
   "amenity/social_facility/homeless_shelter": {
     "name": "Abrigo para moradores de rua",
@@ -341,10 +333,6 @@
   "amenity/townhall": {
     "name": "Paço Municipal",
     "terms": "Prefeitura"
-  },
-  "amenity/university": {
-    "name": "Universidade",
-    "terms": "Universidade"
   },
   "amenity/vending_machine": {
     "name": "Máquina de Venda",
@@ -432,7 +420,7 @@
   },
   "boundary/administrative": {
     "name": "Limite Administrativo",
-    "terms": "Fronteira Administrativa, Limite Administrativo, Divisa,"
+    "terms": "Fronteira Administrativa, Limite Administrativo, Divisa"
   },
   "building": {
     "name": "Edifício",
@@ -607,8 +595,8 @@
     "terms": "Relojoeiro"
   },
   "craft/confectionary": {
-    "name": "Doçaria",
-    "terms": "Confeitaria, Doceria"
+    "name": "Confeitaria",
+    "terms": "Confeitaria, Doceria, Doçaria"
   },
   "craft/dressmaker": {
     "name": "Costureira",
@@ -776,7 +764,11 @@
   },
   "footway/sidewalk": {
     "name": "Calçada",
-    "terms": "calçada,passeio"
+    "terms": "calçada, passeio"
+  },
+  "ford": {
+    "name": "Vau",
+    "terms": "Vau, Lugar em um rio no qual se pode passar a pé, Baixio"
   },
   "golf/bunker": {
     "name": "Banco de Areia",
@@ -824,7 +816,7 @@
   },
   "highway/crossing": {
     "name": "Travessia de Pedestres",
-    "terms": "Interseção"
+    "terms": "Faixa de Pedestres"
   },
   "highway/crosswalk": {
     "name": "Travessia de Pedestres",
@@ -930,6 +922,10 @@
     "name": "Placa de Pare",
     "terms": "Sinal de Pare, Placa Pare"
   },
+  "highway/street_lamp": {
+    "name": "Lampião de rua.",
+    "terms": "Lampião, Lampião de rua, Revérbero"
+  },
   "highway/tertiary": {
     "name": "Via Terciária",
     "terms": "Via Terciária"
@@ -1032,7 +1028,7 @@
   },
   "landuse/farmland": {
     "name": "Agricultura",
-    "terms": "agricultura,terra,campo,roça"
+    "terms": "agricultura, campo, roça"
   },
   "landuse/farmyard": {
     "name": "Pátio de Fazenda",
@@ -1091,8 +1087,8 @@
     "terms": "Comum, Habitual, Frequente"
   },
   "leisure/dog_park": {
-    "name": "Cachorródromo",
-    "terms": "Canódromo, Parque de Cães, Parque Canino, Parque de Cachorros"
+    "name": "Parque de Cães",
+    "terms": "Canódromo, Cachorródromo, Parque Canino, Parque de Cachorros"
   },
   "leisure/firepit": {
     "name": "Fogueira",
@@ -1107,7 +1103,7 @@
     "terms": "Campo de Golfe"
   },
   "leisure/ice_rink": {
-    "name": "Pista de Gelo",
+    "name": "Pista de Patinação no Gelo",
     "terms": "Rinque de Patinação no Gelo"
   },
   "leisure/marina": {
@@ -1115,7 +1111,7 @@
     "terms": "Marina"
   },
   "leisure/park": {
-    "name": "Parque/Praça",
+    "name": "Parque / Praça",
     "terms": "Parque, praça"
   },
   "leisure/picnic_table": {
@@ -1174,10 +1170,6 @@
     "name": "Piscina",
     "terms": "Piscina"
   },
-  "leisure/track": {
-    "name": "Pista de Corrida",
-    "terms": "Pista de Corrida, Pista, Corrida Velocidade, Circuito"
-  },
   "line": {
     "name": "Linha",
     "terms": "Linha"
@@ -1200,7 +1192,7 @@
   },
   "man_made/flagpole": {
     "name": "Mastro de Bandeira",
-    "terms": "matro,bandeira,pau de bandeira"
+    "terms": "mastro, bandeira, pau de bandeira"
   },
   "man_made/lighthouse": {
     "name": "Farol",
@@ -1219,7 +1211,7 @@
     "terms": "Encanamento, Duto"
   },
   "man_made/survey_point": {
-    "name": "Ponto de Exame Geográfico",
+    "name": "Ponto de Levantamento Geográfico",
     "terms": "Marco Geodésico, Equipamento de GPS Diferencial"
   },
   "man_made/tower": {
@@ -1234,10 +1226,6 @@
     "name": "Caixa d'Água",
     "terms": "Caixa d'Água"
   },
-  "man_made/water_well": {
-    "name": "Poço de Água",
-    "terms": "Poço de água"
-  },
   "man_made/water_works": {
     "name": "Estação de Tratamento de Água",
     "terms": "Estação de Tratamento de Água"
@@ -1248,15 +1236,15 @@
   },
   "military/barracks": {
     "name": "Quartel",
-    "terms": "quartel,caserna"
+    "terms": "quartel, caserna"
   },
   "military/bunker": {
     "name": "Casamata",
-    "terms": "casamata,bunker,fortificação"
+    "terms": "casamata, bunker, fortificação"
   },
   "military/range": {
     "name": "Estande de Tiro Militar",
-    "terms": "tiro,estande"
+    "terms": "tiro, estande"
   },
   "natural": {
     "name": "Natural",
@@ -1279,8 +1267,8 @@
     "terms": "Orla Marítima, Linha Costeira"
   },
   "natural/fell": {
-    "name": "Fell",
-    "terms": "Colina, Morro, Cerro, Coxilha, Montanha, Outeiro"
+    "name": "Colina",
+    "terms": "Fell, Morro, Cerro, Coxilha, Montanha, Outeiro"
   },
   "natural/glacier": {
     "name": "Geleira",
@@ -1360,15 +1348,15 @@
   },
   "office/educational_institution": {
     "name": "Instituição Educacional",
-    "terms": "escola,colégio,universidade,faculdade,curso,instituto,educação,educacional"
+    "terms": "escola, colégio, universidade, faculdade, curso, instituto, educação, educacional"
   },
   "office/employment_agency": {
     "name": "Agência de Empregos",
-    "terms": "agência,SINE,emprego,empregos,desempregado"
+    "terms": "agência, SINE, emprego, empregos, desempregado"
   },
   "office/estate_agent": {
     "name": "Imobiliária",
-    "terms": "imobiliária,aluguel,casa,apartamento,casas,apartamentos"
+    "terms": "imobiliária, aluguel, casa, apartamento, casas, apartamentos"
   },
   "office/financial": {
     "name": "Escritório Financeiro",
@@ -1380,19 +1368,19 @@
   },
   "office/insurance": {
     "name": "Seguradora",
-    "terms": "seguro,seguradora,apólice,corretor"
+    "terms": "seguro, seguradora, apólice, corretor"
   },
   "office/it": {
     "name": "Escritório de TI",
-    "terms": "ti,cpd,informática,computador,rede"
+    "terms": "ti, cpd, informática, computador, rede"
   },
   "office/lawyer": {
     "name": "Escritório de Advocacia",
-    "terms": "advogado,advocacia,escritório"
+    "terms": "advocacia"
   },
   "office/newspaper": {
     "name": "Escritório de Jornal",
-    "terms": "jornal,notícia"
+    "terms": "jornal, notícia"
   },
   "office/ngo": {
     "name": "Sede de ONG",
@@ -1400,15 +1388,15 @@
   },
   "office/physician": {
     "name": "Médico",
-    "terms": "médico,consultório,doutor,consulta"
+    "terms": "médico, consultório, doutor, consulta"
   },
   "office/political_party": {
     "name": "Partido Político",
-    "terms": "política,político,partido,gabinete"
+    "terms": "política, político, partido, gabinete"
   },
   "office/research": {
     "name": "Escritório de Pesquisa",
-    "terms": "pesquisa,pesquisas,pesquisador,escritório"
+    "terms": "pesquisa, pesquisas, pesquisador, escritório"
   },
   "office/telecommunication": {
     "name": "Escritório de Telecomunicações",
@@ -1420,7 +1408,7 @@
   },
   "office/travel_agent": {
     "name": "Agência de Viagens",
-    "terms": "viagem,viagens,agência"
+    "terms": "viagem, viagens, agência"
   },
   "piste": {
     "name": "Pista de Ski",
@@ -1504,11 +1492,11 @@
   },
   "public_transport/platform": {
     "name": "Plataforma",
-    "terms": "plataforma,embarque,desembarque,espera,transporte público"
+    "terms": "plataforma, embarque, desembarque, espera, transporte público"
   },
   "public_transport/stop_position": {
     "name": "Posição de Parada",
-    "terms": "ponto,parada,ônibus,metrô,trem"
+    "terms": "ponto, parada, ônibus, metrô, trem"
   },
   "railway": {
     "name": "Ferrovia",
@@ -1582,10 +1570,6 @@
     "name": "Loja de Licores",
     "terms": "Loja de Licores"
   },
-  "shop/art": {
-    "name": "Loja de Artes",
-    "terms": "Loja de Artes"
-  },
   "shop/bakery": {
     "name": "Padaria",
     "terms": "Padaria, Panificadora"
@@ -1605,10 +1589,6 @@
   "shop/bookmaker": {
     "name": "Casa de Apostas",
     "terms": "Casa de Apostas"
-  },
-  "shop/books": {
-    "name": "Livraria",
-    "terms": "Livraria"
   },
   "shop/boutique": {
     "name": "Butique",
@@ -1642,10 +1622,6 @@
     "name": "Loja de Informática",
     "terms": "Loja de Informática"
   },
-  "shop/confectionery": {
-    "name": "Doçaria",
-    "terms": "Confeitaria"
-  },
   "shop/convenience": {
     "name": "Loja de Conveniência",
     "terms": "Loja de Conveniência"
@@ -1661,10 +1637,6 @@
   "shop/doityourself": {
     "name": "Loja de Ferragens/Bricolagem",
     "terms": "Loja de Bricolagem, Faça você mesmo"
-  },
-  "shop/dry_cleaning": {
-    "name": "Lavagem de Roupas a Seco",
-    "terms": "Limpeza a Seco, Lavagem a Seco"
   },
   "shop/electronics": {
     "name": "Loja de Eletrônicos",
@@ -1718,10 +1690,6 @@
     "name": "Joalheria",
     "terms": "Joalheria"
   },
-  "shop/kiosk": {
-    "name": "Quiosque Comercial",
-    "terms": "Quiosque"
-  },
   "shop/laundry": {
     "name": "Lavanderia",
     "terms": "Lavanderia"
@@ -1732,7 +1700,7 @@
   },
   "shop/lottery": {
     "name": "Lotérica",
-    "terms": "Loteria, Casa Lotérica, Mega Sena, Trimania, Quina"
+    "terms": "Loteria, Casa Lotérica, Mega Sena, Quina"
   },
   "shop/mall": {
     "name": "Centro Comercial",
@@ -1750,17 +1718,9 @@
     "name": "Loja de Instrumentos Musicais",
     "terms": "Loja de Discos Musicais, Loja de CD's, Loja de Vinil, Loja Musical"
   },
-  "shop/newsagent": {
-    "name": "Banca de Jornal",
-    "terms": "Banca de Jornal"
-  },
   "shop/optician": {
     "name": "Ótica",
     "terms": "Ótica"
-  },
-  "shop/outdoor": {
-    "name": "Loja de Esporte/Aventura",
-    "terms": "Loja de Esportes de Aventura"
   },
   "shop/pet": {
     "name": "Pet Shop",
@@ -1811,7 +1771,7 @@
     "terms": "Loja Desocupada"
   },
   "shop/variety_store": {
-    "name": "Loja de Variedades a 1,99",
+    "name": "Loja de Variedades",
     "terms": "Loja de Variedades"
   },
   "shop/video": {
