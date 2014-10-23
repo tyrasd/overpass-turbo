@@ -14,7 +14,7 @@ locales.forEach(function(locale) {
     request(api + locale + '.json', function(err, resp, body) {
         console.log(locale);
         if (err) return;
-        var data = JSON.parse(body);
+        try { var data = JSON.parse(body); } catch (e) { return; }
         data = data.presets.presets;
         fs.writeFileSync(outdir + 'iD_presets_' + locale + '.json', JSON.stringify(data, null, 2));
     });

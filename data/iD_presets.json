@@ -531,7 +531,9 @@
         "name": "Currency Exchange"
     },
     "amenity/bus_station": {
+        "icon": "bus",
         "fields": [
+            "building_area",
             "operator"
         ],
         "geometry": [
@@ -725,6 +727,26 @@
             "amenity": "college"
         },
         "name": "College Grounds"
+    },
+    "amenity/community_centre": {
+        "icon": "town-hall",
+        "fields": [
+            "operator",
+            "address",
+            "building_area"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "event",
+            "hall"
+        ],
+        "tags": {
+            "amenity": "community_centre"
+        },
+        "name": "Community Center"
     },
     "amenity/compressed_air": {
         "icon": "car",
@@ -6346,6 +6368,21 @@
         "tags": {
             "power": "sub_station"
         },
+        "name": "Substation",
+        "searchable": false
+    },
+    "power/substation": {
+        "fields": [
+            "operator",
+            "building"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "power": "substation"
+        },
         "name": "Substation"
     },
     "power/tower": {
@@ -7589,7 +7626,7 @@
         "name": "Garden Center"
     },
     "shop/gift": {
-        "icon": "shop",
+        "icon": "gift",
         "fields": [
             "operator",
             "address",
@@ -8052,7 +8089,7 @@
         ],
         "tags": {
             "shop": "supermarket",
-            "organic": "true"
+            "organic": "only"
         },
         "name": "Organic Goods Store"
     },
@@ -8718,8 +8755,7 @@
         "icon": "campsite",
         "fields": [
             "operator",
-            "address",
-            "smoking"
+            "address"
         ],
         "geometry": [
             "point",
@@ -8937,6 +8973,67 @@
             "tourism": "zoo"
         },
         "name": "Zoo"
+    },
+    "traffic_calming/bump": {
+        "fields": [
+            "surface"
+        ],
+        "geometry": [
+            "vertex"
+        ],
+        "tags": {
+            "traffic_calming": "bump"
+        },
+        "terms": [
+            "speed hump"
+        ],
+        "name": "Speed Bump"
+    },
+    "traffic_calming/hump": {
+        "fields": [
+            "surface"
+        ],
+        "geometry": [
+            "vertex"
+        ],
+        "tags": {
+            "traffic_calming": "hump"
+        },
+        "terms": [
+            "speed bump"
+        ],
+        "name": "Speed Hump"
+    },
+    "traffic_calming/rumble_strip": {
+        "geometry": [
+            "vertex"
+        ],
+        "tags": {
+            "traffic_calming": "rumble_strip"
+        },
+        "terms": [
+            "sleeper lines",
+            "audible lines",
+            "growlers"
+        ],
+        "name": "Rumble Strip"
+    },
+    "traffic_calming/table": {
+        "fields": [
+            "surface"
+        ],
+        "geometry": [
+            "vertex"
+        ],
+        "tags": {
+            "highway": "crossing",
+            "traffic_calming": "table"
+        },
+        "terms": [
+            "speed table",
+            "flat top hump"
+        ],
+        "name": "Raised Pedestrian Crossing"
     },
     "type/boundary": {
         "geometry": [
@@ -9239,7 +9336,8 @@
         "name": "Road Route",
         "icon": "route-road",
         "fields": [
-            "ref"
+            "ref",
+            "network"
         ]
     },
     "type/route/train": {

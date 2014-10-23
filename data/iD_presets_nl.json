@@ -81,8 +81,8 @@
     "name": "Bootverhuur"
   },
   "amenity/cafe": {
-    "name": "Café",
-    "terms": "Café, bar"
+    "name": "Cafetaria",
+    "terms": "Cafetaria, tea-room, tea room, koffiehuis, koffie, thee, vieruurtje, cake, taart"
   },
   "amenity/car_rental": {
     "name": "Autoverhuur",
@@ -99,21 +99,16 @@
   "amenity/charging_station": {
     "name": "Oplaadstation"
   },
-  "amenity/childcare": {
-    "name": "Kinderopvang",
-    "terms": "kinderopvang, onthaalmoeder, kinderonthaal, creche"
-  },
   "amenity/cinema": {
     "name": "Bioscoop",
     "terms": "Bioscoop"
   },
+  "amenity/clinic": {
+    "name": "Kliniek"
+  },
   "amenity/clock": {
     "name": "Klok",
     "terms": "klok, uurwerk, horloge, uur, tijd"
-  },
-  "amenity/college": {
-    "name": "Hogeschool",
-    "terms": "Hogeschool, universiteit"
   },
   "amenity/compressed_air": {
     "name": "Perslucht"
@@ -129,6 +124,9 @@
   "amenity/doctor": {
     "name": "Dokter",
     "terms": "dokter, arts, geneesheer"
+  },
+  "amenity/dojo": {
+    "name": "Dojo / School voor Krijgskunsten"
   },
   "amenity/drinking_water": {
     "name": "Drinkwater",
@@ -218,7 +216,7 @@
   },
   "amenity/pub": {
     "name": "Café",
-    "terms": "Café, bar"
+    "terms": "Café, bar, kroeg, bierhuis, bier"
   },
   "amenity/ranger_station": {
     "name": "Boswachtershut"
@@ -271,10 +269,6 @@
   "amenity/townhall": {
     "name": "Gemeentehuis",
     "terms": "Gemeentehuis, stadhuis"
-  },
-  "amenity/university": {
-    "name": "Universiteit",
-    "terms": "Universtiteit, academie"
   },
   "amenity/vending_machine": {
     "name": "Automaat",
@@ -918,9 +912,6 @@
   "leisure/swimming_pool": {
     "name": "Zwembad"
   },
-  "leisure/track": {
-    "name": "Racebaan"
-  },
   "line": {
     "name": "Lijn"
   },
@@ -1228,10 +1219,6 @@
   "shop/alcohol": {
     "name": "Slijterij"
   },
-  "shop/art": {
-    "name": "Kunstwinkel",
-    "terms": "kunst, schilderij, standbeeld, kunstgalerij, galerij"
-  },
   "shop/bakery": {
     "name": "Bakkerij",
     "terms": "bakkerij"
@@ -1248,10 +1235,6 @@
   },
   "shop/bookmaker": {
     "name": "Bookmaker (gokkantoor)"
-  },
-  "shop/books": {
-    "name": "Boekwinkel",
-    "terms": "boekenwinkel"
   },
   "shop/boutique": {
     "name": "Boutique"
@@ -1279,9 +1262,6 @@
   "shop/computer": {
     "name": "Computerwinkel"
   },
-  "shop/confectionery": {
-    "name": "Banketbakkerij"
-  },
   "shop/convenience": {
     "name": "Buurtsuper"
   },
@@ -1293,9 +1273,6 @@
   },
   "shop/doityourself": {
     "name": "Bouwmarkt, doe-het-zelfwinkel"
-  },
-  "shop/dry_cleaning": {
-    "name": "Stomerij"
   },
   "shop/electronics": {
     "name": "Bruingoedwinkel"
@@ -1340,9 +1317,6 @@
     "name": "Juwelier",
     "terms": "juwelier"
   },
-  "shop/kiosk": {
-    "name": "Kiosk"
-  },
   "shop/laundry": {
     "name": "Wasserette"
   },
@@ -1364,14 +1338,8 @@
   "shop/music": {
     "name": "Muziekwinkel"
   },
-  "shop/newsagent": {
-    "name": "Krantenkiosk"
-  },
   "shop/optician": {
     "name": "Opticien"
-  },
-  "shop/outdoor": {
-    "name": "Buitensportzaak"
   },
   "shop/pet": {
     "name": "Dierenwinkel"
@@ -1395,6 +1363,13 @@
     "name": "Supermarkt",
     "terms": "supermarkt, grootwarenhuis"
   },
+  "shop/tea": {
+    "name": "thee winkel"
+  },
+  "shop/tobacco": {
+    "name": "tabak winkel",
+    "terms": "sigaret winkel"
+  },
   "shop/toys": {
     "name": "Speelgoedwinkel",
     "terms": "speelgoedwinkel"
@@ -1414,6 +1389,12 @@
   },
   "shop/video": {
     "name": "Videotheek"
+  },
+  "shop/video_games": {
+    "name": "videogame winkel"
+  },
+  "shop/weapons": {
+    "name": "wapen winkel"
   },
   "shop/wine": {
     "name": "Wijnwinkel"

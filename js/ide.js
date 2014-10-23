@@ -145,8 +145,9 @@ var ide = new(function() {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
           "out json xml custom popup timeout maxsize bbox" // initial declarations
+          +" date diff adiff" //attic declarations
           +" foreach" // block statements
-          +" relation rel way node is_in area around user uid newer poly pivot" // queries
+          +" relation rel way node is_in area around user uid newer changed poly pivot" // queries
           +" out meta body skel tags ids qt asc" // actions
           +" center bb geom" // geometry types
           //+"r w n br bw" // recursors
@@ -618,6 +619,7 @@ var ide = new(function() {
       dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
       $('<div title="'+i18n.t("error.query.title")+'"><p style="color:red;">'+i18n.t("error.query.expl")+'</p>'+errmsg+"</div>").dialog({
         modal:true,
+        maxHeight:600,
         buttons: dialog_buttons,
       });
     }
@@ -706,19 +708,6 @@ var ide = new(function() {
     // close startup waiter
     ide.waiter.close();
 
-    // show welcome message, if this is the very first time the IDE is started
-    if (settings.first_time_visit === true && 
-        ide.not_supported !== true &&
-        ide.run_query_on_startup !== true) {
-      var dialog_buttons= {};
-      dialog_buttons[i18n.t("dialog.close")] = function() {
-        $(this).dialog( "close" );
-      };
-      $("#welcome-dialog").dialog({
-        modal:true,
-        buttons: dialog_buttons
-      });
-    }
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true) {
       ide.update_map();
@@ -811,7 +800,7 @@ var ide = new(function() {
       buttons: dialog_buttons,
     }); // dialog
   }
-  this.nominatimId = function(instr, callback) {
+  this.geocodeId = function(instr, callback) {
     var lang = ide.getQueryLang();
     function filter(n) {
       return n.osm_type && n.osm_id;
@@ -819,13 +808,13 @@ var ide = new(function() {
     nominatim.getBest(instr,filter, function(err, res) {
       if (err) return onNominatimError(instr,"Id");
       if (lang=="OverpassQL")
-        res = res.osm_type+"("+res.osm_id+");";
+        res = res.osm_type+"("+res.osm_id+")";
       else if (lang=="xml")
         res = 'type="'+res.osm_type+'" ref="'+res.osm_id+'"';
       callback(res);
     });
   }
-  this.nominatimArea = function(instr, callback) {
+  this.geocodeArea = function(instr, callback) {
     var lang = ide.getQueryLang();
     function filter(n) {
       return n.osm_type && n.osm_id && n.osm_type!=="node";
@@ -838,13 +827,13 @@ var ide = new(function() {
       if (res.osm_type == "relation")
         area_ref += 3600000000;
       if (lang=="OverpassQL")
-        res = "area("+area_ref+");";
+        res = "area("+area_ref+")";
       else if (lang=="xml")
         res = 'type="area" ref="'+area_ref+'"';
       callback(res);
     });
   }
-  this.nominatimBbox = function(instr, callback) {
+  this.geocodeBbox = function(instr, callback) {
     var lang = ide.getQueryLang();
     nominatim.getBest(instr, function(err, res) {
       if (err) return onNominatimError(instr,"Bbox");
@@ -859,7 +848,7 @@ var ide = new(function() {
       callback(res);
     });
   }
-  this.nominatimCoords = function(instr, callback) {
+  this.geocodeCoords = function(instr, callback) {
     var lang = ide.getQueryLang();
     nominatim.getBest(instr, function(err, res) {
       if (err) return onNominatimError(instr,"Coords");
@@ -887,10 +876,19 @@ var ide = new(function() {
       "center": ide.map2coord(this.getQueryLang()),
       "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL"),
       "date": ide.relativeTime,
-      "nominatimId": ide.nominatimId,
-      "nominatimArea": ide.nominatimArea,
-      "nominatimBbox": ide.nominatimBbox,
-      "nominatimCoords": ide.nominatimCoords,
+      "geocodeId": ide.geocodeId,
+      "geocodeArea": ide.geocodeArea,
+      "geocodeBbox": ide.geocodeBbox,
+      "geocodeCoords": ide.geocodeCoords,
+      // legacy 
+      "nominatimId": function(instr,callback) {
+        ide.geocodeId(instr, function(result) { callback(result+';'); });
+      },
+      "nominatimArea": function(instr,callback) {
+        ide.geocodeArea(instr, function(result) { callback(result+';'); });
+      },
+      "nominatimBbox": ide.geocodeBbox,
+      "nominatimCoords": ide.geocodeCoords,
     };
     queryParser.parse(query, shortcuts, function(query) {
       // parse mapcss declarations
@@ -1571,8 +1569,15 @@ var ide = new(function() {
   }
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value = settings.ui_language;
-    make_combobox($("#settings-dialog input[name=ui_language]"),
-      ["auto"].concat(i18n.getSupportedLanguages())
+    var lngDescs = i18n.getSupportedLanguagesDescriptions();
+    make_combobox(
+      $("#settings-dialog input[name=ui_language]"),
+      (["auto"].concat(i18n.getSupportedLanguages())).map(function(lng) {
+        return {
+          value: lng,
+          label: lng=="auto" ? "auto" : lng+' - '+lngDescs[lng]
+        }
+      })
     );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox($("#settings-dialog input[name=server]"), configs.suggestedServers);
@@ -1656,7 +1661,7 @@ var ide = new(function() {
       width:450,
       buttons: dialog_buttons,
     });
-    $("#help-dialog").accordion();
+    $("#help-dialog").accordion({heightStyle: "content"});
   }
   this.onKeyPress = function(event) {
     if ((event.which == 120 && event.charCode == 0) || // F9
@@ -1702,14 +1707,18 @@ var ide = new(function() {
       overpass.run_query(query,query_lang);
     });
   }
-  this.update_ffs_query = function() {
-    var search = $("#ffs-dialog input[type=text]").val();
+  this.update_ffs_query = function(s) {
+    var search = s || $("#ffs-dialog input[type=text]").val();
     query = ffs.construct_query(search);
     if (query === false) {
       var repaired = ffs.repair_search(search);
-      if (repaired)
+      if (repaired) {
         return repaired;
-      return false;
+      } else {
+        if (s) return false;
+        // try to parse as generic ffs search
+        return this.update_ffs_query('"'+search+'"');
+      }
     }
     ide.setQuery(query);
     return true;

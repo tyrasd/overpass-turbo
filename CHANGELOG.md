@@ -1,3 +1,13 @@
+2014-10-23
+----------
+* support for Overpass "full" geometry output
+* wizard, templates and example queries now produce OverpassQL queries
+* new {{geocode*}} shortcuts instead of {{nominatim*}} ones with slightly altered syntax
+* prevent error messages or popups from overflowing with too much content
+* new languages: Norwegian, Taiwan Chinese, Polish
+* bugfixes
+* update translations, presets and icon sets
+
 2014-09-08
 ----------
 * support for Overpass "center" and "bounds" geometry output

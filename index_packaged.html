@@ -60,23 +60,13 @@
   <div class="modal"><div class="wait-info"><h4>overpass turbo loading...</h4><ul class="plain"></ul></div></div>
 
   <!--some dialogs-->
-  <!--welcome-->
-  <div id="welcome-dialog" title="Welcome" class="t dialog" data-t="[title]welcome.title">
-    <p class="t" data-t="[html]welcome.text.1">Hello, this is <i>overpass turbo</i>, a web-based data filtering tool for <a href="http://www.openstreetmap.org">OpenStreetMap</a>. Running <a href="http://wiki.openstreetmap.org/wiki/Overpass_API">Overpass API</a> queries, it makes the goodness of OSM's geo-data accessible to everyone.</p>
-    <p class="t" data-t="[html]welcome.text.2">You can go ahead with your Overpass queries, or take a look at the <a href="javascript:ide.onHelpClick();">help page</a> for a start.</p>
-  </div>
   <!--help-->
   <div id="help-dialog" title="" class="t dialog" data-t="[title]help.title">
     <h3><a class="t" data-t="help.section.introduction"></a></h3>
     <div>
+      <p class="t" data-t="[html]help.intro.0"></p>
       <p class="t" data-t="[html]help.intro.1"></p>
       <p class="t" data-t="[html]help.intro.2"></p>
-      <p class="t" data-t="help.intro.shortcuts"></p>
-      <ul>
-        <li><i>{{bbox}}</i> - <span class="t" data-t="help.intro.shortcuts.bbox"></span></li>
-        <li><i>{{center}}</i> - <span class="t" data-t="help.intro.shortcuts.center"></span></li>
-        <li class="t" data-t="[html]help.intro.shortcuts.custom"></li>
-      </ul>
     </div>
     <h3><a class="t" data-t="help.section.ide"></a></h3>
     <div>
@@ -87,9 +77,22 @@
       <h4 class="t" data-t="help.ide.keyboard.title"></h4>
       <ul>
         <li><i>Ctrl+Enter</i> - <span class="t" data-t="help.ide.keyboard.run"></span></li>
+        <li><i>Ctrl+I</i> - <span class="t" data-t="help.ide.keyboard.wizard"></span></li>
         <li><i>Ctrl+O / Ctrl+S</i> - <span class="t" data-t="help.ide.keyboard.load_save"></span></li>
         <li><i>Ctrl+H</i> - <span class="t" data-t="help.ide.keyboard.help"></span></li>
       </ul>
+    </div>
+    <h3><a class="t" data-t="help.section.queries"></a></h3>
+    <div>
+      <p class="t" data-t="help.intro.shortcuts"></p>
+      <ul>
+        <li><i>{{bbox}}</i> - <span class="t" data-t="help.intro.shortcuts.bbox"></span></li>
+        <li><i>{{center}}</i> - <span class="t" data-t="help.intro.shortcuts.center"></span></li>
+        <li><i>{{date:…}}</i> - <span class="t" data-t="help.intro.shortcuts.date"></span></li>
+        <li><i>{{style:…}}</i> - <span class="t" data-t="[html]help.intro.shortcuts.style"></span></li>
+        <li class="t" data-t="[html]help.intro.shortcuts.custom"></li>
+      </ul>
+      <p class="t" data-t="[html]help.intro.shortcuts.more"></p>
     </div>
     <h3><a class="t" data-t="help.section.key"></a></h3>
     <div>
@@ -126,8 +129,7 @@
       <ul class="plain">
         <li><span class="t" data-t="help.attr.leaflet"></span> <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
         <li><span class="t" data-t="help.attr.codemirror"></span> <a href="http://codemirror.net/">CodeMirror</a></li>
-        <li><span class="t" data-t="help.attr.jquery"></span> <a href="http://jquery.com/">jQuery</a></li>
-        <li><span class="t" data-t="help.attr.other_libs"></span> <a href="https://github.com/tyrasd/osmtogeojson">osmtogeojson</a>, <a href="https://github.com/tyrasd/togpx">togpx</a>, <a href="https://github.com/mapbox/tokml">tokml</a>, <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>, <a href="https://github.com/MapBBCode/mapbbcode">MapBBCode</a></li>
+        <li><span class="t" data-t="help.attr.other_libs"></span> <a href="https://github.com/tyrasd/osmtogeojson">osmtogeojson</a>, <a href="https://github.com/tyrasd/togpx">togpx</a>, <a href="https://github.com/mapbox/tokml">tokml</a>, <a href="http://lodash.com">lodash</a>, <a href="http://jquery.com/">jQuery</a>, <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>, <a href="https://github.com/MapBBCode/mapbbcode">MapBBCode</a>, <a href="http://momentjs.com/">Moment.js</a></li>
       </ul>
     </div>
   </div>
@@ -243,11 +245,12 @@
       <a href="" id="ffs-dialog-typo-correction"></a>
     </div>
     <p>
-      <span class="t" data-t="ffs.examples"></span>
+      <span class="t" data-t="[html]ffs.expl"></span>
       <ul>
-        <li>amenity=drinking_water</li>
-        <li>highway=residential and type:way</li>
+        <li>Drinking Water</li>
+        <li>highway=* and type:way</li>
         <li>tourism=museum in Vienna</li>
+      </ul>
       </ul>
     </p>
   </div>

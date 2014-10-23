@@ -122,10 +122,6 @@
     "name": "Autopraonica",
     "terms": "praonica automobila"
   },
-  "amenity/childcare": {
-    "name": "Jaslice",
-    "terms": "jaslice,vrtić,mala škola,predškolski"
-  },
   "amenity/cinema": {
     "name": "Kino",
     "terms": "dvorana za gledanje filmova,kinematograf,kino dvorana"
@@ -135,10 +131,6 @@
   },
   "amenity/clock": {
     "name": "Sat"
-  },
-  "amenity/college": {
-    "name": "Fakultet",
-    "terms": "koledž,fakultet,veleučilište,visoko učilište"
   },
   "amenity/courthouse": {
     "name": "Zgrada suda",
@@ -180,10 +172,6 @@
   },
   "amenity/hospital": {
     "name": "Bolničko zemljište"
-  },
-  "amenity/kindergarten": {
-    "name": "Teren oko vrtića",
-    "terms": "vrtić, jaslice, dječji vrtić"
   },
   "amenity/library": {
     "name": "Knjižnica",
@@ -250,7 +238,7 @@
   },
   "amenity/school": {
     "name": "Škola i teren oko škole",
-    "terms": "škola, školsko zemljište"
+    "terms": "škola,školsko zemljište"
   },
   "amenity/shelter": {
     "name": "Sklonište"
@@ -278,10 +266,6 @@
   "amenity/townhall": {
     "name": "Gradska vijećnica",
     "terms": "gradska vijećnica,vijećnica,općinski dom"
-  },
-  "amenity/university": {
-    "name": "Sveučilište",
-    "terms": "sveučilište,fakultet"
   },
   "amenity/vending_machine": {
     "name": "Automat za prodaju",
@@ -607,7 +591,7 @@
     "name": "Servisna cesta"
   },
   "highway/service/alley": {
-    "name": "Uska uličica"
+    "name": "Servisna ulica između blokova"
   },
   "highway/service/drive-through": {
     "name": "Provezi-kroz"
@@ -638,7 +622,8 @@
     "name": "Pristupna cesta lokalne ceste"
   },
   "highway/track": {
-    "name": "Put"
+    "name": "Poljski ili šumski put",
+    "terms": "put,poljski put,šumski put,makadam"
   },
   "highway/traffic_signals": {
     "name": "Semafor",
@@ -751,34 +736,34 @@
   },
   "leisure/garden": {
     "name": "Vrt",
-    "terms": "Vrt"
+    "terms": "vrt,bašća,povrtnjak,cvjetnjak"
   },
   "leisure/golf_course": {
     "name": "Golf tečaj",
-    "terms": "Golf teren"
+    "terms": "golf teren"
   },
   "leisure/marina": {
     "name": "Marina",
-    "terms": "Marina"
+    "terms": "marina"
   },
   "leisure/park": {
     "name": "Park"
   },
   "leisure/pitch": {
     "name": "Sportski teren",
-    "terms": "Sportsko igralište"
+    "terms": "sportsko igralište"
   },
   "leisure/pitch/american_football": {
     "name": "Američki nogomet",
-    "terms": "Igralište za Američki nogomet"
+    "terms": "igralište za američki nogomet"
   },
   "leisure/pitch/baseball": {
     "name": "Baseball igralište",
-    "terms": "Bejzbol igralište"
+    "terms": "bejzbol igralište"
   },
   "leisure/pitch/basketball": {
     "name": "Košarkaški teren",
-    "terms": "Košarkaško igralište"
+    "terms": "košarkaško igralište"
   },
   "leisure/pitch/skateboard": {
     "name": "Skate park",
@@ -786,15 +771,15 @@
   },
   "leisure/pitch/soccer": {
     "name": "Nogometno igralište",
-    "terms": "Nogometno igralište"
+    "terms": "nogometno igralište"
   },
   "leisure/pitch/tennis": {
     "name": "Teniski teren",
-    "terms": "Teniski teren"
+    "terms": "teniski teren"
   },
   "leisure/pitch/volleyball": {
     "name": "Odbojkaško igralište",
-    "terms": "Odbojkaško igralište"
+    "terms": "odbojkaško igralište"
   },
   "leisure/playground": {
     "name": "Igralište",
@@ -806,19 +791,15 @@
   },
   "leisure/stadium": {
     "name": "Stadion",
-    "terms": "Stadion, Sportska arena"
+    "terms": "stadion,sportska arena"
   },
   "leisure/swimming_pool": {
     "name": "Sportski bazen",
-    "terms": "Bazen"
-  },
-  "leisure/track": {
-    "name": "Autodrom",
-    "terms": "trkaća staza,staza za utrke,staza za trkanje,pista"
+    "terms": "bazen"
   },
   "line": {
     "name": "Linija",
-    "terms": "Linija, Crta"
+    "terms": "linija,crta"
   },
   "man_made": {
     "name": "Ljudske tvorevine",
@@ -863,10 +844,6 @@
   "man_made/water_tower": {
     "name": "Vodotoranj",
     "terms": "vodotoranj,toranj sa spremištem za vodu,spremište za vodu,vodeni toranj,toranj s vodom"
-  },
-  "man_made/water_well": {
-    "name": "Bunar",
-    "terms": "bunar,vodocrpilište,izvor vode"
   },
   "man_made/water_works": {
     "name": "Vodocrpilište",
@@ -960,7 +937,7 @@
   },
   "office": {
     "name": "Ured",
-    "terms": "Ured, Kancelarija"
+    "terms": "ured,kancelarija"
   },
   "office/accountant": {
     "name": "Računovođa"
@@ -1131,27 +1108,23 @@
   },
   "shop/beverages": {
     "name": "Trgovina s pićima",
-    "terms": "Podrum pića, Trgovina za piće"
+    "terms": "podrum pića,trgovina za piće"
   },
   "shop/bicycle": {
     "name": "prodavaonica bicikala",
-    "terms": "Trgovina biciklima"
-  },
-  "shop/books": {
-    "name": "Knjižara",
-    "terms": "Knjižara"
+    "terms": "trgovina biciklima"
   },
   "shop/boutique": {
     "name": "Butik",
-    "terms": "Butik, Trgovina odjeće"
+    "terms": "butik,trgovina odjeće"
   },
   "shop/butcher": {
     "name": "Mesnica",
-    "terms": "Mesnica"
+    "terms": "mesnica"
   },
   "shop/car": {
     "name": "Prodavaonica automobila",
-    "terms": "Autozastupnik, Auto trgovina"
+    "terms": "autozastupnik,auto trgovina"
   },
   "shop/car_parts": {
     "name": "Trgovina rezevnih dijelova za automobile",
@@ -1159,23 +1132,19 @@
   },
   "shop/car_repair": {
     "name": "Automehaničar",
-    "terms": "Automehaničar, Auto-servis"
+    "terms": "automehaničar,auto-servis,auto servis"
   },
   "shop/chemist": {
     "name": "Drogerija",
-    "terms": "Ljekarna, Farmacija, Apoteka"
+    "terms": "ljekarna, farmacija, apoteka"
   },
   "shop/clothes": {
     "name": "Prodavaonica odjeće",
-    "terms": "Dućan sa odjećom"
+    "terms": "dućan sa odjećom"
   },
   "shop/computer": {
     "name": "Prodavaonica računala",
-    "terms": "Trgovina računalne opreme"
-  },
-  "shop/confectionery": {
-    "name": "Slastičarnica",
-    "terms": "Slastičarna, Poslastičarnica"
+    "terms": "trgovina računalne opreme"
   },
   "shop/convenience": {
     "name": "Trgovina mješovitom robom",
@@ -1183,50 +1152,46 @@
   },
   "shop/deli": {
     "name": "Prodavaonica delikatesa",
-    "terms": "Delikatesni dućan, Trgovina delikatesama"
+    "terms": "delikatesni dućan,trgovina delikatesama"
   },
   "shop/department_store": {
     "name": "Robna kuća",
-    "terms": "Robna kuća"
+    "terms": "robna kuća"
   },
   "shop/doityourself": {
     "name": "Uradi sam",
     "terms": "alat,vrt,uređenje doma,bauhaus,pevec,uradi sam"
   },
-  "shop/dry_cleaning": {
-    "name": "Kemijska čistionica",
-    "terms": "Kemijska čistionica"
-  },
   "shop/electronics": {
     "name": "Prodavaonica elektronike",
-    "terms": "Trgovina elektroničke opreme, Prodavaonica elektroničke robe"
+    "terms": "trgovina elektroničke opreme,prodavaonica elektroničke robe,trgovina elektroničke robe,prodavaonica elektroničke opreme,dućan s elektroničkom opremom,dućan elektroničke robe"
   },
   "shop/farm": {
     "name": "Prodavaonica proizvoda farme"
   },
   "shop/fishmonger": {
     "name": "Ribarnica",
-    "terms": "Ribarnica"
+    "terms": "ribarnica"
   },
   "shop/florist": {
     "name": "Cvjećarna",
-    "terms": "Cvjećara, Cvjećarna"
+    "terms": "cvjećara,cvjećarna,cvjećarnica,trgovina cvijećem,prodavaonica cvijeća"
   },
   "shop/furniture": {
     "name": "Salon namještaja",
-    "terms": "Trgovina namještaja, Prodavaonica namještaja"
+    "terms": "trgovina namještaja,prodavaonica namještaja"
   },
   "shop/garden_centre": {
     "name": "Vrtni centar",
-    "terms": "Trgovina vrtne opreme, Vrtni centar"
+    "terms": "trgovina vrtne opreme,vrtni centar"
   },
   "shop/gift": {
     "name": "Suvenirnica",
-    "terms": "Suvenirnica"
+    "terms": "suvenirnica"
   },
   "shop/greengrocer": {
     "name": "Voćarna",
-    "terms": "Piljarnica, Trgovina voćem i povrćem"
+    "terms": "piljarnica,trgovina voćem i povrćem"
   },
   "shop/hairdresser": {
     "name": "Frizerski salon",
@@ -1234,23 +1199,19 @@
   },
   "shop/hardware": {
     "name": "Željezarija",
-    "terms": "Željezarija, Željezar"
+    "terms": "željezarija,željezar"
   },
   "shop/hifi": {
     "name": "Prodavaonica audio opreme",
-    "terms": "Trgovina audio opreme"
+    "terms": "trgovina audio opreme"
   },
   "shop/jewelry": {
     "name": "Zlatarnica",
-    "terms": "Zlatarna, Zlatara, Zlatar"
-  },
-  "shop/kiosk": {
-    "name": "Kiosk",
-    "terms": "Kiosk, Tisak, Trafika, Prodavaonica novina"
+    "terms": "zlatarna,zlatara,zlatar"
   },
   "shop/laundry": {
     "name": "Praonica rublja",
-    "terms": "Praonica rublja"
+    "terms": "praonica rublja"
   },
   "shop/locksmith": {
     "name": "Bravar"
@@ -1265,46 +1226,38 @@
   },
   "shop/mobile_phone": {
     "name": "Prodavaonica mobilnih telefona",
-    "terms": "Prodavaonica mobitela"
+    "terms": "prodavaonica mobitela"
   },
   "shop/motorcycle": {
     "name": "Prodavaonica motocikala",
-    "terms": "Trgovina motocikala"
+    "terms": "trgovina motocikala"
   },
   "shop/music": {
     "name": "Prodavaonica glazbene opreme",
-    "terms": "Glazbeni dućan, Glazbena trgovina"
-  },
-  "shop/newsagent": {
-    "name": "Prodavaonica novina",
-    "terms": "Prodavaonica novina"
+    "terms": "glazbeni dućan,glazbena trgovina"
   },
   "shop/optician": {
     "name": "Optičar",
-    "terms": "Optičar"
-  },
-  "shop/outdoor": {
-    "name": "Prodavaonica planinarske opreme",
-    "terms": "Vanjska trgovina"
+    "terms": "optičar"
   },
   "shop/pet": {
     "name": "Prodavaonica kućnim ljubimcima",
-    "terms": "Dućan za kućne ljubimce"
+    "terms": "dućan za kućne ljubimce,dućan s kućnim ljubimcima,pet store,pet shop,trgovina kućnim ljubimcima,trgovina za kućne ljubimce,prodavaonica kućnih ljubimaca,prodavaonica ljubimaca,prodavaonica za kućne ljubimce"
   },
   "shop/photo": {
     "name": "Prodavaonica fotografske opreme"
   },
   "shop/shoes": {
     "name": "Prodavaonica obuće",
-    "terms": "Trgovina obuće"
+    "terms": "trgovina obuće,dućan s obućom,trgovina obućom,prodavaonica obuće,prodavaonica cipela,trgovina s cipelama,dućan s cipelama,prodavaonica patika,trgovina s patikama,dućan s patikama,prodavaonica tenisicama,trgovina s tenisicama,dućan s tenisicama"
   },
   "shop/sports": {
     "name": "Prodavaonica sportske opreme",
-    "terms": "Trgovina sportske opreme, Dućan sportske opreme, Sportski dućan"
+    "terms": "trgovina sportske opreme,dućan sportske opreme,sportski dućan,sportska trgovina,prodavaonica sportske opreme"
   },
   "shop/stationery": {
     "name": "Knjižara",
-    "terms": "Papirnica"
+    "terms": "papirnica,prodavaonica tiskanica,prodavaonica papira,trgovina papirom,knjižara"
   },
   "shop/supermarket": {
     "name": "Veletrgovina",
@@ -1312,31 +1265,31 @@
   },
   "shop/toys": {
     "name": "Prodavaonica igračaka",
-    "terms": "Trgovina igračaka"
+    "terms": "trgovina igračaka,trgovina s igračkama,trgovina igračkama,dućan s igračkama,prodavaonica igračaka"
   },
   "shop/travel_agency": {
     "name": "Putnička agencija",
-    "terms": "Putnička agencija, Turistička agencija"
+    "terms": "putnička agencija,turistička agencija,agencija za putovanja,agencija"
   },
   "shop/tyres": {
     "name": "Prodavaonica pneumaticima",
-    "terms": "Trgovina guma, Trgovina auto-guma"
+    "terms": "trgovina guma,trgovina auto-guma,trgovina auto guma,trgovina auto gumama,trgovina gumama,dućan s gumama,prodavaonica auto guma,prodavaonica s gumama,prodavaonica guma"
   },
   "shop/vacant": {
     "name": "Prazan dućanski prostor",
-    "terms": "Prazan dućan, Prazna trgovina"
+    "terms": "prazan dućan,prazna trgovina,trgovina koja se ne koristi,napuštena trgovina,napušten dućan,prazna prodavaonica,nekorištena prodavaonica,nekorištena trgovina,nekorišten dućan"
   },
   "shop/variety_store": {
     "name": "Prodavaonica mješovite robe",
-    "terms": "Prodavaonica mješovite robe"
+    "terms": "prodavaonica mješovite robe,trgovina,prodavaonica,svaštara,dućan"
   },
   "shop/video": {
     "name": "Videoteka",
-    "terms": "Videoteka"
+    "terms": "videoteka,video,video-kaseta,video kaseta,video kazeta,video-kazeta,iznajmljivanje video kazeta,iznajmljivanje dvda,iznajmljivanje dvd-a,dvd,blue ray,iznajmljivanje blue raya,blue-ray,iznajmljivanje blue-raya"
   },
   "tourism": {
     "name": "Turizam",
-    "terms": "Turizam"
+    "terms": "turizam,seoski turizam"
   },
   "tourism/alpine_hut": {
     "name": "Planinarski dom",
@@ -1348,19 +1301,19 @@
   },
   "tourism/attraction": {
     "name": "Turistička atrakcija",
-    "terms": "Turistička atrakcija, Turistička znamenitost"
+    "terms": "turistička atrakcija,turistička znamenitost,atrakcija,znamenitost,turizam,turistička"
   },
   "tourism/camp_site": {
     "name": "Kamp",
-    "terms": "Autokamp"
+    "terms": "autokamp,kamp,park za kampiranje"
   },
   "tourism/caravan_site": {
     "name": "Parkiralište za kamp kućice",
-    "terms": "Park za rekreativna vozila, Park za kamp-prikolice, RV park"
+    "terms": "park za rekreativna vozila,park za kamp-prikolice,RV park,kamp,kamp za kamp kućice,kamp za kamp prikolice,kamp prikolica,park za kamp prikolice,kamp za kamp-prikolice"
   },
   "tourism/chalet": {
     "name": "Bungalov",
-    "terms": "Planinarski dom, Planinska koliba"
+    "terms": "planinarski dom,planinska koliba,koliba,planinarski,planinarska"
   },
   "tourism/guest_house": {
     "name": "Gostinjska kuća"

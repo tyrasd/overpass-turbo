@@ -119,6 +119,10 @@
     "name": "貸しボート",
     "terms": "貸しボート"
   },
+  "amenity/bureau_de_change": {
+    "name": "両替",
+    "terms": "両替商"
+  },
   "amenity/bus_station": {
     "name": "バスターミナル",
     "terms": "バスターミナル"
@@ -143,10 +147,6 @@
     "name": "充電スタンド",
     "terms": "充電ステーション, 急速充電システム, 充電スタンド, 給電スタンド"
   },
-  "amenity/childcare": {
-    "name": "保育施設",
-    "terms": "託児所,保育園,幼稚園,学童保育"
-  },
   "amenity/cinema": {
     "name": "映画館",
     "terms": "映画館,上映施設,スクリーン,銀幕"
@@ -158,10 +158,6 @@
   "amenity/clock": {
     "name": "時計",
     "terms": "時計"
-  },
-  "amenity/college": {
-    "name": "単科大学",
-    "terms": "大学,短大,専門学校,高専"
   },
   "amenity/compressed_air": {
     "name": "空気入れ",
@@ -214,10 +210,6 @@
   "amenity/hospital": {
     "name": "病院の敷地",
     "terms": "病院の敷地"
-  },
-  "amenity/kindergarten": {
-    "name": "幼稚園の敷地",
-    "terms": "幼稚園の敷地, 保育園の敷地"
   },
   "amenity/library": {
     "name": "図書館",
@@ -307,10 +299,6 @@
     "name": "フードバンク",
     "terms": "フードバンク"
   },
-  "amenity/social_facility/group_home": {
-    "name": "グループホーム",
-    "terms": "グループホーム"
-  },
   "amenity/social_facility/homeless_shelter": {
     "name": "ホームレス緊急一時宿泊施設",
     "terms": "ホームレス緊急一時宿泊施設, ホームレスシェルター"
@@ -342,10 +330,6 @@
   "amenity/townhall": {
     "name": "役場",
     "terms": "市役所,区役所,町役場,村役場,市庁"
-  },
-  "amenity/university": {
-    "name": "大学",
-    "terms": "大学"
   },
   "amenity/vending_machine": {
     "name": "自動販売機",
@@ -440,8 +424,8 @@
     "terms": "建物, ビル"
   },
   "building/apartments": {
-    "name": "アパート",
-    "terms": "アパート"
+    "name": "集合住宅",
+    "terms": "アパート, マンション"
   },
   "building/barn": {
     "name": "納屋",
@@ -879,6 +863,10 @@
     "name": "主要地方道の接続路",
     "terms": "主要地方道の連絡路"
   },
+  "highway/raceway": {
+    "name": "サーキット",
+    "terms": "サーキット,自動車レース場"
+  },
   "highway/residential": {
     "name": "居住区域内道路",
     "terms": "居住区域内道路"
@@ -1167,6 +1155,10 @@
     "name": "児童公園",
     "terms": "児童公園, 遊び場"
   },
+  "leisure/running_track": {
+    "name": "トラック（周回走路）",
+    "terms": "ランニングトラック,ランニング用周回走路"
+  },
   "leisure/slipway": {
     "name": "進水路",
     "terms": "進水路, スリップウェイ"
@@ -1184,8 +1176,8 @@
     "terms": "遊泳プール"
   },
   "leisure/track": {
-    "name": "競技トラック",
-    "terms": "競技トラック"
+    "name": "（モータースポーツ以外の）レース用トラック（周回走路）",
+    "terms": "レース用トラック, レース用周回走路"
   },
   "line": {
     "name": "線",
@@ -1242,10 +1234,6 @@
   "man_made/water_tower": {
     "name": "給水塔",
     "terms": "給水塔"
-  },
-  "man_made/water_well": {
-    "name": "井戸",
-    "terms": "井戸"
   },
   "man_made/water_works": {
     "name": "浄水場",
@@ -1591,10 +1579,6 @@
     "name": "酒店",
     "terms": "酒店, 酒屋"
   },
-  "shop/art": {
-    "name": "美術工芸品店",
-    "terms": "美術工芸品店, 美術品店, アートショップ,工芸品店"
-  },
   "shop/bakery": {
     "name": "パン屋",
     "terms": "パン屋, ベーカリー"
@@ -1614,10 +1598,6 @@
   "shop/bookmaker": {
     "name": "公営競技投票券売り場",
     "terms": "公営競技投票券売り場, 馬券売り場, 車券売り場, 舟券売り場"
-  },
-  "shop/books": {
-    "name": "書店",
-    "terms": "書店, 本屋"
   },
   "shop/boutique": {
     "name": "ブティック",
@@ -1651,10 +1631,6 @@
     "name": "コンピューター店",
     "terms": "コンピューター店, パソコン店"
   },
-  "shop/confectionery": {
-    "name": "菓子店",
-    "terms": "菓子店"
-  },
   "shop/convenience": {
     "name": "コンビニエンスストア",
     "terms": "コンビニエンスストア, コンビニ"
@@ -1670,10 +1646,6 @@
   "shop/doityourself": {
     "name": "日曜大工用品店",
     "terms": "日曜大工用品店, 工具店, DIYショップ, ホームセンター"
-  },
-  "shop/dry_cleaning": {
-    "name": "ドライクリーニング店",
-    "terms": "ドライクリーニング店"
   },
   "shop/electronics": {
     "name": "家電販売店",
@@ -1727,10 +1699,6 @@
     "name": "宝石店",
     "terms": "宝石店"
   },
-  "shop/kiosk": {
-    "name": "キオスク",
-    "terms": "キオスク"
-  },
   "shop/laundry": {
     "name": "洗濯屋・コインランドリー",
     "terms": "洗濯屋, コインランドリー"
@@ -1759,17 +1727,9 @@
     "name": "CD/レコード店",
     "terms": "CD店, レコード店"
   },
-  "shop/newsagent": {
-    "name": "新聞・雑誌販売店",
-    "terms": "新聞・雑誌販売店, 新聞販売店, 雑誌販売店"
-  },
   "shop/optician": {
     "name": "メガネ",
     "terms": "メガネ,眼鏡,メガネ屋,眼鏡屋"
-  },
-  "shop/outdoor": {
-    "name": "アウトドア",
-    "terms": "アウトドアショップ"
   },
   "shop/pet": {
     "name": "ペットショップ",

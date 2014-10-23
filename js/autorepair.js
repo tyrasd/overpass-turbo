@@ -60,7 +60,7 @@ turbo.autorepair = function(q, lng) {
       var outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g) || [];
       for (var i=0;i<outs.length;i++) {
         var ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
-        var from = outs[i].match(/\.([^;.]+?)\s+?out/);
+        var from = outs[i].match(/\.([^;.]+?)\s+out/);
         var add;
         if (from)
           add = "(."+from[1]+";."+from[1]+" >;)->."+from[1]+";";
@@ -88,29 +88,65 @@ turbo.autorepair = function(q, lng) {
       // 2. fix <print mode=*
       var prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g) || [];
       for (var i=0;i<prints.length;i++) {
-        var mode = $("print",$.parseXML(prints[i])).attr("mode");
-        if (mode == "meta")
-          continue;
-        var new_print = prints[i];
-        if (mode)
-          new_print = new_print.replace(mode,"meta");
-        else
-          new_print = new_print.replace("<print",'<print mode="meta"');
-        q = q.replace(prints[i],new_print+"<!-- fixed by auto repair -->");
+        var print = $("print",$.parseXML(prints[i])),
+            mode = print.attr("mode"),
+            geometry = print.attr("geometry");
+        var add = "",
+            new_print,
+            repaired = false;
+        if (mode !== "meta") {
+          print.attr("mode", "meta");
+          repaired = true;
+        }
+        if (geometry && geometry !== "skeleton") {
+          print.attr("geometry", null);
+          var out_set = print.attr("from");
+          if (!out_set) {
+            add = '<union><item/><recurse type="down"/></union>';
+          } else {
+            add = '<union into="'+out_set+'"><item set="'+out_set+'"/><recurse from="'+out_set+'" type="down"/></union>';
+          }
+          repaired = true;
+        }
+        if (repaired) {
+          new_print = add+(new XMLSerializer()).serializeToString(print[0]);
+          new_print += "<!-- fixed by auto repair -->";
+          q = q.replace(prints[i],new_print);
+        }
       }
     } else {
       // 1. fix [out:*]
-      var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
+      var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;?/);
           ///^\s*\[\s*out\s*:\s*([^\]\s]+)/);
       if (out && out[1] != "xml")
-        q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;)/,"$1xml$3/*fixed by auto repair*/");
-      // 2. fix out *
-      var prints = q.match(/out[^:;]*;/g) || [];
+        q = q.replace(/(\[\s*out\s*:\s*)([^\]\s]+)(\s*\]\s*;?)/,"$1xml$3/*fixed by auto repair*/");
+      // 2. fix print statements: non meta output, overpass geometries
+      var prints = q.match(/(\.([^;.]+?)\s+)?(out[^:;"\]]*;)/g) || [];
       for (var i=0;i<prints.length;i++) {
-        if (prints[i].match(/\s(meta)/))
-          continue;
-        var new_print = prints[i].replace(/\s(body|skel|ids|tags)/,"").replace("out","out meta");
-        q = q.replace(prints[i],new_print+"/*fixed by auto repair*/");
+        var print = prints[i].match(/(\.([^;.]+?)\s+)?(out[^:;"\]]*;)/);
+        var out_statement = print[3],
+            out_set = print[2],
+            print = print[0];
+        var new_print = print;
+        // non meta output
+        if (out_statement.match(/\s(body|skel|ids|tags)/) || !out_statement.match(/\s(meta)/)) {
+          var new_out_statement = out_statement.replace(/\s(body|skel|ids|tags|meta)/g,"").replace(/^out/,"out meta");
+          new_print = new_print.replace(out_statement, new_out_statement);
+          out_statement = new_out_statement;
+        }
+        // overpass geometry modes
+        if (out_statement.match(/\s(center|bb|geom)/)) {
+          var new_out_statement = out_statement.replace(/\s(center|bb|geom)/g,"");
+          new_print = new_print.replace(out_statement, new_out_statement);
+          out_statement = new_out_statement;
+          if (out_set) {
+            new_print = "(."+out_set+";."+out_set+" >;)->."+out_set+"; "+new_print;
+          } else {
+            new_print = "(._;>;); "+new_print;
+          }
+        }
+        if (new_print != print)
+          q = q.replace(print,new_print+"/*fixed by auto repair*/");
       }
     }
     return true;
@@ -122,16 +158,18 @@ turbo.autorepair = function(q, lng) {
 
 turbo.autorepair.detect = {};
 turbo.autorepair.detect.editors = function(q, lng) {
-  // todo: move into autorepair "module"
+  // todo: test this
+  // todo: move into autorepair "module" /// todo. done?
   q = q.replace(/{{.*?}}/g,"");
   var err = {};
   if (lng == "xml") {
     try {
       var xml = $.parseXML("<x>"+q+"</x>");
-      $("print",xml).each(function(i,p) { if($(p).attr("mode")!=="meta") err.meta=true; });
       var out = $("osm-script",xml).attr("output");
       if (out !== undefined && out !== "xml")
         err.output = true;
+      $("print",xml).each(function(i,p) { if($(p).attr("mode")!=="meta") err.meta=true; });
+      $("print",xml).each(function(i,p) { if($(p).attr("geometry").match(/(center|bounds|full)/)) err.geometry=true; });
     } catch(e) {} // ignore xml syntax errors ?!
   } else {
     // ignore comments
@@ -141,7 +179,8 @@ turbo.autorepair.detect.editors = function(q, lng) {
     if (out && out[1] != "xml")
       err.output = true;
     var prints = q.match(/out([^:;]*);/g);
-    $(prints).each(function(i,p) {if (p.match(/(body|skel|ids)/) || !p.match(/meta/)) err.meta=true;});
+    $(prints).each(function(i,p) {if (p.match(/\s(body|skel|ids|tags)/) || !p.match(/meta/)) err.meta=true;});
+    $(prints).each(function(i,p) {if (p.match(/\s(center|bb|geom)/)) err.geometry=true;});
   }
   return $.isEmptyObject(err);
 }

@@ -167,6 +167,10 @@
     "name": "College Grounds",
     "terms": "university"
   },
+  "amenity/community_centre": {
+    "name": "Community Center",
+    "terms": "event,hall"
+  },
   "amenity/compressed_air": {
     "name": "Compressed Air",
     "terms": ""
@@ -1531,6 +1535,10 @@
     "name": "Substation",
     "terms": ""
   },
+  "power/substation": {
+    "name": "Substation",
+    "terms": ""
+  },
   "power/tower": {
     "name": "High-Voltage Tower",
     "terms": ""
@@ -2110,6 +2118,22 @@
   "tourism/zoo": {
     "name": "Zoo",
     "terms": ""
+  },
+  "traffic_calming/bump": {
+    "name": "Speed Bump",
+    "terms": "speed hump"
+  },
+  "traffic_calming/hump": {
+    "name": "Speed Hump",
+    "terms": "speed bump"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "Rumble Strip",
+    "terms": "sleeper lines,audible lines,growlers"
+  },
+  "traffic_calming/table": {
+    "name": "Raised Pedestrian Crossing",
+    "terms": "speed table,flat top hump"
   },
   "type/boundary": {
     "name": "Boundary",

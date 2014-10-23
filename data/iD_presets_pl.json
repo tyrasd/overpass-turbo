@@ -87,7 +87,7 @@
   },
   "amenity/bank": {
     "name": "Bank",
-    "terms": "kantor,towarzystwo kredytowe,depozyt,skarb państwa,fundusz,firma inwestycyjna,przedsiębiorstwo inwestycyjne,sejf,oszczędności,akcje,ekonomia,skarbiec,firma powiernicza"
+    "terms": "bankowość, kasa"
   },
   "amenity/bar": {
     "name": "Bar",
@@ -112,6 +112,10 @@
     "name": "Wpożyczalnia łodzi",
     "terms": "wynajem łodzi"
   },
+  "amenity/bureau_de_change": {
+    "name": "Kantor",
+    "terms": "wymiana walut"
+  },
   "amenity/bus_station": {
     "name": "Dworzec autobusowy"
   },
@@ -134,23 +138,22 @@
     "name": "Stacja ładowania pojazdów"
   },
   "amenity/childcare": {
-    "name": "Żłobek",
-    "terms": "opieka,przedszkole"
+    "name": "Żłobek"
   },
   "amenity/cinema": {
     "name": "Kino",
     "terms": "duży ekran,drive-in,film,ruchomy obraz,pokaz zdjęć,zdjęcia,pokaz,silver screen"
   },
   "amenity/clinic": {
-    "name": "Klinika"
+    "name": "Przychodnia lekarska",
+    "terms": "ośrodek zdrowia, zoz, nzoz, opieka zdrowotna"
   },
   "amenity/clock": {
     "name": "Zegar",
     "terms": "Zegar, "
   },
   "amenity/college": {
-    "name": "Uczelnia",
-    "terms": "uczelnia"
+    "name": "Teren uczelni"
   },
   "amenity/compressed_air": {
     "name": "Kompresor"
@@ -161,7 +164,7 @@
   },
   "amenity/dentist": {
     "name": "Dentysta",
-    "terms": "Dentysta, "
+    "terms": "stomatolog, gabinet stomatologiczny"
   },
   "amenity/doctor": {
     "name": "Doktor",
@@ -200,11 +203,10 @@
   },
   "amenity/hospital": {
     "name": "Teren szpitala",
-    "terms": "Teren szpitala, szpital, przychodnia, klinika, pomoc, służba zdrowia, hospicjum, ambulatorium, instytucja, dom opieki, sanatorium, chirurgia, oddział"
+    "terms": "Teren szpitala, szpital, służba zdrowia, ambulatorium, chirurgia, oddział"
   },
   "amenity/kindergarten": {
-    "name": "Teren przedszkola",
-    "terms": "zerówka, żłobek, opieka nad dzieckiem, teren, przedszkole,"
+    "name": "Teren przedszkola"
   },
   "amenity/library": {
     "name": "Biblioteka",
@@ -279,14 +281,12 @@
     "terms": "schronienie, "
   },
   "amenity/social_facility": {
-    "name": "Placówka pomocy społecznej"
+    "name": "Placówka pomocy społecznej",
+    "terms": "opieka społeczna, mops, gops, mopr, ośrodek opieki społecznej"
   },
   "amenity/social_facility/food_bank": {
     "name": "Bank żywności",
     "terms": "Bank żywności, "
-  },
-  "amenity/social_facility/group_home": {
-    "name": "Wspólny dom"
   },
   "amenity/social_facility/homeless_shelter": {
     "name": "Schronisko dla bezdomnych"
@@ -319,8 +319,7 @@
     "terms": "władze miasta,ratusz,urząd miasta,urząd gminy,starostwo"
   },
   "amenity/university": {
-    "name": "Uniwersytet",
-    "terms": "college,uniwersytet,szkoła wyższa,uczelnia"
+    "name": "Teren uniwersytetu"
   },
   "amenity/vending_machine": {
     "name": "Automat sprzedający",
@@ -437,6 +436,9 @@
     "name": "Kościół",
     "terms": "Kościół, "
   },
+  "building/college": {
+    "name": "Budynek uczelni"
+  },
   "building/commercial": {
     "name": "Nieruchomość komercyjna",
     "terms": "sklep,komercyjny,sprzedaż,handlowy"
@@ -483,6 +485,9 @@
     "name": "Budynek przymysłowy",
     "terms": "przemysłowy,produkcyjny,fabryczny,industrialny"
   },
+  "building/kindergarten": {
+    "name": "Budynek przedszkola"
+  },
   "building/public": {
     "name": "Budynek publiczny"
   },
@@ -517,7 +522,8 @@
     "terms": "Stacja kolejowa, "
   },
   "building/university": {
-    "name": "Budynek uczelni"
+    "name": "Budynek uczelni",
+    "terms": "uniwersytet, szkoła wyższa, wydział, uczelnia"
   },
   "building/warehouse": {
     "name": "Magazyn"
@@ -605,7 +611,8 @@
     "name": "Malarz"
   },
   "craft/photographer": {
-    "name": "Fotograf"
+    "name": "Fotograf",
+    "terms": "fotografia, studio fotograficzne, atelier"
   },
   "craft/photographic_laboratory": {
     "name": "Laboratorium fotograficzne"
@@ -668,6 +675,10 @@
   },
   "craft/window_construction": {
     "name": "Montaż okien"
+  },
+  "craft/winery": {
+    "name": "Winnica",
+    "terms": "winiarnia"
   },
   "embankment": {
     "name": "Nasyp"
@@ -957,7 +968,7 @@
   },
   "landuse/quarry": {
     "name": "Kamieniołom",
-    "terms": "kamieniołom"
+    "terms": "kamieniołom, żwirownia, kruszywo"
   },
   "landuse/residential": {
     "name": "Zabudowa mieszkalna",
@@ -1051,10 +1062,6 @@
     "name": "Basen",
     "terms": "basen pływacki"
   },
-  "leisure/track": {
-    "name": "Tor wyścigowy",
-    "terms": "tor wyścigowy"
-  },
   "line": {
     "name": "Linia",
     "terms": "Linia, lina"
@@ -1066,7 +1073,7 @@
     "name": "Falochron"
   },
   "man_made/cutline": {
-    "name": "Wycinka"
+    "name": "Przecinka leśna"
   },
   "man_made/embankment": {
     "name": "Nasyp"
@@ -1102,9 +1109,6 @@
   "man_made/water_tower": {
     "name": "Wieża ciśnień",
     "terms": "wieża ciśnień"
-  },
-  "man_made/water_well": {
-    "name": "Studnia"
   },
   "man_made/water_works": {
     "name": "Filtracja wody"
@@ -1205,11 +1209,11 @@
     "terms": "księgowy"
   },
   "office/administrative": {
-    "name": "Biuro administracji"
+    "name": "Biuro samorządowe"
   },
   "office/architect": {
     "name": "Architekt",
-    "terms": "architekt"
+    "terms": "studio architektoniczne, biuro architektoniczne, pracownia architektoniczna"
   },
   "office/company": {
     "name": "Biuro prywatnego przedsiębiorstwa"
@@ -1219,7 +1223,7 @@
   },
   "office/employment_agency": {
     "name": "Agencja zatrudnienia",
-    "terms": "Agencja pracy, "
+    "terms": "Agencja pracy, pośredniak, pośredniak, biuro pośrednictwa pracy, praca tymczasowa, pośrednictwo pracy"
   },
   "office/estate_agent": {
     "name": "Biuro nieruchomości"
@@ -1244,7 +1248,8 @@
     "name": "Gazeta"
   },
   "office/ngo": {
-    "name": "Biuro organizacji pożytku publicznego"
+    "name": "Biuro organizacji pożytku publicznego",
+    "terms": "stowarzyszenie, fundacja"
   },
   "office/physician": {
     "name": "Lekarz"
@@ -1254,7 +1259,8 @@
     "terms": "partia polityczna"
   },
   "office/research": {
-    "name": "Biuro badawcze"
+    "name": "Biuro badawcze",
+    "terms": "instytut badawczy"
   },
   "office/telecommunication": {
     "name": "Biuro firmy telekomunikacyjnej"
@@ -1298,7 +1304,7 @@
     "terms": "Miasteczko"
   },
   "place/village": {
-    "name": "Wioska",
+    "name": "Wieś",
     "terms": "Wieś"
   },
   "point": {
@@ -1404,15 +1410,22 @@
     "name": "Sklep monopolowy",
     "terms": "alkohol"
   },
+  "shop/anime": {
+    "name": "Sklep z anime"
+  },
+  "shop/antiques": {
+    "name": "Sklep z antykami"
+  },
   "shop/art": {
-    "name": "Sklep z dziełami sztuki"
+    "name": "Galeria sztuki"
   },
   "shop/bakery": {
     "name": "Piekarnia",
     "terms": "Piekarnia"
   },
   "shop/beauty": {
-    "name": "Salon piękności"
+    "name": "Salon piękności",
+    "terms": "kosmetyczka, wizaż"
   },
   "shop/beverages": {
     "name": "Sklep z napojami"
@@ -1426,7 +1439,7 @@
   },
   "shop/books": {
     "name": "Księgarnia",
-    "terms": "księgarnia"
+    "terms": "antykwariat"
   },
   "shop/boutique": {
     "name": "Butik"
@@ -1445,21 +1458,19 @@
   },
   "shop/car_repair": {
     "name": "Warsztat samochodowy",
-    "terms": "serwis samochodowy"
+    "terms": "serwis samochodowy. mechanik"
   },
   "shop/chemist": {
     "name": "Drogeria",
     "terms": "apteka"
   },
   "shop/clothes": {
-    "name": "Sklep odzieżowy"
+    "name": "Sklep odzieżowy",
+    "terms": "ubrania"
   },
   "shop/computer": {
     "name": "Sklep komputerowy",
     "terms": "sklep komputerowy"
-  },
-  "shop/confectionery": {
-    "name": "Konfekcja"
   },
   "shop/convenience": {
     "name": "Sklep ogólnospożywczy",
@@ -1480,6 +1491,9 @@
   },
   "shop/electronics": {
     "name": "Sklep elektroniczny"
+  },
+  "shop/erotic": {
+    "name": "Sklep erotyczny"
   },
   "shop/farm": {
     "name": "Stragan produktów"
@@ -1523,10 +1537,6 @@
   "shop/jewelry": {
     "name": "Jubiler"
   },
-  "shop/kiosk": {
-    "name": "Kiosk",
-    "terms": "kiosk"
-  },
   "shop/laundry": {
     "name": "Pralnia",
     "terms": "pralnia"
@@ -1551,15 +1561,12 @@
     "name": "Sklep muzyczny",
     "terms": "sklep muzyczny"
   },
-  "shop/newsagent": {
-    "name": "Kiosk"
-  },
   "shop/optician": {
     "name": "Optyk",
     "terms": "optyk"
   },
-  "shop/outdoor": {
-    "name": "Sklep turystyczny"
+  "shop/pawnbroker": {
+    "name": "Lombard"
   },
   "shop/pet": {
     "name": "Sklep zoologiczny",
@@ -1585,11 +1592,12 @@
     "terms": "supermarket"
   },
   "shop/tailor": {
-    "name": "Krawiec"
+    "name": "Krawiec",
+    "terms": "krawcowa, odzież na miarę"
   },
   "shop/toys": {
     "name": "Sklep z zabawkami",
-    "terms": "sklep z zabawkami"
+    "terms": "zabawki, sklep zabawkarski"
   },
   "shop/travel_agency": {
     "name": "Biuro podróży",
@@ -1599,13 +1607,19 @@
     "name": "Sklep z oponami"
   },
   "shop/vacant": {
-    "name": "Zamknięty sklep"
+    "name": "Pusty lokal sklepowy"
   },
   "shop/variety_store": {
     "name": "Sklep z różnościami"
   },
   "shop/video": {
     "name": "Sklep wideo"
+  },
+  "shop/video_games": {
+    "name": "Sklep z grami wideo"
+  },
+  "shop/weapons": {
+    "name": "Sklep z bronią"
   },
   "shop/wine": {
     "name": "Winiarnia",
