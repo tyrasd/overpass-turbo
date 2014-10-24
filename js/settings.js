@@ -275,8 +275,7 @@ settings.define_upgrade_callback(30, function(s) {
 });
 
 settings.define_upgrade_callback(31, function(s) {
-  // add comments for templates
-  var chooseAndRun = "\nChoose your region and hit the Run button above!";
+  // rewrite examples in OverpassQL
   _.each(s.saves, function(save, name) {
     if (save.type !== "example") return;
     switch (name) {
