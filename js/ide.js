@@ -984,8 +984,8 @@ var ide = new(function() {
       var type = settings.saves[example].type;
       if (type == 'template') continue;
       $('<li>'+
-          '<a href="" onclick="ide.loadExample(\''+htmlentities(example)+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
-          '<a href="" onclick="ide.removeExample(\''+htmlentities(example)+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
+          '<a href="" onclick="ide.loadExample(\''+htmlentities(example).replace(/'/g,"\\'")+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
+          '<a href="" onclick="ide.removeExample(\''+htmlentities(example).replace(/'/g,"\\'")+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
         '</li>').appendTo("#load-dialog ul."+type);
       if (type == "saved_query")
         has_saved_query = true;
