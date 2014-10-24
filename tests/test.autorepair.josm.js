@@ -187,6 +187,10 @@ describe("ide.autorepair.josm", function () {
         inp: '.foo out meta geom;',
         outp: '(.foo;.foo >;)->.foo; .foo out meta;/*fixed by auto repair*/'
       },
+      { // stuff in comment before out statement
+        inp: '//asd fasd;\nout meta geom;',
+        outp: '//asd fasd;\n(._;>;); out meta;/*fixed by auto repair*/'
+      },
     ];
     sinon.stub(ide,"getQueryLang").returns("OverpassQL");
     var setQuery = sinon.stub(ide,"setQuery");
