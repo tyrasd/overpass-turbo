@@ -11,20 +11,20 @@ turbo.autorepair = function(q, lng) {
     if (lng == "xml") {
       var cs = q.match(/<!--[\s\S]*?-->/g) || [];
       for (var i=0; i<cs.length; i++) {
-        var placeholder = "<!--"+Math.random().toString()+"-->"; //todo: use some kind of checksum or hash maybe?
+        var placeholder = "<!--"+Base64.encode(Math.random().toString())+"-->"; //todo: use some kind of checksum or hash maybe?
         q = q.replace(cs[i],placeholder);
         comments[placeholder] = cs[i];
       }
     } else {
       var cs = q.match(/\/\*[\s\S]*?\*\//g) || []; // multiline comments: /*...*/
       for (var i=0; i<cs.length; i++) {
-        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
+        var placeholder = "/*"+Base64.encode(Math.random().toString())+"*/"; //todo: use some kind of checksum or hash maybe?
         q = q.replace(cs[i],placeholder);
         comments[placeholder] = cs[i];
       }
       var cs = q.match(/\/\/[^\n]*/g) || []; // single line coments: //...
       for (var i=0; i<cs.length; i++) {
-        var placeholder = "/*"+Math.random().toString()+"*/"; //todo: use some kind of checksum or hash maybe?
+        var placeholder = "/*"+Base64.encode(Math.random().toString())+"*/"; //todo: use some kind of checksum or hash maybe?
         q = q.replace(cs[i],placeholder);
         comments[placeholder] = cs[i];
       }
