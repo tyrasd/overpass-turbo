@@ -868,12 +868,13 @@ var ide = new(function() {
    * shortcuts are expanded. */
   this.getQuery = function(callback) {
     var query = ide.getRawQuery();
+    var queryLang = ide.getQueryLang();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
     query = query.replace(/(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,"$1{{__bbox__global_bbox_xml__ezs4K8__}}$3");
     var shortcuts = {
-      "bbox": ide.map2bbox(this.getQueryLang()),
-      "center": ide.map2coord(this.getQueryLang()),
+      "bbox": ide.map2bbox(queryLang),
+      "center": ide.map2coord(queryLang),
       "__bbox__global_bbox_xml__ezs4K8__": ide.map2bbox("OverpassQL"),
       "date": ide.relativeTime,
       "geocodeId": ide.geocodeId,
@@ -881,10 +882,10 @@ var ide = new(function() {
       "geocodeBbox": ide.geocodeBbox,
       "geocodeCoords": ide.geocodeCoords,
       // legacy 
-      "nominatimId": function(instr,callback) {
+      "nominatimId": queryLang=="xml" ? ide.geocodeId : function(instr,callback) {
         ide.geocodeId(instr, function(result) { callback(result+';'); });
       },
-      "nominatimArea": function(instr,callback) {
+      "nominatimArea": queryLang=="xml" ? ide.geocodeArea : function(instr,callback) {
         ide.geocodeArea(instr, function(result) { callback(result+';'); });
       },
       "nominatimBbox": ide.geocodeBbox,
