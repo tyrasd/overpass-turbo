@@ -678,14 +678,15 @@ var ide = new(function() {
           items: "div",
           tooltipClass: "stats",
           content: function () {
-            var str = "<div>"
-              //+"<small>more</small>&nbsp;&ndash;<br>"
-              +i18n.t("data_stats.lag")+": "
-              +backlogOverpass()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+            var str = "<div>";
+            if (overpass.timestamp) {
+              str += i18n.t("data_stats.lag")+": "
+                  +  backlogOverpass()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+            }
             if (overpass.timestampAreas) {
-              str+="<br>"
-              +i18n.t("data_stats.lag_areas")+": "
-              +backlogOverpassAreas()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+              str += "<br>"
+                  +  i18n.t("data_stats.lag_areas")+": "
+                  +  backlogOverpassAreas()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
             }
             str+="</div>";
             return str;
