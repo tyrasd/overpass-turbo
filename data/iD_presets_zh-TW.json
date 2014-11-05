@@ -167,6 +167,10 @@
     "name": "學院用地",
     "terms": "學院"
   },
+  "amenity/community_centre": {
+    "name": "社區中心",
+    "terms": "社區發展協會,里活動中心,村活動中心"
+  },
   "amenity/compressed_air": {
     "name": "壓縮空氣",
     "terms": "冷氣,冷氣機"
@@ -304,8 +308,8 @@
     "terms": "遮雨棚,亭,亭子"
   },
   "amenity/social_facility": {
-    "name": "社福設施",
-    "terms": "社福機構"
+    "name": "社福機構",
+    "terms": "社福設施"
   },
   "amenity/social_facility/food_bank": {
     "name": "食物銀行",
@@ -1213,7 +1217,7 @@
   },
   "leisure/track": {
     "name": "賽道(非摩托賽道)",
-    "terms": "賽道(非摩托賽道)"
+    "terms": "賽道(非摩托賽道),操場"
   },
   "line": {
     "name": "線",

@@ -167,6 +167,10 @@
     "name": "Hochschulgelände",
     "terms": "Schulgelände,Collegegeglände"
   },
+  "amenity/community_centre": {
+    "name": "Gemeindezentrum",
+    "terms": "Gemeindezentrum, Stadteilzentrum, Sozialzentrum, Gemeinschaftszentrum, Bürgerhaus"
+  },
   "amenity/compressed_air": {
     "name": "Druckluft",
     "terms": "Druckluft, Pressluft"
@@ -1531,6 +1535,10 @@
     "name": "Umspannwerk",
     "terms": "Umspannwerk, Umspannungswerk"
   },
+  "power/substation": {
+    "name": "Umspannwerk",
+    "terms": "Umspannwerk, Transformatorenstation, Schaltanlage"
+  },
   "power/tower": {
     "name": "Hochspannungsmast",
     "terms": "Hochspannungsmast"
@@ -2110,6 +2118,22 @@
   "tourism/zoo": {
     "name": "Zoo",
     "terms": "Zoo"
+  },
+  "traffic_calming/bump": {
+    "name": "Temposchwelle",
+    "terms": "Temposchwelle, Bodenschwelle, Beruhigungsschwelle, Rüttelschwelle, Fahrbahnhöcker, Bremsschwelle, Bremshügel"
+  },
+  "traffic_calming/hump": {
+    "name": "Bodenschwelle",
+    "terms": "Bodenschwelle, Bremshügel"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "Fahrbahnschwelle",
+    "terms": "Fahrbahnschwelle, Rüttelstreifen"
+  },
+  "traffic_calming/table": {
+    "name": "Erhöhter Fußgängerübergang",
+    "terms": "Erhöhter Fußgängerübergang"
   },
   "type/boundary": {
     "name": "Grenze",

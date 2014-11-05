@@ -678,14 +678,15 @@ var ide = new(function() {
           items: "div",
           tooltipClass: "stats",
           content: function () {
-            var str = "<div>"
-              //+"<small>more</small>&nbsp;&ndash;<br>"
-              +i18n.t("data_stats.lag")+": "
-              +backlogOverpass()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+            var str = "<div>";
+            if (overpass.timestamp) {
+              str += i18n.t("data_stats.lag")+": "
+                  +  backlogOverpass()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+            }
             if (overpass.timestampAreas) {
-              str+="<br>"
-              +i18n.t("data_stats.lag_areas")+": "
-              +backlogOverpassAreas()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
+              str += "<br>"
+                  +  i18n.t("data_stats.lag_areas")+": "
+                  +  backlogOverpassAreas()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
             }
             str+="</div>";
             return str;
@@ -1095,7 +1096,7 @@ var ide = new(function() {
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
     // encoding exclamation marks for better command line usability (bash)
-    $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21");
+    $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21").replace(/\(/g,"%28").replace(/\)/g,"%29");
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(query,true);
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};

@@ -131,7 +131,7 @@
   "help.ide.save_load.expl": "Vous pouvez aussi enregistrer et charger vos requêtes. Pour commencer, il y a quelques exemples de requêtes préchargées. Jetez-y un coup d'œil pour avoir un aperçu de ce qu'overpass peut faire.",
   "help.ide.keyboard.title": "Raccourcis clavier :",
   "help.ide.keyboard.run": "Lancer la requête actuelle.",
-  "help.ide.keyboard.wizard": "Start the query wizard.",
+  "help.ide.keyboard.wizard": "Démarrer l'assistant de requêtes.",
   "help.ide.keyboard.load_save": "Charger (ouvrir) / Enregistrer une requête.",
   "help.ide.keyboard.help": "Ouvrir l'aide dédiée",
   "help.section.key": "Légende",
