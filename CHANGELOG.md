@@ -1,3 +1,9 @@
+2014-11-05
+----------
+* upgrade osmtogeojson library (bugfixes, improve polygon-feature data)
+* minor UI improvements
+* update translations, presets and icon sets
+
 2014-10-23
 ----------
 * support for Overpass "full" geometry output
