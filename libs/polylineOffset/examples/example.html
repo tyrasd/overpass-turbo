@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <title>Leaflet Polyline Offset example</title>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <style>
+      * { margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      #map { width:100%; height:100%; }
+    </style>
+    
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="../leaflet.polylineoffset.js"></script>
+    <script>
+			window.onload = function() {
+				var map = new L.Map('map', {
+					center: [58.0, -11.0],
+					zoom: 4,
+					layers: [
+					  new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
+						attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+						maxZoom: 18,
+						subdomains: '1234'
+					  })
+					]
+				});
+
+			  var ll = [[58.44773, -28.65234], [53, -23.33496], [53, -14.32617], [58.1707, -10.37109], [59, -13], [57, -15], [57, -18], [60, -18], [63, -5], [59, -7], [58, -3], [56, -3]];
+			  
+			  var orig = L.polyline(ll, {
+					weight: 2,
+					dashArray: '5,10',
+					color: 'black',
+					opacity: 0.3
+			  }).addTo(map);
+			  
+			  var leftPolyline = L.polyline(ll, {
+					color: '#f00',
+					opacity: 1,
+					offset: -5
+			  }).addTo(map);
+
+			  var rightPolyline = L.polyline(ll, {
+					color: '#080',
+					opacity: 1,
+					offset: 10
+			  }).addTo(map);
+			};
+		</script>
+  </head>
+
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

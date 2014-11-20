@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <title>Leaflet Polyline Offset - Cycle lanes example</title>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <style>
+      * { margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      #map { width:100%; height:100%; }
+    </style>
+    
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="../leaflet.polylineoffset.js"></script>
+    <script>
+      window.onload = function () {
+        var map = new L.Map('map', {
+          center: [48.87, 2.355],
+          zoom: 16,
+          layers: [
+            L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
+      			  minZoom: 0,
+      			  maxZoom: 18,
+      			  attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+      			})
+          ]
+        });
+
+        var coords =[[48.8688, 2.3676],[48.8739, 2.3636],[48.8743, 2.3634],[48.8747, 2.3635],
+        [48.8793,2.3675],[48.8795,2.3680],[48.8814,2.3696],[48.8814,2.3700]];
+
+    		var r = L.polyline(coords, {
+    			color: '#444',
+    			weight: 20,
+          opacity: 1
+    		}).addTo(map);
+
+    		L.polyline(coords, {
+    			color: 'white',
+    			weight: 2,
+          opacity: 1,
+    			dashArray: '30,8,5,8',
+          offset: 7
+    		}).addTo(map);
+    		
+    		L.polyline(coords, {
+    			color: 'yellow',
+    			weight: 1,
+    			opacity: 1,
+    			dashArray: '3,6',
+          offset: -7
+    		}).addTo(map);
+    		
+    		map.fitBounds(r.getBounds());
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

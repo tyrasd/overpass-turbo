@@ -129,7 +129,7 @@ styleparser.inherit_from_Style(styleparser.PointStyle.prototype);
 styleparser.ShapeStyle = function() {this.__init__()};
 
 styleparser.ShapeStyle.prototype = {
-    properties: ['width','color','opacity','dashes','linecap','linejoin','line_style',
+    properties: ['width','offset','color','opacity','dashes','linecap','linejoin','line_style',
         'fill_image','fill_color','fill_opacity','casing_width','casing_color','casing_opacity','casing_dashes','layer'],
 
 	width:0, color:null, opacity:NaN, dashes:[],
