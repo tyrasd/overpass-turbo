@@ -1,27 +1,6 @@
-// Polyfill for the Math.sign function, only available in some browsers
-Math.sign = Math.sign || function(x) {return (x < 0) ? -1 : ((x > 0) ? 1 : 0); }
-
 L.PolylineOffset = {
   translatePoint: function(pt, dist, radians) {
-    // Y coordinates expand downward, hence the minus
-    return L.point(pt.x + dist * Math.cos(radians), pt.y - dist * Math.sin(radians));
-  },
-
-  /**
-  Computes the angle of the vecteur a->b
-  as a radian angle between -Pi and Pi.
-  */
-  radianAngle: function(a, b) {
-    // vertical
-    if (a.x == b.x) {
-      return Math.sign(a.y - b.y) * Math.PI / 2;  // Inverted Y coords
-    }
-    // horizontal
-    if (a.y == b.y) {
-      return (a.x < b.x) ? 0 : Math.PI;
-    }
-    // general case
-    return Math.sign(a.y - b.y) * Math.atan2(Math.abs(b.y - a.y), b.x - a.x);
+    return L.point(pt.x + dist * Math.cos(radians), pt.y + dist * Math.sin(radians));
   },
 
   offsetPointLine: function(points, distance) {
@@ -30,15 +9,15 @@ L.PolylineOffset = {
       throw new Error('Line should be defined by at least 2 points');
 
     var a = points[0], b;
-    var segmentAngle;
-    var deltaAngle = -Math.PI / 2,
-        offsetAngle;
+    var offsetAngle, segmentAngle;
     var offsetSegments = [];
 
     for(var i=1; i < l; i++) {
       b = points[i];
-      segmentAngle = this.radianAngle(a, b);
-      offsetAngle = this._normalizeAngle(segmentAngle + deltaAngle);
+      // angle in (-PI, PI]
+      segmentAngle = Math.atan2(a.y - b.y, a.x - b.x);
+      // angle in (-1.5 * PI, PI/2]
+      offsetAngle = segmentAngle - Math.PI/2;
 
       // store offset point and other information to avoid recomputing it later
       offsetSegments.push({
@@ -90,17 +69,25 @@ L.PolylineOffset = {
 
   /**
   Return the intersection point of two lines defined by two points each
+  Return null when there's no unique intersection
   */
   intersection: function(l1a, l1b, l2a, l2b) {
     var line1 = this.lineEquation(l1a, l1b),
         line2 = this.lineEquation(l2a, l2b);
 
+    if (line1 == null || line2 == null)
+      return null;
+
     if(line1.hasOwnProperty('x')) {
+      if(line2.hasOwnProperty('x'))
+        return null;
       return L.point(line1.x, line2.a * line1.x + line2.b);
     }
-    if(line2.hasOwnProperty('x')) {
+    if(line2.hasOwnProperty('x'))
       return L.point(line2.x, line1.a * line2.x + line1.b);
-    }
+
+    if (line1.a == line2.a)
+      return null;
 
     var x = (line2.b - line1.b) / (line1.a - line2.a),
         y = line1.a * x + line1.b;
@@ -111,40 +98,22 @@ L.PolylineOffset = {
   /**
   Find the coefficients (a,b) of a line of equation y = a.x + b,
   or the constant x for vertical lines
+  Return null if there's no equation possible
   */
   lineEquation: function(pt1, pt2) {
-    if (pt1.x == pt2.x) {
+    if (pt1.x != pt2.x)
+    {
+      var a = (pt2.y - pt1.y) / (pt2.x - pt1.x);
       return {
-        x: pt1.x
-      }
+        a: a,
+        b: pt1.y - a * pt1.x
+      }; 
     }
 
-    var a = (pt2.y - pt1.y) / (pt2.x - pt1.x),
-        b = pt1.y - a * pt1.x;
+    if (pt1.y != pt2.y)
+      return { x: pt1.x };
 
-    return {
-      a: a,
-      b: b
-    }
-  },
-
-  /**
-  Normalize a radian angle so it's expressed between (-Pi; Pi).
-  */
-  _normalizeAngle: function(rad) {
-    // TODO: find a better way (?)
-    rad += Math.PI;
-    var pipi = 2 * Math.PI;
-
-    while(rad > pipi) {
-      rad = rad - pipi;
-    }
-
-    while(rad < 0) {
-      rad = rad + pipi;
-    }
-
-    return rad - Math.PI;
+    return null;
   },
 
   /**
@@ -152,14 +121,10 @@ L.PolylineOffset = {
   with a specified methodnormalizeAngle( (default : intersection);
   */
   joinSegments: function(s1, s2, offset, joinStyle) {
-    var jointPoints;
-    // for inward joints, just intersect
-    if((Math.sign(this._normalizeAngle(s2.offsetAngle - s1.offsetAngle)) != Math.sign(offset))) {
-      joinStyle = 'intersection';
-    }
+    var jointPoints = [];
     switch(joinStyle) {
       case 'round':
-        jointPoints = this.circularArc(s1.original[1], s1.distance, s1.offsetAngle, s2.offsetAngle, (offset > 0));
+        jointPoints = this.circularArc(s1, s2, offset);
         break;
       case 'cut':
         jointPoints = [
@@ -174,7 +139,8 @@ L.PolylineOffset = {
       default:
         jointPoints = [this.intersection(s1.offset[0], s1.offset[1], s2.offset[0], s2.offset[1])];
     }
-    return jointPoints;
+    // filter out null-results
+    return jointPoints.filter(function(v) {return v;});
   },
 
   joinLineSegments: function(segments, offset, joinStyle) {
@@ -194,26 +160,39 @@ L.PolylineOffset = {
   },
 
   /**
-  Interpolates points on a circular arc given a center,
-  two angles, and a direction of rotation
+  Interpolates points between two offset segments in a circular form
   */
-  circularArc: function(center, radius, startAngle, endAngle, trigoDir, angleInc) {
+  circularArc: function(s1, s2, distance) {
+      if (s1.angle == s2.angle)
+        return [s1.offset[1]];
+
+      var center = s1.original[1];
       var points = [];
-      var angleInc = angleInc || Math.PI / 16;
 
-      // negative order of rotation
-      if(!trigoDir) {
-        angleInc = -angleInc;
+      if (distance < 0) {
+        var startAngle = s1.offsetAngle;
+        var endAngle = s2.offsetAngle;
+      } else {
+        // switch start and end angle when going right
+        var startAngle = s2.offsetAngle;
+        var endAngle = s1.offsetAngle;
       }
 
-      // TODO: fix so that the first and final angles are equal
-      for(var alpha = startAngle; true; ) {
-        points.push(this.translatePoint(center, radius, alpha));
-        alpha = this._normalizeAngle(alpha + angleInc);
-        if(Math.abs(alpha - endAngle) < Math.abs(angleInc)) {
-          break;
-        }
-      }
+      if (endAngle < startAngle)
+        endAngle += Math.PI * 2; // the end angle should be bigger than the start angle
+
+      if (endAngle > startAngle + Math.PI)
+        return [this.intersection(s1.offset[0], s1.offset[1], s2.offset[0], s2.offset[1])];
+
+      // Step is distance dependent. Bigger distance results in more steps to take
+      var step = Math.abs(8/distance); 
+      for (var a = startAngle; a < endAngle; a += step)
+        points.push(this.translatePoint(center, distance, a));
+      points.push(this.translatePoint(center, distance, endAngle));
+
+      if (distance > 0)
+        // reverse all points again when going right
+        points.reverse();
 
       return points;
   }
