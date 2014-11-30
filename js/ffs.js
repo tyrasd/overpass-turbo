@@ -45,6 +45,10 @@ turbo.ffs = function() {
     return normalized_query;
   }
 
+  function escRegexp(str) {
+    return str.replace(/([()[{*+.$^\\|?])/g, '\\$1');
+  }
+  
   ffs.construct_query = function(search, comment) {
     function quote_comment_str(s) {
       // quote strings that are to be used within c-style comments
@@ -102,9 +106,6 @@ turbo.ffs = function() {
         // see http://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL#Escaping
         return str.replace(/\\/g,"\\\\").replace(/"/g,"\\\"") // need to escape those
                   .replace(/\t/g,"\\t").replace(/\n/g,"\\n"); // also escape newlines an tabs for better readability of the query
-      }
-      function escRegexp(str) {
-        return str.replace(/([()[{*+.$^\\|?])/g, '\\$1');
       }
       var key = esc(condition.key);
       var val = esc(condition.val);
@@ -323,7 +324,8 @@ turbo.ffs = function() {
         if (ffs_clause === false) {
           // try to find suggestions for occasional typos
           var fuzzy = freeFormQuery.fuzzy_search(cond_query);
-          var free_regex = new RegExp("['\"]?"+cond_query.free+"['\"]?");
+          var free_regex = null;
+          try { free_regex = new RegExp("['\"]?"+escRegexp(cond_query.free)+"['\"]?"); } catch(e) {}
           if (fuzzy && search.match(free_regex)) {
             search_parts = search_parts.concat(search.split(free_regex));
             search = search_parts.pop();
