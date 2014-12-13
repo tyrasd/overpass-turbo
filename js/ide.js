@@ -754,6 +754,10 @@ var ide = new(function() {
     var now = Date.now();
     // very basic differential date
     instr = instr.toLowerCase().match(/(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/);
+    if (instr === null) {
+      callback(''); // todo: throw an error. do not silently fail
+      return;
+    }
     var count = parseInt(instr[1]);
     var interval;
     switch (instr[2]) {
