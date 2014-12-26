@@ -148,8 +148,8 @@ turbo.ffs.parser = (function() {
                 return parts[1];
               },
           { type: "other", description: "string" },
-          /^[a-zA-Z0-9_\xF6\xFC\xE4\xD6\xDC\xC4\xDF\-]/,
-          { type: "class", value: "[a-zA-Z0-9_\\xF6\\xFC\\xE4\\xD6\\xDC\\xC4\\xDF\\-]", description: "[a-zA-Z0-9_\\xF6\\xFC\\xE4\\xD6\\xDC\\xC4\\xDF\\-]" },
+          /^[^'" ()~=!*\/:<>&|[\]{}#+@$%?\^.,]/,
+          { type: "class", value: "[^'\" ()~=!*\\/:<>&|[\\]{}#+@$%?\\^.,]", description: "[^'\" ()~=!*\\/:<>&|[\\]{}#+@$%?\\^.,]" },
           function(chars) { return chars.join(""); },
           void 0,
           "\\",

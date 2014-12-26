@@ -117,7 +117,7 @@ key_string "Key"
     }
 
 string "string"
-  = s:[a-zA-Z0-9_öüäÖÜÄß-]+ { return s.join(''); }
+  = s:[^'" ()~=!*/:<>&|[\]{}#+@$%?^.,]+ { return s.join(''); }
   / parts:('"' DoubleStringCharacters '"' / "'" SingleStringCharacters "'") {
       return parts[1];
     }
