@@ -117,7 +117,7 @@ key_string "Key"
     }
 
 string "string"
-  = s:[^'" ()~=!*/]+ { return s.join(''); }
+  = s:[^'" ()~=!*/:]+ { return s.join(''); }
   / parts:('"' DoubleStringCharacters '"' / "'" SingleStringCharacters "'") {
       return parts[1];
     }

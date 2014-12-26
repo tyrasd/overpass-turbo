@@ -148,8 +148,8 @@ turbo.ffs.parser = (function() {
                 return parts[1];
               },
           { type: "other", description: "string" },
-          /^[^'" ()~=!*\/]/,
-          { type: "class", value: "[^'\" ()~=!*\\/]", description: "[^'\" ()~=!*\\/]" },
+          /^[^'" ()~=!*\/:]/,
+          { type: "class", value: "[^'\" ()~=!*\\/:]", description: "[^'\" ()~=!*\\/:]" },
           function(chars) { return chars.join(""); },
           void 0,
           "\\",
