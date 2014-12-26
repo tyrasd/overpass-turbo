@@ -141,41 +141,60 @@ describe("ide.ffs", function () {
 
   // data types
   describe("data types", function () {
-    // strings
-    it("strings", function () {
-      var search, result;
-      // doulbe-quoted string
-      search = "\"foo bar\"=*";
-      result = ffs.construct_query(search);
-      expect(compact(result)).to.equal(
-        "("+
-          "node[\"foo bar\"](bbox);"+
-          "way[\"foo bar\"](bbox);"+
-          "relation[\"foo bar\"](bbox);"+
-        ");"+
-        out_str
-      );
-      search = "asd=\"foo bar\"";
-      result = ffs.construct_query(search);
-      expect(compact(result)).to.equal(
-        "("+
-          "node[\"asd\"=\"foo bar\"](bbox);"+
-          "way[\"asd\"=\"foo bar\"](bbox);"+
-          "relation[\"asd\"=\"foo bar\"](bbox);"+
-        ");"+
-        out_str
-      );
-      // single-quoted string
-      search = "'foo bar'='asd fasd'";
-      result = ffs.construct_query(search);
-      expect(compact(result)).to.equal(
-        "("+
-          "node[\"foo bar\"=\"asd fasd\"](bbox);"+
-          "way[\"foo bar\"=\"asd fasd\"](bbox);"+
-          "relation[\"foo bar\"=\"asd fasd\"](bbox);"+
-        ");"+
-        out_str
-      );
+    describe("strings", function () {
+      // strings
+      it("double quoted strings", function () {
+        var search, result;
+        // double-quoted string
+        search = '"a key"="a value"';
+        result = ffs.construct_query(search);
+        expect(compact(result)).to.equal(
+          '('+
+            'node["a key"="a value"](bbox);'+
+            'way["a key"="a value"](bbox);'+
+            'relation["a key"="a value"](bbox);'+
+          ');'+
+          out_str
+        );
+      });        
+      it("single-quoted string", function () {
+        var search, result;
+        // single-quoted string
+        search = "'foo bar'='asd fasd'";
+        result = ffs.construct_query(search);
+        expect(compact(result)).to.equal(
+          '('+
+            'node["foo bar"="asd fasd"](bbox);'+
+            'way["foo bar"="asd fasd"](bbox);'+
+            'relation["foo bar"="asd fasd"](bbox);'+
+          ');'+
+          out_str
+        );
+      });
+      it("quoted unicode string", function () {
+        var search = "name='بیجنگ'";
+        var result = ffs.construct_query(search);
+        expect(compact(result)).to.equal(
+          '('+
+            'node["name"="بیجنگ"](bbox);'+
+            'way["name"="بیجنگ"](bbox);'+
+            'relation["name"="بیجنگ"](bbox);'+
+          ');'+
+          out_str
+        );
+      });
+      it("unicode string", function () {
+        var search = "name=Béziers";
+        var result = ffs.construct_query(search);
+        expect(compact(result)).to.equal(
+          '('+
+            'node["name"="Béziers"](bbox);'+
+            'way["name"="Béziers"](bbox);'+
+            'relation["name"="Béziers"](bbox);'+
+          ');'+
+          out_str
+        );
+      });
     });
     // regexes
     it("regex", function () {
@@ -220,9 +239,33 @@ describe("ide.ffs", function () {
         out_str
       );
     });
+    it("logical and (& operator)", function () {
+      var search = "foo=bar & asd=fasd";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        '('+
+          'node["foo"="bar"]["asd"="fasd"](bbox);'+
+          'way["foo"="bar"]["asd"="fasd"](bbox);'+
+          'relation["foo"="bar"]["asd"="fasd"](bbox);'+
+        ');'+
+        out_str
+      );
+    });
+    it("logical and (&& operator)", function () {
+      var search = "foo=bar && asd=fasd";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        '('+
+          'node["foo"="bar"]["asd"="fasd"](bbox);'+
+          'way["foo"="bar"]["asd"="fasd"](bbox);'+
+          'relation["foo"="bar"]["asd"="fasd"](bbox);'+
+        ');'+
+        out_str
+      );
+    });
     // logical or
     it("logical or", function () {
-      var search = "foo=bar or asd=fasd";
+      var search = "foo=bar | asd=fasd";
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
@@ -233,6 +276,36 @@ describe("ide.ffs", function () {
           "way[\"asd\"=\"fasd\"](bbox);"+
           "relation[\"asd\"=\"fasd\"](bbox);"+
         ");"+
+        out_str
+      );
+    });
+    it("logical or (| operator)", function () {
+      var search = "foo=bar | asd=fasd";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        '('+
+          'node["foo"="bar"](bbox);'+
+          'way["foo"="bar"](bbox);'+
+          'relation["foo"="bar"](bbox);'+
+          'node["asd"="fasd"](bbox);'+
+          'way["asd"="fasd"](bbox);'+
+          'relation["asd"="fasd"](bbox);'+
+        ');'+
+        out_str
+      );
+    });
+    it("logical or (|| operator)", function () {
+      var search = "foo=bar || asd=fasd";
+      var result = ffs.construct_query(search);
+      expect(compact(result)).to.equal(
+        '('+
+          'node["foo"="bar"](bbox);'+
+          'way["foo"="bar"](bbox);'+
+          'relation["foo"="bar"](bbox);'+
+          'node["asd"="fasd"](bbox);'+
+          'way["asd"="fasd"](bbox);'+
+          'relation["asd"="fasd"](bbox);'+
+        ');'+
         out_str
       );
     });
@@ -557,5 +630,5 @@ describe("ide.ffs", function () {
     });
 
   });
-
+  
 });
