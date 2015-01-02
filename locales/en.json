@@ -175,9 +175,9 @@
   "help.section.about": "About",
   "help.about.maintained": "<i>overpass turbo</i> is maintained by Martin Raifer (tyr.asd at gmail.com).",
   "help.about.feedback.title": "Feedback, Bug Reports, Feature Requests",
-  "help.about.feedback": "If you would like to give feedback, report issues or ask for a particular feature, please use the <a href=\"https://github.com/tyrasd/overpass-ide/issues\">issue tracker</a> on github or the <a href=\"http://wiki.openstreetmap.org/wiki/Talk:Overpass_turbo\">discussion page</a> on the OSM-wiki.",
+  "help.about.feedback": "If you would like to give feedback, report issues or ask for a particular feature, please use the <a href=\"https://github.com/tyrasd/overpass-turbo/issues\">issue tracker</a> on github or the <a href=\"http://wiki.openstreetmap.org/wiki/Talk:Overpass_turbo\">discussion page</a> on the OSM-wiki.",
   "help.about.source.title": "Source Code",
-  "help.about.source": "The <a href=\"https://github.com/tyrasd/overpass-ide\">source code</a> of this application is released under the MIT <a href=\"LICENSE\">license</a>.",
+  "help.about.source": "The <a href=\"https://github.com/tyrasd/overpass-turbo\">source code</a> of this application is released under the MIT <a href=\"LICENSE\">license</a>.",
 
   "help.section.attribution": "Attribution",
   "help.attr.data_sources": "Data Sources",
