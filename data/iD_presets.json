@@ -873,6 +873,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "geometry": [
@@ -1413,6 +1415,24 @@
         },
         "name": "Recycling"
     },
+    "amenity/register_office": {
+        "icon": "town-hall",
+        "fields": [
+            "address",
+            "building_area",
+            "opening_hours",
+            "operator"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [],
+        "tags": {
+            "amenity": "register_office"
+        },
+        "name": "Register Office"
+    },
     "amenity/restaurant": {
         "icon": "restaurant",
         "fields": [
@@ -1421,6 +1441,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "geometry": [
@@ -2156,6 +2178,7 @@
         "icon": "commercial",
         "fields": [
             "address",
+            "levels",
             "smoking"
         ],
         "geometry": [
@@ -4511,6 +4534,16 @@
         },
         "name": "Wayside Shrine"
     },
+    "junction": {
+        "geometry": [
+            "vertex",
+            "area"
+        ],
+        "tags": {
+            "junction": "yes"
+        },
+        "name": "Junction"
+    },
     "landuse": {
         "fields": [
             "landuse"
@@ -4618,7 +4651,8 @@
         },
         "terms": [],
         "name": "Farm",
-        "icon": "farm"
+        "icon": "farm",
+        "searchable": false
     },
     "landuse/farmland": {
         "fields": [
@@ -4631,10 +4665,11 @@
         "tags": {
             "landuse": "farmland"
         },
-        "terms": [],
-        "name": "Farmland",
-        "icon": "farm",
-        "searchable": false
+        "terms": [
+            "farmland"
+        ],
+        "name": "Farm",
+        "icon": "farm"
     },
     "landuse/farmyard": {
         "fields": [
@@ -4665,6 +4700,16 @@
         },
         "terms": [],
         "name": "Forest"
+    },
+    "landuse/garages": {
+        "geometry": [
+            "area"
+        ],
+        "tags": {
+            "landuse": "garages"
+        },
+        "terms": [],
+        "name": "Garages"
     },
     "landuse/grass": {
         "geometry": [
@@ -5494,6 +5539,21 @@
             "natural": "beach"
         },
         "name": "Beach"
+    },
+    "natural/cave_entrance": {
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "fields": [
+            "fee",
+            "access_simple"
+        ],
+        "terms": [],
+        "tags": {
+            "natural": "cave_entrance"
+        },
+        "name": "Cave Entrance"
     },
     "natural/cliff": {
         "geometry": [
@@ -6360,6 +6420,7 @@
     },
     "power/sub_station": {
         "fields": [
+            "substation",
             "operator",
             "building"
         ],
@@ -6375,6 +6436,7 @@
     },
     "power/substation": {
         "fields": [
+            "substation",
             "operator",
             "building"
         ],
@@ -13657,6 +13719,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13679,6 +13743,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13701,6 +13767,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13723,6 +13791,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13744,6 +13814,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13766,6 +13838,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13787,6 +13861,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13809,6 +13885,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13831,6 +13909,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13852,6 +13932,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13873,6 +13955,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13894,6 +13978,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13915,6 +14001,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13937,6 +14025,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13958,6 +14048,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -13979,6 +14071,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14001,6 +14095,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14022,6 +14118,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14043,6 +14141,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14064,6 +14164,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14085,6 +14187,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14106,6 +14210,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14127,6 +14233,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14148,6 +14256,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14169,6 +14279,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14190,6 +14302,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14212,6 +14326,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14233,6 +14349,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14254,6 +14372,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14275,6 +14395,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14296,6 +14418,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14317,6 +14441,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14339,6 +14465,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14361,6 +14489,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14382,6 +14512,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14404,6 +14536,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14425,6 +14559,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14446,6 +14582,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14468,6 +14606,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14489,6 +14629,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14510,6 +14652,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14531,6 +14675,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14553,6 +14699,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14574,6 +14722,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14595,6 +14745,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14617,6 +14769,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14640,6 +14794,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14661,6 +14817,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14682,6 +14840,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14703,6 +14863,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14724,6 +14886,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14745,6 +14909,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14768,6 +14934,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14789,6 +14957,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14810,6 +14980,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14832,6 +15004,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14853,6 +15027,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14874,6 +15050,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14895,6 +15073,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14916,6 +15096,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14937,6 +15119,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14959,6 +15143,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -14980,6 +15166,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15001,6 +15189,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15022,6 +15212,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15043,6 +15235,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15064,6 +15258,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15085,6 +15281,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15106,6 +15304,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15128,6 +15328,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15149,6 +15351,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15170,6 +15374,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15191,6 +15397,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15213,6 +15421,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15235,6 +15445,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15256,6 +15468,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15277,6 +15491,8 @@
             "address",
             "building_area",
             "opening_hours",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15298,6 +15514,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15319,6 +15537,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15340,6 +15560,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15361,6 +15583,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15382,6 +15606,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15403,6 +15629,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15424,6 +15652,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15445,6 +15675,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15466,6 +15698,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15487,6 +15721,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15508,6 +15744,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15529,6 +15767,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15550,6 +15790,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15571,6 +15813,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15592,6 +15836,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15613,6 +15859,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15634,6 +15882,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15655,6 +15905,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15676,6 +15928,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15697,6 +15951,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15718,6 +15974,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15739,6 +15997,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15760,6 +16020,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15781,6 +16043,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15802,6 +16066,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15823,6 +16089,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15844,6 +16112,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15865,6 +16135,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15886,6 +16158,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15907,6 +16181,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15928,6 +16204,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15949,6 +16227,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15970,6 +16250,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -15991,6 +16273,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16012,6 +16296,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16033,6 +16319,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16054,6 +16342,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16075,6 +16365,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16096,6 +16388,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16117,6 +16411,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16138,6 +16434,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16159,6 +16457,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16180,6 +16480,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16201,6 +16503,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16222,6 +16526,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16243,6 +16549,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16264,6 +16572,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16285,6 +16595,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16306,6 +16618,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16327,6 +16641,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16348,6 +16664,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16369,6 +16687,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16390,6 +16710,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16411,6 +16733,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16432,6 +16756,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16453,6 +16779,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16474,6 +16802,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16495,6 +16825,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16516,6 +16848,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16537,6 +16871,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16558,6 +16894,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16579,6 +16917,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16600,6 +16940,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16621,6 +16963,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16642,6 +16986,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16663,6 +17009,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16684,6 +17032,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16705,6 +17055,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16726,6 +17078,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16747,6 +17101,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16768,6 +17124,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16789,6 +17147,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16810,6 +17170,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16831,6 +17193,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16852,6 +17216,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16873,6 +17239,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16894,6 +17262,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16915,6 +17285,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16936,6 +17308,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16957,6 +17331,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16978,6 +17354,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -16999,6 +17377,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17020,6 +17400,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17041,6 +17423,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17062,6 +17446,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17083,6 +17469,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17104,6 +17492,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17125,6 +17515,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17146,6 +17538,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17167,6 +17561,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17188,6 +17584,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17209,6 +17607,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17230,6 +17630,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17251,6 +17653,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17272,6 +17676,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17293,6 +17699,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17314,6 +17722,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17335,6 +17745,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17356,6 +17768,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17377,6 +17791,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17398,6 +17814,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17419,6 +17837,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17440,6 +17860,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17462,6 +17884,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17483,6 +17907,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17504,6 +17930,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17525,6 +17953,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17546,6 +17976,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17567,6 +17999,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17588,6 +18022,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17609,6 +18045,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17630,6 +18068,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17651,6 +18091,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17672,6 +18114,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17693,6 +18137,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17714,6 +18160,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17735,6 +18183,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17756,6 +18206,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17777,6 +18229,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17798,6 +18252,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17819,6 +18275,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17840,6 +18298,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17861,6 +18321,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17882,6 +18344,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true
@@ -17903,6 +18367,8 @@
             "building_area",
             "opening_hours",
             "capacity",
+            "takeaway",
+            "delivery",
             "smoking"
         ],
         "suggestion": true

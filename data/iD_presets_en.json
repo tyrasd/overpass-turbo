@@ -295,6 +295,10 @@
     "name": "Recycling",
     "terms": "can,bottle,garbage,scrap,trash"
   },
+  "amenity/register_office": {
+    "name": "Register Office",
+    "terms": ""
+  },
   "amenity/restaurant": {
     "name": "Restaurant",
     "terms": "bar,breakfast,cafe,café,canteen,coffee,dine,dining,dinner,drive-in,eat,grill,lunch,table"
@@ -1035,6 +1039,10 @@
     "name": "Wayside Shrine",
     "terms": ""
   },
+  "junction": {
+    "name": "Junction",
+    "terms": ""
+  },
   "landuse": {
     "name": "Landuse",
     "terms": ""
@@ -1068,8 +1076,8 @@
     "terms": ""
   },
   "landuse/farmland": {
-    "name": "Farmland",
-    "terms": ""
+    "name": "Farm",
+    "terms": "farmland"
   },
   "landuse/farmyard": {
     "name": "Farmyard",
@@ -1077,6 +1085,10 @@
   },
   "landuse/forest": {
     "name": "Forest",
+    "terms": ""
+  },
+  "landuse/garages": {
+    "name": "Garages",
     "terms": ""
   },
   "landuse/grass": {
@@ -1309,6 +1321,10 @@
   },
   "natural/beach": {
     "name": "Beach",
+    "terms": ""
+  },
+  "natural/cave_entrance": {
+    "name": "Cave Entrance",
     "terms": ""
   },
   "natural/cliff": {
