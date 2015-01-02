@@ -265,7 +265,7 @@ describe("ide.ffs", function () {
     });
     // logical or
     it("logical or", function () {
-      var search = "foo=bar | asd=fasd";
+      var search = "foo=bar or asd=fasd";
       var result = ffs.construct_query(search);
       expect(compact(result)).to.equal(
         "("+
