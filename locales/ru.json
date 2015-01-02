@@ -186,7 +186,7 @@
   "error.mapcss.expl": "Некорректный стиль MapCSS:",
   "error.remote.title": "Ошибка remote control",
   "error.remote.incompat": "Ошибка: неподдерживаемая версия сервиса JOSM remote control",
-  "error.remote.not_found": "Сервис remote control не найден. Убедитесь, что JOSM запущен и настроен как надо.",
+  "error.remote.not_found": "Сервис remote control не найден. Убедитесь, что JOSM открыт до запуска запроса в overpass-turbo. Чтобы решить проблему, запустите JOSM и нажмите \"Старт\" снова.",
   "error.nominatim.title": "Ошибка в Nominatim",
   "error.nominatim.expl": "Не найдено ничего с данным именем:",
   "warning.browser.title": "Ваш браузер не поддерживается :(",
