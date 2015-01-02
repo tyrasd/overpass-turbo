@@ -343,5 +343,9 @@ turbo.ffs = function() {
     return search_parts;
   }
 
+  ffs.invalidateCache = function() {
+    freeFormQuery = undefined;
+  }
+
   return ffs;
 };

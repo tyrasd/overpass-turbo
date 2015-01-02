@@ -1615,6 +1615,7 @@ var ide = new(function() {
       if (settings.ui_language != new_ui_language) {
         i18n.translate(new_ui_language);
         moment.locale(new_ui_language);
+        ffs.invalidateCache();
       }
       settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;

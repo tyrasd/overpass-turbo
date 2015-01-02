@@ -41,9 +41,10 @@ turbo.ffs.free = function() {
           preset.nameCased = translation.name;
           preset.name = translation.name.toLowerCase();
           // add new terms
-          preset.terms = translation.terms.split(",")
-            .map(function(term) { return term.trim().toLowerCase(); })
-            .concat(preset.terms);
+          if (translation.terms)
+            preset.terms = translation.terms.split(",")
+              .map(function(term) { return term.trim().toLowerCase(); })
+              .concat(preset.terms);
         });
       }).error(function(){
         throw new Error();
