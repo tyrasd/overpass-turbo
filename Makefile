@@ -77,7 +77,8 @@ turbo.js: \
 	libs/togpx/togpx.js \
 	libs/Blob.js/Blob.js \
 	libs/canvas-toBlob.js/canvas-toBlob.js \
-	libs/FileSaver/FileSaver.js
+	libs/FileSaver/FileSaver.js \
+	libs/geojson-stats/geojson-stats.js
 
 turbo.js: Makefile
 	@rm -f $@
@@ -177,3 +178,7 @@ icons-mapnik:
 	wget https://github.com/gravitystorm/openstreetmap-carto/archive/master.zip -O icons/mapnik.zip
 	yes | unzip -ju icons/mapnik.zip */symbols/*.png -d icons/mapnik/
 	rm icons/mapnik.zip
+
+geojson-stats:
+	npm install geojson-stats
+	browserify -s geojsonStats node_modules/geojson-stats/index.js > libs/geojson-stats/geojson-stats.js

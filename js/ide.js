@@ -669,10 +669,27 @@ var ide = new(function() {
         // show more stats as a tooltip
         var backlogOverpass = function () {
           return moment(overpass.timestamp, moment.ISO_8601).fromNow(true);
-          //return Math.round((new Date() - new Date(overpass.timestamp))/1000/60*10)/10;
         };
         var backlogOverpassAreas = function () {
           return moment(overpass.timestampAreas, moment.ISO_8601).fromNow(true);
+        };
+        var dataStats = function () {
+          var stats = geojsonStats(overpass.geojson);
+          function unit(v) {
+            switch(v) {
+              case "length": return "m";
+              case "area":   return "m²";
+              default:       return "";
+            }
+          }
+          return stats
+            .filter(function(stat) {
+              return stat.count > 0;
+            })
+            .reduce(function(prev, stat) {
+              return prev + "<br>" +
+                htmlentities(stat.title) + ": "+ Number(stat.sum).toFixed(2) + "&thinsp;" + unit(stat.title);
+            }, "");
         };
         $("#data_stats").tooltip({
           items: "div",
@@ -688,7 +705,8 @@ var ide = new(function() {
                   +  i18n.t("data_stats.lag_areas")+": "
                   +  backlogOverpassAreas()+" <small>"+i18n.t("data_stats.lag.expl")+"</small>"
             }
-            str+="</div>";
+            str += dataStats();
+            str += "</div>";
             return str;
           },
           hide: {
