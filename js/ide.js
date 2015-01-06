@@ -115,6 +115,8 @@ var ide = new(function() {
       ide.run_query_on_startup = true;
     }
     settings.save();
+    if (typeof history.replaceState == "function")
+      history.replaceState({}, "", "."); // drop startup parameters
 
     ide.waiter.addInfo("initialize page");
     // init page layout
