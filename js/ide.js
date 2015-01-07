@@ -1109,10 +1109,10 @@ var ide = new(function() {
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="'+i18n.t("export.map_view.title")+'">'+
         '<h4>'+i18n.t("export.map_view.permalink")+'</h4>'+'<p><a href="//www.openstreetmap.org/#map='+ide.map.getZoom()+'/'+L.Util.formatNum(ide.map.getCenter().lat)+'/'+L.Util.formatNum(ide.map.getCenter().lng)+'" target="_blank">'+i18n.t("export.map_view.permalink_osm")+'</a></p>'+
-        '<h4>'+i18n.t("export.map_view.center")+'</h4><p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>('+i18n.t("export.map_view.center_expl")+')</small></p>'+
-        '<h4>'+i18n.t("export.map_view.bounds")+'</h4><p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>'+
+        '<h4>'+i18n.t("export.map_view.center")+'</h4><p>'+L.Util.formatNum(ide.map.getCenter().lat)+', '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>('+i18n.t("export.map_view.center_expl")+')</small></p>'+
+        '<h4>'+i18n.t("export.map_view.bounds")+'</h4><p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+', '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+', '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+', '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>'+
         (ide.map.bboxfilter.isEnabled() ?
-          '<h4>'+i18n.t("export.map_view.bounds_selection")+'</h4><p>'+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>':
+          '<h4>'+i18n.t("export.map_view.bounds_selection")+'</h4><p>'+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lat)+', '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lng)+', '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lat)+', '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>':
           ''
         ) +
         '<h4>'+i18n.t("export.map_view.zoom")+'</h4><p>'+ide.map.getZoom()+'</p>'+
