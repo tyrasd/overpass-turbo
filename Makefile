@@ -177,3 +177,6 @@ icons-mapnik:
 	wget https://github.com/gravitystorm/openstreetmap-carto/archive/master.zip -O icons/mapnik.zip
 	yes | unzip -ju icons/mapnik.zip */symbols/*.png -d icons/mapnik/
 	rm icons/mapnik.zip
+
+osmtogeojson:
+	wget wget https://github.com/tyrasd/osmtogeojson/raw/gh-pages/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js
