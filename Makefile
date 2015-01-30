@@ -179,4 +179,4 @@ icons-mapnik:
 	rm icons/mapnik.zip
 
 osmtogeojson:
-	wget wget https://github.com/tyrasd/osmtogeojson/raw/gh-pages/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js
+	wget https://github.com/tyrasd/osmtogeojson/raw/gh-pages/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js
