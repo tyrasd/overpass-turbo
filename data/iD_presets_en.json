@@ -115,6 +115,10 @@
     "name": "Bicycle Rental",
     "terms": "bike"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "Bicycle Repair Station",
+    "terms": "bike"
+  },
   "amenity/boat_rental": {
     "name": "Boat Rental",
     "terms": ""
@@ -219,6 +223,10 @@
     "name": "Graveyard",
     "terms": ""
   },
+  "amenity/grit_bin": {
+    "name": "Grit Bin",
+    "terms": "salt,sand"
+  },
   "amenity/hospital": {
     "name": "Hospital Grounds",
     "terms": "clinic,doctor,emergency room,health service,hospice,infirmary,institution,nursing home,sanatorium,sanitarium,sick,surgery,ward"
@@ -286,6 +294,10 @@
   "amenity/pub": {
     "name": "Pub",
     "terms": "dive,beer,bier,booze"
+  },
+  "amenity/public_bookcase": {
+    "name": "Public Bookcase",
+    "terms": "library,bookcrossing"
   },
   "amenity/ranger_station": {
     "name": "Ranger Station",
@@ -1064,7 +1076,7 @@
     "terms": ""
   },
   "landuse/commercial": {
-    "name": "Commercial",
+    "name": "Commercial Area",
     "terms": ""
   },
   "landuse/construction": {
@@ -1072,12 +1084,12 @@
     "terms": ""
   },
   "landuse/farm": {
-    "name": "Farm",
+    "name": "Farmland",
     "terms": ""
   },
   "landuse/farmland": {
-    "name": "Farm",
-    "terms": "farmland"
+    "name": "Farmland",
+    "terms": ""
   },
   "landuse/farmyard": {
     "name": "Farmyard",
@@ -1085,7 +1097,7 @@
   },
   "landuse/forest": {
     "name": "Forest",
-    "terms": ""
+    "terms": "tree"
   },
   "landuse/garages": {
     "name": "Garages",
@@ -1096,7 +1108,7 @@
     "terms": ""
   },
   "landuse/industrial": {
-    "name": "Industrial",
+    "name": "Industrial Area",
     "terms": ""
   },
   "landuse/landfill": {
@@ -1108,7 +1120,7 @@
     "terms": ""
   },
   "landuse/military": {
-    "name": "Military",
+    "name": "Military Area",
     "terms": ""
   },
   "landuse/orchard": {
@@ -1120,11 +1132,11 @@
     "terms": ""
   },
   "landuse/residential": {
-    "name": "Residential",
+    "name": "Residential Area",
     "terms": ""
   },
   "landuse/retail": {
-    "name": "Retail",
+    "name": "Retail Area",
     "terms": ""
   },
   "landuse/vineyard": {
@@ -1162,6 +1174,10 @@
   "leisure/marina": {
     "name": "Marina",
     "terms": "boat"
+  },
+  "leisure/nature_reserve": {
+    "name": "Nature Reserve",
+    "terms": "protected,wildlife"
   },
   "leisure/park": {
     "name": "Park",
@@ -1393,7 +1409,7 @@
   },
   "natural/wood": {
     "name": "Wood",
-    "terms": ""
+    "terms": "tree"
   },
   "office": {
     "name": "Office",
@@ -1862,6 +1878,10 @@
   "shop/hifi": {
     "name": "Hifi Store",
     "terms": "stereo,video"
+  },
+  "shop/houseware": {
+    "name": "Houseware Store",
+    "terms": "home,household"
   },
   "shop/interior_decoration": {
     "name": "Interior Decoration Store",

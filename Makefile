@@ -182,3 +182,6 @@ icons-mapnik:
 geojson-stats:
 	npm install geojson-stats
 	browserify -s geojsonStats node_modules/geojson-stats/index.js > libs/geojson-stats/geojson-stats.js
+
+osmtogeojson:
+	wget https://github.com/tyrasd/osmtogeojson/raw/gh-pages/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js

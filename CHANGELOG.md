@@ -1,3 +1,11 @@
+2015-02-07
+----------
+* Wizard works better with non-ASCII strings
+* MapCSS support for [line offsets](https://github.com/bbecquet/Leaflet.PolylineOffset)
+* URL parameters (for example from short-urls) are dropped after page load
+* many bugfixes
+* update translations, presets and icon sets
+
 2014-11-05
 ----------
 * upgrade osmtogeojson library (bugfixes, improve polygon-feature data)
