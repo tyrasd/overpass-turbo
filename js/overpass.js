@@ -349,6 +349,8 @@ setTimeout(function() {
                 if (p !== undefined) stl.opacity     = p;
                 var p = get_property(styles, ["width"]);
                 if (p !== undefined) stl.weight      = p;
+                var p = get_property(styles, ["offset"]);
+                if (p !== undefined) stl.offset      = -p; // MapCSS and PolylineOffset definitions use different signs
                 var p = get_property(styles, ["dashes"]);
                 if (p !== undefined) stl.dashArray   = p.join(",");
               break;

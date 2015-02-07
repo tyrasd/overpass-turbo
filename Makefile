@@ -32,6 +32,7 @@ turbo.js: \
 	libs/jquery/jquery-1.11.1.js \
 	libs/lodash/lodash-2.4.1.js \
 	libs/leaflet/leaflet-src.js \
+	libs/polylineOffset/leaflet.polylineoffset.js \
 	libs/jqueryui/jquery-ui.js \
 	libs/CodeMirror/lib/codemirror.js \
 	libs/CodeMirror/mode/javascript/javascript.js \
@@ -176,3 +177,6 @@ icons-mapnik:
 	wget https://github.com/gravitystorm/openstreetmap-carto/archive/master.zip -O icons/mapnik.zip
 	yes | unzip -ju icons/mapnik.zip */symbols/*.png -d icons/mapnik/
 	rm icons/mapnik.zip
+
+osmtogeojson:
+	wget https://github.com/tyrasd/osmtogeojson/raw/gh-pages/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js

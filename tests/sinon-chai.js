@@ -3,6 +3,7 @@
 
     // Module systems magic dance.
 
+    /* istanbul ignore else */
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
         // NodeJS
         module.exports = sinonChai;
@@ -26,6 +27,13 @@
                typeof putativeSpy.calledWithExactly === "function";
     }
 
+    function timesInWords(count) {
+        return count === 1 ? "once" :
+               count === 2 ? "twice" :
+               count === 3 ? "thrice" :
+               (count || 0) + " times";
+    }
+
     function isCall(putativeCall) {
         return putativeCall && isSpy(putativeCall.proxy);
     }
@@ -39,15 +47,21 @@
     function getMessages(spy, action, nonNegatedSuffix, always, args) {
         var verbPhrase = always ? "always have " : "have ";
         nonNegatedSuffix = nonNegatedSuffix || "";
-        spy = spy.proxy || spy;
+        if (isSpy(spy.proxy)) {
+            spy = spy.proxy;
+        }
 
         function printfArray(array) {
             return spy.printf.apply(spy, array);
         }
 
         return {
-            affirmative: printfArray(["expected %n to " + verbPhrase + action + nonNegatedSuffix].concat(args)),
-            negative: printfArray(["expected %n to not " + verbPhrase + action].concat(args))
+            affirmative: function () {
+                return printfArray(["expected %n to " + verbPhrase + action + nonNegatedSuffix].concat(args));
+            },
+            negative: function () {
+                return printfArray(["expected %n to not " + verbPhrase + action].concat(args));
+            }
         };
     }
 
@@ -57,6 +71,15 @@
 
             var messages = getMessages(this._obj, action, nonNegatedSuffix, false);
             this.assert(this._obj[name], messages.affirmative, messages.negative);
+        });
+    }
+
+    function sinonPropertyAsBooleanMethod(name, action, nonNegatedSuffix) {
+        utils.addMethod(chai.Assertion.prototype, name, function (arg) {
+            assertCanWorkWith(this);
+
+            var messages = getMessages(this._obj, action, nonNegatedSuffix, false, [timesInWords(arg)]);
+            this.assert(this._obj[name] === arg, messages.affirmative, messages.negative);
         });
     }
 
@@ -92,6 +115,7 @@
     });
 
     sinonProperty("called", "been called", " at least once, but it was never called");
+    sinonPropertyAsBooleanMethod("callCount", "been called exactly %1", ", but it was called %c%C");
     sinonProperty("calledOnce", "been called exactly once", ", but it was called %c%C");
     sinonProperty("calledTwice", "been called exactly twice", ", but it was called %c%C");
     sinonProperty("calledThrice", "been called exactly thrice", ", but it was called %c%C");
@@ -101,6 +125,7 @@
     sinonMethod("calledOn", "been called with %1 as this", ", but it was called with %t instead");
     sinonMethod("calledWith", "been called with arguments %*", "%C");
     sinonMethod("calledWithExactly", "been called with exact arguments %*", "%C");
+    sinonMethod("calledWithMatch", "been called with arguments matching %*", "%C");
     sinonMethod("returned", "returned %1");
     exceptionalSinonMethod("thrown", "threw", "thrown %1");
 }));

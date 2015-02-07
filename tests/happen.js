@@ -1,5 +1,11 @@
-!(function(context, $) {
-    var h = {};
+!(function(context) {
+    var h = {},
+        events = {
+            mouse: ['click', 'mousedown', 'mouseup', 'mousemove',
+                'mouseover', 'mouseout'],
+            key: ['keydown', 'keyup', 'keypress']
+        },
+        s, i;
 
     // Make inheritance bearable: clone one level of properties
     function extend(child, parent) {
@@ -11,10 +17,15 @@
         return child;
     }
 
-    h.once = function(x, o) {
-        var evt;
+    // IE<9 doesn't support indexOf
+    function has(x, y) {
+        for (var i = 0; i < x.length; i++) if (x[i] == y) return true;
+        return false;
+    }
 
-        if (o.type.slice(0, 3) === 'key') {
+    h.makeEvent = function(o) {
+        var evt;
+        if (has(events.key, o.type)) {
             if (typeof Event === 'function') {
                 evt = new Event(o.type);
                 evt.keyCode = o.keyCode || 0;
@@ -59,65 +70,76 @@
                 }
             }
         } else {
-            evt = document.createEvent('MouseEvents');
-            // https://developer.mozilla.org/en/DOM/event.initMouseEvent
-            evt.initMouseEvent(o.type,
-                true, // canBubble
-                true, // cancelable
-                window, // 'AbstractView'
-                o.clicks || 0, // click count
-                o.screenX || 0, // screenX
-                o.screenY || 0, // screenY
-                o.clientX || 0, // clientX
-                o.clientY || 0, // clientY
-                o.ctrlKey || 0, // ctrl
-                o.altKey || false, // alt
-                o.shiftKey || false, // shift
-                o.metaKey || false, // meta
-                o.button || false, // mouse button
-                null // relatedTarget
-            );
+            if (typeof document.createEvent === 'undefined' &&
+                typeof document.createEventObject !== 'undefined') {
+                evt = document.createEventObject();
+                extend(evt, o);
+            } else if (typeof document.createEvent !== 'undefined') {
+                // both MouseEvent and MouseEvents work in Chrome
+                evt = document.createEvent('MouseEvents');
+                // https://developer.mozilla.org/en/DOM/event.initMouseEvent
+                evt.initMouseEvent(o.type,
+                    true, // canBubble
+                    true, // cancelable
+                    window, // 'AbstractView'
+                    o.detail || 0, // click count or mousewheel detail
+                    o.screenX || 0, // screenX
+                    o.screenY || 0, // screenY
+                    o.clientX || 0, // clientX
+                    o.clientY || 0, // clientY
+                    o.ctrlKey || 0, // ctrl
+                    o.altKey || false, // alt
+                    o.shiftKey || false, // shift
+                    o.metaKey || false, // meta
+                    o.button || false, // mouse button
+                    null // relatedTarget
+                );
+            }
         }
-
-        x.dispatchEvent(evt);
+        return evt;
     };
 
-    var shortcuts = ['click', 'mousedown', 'mouseup', 'mousemove',
-        'mouseover', 'mouseout', 'keydown', 'keyup', 'keypress'],
-        s, i = 0;
+    h.dispatchEvent = function(x, evt) {
+        // not ie before 9
+        if (typeof x.dispatchEvent !== 'undefined') {
+            x.dispatchEvent(evt);
+        } else if (typeof x.fireEvent !== 'undefined') {
+            x.fireEvent('on' + evt.type, evt);
+        }
+    };
 
-    while (s = shortcuts[i++]) {
-        h[s] = (function(s) {
-            return function(x, o) {
-                h.once(x, extend(o || {}, { type: s }));
-            };
-        })(s);
+    h.once = function(x, o) {
+        h.dispatchEvent(x, h.makeEvent(o || {}));
+    };
+
+    for (var type in events) {
+        if (!events.hasOwnProperty(type)) continue;
+        var shortcuts = events[type];
+        for (i = 0; i < shortcuts.length; i++) {
+            s = shortcuts[i];
+            h[s] = (function(s) {
+                return function(x, o) {
+                    h.once(x, extend(o || {}, { type: s }));
+                };
+            })(s);
+        }
     }
 
     h.dblclick = function(x, o) {
-        h.once(x, extend(o || {}, {
-            type: 'dblclick',
-            clicks: 2
-        }));
+        h.once(x, extend(o || {}, { type: 'dblclick', detail: 2 }));
     };
 
-    this.happen = h;
-
-    // Export for nodejs
-    if (typeof module !== 'undefined') {
-        module.exports = this.happen;
-    }
+    if (typeof window !== 'undefined') window.happen = h;
+    if (typeof module !== 'undefined') module.exports = h;
 
     // Provide jQuery plugin
-    if ($ && $.fn) {
-        $.fn.happen = function(o) {
-            if (typeof o === 'string') {
-                o = { type: o };
-            }
+    if (typeof jQuery !== 'undefined' && jQuery.fn) {
+        jQuery.fn.happen = function(o) {
+            if (typeof o === 'string') o = { type: o };
             for (var i = 0; i < this.length; i++) {
                 happen.once(this[i], o);
             }
             return this;
         };
     }
-})(this, (typeof jQuery !== 'undefined') ? jQuery : null);
+})(this);

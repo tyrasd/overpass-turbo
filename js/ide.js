@@ -115,6 +115,8 @@ var ide = new(function() {
       ide.run_query_on_startup = true;
     }
     settings.save();
+    if (typeof history.replaceState == "function")
+      history.replaceState({}, "", "."); // drop startup parameters
 
     ide.waiter.addInfo("initialize page");
     // init page layout
@@ -754,6 +756,10 @@ var ide = new(function() {
     var now = Date.now();
     // very basic differential date
     instr = instr.toLowerCase().match(/(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/);
+    if (instr === null) {
+      callback(''); // todo: throw an error. do not silently fail
+      return;
+    }
     var count = parseInt(instr[1]);
     var interval;
     switch (instr[2]) {
@@ -1097,16 +1103,16 @@ var ide = new(function() {
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
     // encoding exclamation marks for better command line usability (bash)
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21").replace(/\(/g,"%28").replace(/\)/g,"%29");
-    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset=\""+(document.characterSet||document.charset)+"\";base64,"+Base64.encode(query,true);
+    $("#export-dialog a#export-text")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(query,true);
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {
       $('<div title="'+i18n.t("export.map_view.title")+'">'+
         '<h4>'+i18n.t("export.map_view.permalink")+'</h4>'+'<p><a href="//www.openstreetmap.org/#map='+ide.map.getZoom()+'/'+L.Util.formatNum(ide.map.getCenter().lat)+'/'+L.Util.formatNum(ide.map.getCenter().lng)+'" target="_blank">'+i18n.t("export.map_view.permalink_osm")+'</a></p>'+
-        '<h4>'+i18n.t("export.map_view.center")+'</h4><p>'+L.Util.formatNum(ide.map.getCenter().lat)+' / '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>('+i18n.t("export.map_view.center_expl")+')</small></p>'+
-        '<h4>'+i18n.t("export.map_view.bounds")+'</h4><p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>'+
+        '<h4>'+i18n.t("export.map_view.center")+'</h4><p>'+L.Util.formatNum(ide.map.getCenter().lat)+', '+L.Util.formatNum(ide.map.getCenter().lng)+' <small>('+i18n.t("export.map_view.center_expl")+')</small></p>'+
+        '<h4>'+i18n.t("export.map_view.bounds")+'</h4><p>'+L.Util.formatNum(ide.map.getBounds().getSouthWest().lat)+', '+L.Util.formatNum(ide.map.getBounds().getSouthWest().lng)+', '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lat)+', '+L.Util.formatNum(ide.map.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>'+
         (ide.map.bboxfilter.isEnabled() ?
-          '<h4>'+i18n.t("export.map_view.bounds_selection")+'</h4><p>'+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lat)+' / '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lng)+'<br />'+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lat)+' / '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>':
+          '<h4>'+i18n.t("export.map_view.bounds_selection")+'</h4><p>'+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lat)+', '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getSouthWest().lng)+', '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lat)+', '+L.Util.formatNum(ide.map.bboxfilter.getBounds().getNorthEast().lng)+'<br /><small>('+i18n.t("export.map_view.bounds_expl")+')</small></p>':
           ''
         ) +
         '<h4>'+i18n.t("export.map_view.zoom")+'</h4><p>'+ide.map.getZoom()+'</p>'+
@@ -1611,6 +1617,7 @@ var ide = new(function() {
       if (settings.ui_language != new_ui_language) {
         i18n.translate(new_ui_language);
         moment.locale(new_ui_language);
+        ffs.invalidateCache();
       }
       settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;

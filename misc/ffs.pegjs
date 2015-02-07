@@ -21,7 +21,7 @@ query
   = logical_or
 
 logical_or
-  = x:logical_and whitespace+ ( "or" / "OR" / "|" / "||" ) whitespace+ y:logical_or
+  = x:logical_and whitespace+ ( "or" / "OR" / "||" / "|" ) whitespace+ y:logical_or
     { return { logical:"or", queries:[x,y] } }
   /*
   / x:logical_and whitespace+ ( "xor" / "XOR" ) whitespace+ y:logical_and
@@ -32,7 +32,7 @@ logical_or
   / x:logical_and
 
 logical_and
-  = x:braces whitespace+ ( "and" / "AND" / "&" / "&&" ) whitespace+ y:logical_and
+  = x:braces whitespace+ ( "and" / "AND" / "&&" / "&" ) whitespace+ y:logical_and
     { return { logical:"and", queries:[x,y] } }
   / x:braces
 
@@ -117,7 +117,7 @@ key_string "Key"
     }
 
 string "string"
-  = s:[a-zA-Z0-9_öüäÖÜÄß-]+ { return s.join(''); }
+  = s:[^'" ()~=!*/:<>&|[\]{}#+@$%?^.,]+ { return s.join(''); }
   / parts:('"' DoubleStringCharacters '"' / "'" SingleStringCharacters "'") {
       return parts[1];
     }
