@@ -499,6 +499,29 @@
         },
         "name": "Bicycle Rental"
     },
+    "amenity/bicycle_repair_station": {
+        "icon": "bicycle",
+        "fields": [
+            "operator",
+            "brand",
+            "opening_hours",
+            "fee",
+            "service/bicycle/chaintool",
+            "service/bicycle/pump"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "terms": [
+            "bike"
+        ],
+        "tags": {
+            "amenity": "bicycle_repair_station"
+        },
+        "name": "Bicycle Repair Station"
+    },
     "amenity/boat_rental": {
         "fields": [
             "operator"
@@ -957,6 +980,23 @@
         },
         "name": "Graveyard"
     },
+    "amenity/grit_bin": {
+        "fields": [
+            "access_simple"
+        ],
+        "geometry": [
+            "point",
+            "vertex"
+        ],
+        "tags": {
+            "amenity": "grit_bin"
+        },
+        "terms": [
+            "salt",
+            "sand"
+        ],
+        "name": "Grit Bin"
+    },
     "amenity/hospital": {
         "icon": "hospital",
         "fields": [
@@ -1364,6 +1404,27 @@
         ],
         "name": "Pub"
     },
+    "amenity/public_bookcase": {
+        "icon": "library",
+        "fields": [
+            "name",
+            "operator",
+            "capacity",
+            "website"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "library",
+            "bookcrossing"
+        ],
+        "tags": {
+            "amenity": "public_bookcase"
+        },
+        "name": "Public Bookcase"
+    },
     "amenity/ranger_station": {
         "fields": [
             "operator",
@@ -1569,7 +1630,7 @@
         "tags": {
             "amenity": "social_facility",
             "social_facility": "group_home",
-            "social_facility_for": "senior"
+            "social_facility:for": "senior"
         },
         "name": "Elderly Group Home"
     },
@@ -1693,7 +1754,8 @@
             "toilets/disposal",
             "operator",
             "building_area",
-            "access_toilets"
+            "access_toilets",
+            "gender"
         ],
         "geometry": [
             "point",
@@ -4560,7 +4622,6 @@
     },
     "landuse/allotments": {
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
@@ -4571,7 +4632,6 @@
     },
     "landuse/basin": {
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
@@ -4587,8 +4647,6 @@
             "denomination"
         ],
         "geometry": [
-            "point",
-            "vertex",
             "area"
         ],
         "tags": {
@@ -4614,14 +4672,13 @@
     "landuse/commercial": {
         "icon": "commercial",
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
             "landuse": "commercial"
         },
         "terms": [],
-        "name": "Commercial"
+        "name": "Commercial Area"
     },
     "landuse/construction": {
         "fields": [
@@ -4629,7 +4686,6 @@
             "operator"
         ],
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
@@ -4639,6 +4695,7 @@
         "name": "Construction"
     },
     "landuse/farm": {
+        "icon": "farm",
         "fields": [
             "crop"
         ],
@@ -4650,55 +4707,52 @@
             "landuse": "farm"
         },
         "terms": [],
-        "name": "Farm",
-        "icon": "farm",
+        "name": "Farmland",
         "searchable": false
     },
     "landuse/farmland": {
+        "icon": "farm",
         "fields": [
             "crop"
         ],
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
             "landuse": "farmland"
         },
-        "terms": [
-            "farmland"
-        ],
-        "name": "Farm",
-        "icon": "farm"
+        "terms": [],
+        "name": "Farmland"
     },
     "landuse/farmyard": {
+        "icon": "farm",
         "fields": [
             "crop"
         ],
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
             "landuse": "farmyard"
         },
         "terms": [],
-        "name": "Farmyard",
-        "icon": "farm"
+        "name": "Farmyard"
     },
     "landuse/forest": {
-        "fields": [
-            "wood"
-        ],
         "icon": "park2",
+        "fields": [
+            "leaf_type",
+            "leaf_cycle"
+        ],
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
             "landuse": "forest"
         },
-        "terms": [],
+        "terms": [
+            "tree"
+        ],
         "name": "Forest"
     },
     "landuse/garages": {
@@ -4713,7 +4767,6 @@
     },
     "landuse/grass": {
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
@@ -4725,14 +4778,13 @@
     "landuse/industrial": {
         "icon": "industrial",
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
             "landuse": "industrial"
         },
         "terms": [],
-        "name": "Industrial"
+        "name": "Industrial Area"
     },
     "landuse/landfill": {
         "geometry": [
@@ -4748,7 +4800,6 @@
     },
     "landuse/meadow": {
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
@@ -4765,26 +4816,24 @@
             "landuse": "military"
         },
         "terms": [],
-        "name": "Military"
+        "name": "Military Area"
     },
     "landuse/orchard": {
+        "icon": "park2",
         "fields": [
             "trees"
         ],
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
             "landuse": "orchard"
         },
         "terms": [],
-        "name": "Orchard",
-        "icon": "park2"
+        "name": "Orchard"
     },
     "landuse/quarry": {
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
@@ -4796,29 +4845,26 @@
     "landuse/residential": {
         "icon": "building",
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
             "landuse": "residential"
         },
         "terms": [],
-        "name": "Residential"
+        "name": "Residential Area"
     },
     "landuse/retail": {
         "icon": "shop",
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
             "landuse": "retail"
         },
-        "name": "Retail"
+        "name": "Retail Area"
     },
     "landuse/vineyard": {
         "geometry": [
-            "point",
             "area"
         ],
         "tags": {
@@ -4949,6 +4995,21 @@
             "leisure": "marina"
         },
         "name": "Marina"
+    },
+    "leisure/nature_reserve": {
+        "icon": "park",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "leisure": "nature_reserve"
+        },
+        "terms": [
+            "protected",
+            "wildlife"
+        ],
+        "name": "Nature Reserve"
     },
     "leisure/park": {
         "icon": "park",
@@ -5685,7 +5746,8 @@
     },
     "natural/tree": {
         "fields": [
-            "tree_type",
+            "leaf_type",
+            "leaf_cycle",
             "denotation"
         ],
         "icon": "park",
@@ -5773,10 +5835,11 @@
         "name": "Wetland"
     },
     "natural/wood": {
-        "fields": [
-            "wood"
-        ],
         "icon": "park2",
+        "fields": [
+            "leaf_type",
+            "leaf_cycle"
+        ],
         "geometry": [
             "point",
             "area"
@@ -5784,7 +5847,9 @@
         "tags": {
             "natural": "wood"
         },
-        "terms": [],
+        "terms": [
+            "tree"
+        ],
         "name": "Wood"
     },
     "office": {
@@ -7815,6 +7880,27 @@
             "shop": "hifi"
         },
         "name": "Hifi Store"
+    },
+    "shop/houseware": {
+        "icon": "shop",
+        "fields": [
+            "operator",
+            "address",
+            "building_area",
+            "opening_hours"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "home",
+            "household"
+        ],
+        "tags": {
+            "shop": "houseware"
+        },
+        "name": "Houseware Store"
     },
     "shop/interior_decoration": {
         "icon": "shop",
