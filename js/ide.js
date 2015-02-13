@@ -150,7 +150,7 @@ var ide = new(function() {
           +" date diff adiff" //attic declarations
           +" foreach" // block statements
           +" relation rel way node is_in area around user uid newer changed poly pivot" // queries
-          +" out meta body skel tags ids qt asc" // actions
+          +" out meta body skel tags ids count qt asc" // actions
           +" center bb geom" // geometry types
           //+"r w n br bw" // recursors
         ),
