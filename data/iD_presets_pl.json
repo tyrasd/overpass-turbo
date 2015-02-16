@@ -108,8 +108,11 @@
     "name": "Wypożyczalnia rowerów",
     "terms": "wypożyczalnia"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "Punkt naprawy rowerów"
+  },
   "amenity/boat_rental": {
-    "name": "Wpożyczalnia łodzi",
+    "name": "Wypożyczalnia łodzi",
     "terms": "wynajem łodzi"
   },
   "amenity/bureau_de_change": {
@@ -175,7 +178,7 @@
   },
   "amenity/drinking_water": {
     "name": "Woda pitna",
-    "terms": "wodotrysk,woda pitna"
+    "terms": "wodotrysk,woda pitna,poidło"
   },
   "amenity/embassy": {
     "name": "Ambasada",
@@ -187,7 +190,7 @@
   },
   "amenity/fire_station": {
     "name": "Straż pożarna",
-    "terms": "straż,osp"
+    "terms": "straż,osp,psp,ochotnicza straż pożarna"
   },
   "amenity/fountain": {
     "name": "Fontanna",
@@ -200,6 +203,9 @@
   "amenity/grave_yard": {
     "name": "Cmentarz",
     "terms": "cmentarz,pochówek"
+  },
+  "amenity/grit_bin": {
+    "name": "Pojemnik z piaskiem, żwirem..."
   },
   "amenity/hospital": {
     "name": "Teren szpitala",
@@ -265,6 +271,9 @@
   "amenity/pub": {
     "name": "Pub",
     "terms": "pub,piwo,wino"
+  },
+  "amenity/public_bookcase": {
+    "name": "Półka bookcrossingowa"
   },
   "amenity/recycling": {
     "name": "Recykling"
@@ -444,14 +453,15 @@
     "terms": "sklep,komercyjny,sprzedaż,handlowy"
   },
   "building/construction": {
-    "name": "Budynek w budowie"
+    "name": "Budynek w budowie",
+    "terms": "Budowa"
   },
   "building/detached": {
     "name": "Dom wolnostojący"
   },
   "building/dormitory": {
     "name": "Akademik",
-    "terms": "Akademik, bursa, "
+    "terms": "Akademik, bursa, internat"
   },
   "building/entrance": {
     "name": "Wejście/wyjście"
@@ -482,7 +492,7 @@
     "terms": "chata,szałas,schronienie,koliba"
   },
   "building/industrial": {
-    "name": "Budynek przymysłowy",
+    "name": "Budynek przemysłowy",
     "terms": "przemysłowy,produkcyjny,fabryczny,industrialny"
   },
   "building/kindergarten": {
@@ -561,9 +571,6 @@
   "craft/clockmaker": {
     "name": "Zegarmistrz",
     "terms": "zegarmistrz"
-  },
-  "craft/confectionery": {
-    "name": "Cukiernik"
   },
   "craft/dressmaker": {
     "name": "Krawiec"
@@ -844,7 +851,7 @@
     "terms": "rampa,wjazd,wyjazd,zjazd"
   },
   "highway/track": {
-    "name": "Droga gruntowa",
+    "name": "Droga polna lub leśna",
     "terms": "polna, leśna, gruntowa"
   },
   "highway/traffic_signals": {
@@ -922,19 +929,9 @@
   "landuse/churchyard": {
     "name": "Dziedziniec kościelny"
   },
-  "landuse/commercial": {
-    "name": "Handlowy"
-  },
   "landuse/construction": {
     "name": "Budowa",
     "terms": "budowa,teren,budowy"
-  },
-  "landuse/farm": {
-    "name": "Teren rolny (orny)",
-    "terms": "Farma, gospodarstwo, zagroda"
-  },
-  "landuse/farmland": {
-    "name": "Pole uprawne"
   },
   "landuse/farmyard": {
     "name": "Zabudowa rolnicza",
@@ -944,12 +941,12 @@
     "name": "Las",
     "terms": "Las"
   },
+  "landuse/garages": {
+    "name": "Garaże"
+  },
   "landuse/grass": {
     "name": "Trawa",
     "terms": "trawa, trawnik, "
-  },
-  "landuse/industrial": {
-    "name": "Obszar przemysłowy"
   },
   "landuse/landfill": {
     "name": "Wysypisko",
@@ -959,9 +956,6 @@
     "name": "Łąka",
     "terms": "Łąka"
   },
-  "landuse/military": {
-    "name": "Wojskowy"
-  },
   "landuse/orchard": {
     "name": "Sad",
     "terms": "Sad"
@@ -969,13 +963,6 @@
   "landuse/quarry": {
     "name": "Kamieniołom",
     "terms": "kamieniołom, żwirownia, kruszywo"
-  },
-  "landuse/residential": {
-    "name": "Zabudowa mieszkalna",
-    "terms": "mieszkalny, zamieszkany, mieszkaniowy"
-  },
-  "landuse/retail": {
-    "name": "Obszar handlowy"
   },
   "landuse/vineyard": {
     "name": "Winnica",
@@ -1005,6 +992,9 @@
   "leisure/marina": {
     "name": "Przystań",
     "terms": "przystań"
+  },
+  "leisure/nature_reserve": {
+    "name": "Rezerwat przyrody"
   },
   "leisure/park": {
     "name": "Park",
@@ -1046,6 +1036,9 @@
   "leisure/playground": {
     "name": "Plac zabaw",
     "terms": "plac zabaw"
+  },
+  "leisure/running_track": {
+    "name": "Bieżnia"
   },
   "leisure/slipway": {
     "name": "Pochylnia okrętowa",
@@ -1134,6 +1127,9 @@
   "natural/beach": {
     "name": "Plaża",
     "terms": "plaża"
+  },
+  "natural/cave_entrance": {
+    "name": "Wejście do jaskini"
   },
   "natural/cliff": {
     "name": "Klif",
@@ -1332,6 +1328,9 @@
   "power/sub_station": {
     "name": "Podstacja"
   },
+  "power/substation": {
+    "name": "Podstacja"
+  },
   "power/tower": {
     "name": "Wieża wysokiego napięcia"
   },
@@ -1476,6 +1475,10 @@
     "name": "Sklep ogólnospożywczy",
     "terms": "mały sklep, sklepik osiedlowy"
   },
+  "shop/copyshop": {
+    "name": "Punkt ksero",
+    "terms": "kopiowanie"
+  },
   "shop/deli": {
     "name": "Delikatesy"
   },
@@ -1537,6 +1540,9 @@
   "shop/jewelry": {
     "name": "Jubiler"
   },
+  "shop/kiosk": {
+    "name": "Kiosk z prasą"
+  },
   "shop/laundry": {
     "name": "Pralnia",
     "terms": "pralnia"
@@ -1561,6 +1567,9 @@
     "name": "Sklep muzyczny",
     "terms": "sklep muzyczny"
   },
+  "shop/newsagent": {
+    "name": "Sklep z prasą"
+  },
   "shop/optician": {
     "name": "Optyk",
     "terms": "optyk"
@@ -1574,6 +1583,15 @@
   },
   "shop/photo": {
     "name": "sklep fotograficzny"
+  },
+  "shop/pyrotechnics": {
+    "name": "Sklep z ogniami sztucznymi"
+  },
+  "shop/religion": {
+    "name": "Sklep z dewocjonaliami"
+  },
+  "shop/scuba_diving": {
+    "name": "Sklep nurkowy"
   },
   "shop/seafood": {
     "name": "Sklep z owocami morza"
@@ -1594,6 +1612,9 @@
   "shop/tailor": {
     "name": "Krawiec",
     "terms": "krawcowa, odzież na miarę"
+  },
+  "shop/tea": {
+    "name": "Herbaciarnia"
   },
   "shop/toys": {
     "name": "Sklep z zabawkami",

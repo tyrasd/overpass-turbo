@@ -100,8 +100,8 @@
     "terms": "Bar"
   },
   "amenity/bbq": {
-    "name": "Grillgerät",
-    "terms": "Grillgerät, Grill, Barbecue, Grillparty"
+    "name": "Grillrestaurant",
+    "terms": "Grill, Barbecue, Steakhouse"
   },
   "amenity/bench": {
     "name": "Sitzbank",
@@ -114,6 +114,10 @@
   "amenity/bicycle_rental": {
     "name": "Fahrradverleih",
     "terms": "Fahrrad-Verleih"
+  },
+  "amenity/bicycle_repair_station": {
+    "name": "Fahrradreperaturstation",
+    "terms": "Fahrradreperaturstation, Fahrradreperaturbox"
   },
   "amenity/boat_rental": {
     "name": "Bootvermietung",
@@ -219,6 +223,10 @@
     "name": "Friedhof",
     "terms": "Friedhof"
   },
+  "amenity/grit_bin": {
+    "name": "Streugutkist",
+    "terms": "Streugutkiste, Streugutbehälter, Splitkiste"
+  },
   "amenity/hospital": {
     "name": "Krankenhausgelände",
     "terms": "Krankenhaus, Klinik, Klinikgelände, Hospital"
@@ -287,6 +295,10 @@
     "name": "Kneipe",
     "terms": "Kneipe, Pub"
   },
+  "amenity/public_bookcase": {
+    "name": "öffentlicher Bücherschrank",
+    "terms": "öffentlicher Bücherschrank, öffentlicher Bücherkasten"
+  },
   "amenity/ranger_station": {
     "name": "Ranger-Station",
     "terms": "Ranger-Station"
@@ -294,6 +306,10 @@
   "amenity/recycling": {
     "name": "Recycling",
     "terms": "Recyclingcontainer, Abfallwiederverwertung, Container, Abfall, Müll"
+  },
+  "amenity/register_office": {
+    "name": "Standesamt",
+    "terms": "Standesamt, Evidenzbüro"
   },
   "amenity/restaurant": {
     "name": "Restaurant",
@@ -324,8 +340,8 @@
     "terms": "Obdachlosenheim, Obdachlosenasyl"
   },
   "amenity/studio": {
-    "name": "Atelier",
-    "terms": "Atelier, Werkstatt, Studio"
+    "name": "Ton- / Fernsehstudio",
+    "terms": "Tonstudio, Radiostudio, TV-Studio, Fernsehstudio"
   },
   "amenity/swimming_pool": {
     "name": "Schwimmbecken",
@@ -488,8 +504,8 @@
     "terms": "Gebäude im Bau"
   },
   "building/detached": {
-    "name": "Doppelhaus",
-    "terms": "Haushälfte, Doppelhaus"
+    "name": "freistehendes Haus",
+    "terms": "freistehendes Haus, Einfamilienhaus"
   },
   "building/dormitory": {
     "name": "Schlafsaal",
@@ -628,11 +644,11 @@
     "terms": "Uhrmacher"
   },
   "craft/confectionery": {
-    "name": "Süßwarengeschäft",
-    "terms": "Süßwarengeschäfts, Konditorei, Konfektladen"
+    "name": "Konditorei",
+    "terms": "Konditorei, Feinbäckerei, Süßwarengeschäft"
   },
   "craft/dressmaker": {
-    "name": "Schneiderei",
+    "name": "Damenschneiderei",
     "terms": "Schneiderei, Damenschneiderei"
   },
   "craft/electrician": {
@@ -1035,6 +1051,10 @@
     "name": "Bildstock",
     "terms": "Bildstock, Betsäule, Marterl"
   },
+  "junction": {
+    "name": "Straßenknotenpunkt",
+    "terms": "Kreuzung, Abzweigung, Anschlussstelle, Knotenpunkt, Straßenknotenpunkt"
+  },
   "landuse": {
     "name": "Landnutzung",
     "terms": "Flächennutzung, Landnutzung"
@@ -1057,19 +1077,19 @@
   },
   "landuse/commercial": {
     "name": "Gewerbegebiet",
-    "terms": "Gewerbezone,Gewerbegebiet,gewerblich genutzte Gebäude,Business Park,Büros"
+    "terms": "Gewerbegebiet, Gewerbefläche"
   },
   "landuse/construction": {
     "name": "Baustelle",
     "terms": "Baugebiet, Baustelle, Großbaustelle"
   },
   "landuse/farm": {
-    "name": " Landwirtschaftliche Fläche",
-    "terms": "Acker, Feld, Plantage, Tierhaltung"
+    "name": "Ackerland",
+    "terms": "Ackerland, Landwirtschaftsflächen, Ackerboden"
   },
   "landuse/farmland": {
-    "name": "Acker",
-    "terms": "Acker, Ackerboden, Ackerland, landwirtschaftliche Fläche"
+    "name": "Ackerland",
+    "terms": "Ackerland, Landwirtschaftsflächen, Ackerboden"
   },
   "landuse/farmyard": {
     "name": "Bauernhof",
@@ -1079,13 +1099,17 @@
     "name": "Wald",
     "terms": "Forst, bewirtschafteter Wald"
   },
+  "landuse/garages": {
+    "name": "Garagen",
+    "terms": "Garagen"
+  },
   "landuse/grass": {
     "name": "Gras",
     "terms": "Grünfläche, Wiese"
   },
   "landuse/industrial": {
-    "name": "Industrie",
-    "terms": "Industriegebiet, Gewerbegebiet"
+    "name": "Industriegebiet",
+    "terms": "Industriegebiet, Industriegelände, Industriegegend"
   },
   "landuse/landfill": {
     "name": "Deponie",
@@ -1096,8 +1120,8 @@
     "terms": "Wiese, Weide"
   },
   "landuse/military": {
-    "name": "Militär",
-    "terms": "Militär, Armee, Landesverteidigung"
+    "name": "Militärgelände",
+    "terms": "Militärgelände, Militärgebiet"
   },
   "landuse/orchard": {
     "name": "Obstplantage",
@@ -1109,11 +1133,11 @@
   },
   "landuse/residential": {
     "name": "Wohngebiet",
-    "terms": "Wohngebiet"
+    "terms": "Wohngebiet, Wohnanlage, Wohngegend, Wohnregion"
   },
   "landuse/retail": {
-    "name": "Geschäfte",
-    "terms": "Geschäfte,Einzelhandel,Einzelhandelsgeschäfte,Einkaufszentrum,Einkaufszone"
+    "name": "Fachmarktzentrum",
+    "terms": "Fachmarktzentrum, Einkaufszentrum"
   },
   "landuse/vineyard": {
     "name": "Weinberg",
@@ -1150,6 +1174,10 @@
   "leisure/marina": {
     "name": "Yachthafen",
     "terms": "Yachthafen, Marina"
+  },
+  "leisure/nature_reserve": {
+    "name": "Naturschutzgebiet",
+    "terms": "Naturschutzgebiet, Landschaftsschutzgebiet, Naturreservat, Naturschutzpark"
   },
   "leisure/park": {
     "name": "Park",
@@ -1311,6 +1339,10 @@
     "name": "Strand",
     "terms": "Strand"
   },
+  "natural/cave_entrance": {
+    "name": "Höhleneingang",
+    "terms": "Höhleneingang, Höhlenzugang"
+  },
   "natural/cliff": {
     "name": "Klippe",
     "terms": "Klippe, Kliff"
@@ -1400,8 +1432,8 @@
     "terms": "Büro, Gesellschaft"
   },
   "office/educational_institution": {
-    "name": "Schulamt",
-    "terms": "Schulverwaltung, Universitätsverwaltung, Bildungseinrichtung"
+    "name": "Bildungseinrichtung",
+    "terms": "Bildungseinrichtung, Schulverwaltung, Universitätsverwaltung"
   },
   "office/employment_agency": {
     "name": "Arbeitsamt",
@@ -1684,8 +1716,8 @@
     "terms": "Boutique"
   },
   "shop/butcher": {
-    "name": "Fleischer",
-    "terms": "Fleischer, Schlachter"
+    "name": "Metzger",
+    "terms": "Fleischer, Metzger, Schlachter"
   },
   "shop/candles": {
     "name": "Kerzengeschäft",
@@ -1847,6 +1879,10 @@
     "name": "Hifi-Laden",
     "terms": "Hifi Geschäft"
   },
+  "shop/houseware": {
+    "name": "Haushaltswarengeschäft",
+    "terms": "Haushaltswarengeschäft, Haushaltswarenladen"
+  },
   "shop/interior_decoration": {
     "name": "Innenausstattungsgeschäft",
     "terms": "Inneneinrichter,Inneneinrichtungsgeschäft,Innenausstatter,Innendekorateur,Innenraumgestalter"
@@ -1952,8 +1988,8 @@
     "terms": "Elektronikladen,Radio/Elektro-Laden"
   },
   "shop/religion": {
-    "name": "Relegionsgeschäft",
-    "terms": "Religionsbedarfsladen,Klosterladen,Kirchenladen"
+    "name": "Devotionalienhandlung",
+    "terms": "Devotionalienhandlung, Religionsbedarfsladen, Klosterladen, Kirchenladen"
   },
   "shop/scuba_diving": {
     "name": "Tauchwarengeschäft",
@@ -1964,8 +2000,8 @@
     "terms": "Fischgeschäft, Meeresfrüchtegeschäft"
   },
   "shop/second_hand": {
-    "name": "Spediteur",
-    "terms": "Spediteur,Speditionsgeschäft"
+    "name": "Second-Hand-Laden",
+    "terms": "Second-Hand-Laden, Trödel, Trödelladen"
   },
   "shop/shoes": {
     "name": "Schuhgeschäft",

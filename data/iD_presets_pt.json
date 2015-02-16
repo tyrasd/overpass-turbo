@@ -115,6 +115,10 @@
     "name": "Aluguer de Bicicletas",
     "terms": "Aluguer de Bicicletas, Área de Aluguer de Bicicletas, Zona de Aluguer de Bicicletas"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "Estação de Reparação de Bicicletas",
+    "terms": "Bicycle Repair Station"
+  },
   "amenity/boat_rental": {
     "name": "Aluguer de Barcos",
     "terms": "Boat Rental"
@@ -167,6 +171,10 @@
     "name": "Colégio",
     "terms": "College Grounds, Colégio, Colégio Interno, Escola Privada, Privada, Externatos, Semiprivado"
   },
+  "amenity/community_centre": {
+    "name": "Centro Comunitário",
+    "terms": "Community Center, Espaço Social"
+  },
   "amenity/compressed_air": {
     "name": "Máquina de Ar Comprimido",
     "terms": "Compressed Air, Pneumática, Pneus, Encher"
@@ -214,6 +222,10 @@
   "amenity/grave_yard": {
     "name": "Sepultura",
     "terms": "Cemitério, Mortos, Funerário, Solene"
+  },
+  "amenity/grit_bin": {
+    "name": "Caixa de Sal",
+    "terms": "Grit Bin, Sal de Estrada"
   },
   "amenity/hospital": {
     "name": "Hospital",
@@ -283,6 +295,10 @@
     "name": "Taberna",
     "terms": "Pub"
   },
+  "amenity/public_bookcase": {
+    "name": "Biblioteca Livre",
+    "terms": "Public Bookcase, Estante Pública, Livros para o Público"
+  },
   "amenity/ranger_station": {
     "name": "Posto de Guarda Florestal",
     "terms": "Ranger Station, Guarda Florestal"
@@ -290,6 +306,10 @@
   "amenity/recycling": {
     "name": "Reciclagem",
     "terms": "Recycling, Reutilizar, Reciclar"
+  },
+  "amenity/register_office": {
+    "name": "Escritório de Registros",
+    "terms": "Register Office"
   },
   "amenity/restaurant": {
     "name": "Restaurante",
@@ -625,7 +645,7 @@
   },
   "craft/confectionery": {
     "name": "Confeitaria",
-    "terms": "Confectionary, Bolos, Sobremesas"
+    "terms": "Confectionery, Bolos, Pastelaria"
   },
   "craft/dressmaker": {
     "name": "Costureira",
@@ -888,7 +908,7 @@
     "terms": "Trilha, Caminho"
   },
   "highway/pedestrian": {
-    "name": "Praça",
+    "name": "Praça / Rua Pedonal",
     "terms": "Pedestrian, Rua Pedonal, Rua Pedestre"
   },
   "highway/primary": {
@@ -1031,6 +1051,10 @@
     "name": "Alminhas / Nicho / Capelinha",
     "terms": "Alminhas / Nicho / Capelinha"
   },
+  "junction": {
+    "name": "Junção",
+    "terms": "Junction"
+  },
   "landuse": {
     "name": "Uso do Solo",
     "terms": "Uso de Terra, Uso de Solo"
@@ -1052,7 +1076,7 @@
     "terms": "Churchyard, Área da Igreja, Zona da Igreja, Praça da Igreja"
   },
   "landuse/commercial": {
-    "name": "Zona de Escritórios",
+    "name": "Zona de Escritórios ",
     "terms": "Área comercial, Baixa Comercial"
   },
   "landuse/construction": {
@@ -1061,11 +1085,11 @@
   },
   "landuse/farm": {
     "name": "Quinta",
-    "terms": "Quinta, Campo Agricula"
+    "terms": "Campo Agrícola, Agricultura"
   },
   "landuse/farmland": {
     "name": "Quinta",
-    "terms": "Farmland, Pasto"
+    "terms": "Farm, Pasto"
   },
   "landuse/farmyard": {
     "name": "Edifícios Agrícolas",
@@ -1074,6 +1098,10 @@
   "landuse/forest": {
     "name": "Floresta",
     "terms": "Floresta, Área Verde"
+  },
+  "landuse/garages": {
+    "name": "Garagens",
+    "terms": "Garages"
   },
   "landuse/grass": {
     "name": "Relva",
@@ -1146,6 +1174,10 @@
   "leisure/marina": {
     "name": "Marina",
     "terms": "Marina"
+  },
+  "leisure/nature_reserve": {
+    "name": "Reserva Natural",
+    "terms": "Nature Reserve, Natureza"
   },
   "leisure/park": {
     "name": "Parque",
@@ -1307,6 +1339,10 @@
     "name": "Praia",
     "terms": "praia"
   },
+  "natural/cave_entrance": {
+    "name": "Entrada de Gruta",
+    "terms": "Cave Entrance"
+  },
   "natural/cliff": {
     "name": "Precipício",
     "terms": "Escarpa"
@@ -1332,8 +1368,8 @@
     "terms": "Heath"
   },
   "natural/peak": {
-    "name": "Cume",
-    "terms": "Cume, Montanha, Pináculo"
+    "name": "Pico / Cume",
+    "terms": "Peak, Montanha, Pináculo"
   },
   "natural/scree": {
     "name": "Encosta de Rochas Soltas",
@@ -1488,7 +1524,7 @@
     "terms": "Localidade"
   },
   "place/neighbourhood": {
-    "name": "Bairro",
+    "name": "Lugar",
     "terms": "Neigborhood, Vizinhança"
   },
   "place/suburb": {
@@ -1516,23 +1552,27 @@
     "terms": "Power Generator, Gerador Elétrico, Energia Eólica, Energia Solar, Energia Termoeléctrica, Energia Nuclear, Central de Energia"
   },
   "power/line": {
-    "name": "Linha de Média e Alta Tensão",
+    "name": "Linha de Alta Tensão",
     "terms": "Linha de Eletricidade, Linha de Transmissão"
   },
   "power/minor_line": {
-    "name": "Linha de Baixa Tensão",
+    "name": "Linha de Média e Baixa Tensão",
     "terms": "Minor Power Line, Linha de Transmissão Menor, Linha de Energia Menor"
   },
   "power/pole": {
-    "name": "Torre de Baixa Tensão",
+    "name": "Torre de Média e Baixa Tensão",
     "terms": "Power Pole, Poste de Eletricidade"
   },
   "power/sub_station": {
     "name": "Subestação",
     "terms": "Substation"
   },
+  "power/substation": {
+    "name": "Subestação",
+    "terms": "Substation, energia"
+  },
   "power/tower": {
-    "name": "Torre de Média e Alta Tensão",
+    "name": "Torre de Alta Tensão",
     "terms": "High-Voltage Tower, Torre de Alta-Tensão, Poste de Alta-Tensão"
   },
   "power/transformer": {
@@ -1839,6 +1879,10 @@
     "name": "Loja de Alta Fidelidade",
     "terms": "Hifi Store, Som"
   },
+  "shop/houseware": {
+    "name": "Loja de Decoração e Bricolage",
+    "terms": "Houseware Store"
+  },
   "shop/interior_decoration": {
     "name": "Loja de Decoração de Interiores",
     "terms": "Interior Decoration Store"
@@ -2110,6 +2154,22 @@
   "tourism/zoo": {
     "name": "Jardim Zoológico",
     "terms": "Zoológico, Zoo"
+  },
+  "traffic_calming/bump": {
+    "name": "Lomba Pequena",
+    "terms": "Speed Bump, Lombada, Policia Deitado"
+  },
+  "traffic_calming/hump": {
+    "name": "Lomba Grande",
+    "terms": "Speed Hump"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "Bandas Cromáticas",
+    "terms": "Rumble Strip"
+  },
+  "traffic_calming/table": {
+    "name": "Passadeira Lombada",
+    "terms": "Raised Pedestrian Crossing"
   },
   "type/boundary": {
     "name": "Fronteira",

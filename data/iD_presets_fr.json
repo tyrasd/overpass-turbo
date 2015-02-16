@@ -115,6 +115,10 @@
     "name": "Location de vélos",
     "terms": "Location de vélo, Location de bicyclette"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "Station de réparation de vélos",
+    "terms": "Borne de réparation de vélos,Point de réparation de vélos"
+  },
   "amenity/boat_rental": {
     "name": "Location de bateau",
     "terms": "Location de bateaux"
@@ -167,6 +171,10 @@
     "name": "Terrains d'établissement d'enseignement supérieur non universitaire",
     "terms": "Terrains d'établissement d'enseignement supérieur non universitaire"
   },
+  "amenity/community_centre": {
+    "name": "Salle des fêtes",
+    "terms": "Salle festive, Salle polyvalente, Centre communautaire => Canada"
+  },
   "amenity/compressed_air": {
     "name": "Air comprimé",
     "terms": "Air comprimé"
@@ -214,6 +222,10 @@
   "amenity/grave_yard": {
     "name": "Cimetière",
     "terms": "Cimetière"
+  },
+  "amenity/grit_bin": {
+    "name": "Bac à sel",
+    "terms": "Bacs à sel de déneigement"
   },
   "amenity/hospital": {
     "name": "Terrains d'hôpital",
@@ -283,6 +295,10 @@
     "name": "Pub",
     "terms": "Pub"
   },
+  "amenity/public_bookcase": {
+    "name": "Microbibliothèque",
+    "terms": "Bibliothèque en libre service, Micro-bibliothèque"
+  },
   "amenity/ranger_station": {
     "name": "Services publics des parcs nationaux",
     "terms": "Services publics des parcs nationaux"
@@ -290,6 +306,10 @@
   "amenity/recycling": {
     "name": "Recyclage",
     "terms": "Recyclage"
+  },
+  "amenity/register_office": {
+    "name": "Bureau d'état-civil",
+    "terms": "Bureau d'enregistrement"
   },
   "amenity/restaurant": {
     "name": "Restaurant",
@@ -1013,11 +1033,11 @@
   },
   "historic/memorial": {
     "name": "Mémorial",
-    "terms": "Mémorial"
+    "terms": "Mémorial, Monument aux morts, statue, buste, stèle, plaque"
   },
   "historic/monument": {
-    "name": "Monument",
-    "terms": "Monument"
+    "name": "Monument commémoratif",
+    "terms": "Grand mémorial"
   },
   "historic/ruins": {
     "name": "Ruines",
@@ -1030,6 +1050,10 @@
   "historic/wayside_shrine": {
     "name": "Oratoire",
     "terms": "Oratoire, Autel en bord de chemin"
+  },
+  "junction": {
+    "name": "Jonction routière",
+    "terms": "Jonction routière, Jonction, Carrefour, Intersection routière,  Intersection"
   },
   "landuse": {
     "name": "Type de terrain",
@@ -1052,36 +1076,40 @@
     "terms": "Cimetière"
   },
   "landuse/commercial": {
-    "name": "Commerciale",
-    "terms": "Commercial"
+    "name": "Zone Commerciale",
+    "terms": "Commerces"
   },
   "landuse/construction": {
     "name": "Construction",
     "terms": "Construction"
   },
   "landuse/farm": {
-    "name": "Cultures",
-    "terms": "Ferme"
+    "name": "Zone agricole",
+    "terms": "Terre agricole : cultures et élevage"
   },
   "landuse/farmland": {
-    "name": "Terre agricole",
-    "terms": "Terre agricole, Cultures"
+    "name": "Zone agricole",
+    "terms": "Terre agricole : cultures et élevage"
   },
   "landuse/farmyard": {
     "name": "Exploitation agricole",
-    "terms": "Cour de ferme"
+    "terms": "Cour de ferme, ensemble des bâtiments d'une ferme"
   },
   "landuse/forest": {
     "name": "Forêt",
     "terms": "Forêt"
+  },
+  "landuse/garages": {
+    "name": "Garages",
+    "terms": "Garages privés, boxes"
   },
   "landuse/grass": {
     "name": "Herbe",
     "terms": "Herbe"
   },
   "landuse/industrial": {
-    "name": "Industrielle",
-    "terms": "Industriel"
+    "name": "Zone Industrielle",
+    "terms": "Usines"
   },
   "landuse/landfill": {
     "name": "Décharge",
@@ -1092,8 +1120,8 @@
     "terms": "Prairie"
   },
   "landuse/military": {
-    "name": "Militaire",
-    "terms": "Militaire"
+    "name": "Zone Militaire",
+    "terms": "Zone Militaire"
   },
   "landuse/orchard": {
     "name": "Verger",
@@ -1104,12 +1132,12 @@
     "terms": "Carrière"
   },
   "landuse/residential": {
-    "name": "Résidentielle",
-    "terms": "Résidentiel"
+    "name": "Zone Résidentielle",
+    "terms": "Zone d’habitation"
   },
   "landuse/retail": {
-    "name": "Commerce",
-    "terms": "Vente"
+    "name": "Zone de vente au détail",
+    "terms": "Zone de magasins"
   },
   "landuse/vineyard": {
     "name": "Vigne",
@@ -1146,6 +1174,10 @@
   "leisure/marina": {
     "name": "Marina",
     "terms": "Marina"
+  },
+  "leisure/nature_reserve": {
+    "name": "Réserve naturelle",
+    "terms": "Zone protégée"
   },
   "leisure/park": {
     "name": "Parc",
@@ -1306,6 +1338,10 @@
   "natural/beach": {
     "name": "Plage",
     "terms": "Plage"
+  },
+  "natural/cave_entrance": {
+    "name": "Entrée de caverne",
+    "terms": "Abri sous roche"
   },
   "natural/cliff": {
     "name": "Falaise",
@@ -1530,6 +1566,10 @@
   "power/sub_station": {
     "name": "Transformateur",
     "terms": "Sous-station"
+  },
+  "power/substation": {
+    "name": "Sous-station",
+    "terms": "Sous-station électrique"
   },
   "power/tower": {
     "name": "Pylône haute-tension ",
@@ -1839,6 +1879,10 @@
     "name": "Magasin de matériel hi-fi",
     "terms": "Magasin d'appareils audio-visuel"
   },
+  "shop/houseware": {
+    "name": "Magasin d’articles ménagers",
+    "terms": "Vente d'articles de cuisine"
+  },
   "shop/interior_decoration": {
     "name": "Magasin de décoration d'intérieur",
     "terms": "Magasin de décoration d'intérieur"
@@ -2110,6 +2154,22 @@
   "tourism/zoo": {
     "name": "Zoo",
     "terms": "Zoo"
+  },
+  "traffic_calming/bump": {
+    "name": "Ralentisseur",
+    "terms": "ralentisseur, casse-vitesse"
+  },
+  "traffic_calming/hump": {
+    "name": "Ralentisseur dos d’âne (gendarme couché)",
+    "terms": "Dos d'âne"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "Section de route à rainurage",
+    "terms": "Bande rugueuse"
+  },
+  "traffic_calming/table": {
+    "name": "Passage pour piétons surélévé",
+    "terms": "Passage piéton surélevé, Ralentisseur de type trapézoïdal"
   },
   "type/boundary": {
     "name": "Frontière",

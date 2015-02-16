@@ -147,6 +147,10 @@
     "name": "充電スタンド",
     "terms": "充電ステーション, 急速充電システム, 充電スタンド, 給電スタンド"
   },
+  "amenity/childcare": {
+    "name": "保育園/幼稚園",
+    "terms": "保育園,幼稚園,チャイルドケア,ナーセリー"
+  },
   "amenity/cinema": {
     "name": "映画館",
     "terms": "映画館,上映施設,スクリーン,銀幕"
@@ -623,10 +627,6 @@
     "name": "時計製造所",
     "terms": "時計製造所"
   },
-  "craft/confectionery": {
-    "name": "製菓店",
-    "terms": "製菓店"
-  },
   "craft/dressmaker": {
     "name": "衣服製造所",
     "terms": "衣服製造所"
@@ -1051,21 +1051,9 @@
     "name": "教会の敷地",
     "terms": "教会, 教会の敷地"
   },
-  "landuse/commercial": {
-    "name": "オフィス地区",
-    "terms": "ビジネス街,オフィス街,オフィス地区"
-  },
   "landuse/construction": {
     "name": "建設用地",
     "terms": "工事中用地, 建設用地"
-  },
-  "landuse/farm": {
-    "name": "農地（旧）",
-    "terms": "農地（旧）"
-  },
-  "landuse/farmland": {
-    "name": "農地",
-    "terms": "農地"
   },
   "landuse/farmyard": {
     "name": "農業施設用地",
@@ -1079,10 +1067,6 @@
     "name": "草地",
     "terms": "草地, 芝生"
   },
-  "landuse/industrial": {
-    "name": "工業用地",
-    "terms": "工業用地"
-  },
   "landuse/landfill": {
     "name": "最終処分場",
     "terms": "最終処分場"
@@ -1091,10 +1075,6 @@
     "name": "牧草地",
     "terms": "牧草地"
   },
-  "landuse/military": {
-    "name": "軍事",
-    "terms": "軍事,自衛隊"
-  },
   "landuse/orchard": {
     "name": "果樹園",
     "terms": "果樹園, 果物畑, リンゴ畑, ミカン畑"
@@ -1102,14 +1082,6 @@
   "landuse/quarry": {
     "name": "露天掘り鉱山",
     "terms": "採石場, 石切り場, 露天掘り鉱山"
-  },
-  "landuse/residential": {
-    "name": "住宅地",
-    "terms": "住宅地, 宅地, 居住区域"
-  },
-  "landuse/retail": {
-    "name": "商業地",
-    "terms": "商業地,ショッピング地区,ショッピング街"
   },
   "landuse/vineyard": {
     "name": "ぶどう畑",
@@ -1531,6 +1503,10 @@
     "name": "変電所",
     "terms": "変電所"
   },
+  "power/substation": {
+    "name": "変電所",
+    "terms": "変電所,変圧所"
+  },
   "power/tower": {
     "name": "送電塔",
     "terms": "送電塔"
@@ -1635,6 +1611,10 @@
     "name": "赤ちゃん用品店",
     "terms": "赤ちゃん用品店, ベビー用品店"
   },
+  "shop/bag": {
+    "name": "バッグ/カバン店",
+    "terms": "バッグ,カバン,鞄"
+  },
   "shop/bakery": {
     "name": "パン屋",
     "terms": "パン屋, ベーカリー"
@@ -1642,6 +1622,10 @@
   "shop/beauty": {
     "name": "美容サービス",
     "terms": "美容サービス, エステサロン, ネイルサロン"
+  },
+  "shop/bed": {
+    "name": "ベッド/マットレス専門店",
+    "terms": "ベッド,マットレス,寝具"
   },
   "shop/beverages": {
     "name": "飲料店",
@@ -1655,6 +1639,10 @@
     "name": "公営競技投票券売り場",
     "terms": "公営競技投票券売り場, 馬券売り場, 車券売り場, 舟券売り場"
   },
+  "shop/books": {
+    "name": "本屋",
+    "terms": "本屋,ブックストア,古書店,古書,書籍販売"
+  },
   "shop/boutique": {
     "name": "ブティック",
     "terms": "ブティック, 婦人服店"
@@ -1662,6 +1650,10 @@
   "shop/butcher": {
     "name": "精肉店",
     "terms": "精肉店, 肉屋"
+  },
+  "shop/candles": {
+    "name": "キャンドル専門店",
+    "terms": "キャンドル,ロウソク,蝋燭,蠟燭"
   },
   "shop/car": {
     "name": "自動車販売店",
@@ -1674,6 +1666,10 @@
   "shop/car_repair": {
     "name": "自動車修理工場",
     "terms": "自動車修理工場"
+  },
+  "shop/carpet": {
+    "name": "カーペット専門店",
+    "terms": "カーペット,敷物,表具店,表具"
   },
   "shop/chemist": {
     "name": "薬品・化粧品店",
