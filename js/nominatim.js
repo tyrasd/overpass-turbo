@@ -24,7 +24,7 @@ turbo.nominatim = function() {
       },
       error: function() {
         var err = "An error occured while contacting the osm search server nominatim.openstreetmap.org :(";
-        concole.log(err);
+        console.log(err);
         callback(err,null);
       },
     });
