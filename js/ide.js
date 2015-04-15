@@ -341,17 +341,18 @@ var ide = new(function() {
         var container = L.DomUtil.create('div', 'leaflet-control-buttons leaflet-bar');
         var link = L.DomUtil.create('a', "leaflet-control-buttons-fitdata leaflet-bar-part leaflet-bar-part-top", container);
         $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
-        link.href = 'javascript:return false;';
+        link.href = '#';
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.zoom_to_data");
         i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function() {
           // hardcoded maxZoom of 18, should be ok for most real-world use-cases
           try {ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {maxZoom: 18}); } catch (e) {}
+          return false;
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-myloc leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
-        link.href = 'javascript:return false;';
+        link.href = '#';
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.localize_user");
         i18n.translate_ui(link);
@@ -363,16 +364,17 @@ var ide = new(function() {
               ide.map.setView(pos,settings.coords_zoom);
             });
           } catch(e) {}
+          return false;
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-bboxfilter leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
-        link.href = 'javascript:return false;';
+        link.href = '#';
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.select_bbox");
         i18n.translate_ui(link);
         L.DomEvent.addListener(link, 'click', function(e) {
           if ($(e.target).parent().hasClass("disabled")) // check if this button is enabled
-            return;
+            return false;
           if (!ide.map.bboxfilter.isEnabled()) {
             ide.map.bboxfilter.setBounds(ide.map.getBounds().pad(-0.2));
             ide.map.bboxfilter.enable();
@@ -380,10 +382,11 @@ var ide = new(function() {
             ide.map.bboxfilter.disable();
           }
           $(e.target).toggleClass("ui-icon-circlesmall-close").toggleClass("ui-icon-image");
+          return false;
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-fullscreen leaflet-bar-part", container);
         $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo($(link));
-        link.href = 'javascript:return false;';
+        link.href = '#';
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.toggle_wide_map");
         i18n.translate_ui(link);
@@ -396,10 +399,11 @@ var ide = new(function() {
             $("#editor").resizable("enable");
           else
             $("#editor").resizable("disable");
+          return false;
         }, ide.map);
         link = L.DomUtil.create('a', "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom", container);
         $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
-        link.href = 'javascript:return false;';
+        link.href = '#';
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.toggle_data");
         i18n.translate_ui(link);
@@ -409,6 +413,7 @@ var ide = new(function() {
             ide.map.removeLayer(overpass.osmLayer);
           else
             ide.map.addLayer(overpass.osmLayer);
+          return false;
         }, ide.map);
         return container;
       },
