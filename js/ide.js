@@ -1403,7 +1403,8 @@ var ide = new(function() {
                 // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
                 // bad magic. Still looking for a proper fix, though.
                 "interpreter?fixme=JOSM-ticket-8566&data="+
-                encodeURIComponent(query),
+                encodeURIComponent(query)+
+                "&fixme2=overpass-turbo-ticket-158.osm",
             }).error(function(xhr,s,e) {
               alert("Error: Unexpected JOSM remote control error.");
             }).success(function(d,s,xhr) {
