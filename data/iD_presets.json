@@ -354,7 +354,8 @@
     "amenity/atm": {
         "icon": "bank",
         "fields": [
-            "operator"
+            "operator",
+            "drive_through"
         ],
         "geometry": [
             "point",
@@ -377,7 +378,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "geometry": [
             "point",
@@ -898,6 +900,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "geometry": [
@@ -1150,7 +1153,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "geometry": [
             "point",
@@ -1345,7 +1349,8 @@
         "icon": "post",
         "fields": [
             "operator",
-            "collection_times"
+            "collection_times",
+            "drive_through"
         ],
         "geometry": [
             "point",
@@ -3781,6 +3786,7 @@
     "highway/bus_stop": {
         "icon": "bus",
         "fields": [
+            "network",
             "operator",
             "bench",
             "shelter",
@@ -3951,6 +3957,14 @@
         ],
         "tags": {
             "highway": "motorway_link"
+        },
+        "addTags": {
+            "highway": "motorway_link",
+            "oneway": "yes"
+        },
+        "removeTags": {
+            "highway": "motorway_link",
+            "oneway": "yes"
         },
         "terms": [
             "ramp",
@@ -4289,6 +4303,7 @@
             "surface",
             "lit",
             "width",
+            "incline_steps",
             "access"
         ],
         "icon": "highway-steps",
@@ -6291,6 +6306,17 @@
         },
         "name": "City"
     },
+    "place/farm": {
+        "icon": "farm",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "place": "farm"
+        },
+        "name": "Farm"
+    },
     "place/hamlet": {
         "icon": "triangle-stroked",
         "fields": [
@@ -6535,8 +6561,8 @@
     "public_transport/platform": {
         "fields": [
             "ref",
-            "operator",
             "network",
+            "operator",
             "shelter"
         ],
         "geometry": [
@@ -6554,8 +6580,8 @@
         "icon": "bus",
         "fields": [
             "ref",
-            "operator",
-            "network"
+            "network",
+            "operator"
         ],
         "geometry": [
             "vertex"
@@ -6589,7 +6615,8 @@
             "railway": "abandoned"
         },
         "fields": [
-            "structure"
+            "structure",
+            "service_rail"
         ],
         "terms": [],
         "name": "Abandoned Railway"
@@ -6603,7 +6630,8 @@
             "railway": "disused"
         },
         "fields": [
-            "structure"
+            "structure",
+            "service_rail"
         ],
         "terms": [],
         "name": "Disused Railway"
@@ -6621,7 +6649,8 @@
         ],
         "fields": [
             "structure",
-            "gauge"
+            "gauge",
+            "service_rail"
         ],
         "tags": {
             "railway": "funicular"
@@ -6675,7 +6704,8 @@
         },
         "fields": [
             "structure",
-            "electrified"
+            "electrified",
+            "service_rail"
         ],
         "terms": [],
         "name": "Monorail"
@@ -6691,7 +6721,8 @@
         "fields": [
             "structure",
             "gauge",
-            "electrified"
+            "electrified",
+            "service_rail"
         ],
         "terms": [
             "narrow gauge railway",
@@ -6722,7 +6753,8 @@
         "fields": [
             "structure",
             "gauge",
-            "electrified"
+            "electrified",
+            "service_rail"
         ],
         "terms": [],
         "name": "Rail"
@@ -6730,6 +6762,7 @@
     "railway/station": {
         "icon": "rail",
         "fields": [
+            "network",
             "operator",
             "address",
             "building_area"
@@ -6750,17 +6783,18 @@
     },
     "railway/subway": {
         "icon": "railway-subway",
-        "fields": [
-            "structure",
-            "gauge",
-            "electrified"
-        ],
         "geometry": [
             "line"
         ],
         "tags": {
             "railway": "subway"
         },
+        "fields": [
+            "structure",
+            "gauge",
+            "electrified",
+            "service_rail"
+        ],
         "terms": [],
         "name": "Subway"
     },
@@ -6786,7 +6820,8 @@
         "fields": [
             "structure",
             "gauge",
-            "electrified"
+            "electrified",
+            "service_rail"
         ],
         "terms": [
             "streetcar"
@@ -6803,6 +6838,17 @@
         "fields": [
             "relation"
         ]
+    },
+    "roundabout": {
+        "geometry": [
+            "vertex",
+            "line"
+        ],
+        "tags": {
+            "junction": "roundabout"
+        },
+        "name": "Roundabout",
+        "searchable": false
     },
     "route/ferry": {
         "icon": "ferry",
@@ -6839,7 +6885,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "geometry": [
             "point",
@@ -13805,6 +13852,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -13829,6 +13877,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -13853,6 +13902,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -13877,6 +13927,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -13900,6 +13951,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -13924,6 +13976,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -13947,6 +14000,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -13971,6 +14025,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -13995,6 +14050,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14018,6 +14074,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14041,6 +14098,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14064,6 +14122,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14087,6 +14146,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14111,6 +14171,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14134,6 +14195,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14157,6 +14219,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14181,6 +14244,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14204,6 +14268,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14227,6 +14292,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14250,6 +14316,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14273,6 +14340,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14296,6 +14364,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14319,6 +14388,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14342,6 +14412,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14365,6 +14436,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14388,6 +14460,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14412,6 +14485,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14435,6 +14509,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14458,6 +14533,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14481,6 +14557,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14504,6 +14581,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14527,6 +14605,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14551,6 +14630,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14575,6 +14655,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14598,6 +14679,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14622,6 +14704,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14645,6 +14728,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14668,6 +14752,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14692,6 +14777,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14715,6 +14801,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14738,6 +14825,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14761,6 +14849,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14785,6 +14874,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14808,6 +14898,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14831,6 +14922,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14855,6 +14947,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14880,6 +14973,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14903,6 +14997,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14926,6 +15021,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14949,6 +15045,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14972,6 +15069,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -14995,6 +15093,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15020,6 +15119,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15043,6 +15143,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15066,6 +15167,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15090,6 +15192,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15113,6 +15216,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15136,6 +15240,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15159,6 +15264,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15182,6 +15288,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15205,6 +15312,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15229,6 +15337,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15252,6 +15361,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15275,6 +15385,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15298,6 +15409,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15321,6 +15433,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15344,6 +15457,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15367,6 +15481,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15390,6 +15505,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15414,6 +15530,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15437,6 +15554,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15460,6 +15578,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15483,6 +15602,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15507,6 +15627,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15531,6 +15652,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15554,6 +15676,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -15577,6 +15700,7 @@
             "opening_hours",
             "takeaway",
             "delivery",
+            "drive_through",
             "smoking"
         ],
         "suggestion": true
@@ -18473,7 +18597,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18493,7 +18618,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18513,7 +18639,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18533,7 +18660,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18553,7 +18681,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18573,7 +18702,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18593,7 +18723,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18613,7 +18744,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18633,7 +18765,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18653,7 +18786,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18673,7 +18807,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18693,7 +18828,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18713,7 +18849,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18733,7 +18870,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18753,7 +18891,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18773,7 +18912,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18793,7 +18933,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18813,7 +18954,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18833,7 +18975,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18853,7 +18996,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18873,7 +19017,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18893,7 +19038,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18913,7 +19059,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18933,7 +19080,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18953,7 +19101,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18973,7 +19122,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -18993,7 +19143,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19013,7 +19164,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19033,7 +19185,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19053,7 +19206,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19073,7 +19227,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19093,7 +19248,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19113,7 +19269,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19133,7 +19290,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19153,7 +19311,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19173,7 +19332,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19193,7 +19353,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19213,7 +19374,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19233,7 +19395,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19253,7 +19416,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19273,7 +19437,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19293,7 +19458,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19313,7 +19479,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19333,7 +19500,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19353,7 +19521,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19373,7 +19542,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19393,7 +19563,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19413,7 +19584,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19433,7 +19605,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19453,7 +19626,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19473,7 +19647,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19493,7 +19668,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19513,7 +19689,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19533,7 +19710,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19553,7 +19731,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19573,7 +19752,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19593,7 +19773,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19613,7 +19794,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19633,7 +19815,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19653,7 +19836,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19673,7 +19857,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19693,7 +19878,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19713,7 +19899,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19733,7 +19920,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19753,7 +19941,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19773,7 +19962,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19793,7 +19983,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19813,7 +20004,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19833,7 +20025,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19853,7 +20046,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19873,7 +20067,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19893,7 +20088,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19913,7 +20109,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19933,7 +20130,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19953,7 +20151,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19973,7 +20172,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -19993,7 +20193,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20013,7 +20214,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20033,7 +20235,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20053,7 +20256,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20073,7 +20277,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20093,7 +20298,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20113,7 +20319,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20133,7 +20340,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20153,7 +20361,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20173,7 +20382,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20193,7 +20403,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20213,7 +20424,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20233,7 +20445,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20253,7 +20466,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20273,7 +20487,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20293,7 +20508,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20313,7 +20529,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20333,7 +20550,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20353,7 +20571,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20373,7 +20592,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20393,7 +20613,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20413,7 +20634,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20433,7 +20655,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20453,7 +20676,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20473,7 +20697,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20493,7 +20718,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20513,7 +20739,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20533,7 +20760,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20553,7 +20781,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20573,7 +20802,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20593,7 +20823,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20613,7 +20844,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20633,7 +20865,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20653,7 +20886,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20673,7 +20907,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20693,7 +20928,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20713,7 +20949,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20733,7 +20970,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20753,7 +20991,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20773,7 +21012,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20793,7 +21033,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20813,7 +21054,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20833,7 +21075,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20853,7 +21096,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20873,7 +21117,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20893,7 +21138,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20913,7 +21159,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20933,7 +21180,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20953,7 +21201,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20973,7 +21222,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -20993,7 +21243,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21013,7 +21264,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21033,7 +21285,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21053,7 +21306,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21073,7 +21327,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21093,7 +21348,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21113,7 +21369,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21133,7 +21390,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21153,7 +21411,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21173,7 +21432,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21193,7 +21453,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21213,7 +21474,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21233,7 +21495,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21253,7 +21516,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21273,7 +21537,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21293,7 +21558,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21313,7 +21579,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21333,7 +21600,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21353,7 +21621,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21373,7 +21642,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21393,7 +21663,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21413,7 +21684,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21433,7 +21705,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21453,7 +21726,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21473,7 +21747,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21493,7 +21768,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21513,7 +21789,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21533,7 +21810,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21553,7 +21831,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21573,7 +21852,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21593,7 +21873,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21613,7 +21894,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21633,7 +21915,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21653,7 +21936,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21673,7 +21957,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21693,7 +21978,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21713,7 +21999,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21733,7 +22020,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21753,7 +22041,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21773,7 +22062,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21793,7 +22083,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21813,7 +22104,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21833,7 +22125,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21853,7 +22146,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21873,7 +22167,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21893,7 +22188,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21913,7 +22209,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21933,7 +22230,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21953,7 +22251,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21973,7 +22272,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -21993,7 +22293,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22013,7 +22314,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22033,7 +22335,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22053,7 +22356,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22073,7 +22377,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22093,7 +22398,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22113,7 +22419,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22133,7 +22440,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22153,7 +22461,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22173,7 +22482,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22193,7 +22503,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22213,7 +22524,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22233,7 +22545,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22253,7 +22566,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22273,7 +22587,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22293,7 +22608,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22313,7 +22629,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22333,7 +22650,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22353,7 +22671,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22373,7 +22692,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22393,7 +22713,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22413,7 +22734,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22433,7 +22755,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22453,7 +22776,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22473,7 +22797,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22493,7 +22818,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22513,7 +22839,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22533,7 +22860,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22553,7 +22881,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22573,7 +22902,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22593,7 +22923,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22613,7 +22944,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22633,7 +22965,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22653,7 +22986,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22673,7 +23007,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22693,7 +23028,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22714,7 +23050,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22735,7 +23072,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22756,7 +23094,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22777,7 +23116,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22798,7 +23138,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22818,7 +23159,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22838,7 +23180,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22858,7 +23201,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22878,7 +23222,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22898,7 +23243,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22918,7 +23264,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22938,7 +23285,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22959,7 +23307,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22979,7 +23328,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -22999,7 +23349,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23019,7 +23370,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23039,7 +23391,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23059,7 +23412,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23079,7 +23433,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23099,7 +23454,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23119,7 +23475,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23139,7 +23496,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23159,7 +23517,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23179,7 +23538,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23199,7 +23559,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23219,7 +23580,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23239,7 +23601,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23259,7 +23622,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23279,7 +23643,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23299,7 +23664,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23319,7 +23685,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23339,7 +23706,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23360,7 +23728,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23380,7 +23749,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23400,7 +23770,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23420,7 +23791,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23440,7 +23812,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23460,7 +23833,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23480,7 +23854,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23500,7 +23875,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23631,7 +24007,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23650,7 +24027,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23669,7 +24047,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23688,7 +24067,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23707,7 +24087,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23726,7 +24107,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23745,7 +24127,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23764,7 +24147,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23783,7 +24167,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23802,7 +24187,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23821,7 +24207,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23840,7 +24227,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23859,7 +24247,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23878,7 +24267,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23897,7 +24287,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23916,7 +24307,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23935,7 +24327,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23954,7 +24347,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23973,7 +24367,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -23992,7 +24387,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24011,7 +24407,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24030,7 +24427,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24049,7 +24447,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24068,7 +24467,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24087,7 +24487,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24106,7 +24507,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24125,7 +24527,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24144,7 +24547,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24163,7 +24567,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24182,7 +24587,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24201,7 +24607,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24220,7 +24627,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24239,7 +24647,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24258,7 +24667,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24277,7 +24687,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24296,7 +24707,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24315,7 +24727,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24334,7 +24747,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24353,7 +24767,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24372,7 +24787,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24391,7 +24807,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24410,7 +24827,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24429,7 +24847,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24448,7 +24867,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24467,7 +24887,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24486,7 +24907,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24505,7 +24927,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24524,7 +24947,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24543,7 +24967,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24562,7 +24987,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24581,7 +25007,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24600,7 +25027,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24619,7 +25047,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24638,7 +25067,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24657,7 +25087,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24676,7 +25107,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24695,7 +25127,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24714,7 +25147,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24733,7 +25167,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24752,7 +25187,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24771,7 +25207,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24790,7 +25227,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24809,7 +25247,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24828,7 +25267,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24847,7 +25287,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24866,7 +25307,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24885,7 +25327,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24904,7 +25347,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24923,7 +25367,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24942,7 +25387,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24961,7 +25407,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24980,7 +25427,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -24999,7 +25447,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -25018,7 +25467,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -35972,7 +36422,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -35991,7 +36442,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36010,7 +36462,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36029,7 +36482,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36048,7 +36502,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36067,7 +36522,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36086,7 +36542,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36105,7 +36562,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36124,7 +36582,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36143,7 +36602,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36162,7 +36622,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
@@ -36181,7 +36642,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "drive_through"
         ],
         "suggestion": true
     },
