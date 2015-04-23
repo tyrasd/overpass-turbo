@@ -597,10 +597,6 @@
     "name": "Urar",
     "terms": "urar,urarstvo,popravljanje ur"
   },
-  "craft/confectionery": {
-    "name": "Slaščičarstvo",
-    "terms": "slaščice,bonboni,slaščičarna"
-  },
   "craft/dressmaker": {
     "name": "Šiviljstvo",
     "terms": "šivilja,krojač"
@@ -1017,21 +1013,9 @@
     "name": "Cerkveno dvorišče",
     "terms": "cerkvena okolica"
   },
-  "landuse/commercial": {
-    "name": "Poslovna cona",
-    "terms": "trgovina,trgovstvo"
-  },
   "landuse/construction": {
     "name": "Gradbišče",
     "terms": "gradnja"
-  },
-  "landuse/farm": {
-    "name": "Kmetijsko zemljišče",
-    "terms": "njiva,njive,polje,polja"
-  },
-  "landuse/farmland": {
-    "name": "Obdelovalna zemlja",
-    "terms": "poljedeljstvo,paša"
   },
   "landuse/farmyard": {
     "name": "Kmetija",
@@ -1045,10 +1029,6 @@
     "name": "Zelenica",
     "terms": "zelenica,vrt,park,javna zelena površina,trava"
   },
-  "landuse/industrial": {
-    "name": "Industrijska cona",
-    "terms": "industrijsko-poslovna cona"
-  },
   "landuse/landfill": {
     "name": "Smetišče",
     "terms": "odpadki,deponija odpadkov"
@@ -1057,10 +1037,6 @@
     "name": "Travnik",
     "terms": "travišče"
   },
-  "landuse/military": {
-    "name": "Vojaško območje",
-    "terms": "vojašnice,poligoni"
-  },
   "landuse/orchard": {
     "name": "Sadovnjak",
     "terms": "sadni nasad"
@@ -1068,14 +1044,6 @@
   "landuse/quarry": {
     "name": "Kamnolom",
     "terms": "peskokop"
-  },
-  "landuse/residential": {
-    "name": "Stanovanjska cona",
-    "terms": "poseljeno območje,pozidano območje"
-  },
-  "landuse/retail": {
-    "name": "Trgovine",
-    "terms": "trgovina,trg"
   },
   "landuse/vineyard": {
     "name": "Vinograd",

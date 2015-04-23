@@ -1507,6 +1507,10 @@
     "name": "City",
     "terms": ""
   },
+  "place/farm": {
+    "name": "Farm",
+    "terms": ""
+  },
   "place/hamlet": {
     "name": "Hamlet",
     "terms": ""
@@ -1645,6 +1649,10 @@
   },
   "relation": {
     "name": "Relation",
+    "terms": ""
+  },
+  "roundabout": {
+    "name": "Roundabout",
     "terms": ""
   },
   "route/ferry": {

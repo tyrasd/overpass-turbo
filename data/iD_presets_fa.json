@@ -478,9 +478,6 @@
   "craft/clockmaker": {
     "name": "ساعت سازی"
   },
-  "craft/confectionery": {
-    "name": "قنادی"
-  },
   "craft/dressmaker": {
     "name": "خیاطی زنانه"
   },
@@ -808,17 +805,8 @@
   "landuse/cemetery": {
     "name": "قبرستان"
   },
-  "landuse/commercial": {
-    "name": "تجاری"
-  },
   "landuse/construction": {
     "name": "ساخت و ساز"
-  },
-  "landuse/farm": {
-    "name": "مزرعه"
-  },
-  "landuse/farmland": {
-    "name": "زمین کشاورزی"
   },
   "landuse/farmyard": {
     "name": "محوطه مزرعه"
@@ -829,29 +817,17 @@
   "landuse/grass": {
     "name": "علف زار"
   },
-  "landuse/industrial": {
-    "name": "صنعتی"
-  },
   "landuse/landfill": {
     "name": "محل دفن مواد (زباله)"
   },
   "landuse/meadow": {
     "name": "مرغزار"
   },
-  "landuse/military": {
-    "name": "نظامی"
-  },
   "landuse/orchard": {
     "name": "باغ میوه"
   },
   "landuse/quarry": {
     "name": "معدن سنگ"
-  },
-  "landuse/residential": {
-    "name": "مسکونی"
-  },
-  "landuse/retail": {
-    "name": "خرده فروشی"
   },
   "landuse/vineyard": {
     "name": "باغ انگور"

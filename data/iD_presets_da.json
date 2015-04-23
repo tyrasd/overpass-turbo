@@ -115,6 +115,10 @@
     "name": "Cykeludlejning",
     "terms": "Cykeludlejning, Rent-a-Bike"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "Cykelværktøjlån",
+    "terms": "Cykelværktøjlån, Cykelværktøj"
+  },
   "amenity/boat_rental": {
     "name": "Bådudlejning",
     "terms": "Bådudlejning, lystbådudlejning"
@@ -167,6 +171,10 @@
     "name": "Universitetsområder",
     "terms": "Universitetsområder"
   },
+  "amenity/community_centre": {
+    "name": "Medborgerhus",
+    "terms": "Medborgerhus, Forsamlingshus"
+  },
   "amenity/compressed_air": {
     "name": "Luftpumpe",
     "terms": "Luftpumpe, Billuftpumpe"
@@ -214,6 +222,10 @@
   "amenity/grave_yard": {
     "name": "Kirkegård",
     "terms": "Kirkegård, Gravsted"
+  },
+  "amenity/grit_bin": {
+    "name": "Vejsaltkasse",
+    "terms": "Vejsaltkasse, Saltkasse"
   },
   "amenity/hospital": {
     "name": "Hospitalsområde",
@@ -283,6 +295,10 @@
     "name": "Værtshus",
     "terms": "Værtshus, Pub, Ølstue"
   },
+  "amenity/public_bookcase": {
+    "name": "Bogkasse",
+    "terms": "Bogkasse"
+  },
   "amenity/ranger_station": {
     "name": "Rangerstation",
     "terms": "Rangerstation"
@@ -290,6 +306,10 @@
   "amenity/recycling": {
     "name": "Genbrug",
     "terms": "Genbrug"
+  },
+  "amenity/register_office": {
+    "name": "Tinglysningskontor",
+    "terms": "Tinglysningskontor"
   },
   "amenity/restaurant": {
     "name": "Restaurant",
@@ -625,7 +645,7 @@
   },
   "craft/confectionery": {
     "name": "Slikbutik",
-    "terms": "Slikbutik, Konfekturebutik"
+    "terms": "Slikbutik, Chokoladeforretning"
   },
   "craft/dressmaker": {
     "name": "Skrædder",
@@ -1031,6 +1051,10 @@
     "name": "Vejsideskrin",
     "terms": "Vejsideskrin"
   },
+  "junction": {
+    "name": "Vejfletning",
+    "terms": "Vejfletning, Gadefletning"
+  },
   "landuse": {
     "name": "Brug af land",
     "terms": "Brug af land"
@@ -1065,7 +1089,7 @@
   },
   "landuse/farmland": {
     "name": "Landbrugsjord",
-    "terms": "Landbrugsjord, Marker"
+    "terms": "Landbrugsjord"
   },
   "landuse/farmyard": {
     "name": "Gårdsplads",
@@ -1075,13 +1099,17 @@
     "name": "Skov",
     "terms": "Skov, Plantageskov"
   },
+  "landuse/garages": {
+    "name": "Garager",
+    "terms": "Garager"
+  },
   "landuse/grass": {
     "name": "Græs",
     "terms": "Græs"
   },
   "landuse/industrial": {
     "name": "Industriområde",
-    "terms": "Industriområde, Fabriksområde"
+    "terms": "Industriområde"
   },
   "landuse/landfill": {
     "name": "Losseplads",
@@ -1092,8 +1120,8 @@
     "terms": "Eng"
   },
   "landuse/military": {
-    "name": "Militær",
-    "terms": "Militær"
+    "name": "Militært område",
+    "terms": "Militært område, Militærbase"
   },
   "landuse/orchard": {
     "name": "Frugtplantage",
@@ -1104,12 +1132,12 @@
     "terms": "Grusgrav, Stenbrud, Minedriftsområde"
   },
   "landuse/residential": {
-    "name": "Beboelsesområde",
-    "terms": "Boligområde"
+    "name": "Beboet område",
+    "terms": "Beboet område"
   },
   "landuse/retail": {
     "name": "Handelsområde",
-    "terms": "Handelsområde, Butiksområde"
+    "terms": "Handelsområde"
   },
   "landuse/vineyard": {
     "name": "Vingård",
@@ -1147,12 +1175,16 @@
     "name": "Lystbådehavn",
     "terms": "Lystbådehavn, Marina"
   },
+  "leisure/nature_reserve": {
+    "name": "Naturreservat",
+    "terms": "Naturreservat"
+  },
   "leisure/park": {
     "name": "Park",
     "terms": "Park, Parkområde"
   },
   "leisure/picnic_table": {
-    "name": "Picnicborg",
+    "name": "Picnicbord",
     "terms": "Picnicbord, Frokostbord"
   },
   "leisure/pitch": {
@@ -1306,6 +1338,10 @@
   "natural/beach": {
     "name": "Strand",
     "terms": "Strand"
+  },
+  "natural/cave_entrance": {
+    "name": "Huleindgang",
+    "terms": "Huleindgang"
   },
   "natural/cliff": {
     "name": "Klint",
@@ -1528,6 +1564,10 @@
     "terms": "Elmast (telefonmast)"
   },
   "power/sub_station": {
+    "name": "Transformatorstation",
+    "terms": "Transformatorstation"
+  },
+  "power/substation": {
     "name": "Transformatorstation",
     "terms": "Transformatorstation"
   },
@@ -1839,6 +1879,10 @@
     "name": "Radioforhandler",
     "terms": "Værktøjsbutik"
   },
+  "shop/houseware": {
+    "name": "Køkkenudstyr",
+    "terms": "Køkkenudstyr"
+  },
   "shop/interior_decoration": {
     "name": "Indendørsudsmykningsbutik",
     "terms": "Indendørsudsmykningsbutik"
@@ -2110,6 +2154,22 @@
   "tourism/zoo": {
     "name": "Zoologisk have",
     "terms": "Zoologisk have, Zoo"
+  },
+  "traffic_calming/bump": {
+    "name": "Vejbump",
+    "terms": "Vejbump"
+  },
+  "traffic_calming/hump": {
+    "name": "Fartbumprampe",
+    "terms": "Fartbumprampe"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "Rumlestriber",
+    "terms": "Rumlestriber,  Rumleriller"
+  },
+  "traffic_calming/table": {
+    "name": "Fodgængerfelt",
+    "terms": "Fodgængerfelt, Fodgængerovergang"
   },
   "type/boundary": {
     "name": "Grænse",

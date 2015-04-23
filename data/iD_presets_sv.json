@@ -115,6 +115,10 @@
     "name": "Cykeluthyrning",
     "terms": "Cykeluthyrning, cykellån, cykelleasing, lånecykel, hyrcykel"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "Station för cykelreparation ",
+    "terms": "Cykelreparation, kedjebrytare, cykelpump, tryckluft, pumpstation, cykel, "
+  },
   "amenity/boat_rental": {
     "name": "Båtuthyrning",
     "terms": "Båtuthyrning, båtlån, båtleasing, lånebåt, hyrbåt"
@@ -167,6 +171,10 @@
     "name": "Gymnasieområde",
     "terms": "Gymnasium, gymnasie, college, vidareutbildning, gymnasiumområde, gymnasieområde"
   },
+  "amenity/community_centre": {
+    "name": "Samlingslokal",
+    "terms": "Samlingslokal, folkets hus, folkets park, festlokal, bygdegård, Hembygdsgård, Sockenstuga, bystuga, Byalag, byförening, festlokal"
+  },
   "amenity/compressed_air": {
     "name": "Tryckluft",
     "terms": "Tryckluft, pumpstation, komprimerad luft"
@@ -214,6 +222,10 @@
   "amenity/grave_yard": {
     "name": "Kyrkogård",
     "terms": "Gravplats, kyrkogård, begravningsplats, kyrkogård, urnlund, minneslund, griftegård"
+  },
+  "amenity/grit_bin": {
+    "name": "Sandkista",
+    "terms": "Sandlåda, sandkista, sandbehållare, halkbekämpning, halka"
   },
   "amenity/hospital": {
     "name": "Sjukhusområde",
@@ -283,6 +295,10 @@
     "name": "Pub",
     "terms": "Pub, bar, ölservering, ölstuga, krog, nattklubb"
   },
+  "amenity/public_bookcase": {
+    "name": "Offentlig bokhylla",
+    "terms": "Offentlig bokhylla, publik bokhylla, begagnade böcker, låneböcker, bokdelning"
+  },
   "amenity/ranger_station": {
     "name": "Friluftsanläggningen",
     "terms": "Friluftsanläggningen, friluftsområde, park, friluftsliv, infocenter, informationscenter "
@@ -290,6 +306,10 @@
   "amenity/recycling": {
     "name": "Återvinning",
     "terms": "återvinning, återbruk, återvinningsstation, sopstation "
+  },
+  "amenity/register_office": {
+    "name": "Registreringsbyrå",
+    "terms": "Registreringsbyrå, borgerlig vigsel, stadshus,  registrerade enhet, inskrivningskontor, registreringskontor, Folkbokföring, Skattemyndigheten, mantalslängder"
   },
   "amenity/restaurant": {
     "name": "Restaurang",
@@ -625,7 +645,7 @@
   },
   "craft/confectionery": {
     "name": "Konditori",
-    "terms": "konfektyr, godis, godsaker, choklad, Konditori, kondis, sockerbageri, finbageri"
+    "terms": "Fik, Kafé"
   },
   "craft/dressmaker": {
     "name": "Sömmerska",
@@ -1031,6 +1051,10 @@
     "name": "Helgedom vid väg",
     "terms": "Helgedom längs väg, helgedom vid väg, helgedom, pilgrim"
   },
+  "junction": {
+    "name": "Korsning",
+    "terms": "korsning, vägkorsningar, övergångsställe, järnvägskorsning, rondell, cirkulationsplats, trafiksignal, stoppskylt, stoppsignal, vägkors, trafikplats, trafikkorsning, gatukorsning"
+  },
   "landuse": {
     "name": "Markanvändning",
     "terms": "Markanvändning, Översiktsplan"
@@ -1052,20 +1076,20 @@
     "terms": "Kyrkogård, kyrka, kyrkområde"
   },
   "landuse/commercial": {
-    "name": "Kommersiell",
-    "terms": "Kommersiell, kommersiellt, affärsområde, handelsområde, shoppingområde"
+    "name": "Kommersiell område",
+    "terms": "Kommersiell, kommersiellt, affärsområde, handelsområde, shoppingområde, handel, butiksområde"
   },
   "landuse/construction": {
     "name": "Byggarbetsplats",
     "terms": "Byggarbetsplats, bygge, Byggnad under konstruktion, Byggnad under uppförande, byggarbete,  byggnation, byggnadsplats"
   },
   "landuse/farm": {
-    "name": "Åker",
-    "terms": "Åker, åkerjord, åkerfält, fält, gärde, teg, åkerlapp, inäga, odling, odlingsfält, lantbruk"
+    "name": "Gård",
+    "terms": "Bondgård, gård, jordbruk, lantbruk, lantegendom, lantgård"
   },
   "landuse/farmland": {
-    "name": "Åker",
-    "terms": "Åker, åkerjord, åkerfält, fält, gärde, teg, åkerlapp, inäga, odling, odlingsfält, lantbruk"
+    "name": "Åkermark",
+    "terms": "Åker, åkerjord, åkerfält, fält, gärde, teg, åkerlapp, inäga, odling, odlingsfält, lantbruk, åkermark"
   },
   "landuse/farmyard": {
     "name": "Bondgård",
@@ -1075,13 +1099,17 @@
     "name": "Skog (brukad)",
     "terms": "Skog, skogsvård, skogsområde, skogstrakt, träd, skogsdunge, dunge, lund, skogsplantering"
   },
+  "landuse/garages": {
+    "name": "garage",
+    "terms": "garage, bilstall, bilskjul, carport, varmgarage, kallgarage, bilplatser"
+  },
   "landuse/grass": {
     "name": "Gräs",
     "terms": "Gräs, klippt gräs, refug, rondell, mittremsa"
   },
   "landuse/industrial": {
-    "name": "Industriell",
-    "terms": "Industriell, industriområde, fabriksområde, fabrik"
+    "name": "Industriområde",
+    "terms": "Industriområde, fabriksområde, fabriksdistrikt, industricentrum"
   },
   "landuse/landfill": {
     "name": "Soptipp",
@@ -1092,8 +1120,8 @@
     "terms": "Äng, slåttermark"
   },
   "landuse/military": {
-    "name": "Militärt",
-    "terms": "Militärt, militärt område, regemente, övningsområde, försvar, krigsmakt"
+    "name": "Militärt område",
+    "terms": "Militärt område, militärt övningsområde, regemente, försvar, krigsmakt"
   },
   "landuse/orchard": {
     "name": "Fruktodling",
@@ -1105,7 +1133,7 @@
   },
   "landuse/residential": {
     "name": "Bostadsområde",
-    "terms": "Bostadsområde, villaområde, lägenhetsområde, getto, miljonområde, förort"
+    "terms": "Bostadsområde, villaområde, lägenhetsområde, getto, miljonområde, förort, "
   },
   "landuse/retail": {
     "name": "Detaljhandel",
@@ -1146,6 +1174,10 @@
   "leisure/marina": {
     "name": "Marina",
     "terms": "Marina, småbårtshamn, hamn, småbåt, segelbåt, yacht, fritidsbåt, gästhamn"
+  },
+  "leisure/nature_reserve": {
+    "name": "Naturreservat",
+    "terms": "naturreservat, nationalpark, naturpark, naturområde, reservat, naturskyddsområde"
   },
   "leisure/park": {
     "name": "Park",
@@ -1306,6 +1338,10 @@
   "natural/beach": {
     "name": "Strand",
     "terms": "Strand, sandstrand, badstrand, grusstrand,  badplats, strandlinje, badställe, flodstrand"
+  },
+  "natural/cave_entrance": {
+    "name": "Grottingång",
+    "terms": "Grottingång, grotta, grottsystem, bergrum, berghåla, grottöppning, bergsöppning, grotthål"
   },
   "natural/cliff": {
     "name": "Klippa",
@@ -1528,6 +1564,10 @@
     "terms": "Kraftledningsstolpe, elledningsstolpe, stolpe, kraftledningsmast, elledningsmast, mast"
   },
   "power/sub_station": {
+    "name": "Fördelningsstation",
+    "terms": "Transformator, elomvandling, elskåp, fördelningsstation, stadsnätstation, elfördelning"
+  },
+  "power/substation": {
     "name": "Fördelningsstation",
     "terms": "Transformator, elomvandling, elskåp, fördelningsstation, stadsnätstation, elfördelning"
   },
@@ -1839,6 +1879,10 @@
     "name": "HiFi-butik",
     "terms": "HIFI-butik, hifi, ljud, ljudåtergivning, förstärkare, högtalare, ljudanläggning, audio, stereo, stereoanläggning"
   },
+  "shop/houseware": {
+    "name": "Husgeråd",
+    "terms": "husgeråd, köksredskap, bestick, porslin, prydnadsföremål"
+  },
   "shop/interior_decoration": {
     "name": "Inredningsaffär",
     "terms": "Inredningsaffär, inredning, dekoration"
@@ -2110,6 +2154,22 @@
   "tourism/zoo": {
     "name": "Zoo",
     "terms": "Zoo, zoologisk trädgård, djurpark"
+  },
+  "traffic_calming/bump": {
+    "name": "Fartbula (kort gupp)",
+    "terms": "Fartbula, bula, fartgupp, farthinder, gupp, vägbula, bump"
+  },
+  "traffic_calming/hump": {
+    "name": "Normalt fartgupp",
+    "terms": "Cirkulärt gupp, GP-gupp, Wattska guppet, Wattgupp, standardgupp, normalt fartgupp, puckel, fartpuckel, gupp, farthinder, fartgupp"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "Bullerräfflor",
+    "terms": "Bullerräfflor, Pennsylvaniaräfflor"
+  },
+  "traffic_calming/table": {
+    "name": "Platågupp",
+    "terms": "Platågupp, gupp, farthinder, fartgupp"
   },
   "type/boundary": {
     "name": "Gräns",

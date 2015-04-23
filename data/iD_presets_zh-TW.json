@@ -115,6 +115,10 @@
     "name": "單車出租",
     "terms": "腳踏車出租"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "自行車維修站",
+    "terms": "提供自行車維修服務的地方"
+  },
   "amenity/boat_rental": {
     "name": "小艇出租",
     "terms": "租船處,小艇租賃"
@@ -219,6 +223,10 @@
     "name": "墓地",
     "terms": "墳場,墓地"
   },
+  "amenity/grit_bin": {
+    "name": "沙盒",
+    "terms": "儲存用來加速路面融雪的沙、鹽混合物容器"
+  },
   "amenity/hospital": {
     "name": "醫院用地",
     "terms": "醫院"
@@ -287,6 +295,10 @@
     "name": "Pub",
     "terms": "酒館"
   },
+  "amenity/public_bookcase": {
+    "name": "開放書架",
+    "terms": "可以自由取用、放置書籍的書架"
+  },
   "amenity/ranger_station": {
     "name": "郊野公園管理站",
     "terms": "國家公園管理站,自然保護區管理站"
@@ -294,6 +306,10 @@
   "amenity/recycling": {
     "name": "回收設施",
     "terms": "回收筒,回收箱"
+  },
+  "amenity/register_office": {
+    "name": "戶政事務所",
+    "terms": "戶政事務所"
   },
   "amenity/restaurant": {
     "name": "餐廳",
@@ -628,8 +644,8 @@
     "terms": "製鐘店"
   },
   "craft/confectionery": {
-    "name": "甜品店",
-    "terms": "甜品店"
+    "name": "甜點店",
+    "terms": "糕餅店"
   },
   "craft/dressmaker": {
     "name": "製衣店",
@@ -936,8 +952,8 @@
     "terms": "小巷,巷弄,後巷,橫巷,窄巷,胡同"
   },
   "highway/service/drive-through": {
-    "name": "穿越道路",
-    "terms": "駕駛通過以獲取服務,穿越性道路"
+    "name": "德來速車道",
+    "terms": "駕駛通過以獲取服務,德來速車道"
   },
   "highway/service/driveway": {
     "name": "車道",
@@ -1055,21 +1071,9 @@
     "name": "教堂院落",
     "terms": "教堂用地"
   },
-  "landuse/commercial": {
-    "name": "商業區",
-    "terms": "商業區"
-  },
   "landuse/construction": {
     "name": "建築工地",
     "terms": "建築工程"
-  },
-  "landuse/farm": {
-    "name": "農場",
-    "terms": "農田,稻田,農地,田"
-  },
-  "landuse/farmland": {
-    "name": "耕地",
-    "terms": "耕地"
   },
   "landuse/farmyard": {
     "name": "農莊",
@@ -1079,13 +1083,13 @@
     "name": "森林",
     "terms": "森林"
   },
+  "landuse/garages": {
+    "name": "車庫群",
+    "terms": "許多相連的車庫"
+  },
   "landuse/grass": {
     "name": "草地",
     "terms": "草地"
-  },
-  "landuse/industrial": {
-    "name": "工業區",
-    "terms": "工業區"
   },
   "landuse/landfill": {
     "name": "埯埋場",
@@ -1095,10 +1099,6 @@
     "name": "牧場",
     "terms": "牧場"
   },
-  "landuse/military": {
-    "name": "軍事用地",
-    "terms": "軍用地,部隊用地"
-  },
   "landuse/orchard": {
     "name": "果園",
     "terms": "果園"
@@ -1106,14 +1106,6 @@
   "landuse/quarry": {
     "name": "礦區",
     "terms": "礦場"
-  },
-  "landuse/residential": {
-    "name": "住宅區",
-    "terms": "住宅區"
-  },
-  "landuse/retail": {
-    "name": "零售",
-    "terms": "零售"
   },
   "landuse/vineyard": {
     "name": "酒莊",
@@ -1310,6 +1302,10 @@
   "natural/beach": {
     "name": "沙灘",
     "terms": "沙灘,海灘"
+  },
+  "natural/cave_entrance": {
+    "name": "洞穴入口",
+    "terms": "洞穴入口"
   },
   "natural/cliff": {
     "name": "懸崖",
@@ -1535,13 +1531,17 @@
     "name": "變電所",
     "terms": "變電站"
   },
+  "power/substation": {
+    "name": "變電所",
+    "terms": "變電站"
+  },
   "power/tower": {
     "name": "高壓電塔",
     "terms": "高壓輸電塔"
   },
   "power/transformer": {
-    "name": "變電所",
-    "terms": "變電所,變電站"
+    "name": "變壓器",
+    "terms": "變壓器"
   },
   "public_transport/platform": {
     "name": "月台",
@@ -1557,7 +1557,7 @@
   },
   "railway/abandoned": {
     "name": "鐵路線遺跡",
-    "terms": "鐵路線遺跡"
+    "terms": "舊鐵路線"
   },
   "railway/disused": {
     "name": "廢棄鐵路",
@@ -2114,6 +2114,22 @@
   "tourism/zoo": {
     "name": "動物園",
     "terms": "動物園"
+  },
+  "traffic_calming/bump": {
+    "name": "減速丘",
+    "terms": "減速帶,減速器"
+  },
+  "traffic_calming/hump": {
+    "name": "減速標線",
+    "terms": "減速標線"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "跳動路面",
+    "terms": "起皺狹長路段"
+  },
+  "traffic_calming/table": {
+    "name": "隆起行人穿越道",
+    "terms": "隆起行人穿越道"
   },
   "type/boundary": {
     "name": "邊界",

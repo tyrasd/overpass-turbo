@@ -1,3 +1,8 @@
+2015-04-23
+----------
+* bugfixes
+* updates to syntax highlighting, translations and presets
+
 2015-02-07
 ----------
 * Wizard works better with non-ASCII strings

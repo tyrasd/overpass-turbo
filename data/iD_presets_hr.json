@@ -90,6 +90,9 @@
     "name": "Bar",
     "terms": "lokal,caffe bar,kafić,noćni bar"
   },
+  "amenity/bbq": {
+    "name": "Roštilj"
+  },
   "amenity/bench": {
     "name": "Klupa",
     "terms": "klupa,stolac"
@@ -102,9 +105,18 @@
     "name": "Najam bicikla",
     "terms": "rentanje bicikala,rentanje bicikla,iznajmljivanje bicikala,iznajmljivanje bicikla,najam bicikala,najam bicikla,rent a bike"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "Bicikl servis"
+  },
   "amenity/boat_rental": {
     "name": "Najam brodova",
     "terms": "rentanje brodova,rentanje broda,iznajmljivanje brodova,iznajmljivanje broda,najam brodova,najam broda,rentanje čamaca,rentanje čamca,iznajmljivanje čamaca,iznajmljivanje čamca,najam čamaca,najam čamca,rent a boat"
+  },
+  "amenity/bureau_de_change": {
+    "name": "Mjenjačnica"
+  },
+  "amenity/bus_station": {
+    "name": "Autobusna stanica"
   },
   "amenity/cafe": {
     "name": "Kafić",
@@ -122,6 +134,9 @@
     "name": "Autopraonica",
     "terms": "praonica automobila"
   },
+  "amenity/charging_station": {
+    "name": "Punionica"
+  },
   "amenity/cinema": {
     "name": "Kino",
     "terms": "dvorana za gledanje filmova,kinematograf,kino dvorana"
@@ -131,6 +146,12 @@
   },
   "amenity/clock": {
     "name": "Sat"
+  },
+  "amenity/college": {
+    "name": "Fakultetsko zemljište"
+  },
+  "amenity/compressed_air": {
+    "name": "Komprimirani zrak"
   },
   "amenity/courthouse": {
     "name": "Zgrada suda",
@@ -173,6 +194,9 @@
   "amenity/hospital": {
     "name": "Bolničko zemljište"
   },
+  "amenity/kindergarten": {
+    "name": "Dvorište vrtića"
+  },
   "amenity/library": {
     "name": "Knjižnica",
     "terms": "knjižnica,biblioteka,čitaonica,zbirka knjiga"
@@ -181,9 +205,15 @@
     "name": "Tržnica",
     "terms": "tržnica,pijaca,pijac,pija,plac"
   },
+  "amenity/nightclub": {
+    "name": "Noćni klub"
+  },
   "amenity/parking": {
     "name": "Parkiralište za automobile",
     "terms": "parkiralište,garaža,parkirno mjesto,podzemna garaža,parking"
+  },
+  "amenity/parking_entrance": {
+    "name": "Parking garaža Ulaz/Izlaz"
   },
   "amenity/pharmacy": {
     "name": "Ljekarna",
@@ -225,6 +255,9 @@
     "name": "Pivnica",
     "terms": "pivnica,birtija,birc,bircuz"
   },
+  "amenity/public_bookcase": {
+    "name": "Javna knjižnica"
+  },
   "amenity/ranger_station": {
     "name": "Rendžerska postaja",
     "terms": "rendžerska postaja,rendžerska služba,stanica rendžerske službe,rendžerska stanica,rendžer"
@@ -242,6 +275,12 @@
   },
   "amenity/shelter": {
     "name": "Sklonište"
+  },
+  "amenity/social_facility/homeless_shelter": {
+    "name": "Sklonište za beskućnike"
+  },
+  "amenity/studio": {
+    "name": "Studio"
   },
   "amenity/swimming_pool": {
     "name": "Sportski bazen",
@@ -266,6 +305,9 @@
   "amenity/townhall": {
     "name": "Gradska vijećnica",
     "terms": "gradska vijećnica,vijećnica,općinski dom"
+  },
+  "amenity/university": {
+    "name": "Fakultetsko zemljište"
   },
   "amenity/vending_machine": {
     "name": "Automat za prodaju",
@@ -338,7 +380,7 @@
     "name": "Zid"
   },
   "boundary/administrative": {
-    "name": "Administrativne granice"
+    "name": "Administrativna granica"
   },
   "building": {
     "name": "Građevina",
@@ -363,11 +405,20 @@
   "building/church": {
     "name": "Crkva"
   },
+  "building/college": {
+    "name": "Zgrada fakulteta"
+  },
   "building/commercial": {
     "name": "Poslovna zgrada"
   },
+  "building/construction": {
+    "name": "Zgrada u izgradnji"
+  },
   "building/detached": {
     "name": "Samostojni dom"
+  },
+  "building/dormitory": {
+    "name": "Studentski dom"
   },
   "building/entrance": {
     "name": "Ulaz/izlaz"
@@ -398,6 +449,12 @@
   "building/industrial": {
     "name": "Industrijska zgrada"
   },
+  "building/kindergarten": {
+    "name": "Zgrada vrtića"
+  },
+  "building/public": {
+    "name": "Javna građevina"
+  },
   "building/residential": {
     "name": "Stambena zgrada"
   },
@@ -418,7 +475,7 @@
     "name": "Staja"
   },
   "building/train_station": {
-    "name": "Željeznička stanica"
+    "name": "Željeznički kolodvor"
   },
   "building/university": {
     "name": "Zgrada fakulteta"
@@ -435,17 +492,23 @@
   "craft/boatbuilder": {
     "name": "Brodograditelj"
   },
+  "craft/bookbinder": {
+    "name": "Knjigovezac"
+  },
   "craft/brewery": {
     "name": "Pivara"
   },
   "craft/carpenter": {
     "name": "Stolar"
   },
+  "craft/caterer": {
+    "name": "Dostavljač"
+  },
   "craft/clockmaker": {
     "name": "Urar (ručni satovi)"
   },
   "craft/confectionery": {
-    "name": "Trgovina slatkišima"
+    "name": "Slastičarnica"
   },
   "craft/dressmaker": {
     "name": "Krojač"
@@ -459,6 +522,9 @@
   "craft/glaziery": {
     "name": "Staklarna"
   },
+  "craft/handicraft": {
+    "name": "Ručni rad"
+  },
   "craft/jeweler": {
     "name": "Draguljar"
   },
@@ -467,6 +533,9 @@
   },
   "craft/locksmith": {
     "name": "Bravar"
+  },
+  "craft/metal_construction": {
+    "name": "Željezar"
   },
   "craft/optician": {
     "name": "Optičar"
@@ -477,17 +546,35 @@
   "craft/photographer": {
     "name": "Fotograf"
   },
+  "craft/photographic_laboratory": {
+    "name": "Fotografska radionica"
+  },
+  "craft/plasterer": {
+    "name": "Fasader"
+  },
   "craft/plumber": {
     "name": "Vodoinstalater"
   },
   "craft/pottery": {
     "name": "Lončarstvo"
   },
+  "craft/rigger": {
+    "name": "Monter"
+  },
   "craft/roofer": {
     "name": "Krovopokrivač"
   },
+  "craft/saddler": {
+    "name": "Sedlar"
+  },
+  "craft/sailmaker": {
+    "name": "Jedrar"
+  },
   "craft/sawmill": {
     "name": "Pilana"
+  },
+  "craft/scaffolder": {
+    "name": "Građevinska skela"
   },
   "craft/sculpter": {
     "name": "Kipar"
@@ -504,8 +591,26 @@
   "craft/tailor": {
     "name": "Krojač"
   },
+  "craft/tiler": {
+    "name": "Keramičar"
+  },
+  "craft/tinsmith": {
+    "name": "Kotlar / Kazandžija"
+  },
+  "craft/upholsterer": {
+    "name": "Tapetar"
+  },
   "craft/watchmaker": {
     "name": "Urar"
+  },
+  "craft/window_construction": {
+    "name": "Izrada prozora"
+  },
+  "craft/winery": {
+    "name": "Vinarija"
+  },
+  "embankment": {
+    "name": "Nasip"
   },
   "emergency/ambulance_station": {
     "name": "Garaža hitne pomoći",
@@ -636,7 +741,7 @@
     "name": "Pristupna cesta brze ceste"
   },
   "highway/turning_circle": {
-    "name": "Kružni tok"
+    "name": "Površina na kraju ceste za polukružno okretanje"
   },
   "highway/unclassified": {
     "name": "Nerazvrstana cesta"
@@ -684,14 +789,8 @@
   "landuse/cemetery": {
     "name": "Groblje"
   },
-  "landuse/commercial": {
-    "name": "Poslovno"
-  },
   "landuse/construction": {
     "name": "Građevinsko"
-  },
-  "landuse/farm": {
-    "name": "Poljoprivredno zemljište"
   },
   "landuse/farmyard": {
     "name": "Gospodarsko imanje"
@@ -703,9 +802,6 @@
   "landuse/grass": {
     "name": "Travnjak"
   },
-  "landuse/industrial": {
-    "name": "Industrijsko"
-  },
   "landuse/meadow": {
     "name": "Livada"
   },
@@ -714,12 +810,6 @@
   },
   "landuse/quarry": {
     "name": "Kamenolom"
-  },
-  "landuse/residential": {
-    "name": "Stambeno"
-  },
-  "landuse/retail": {
-    "name": "Maloprodaja"
   },
   "landuse/vineyard": {
     "name": "Vinograd"

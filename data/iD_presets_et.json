@@ -311,17 +311,11 @@
   "landuse/cemetery": {
     "name": "Surnuaed"
   },
-  "landuse/commercial": {
-    "name": "Ärimaa"
-  },
   "landuse/forest": {
     "name": "Metsamaa"
   },
   "landuse/grass": {
     "name": "Muru"
-  },
-  "landuse/industrial": {
-    "name": "Tootmismaa"
   },
   "landuse/meadow": {
     "name": "Niit"
@@ -331,12 +325,6 @@
   },
   "landuse/quarry": {
     "name": "Karjäär"
-  },
-  "landuse/residential": {
-    "name": "Elamumaa"
-  },
-  "landuse/retail": {
-    "name": "Jaekaubandus"
   },
   "landuse/vineyard": {
     "name": "Viinapuuaed"

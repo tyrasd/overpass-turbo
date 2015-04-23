@@ -115,6 +115,10 @@
     "name": "Stazione del Bike Sharing",
     "terms": "Noleggio biciclette"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "Stazione di riparazione biciclette",
+    "terms": "riparazione,bibiclette,meccanico,bici,cicli"
+  },
   "amenity/boat_rental": {
     "name": "Noleggio barche",
     "terms": "noleggio barche,noleggio,barche,porto,negozio"
@@ -137,14 +141,18 @@
   },
   "amenity/car_sharing": {
     "name": "Car Sharing",
-    "terms": "'Car Sharing"
+    "terms": "Car Sharing"
   },
   "amenity/car_wash": {
     "name": "Autolavaggio",
     "terms": "Autolavaggio"
   },
   "amenity/charging_station": {
-    "name": "Stazione di ricarica"
+    "name": "Stazione di ricarica",
+    "terms": "stazione di ricarica,ricarica"
+  },
+  "amenity/childcare": {
+    "name": "Asilo nido"
   },
   "amenity/cinema": {
     "name": "Cinema",
@@ -157,6 +165,9 @@
   "amenity/clock": {
     "name": "Orologio",
     "terms": "ora,orario,orologio"
+  },
+  "amenity/community_centre": {
+    "name": "Centro sociale"
   },
   "amenity/compressed_air": {
     "name": "Aria Compressa"
@@ -208,6 +219,10 @@
   "amenity/hospital": {
     "name": "Area Ospedaliera",
     "terms": "ospedale,clinica,pronto soccorso,servizio sanitario,salute,hospice,ospizio,infermeria,istituzione,casa di cura,casa di riposo,sanatorio,ambulatorio,chirurgia,reparto"
+  },
+  "amenity/kindergarten": {
+    "name": "Area della Scuola dell'infanzia",
+    "terms": "scuola d'infanzia,scuola di infanzia,asilo,assistenza all'infanzia,asilo d'infanzia,scuola materna,scuola dell'infanzia,asilo nido"
   },
   "amenity/library": {
     "name": "Biblioteca",
@@ -269,6 +284,10 @@
     "name": "Pub",
     "terms": "Pub"
   },
+  "amenity/public_bookcase": {
+    "name": "Libreria pubblica",
+    "terms": "scambialibri,scambio,libri,libreria,scaffale"
+  },
   "amenity/ranger_station": {
     "name": "Guardiaparco",
     "terms": "Stazione guardia forestale"
@@ -276,6 +295,10 @@
   "amenity/recycling": {
     "name": "Isola ecologica",
     "terms": "riciclo,raccolta differenziata,cestino,pattume,riciclaggio"
+  },
+  "amenity/register_office": {
+    "name": "Anagrafe",
+    "terms": "anagrafe,comune,archivio di stato"
   },
   "amenity/restaurant": {
     "name": "Ristorante",
@@ -548,6 +571,9 @@
     "name": "Magazzino",
     "terms": "magazzino,ripostiglio,rimessa"
   },
+  "craft/basket_maker": {
+    "name": "Cestaio"
+  },
   "craft/beekeeper": {
     "name": "Apicoltore"
   },
@@ -569,12 +595,12 @@
     "name": "Carpentiere",
     "terms": "carpenteria,legno"
   },
+  "craft/caterer": {
+    "name": "Fornitore di catering"
+  },
   "craft/clockmaker": {
     "name": "Costruttore di orologi",
     "terms": "orologi"
-  },
-  "craft/confectionery": {
-    "name": "Pasticceria"
   },
   "craft/dressmaker": {
     "name": "Sartoria",
@@ -627,6 +653,9 @@
     "name": "Segheria",
     "terms": "legno,segheria"
   },
+  "craft/scaffolder": {
+    "name": "Impalcature"
+  },
   "craft/sculpter": {
     "name": "Scultore"
   },
@@ -634,12 +663,28 @@
     "name": "Calzolaio",
     "terms": "scarpe,scarpino,calzature"
   },
+  "craft/stonemason": {
+    "name": "Tagliapietre"
+  },
+  "craft/tailor": {
+    "name": "Sarto"
+  },
+  "craft/tiler": {
+    "name": "Piastrellista"
+  },
+  "craft/tinsmith": {
+    "name": "Lattoniere"
+  },
   "craft/upholsterer": {
     "name": "Tappezziere"
   },
   "craft/watchmaker": {
     "name": "Orologiaio",
     "terms": "orologi,riparazione"
+  },
+  "craft/winery": {
+    "name": "Cantina vinicola",
+    "terms": "azienda vinicola, azienda vitivinicola"
   },
   "embankment": {
     "name": "Terrapieno",
@@ -696,6 +741,9 @@
   "golf/lateral_water_hazard": {
     "name": "Ostacolo d'acqua laterale",
     "terms": "buca,acqua,golf,ostacolo"
+  },
+  "golf/rough": {
+    "name": "Irregolare, grezzo"
   },
   "golf/water_hazard": {
     "name": "Ostacolo d'acqua",
@@ -897,6 +945,10 @@
     "name": "Edicola votiva",
     "terms": "Edicola votiva"
   },
+  "junction": {
+    "name": "Svincolo",
+    "terms": "svincolo,uscita"
+  },
   "landuse": {
     "name": "Uso del suolo",
     "terms": "Utilizzo del suolo"
@@ -918,16 +970,16 @@
     "terms": "sagrato,parrocchia"
   },
   "landuse/commercial": {
-    "name": "Commerciale",
-    "terms": "Commerciale"
+    "name": "Area commerciale",
+    "terms": "centro commerciale,area commerciale,commerciale,commercio"
   },
   "landuse/construction": {
     "name": "Costruzione",
     "terms": "In costruzione"
   },
   "landuse/farm": {
-    "name": "Agricolo",
-    "terms": "Fattoria"
+    "name": "Terreno agricolo",
+    "terms": "fattoria"
   },
   "landuse/farmland": {
     "name": "Terreno agricolo",
@@ -941,13 +993,17 @@
     "name": "Foresta",
     "terms": "Foresta"
   },
+  "landuse/garages": {
+    "name": "Garage",
+    "terms": "garage,rimessa,autorimessa"
+  },
   "landuse/grass": {
     "name": "Erba",
     "terms": "Erba"
   },
   "landuse/industrial": {
-    "name": "Industriale",
-    "terms": "Industriale"
+    "name": "Area industriale",
+    "terms": "zona industriale,zona artigianale,industria,artigianato"
   },
   "landuse/landfill": {
     "name": "Discarica",
@@ -958,7 +1014,7 @@
     "terms": "Prato"
   },
   "landuse/military": {
-    "name": "Militare",
+    "name": "Area militare",
     "terms": "base,militare,forze dell'ordine,soldati,caserma,fanteria,artiglieria"
   },
   "landuse/orchard": {
@@ -970,11 +1026,11 @@
     "terms": "Cava"
   },
   "landuse/residential": {
-    "name": "Residenziale",
-    "terms": "Residenziale"
+    "name": "Area residenziale",
+    "terms": "residenziale,zona residenziale,case,abitazioni,alloggi"
   },
   "landuse/retail": {
-    "name": "Negozio di vendita al dettaglio",
+    "name": "Area di vendita al dettaglio",
     "terms": "Commerciale"
   },
   "landuse/vineyard": {
@@ -1004,6 +1060,10 @@
   "leisure/marina": {
     "name": "Marina",
     "terms": "Porto turistico"
+  },
+  "leisure/nature_reserve": {
+    "name": "Riserva naturale",
+    "terms": "riserva,natura,parco,naturale"
   },
   "leisure/park": {
     "name": "Parco",
@@ -1164,6 +1224,10 @@
     "name": "Spiaggia",
     "terms": "Spiaggia"
   },
+  "natural/cave_entrance": {
+    "name": "Ingresso grotta",
+    "terms": "grotta,caverna,anfratto,dolina"
+  },
   "natural/cliff": {
     "name": "Scogliera",
     "terms": "Rupe"
@@ -1248,6 +1312,9 @@
     "name": "Architetto",
     "terms": "architetto,studio,design"
   },
+  "office/company": {
+    "name": "Ufficio aziendale"
+  },
   "office/employment_agency": {
     "name": "Agenzia per l'impiego",
     "terms": "interinale,impiego,lavoro,ufficio per l'impiego,ufficio interinale"
@@ -1331,6 +1398,9 @@
   "place/locality": {
     "name": "Località",
     "terms": "Località (luogo con nome, non popolato)"
+  },
+  "place/neighbourhood": {
+    "name": "Vicinanze"
   },
   "place/suburb": {
     "name": "Sobborgo",
@@ -1460,6 +1530,9 @@
     "name": "Negozio di liquori",
     "terms": "alcool,liquori,grappa,rum,vodka"
   },
+  "shop/anime": {
+    "name": "Negozio di manga"
+  },
   "shop/antiques": {
     "name": "Antiquario",
     "terms": "antichità,mobili antichi"
@@ -1516,6 +1589,10 @@
     "name": "Negozio di tappeti",
     "terms": "tappeti,persiani"
   },
+  "shop/cheese": {
+    "name": "Negozio di formaggi",
+    "terms": "Formaggeria"
+  },
   "shop/chemist": {
     "name": "Drogheria",
     "terms": "Articoli di pulizia e bellezza"
@@ -1531,6 +1608,9 @@
   "shop/convenience": {
     "name": "Minimarket",
     "terms": "Drogheria"
+  },
+  "shop/curtain": {
+    "name": "Negozio di tende"
   },
   "shop/deli": {
     "name": "Gastronomia",
@@ -1551,6 +1631,10 @@
   "shop/electronics": {
     "name": "Negozio di elettronica",
     "terms": "Negozio di elettronica"
+  },
+  "shop/erotic": {
+    "name": "Negozio erotico",
+    "terms": "Sexy shop"
   },
   "shop/farm": {
     "name": "Banchetto Alimentari Freschi",
@@ -1595,6 +1679,10 @@
   "shop/hifi": {
     "name": "Negozio Hifi",
     "terms": "Negozio Hi-Fi"
+  },
+  "shop/houseware": {
+    "name": "Casalinghi",
+    "terms": "casalinghi,negozio di casalinghi,pentole"
   },
   "shop/jewelry": {
     "name": "Gioielliere",
