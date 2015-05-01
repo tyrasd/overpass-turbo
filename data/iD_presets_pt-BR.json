@@ -884,12 +884,12 @@
     "terms": "Via de Pedestre, Caminho de Pedestre, Passeio, Calçada"
   },
   "highway/living_street": {
-    "name": "Via de Espaço Compartilhado",
-    "terms": "Rua Viva, Rua Preferencial a Pedestres"
+    "name": "Via Compartilhada",
+    "terms": "Rua de Convivência, Rua Preferencial a Pedestres"
   },
   "highway/mini_roundabout": {
     "name": "Mini-Rotatória",
-    "terms": "Mini-Rotatória"
+    "terms": "Mini-Rotatória, Balão, Mini-Rotunda"
   },
   "highway/motorway": {
     "name": "Autoestrada",
@@ -1647,6 +1647,10 @@
     "name": "Relação",
     "terms": "Relação"
   },
+  "roundabout": {
+    "name": "Rotatória",
+    "terms": "Rotatória, Rotunda, Rótula, Bolacha, Girador, Balão"
+  },
   "route/ferry": {
     "name": "Rota de Balsa",
     "terms": "Rota de Barco, Rota de Balsa"
@@ -1892,8 +1896,8 @@
     "terms": "Joalheria"
   },
   "shop/kiosk": {
-    "name": "Banca de Revistas",
-    "terms": "Banca de Jornais, Jornaleiro"
+    "name": "Quiosque",
+    "terms": "Kiosk, kioske"
   },
   "shop/kitchen": {
     "name": "Loja de Cozinhas",

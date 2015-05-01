@@ -158,6 +158,9 @@
   "amenity/college": {
     "name": "Teren uczelni"
   },
+  "amenity/community_centre": {
+    "name": "Dom kultury"
+  },
   "amenity/compressed_air": {
     "name": "Kompresor"
   },
@@ -277,6 +280,9 @@
   },
   "amenity/recycling": {
     "name": "Recykling"
+  },
+  "amenity/register_office": {
+    "name": "Urząd stanu cywilnego"
   },
   "amenity/restaurant": {
     "name": "Restauracja",
@@ -598,7 +604,7 @@
   },
   "craft/jeweler": {
     "name": "Jubiler",
-    "terms": "jubiler"
+    "terms": "biżuteria"
   },
   "craft/key_cutter": {
     "name": "Dorabianie kluczy"
@@ -786,6 +792,9 @@
     "name": "Łącznik dróg pierwszorzędnych",
     "terms": "rampa,wjazd,wyjazd,zjazd"
   },
+  "highway/raceway": {
+    "name": "Tor wyścigowy"
+  },
   "highway/residential": {
     "name": "Droga lokalna",
     "terms": "lokalna, osiedlowa, zamieszkała"
@@ -910,6 +919,9 @@
     "name": "Przydrożna kapliczka",
     "terms": "kapliczka,przydrożna"
   },
+  "junction": {
+    "name": "Skrzyżowanie"
+  },
   "landuse": {
     "name": "Użytkowanie gruntów",
     "terms": "teren,zagospodarowanie,terenu,użytkowanie,wykorzystanie"
@@ -929,9 +941,19 @@
   "landuse/churchyard": {
     "name": "Dziedziniec kościelny"
   },
+  "landuse/commercial": {
+    "name": "Obszar komercyjny"
+  },
   "landuse/construction": {
     "name": "Budowa",
     "terms": "budowa,teren,budowy"
+  },
+  "landuse/farm": {
+    "name": "Użytki rolne",
+    "terms": "ziemia uprawna,grunty rolne"
+  },
+  "landuse/farmland": {
+    "name": "Pola uprawne"
   },
   "landuse/farmyard": {
     "name": "Zabudowa rolnicza",
@@ -948,6 +970,9 @@
     "name": "Trawa",
     "terms": "trawa, trawnik, "
   },
+  "landuse/industrial": {
+    "name": "Obszar przemysłowy"
+  },
   "landuse/landfill": {
     "name": "Wysypisko",
     "terms": "składowisko odpadów,śmieci"
@@ -956,6 +981,9 @@
     "name": "Łąka",
     "terms": "Łąka"
   },
+  "landuse/military": {
+    "name": "Obszar wojskowy"
+  },
   "landuse/orchard": {
     "name": "Sad",
     "terms": "Sad"
@@ -963,6 +991,12 @@
   "landuse/quarry": {
     "name": "Kamieniołom",
     "terms": "kamieniołom, żwirownia, kruszywo"
+  },
+  "landuse/residential": {
+    "name": "Zabudowa mieszkaniowa"
+  },
+  "landuse/retail": {
+    "name": "Obszar handlowy"
   },
   "landuse/vineyard": {
     "name": "Winnica",
@@ -987,7 +1021,8 @@
     "terms": "pole golfowe"
   },
   "leisure/ice_rink": {
-    "name": "Lodowisko"
+    "name": "Lodowisko",
+    "terms": "lodowisko, ślizgawka"
   },
   "leisure/marina": {
     "name": "Przystań",
@@ -1001,7 +1036,8 @@
     "terms": "las,ogród,trawa,zieleń,trawnik,łąka,miejsce,plac,teren rekreacyjny"
   },
   "leisure/picnic_table": {
-    "name": "Stół piknikowy"
+    "name": "Stół piknikowy",
+    "terms": "stół piknikowy"
   },
   "leisure/pitch": {
     "name": "Boisko",
@@ -1055,6 +1091,9 @@
     "name": "Basen",
     "terms": "basen pływacki"
   },
+  "leisure/track": {
+    "name": "Bieżnia"
+  },
   "line": {
     "name": "Linia",
     "terms": "Linia, lina"
@@ -1083,7 +1122,8 @@
     "terms": "wieża obserwacyjna"
   },
   "man_made/pier": {
-    "name": "Molo"
+    "name": "Molo",
+    "terms": "pomost"
   },
   "man_made/pipeline": {
     "name": "Rurociąg"
@@ -1102,6 +1142,9 @@
   "man_made/water_tower": {
     "name": "Wieża ciśnień",
     "terms": "wieża ciśnień"
+  },
+  "man_made/water_well": {
+    "name": "Studnia"
   },
   "man_made/water_works": {
     "name": "Filtracja wody"
@@ -1295,6 +1338,9 @@
   "place/neighbourhood": {
     "name": "Sąsiedztwo"
   },
+  "place/suburb": {
+    "name": "Dzielnica"
+  },
   "place/town": {
     "name": "Miasto",
     "terms": "Miasteczko"
@@ -1348,8 +1394,8 @@
     "terms": "torowisko, kolej"
   },
   "railway/abandoned": {
-    "name": "Nieużywany tor",
-    "terms": "opuszczona kolej"
+    "name": "Rozebrany tor",
+    "terms": "rozebrany tor"
   },
   "railway/disused": {
     "name": "Nieużywany tor"
@@ -1398,6 +1444,9 @@
     "name": "Relacja",
     "terms": "relacja"
   },
+  "roundabout": {
+    "name": "Rondo"
+  },
   "route/ferry": {
     "name": "Trasa morska"
   },
@@ -1418,13 +1467,25 @@
   "shop/art": {
     "name": "Galeria sztuki"
   },
+  "shop/baby_goods": {
+    "name": "Sklep z artykułami dla dzieci i niemowląt"
+  },
+  "shop/bag": {
+    "name": "Sklep z torebkami/walizkami"
+  },
   "shop/bakery": {
     "name": "Piekarnia",
     "terms": "Piekarnia"
   },
+  "shop/bathroom_furnishing": {
+    "name": "Sklep z wyposażeniem łazienek"
+  },
   "shop/beauty": {
     "name": "Salon piękności",
     "terms": "kosmetyczka, wizaż"
+  },
+  "shop/bed": {
+    "name": "Sklep z łóżkami/materacami"
   },
   "shop/beverages": {
     "name": "Sklep z napojami"
@@ -1447,6 +1508,9 @@
     "name": "Rzeźnik",
     "terms": "sklep mięsny, rzeźnia"
   },
+  "shop/candles": {
+    "name": "Sklep ze świecami"
+  },
   "shop/car": {
     "name": "Dealer samochodowy",
     "terms": "sprzedawca samochodów, dealer samochodowy"
@@ -1459,9 +1523,19 @@
     "name": "Warsztat samochodowy",
     "terms": "serwis samochodowy. mechanik"
   },
+  "shop/carpet": {
+    "name": "Sklep z dywanami",
+    "terms": "wykładzina"
+  },
+  "shop/cheese": {
+    "name": "Sklep z serami"
+  },
   "shop/chemist": {
     "name": "Drogeria",
     "terms": "apteka"
+  },
+  "shop/chocolate": {
+    "name": "Sklep z czekoladą"
   },
   "shop/clothes": {
     "name": "Sklep odzieżowy",
@@ -1471,6 +1545,10 @@
     "name": "Sklep komputerowy",
     "terms": "sklep komputerowy"
   },
+  "shop/confectionery": {
+    "name": "Sklep ze słodyczami",
+    "terms": "cukierki"
+  },
   "shop/convenience": {
     "name": "Sklep ogólnospożywczy",
     "terms": "mały sklep, sklepik osiedlowy"
@@ -1478,6 +1556,15 @@
   "shop/copyshop": {
     "name": "Punkt ksero",
     "terms": "kopiowanie"
+  },
+  "shop/cosmetics": {
+    "name": "Sklep z kosmetykami"
+  },
+  "shop/curtain": {
+    "name": "Sklep z zasłonami"
+  },
+  "shop/dairy": {
+    "name": "Sklep z nabiałem"
   },
   "shop/deli": {
     "name": "Delikatesy"
@@ -1496,7 +1583,11 @@
     "name": "Sklep elektroniczny"
   },
   "shop/erotic": {
-    "name": "Sklep erotyczny"
+    "name": "Sklep erotyczny",
+    "terms": "sex shop"
+  },
+  "shop/fabric": {
+    "name": "Sklep z tkaninami"
   },
   "shop/farm": {
     "name": "Stragan produktów"
@@ -1508,9 +1599,16 @@
     "name": "Kwiaciarnia",
     "terms": "kwiaciarnia"
   },
+  "shop/frame": {
+    "name": "Sklep z ramami",
+    "terms": "oprawa obrazów"
+  },
   "shop/funeral_directors": {
     "name": "Zakład pogrzebowy",
     "terms": "pochówek,pogrzeb"
+  },
+  "shop/furnace": {
+    "name": "Sklep z ogrzewaniem"
   },
   "shop/furniture": {
     "name": "Sklep meblowy",
@@ -1534,18 +1632,40 @@
   "shop/hardware": {
     "name": "Sklep z narzędziami"
   },
+  "shop/hearing_aids": {
+    "name": "Sklep z aparatami słuchowymi"
+  },
+  "shop/herbalist": {
+    "name": "Zielarz",
+    "terms": "Herbaciarnia, zielarz"
+  },
   "shop/hifi": {
     "name": "Sklep ze sprzętem Hi-fi"
   },
+  "shop/houseware": {
+    "name": "Sklep z małymi artykułami gospodarstwa domowego",
+    "terms": "sztućce, garnki, artykuły kuchenne"
+  },
+  "shop/interior_decoration": {
+    "name": "Sklep z dekoracją wnętrz"
+  },
   "shop/jewelry": {
-    "name": "Jubiler"
+    "name": "Jubiler",
+    "terms": "biżuteria"
   },
   "shop/kiosk": {
-    "name": "Kiosk z prasą"
+    "name": "Kiosk z prasą",
+    "terms": "Kiosk"
+  },
+  "shop/kitchen": {
+    "name": "Sklep z wyposażeniem i meblami kuchennymi"
   },
   "shop/laundry": {
     "name": "Pralnia",
     "terms": "pralnia"
+  },
+  "shop/leather": {
+    "name": "Sklep skórzany"
   },
   "shop/locksmith": {
     "name": "Ślusarz"
@@ -1556,8 +1676,18 @@
   "shop/mall": {
     "name": "Centrum handlowe"
   },
+  "shop/massage": {
+    "name": "Masaż"
+  },
+  "shop/medical_supply": {
+    "name": "Sklep ze sprzętem medycznym"
+  },
   "shop/mobile_phone": {
     "name": "Sklep z telefonami komórkowymi"
+  },
+  "shop/money_lender": {
+    "name": "Pożyczki",
+    "terms": "kredyt"
   },
   "shop/motorcycle": {
     "name": "Dealer motocykli",
@@ -1567,12 +1697,25 @@
     "name": "Sklep muzyczny",
     "terms": "sklep muzyczny"
   },
+  "shop/musical_instrument": {
+    "name": "Sklep z instrumentami muzycznymi"
+  },
   "shop/newsagent": {
     "name": "Sklep z prasą"
   },
   "shop/optician": {
     "name": "Optyk",
     "terms": "optyk"
+  },
+  "shop/organic": {
+    "name": "Sklep z naturalną żywnością"
+  },
+  "shop/outdoor": {
+    "name": "Sklep turystyczny",
+    "terms": "outdoor"
+  },
+  "shop/paint": {
+    "name": "Sklep z farbami"
   },
   "shop/pawnbroker": {
     "name": "Lombard"
@@ -1596,6 +1739,10 @@
   "shop/seafood": {
     "name": "Sklep z owocami morza"
   },
+  "shop/second_hand": {
+    "name": "Sklep z rzeczami używanymi",
+    "terms": "second hand, komis"
+  },
   "shop/shoes": {
     "name": "Sklep obuwniczy"
   },
@@ -1613,8 +1760,18 @@
     "name": "Krawiec",
     "terms": "krawcowa, odzież na miarę"
   },
+  "shop/tattoo": {
+    "name": "Studio tatuażu"
+  },
   "shop/tea": {
     "name": "Herbaciarnia"
+  },
+  "shop/ticket": {
+    "name": "Sprzedaż biletów",
+    "terms": "kasa biletowa"
+  },
+  "shop/tobacco": {
+    "name": "Sklep z tytoniem"
   },
   "shop/toys": {
     "name": "Sklep z zabawkami",
@@ -1630,6 +1787,9 @@
   "shop/vacant": {
     "name": "Pusty lokal sklepowy"
   },
+  "shop/vacuum_cleaner": {
+    "name": "Sklep z odkurzaczami"
+  },
   "shop/variety_store": {
     "name": "Sklep z różnościami"
   },
@@ -1641,6 +1801,9 @@
   },
   "shop/weapons": {
     "name": "Sklep z bronią"
+  },
+  "shop/window_blind": {
+    "name": "Sklep z żaluzjami/roletami"
   },
   "shop/wine": {
     "name": "Winiarnia",
@@ -1661,7 +1824,8 @@
     "terms": "atrakcja turystyczna"
   },
   "tourism/camp_site": {
-    "name": "Kemping"
+    "name": "Kemping",
+    "terms": "Camping"
   },
   "tourism/caravan_site": {
     "name": "Kemping dla kamperów"
@@ -1705,6 +1869,18 @@
   "tourism/zoo": {
     "name": "Zoo",
     "terms": "Zoo, ogród zoologiczny"
+  },
+  "traffic_calming/bump": {
+    "name": "Próg zwalniający"
+  },
+  "traffic_calming/hump": {
+    "name": "Wysepka zwalniająca"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "Linia wibracyjna"
+  },
+  "traffic_calming/table": {
+    "name": "Wyniesione przejście dla pieszych"
   },
   "type/boundary": {
     "name": "Granica"

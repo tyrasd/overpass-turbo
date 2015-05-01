@@ -216,6 +216,10 @@
     "name": "Cimitero",
     "terms": "Cimitero"
   },
+  "amenity/grit_bin": {
+    "name": "Cestino del sale",
+    "terms": "spandisale,sale,ghiaccio,inverno,salare"
+  },
   "amenity/hospital": {
     "name": "Area Ospedaliera",
     "terms": "ospedale,clinica,pronto soccorso,servizio sanitario,salute,hospice,ospizio,infermeria,istituzione,casa di cura,casa di riposo,sanatorio,ambulatorio,chirurgia,reparto"
@@ -1442,6 +1446,9 @@
     "name": "Sottostazione elettrica",
     "terms": "Sottostazione elettrica,centralina,trasformatore"
   },
+  "power/substation": {
+    "name": "Sottostazione"
+  },
   "power/tower": {
     "name": "Traliccio ad alta tensione",
     "terms": "Torre ad alta tensione"
@@ -1517,6 +1524,10 @@
   "relation": {
     "name": "Relazione",
     "terms": "Relazione"
+  },
+  "roundabout": {
+    "name": "Rotatoria",
+    "terms": "rotonda,rotatoria"
   },
   "route/ferry": {
     "name": "Rotta",
@@ -1597,6 +1608,9 @@
     "name": "Drogheria",
     "terms": "Articoli di pulizia e bellezza"
   },
+  "shop/chocolate": {
+    "name": "Cioccolateria"
+  },
   "shop/clothes": {
     "name": "Negozio di abbigliamento",
     "terms": "Negozio vestiti"
@@ -1608,6 +1622,9 @@
   "shop/convenience": {
     "name": "Minimarket",
     "terms": "Drogheria"
+  },
+  "shop/cosmetics": {
+    "name": "Negozio di cosmetici"
   },
   "shop/curtain": {
     "name": "Negozio di tende"
@@ -1720,6 +1737,9 @@
     "name": "Ottico",
     "terms": "Ottico"
   },
+  "shop/pawnbroker": {
+    "name": "Banco dei pegni"
+  },
   "shop/pet": {
     "name": "Negozio di animali",
     "terms": "Negozio di animali"
@@ -1752,6 +1772,10 @@
     "name": "Sartoria",
     "terms": "sarto,vestiti,abiti"
   },
+  "shop/tobacco": {
+    "name": "Tabacchino",
+    "terms": "Tabaccheria"
+  },
   "shop/toys": {
     "name": "Negozio di giocattoli",
     "terms": "Negozio giocattoli"
@@ -1775,6 +1799,9 @@
   "shop/video": {
     "name": "Videoteca",
     "terms": "Videoteca"
+  },
+  "shop/weapons": {
+    "name": "Armeria"
   },
   "shop/wine": {
     "name": "Enoteca",

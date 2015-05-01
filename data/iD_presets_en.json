@@ -1275,9 +1275,17 @@
     "name": "Lighthouse",
     "terms": ""
   },
+  "man_made/mast": {
+    "name": "Radio Mast",
+    "terms": "broadcast tower,cell phone tower,cell tower,guyed tower,mobile phone tower,radio tower,television tower,transmission mast,transmission tower,tv tower"
+  },
   "man_made/observation": {
     "name": "Observation Tower",
     "terms": "lookout tower,fire tower"
+  },
+  "man_made/petroleum_well": {
+    "name": "Oil Well",
+    "terms": "drilling rig,oil derrick,oil drill,oil horse,oil rig,oil pump,petroleum well,pumpjack"
   },
   "man_made/pier": {
     "name": "Pier",

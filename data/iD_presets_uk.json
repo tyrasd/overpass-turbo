@@ -1647,6 +1647,10 @@
     "name": "Зв’язок",
     "terms": "Relation, pdzpjr, зв’язок"
   },
+  "roundabout": {
+    "name": "Круг",
+    "terms": "Roundabout, круг, круговий рух, коло, перехресття"
+  },
   "route/ferry": {
     "name": "Паром",
     "terms": "Ferry Route, gfhjv, паромна переправа"
