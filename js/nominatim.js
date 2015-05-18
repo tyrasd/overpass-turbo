@@ -7,7 +7,7 @@ turbo.nominatim = function() {
 
   function request(search, callback) {
     // ajax (GET) request to nominatim
-    $.ajax("//nominatim.openstreetmap.org/search"+"?X-Requested-With="+configs.appname, {
+    $.ajax("https://nominatim.openstreetmap.org/search"+"?X-Requested-With="+configs.appname, {
       data:{
         format:"json",
         q: search
