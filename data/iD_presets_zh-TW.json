@@ -364,8 +364,8 @@
     "terms": "便所,公廁,洗手間,盥洗室"
   },
   "amenity/townhall": {
-    "name": "區公所",
-    "terms": "鄉公所,鎮公所,市公所"
+    "name": "政府辦公大樓",
+    "terms": "市政廳,市政府,縣政府,區公所,鄉公所,鎮公所,市公所"
   },
   "amenity/university": {
     "name": "大學用地",
@@ -1051,6 +1051,10 @@
     "name": "路邊神祠",
     "terms": "路邊小廟"
   },
+  "junction": {
+    "name": "路口",
+    "terms": "槽化車道,道路交叉,十字路口,丁字路,路"
+  },
   "landuse": {
     "name": "土地用途",
     "terms": "土地使用"
@@ -1071,9 +1075,21 @@
     "name": "教堂院落",
     "terms": "教堂用地"
   },
+  "landuse/commercial": {
+    "name": "商業區",
+    "terms": "商業區"
+  },
   "landuse/construction": {
     "name": "建築工地",
     "terms": "建築工程"
+  },
+  "landuse/farm": {
+    "name": "農田",
+    "terms": "農田,稻田,農地,田,耕地"
+  },
+  "landuse/farmland": {
+    "name": "農田",
+    "terms": "農田,稻田,農地,田,耕地"
   },
   "landuse/farmyard": {
     "name": "農莊",
@@ -1091,6 +1107,10 @@
     "name": "草地",
     "terms": "草地"
   },
+  "landuse/industrial": {
+    "name": "工業區",
+    "terms": "工業區"
+  },
   "landuse/landfill": {
     "name": "埯埋場",
     "terms": "堆填區"
@@ -1099,6 +1119,10 @@
     "name": "牧場",
     "terms": "牧場"
   },
+  "landuse/military": {
+    "name": "軍事用地",
+    "terms": "營區,軍營"
+  },
   "landuse/orchard": {
     "name": "果園",
     "terms": "果園"
@@ -1106,6 +1130,14 @@
   "landuse/quarry": {
     "name": "礦區",
     "terms": "礦場"
+  },
+  "landuse/residential": {
+    "name": "住宅區",
+    "terms": "住宅用地"
+  },
+  "landuse/retail": {
+    "name": "零售",
+    "terms": "零售區域"
   },
   "landuse/vineyard": {
     "name": "酒莊",
@@ -1142,6 +1174,10 @@
   "leisure/marina": {
     "name": "遊艇碼頭",
     "terms": "遊艇碼頭"
+  },
+  "leisure/nature_reserve": {
+    "name": "自然保留區",
+    "terms": "自然保護區"
   },
   "leisure/park": {
     "name": "公園",
@@ -1611,6 +1647,10 @@
     "name": "關係",
     "terms": "關係"
   },
+  "roundabout": {
+    "name": "圓環",
+    "terms": "圓環"
+  },
   "route/ferry": {
     "name": "渡輪航線",
     "terms": "渡輪航線"
@@ -1842,6 +1882,10 @@
   "shop/hifi": {
     "name": "音響店",
     "terms": "音響店"
+  },
+  "shop/houseware": {
+    "name": "家庭用品店",
+    "terms": "家居用品店"
   },
   "shop/interior_decoration": {
     "name": "室內設計店",

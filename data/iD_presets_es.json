@@ -953,11 +953,11 @@
   },
   "highway/service/drive-through": {
     "name": "Ventanilla de autoservicio",
-    "terms": "Parada sin bajar del vehiculo"
+    "terms": "ventanilla, autoservicio, autobanco, autofarmacia"
   },
   "highway/service/driveway": {
-    "name": "Vía privada de acceso",
-    "terms": "calle, carril, pista, trayecto, avenida, carretera, vía de servicio, vía"
+    "name": "Vía privada de entrada",
+    "terms": "calle, carril, avenida, carretera, vía de servicio, entrada, privada, acceso, garaje"
   },
   "highway/service/emergency_access": {
     "name": "Acceso de emergencia",
@@ -1076,8 +1076,8 @@
     "terms": "cementerio, camposanto, tumbas"
   },
   "landuse/commercial": {
-    "name": "Área Comercial",
-    "terms": "Zona Comercial"
+    "name": "Área comercial",
+    "terms": "área comercial, comercio, negocio, tiendas"
   },
   "landuse/construction": {
     "name": "Construcción",
@@ -1085,11 +1085,11 @@
   },
   "landuse/farm": {
     "name": "Tierras de cultivo",
-    "terms": "Tierras agrícolas, Tierras de labranza"
+    "terms": "tierras de cultivo, tierras agrícolas, tierras de labranza, terreno agrícola"
   },
   "landuse/farmland": {
     "name": "Tierras de cultivo",
-    "terms": "Tierras agrícolas, Tierras de labranza"
+    "terms": "tierras de cultivo, tierras agrícolas, tierras de labranza, terreno agrícola"
   },
   "landuse/farmyard": {
     "name": "Edificio de granja",
@@ -1108,8 +1108,8 @@
     "terms": "herbazal, pradera, pradería, prado, pasto, majada, monte, dehesa"
   },
   "landuse/industrial": {
-    "name": "Área Industrial",
-    "terms": "Zona Industrial"
+    "name": "Área industrial",
+    "terms": "área industrial, parque industrial, industria, fábrica"
   },
   "landuse/landfill": {
     "name": "Vertedero",
@@ -1120,8 +1120,8 @@
     "terms": "prado, pradera, campo, mies, braniza, braña"
   },
   "landuse/military": {
-    "name": "Área Militar",
-    "terms": "Zona Militar"
+    "name": "Área militar",
+    "terms": "área militar"
   },
   "landuse/orchard": {
     "name": "Huerta",
@@ -1132,12 +1132,12 @@
     "terms": "cantera, mina"
   },
   "landuse/residential": {
-    "name": "Área Residencial",
-    "terms": "Barrio Residencial"
+    "name": "Área residencial",
+    "terms": "área residencial"
   },
   "landuse/retail": {
-    "name": "Área Comercial",
-    "terms": "Zona Comercial"
+    "name": "Área comercial",
+    "terms": "área comercial, comercio, negocio, tienda"
   },
   "landuse/vineyard": {
     "name": "Viñedo",
@@ -1647,6 +1647,10 @@
     "name": "Relación",
     "terms": "Relación, Vínculo, Asociación"
   },
+  "roundabout": {
+    "name": "Rotonda",
+    "terms": " rotonda, glorieta, óvalo, redoma, redondel"
+  },
   "route/ferry": {
     "name": "Ruta de ferry",
     "terms": "ruta, ferry, transbordador, lancha, embarcación"
@@ -1880,8 +1884,8 @@
     "terms": "sonido, hifi, alta fidelidad, electrónica, altavoz, amplificador, tienda, almacén, negocio"
   },
   "shop/houseware": {
-    "name": "Tienda de Artículos para el Hogar ",
-    "terms": "Tienda de Electrodomésticos"
+    "name": "Tienda de artículos del hogar ",
+    "terms": "artículos del hogar, enseres del hogar, hogar, casa, almacén, comercio, negocio, tienda"
   },
   "shop/interior_decoration": {
     "name": "Tienda de decoración de interiores",

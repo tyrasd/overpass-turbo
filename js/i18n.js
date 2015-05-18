@@ -30,7 +30,7 @@ var i18n = new(function() {
     "es":    "Spanish",
     "et":    "Estonian",
     "fr":    "French",
-    "hr":    "Hungarian",
+    "hr":    "Croatian",
     "it":    "Italian",
     "ja":    "Japanese",
     "nl":    "Dutch",

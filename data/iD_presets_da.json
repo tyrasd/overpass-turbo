@@ -9,7 +9,7 @@
   },
   "aerialway/cable_car": {
     "name": "Svævebane",
-    "terms": "Svævebane, Gongolbane"
+    "terms": "Svævebane, Gondolbane"
   },
   "aerialway/chair_lift": {
     "name": "Skilift",
@@ -52,11 +52,11 @@
     "terms": "Lufthavn, Flyveplads"
   },
   "aeroway/apron": {
-    "name": "Apron",
+    "name": "forplads foran hangarer",
     "terms": "Apron"
   },
   "aeroway/gate": {
-    "name": "Lufthavns gate",
+    "name": "Lufthavnsgate",
     "terms": "Lufthavns gate"
   },
   "aeroway/hangar": {
@@ -1646,6 +1646,10 @@
   "relation": {
     "name": "Relation",
     "terms": "Relation"
+  },
+  "roundabout": {
+    "name": "Rundkørsel",
+    "terms": "Rundkørsel"
   },
   "route/ferry": {
     "name": "Færgerute",

@@ -1580,7 +1580,7 @@
     "terms": "Transformateur"
   },
   "public_transport/platform": {
-    "name": "Plateforme",
+    "name": "Plateforme d'attente",
     "terms": "Quai"
   },
   "public_transport/stop_position": {
@@ -1646,6 +1646,10 @@
   "relation": {
     "name": "Relation",
     "terms": "Relation"
+  },
+  "roundabout": {
+    "name": "Carrefour giratoire ",
+    "terms": "Rond-point"
   },
   "route/ferry": {
     "name": "Trajet de ferry",

@@ -115,6 +115,10 @@
     "name": "レンタサイクル",
     "terms": "レンタサイクル"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "自転車修理ステーション",
+    "terms": "自転車修理ステーション"
+  },
   "amenity/boat_rental": {
     "name": "貸しボート",
     "terms": "貸しボート"
@@ -219,6 +223,10 @@
     "name": "（教会・寺院にある）墓所",
     "terms": "墓地,霊園,墓場,お墓,墓苑"
   },
+  "amenity/grit_bin": {
+    "name": "砂箱",
+    "terms": "砂箱, 氷結防止"
+  },
   "amenity/hospital": {
     "name": "病院の敷地",
     "terms": "病院の敷地"
@@ -286,6 +294,10 @@
   "amenity/pub": {
     "name": "居酒屋",
     "terms": "パブ,居酒屋"
+  },
+  "amenity/public_bookcase": {
+    "name": "公共の本棚",
+    "terms": "公共の本棚"
   },
   "amenity/ranger_station": {
     "name": "レンジャーの詰所",
@@ -627,6 +639,10 @@
     "name": "時計製造所",
     "terms": "時計製造所"
   },
+  "craft/confectionery": {
+    "name": "菓子屋",
+    "terms": "駄菓子屋,パシティエ"
+  },
   "craft/dressmaker": {
     "name": "衣服製造所",
     "terms": "衣服製造所"
@@ -868,8 +884,8 @@
     "terms": "生活道路, 路地"
   },
   "highway/mini_roundabout": {
-    "name": "小さなロータリー",
-    "terms": "小さなロータリー, ラウンドアバウト"
+    "name": "小さな環状交差点",
+    "terms": "小さな環状交差点"
   },
   "highway/motorway": {
     "name": "自動車専用道路",
@@ -1031,6 +1047,10 @@
     "name": "道祖神",
     "terms": "道祖神"
   },
+  "junction": {
+    "name": "交差点",
+    "terms": "交差点"
+  },
   "landuse": {
     "name": "土地利用",
     "terms": "土地利用"
@@ -1051,9 +1071,21 @@
     "name": "教会の敷地",
     "terms": "教会, 教会の敷地"
   },
+  "landuse/commercial": {
+    "name": "オフィス街",
+    "terms": "オフィス街"
+  },
   "landuse/construction": {
     "name": "建設用地",
     "terms": "工事中用地, 建設用地"
+  },
+  "landuse/farm": {
+    "name": "農地",
+    "terms": "農地"
+  },
+  "landuse/farmland": {
+    "name": "農地",
+    "terms": "農地"
   },
   "landuse/farmyard": {
     "name": "農業施設用地",
@@ -1063,9 +1095,16 @@
     "name": "人工林",
     "terms": "人工林, 二次林, 営林, 保安林, 鉄道林"
   },
+  "landuse/garages": {
+    "name": "車庫"
+  },
   "landuse/grass": {
     "name": "草地",
     "terms": "草地, 芝生"
+  },
+  "landuse/industrial": {
+    "name": "工業用地",
+    "terms": "工業用地, 工業団地"
   },
   "landuse/landfill": {
     "name": "最終処分場",
@@ -1075,6 +1114,10 @@
     "name": "牧草地",
     "terms": "牧草地"
   },
+  "landuse/military": {
+    "name": "軍用地",
+    "terms": "軍用地"
+  },
   "landuse/orchard": {
     "name": "果樹園",
     "terms": "果樹園, 果物畑, リンゴ畑, ミカン畑"
@@ -1082,6 +1125,14 @@
   "landuse/quarry": {
     "name": "露天掘り鉱山",
     "terms": "採石場, 石切り場, 露天掘り鉱山"
+  },
+  "landuse/residential": {
+    "name": "住宅地",
+    "terms": "住宅地, 住宅街"
+  },
+  "landuse/retail": {
+    "name": "商業地",
+    "terms": "商業地,ショッピング地区,ショッピング街"
   },
   "landuse/vineyard": {
     "name": "ぶどう畑",
@@ -1192,8 +1243,8 @@
     "terms": "線, ライン"
   },
   "man_made": {
-    "name": "人工物",
-    "terms": "人工物"
+    "name": "建造物",
+    "terms": "人工物, 建造物"
   },
   "man_made/breakwater": {
     "name": "防波堤",
@@ -1582,6 +1633,10 @@
   "relation": {
     "name": "リレーション",
     "terms": "リレーション, 関連"
+  },
+  "roundabout": {
+    "name": "環状交差点",
+    "terms": "環状交差点,ラウンドアバウト"
   },
   "route/ferry": {
     "name": "フェリールート",

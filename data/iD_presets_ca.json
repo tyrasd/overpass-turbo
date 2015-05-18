@@ -946,9 +946,18 @@
   "landuse/churchyard": {
     "name": "Terrenys d'església"
   },
+  "landuse/commercial": {
+    "name": "Zona Comercial"
+  },
   "landuse/construction": {
     "name": "Zona en construcció",
     "terms": "En construcció"
+  },
+  "landuse/farm": {
+    "name": "Zona Agrícola"
+  },
+  "landuse/farmland": {
+    "name": "Zona Agrícola"
   },
   "landuse/farmyard": {
     "name": "Edificis de Granja",
@@ -965,12 +974,18 @@
     "name": "Herba",
     "terms": "Herba,Gespa"
   },
+  "landuse/industrial": {
+    "name": "Zona Industrial"
+  },
   "landuse/landfill": {
     "name": "Abocador"
   },
   "landuse/meadow": {
     "name": "Prat",
     "terms": "Prat,Prada,Natural"
+  },
+  "landuse/military": {
+    "name": "Zona Militar"
   },
   "landuse/orchard": {
     "name": "Verger",
@@ -979,6 +994,12 @@
   "landuse/quarry": {
     "name": "Mina a cel obert",
     "terms": "Pedrera"
+  },
+  "landuse/residential": {
+    "name": "Zona Residencial"
+  },
+  "landuse/retail": {
+    "name": "Zona de Comerç minorista"
   },
   "landuse/vineyard": {
     "name": "Vinya",
@@ -1420,6 +1441,9 @@
     "name": "Relació",
     "terms": "Relació"
   },
+  "roundabout": {
+    "name": "Rotonda"
+  },
   "route/ferry": {
     "name": "Ruta de ferri"
   },
@@ -1617,6 +1641,9 @@
   },
   "shop/hifi": {
     "name": "Botiga d'alta fidelitat"
+  },
+  "shop/houseware": {
+    "name": "Botiga de la llar"
   },
   "shop/interior_decoration": {
     "name": "Botiga d'Interiorisme"

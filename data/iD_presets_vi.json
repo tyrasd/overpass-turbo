@@ -952,8 +952,8 @@
     "terms": "ngõ hẻm, hẻm, ngo hem, hem"
   },
   "highway/service/drive-through": {
-    "name": "Khu vực Mua hàng trên Xe",
-    "terms": "khu vực mua hàng trên xe, đứng hàng, hàng xe, xe, khu vuc mua hang tren xe, dung hang, hang xe"
+    "name": "Lối Mua hàng trên Xe",
+    "terms": "lối mua hàng trên xe, dịch vụ mua hàng không cần đậu xe, dịch vụ mua hàng không cần đỗ xe, đứng hàng, hàng xe, xe, loi mua hang tren xe, dich vu mua hang khong can dau xe, dich vu mua hang khong can do xe, dung hang, hang xe"
   },
   "highway/service/driveway": {
     "name": "Lối đi vào Nhà",
@@ -1646,6 +1646,10 @@
   "relation": {
     "name": "Quan hệ",
     "terms": "quan hệ, liên kệ, mối quan hệ, mối liên hệ, quan he, lien ke, moi quan he, moi lien he"
+  },
+  "roundabout": {
+    "name": "Đường vòng",
+    "terms": "bùng binh, đường vòng, bung binh, duong vong"
   },
   "route/ferry": {
     "name": "Tuyến đường Phà",

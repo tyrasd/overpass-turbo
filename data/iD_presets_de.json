@@ -89,7 +89,7 @@
   },
   "amenity/atm": {
     "name": "Geldautomat",
-    "terms": "Geldautomat"
+    "terms": "Geldautomat,Bankautomat,Bankomat,Bancomat,Geldausgabeautomat,ATM"
   },
   "amenity/bank": {
     "name": "Bank (Geldinstitut)",
@@ -232,7 +232,7 @@
     "terms": "Krankenhaus, Klinik, Klinikgelände, Hospital"
   },
   "amenity/kindergarten": {
-    "name": "Vorschul-/Kindergartengelände",
+    "name": "Kindergarten",
     "terms": "Kindergartengeläde,Kinderkrippengelände"
   },
   "amenity/library": {
@@ -536,7 +536,7 @@
     "terms": "Hotelgebäude"
   },
   "building/house": {
-    "name": "Haus",
+    "name": "Einfamilienhaus",
     "terms": "Haus"
   },
   "building/hut": {
@@ -1232,8 +1232,8 @@
     "terms": "Gleitbahn, Rampe"
   },
   "leisure/sports_center": {
-    "name": "Fitnessstudio",
-    "terms": "Fitnessstudio, Sportstudio, Trainingszentrum"
+    "name": "Sportzentrum",
+    "terms": "Fitnessstudio, Sportstudio, Trainingszentrum, Aerobicstudio, Sporthalle"
   },
   "leisure/stadium": {
     "name": "Stadion",
@@ -1646,6 +1646,10 @@
   "relation": {
     "name": "Relation",
     "terms": "Relation, Beziehung, Verbindung"
+  },
+  "roundabout": {
+    "name": "Kreisverkehr",
+    "terms": "Kreisverkehr, Kreisel, Rondell, Verkehrskreisel"
   },
   "route/ferry": {
     "name": "Fährenroute",
@@ -2280,8 +2284,8 @@
     "terms": "Kanal"
   },
   "waterway/dam": {
-    "name": "Damm",
-    "terms": "Staudamm, Staumauer"
+    "name": "Staudamm",
+    "terms": "Damm, Staumauer"
   },
   "waterway/ditch": {
     "name": "Graben",

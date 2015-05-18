@@ -1084,8 +1084,8 @@
     "terms": "Byggarbetsplats, bygge, Byggnad under konstruktion, Byggnad under uppförande, byggarbete,  byggnation, byggnadsplats"
   },
   "landuse/farm": {
-    "name": "Gård",
-    "terms": "Bondgård, gård, jordbruk, lantbruk, lantegendom, lantgård"
+    "name": "Åkermark",
+    "terms": "Åker, åkerjord, åkerfält, fält, gärde, teg, åkerlapp, inäga, odling, odlingsfält, lantbruk"
   },
   "landuse/farmland": {
     "name": "Åkermark",
@@ -1646,6 +1646,10 @@
   "relation": {
     "name": "Relation",
     "terms": "Relation, relaterat, förbindelse, förhållande, samband, anknytning, koppling, kontext"
+  },
+  "roundabout": {
+    "name": "Rondell",
+    "terms": "Rondell, cirkulationsplats, trafikrondell"
   },
   "route/ferry": {
     "name": "Färjerutt",

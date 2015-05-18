@@ -97,7 +97,7 @@
   },
   "amenity/bar": {
     "name": "Bár",
-    "terms": "bár,kocsma, éjszaki szórakozó"
+    "terms": "bár, kocsma, éjszakai szórakozó"
   },
   "amenity/bbq": {
     "name": "Közösségi grillező - szallonasütő",
@@ -116,7 +116,7 @@
     "terms": "bicaj - bringa - bicikli - kétkerekű kölcsönző "
   },
   "amenity/bicycle_repair_station": {
-    "name": "Kerékpárjavító állomás",
+    "name": "Kerékpárszerelő pont",
     "terms": "Biciklijavító állomás"
   },
   "amenity/boat_rental": {
@@ -125,10 +125,10 @@
   },
   "amenity/bureau_de_change": {
     "name": "Pénzváltó",
-    "terms": "Valuta váltás, EURO váltó"
+    "terms": "Valutaváltás, EURO váltó"
   },
   "amenity/bus_station": {
-    "name": "busz állomás",
+    "name": "Buszállomás",
     "terms": "busz, autóbusz"
   },
   "amenity/cafe": {
@@ -176,7 +176,7 @@
     "terms": "Közösségi központ"
   },
   "amenity/compressed_air": {
-    "name": "Sűrített levegő és kompresszor állomás",
+    "name": "Sűrítettlevegő- és kompresszorállomás",
     "terms": "gumi"
   },
   "amenity/courthouse": {
@@ -220,11 +220,11 @@
     "terms": "töltőállomás,shell,bp,agip,oil,lukoil,tesco,e85,esso,omv,kagyló,mol,benzin,gázolaj,benzinkút,üzemanyag,petrol,autógáz,motorbenzin,adalékanyag,kenőanyag,dízel,diesel,bioetanol"
   },
   "amenity/grave_yard": {
-    "name": "Templomi Sírkert",
+    "name": "Templomkert",
     "terms": "Temető, "
   },
   "amenity/grit_bin": {
-    "name": "Úti sótároló ",
+    "name": "Útmenti sótároló ",
     "terms": "grit bin"
   },
   "amenity/hospital": {
@@ -244,7 +244,7 @@
     "terms": "piac, üzlet"
   },
   "amenity/nightclub": {
-    "name": "Night Club - Éjszakai bár - diszkó",
+    "name": "Night club - Éjszakai bár - diszkó",
     "terms": "Night Club, Éjszakai bár, Diszkó"
   },
   "amenity/parking": {
@@ -336,7 +336,7 @@
     "terms": "Idősek szociális gondozója"
   },
   "amenity/social_facility/homeless_shelter": {
-    "name": "Hajléktalan menedék",
+    "name": "Hajléktalanszálló",
     "terms": "Hajléktalan menedék"
   },
   "amenity/studio": {
@@ -488,7 +488,7 @@
     "terms": "Kápolna, Imaház"
   },
   "building/church": {
-    "name": "Templom épület",
+    "name": "Templomépület",
     "terms": "Templom, Plébánia, Imaház"
   },
   "building/college": {
@@ -532,7 +532,7 @@
     "terms": "Kórházi épület, Klinika épület, Gyógyintézet épület"
   },
   "building/hotel": {
-    "name": "Szálloda",
+    "name": "Szállodaépület",
     "terms": "Hotel, szálloda"
   },
   "building/house": {
@@ -572,11 +572,11 @@
     "terms": "Iskolaépület"
   },
   "building/shed": {
-    "name": "Kunyhó",
+    "name": "Fészer",
     "terms": "Kunyhó, Fészer, Pajta,csűr,raktár,viskó"
   },
   "building/stable": {
-    "name": "Istálló épület",
+    "name": "Istállóépület",
     "terms": "Istálló"
   },
   "building/static_caravan": {
@@ -600,7 +600,7 @@
     "terms": "Raktár, Lerakat"
   },
   "craft": {
-    "name": "Valamilyen mester ember műhelye ",
+    "name": "Valamilyen mesterember műhelye ",
     "terms": "kézműves, iparos, iparművész"
   },
   "craft/basket_maker": {
@@ -636,7 +636,7 @@
     "terms": "szőnyegpadló, padlóburkolat"
   },
   "craft/caterer": {
-    "name": "Catering-Partyszerviz",
+    "name": "Catering-partyszerviz",
     "terms": "Catering, Partyszerviz, Rendezvényszervező "
   },
   "craft/clockmaker": {
@@ -776,7 +776,7 @@
     "terms": "Bútor felújító,Antik bútor javító"
   },
   "craft/watchmaker": {
-    "name": "Órás műhely",
+    "name": "Órásműhely",
     "terms": "Órakészítő és javító műhely"
   },
   "craft/window_construction": {
@@ -788,8 +788,8 @@
     "terms": "Borászat"
   },
   "embankment": {
-    "name": "Töltés",
-    "terms": "Töltés"
+    "name": "Rakpart",
+    "terms": "rakpart"
   },
   "emergency/ambulance_station": {
     "name": "Mentőállomás",
@@ -896,11 +896,11 @@
     "terms": "Autópálya"
   },
   "highway/motorway_junction": {
-    "name": "Autópálya csomópont / kijárat",
+    "name": "Autópálya-csomópont / -kijárat",
     "terms": "autópálya lehajtó, autópálya felhajtó, elágazás, leágazás"
   },
   "highway/motorway_link": {
-    "name": "Autópálya felhajtó",
+    "name": "Autópálya-felhajtó",
     "terms": "autópálya lehajtó, autópálya leágazás"
   },
   "highway/path": {
@@ -916,20 +916,20 @@
     "terms": "Elsőrendű főút"
   },
   "highway/primary_link": {
-    "name": "Főút felhajtó",
-    "terms": "Elsőrendű főút csatlakozás"
+    "name": "Főútfelhajtó",
+    "terms": "Elsőrendű főútcsatlakozás"
   },
   "highway/raceway": {
-    "name": "Motorsport pálya",
-    "terms": "Motorsport pály"
+    "name": "Motorsportpálya",
+    "terms": "Motorsport pálya"
   },
   "highway/residential": {
     "name": "Lakóút",
     "terms": "Lakóút"
   },
   "highway/rest_area": {
-    "name": "Pihenő terület",
-    "terms": "Pihenő terület"
+    "name": "Pihenőhely",
+    "terms": "Pihenőhely"
   },
   "highway/road": {
     "name": "Ismeretlen út",
@@ -940,7 +940,7 @@
     "terms": "Másodrendű főút"
   },
   "highway/secondary_link": {
-    "name": "Összekötőút felhajtó",
+    "name": "Összekötőút-felhajtó",
     "terms": "Másodrendű főút csatlakozás"
   },
   "highway/service": {
@@ -960,7 +960,7 @@
     "terms": "Kocsibejáró"
   },
   "highway/service/emergency_access": {
-    "name": "Vészhelyzeti behajtó",
+    "name": "Tűzoltási felvonulási útvonal",
     "terms": "Vészhelyzeti bejárat"
   },
   "highway/service/parking_aisle": {
@@ -1004,7 +1004,7 @@
     "terms": "Autóút"
   },
   "highway/trunk_link": {
-    "name": "Autóút felhajtó",
+    "name": "Autóútfelhajtó",
     "terms": "Autóút csatlakozás"
   },
   "highway/turning_circle": {
@@ -1096,7 +1096,7 @@
     "terms": "Tanyaudvar"
   },
   "landuse/forest": {
-    "name": "Telepített Erdő",
+    "name": "Telepített erdő",
     "terms": "Erdő,akácos,erdősített terület"
   },
   "landuse/garages": {
@@ -1156,7 +1156,7 @@
     "terms": "Kutyasétáltató"
   },
   "leisure/firepit": {
-    "name": "Tűzrakó hely",
+    "name": "Tűzrakóhely",
     "terms": "Tűzrakó hely"
   },
   "leisure/garden": {
@@ -1213,7 +1213,7 @@
   },
   "leisure/pitch/tennis": {
     "name": "Teniszpálya",
-    "terms": "Tenispály"
+    "terms": "Teniszpálya"
   },
   "leisure/pitch/volleyball": {
     "name": "Röplabdapálya",
@@ -1264,7 +1264,7 @@
     "terms": "Irtás"
   },
   "man_made/embankment": {
-    "name": "Töltés",
+    "name": "Rakpart",
     "terms": "Töltés"
   },
   "man_made/flagpole": {
@@ -1464,7 +1464,7 @@
     "terms": "ügyvéd, bíróság, közjegyző, ügyész"
   },
   "office/newspaper": {
-    "name": "Újságos",
+    "name": "Újságszekesztőség",
     "terms": "Újság"
   },
   "office/ngo": {
@@ -1647,6 +1647,10 @@
     "name": "Kapcsolat",
     "terms": "Kapcsolat"
   },
+  "roundabout": {
+    "name": "Körforgalom",
+    "terms": "körforgalom"
+  },
   "route/ferry": {
     "name": "Komp",
     "terms": "Kompút"
@@ -1676,7 +1680,7 @@
     "terms": "babruha - babakocsi - babaágy - babjáték bolt"
   },
   "shop/bag": {
-    "name": "Táska- és böröndbolt",
+    "name": "Táska- és bőröndbolt",
     "terms": "bőrdíszmű és táskabolt,koffer,utazótáska "
   },
   "shop/bakery": {
@@ -1728,7 +1732,7 @@
     "terms": "Autó szalon és márkakereskedés, Személygépkocsi- automobil - jármű és verda árúk bemutatóhelye"
   },
   "shop/car_parts": {
-    "name": "Autóalkatrész üzlet",
+    "name": "Autóalkatrész-üzlet",
     "terms": "gépkocsi alkatrész bolt,  gépjármű alkatrész szaküzlet, személygépkocsi  alkatrész szaküzlet, személygépjármű  alkatrész szaküzlet,  automobil - jármű és verda  alkatrészek szaküzlete"
   },
   "shop/car_repair": {
