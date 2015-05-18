@@ -1,3 +1,8 @@
+2015-05-18
+----------
+* bugfixe (htts everywhere issues)
+* update translations, presets and icons
+
 2015-04-23
 ----------
 * bugfixes
