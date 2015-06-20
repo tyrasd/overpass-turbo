@@ -18,9 +18,44 @@ $(document).ready(function() {
     disable_poiomatic: true,
   };
   ide = {
-    getQuery: function() { return settings.code["overpass"]; },
+    getQuery: function(callback) {
+      var query = settings.code["overpass"];
+      var queryParser = turbo.query();
+      queryParser.parse(query, {}, function(query) {
+          // parse mapcss declarations
+          var mapcss = "";
+          if (queryParser.hasStatement("style"))
+              mapcss = queryParser.getStatement("style");
+          ide.mapcss = mapcss;
+          // parse data-source statements
+          var data_source = null;
+          if (queryParser.hasStatement("data")) {
+              data_source = queryParser.getStatement("data");
+              data_source = data_source.split(',');
+              var data_mode = data_source[0].toLowerCase();
+              data_source = data_source.slice(1);
+              var options = {};
+              for (var i=0; i<data_source.length; i++) {
+                  var tmp = data_source[i].split('=');
+                  options[tmp[0]] = tmp[1];
+              }
+              data_source = {
+                  mode: data_mode,
+                  options: options
+              };
+          }
+          ide.data_source = data_source;
+          // call result callback
+          callback(query);
+      });
+    },
     getQueryLang: function() {return ($.trim(settings.code["overpass"]).match(/^</))?"xml":"OverpassQL";},
-    update_map: function() {overpass.run_query(ide.getQuery(true,false),ide.getQueryLang());},
+      update_map: function() {
+          ide.getQuery(function(query){
+              var query_lang = ide.getQueryLang();
+              overpass.run_query(query, query_lang);
+          });
+      },
   };
   styleparser.PointStyle = function() {}; styleparser.PointStyle.prototype.properties = []; // hack
   overpass.init();
