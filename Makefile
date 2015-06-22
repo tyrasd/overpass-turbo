@@ -95,6 +95,7 @@ turbo.map.js: \
 	libs/osmtogeojson/osmtogeojson.js \
 	js/OSM4Leaflet.js \
 	js/overpass.js \
+	js/query.js \
 	js/map.js
 
 turbo.map.js: Makefile
