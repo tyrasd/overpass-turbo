@@ -167,7 +167,7 @@ presets:
 ffs:
 	$(PEGJS) -o size -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js
 
-icons: icons-maki icons-mapnik
+icons: icons-maki icons-mapnik icons-osmic
 
 icons-maki:
 	wget https://github.com/mapbox/maki/zipball/mb-pages -O icons/maki.zip
@@ -178,6 +178,13 @@ icons-mapnik:
 	wget https://github.com/gravitystorm/openstreetmap-carto/archive/master.zip -O icons/mapnik.zip
 	yes | unzip -ju icons/mapnik.zip */symbols/*.png -d icons/mapnik/
 	rm icons/mapnik.zip
+
+icons-osmic:
+	git clone --depth 1 https://github.com/nebulon42/osmic.git
+	./osmic/tools/export.py osmic/tools/overpass-turbo-png.yaml
+	optipng -o 2 osmic/export/*
+	cp osmic/export/* icons/osmic/
+	rm -rf osmic
 
 osmtogeojson:
 	wget https://github.com/tyrasd/osmtogeojson/raw/gh-pages/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js
