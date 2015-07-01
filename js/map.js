@@ -3,6 +3,37 @@ function htmlentities(str) {
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 $(document).ready(function() {
+  // main map cache
+  var cache = {};
+
+    window.addEventListener("message", function (evt) {
+      var data = JSON.parse(evt.data);
+      switch(data.cmd){
+        case 'catch_alert':
+          overpass.handlers["onAjaxError"] = function(errmsg) {
+              parent.postMessage(JSON.stringify({handler: "onAjaxError",
+                                                 msg: errmsg }), "*");
+          };
+          overpass.handlers["onQueryError"] = function(errmsg) {
+              parent.postMessage(JSON.stringify({handler: "onQueryError",
+                                                 msg: errmsg }), "*");
+          };
+          break;
+        case 'update_map':
+          settings.code["overpass"] = data.value[0];
+          ide.update_map();
+          break;
+        case 'cache':
+          settings.code["overpass"] = data.value[0];
+          ide.getQuery(function(query){
+              var query_lang = ide.getQueryLang();
+              overpass.run_query(query, query_lang, cache, true);
+          });
+          break;
+      }
+    }
+  , false);
+
   // some initalizations
   $.fn.dialog = function() {
     alert("error :( "+$(this).html());
@@ -21,6 +52,7 @@ $(document).ready(function() {
     getQuery: function(callback) {
       var query = settings.code["overpass"];
       var queryParser = turbo.query();
+
       queryParser.parse(query, {}, function(query) {
           // parse mapcss declarations
           var mapcss = "";
@@ -45,17 +77,24 @@ $(document).ready(function() {
               };
           }
           ide.data_source = data_source;
+          // remove newlines
+          query = query.trim();
+
           // call result callback
           callback(query);
       });
     },
     getQueryLang: function() {return ($.trim(settings.code["overpass"]).match(/^</))?"xml":"OverpassQL";},
-      update_map: function() {
-          ide.getQuery(function(query){
-              var query_lang = ide.getQueryLang();
-              overpass.run_query(query, query_lang);
-          });
-      },
+    update_map: function() {
+        $("#data_stats").remove();
+        if (typeof overpass.osmLayer != "undefined")
+          ide.map.removeLayer(overpass.osmLayer);
+        ide.getQuery(function(query){
+            var query_lang = ide.getQueryLang();
+            overpass.run_query(query, query_lang, cache, false);
+        });
+        $("#map_blank").remove();
+    },
   };
   styleparser.PointStyle = function() {}; styleparser.PointStyle.prototype.properties = []; // hack
   overpass.init();
@@ -101,9 +140,12 @@ $(document).ready(function() {
   overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {$('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");};
   overpass.handlers["onAjaxError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\n" + errmsg);};
   overpass.handlers["onQueryError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\nThis is what overpass API returned:\n" + errmsg);};
-  overpass.handlers["onGeoJsonReady"] = function() {ide.map.addLayer(overpass.osmLayer);};
+    overpass.handlers["onGeoJsonReady"] = function() {ide.map.addLayer(overpass.osmLayer);};
   overpass.handlers["onPopupReady"] = function(p) {p.openOn(ide.map);};
   overpass.handlers["onDataRecieved"] = function(amount,txt, abortCB,continueCB) {continueCB();};
+  overpass.handlers["onRawDataPresent"] = function() {
+    parent.postMessage(JSON.stringify({resultType: overpass.resultType, resultText:overpass.resultText}), '*');
+  }
   // load the data
   ide.update_map();
 });
