@@ -23,12 +23,13 @@ $(document).ready(function() {
           settings.code["overpass"] = data.value[0];
           ide.update_map();
           break;
-        case 'run_query':
+        case 'cache':
           settings.code["overpass"] = data.value[0];
           ide.getQuery(function(query){
               var query_lang = ide.getQueryLang();
-              overpass.run_query(query, query_lang, cache, data.value[1]);
+              overpass.run_query(query, query_lang, cache, true);
           });
+          break;
       }
     }
   , false);
