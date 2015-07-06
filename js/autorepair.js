@@ -175,7 +175,7 @@ turbo.autorepair.detect.editors = function(q, lng) {
     // ignore comments
     q=q.replace(/\/\*[\s\S]*?\*\//g,"");
     q=q.replace(/\/\/[^\n]*/g,"");
-    var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]\s*;/);
+    var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]/);
     if (out && out[1] != "xml")
       err.output = true;
     var prints = q.match(/out([^:;]*);/g);
