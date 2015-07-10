@@ -4,3 +4,4 @@ script: mocha-phantomjs tests/index.html
 branches:
   except:
     - modularize
+sudo: false
