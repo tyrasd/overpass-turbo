@@ -681,6 +681,16 @@ var ide = new(function() {
         var backlogOverpassAreas = function () {
           return moment(overpass.timestampAreas, moment.ISO_8601).fromNow(true);
         };
+        var backlogOverpassExceedsLimit = function() {
+          var now = moment();
+          var ts = moment(overpass.timestamp, moment.ISO_8601);
+          return (now.diff(ts, 'hours', true) >= 24);
+        };
+        var backlogOverpassAreasExceedsLimit = function() {
+          var now = moment();
+          var ts = moment(overpass.timestampAreas, moment.ISO_8601);
+          return (now.diff(ts, 'hours', true) >= 96);
+        };
         $("#data_stats").tooltip({
           items: "div",
           tooltipClass: "stats",
@@ -707,6 +717,10 @@ var ide = new(function() {
             at: "right top"
           }
         });
+        if ((overpass.timestamp && backlogOverpassExceedsLimit()) ||
+            (overpass.timestampAreas && backlogOverpassAreasExceedsLimit())) {
+          $("#data_stats").css("background-color","yellow");
+        }
       }
     }
     overpass.handlers["onPopupReady"] = function(p) {
