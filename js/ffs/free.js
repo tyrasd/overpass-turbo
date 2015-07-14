@@ -36,7 +36,7 @@ turbo.ffs.free = function() {
           preset = presets[preset];
           preset.translated = true;
           // save original preset name under alternative terms
-          preset.terms.unshift(preset.name);
+          var oriPresetName = preset.name;
           // save translated preset name
           preset.nameCased = translation.name;
           preset.name = translation.name.toLowerCase();
@@ -45,6 +45,8 @@ turbo.ffs.free = function() {
             preset.terms = translation.terms.split(",")
               .map(function(term) { return term.trim().toLowerCase(); })
               .concat(preset.terms);
+          // add this to the front to allow exact (english) preset names to match before terms
+          preset.terms.unshift(oriPresetName);
         });
       }).error(function(){
         throw new Error();
@@ -60,7 +62,8 @@ turbo.ffs.free = function() {
     var candidates = _.filter(presets, function(preset) {
       if (preset.searchable===false) return false;
       if (preset.name === search) return true;
-      return preset.terms.indexOf(search) != -1;
+      preset._termsIndex = preset.terms.indexOf(search);
+      return preset._termsIndex != -1;
     });
     if (candidates.length === 0)
       return false;
@@ -69,7 +72,7 @@ turbo.ffs.free = function() {
       // prefer exact name matches
       if (a.name === search) return -1;
       if (b.name === search) return  1;
-      return 0;
+      return a._termsIndex - b._termsIndex;
     });
     var preset = candidates[0];
     var types = [];
@@ -122,7 +125,7 @@ turbo.ffs.free = function() {
       return false;
     // sort candidates
     function preset_weight(preset) {
-      return _.min([preset.name].concat(preset.terms).map(function(term) {
+      return _.min([preset.name].concat(preset.terms).map(function(term, index) {
         return levenshteinDistance(term,search);
       }));
     };
