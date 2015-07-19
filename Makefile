@@ -181,7 +181,7 @@ icons-mapnik:
 
 icons-osmic:
 	git clone --depth 1 https://github.com/nebulon42/osmic.git
-	./osmic/tools/export.py osmic/tools/overpass-turbo-png.yaml
+	./osmic/tools/export.py --basedir osmic/ osmic/tools/config/overpass-turbo-png.yaml
 	optipng -o 2 osmic/export/*
 	cp osmic/export/* icons/osmic/
 	rm -rf osmic
