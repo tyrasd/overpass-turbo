@@ -119,6 +119,10 @@
     "name": "Station för cykelreparation ",
     "terms": "Cykelreparation, kedjebrytare, cykelpump, tryckluft, pumpstation, cykel, "
   },
+  "amenity/biergarten": {
+    "name": "Ölträdgård",
+    "terms": "ölträdgård, Biergarten, uteservering,ölcafé, utecafé, trädgårdspub"
+  },
   "amenity/boat_rental": {
     "name": "Båtuthyrning",
     "terms": "Båtuthyrning, båtlån, båtleasing, lånebåt, hyrbåt"
@@ -314,6 +318,9 @@
   "amenity/restaurant": {
     "name": "Restaurang",
     "terms": "Restaurang, matservering, matställe, servering, restauration, näringsställe, grillbar, bar, krog, värdshus, pub, bodega, brasserie, rotisseri, pizzeria, kafé, cafeteria, sylta"
+  },
+  "amenity/sanitary_dump_station": {
+    "name": "Latrintömning"
   },
   "amenity/school": {
     "name": "Skolområde",

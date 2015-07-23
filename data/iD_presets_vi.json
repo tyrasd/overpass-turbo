@@ -119,6 +119,10 @@
     "name": "Quầy Sửa Xe đạp",
     "terms": "quầy sửa xe đạp, quay sua xe dap"
   },
+  "amenity/biergarten": {
+    "name": "Vườn Bia",
+    "terms": "vườn bia, vườn uống bia, vườn nhậu, vuon bia, vuon uong bia, vuon nhau"
+  },
   "amenity/boat_rental": {
     "name": "Cho thuê Tàu",
     "terms": "dịch vụ cho thuê tàu, chỗ thuê tàu, tiệm thuê tàu, thuê tàu, dịch vụ cho mướn tàu, chỗ mướn tàu, tiệm mướn tàu, mướn tàu, dịch vụ cho thuê thuyền, chỗ thuê thuyền, tiệm thuê thuyền, thuê thuyền, dịch vụ cho mướn thuyền, chỗ mướn thuyền, tiệm mướn thuyền, mướn thuyền, dich vu cho thue tau, cho thue tau, tiem thue tau, thue tau, dich vu cho muon tau, cho muon tau, tiem muon tau, muon tau, dich vu cho thue thuyen, cho thue thuyen, tiem thue thuyen, thue thuyen, dich vu cho muon thuyen, cho muon thuyen, tiem muon thuyen, muon thuyen"
@@ -217,7 +221,7 @@
   },
   "amenity/fuel": {
     "name": "Cây xăng",
-    "terms": "cây xăng, cột xăng, xăng, ét xăng, ét-xăng, nhiên liệu, cay xang, cot xang, xang, et xang, et-xang, nhien lieu"
+    "terms": "cây xăng, cột xăng, xăng, ét xăng, ét-xăng, trạm xăng dầu, nhiên liệu, cay xang, cot xang, xang, et xang, et-xang, tram xang dau, nhien lieu"
   },
   "amenity/grave_yard": {
     "name": "Nghĩa địa tại Nhà thờ",
@@ -314,6 +318,10 @@
   "amenity/restaurant": {
     "name": "Nhà hàng",
     "terms": "quán ăn, nhà hàng, tiệm ăn, nhà ăn, phòng ăn, quán ăn nhanh, nhà hàng ăn nhanh, quán ăn qua loa, căng tin, căng-tin, xe đẩy, quán rượu, quán bia, tiệm rượu, hiệu chả cá, quán chả nướng, quán phở, tiệm phở, quán cơm, quán bánh cuốn, tiệm bánh cuốn, quán bánh mì, tiệm bánh mì, quán bánh xèo, tiệm bánh xèo, quán chè, tiệm chè, quán gỏi cuốn, quán bún, quán hải sản, quán gà, quán cà ri, quán cà-ri, tiệm cà ri, tiệm cà-ri, quan an, nha hang, tiem an, nha an, phong an, quan an nhanh, nha hang an nhanh, quan an qua loa, can tin, cang-tin, xe day, quan ruou, quan bia, tiem ruou, hieu cha ca, quan cha nuong, quan pho, tiem pho, quan com, quan banh cuon, tiem banh cuon, quan banh mi, tiem banh mi, quan banh xeo, tiem banh xeo, quan che, tiem che, quan goi cuon, quan bun, quan hai san, quan ga, quan ca ri, quan ca-ri, tiem ca ri, tiem ca-ri"
+  },
+  "amenity/sanitary_dump_station": {
+    "name": "Trạm Đổ Chất thải dành cho Nhà lưu động",
+    "terms": "trạm đổ chất thải dành cho nhà lưu động, trạm đổ chất thải vệ sinh dành cho nhà lưu động, tram do chat thai danh cho nha luu dong, tram do chat thai ve sinh danh cho nha luu dong"
   },
   "amenity/school": {
     "name": "Sân Trường",
@@ -1275,9 +1283,17 @@
     "name": "Hải đăng",
     "terms": "hải đăng, đèn biển, hai dang, den bien"
   },
+  "man_made/mast": {
+    "name": "Cột Radio",
+    "terms": "cột radio, cột rađiô, cột ra-đi-ô, cột vô tuyến, tháp radio, tháp rađiô, tháp ra-đi-ô, tháp vô tuyến, anten radio, anten rađiô, an-ten ra-đi-ô, cột tv, cột tivi, tháp tv, tháp tivi, anten tv, anten tivi, cot radio, cot ra-di-o, cot vo tuyen, thap radio, thap ra-di-o, thap vo tuyen, anten radio, anten ra-di-o, cot tv, cot vivi, thap tv, thap tivi, anten tv, anten tivi"
+  },
   "man_made/observation": {
     "name": "Tháp Quan sát",
     "terms": "tháp quan sát, trạm quan sát, tầng quan sát, thap quan sat, tram quan sat, tang quan sat"
+  },
+  "man_made/petroleum_well": {
+    "name": "Giếng Dầu",
+    "terms": "giếng dầu, gieng dau"
   },
   "man_made/pier": {
     "name": "Cầu tàu",
@@ -1286,6 +1302,14 @@
   "man_made/pipeline": {
     "name": "Đường ống",
     "terms": "đường ống, tuyến đường ống, duong ong, tuyen duong ong"
+  },
+  "man_made/silo": {
+    "name": "Xilô",
+    "terms": "xilô, xi-lô, xi lô, xilo, xi-lo, xi lo"
+  },
+  "man_made/storage_tank": {
+    "name": "Thùng Chứa",
+    "terms": "thùng chứa, bể chứa, bình chứa, xi-téc, xi-tẹc, bể nước, thung chua, be chua, binh chua, xi-tec, be nuoc"
   },
   "man_made/survey_point": {
     "name": "Điểm Khảo sát",
@@ -1506,6 +1530,10 @@
   "place/city": {
     "name": "Thành phố",
     "terms": "thành phố, TP, thành thị, đô thị, thanh pho, thanh thi, do thi"
+  },
+  "place/farm": {
+    "name": "Trại",
+    "terms": "trại,nông nghiệp,trang trại,đồn điền,trai,nong nghiep,trang trại,don dien"
   },
   "place/hamlet": {
     "name": "Thôn",
@@ -1849,7 +1877,7 @@
   },
   "shop/furniture": {
     "name": "Cửa hàng Nội thất",
-    "terms": "cửa hàng đồ đạc, chỗ đồ đạc, cửa hàng bán đồ đạc, tiệm bán đồ đạc, quầy bán đồ đạc, nơi bán đồ đạc, đồ gỗ, giường, bàn, ghế, đèn, cua hang do dac, cho do dac, cua hang ban do dac, tiem ban do dac, quay ban do dac, noi ban do dac, do go, giuong, ban, ghe, den"
+    "terms": "tiệm nội thất, cửa hàng đồ đạc, chỗ đồ đạc, cửa hàng bán đồ đạc, tiệm bán đồ đạc, quầy bán đồ đạc, nơi bán đồ đạc, đồ gỗ, giường, bàn, ghế, đèn, tiem noi that, cua hang do dac, cho do dac, cua hang ban do dac, tiem ban do dac, quay ban do dac, noi ban do dac, do go, giuong, ban, ghe, den"
   },
   "shop/garden_centre": {
     "name": "Trung tâm Làm vườn",
@@ -2295,6 +2323,10 @@
     "name": "Cống",
     "terms": "cống, cong"
   },
+  "waterway/fuel": {
+    "name": "Trạm Đổ xăng trên Biển",
+    "terms": "trạm đổ xăng trên biển, trạm đổ xăng dành cho tàu thủy, trạm đổ xăng dành cho tàu thuỷ, tram do xang tren bien, tram do xang danh cho tau thuy"
+  },
   "waterway/river": {
     "name": "Sông",
     "terms": "sông, dòng sông, song, dong song"
@@ -2302,6 +2334,10 @@
   "waterway/riverbank": {
     "name": "Bờ sông",
     "terms": "bờ sông, bo song"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Trạm Đổ Chất thải dành cho Tàu thủy",
+    "terms": "trạm đổ chất thải dành cho tàu thủy, trạm đổ chất thải dành cho tàu thuỷ, trạm đổ chất thải ve sinh dành cho tàu thủy, trạm đổ chất thải ve sinh dành cho tàu thuỷ, tram do chat thai danh cho tau thuy, tram do chat thai ve sinh danh cho tau thuy"
   },
   "waterway/stream": {
     "name": "Dòng suối",

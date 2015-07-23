@@ -173,7 +173,7 @@
   "dialog.delete": "削除",
   "dialog.close": "閉じる",
   "dialog.done": "完了",
-  "dialog.abort": "Overpass turboについて",
+  "dialog.abort": "中止",
   "dialog.repair_query": "クエリの修復",
   "dialog.continue_anyway": "処理を続行",
   "dialog.show_data": "データ表示",

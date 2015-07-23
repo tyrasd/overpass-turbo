@@ -110,6 +110,10 @@
     "name": "Fietsherstelpunt",
     "terms": "fietsonderhoud, onderhoud, banden, fietsbanden, fietspomp, fietsherstelstation, fietsenmaker"
   },
+  "amenity/biergarten": {
+    "name": "Biergarten",
+    "terms": "bier,terras,café,cafe"
+  },
   "amenity/boat_rental": {
     "name": "Bootverhuur",
     "terms": "boten, huren"
@@ -172,7 +176,7 @@
   },
   "amenity/courthouse": {
     "name": "Gerechtsgebouw",
-    "terms": "rechtszaal, rechtbank, gerechtshof, paleis van justitie, justitiepaleis"
+    "terms": "rechtszaal,rechtbank,gerechtshof,paleis van justitie,justitiepaleis"
   },
   "amenity/dentist": {
     "name": "Tandarts",
@@ -300,6 +304,10 @@
   "amenity/restaurant": {
     "name": "Restaurant",
     "terms": "kantine, snackbar, lunchroom, pizzeria"
+  },
+  "amenity/sanitary_dump_station": {
+    "name": "Kampeerauto-toilet-afvoer",
+    "terms": "kampeerauto,beerput,camper,kampeerwagen,mobilhome,zwerfwagen,motorhome,uitwerpselen,urine,toilet"
   },
   "amenity/school": {
     "name": "Schoolgebied",
@@ -504,7 +512,7 @@
   },
   "building/greenhouse": {
     "name": "Broeikas",
-    "terms": "serre, kas"
+    "terms": "serre,kas"
   },
   "building/hospital": {
     "name": "Ziekenhuisgebouw",
@@ -516,7 +524,7 @@
   },
   "building/house": {
     "name": "Huis",
-    "terms": "woning, woonst"
+    "terms": "woning,woonst,woongebied,huizen,residentieel,wonen,woonwijk,gebouw"
   },
   "building/hut": {
     "name": "Hut",
@@ -534,7 +542,7 @@
   },
   "building/residential": {
     "name": "Woongebouw",
-    "terms": "residentieel, huis, appartementsgebouw, flats"
+    "terms": "residentieel,huis,appartementsgebouw,flats"
   },
   "building/retail": {
     "name": "Handelspand",
@@ -561,7 +569,7 @@
   },
   "building/terrace": {
     "name": "Rijhuizen",
-    "terms": "rijtjeshuizen"
+    "terms": "rijtjeshuizen,huis,woningen,woonsten,woongebied,gebouw"
   },
   "building/train_station": {
     "name": "Treinstation",
@@ -573,7 +581,7 @@
   },
   "building/warehouse": {
     "name": "Opslagplaats",
-    "terms": "magazijn"
+    "terms": "magazijn,warenhuis"
   },
   "craft": {
     "name": "Vakmanschap",
@@ -761,7 +769,7 @@
   },
   "footway/crossing": {
     "name": "Zebrapad",
-    "terms": "oversteekplaats, voetganger"
+    "terms": "oversteekplaats,voetganger"
   },
   "footway/crosswalk": {
     "name": "Zebrapad",
@@ -1048,7 +1056,7 @@
   },
   "landuse/residential": {
     "name": "Woongebied",
-    "terms": "huizen, residentieel, wonen, woonwijk"
+    "terms": "huizen,residentieel,wonen,woonwijk"
   },
   "landuse/retail": {
     "name": "Handelsgebied",
@@ -1165,11 +1173,20 @@
     "terms": "vlaggemast"
   },
   "man_made/lighthouse": {
-    "name": "Vuurtoren"
+    "name": "Vuurtoren",
+    "terms": "lichtbaken"
+  },
+  "man_made/mast": {
+    "name": "Zendmast",
+    "terms": "radiomast,antenne"
   },
   "man_made/observation": {
     "name": "Uitkijktoren",
     "terms": "uitkijktoren"
+  },
+  "man_made/petroleum_well": {
+    "name": "Oliebron",
+    "terms": "olieput,gasbron"
   },
   "man_made/pier": {
     "name": "Pier"
@@ -1177,6 +1194,14 @@
   "man_made/pipeline": {
     "name": "Pijpleiding",
     "terms": "pijplijn, pijpleiding"
+  },
+  "man_made/silo": {
+    "name": "Silo",
+    "terms": "veevoeder,graansilo"
+  },
+  "man_made/storage_tank": {
+    "name": "Opslagtank",
+    "terms": "olietank,silo"
   },
   "man_made/survey_point": {
     "name": "Landmeetkundig referentiepunt"
@@ -1355,6 +1380,10 @@
   "place/city": {
     "name": "Stad"
   },
+  "place/farm": {
+    "name": "Boerderij",
+    "terms": "hoeve,hof"
+  },
   "place/hamlet": {
     "name": "Dorp/gehucht/buurtschap"
   },
@@ -1438,7 +1467,8 @@
     "name": "Treinhalte"
   },
   "railway/level_crossing": {
-    "name": "Gelijkvloerse spoorwegovergang"
+    "name": "Spoorwegovergang",
+    "terms": "overweg,treinspoor"
   },
   "railway/monorail": {
     "name": "Monorail, magneetzweefbaan",
@@ -1677,7 +1707,7 @@
   },
   "shop/houseware": {
     "name": "Huisraadwinkel",
-    "terms": "huiswaar, elektronica, meubilair, meubels, huishoudelijke elektronica, gebruiksvoorwerpen"
+    "terms": "huiswaar,elektronica,meubilair,meubels,huishoudelijke elektronica,gebruiksvoorwerpen"
   },
   "shop/interior_decoration": {
     "name": "Binnenhuisdecoratiewinkel",
@@ -1879,7 +1909,7 @@
   },
   "tourism/guest_house": {
     "name": "Pension",
-    "terms": "bed and breakfast,bed & breakfast,hotel"
+    "terms": "bed and breakfast,bed & breakfast,hotel,B&B"
   },
   "tourism/hostel": {
     "name": "Jeugdherberg"
@@ -2021,6 +2051,10 @@
     "name": "Sloot",
     "terms": "greppel,gracht"
   },
+  "waterway/fuel": {
+    "name": "Tankstation voor Boten",
+    "terms": "schip,brandstof"
+  },
   "waterway/river": {
     "name": "Rivier",
     "terms": "stroom,beek"
@@ -2028,6 +2062,10 @@
   "waterway/riverbank": {
     "name": "Rivieroever",
     "terms": "oever"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Boot-toilet-afvoer",
+    "terms": "schip,uitwerpselen,urine,toilet"
   },
   "waterway/stream": {
     "name": "Beek",

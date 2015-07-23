@@ -524,6 +524,28 @@
         },
         "name": "Bicycle Repair Station"
     },
+    "amenity/biergarten": {
+        "icon": "beer",
+        "fields": [
+            "address",
+            "building_area",
+            "opening_hours",
+            "smoking"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "amenity": "biergarten"
+        },
+        "terms": [
+            "beer",
+            "bier",
+            "booze"
+        ],
+        "name": "Beer Garden"
+    },
     "amenity/boat_rental": {
         "fields": [
             "operator"
@@ -637,6 +659,30 @@
             "amenity": "car_wash"
         },
         "name": "Car Wash"
+    },
+    "amenity/casino": {
+        "fields": [
+            "operator",
+            "address",
+            "building_area",
+            "opening_hours",
+            "smoking"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "gambling",
+            "roulette",
+            "craps",
+            "poker",
+            "blackjack"
+        ],
+        "tags": {
+            "amenity": "casino"
+        },
+        "name": "Casino"
     },
     "amenity/charging_station": {
         "icon": "car",
@@ -1456,10 +1502,11 @@
         "name": "Ranger Station"
     },
     "amenity/recycling": {
-        "icon": "recycling",
+        "icon": "waste-basket",
         "fields": [
             "operator",
             "address",
+            "recycling/type",
             "recycling/cans",
             "recycling/glass",
             "recycling/paper",
@@ -1535,6 +1582,33 @@
             "amenity": "restaurant"
         },
         "name": "Restaurant"
+    },
+    "amenity/sanitary_dump_station": {
+        "fields": [
+            "operator",
+            "access_toilets",
+            "fee",
+            "water_point"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "terms": [
+            "Motor Home",
+            "Camper",
+            "Sanitary",
+            "Dump Station",
+            "Elsan",
+            "CDP",
+            "CTDP",
+            "Chemical Toilet"
+        ],
+        "tags": {
+            "amenity": "sanitary_dump_station"
+        },
+        "name": "RV Toilet Disposal"
     },
     "amenity/school": {
         "icon": "school",
@@ -1760,7 +1834,8 @@
             "operator",
             "building_area",
             "access_toilets",
-            "gender"
+            "gender",
+            "fee"
         ],
         "geometry": [
             "point",
@@ -1892,6 +1967,18 @@
             "area"
         ],
         "matchScore": 0.1
+    },
+    "area/highway": {
+        "fields": [
+            "area/highway"
+        ],
+        "geometry": [
+            "area"
+        ],
+        "tags": {
+            "area:highway": "*"
+        },
+        "name": "Road Surface"
     },
     "barrier": {
         "geometry": [
@@ -3594,9 +3681,10 @@
             "footway": "crossing"
         },
         "terms": [],
-        "name": "Crossing"
+        "name": "Street Crossing"
     },
     "footway/crosswalk": {
+        "icon": "highway-footway",
         "fields": [
             "crossing",
             "access",
@@ -3615,7 +3703,7 @@
         "terms": [
             "zebra crossing"
         ],
-        "name": "Crosswalk"
+        "name": "Pedestrian Crosswalk"
     },
     "footway/sidewalk": {
         "fields": [
@@ -3802,6 +3890,29 @@
         "terms": [],
         "name": "Bus Stop"
     },
+    "highway/corridor": {
+        "icon": "highway-footway",
+        "fields": [
+            "width",
+            "level",
+            "access_simple"
+        ],
+        "geometry": [
+            "line"
+        ],
+        "tags": {
+            "highway": "corridor"
+        },
+        "terms": [
+            "gallery",
+            "hall",
+            "hallway",
+            "indoor",
+            "passage",
+            "passageway"
+        ],
+        "name": "Indoor Corridor"
+    },
     "highway/crossing": {
         "fields": [
             "crossing",
@@ -3815,7 +3926,7 @@
             "highway": "crossing"
         },
         "terms": [],
-        "name": "Crossing"
+        "name": "Street Crossing"
     },
     "highway/crosswalk": {
         "fields": [
@@ -3833,7 +3944,7 @@
         "terms": [
             "zebra crossing"
         ],
-        "name": "Crosswalk"
+        "name": "Pedestrian Crosswalk"
     },
     "highway/cycleway": {
         "icon": "highway-cycleway",
@@ -3888,7 +3999,8 @@
             "maxspeed",
             "structure",
             "access",
-            "surface"
+            "surface",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4004,6 +4116,7 @@
         "name": "Path"
     },
     "highway/pedestrian": {
+        "icon": "highway-footway",
         "fields": [
             "surface",
             "lit",
@@ -4020,7 +4133,7 @@
             "highway": "pedestrian"
         },
         "terms": [],
-        "name": "Pedestrian"
+        "name": "Pedestrian Street"
     },
     "highway/primary": {
         "icon": "highway-primary",
@@ -4031,7 +4144,8 @@
             "access",
             "lanes",
             "surface",
-            "ref"
+            "ref",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4050,7 +4164,8 @@
             "structure",
             "access",
             "surface",
-            "ref"
+            "ref",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4097,7 +4212,8 @@
             "maxspeed",
             "structure",
             "access",
-            "surface"
+            "surface",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4149,7 +4265,8 @@
             "access",
             "lanes",
             "surface",
-            "ref"
+            "ref",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4168,7 +4285,8 @@
             "structure",
             "access",
             "surface",
-            "ref"
+            "ref",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4191,7 +4309,8 @@
             "maxspeed",
             "structure",
             "access",
-            "surface"
+            "surface",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4361,7 +4480,8 @@
             "access",
             "lanes",
             "surface",
-            "ref"
+            "ref",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4380,7 +4500,8 @@
             "structure",
             "access",
             "surface",
-            "ref"
+            "ref",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4498,7 +4619,8 @@
             "maxspeed",
             "structure",
             "access",
-            "surface"
+            "surface",
+            "cycleway"
         ],
         "geometry": [
             "line"
@@ -4845,6 +4967,23 @@
         "terms": [],
         "name": "Orchard"
     },
+    "landuse/plant_nursery": {
+        "icon": "garden",
+        "fields": [
+            "name"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "landuse": "plant_nursery"
+        },
+        "terms": [
+            "vivero"
+        ],
+        "name": "Plant Nursery"
+    },
     "landuse/quarry": {
         "geometry": [
             "area"
@@ -4899,6 +5038,27 @@
             "leisure": "*"
         },
         "name": "Leisure"
+    },
+    "leisure/adult_gaming_centre": {
+        "fields": [
+            "operator",
+            "address",
+            "building_area",
+            "opening_hours",
+            "smoking"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "gambling",
+            "slot machine"
+        ],
+        "tags": {
+            "leisure": "adult_gaming_centre"
+        },
+        "name": "Adult Gaming Center"
     },
     "leisure/common": {
         "geometry": [
@@ -4996,6 +5156,15 @@
     },
     "leisure/marina": {
         "icon": "harbor",
+        "fields": [
+            "operator",
+            "address",
+            "capacity",
+            "fee",
+            "sanitary_dump_station",
+            "power_supply",
+            "internet_access"
+        ],
         "geometry": [
             "point",
             "vertex",
@@ -5348,6 +5517,25 @@
         },
         "name": "Man Made"
     },
+    "man_made/adit": {
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "fields": [
+            "operator"
+        ],
+        "terms": [
+            "entrance",
+            "underground",
+            "mine",
+            "cave"
+        ],
+        "tags": {
+            "man_made": "adit"
+        },
+        "name": "Adit"
+    },
     "man_made/breakwater": {
         "geometry": [
             "line",
@@ -5389,6 +5577,9 @@
     },
     "man_made/lighthouse": {
         "icon": "lighthouse",
+        "fields": [
+            "building_area"
+        ],
         "geometry": [
             "point",
             "area"
@@ -5476,6 +5667,45 @@
             "man_made": "pipeline"
         },
         "name": "Pipeline"
+    },
+    "man_made/silo": {
+        "fields": [
+            "building_area",
+            "crop"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "grain",
+            "corn",
+            "wheat"
+        ],
+        "tags": {
+            "man_made": "silo"
+        },
+        "name": "Silo"
+    },
+    "man_made/storage_tank": {
+        "fields": [
+            "building_area",
+            "content"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "water",
+            "oil",
+            "gas",
+            "petrol"
+        ],
+        "tags": {
+            "man_made": "storage_tank"
+        },
+        "name": "Storage Tank"
     },
     "man_made/survey_point": {
         "icon": "monument",
@@ -5663,7 +5893,13 @@
             "fee",
             "access_simple"
         ],
-        "terms": [],
+        "terms": [
+            "cavern",
+            "hollow",
+            "grotto",
+            "shelter",
+            "cavity"
+        ],
         "tags": {
             "natural": "cave_entrance"
         },
@@ -5764,6 +6000,25 @@
         ],
         "name": "Peak"
     },
+    "natural/saddle": {
+        "icon": "triangle-stroked",
+        "fields": [
+            "elevation"
+        ],
+        "geometry": [
+            "point",
+            "vertex"
+        ],
+        "tags": {
+            "natural": "saddle"
+        },
+        "terms": [
+            "pass",
+            "mountain pass",
+            "top"
+        ],
+        "name": "Saddle"
+    },
     "natural/scree": {
         "geometry": [
             "area"
@@ -5783,7 +6038,10 @@
         "tags": {
             "natural": "scrub"
         },
-        "terms": [],
+        "terms": [
+            "bush",
+            "shrubs"
+        ],
         "name": "Scrub"
     },
     "natural/spring": {
@@ -5813,6 +6071,40 @@
             "natural": "tree"
         },
         "name": "Tree"
+    },
+    "natural/tree_row": {
+        "fields": [
+            "leaf_type",
+            "leaf_cycle",
+            "denotation"
+        ],
+        "icon": "park",
+        "geometry": [
+            "line"
+        ],
+        "terms": [],
+        "tags": {
+            "natural": "tree_row"
+        },
+        "name": "Tree row"
+    },
+    "natural/volcano": {
+        "icon": "triangle",
+        "fields": [
+            "elevation"
+        ],
+        "geometry": [
+            "point",
+            "vertex"
+        ],
+        "tags": {
+            "natural": "volcano"
+        },
+        "terms": [
+            "mountain",
+            "crater"
+        ],
+        "name": "Volcano"
     },
     "natural/water": {
         "fields": [
@@ -6727,12 +7019,12 @@
         "terms": [
             "crossing",
             "railroad crossing",
-            "railway crossing",
+            "level crossing",
             "grade crossing",
             "road through railroad",
             "train crossing"
         ],
-        "name": "Level Crossing"
+        "name": "Railway Crossing"
     },
     "railway/monorail": {
         "icon": "railway-monorail",
@@ -8990,12 +9282,17 @@
         "icon": "campsite",
         "fields": [
             "operator",
-            "address"
+            "address",
+            "capacity",
+            "fee"
         ],
         "geometry": [
             "point",
             "vertex",
             "area"
+        ],
+        "terms": [
+            "Tent"
         ],
         "tags": {
             "tourism": "camp_site"
@@ -9003,15 +9300,24 @@
         "name": "Camp Site"
     },
     "tourism/caravan_site": {
+        "icon": "bus",
         "fields": [
             "operator",
             "address",
-            "smoking"
+            "capacity",
+            "fee",
+            "sanitary_dump_station",
+            "power_supply",
+            "internet_access"
         ],
         "geometry": [
             "point",
             "vertex",
             "area"
+        ],
+        "terms": [
+            "Motor Home",
+            "Camper"
         ],
         "tags": {
             "tourism": "caravan_site"
@@ -9696,6 +10002,29 @@
         },
         "name": "Drain"
     },
+    "waterway/fuel": {
+        "icon": "fuel",
+        "fields": [
+            "operator",
+            "address",
+            "building_area",
+            "opening_hours"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "petrol",
+            "gas",
+            "diesel",
+            "boat"
+        ],
+        "tags": {
+            "waterway": "fuel"
+        },
+        "name": "Marine Fuel Station"
+    },
     "waterway/river": {
         "icon": "waterway-river",
         "fields": [
@@ -9734,6 +10063,35 @@
             "waterway": "riverbank"
         },
         "name": "Riverbank"
+    },
+    "waterway/sanitary_dump_station": {
+        "fields": [
+            "operator",
+            "access_toilets",
+            "fee",
+            "water_point"
+        ],
+        "geometry": [
+            "point",
+            "vertex",
+            "area"
+        ],
+        "terms": [
+            "Boat",
+            "Watercraft",
+            "Sanitary",
+            "Dump Station",
+            "Pumpout",
+            "Pump out",
+            "Elsan",
+            "CDP",
+            "CTDP",
+            "Chemical Toilet"
+        ],
+        "tags": {
+            "waterway": "sanitary_dump_station"
+        },
+        "name": "Marine Toilet Disposal"
     },
     "waterway/stream": {
         "icon": "waterway-stream",
@@ -12276,25 +12634,6 @@
         ],
         "suggestion": true
     },
-    "amenity/fuel/Stacja paliw": {
-        "tags": {
-            "name": "Stacja paliw",
-            "amenity": "fuel"
-        },
-        "name": "Stacja paliw",
-        "icon": "fuel",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
     "amenity/fuel/Bharat Petroleum": {
         "tags": {
             "name": "Bharat Petroleum",
@@ -14752,6 +15091,7 @@
     "amenity/fast_food/Taco Bell": {
         "tags": {
             "name": "Taco Bell",
+            "cuisine": "mexican",
             "amenity": "fast_food"
         },
         "name": "Taco Bell",
@@ -14870,30 +15210,6 @@
         ],
         "suggestion": true
     },
-    "amenity/fast_food/Kebab": {
-        "tags": {
-            "name": "Kebab",
-            "amenity": "fast_food"
-        },
-        "name": "Kebab",
-        "icon": "fast-food",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "cuisine",
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours",
-            "takeaway",
-            "delivery",
-            "drive_through",
-            "smoking"
-        ],
-        "suggestion": true
-    },
     "amenity/fast_food/Макдоналдс": {
         "tags": {
             "name": "Макдоналдс",
@@ -14925,30 +15241,6 @@
             "amenity": "fast_food"
         },
         "name": "Asia Imbiss",
-        "icon": "fast-food",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "cuisine",
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours",
-            "takeaway",
-            "delivery",
-            "drive_through",
-            "smoking"
-        ],
-        "suggestion": true
-    },
-    "amenity/fast_food/Imbiss": {
-        "tags": {
-            "name": "Imbiss",
-            "amenity": "fast_food"
-        },
-        "name": "Imbiss",
         "icon": "fast-food",
         "geometry": [
             "point",
@@ -15385,6 +15677,7 @@
     "amenity/fast_food/Panda Express": {
         "tags": {
             "name": "Panda Express",
+            "cuisine": "chinese",
             "amenity": "fast_food"
         },
         "name": "Panda Express",
@@ -15748,6 +16041,7 @@
     "amenity/restaurant/Pizza Hut": {
         "tags": {
             "name": "Pizza Hut",
+            "cuisine": "pizza",
             "amenity": "restaurant"
         },
         "name": "Pizza Hut",
@@ -22548,12 +22842,12 @@
         ],
         "suggestion": true
     },
-    "amenity/bank/Millenium Bank": {
+    "amenity/bank/Millenium": {
         "tags": {
-            "name": "Millenium Bank",
+            "name": "Millenium",
             "amenity": "bank"
         },
-        "name": "Millenium Bank",
+        "name": "Millenium",
         "icon": "bank",
         "geometry": [
             "point",
@@ -25660,27 +25954,6 @@
         ],
         "suggestion": true
     },
-    "amenity/cafe/Eisdiele": {
-        "tags": {
-            "name": "Eisdiele",
-            "amenity": "cafe"
-        },
-        "name": "Eisdiele",
-        "icon": "cafe",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "cuisine",
-            "internet_access",
-            "address",
-            "building_area",
-            "opening_hours",
-            "smoking"
-        ],
-        "suggestion": true
-    },
     "amenity/cafe/Dunkin Donuts": {
         "tags": {
             "name": "Dunkin Donuts",
@@ -26219,12 +26492,12 @@
         ],
         "suggestion": true
     },
-    "shop/supermarket/EDEKA": {
+    "shop/supermarket/Edeka": {
         "tags": {
-            "name": "EDEKA",
+            "name": "Edeka",
             "shop": "supermarket"
         },
-        "name": "EDEKA",
+        "name": "Edeka",
         "icon": "grocery",
         "geometry": [
             "point",
@@ -26580,25 +26853,6 @@
         ],
         "suggestion": true
     },
-    "shop/supermarket/REWE": {
-        "tags": {
-            "name": "REWE",
-            "shop": "supermarket"
-        },
-        "name": "REWE",
-        "icon": "grocery",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
     "shop/supermarket/Rewe": {
         "tags": {
             "name": "Rewe",
@@ -26681,25 +26935,6 @@
             "shop": "supermarket"
         },
         "name": "Kiwi",
-        "icon": "grocery",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
-    "shop/supermarket/Edeka": {
-        "tags": {
-            "name": "Edeka",
-            "shop": "supermarket"
-        },
-        "name": "Edeka",
         "icon": "grocery",
         "geometry": [
             "point",
@@ -26852,25 +27087,6 @@
             "shop": "supermarket"
         },
         "name": "M-Preis",
-        "icon": "grocery",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
-    "shop/supermarket/LIDL": {
-        "tags": {
-            "name": "LIDL",
-            "shop": "supermarket"
-        },
-        "name": "LIDL",
         "icon": "grocery",
         "geometry": [
             "point",
@@ -27327,25 +27543,6 @@
             "shop": "supermarket"
         },
         "name": "Hoogvliet",
-        "icon": "grocery",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
-    "shop/supermarket/COOP": {
-        "tags": {
-            "name": "COOP",
-            "shop": "supermarket"
-        },
-        "name": "COOP",
         "icon": "grocery",
         "geometry": [
             "point",
@@ -28841,12 +29038,12 @@
         ],
         "suggestion": true
     },
-    "shop/supermarket/Co-operative Food": {
+    "shop/supermarket/The Co-operative Food": {
         "tags": {
-            "name": "Co-operative Food",
+            "name": "The Co-operative Food",
             "shop": "supermarket"
         },
-        "name": "Co-operative Food",
+        "name": "The Co-operative Food",
         "icon": "grocery",
         "geometry": [
             "point",
@@ -29354,25 +29551,6 @@
         ],
         "suggestion": true
     },
-    "shop/supermarket/SPAR": {
-        "tags": {
-            "name": "SPAR",
-            "shop": "supermarket"
-        },
-        "name": "SPAR",
-        "icon": "grocery",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
     "shop/supermarket/No Frills": {
         "tags": {
             "name": "No Frills",
@@ -29455,25 +29633,6 @@
             "shop": "supermarket"
         },
         "name": "Biedronka",
-        "icon": "grocery",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
-    "shop/supermarket/The Co-operative Food": {
-        "tags": {
-            "name": "The Co-operative Food",
-            "shop": "supermarket"
-        },
-        "name": "The Co-operative Food",
         "icon": "grocery",
         "geometry": [
             "point",
@@ -31601,25 +31760,6 @@
         ],
         "suggestion": true
     },
-    "shop/convenience/Sklep spożywczy": {
-        "tags": {
-            "name": "Sklep spożywczy",
-            "shop": "convenience"
-        },
-        "name": "Sklep spożywczy",
-        "icon": "shop",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
     "shop/convenience/Centra": {
         "tags": {
             "name": "Centra",
@@ -31925,6 +32065,25 @@
         ],
         "suggestion": true
     },
+    "shop/convenience/Sklep spożywczy": {
+        "tags": {
+            "name": "Sklep spożywczy",
+            "shop": "convenience"
+        },
+        "name": "Sklep spożywczy",
+        "icon": "shop",
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "fields": [
+            "operator",
+            "address",
+            "building_area",
+            "opening_hours"
+        ],
+        "suggestion": true
+    },
     "shop/convenience/24 часа": {
         "tags": {
             "name": "24 часа",
@@ -32121,25 +32280,6 @@
             "shop": "convenience"
         },
         "name": "เซเว่นอีเลฟเว่น",
-        "icon": "shop",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
-    "shop/convenience/Spożywczy": {
-        "tags": {
-            "name": "Spożywczy",
-            "shop": "convenience"
-        },
-        "name": "Spożywczy",
         "icon": "shop",
         "geometry": [
             "point",
@@ -33008,25 +33148,6 @@
         ],
         "suggestion": true
     },
-    "shop/car_repair/Kwik-Fit": {
-        "tags": {
-            "name": "Kwik-Fit",
-            "shop": "car_repair"
-        },
-        "name": "Kwik-Fit",
-        "icon": "car",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
     "shop/car_repair/Midas": {
         "tags": {
             "name": "Midas",
@@ -33261,25 +33382,6 @@
             "shop": "car_repair"
         },
         "name": "Firestone",
-        "icon": "car",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
-    "shop/car_repair/AutoZone": {
-        "tags": {
-            "name": "AutoZone",
-            "shop": "car_repair"
-        },
-        "name": "AutoZone",
         "icon": "car",
         "geometry": [
             "point",
@@ -37010,25 +37112,6 @@
         ],
         "suggestion": true
     },
-    "shop/bakery/Bäcker": {
-        "tags": {
-            "name": "Bäcker",
-            "shop": "bakery"
-        },
-        "name": "Bäcker",
-        "icon": "bakery",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
     "shop/bakery/Schäfer's": {
         "tags": {
             "name": "Schäfer's",
@@ -37149,25 +37232,6 @@
             "shop": "bakery"
         },
         "name": "Хлеб",
-        "icon": "bakery",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
-    "shop/bakery/Piekarnia": {
-        "tags": {
-            "name": "Piekarnia",
-            "shop": "bakery"
-        },
-        "name": "Piekarnia",
         "icon": "bakery",
         "geometry": [
             "point",
@@ -38783,25 +38847,6 @@
             "shop": "hairdresser"
         },
         "name": "Стиль",
-        "icon": "hairdresser",
-        "geometry": [
-            "point",
-            "area"
-        ],
-        "fields": [
-            "operator",
-            "address",
-            "building_area",
-            "opening_hours"
-        ],
-        "suggestion": true
-    },
-    "shop/hairdresser/Fryzjer": {
-        "tags": {
-            "name": "Fryzjer",
-            "shop": "hairdresser"
-        },
-        "name": "Fryzjer",
         "icon": "hairdresser",
         "geometry": [
             "point",

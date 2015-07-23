@@ -119,6 +119,9 @@
     "name": "Fahrradreperaturstation",
     "terms": "Fahrradreperaturstation, Fahrradreperaturbox"
   },
+  "amenity/biergarten": {
+    "name": "Biergarten"
+  },
   "amenity/boat_rental": {
     "name": "Bootvermietung",
     "terms": "Bootsverleih"
@@ -1279,6 +1282,10 @@
     "name": "Aussichtsturm",
     "terms": "Ausguck, Ausblick, Beobachtungsstand"
   },
+  "man_made/petroleum_well": {
+    "name": "Erdölpumpe",
+    "terms": "Tiefpumpe"
+  },
   "man_made/pier": {
     "name": "Steg",
     "terms": "Anleger, Pier"
@@ -1286,6 +1293,12 @@
   "man_made/pipeline": {
     "name": "Pipeline",
     "terms": "Pipeline, Rohrleitung"
+  },
+  "man_made/silo": {
+    "name": "Silo"
+  },
+  "man_made/storage_tank": {
+    "name": "Lagertank"
   },
   "man_made/survey_point": {
     "name": "Vermessungspunkt",
@@ -1506,6 +1519,9 @@
   "place/city": {
     "name": "Großstadt",
     "terms": "Stadt"
+  },
+  "place/farm": {
+    "name": "Bauernhof"
   },
   "place/hamlet": {
     "name": "Siedlung",

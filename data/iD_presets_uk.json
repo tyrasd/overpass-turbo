@@ -1,15 +1,15 @@
 {
   "address": {
     "name": "Адреса",
-    "terms": "Address, адреса, місце, квартира, будинок, корпус, flhtcf, vscwt, rdfhnbhf, ,elbyjr, rjhgec"
+    "terms": "address,адреса,місце,квартира,будинок,корпус,flhtcf,vscwt,rdfhnbhf,elbyjr,rjhgec"
   },
   "aerialway": {
     "name": "Канатна дорога",
-    "terms": "Aerialway, rfyfnyf ljhjuf, канатна дорога"
+    "terms": "aerialway,rfyfnyf ljhjuf,канатна дорога,підвісна дорога"
   },
   "aerialway/cable_car": {
     "name": "Канатний трамвай",
-    "terms": "Cable car, канат, трамвай, транспорт, громадський"
+    "terms": "cable car,канат,трамвай,транспорт,громадський"
   },
   "aerialway/chair_lift": {
     "name": "Крісельний підйомник",
@@ -118,6 +118,10 @@
   "amenity/bicycle_repair_station": {
     "name": "Станція ремонту велосипедів",
     "terms": "вело-ремонт, ремонт, станція"
+  },
+  "amenity/biergarten": {
+    "name": "Пивний садок",
+    "terms": "пиво, лавка, їжа, тепло, напої, beer, biergarten, відпочинок"
   },
   "amenity/boat_rental": {
     "name": "Прокат човнів",
@@ -314,6 +318,10 @@
   "amenity/restaurant": {
     "name": "Ресторан",
     "terms": "Restaurant, htcnjhfy, ресторан, їжа"
+  },
+  "amenity/sanitary_dump_station": {
+    "name": "Місце зливу каналізації",
+    "terms": "каналізація,відходи,станція,послуги,кемпер,Motor Home,Camper,Sanitary,Dump Station,Elsan,CDP,CTDP,Chemical Toilet"
   },
   "amenity/school": {
     "name": "Територія школи",
@@ -828,12 +836,12 @@
     "terms": "піщана пастка, гольф"
   },
   "golf/fairway": {
-    "name": "Фарватер",
-    "terms": "фарватер, вода, течія, маршрут"
+    "name": "Фервей",
+    "terms": "Fairway, Фервей, трава, низька, гладенька"
   },
   "golf/green": {
-    "name": "Нізька трава",
-    "terms": "гольф, путін грін"
+    "name": "Ґрін",
+    "terms": "green, гольф, ґрін, низька трава, лунка"
   },
   "golf/hole": {
     "name": "Лунка",
@@ -844,12 +852,12 @@
     "terms": "гольф, вода, пастка"
   },
   "golf/rough": {
-    "name": "Нерівна місцевість",
-    "terms": "нерівна місцевість"
+    "name": "Раф",
+    "terms": "rough, нерівна місцевість, раф, гольф"
   },
   "golf/tee": {
     "name": "Ті",
-    "terms": "гольф, початок, підставка"
+    "terms": "гольф, початок, підставка, tee"
   },
   "golf/water_hazard": {
     "name": "Водяна пастка",
@@ -1275,9 +1283,17 @@
     "name": "Маяк",
     "terms": "Lighthouse, vfzr, сигнал, вогонь, маяк"
   },
+  "man_made/mast": {
+    "name": "Радіощогла",
+    "terms": "broadcast tower,cell phone tower,cell tower,guyed tower,mobile phone tower,radio tower,television tower,transmission mast,transmission tower,tv tower, радіовежа,мобільний зв’язок,мачта,вежа,щогла,антена"
+  },
   "man_made/observation": {
     "name": "Оглядова вежа",
     "terms": "Observation tower, jukzljdf dtf, пожежна вежа, вежа спостереження"
+  },
+  "man_made/petroleum_well": {
+    "name": "Нафтова свердловина",
+    "terms": "drilling rig,oil derrick,oil drill,oil horse,oil rig,oil pump,petroleum well,pumpjack,нафта,насос,свердловина,викачування нафти"
   },
   "man_made/pier": {
     "name": "Пірс",
@@ -1286,6 +1302,14 @@
   "man_made/pipeline": {
     "name": "Трубопровід",
     "terms": "Pipeline, nhejghjdsl, трубопровід"
+  },
+  "man_made/silo": {
+    "name": "Силос",
+    "terms": "grain,corn,wheat,зерно,пшениця,ячмінь,елеватор"
+  },
+  "man_made/storage_tank": {
+    "name": "Резервуар",
+    "terms": "water,oil,gas,petrol,вода,нафта,газ,бензин"
   },
   "man_made/survey_point": {
     "name": "Геодезичний пункт",
@@ -1506,6 +1530,10 @@
   "place/city": {
     "name": "Місто",
     "terms": "City,vscnj, місто"
+  },
+  "place/farm": {
+    "name": "Ферма",
+    "terms": "farm,ферма"
   },
   "place/hamlet": {
     "name": "Хутір",
@@ -2295,6 +2323,10 @@
     "name": "Дренажний канал",
     "terms": "Drain, lhtyfybq rfyfk, стічна канава, дренаж"
   },
+  "waterway/fuel": {
+    "name": "АЗС для човнів",
+    "terms": "petrol,gas,diesel,boat,пальне,бензин,дизпаливо,човен,лодка,газ"
+  },
   "waterway/river": {
     "name": "Ріка",
     "terms": "River, hsrf, річка"
@@ -2302,6 +2334,10 @@
   "waterway/riverbank": {
     "name": "Берег ріки",
     "terms": "Riverbank, thtu hsrb, берег ріки"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Місце зливу каналізації для човнів",
+    "terms": "Boat,Watercraft,Sanitary,Dump Station,Pumpout,Pump out,Elsan,CDP,CTDP,Chemical Toilet,каналізація,відходи,човен,лодка,яхта"
   },
   "waterway/stream": {
     "name": "Струмок",

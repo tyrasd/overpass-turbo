@@ -119,6 +119,9 @@
     "name": "自行車維修站",
     "terms": "提供自行車維修服務的地方"
   },
+  "amenity/biergarten": {
+    "name": "啤酒花園"
+  },
   "amenity/boat_rental": {
     "name": "小艇出租",
     "terms": "租船處,小艇租賃"
@@ -1224,8 +1227,8 @@
     "terms": "遊樂場"
   },
   "leisure/running_track": {
-    "name": "賽跑跑道",
-    "terms": "跑道,跑步跑道"
+    "name": "操場",
+    "terms": "跑道,跑步跑道,賽跑跑道"
   },
   "leisure/slipway": {
     "name": "船架滑道",
@@ -1244,8 +1247,8 @@
     "terms": "泳池"
   },
   "leisure/track": {
-    "name": "賽道(非摩托賽道)",
-    "terms": "賽道(非摩托賽道),操場"
+    "name": "操場(非摩托賽道)",
+    "terms": "賽道(非摩托賽道)"
   },
   "line": {
     "name": "線",
@@ -1275,9 +1278,15 @@
     "name": "燈塔",
     "terms": "燈塔"
   },
+  "man_made/mast": {
+    "name": "天線桿"
+  },
   "man_made/observation": {
     "name": "瞭望塔",
     "terms": "瞭望塔"
+  },
+  "man_made/petroleum_well": {
+    "name": "油井"
   },
   "man_made/pier": {
     "name": "碼頭",
@@ -1286,6 +1295,12 @@
   "man_made/pipeline": {
     "name": "管道",
     "terms": "管線"
+  },
+  "man_made/silo": {
+    "name": "地窖"
+  },
+  "man_made/storage_tank": {
+    "name": "存放槽"
   },
   "man_made/survey_point": {
     "name": "測量點",
@@ -1506,6 +1521,9 @@
   "place/city": {
     "name": "城市",
     "terms": "城市"
+  },
+  "place/farm": {
+    "name": "農場"
   },
   "place/hamlet": {
     "name": "村莊",
@@ -2294,6 +2312,9 @@
   "waterway/drain": {
     "name": "渠",
     "terms": "灌溉水圳"
+  },
+  "waterway/fuel": {
+    "name": "船用加油站"
   },
   "waterway/river": {
     "name": "河流",

@@ -148,7 +148,7 @@
     "terms": "duży ekran,drive-in,film,ruchomy obraz,pokaz zdjęć,zdjęcia,pokaz,silver screen"
   },
   "amenity/clinic": {
-    "name": "Przychodnia lekarska",
+    "name": "Klinika",
     "terms": "ośrodek zdrowia, zoz, nzoz, opieka zdrowotna"
   },
   "amenity/clock": {
@@ -173,8 +173,8 @@
     "terms": "stomatolog, gabinet stomatologiczny"
   },
   "amenity/doctor": {
-    "name": "Doktor",
-    "terms": "lekarz,doktor,konował,medyk,uzdrowiciel"
+    "name": "Gabinet lub przychodnia lekarska",
+    "terms": "lekarz, doktor, medyk, uzdrowiciel, nzoz, zoz, spzoz, gabinet lekarski"
   },
   "amenity/dojo": {
     "name": "Dojo/szkoła sztuk walki"
@@ -286,7 +286,7 @@
   },
   "amenity/restaurant": {
     "name": "Restauracja",
-    "terms": "bar,kawiarnia,stołówka,jadalnia,drive-in,knajpa,jadłodajnia,fast food,grill,gospoda,klub nocny,pizzeria"
+    "terms": "bar,kawiarnia,stołówka,jadalnia,drive-in,knajpa,jadłodajnia,fast food,grill,gospoda,klub nocny,pizzeria,karczma,zajazd"
   },
   "amenity/school": {
     "name": "Teren szkoły"
@@ -1245,7 +1245,7 @@
   },
   "office/accountant": {
     "name": "Księgowy",
-    "terms": "księgowy"
+    "terms": "biuro rachunkowe, księgowość, rachun"
   },
   "office/administrative": {
     "name": "Biuro samorządowe"
@@ -1281,7 +1281,8 @@
     "name": "Biuro branży IT (informatycznej)"
   },
   "office/lawyer": {
-    "name": "Biuro prawnicze"
+    "name": "Biuro prawnicze",
+    "terms": "prawnik, kancelaria, adwokat, radca"
   },
   "office/newspaper": {
     "name": "Gazeta"
@@ -1837,7 +1838,7 @@
     "name": "Domek gościnny"
   },
   "tourism/hostel": {
-    "name": "Schronisko",
+    "name": "Schronisko lub hostel",
     "terms": "Hostel"
   },
   "tourism/hotel": {

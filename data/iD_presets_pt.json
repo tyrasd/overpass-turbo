@@ -119,6 +119,10 @@
     "name": "Estação de Reparação de Bicicletas",
     "terms": "Bicycle Repair Station"
   },
+  "amenity/biergarten": {
+    "name": "Jardim da Cerveja",
+    "terms": "Beer Garden, Biergarten"
+  },
   "amenity/boat_rental": {
     "name": "Aluguer de Barcos",
     "terms": "Boat Rental"
@@ -1275,9 +1279,17 @@
     "name": "Farol",
     "terms": "Faról, Lighthouse"
   },
+  "man_made/mast": {
+    "name": "Torre de Rádio",
+    "terms": "Radio Mast, Mastro de Rádio"
+  },
   "man_made/observation": {
     "name": "Torre de Observação",
     "terms": "Observatório Tower, Miradouro"
+  },
+  "man_made/petroleum_well": {
+    "name": "Poço de Petróleo",
+    "terms": "Oil Well"
   },
   "man_made/pier": {
     "name": "Pontão / Atracadouro",
@@ -1286,6 +1298,12 @@
   "man_made/pipeline": {
     "name": "Gasoduto / Oleoduto",
     "terms": "Tubo, Pipeline"
+  },
+  "man_made/silo": {
+    "name": "Silo"
+  },
+  "man_made/storage_tank": {
+    "name": "Depósito de Armazenamento"
   },
   "man_made/survey_point": {
     "name": "Vértice Geodésico / Talefe",
@@ -1507,6 +1525,10 @@
     "name": "Capital de Distrito",
     "terms": "City, Cidade, Capital, Distrito"
   },
+  "place/farm": {
+    "name": "Quinta",
+    "terms": "Farm, Fazenda, Pasto"
+  },
   "place/hamlet": {
     "name": "Aldeia",
     "terms": "Hamlet, Aldeamento"
@@ -1646,6 +1668,10 @@
   "relation": {
     "name": "Relação",
     "terms": "Relação"
+  },
+  "roundabout": {
+    "name": "Rotunda",
+    "terms": "Roundabout, Rotatória"
   },
   "route/ferry": {
     "name": "Rota de Barca / Ferry",
@@ -2290,6 +2316,10 @@
   "waterway/drain": {
     "name": "Vala de Drenagem",
     "terms": "Drain"
+  },
+  "waterway/fuel": {
+    "name": "Posto de Combustível Marinho",
+    "terms": "Marine Fuel Station"
   },
   "waterway/river": {
     "name": "Rio",

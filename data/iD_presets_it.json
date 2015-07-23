@@ -119,6 +119,10 @@
     "name": "Stazione di riparazione biciclette",
     "terms": "riparazione,bibiclette,meccanico,bici,cicli"
   },
+  "amenity/biergarten": {
+    "name": "Birreria all'aperto",
+    "terms": "birreria,distesa"
+  },
   "amenity/boat_rental": {
     "name": "Noleggio barche",
     "terms": "noleggio barche,noleggio,barche,porto,negozio"
@@ -165,6 +169,9 @@
   "amenity/clock": {
     "name": "Orologio",
     "terms": "ora,orario,orologio"
+  },
+  "amenity/college": {
+    "name": "Area di un College"
   },
   "amenity/community_centre": {
     "name": "Centro sociale"
@@ -308,6 +315,10 @@
     "name": "Ristorante",
     "terms": "bar,caffetteria,caffè,ristorante self-service,braceria,trattoria,negozio di ciambelle,bettola,griglieria,venditore di hamburger,venditore di hotdog,pizzeria"
   },
+  "amenity/sanitary_dump_station": {
+    "name": "Smaltimento reflui camper",
+    "terms": "smaltimento,rifiuti,toilet,wc,camper,escrementi"
+  },
   "amenity/school": {
     "name": "Area Scolastica",
     "terms": "scuola,accademia,alma mater,lavagna,collegio,dipartimento,disciplina,classe,facoltà,aula,istituto,istituzione,riformatorio,scuola,edificio scolastico,seminario,università"
@@ -323,6 +334,9 @@
   "amenity/social_facility/food_bank": {
     "name": "Banco alimentare",
     "terms": "mensa del povero,mensa caritas"
+  },
+  "amenity/social_facility/group_home": {
+    "name": "Casa di riposo per anziani"
   },
   "amenity/social_facility/homeless_shelter": {
     "name": "Dormitorio",
@@ -479,6 +493,9 @@
     "name": "Chiesa",
     "terms": "cristiano,abbazia,basilica,cattedrale,presbiterio,cappella,chiesa,casa di Dio,luogo di preghiera,luogo di culto,missione,oratorio,parrocchia,sacello,edicola votiva,tabernacolo,tempio"
   },
+  "building/college": {
+    "name": "Edificio di un College"
+  },
   "building/commercial": {
     "name": "Edificio commerciale",
     "terms": "Edificio commerciale"
@@ -530,6 +547,9 @@
   "building/industrial": {
     "name": "Edificio industriale",
     "terms": "Edifico industriale"
+  },
+  "building/kindergarten": {
+    "name": "Edificio di una Scuola d'Infanzia"
   },
   "building/public": {
     "name": "Edificio pubblico",
@@ -599,12 +619,18 @@
     "name": "Carpentiere",
     "terms": "carpenteria,legno"
   },
+  "craft/carpet_layer": {
+    "name": "Posatori di Moquette"
+  },
   "craft/caterer": {
     "name": "Fornitore di catering"
   },
   "craft/clockmaker": {
     "name": "Costruttore di orologi",
     "terms": "orologi"
+  },
+  "craft/confectionery": {
+    "name": "Negozio per dolciumi"
   },
   "craft/dressmaker": {
     "name": "Sartoria",
@@ -623,6 +649,9 @@
   },
   "craft/handicraft": {
     "name": "Artigiano"
+  },
+  "craft/insulator": {
+    "name": "Isolanti"
   },
   "craft/jeweler": {
     "name": "Gioielliere",
@@ -650,6 +679,9 @@
   "craft/plumber": {
     "name": "Idraulico"
   },
+  "craft/saddler": {
+    "name": "Sellaio"
+  },
   "craft/sailmaker": {
     "name": "Velaio"
   },
@@ -670,6 +702,9 @@
   "craft/stonemason": {
     "name": "Tagliapietre"
   },
+  "craft/sweep": {
+    "name": "Spazzacamino"
+  },
   "craft/tailor": {
     "name": "Sarto"
   },
@@ -685,6 +720,9 @@
   "craft/watchmaker": {
     "name": "Orologiaio",
     "terms": "orologi,riparazione"
+  },
+  "craft/window_construction": {
+    "name": "Infissi"
   },
   "craft/winery": {
     "name": "Cantina vinicola",
@@ -748,6 +786,9 @@
   },
   "golf/rough": {
     "name": "Irregolare, grezzo"
+  },
+  "golf/tee": {
+    "name": "Tee di Partenza"
   },
   "golf/water_hazard": {
     "name": "Ostacolo d'acqua",
@@ -1165,9 +1206,17 @@
     "name": "Faro",
     "terms": "Faro"
   },
+  "man_made/mast": {
+    "name": "Antenna radio",
+    "terms": "antenna,torre,wireless,radio,telefonia,antenne"
+  },
   "man_made/observation": {
     "name": "Torre di osservazione",
     "terms": "torre,osservazione,osservatorio,piattaforma,osservativa,antincendio,panorama"
+  },
+  "man_made/petroleum_well": {
+    "name": "Pozzo petrolifero",
+    "terms": "petrolio,bitume,pozzo"
   },
   "man_made/pier": {
     "name": "Molo",
@@ -1176,6 +1225,14 @@
   "man_made/pipeline": {
     "name": "Conduttura",
     "terms": "Conduttura"
+  },
+  "man_made/silo": {
+    "name": "Silo",
+    "terms": "silos,cisterna,botte"
+  },
+  "man_made/storage_tank": {
+    "name": "Cisterna",
+    "terms": "silos,cisterna,botte,contenitore"
   },
   "man_made/survey_point": {
     "name": "Punto geodetico",
@@ -1387,6 +1444,10 @@
     "name": "Città",
     "terms": "Città"
   },
+  "place/farm": {
+    "name": "Azienda agricola",
+    "terms": "fattoria,campi,campo,agricoltura,agricolo,contadino"
+  },
   "place/hamlet": {
     "name": "Paese",
     "terms": "Borgo"
@@ -1560,6 +1621,9 @@
     "name": "Negozio di articoli di bellezza",
     "terms": "Salone di bellezza"
   },
+  "shop/bed": {
+    "name": "Negozio di Materassi"
+  },
   "shop/beverages": {
     "name": "Negozio di bevande",
     "terms": "Negozio di bevande"
@@ -1583,6 +1647,9 @@
   "shop/butcher": {
     "name": "Macellaio",
     "terms": "Macellaio"
+  },
+  "shop/candles": {
+    "name": "Negozio di Candele"
   },
   "shop/car": {
     "name": "Concessionario",
@@ -1622,6 +1689,9 @@
   "shop/convenience": {
     "name": "Minimarket",
     "terms": "Drogheria"
+  },
+  "shop/copyshop": {
+    "name": "Copisteria"
   },
   "shop/cosmetics": {
     "name": "Negozio di cosmetici"
@@ -1995,6 +2065,10 @@
     "name": "Canale di scolo",
     "terms": " Canale di scolo "
   },
+  "waterway/fuel": {
+    "name": "Stazione di rifornimento marittima",
+    "terms": "distributore,gas, benzina,diesel,gpl,carburante,benzinaio,gasolio,nafta,barca,barche"
+  },
   "waterway/river": {
     "name": "Fiume",
     "terms": "ruscello,affluente,corso d'acqua,torrente,estuario,rivolo,rigagnolo,immissario"
@@ -2002,6 +2076,10 @@
   "waterway/riverbank": {
     "name": "Argine",
     "terms": "Argine"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Smaltimento reflui marittimi",
+    "terms": "smaltimento,rifiuti,toilet,wc,camper,escrementi"
   },
   "waterway/stream": {
     "name": "Torrente",

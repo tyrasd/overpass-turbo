@@ -119,6 +119,10 @@
     "name": "Cykelværktøjlån",
     "terms": "Cykelværktøjlån, Cykelværktøj"
   },
+  "amenity/biergarten": {
+    "name": "Ølhave",
+    "terms": "Ølhave, Ølstue"
+  },
   "amenity/boat_rental": {
     "name": "Bådudlejning",
     "terms": "Bådudlejning, lystbådudlejning"
@@ -314,6 +318,10 @@
   "amenity/restaurant": {
     "name": "Restaurant",
     "terms": "Restaurant, Spisested, Spisehus"
+  },
+  "amenity/sanitary_dump_station": {
+    "name": "Tør closettoilet funtionsområde",
+    "terms": "Tør closettoilet funtionsområde"
   },
   "amenity/school": {
     "name": "Skolegrund",
@@ -1275,9 +1283,17 @@
     "name": "Fyr (navigation)",
     "terms": "Fyr (navigation)"
   },
+  "man_made/mast": {
+    "name": "Radiomast",
+    "terms": "Radiomast"
+  },
   "man_made/observation": {
     "name": "Observationstårn",
     "terms": "observationstårn, udkigstårn"
+  },
+  "man_made/petroleum_well": {
+    "name": "Oliebrønd",
+    "terms": "Oliebrønd"
   },
   "man_made/pier": {
     "name": "Bådebro",
@@ -1286,6 +1302,14 @@
   "man_made/pipeline": {
     "name": "Rørledning",
     "terms": "Rørledning"
+  },
+  "man_made/silo": {
+    "name": "Silo",
+    "terms": "Silo, Silotank"
+  },
+  "man_made/storage_tank": {
+    "name": "Lagertank",
+    "terms": "Lagertank"
   },
   "man_made/survey_point": {
     "name": "Geografisk fixpunkt",
@@ -1506,6 +1530,10 @@
   "place/city": {
     "name": "Storby",
     "terms": "Storby"
+  },
+  "place/farm": {
+    "name": "Gård",
+    "terms": "Gård, Bondegård"
   },
   "place/hamlet": {
     "name": "Mindre beboet område",
@@ -2295,6 +2323,10 @@
     "name": "Drænløb",
     "terms": "Drænløb"
   },
+  "waterway/fuel": {
+    "name": "Søtankstation",
+    "terms": "Søtankstation"
+  },
   "waterway/river": {
     "name": "Flod/å",
     "terms": "Flod, Å"
@@ -2302,6 +2334,10 @@
   "waterway/riverbank": {
     "name": "Flodbred",
     "terms": "Flodbred"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Søtoilet funktionsområde",
+    "terms": "Søtoilet funktionsområde"
   },
   "waterway/stream": {
     "name": "Bæk",

@@ -140,7 +140,7 @@
     "terms": "Aluguel de Carros"
   },
   "amenity/car_sharing": {
-    "name": "Carsharing",
+    "name": "Compartilhamento de carros",
     "terms": "Carsharing, "
   },
   "amenity/car_wash": {
@@ -315,13 +315,16 @@
     "name": "Restaurante",
     "terms": "Restaurante"
   },
+  "amenity/sanitary_dump_station": {
+    "name": "Ponto de Descarga de Dejetos (para trailers)"
+  },
   "amenity/school": {
     "name": "Escola",
     "terms": "Área Escolar, Terreno Escolar, Pátio Escolar"
   },
   "amenity/shelter": {
-    "name": "Abrigo",
-    "terms": "Abrigo"
+    "name": "Abrigo contra Intempéries",
+    "terms": "Abrigo contra Intempéries"
   },
   "amenity/social_facility": {
     "name": "Unidade de Assistência Social",
@@ -369,7 +372,7 @@
   },
   "amenity/university": {
     "name": "Área Universitária",
-    "terms": "Área de Universidade"
+    "terms": "Área de Universidade, Faculdade, Área de Faculdade, Centro Universitário"
   },
   "amenity/vending_machine": {
     "name": "Máquina de Venda",
@@ -492,7 +495,7 @@
     "terms": "Igreja"
   },
   "building/college": {
-    "name": "Edifício de escola técnica",
+    "name": "Edifício de Escola Técnica",
     "terms": "Colégio técnico, Ensino profissionalizante, Educação profissional"
   },
   "building/commercial": {
@@ -501,7 +504,7 @@
   },
   "building/construction": {
     "name": "Edifício em construção",
-    "terms": "Edificação em Construção"
+    "terms": "Edificação em Construção, Construção, Obras"
   },
   "building/detached": {
     "name": "Casa Separada",
@@ -593,7 +596,7 @@
   },
   "building/university": {
     "name": "Edifício Universitário",
-    "terms": "Edifício Universitário"
+    "terms": "Edifício Universitário, Faculdade, Edifício de Faculdade"
   },
   "building/warehouse": {
     "name": "Armazém",
@@ -1084,16 +1087,16 @@
     "terms": "Construção"
   },
   "landuse/farm": {
-    "name": "Fazenda",
-    "terms": "Campo agrícola, agricultura, campanha, quinta, agrícola, rural, terra arável"
+    "name": "Área de Plantação",
+    "terms": "Campo agrícola, agricultura, campanha, quinta, agrícola, rural, terra arável, fazenda, lavoura,"
   },
   "landuse/farmland": {
-    "name": "Fazenda",
-    "terms": "Campo agrícola, agricultura, campanha, quinta, agrícola, rural, terra arável"
+    "name": "Área de Plantação",
+    "terms": "Campo agrícola, agricultura, campanha, quinta, agrícola, rural, terra arável, fazenda, lavoura"
   },
   "landuse/farmyard": {
     "name": "Pátio de Fazenda",
-    "terms": "Pátio de Fazenda"
+    "terms": "Pátio de Fazenda, Chácara, Sítio"
   },
   "landuse/forest": {
     "name": "Floresta manejada",
@@ -1116,8 +1119,8 @@
     "terms": "Aterro Sanitário, Depósito de Lixo"
   },
   "landuse/meadow": {
-    "name": "Prado",
-    "terms": "Prado, Pasto, Pradaria"
+    "name": "Pasto / Prado",
+    "terms": "Prado, Pasto, Pradaria, Área de Pasto, Pastagem, Fazenda"
   },
   "landuse/military": {
     "name": "Área militar",
@@ -1275,9 +1278,16 @@
     "name": "Farol",
     "terms": "Farol"
   },
+  "man_made/mast": {
+    "name": "Torre de Rádio",
+    "terms": "Torre de Comunicação, Torre de Telecomunicações, Antena"
+  },
   "man_made/observation": {
     "name": "Torre de Observação",
     "terms": "Torre de observação"
+  },
+  "man_made/petroleum_well": {
+    "name": "Poço de Petróleo"
   },
   "man_made/pier": {
     "name": "Píer",
@@ -1286,6 +1296,9 @@
   "man_made/pipeline": {
     "name": "Tubulação",
     "terms": "Encanamento, Duto"
+  },
+  "man_made/silo": {
+    "name": "Silo"
   },
   "man_made/survey_point": {
     "name": "Ponto de Levantamento Geográfico",
@@ -1409,7 +1422,7 @@
   },
   "natural/wood": {
     "name": "Mata Nativa",
-    "terms": "Bosque, Floresta"
+    "terms": "Floresta, Bosque"
   },
   "office": {
     "name": "Escritório",
@@ -1506,6 +1519,10 @@
   "place/city": {
     "name": "Cidade Maior",
     "terms": "Cidade, Município"
+  },
+  "place/farm": {
+    "name": "Fazenda",
+    "terms": "Localidade isolada, Fazenda"
   },
   "place/hamlet": {
     "name": "Lugarejo",
@@ -1660,7 +1677,7 @@
     "terms": "Loja"
   },
   "shop/alcohol": {
-    "name": "Loja de Licores",
+    "name": "Loja de alcoólicos licenciada",
     "terms": "Loja de Licores"
   },
   "shop/anime": {
@@ -1944,7 +1961,7 @@
     "terms": "Concessionária de Motos"
   },
   "shop/music": {
-    "name": "Loja de Instrumentos Musicais",
+    "name": "Loja de Discos Musicais",
     "terms": "Loja de Discos Musicais, Loja de CD's, Loja de Vinil, Loja Musical"
   },
   "shop/musical_instrument": {
@@ -1976,7 +1993,7 @@
     "terms": "casa de penhores, loja"
   },
   "shop/pet": {
-    "name": "Pet Shop",
+    "name": "Loja de animais",
     "terms": "Pet Shop"
   },
   "shop/photo": {
@@ -2000,8 +2017,8 @@
     "terms": "Loja de Mergulho"
   },
   "shop/seafood": {
-    "name": "Loja de frutos do mar",
-    "terms": "Peixaria, Petiscaria, Pescado, Petisqueira"
+    "name": "Peixaria / Frutos do mar",
+    "terms": "Peixaria, Pescado, Petisqueira, Loja de Frutos do Mar, Camarão, Lagosta, Peixes"
   },
   "shop/second_hand": {
     "name": "Financeira",
@@ -2084,7 +2101,7 @@
     "terms": "Loja de Tiro, Loja de Equipamentos de Tiro"
   },
   "shop/window_blind": {
-    "name": "Loja de Blindagem de Vidros",
+    "name": "Loja de persianas",
     "terms": "Loja de Vidros Blindados"
   },
   "shop/wine": {
@@ -2295,6 +2312,10 @@
     "name": "Valeta de drenagem",
     "terms": "Dreno"
   },
+  "waterway/fuel": {
+    "name": "Posto de Combustível Marítimo",
+    "terms": "Pier de Combustível Marítimo, Ponto de Combustível Marítimo, Ponto de Abastecimento Marítimo"
+  },
   "waterway/river": {
     "name": "Rio",
     "terms": "Rio"
@@ -2302,6 +2323,9 @@
   "waterway/riverbank": {
     "name": "Orla Fluvial",
     "terms": "Orla Fluvial, Margem do Rio"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Ponto de Descarga de Dejetos (para barcos)"
   },
   "waterway/stream": {
     "name": "Córrego",

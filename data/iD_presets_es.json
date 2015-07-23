@@ -119,6 +119,10 @@
     "name": "Estación de reparación de bicicletas",
     "terms": "bicicletería pública, reparación de bicicletas pública, bicicleta"
   },
+  "amenity/biergarten": {
+    "name": "Bar al aire libre",
+    "terms": "cerveza, bar, terraza, jardín, al aire libre"
+  },
   "amenity/boat_rental": {
     "name": "Alquiler de barcos",
     "terms": "alquiler de botes"
@@ -315,6 +319,10 @@
     "name": "Restaurante",
     "terms": "restaurante, restorán, comedor, ambigú, bufé, mesón, taberna, comida, bebida, plaza de comida"
   },
+  "amenity/sanitary_dump_station": {
+    "name": "Desecho de inodoro RV",
+    "terms": "desecho, inodoro, taza, letrina, servicio, baño, aseo, lavabo"
+  },
   "amenity/school": {
     "name": "Terreno Escuela",
     "terms": "recinto escolar, terreno escolar, escuela, colegio, instituto"
@@ -361,7 +369,7 @@
   },
   "amenity/toilets": {
     "name": "Baños",
-    "terms": "baños, baño, aseo, letrina, lavabo, servicio, tocador, ducha"
+    "terms": "baño, inodoro, taza, letrina, servicio, baño, aseo, lavabo, tocador"
   },
   "amenity/townhall": {
     "name": "Ayuntamiento",
@@ -600,8 +608,8 @@
     "terms": "almacén, depósito, bodega, lonja, nave"
   },
   "craft": {
-    "name": "Artesanía",
-    "terms": "arte, oficio, trabajo"
+    "name": "Oficio",
+    "terms": "oficio, trabajo, artesanal"
   },
   "craft/basket_maker": {
     "name": "Fabricante de cestas",
@@ -617,55 +625,55 @@
   },
   "craft/boatbuilder": {
     "name": "Constructor de barco",
-    "terms": "barco, bote, lancha"
+    "terms": "barco, bote, lancha, canoa"
   },
   "craft/bookbinder": {
     "name": "Encuadernador",
-    "terms": "encuadernador"
+    "terms": "encuadernador, empastador"
   },
   "craft/brewery": {
     "name": "Cervecería",
-    "terms": "cervecería, fábrica de cerveza"
+    "terms": "cervecería, fábrica de cerveza, cerveza"
   },
   "craft/carpenter": {
     "name": "Carpintero",
-    "terms": "carpintería, carpintero, ebanistería, ebanista, madera, madedero"
+    "terms": "carpintería, carpintero, ebanistería, ebanista, madera, maderero"
   },
   "craft/carpet_layer": {
     "name": "Tapizador de alfombras",
-    "terms": "alfombra, moqueta, tapiz, tapicero"
+    "terms": "alfombra, tapete, moqueta, tapiz, tapicero"
   },
   "craft/caterer": {
-    "name": "Proveedor",
-    "terms": "abastecedor, proveedor, catering, cáterin"
+    "name": "Catering",
+    "terms": "abastecedor, proveedor, catering, cáterin, comida"
   },
   "craft/clockmaker": {
     "name": "Relojero",
     "terms": "relojero, reloj, relojería"
   },
   "craft/confectionery": {
-    "name": "Confitería",
-    "terms": "confitería, dulces, repostería, golosina, bombones, tienda de dulces, pastelería, dulcería"
+    "name": "Repostero",
+    "terms": "confitería, dulces, repostería, repostero, golosina, bombones, pastelería, dulcería"
   },
   "craft/dressmaker": {
     "name": "Modista",
-    "terms": "modista, costurera"
+    "terms": "modista, costurera, sastre, diseñador, moda"
   },
   "craft/electrician": {
     "name": "Electricista",
-    "terms": "electricista, iluminista, trabajo de electricidad"
+    "terms": "electricista, iluminista, electricidad"
   },
   "craft/gardener": {
     "name": "Jardinero",
-    "terms": "Jardinero,  Jardinería"
+    "terms": "jardinero,  jardinería, jardín"
   },
   "craft/glaziery": {
     "name": "Vidriería",
-    "terms": "Vidriería"
+    "terms": "vidriería, cristalero"
   },
   "craft/handicraft": {
-    "name": "Artesanía",
-    "terms": "artesanía, destreza manual, trabajos manuales"
+    "name": "Artesano",
+    "terms": "artesano, artesanía, destreza manual, trabajos manuales"
   },
   "craft/hvac": {
     "name": "Aire acondicionado",
@@ -1221,7 +1229,7 @@
   },
   "leisure/playground": {
     "name": "Parque infantil",
-    "terms": "parque infantil, columpios, zona de juegos, juegos, niños"
+    "terms": "parque infantil, jardín infantil, área de juegos, zona de juegos, juegos, infantil, niños, niñas"
   },
   "leisure/running_track": {
     "name": "Pista de atletismo",
@@ -1275,9 +1283,17 @@
     "name": "Faro",
     "terms": "faro, fanal"
   },
+  "man_made/mast": {
+    "name": "Mástil de radio",
+    "terms": "mástil, torre, estructura, radio, telefonía, telecomunicación"
+  },
   "man_made/observation": {
     "name": "Torre de Observación",
     "terms": "Torre de observación"
+  },
+  "man_made/petroleum_well": {
+    "name": "Pozo de petróleo",
+    "terms": "pozo, petróleo, aceite"
   },
   "man_made/pier": {
     "name": "Embarcadero",
@@ -1286,6 +1302,14 @@
   "man_made/pipeline": {
     "name": "Tubería",
     "terms": "tubería, cañería, caño, conducto, red"
+  },
+  "man_made/silo": {
+    "name": "Silo",
+    "terms": "silo"
+  },
+  "man_made/storage_tank": {
+    "name": "Tanque de Almacenamiento",
+    "terms": "tanque"
   },
   "man_made/survey_point": {
     "name": "Punto geodésico",
@@ -1506,6 +1530,10 @@
   "place/city": {
     "name": "Ciudad",
     "terms": "urbe, capital, metrópoli, ciudad, núcleo urbano, localidad, villa"
+  },
+  "place/farm": {
+    "name": "Granja",
+    "terms": "granja, rancho, hacienda, finca, estancia, chacra"
   },
   "place/hamlet": {
     "name": "Aldea",
@@ -2295,6 +2323,10 @@
     "name": "Desagüe",
     "terms": "Desagüe, Sumidero"
   },
+  "waterway/fuel": {
+    "name": "Estación de combustible marino",
+    "terms": "estación, combustible, carburante, gasolina, mar, río, fluvial, marino"
+  },
   "waterway/river": {
     "name": "Río",
     "terms": "río, torrente, arroyo, torrentera, riachuelo, riacho, afluente, regato"
@@ -2302,6 +2334,10 @@
   "waterway/riverbank": {
     "name": "Ribera de río",
     "terms": "borde, orilla, ribazo, riba, ribera"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Desecho de inodoro marino",
+    "terms": "desecho, inodoro, taza, letrina, servicio, baño, aseo, lavabo, mar, río, fluvial, marino"
   },
   "waterway/stream": {
     "name": "Arroyo",

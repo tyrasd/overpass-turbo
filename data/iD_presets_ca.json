@@ -281,6 +281,9 @@
     "name": "Restaurant",
     "terms": "Restaurant, Lloc per menjar, Bistro, Wok, Trattoria, Pizzeria"
   },
+  "amenity/sanitary_dump_station": {
+    "name": "Estació de buidatge de lavabos"
+  },
   "amenity/school": {
     "name": "Escola",
     "terms": "Escola, CEIP, IES, Col·legi, Institut, Centre educatiu, Guarderia"
@@ -1127,8 +1130,14 @@
     "name": "Far",
     "terms": "Far"
   },
+  "man_made/mast": {
+    "name": "Torre de ràdio"
+  },
   "man_made/observation": {
     "name": "Torre de vigilància"
+  },
+  "man_made/petroleum_well": {
+    "name": "Pou petrolífer"
   },
   "man_made/pier": {
     "name": "Moll de pilons",
@@ -1137,6 +1146,12 @@
   "man_made/pipeline": {
     "name": "Canonada",
     "terms": "Gàseoducte,Oleoducte,Canonades"
+  },
+  "man_made/silo": {
+    "name": "Sitja"
+  },
+  "man_made/storage_tank": {
+    "name": "Dipòsit d'emmagatzematge"
   },
   "man_made/survey_point": {
     "name": "Punt referencial",
@@ -1322,6 +1337,9 @@
   "place/city": {
     "name": "Ciutat ",
     "terms": "Ciutat, Municipi"
+  },
+  "place/farm": {
+    "name": "Granja"
   },
   "place/hamlet": {
     "name": "Llogaret"
@@ -1989,6 +2007,9 @@
     "name": "Torrent",
     "terms": "Torrentera, Rambla"
   },
+  "waterway/fuel": {
+    "name": "Benzinera per a embarcacions"
+  },
   "waterway/river": {
     "name": "Riu",
     "terms": "Riu"
@@ -1996,6 +2017,9 @@
   "waterway/riverbank": {
     "name": "Banc fluvial",
     "terms": "Riba del riu, Ribera"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Lavabo per a vaixells"
   },
   "waterway/stream": {
     "name": "Rierol",

@@ -119,6 +119,10 @@
     "name": "Station de réparation de vélos",
     "terms": "Borne de réparation de vélos,Point de réparation de vélos"
   },
+  "amenity/biergarten": {
+    "name": "Brasserie de plein air",
+    "terms": "Brasserie, bière, boissons alcolisées"
+  },
   "amenity/boat_rental": {
     "name": "Location de bateau",
     "terms": "Location de bateaux"
@@ -314,6 +318,10 @@
   "amenity/restaurant": {
     "name": "Restaurant",
     "terms": "Restaurant"
+  },
+  "amenity/sanitary_dump_station": {
+    "name": "Station de vidange sanitaire",
+    "terms": "Station de vidange, sanitaires, mobilehome ,camping, toilettes chimiques"
   },
   "amenity/school": {
     "name": "Terrains d'école primaire, collège, lycée,  Cycles primaires et secondaires",
@@ -1275,9 +1283,17 @@
     "name": "Phare",
     "terms": "Phare"
   },
+  "man_made/mast": {
+    "name": "Mât d'émission radio",
+    "terms": "Émetteur de téléphonie mobile, émetteur de téléphonie cellulaire, mât de transmission, pylône de transmission, tour haubanée, émetteur radio, émetteur de télévision, tour de télévision, tour de télédiffusion, ..."
+  },
   "man_made/observation": {
     "name": "Tour d'observation",
     "terms": "Tour d'observation, Mirador"
+  },
+  "man_made/petroleum_well": {
+    "name": "Puits de pétrole",
+    "terms": "Puits de forage, derrick, chevalet de pompage, ..."
   },
   "man_made/pier": {
     "name": "Jetée",
@@ -1286,6 +1302,14 @@
   "man_made/pipeline": {
     "name": "Pipeline",
     "terms": "Pipeline, Gazoduc, Oleoduc"
+  },
+  "man_made/silo": {
+    "name": "Silo",
+    "terms": "Réservoir, emplacement de stockage, ..."
+  },
+  "man_made/storage_tank": {
+    "name": "Réservoir de stockage",
+    "terms": "Silo de stockage"
   },
   "man_made/survey_point": {
     "name": "Poteau de triangulation",
@@ -1506,6 +1530,10 @@
   "place/city": {
     "name": "Grande ville (>100.000 habitants)",
     "terms": "Ville"
+  },
+  "place/farm": {
+    "name": "Ferme isolée",
+    "terms": "Écart"
   },
   "place/hamlet": {
     "name": "Hameau (Moins de 100 habitants)",
@@ -2295,6 +2323,10 @@
     "name": "Canal d'évacuation d'eau pluviale",
     "terms": "Drain"
   },
+  "waterway/fuel": {
+    "name": "Station-service marine",
+    "terms": "Station-service nautique, nautisme, bateaux, essence"
+  },
   "waterway/river": {
     "name": "Rivière",
     "terms": "Rivière"
@@ -2302,6 +2334,10 @@
   "waterway/riverbank": {
     "name": "Berge",
     "terms": "Berge"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Station de vidange sanitaire marine",
+    "terms": "Station de vidange sanitaire nautique"
   },
   "waterway/stream": {
     "name": "Ruisseau",

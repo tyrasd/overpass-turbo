@@ -307,6 +307,10 @@
     "name": "リサイクルボックス",
     "terms": "リサイクルボックス"
   },
+  "amenity/register_office": {
+    "name": "登記所",
+    "terms": "登記所, 法人登記, 登録所"
+  },
   "amenity/restaurant": {
     "name": "レストラン",
     "terms": "レストラン,食堂"
@@ -1096,7 +1100,8 @@
     "terms": "人工林, 二次林, 営林, 保安林, 鉄道林"
   },
   "landuse/garages": {
-    "name": "車庫"
+    "name": "車庫",
+    "terms": "ガレージ"
   },
   "landuse/grass": {
     "name": "草地",
@@ -1169,6 +1174,9 @@
   "leisure/marina": {
     "name": "マリーナ",
     "terms": "マリーナ, ヨットハーバー"
+  },
+  "leisure/nature_reserve": {
+    "name": "自然保護区"
   },
   "leisure/park": {
     "name": "公園",
@@ -1329,6 +1337,9 @@
   "natural/beach": {
     "name": "砂浜",
     "terms": "砂浜, ビーチ"
+  },
+  "natural/cave_entrance": {
+    "name": "洞穴入口"
   },
   "natural/cliff": {
     "name": "崖",
@@ -1738,9 +1749,21 @@
     "name": "コンピューター店",
     "terms": "コンピューター店, パソコン店"
   },
+  "shop/confectionery": {
+    "name": "菓子屋"
+  },
   "shop/convenience": {
     "name": "コンビニエンスストア",
     "terms": "コンビニエンスストア, コンビニ"
+  },
+  "shop/copyshop": {
+    "name": "コピー店"
+  },
+  "shop/cosmetics": {
+    "name": "化粧品店"
+  },
+  "shop/curtain": {
+    "name": "カーテン店"
   },
   "shop/deli": {
     "name": "惣菜屋",
@@ -1754,9 +1777,15 @@
     "name": "日曜大工用品店",
     "terms": "日曜大工用品店, 工具店, DIYショップ, ホームセンター"
   },
+  "shop/dry_cleaning": {
+    "name": "クリーニング店"
+  },
   "shop/electronics": {
     "name": "家電販売店",
     "terms": "家電販売店"
+  },
+  "shop/fabric": {
+    "name": "ファブリック店"
   },
   "shop/farm": {
     "name": "農産物直売所",
@@ -1834,9 +1863,15 @@
     "name": "CD/レコード店",
     "terms": "CD店, レコード店"
   },
+  "shop/musical_instrument": {
+    "name": "楽器店"
+  },
   "shop/optician": {
     "name": "メガネ",
     "terms": "メガネ,眼鏡,メガネ屋,眼鏡屋"
+  },
+  "shop/pawnbroker": {
+    "name": "質店"
   },
   "shop/pet": {
     "name": "ペットショップ",
@@ -1846,9 +1881,15 @@
     "name": "写真屋",
     "terms": "写真屋"
   },
+  "shop/pyrotechnics": {
+    "name": "花火店"
+  },
   "shop/seafood": {
     "name": "魚屋",
     "terms": "海鮮食品店,魚屋,魚市場"
+  },
+  "shop/second_hand": {
+    "name": "リサイクルショップ"
   },
   "shop/shoes": {
     "name": "靴店",
@@ -1869,6 +1910,16 @@
   "shop/tailor": {
     "name": "仕立て屋",
     "terms": "仕立て屋,テイラー,洋裁店"
+  },
+  "shop/tattoo": {
+    "name": "タトゥースタジオ"
+  },
+  "shop/tea": {
+    "name": "茶店",
+    "terms": "茶舗"
+  },
+  "shop/tobacco": {
+    "name": "煙草屋"
   },
   "shop/toys": {
     "name": "玩具店",
@@ -1965,6 +2016,18 @@
   "tourism/zoo": {
     "name": "動物園",
     "terms": "動物園"
+  },
+  "traffic_calming/bump": {
+    "name": "減速帯"
+  },
+  "traffic_calming/hump": {
+    "name": "ハンプ"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "ランブルストリップ"
+  },
+  "traffic_calming/table": {
+    "name": "横断歩道橋"
   },
   "type/boundary": {
     "name": "境界",
