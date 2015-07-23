@@ -1119,7 +1119,14 @@ var ide = new(function() {
    // prepare export dialog
    ide.getQuery(function(query) {
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
-    $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
+    var queryWithMapCSS = query;
+    if (queryParser.hasStatement("style"))
+      queryWithMapCSS += "{{style: "+queryParser.getStatement("style")+" }}";
+    if (queryParser.hasStatement("data"))
+      queryWithMapCSS += "{{data:"+queryParser.getStatement("data")+"}}";
+    else if (settings.server !== configs.defaultServer)
+      queryWithMapCSS += "{{data:overpass,server="+settings.server+"}}";
+    $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(queryWithMapCSS);
     // encoding exclamation marks for better command line usability (bash)
     $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21").replace(/\(/g,"%28").replace(/\)/g,"%29");
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(query,true);

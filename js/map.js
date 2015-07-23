@@ -38,13 +38,11 @@ $(document).ready(function() {
   $.fn.dialog = function() {
     alert("error :( "+$(this).html());
   };
-  configs = {
-    appname: "overpass-ide-map",
-  }
+  configs.appname = "overpass-ide-map";
   settings = {
     code:{},
-    server: "http://overpass-api.de/api/",
-    tileServer: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    server: configs.defaultServer,
+    tileServer: configs.defaultTiles,
     force_simple_cors_request: true,
     disable_poiomatic: true,
   };
