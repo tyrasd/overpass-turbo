@@ -134,7 +134,12 @@ $(document).ready(function() {
   ide.map.on("layeradd", function(e) {
     if (!(e.layer instanceof L.GeoJSON)) return;
     ide.map.setView([0,0],18,true);
-    ide.map.fitBounds(e.layer.getBounds() );
+    try {
+      ide.map.fitBounds(e.layer.getBounds() );
+    }
+    catch(err){
+
+    }
   });
   // overpass functionality
   overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {$('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");};
