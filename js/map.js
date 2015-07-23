@@ -44,7 +44,7 @@ $(document).ready(function() {
     server: configs.defaultServer,
     tileServer: configs.defaultTiles,
     force_simple_cors_request: true,
-    disable_poiomatic: true,
+    disable_poiomatic: false,
   };
   ide = {
     getQuery: function(callback) {

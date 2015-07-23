@@ -93,6 +93,7 @@ turbo.map.js: \
 	js/jsmapcss/StyleList.js \
 	js/jsmapcss/RuleSet.js \
 	libs/osmtogeojson/osmtogeojson.js \
+	js/GeoJsonNoVanish.js \
 	js/OSM4Leaflet.js \
 	js/configs.js \
 	js/overpass.js \
