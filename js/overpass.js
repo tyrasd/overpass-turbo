@@ -74,7 +74,6 @@ var overpass = new(function() {
     var onSuccessCb = function(data, textStatus, jqXHR) {
       //textStatus is not needed in the successCallback, don't cache it
       if (cache) cache[query] = [data, undefined, jqXHR];
-      if (shouldCacheOnly) return;
 
       var data_amount = jqXHR.responseText.length;
       var data_txt;
@@ -524,13 +523,15 @@ setTimeout(function() {
         }
       overpass.stats = stats;
 
-      fire("onGeoJsonReady");
+      if (!shouldCacheOnly)
+        fire("onGeoJsonReady");
 
       // print raw data
       fire("onProgress", "printing raw data");
 setTimeout(function() {
       overpass.resultText = jqXHR.responseText;
       fire("onRawDataPresent");
+
       // todo: the following would profit from some unit testing
       // this is needed for auto-tab-switching: if there is only non map-visible data, show it directly
       if (geojson.features.length === 0) { // no visible data

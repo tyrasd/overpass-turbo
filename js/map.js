@@ -149,7 +149,7 @@ $(document).ready(function() {
   overpass.handlers["onPopupReady"] = function(p) {p.openOn(ide.map);};
   overpass.handlers["onDataRecieved"] = function(amount,txt, abortCB,continueCB) {continueCB();};
   overpass.handlers["onRawDataPresent"] = function() {
-    parent.postMessage(JSON.stringify({resultType: overpass.resultType, resultText:overpass.resultText}), '*');
+      parent.postMessage(JSON.stringify({query:settings.code['overpass'], resultType: overpass.resultType, resultText:overpass.resultText}), '*');
   }
   // load the data
   ide.update_map();
