@@ -4,7 +4,7 @@ turbo.ffs = function() {
   var ffs = {};
   var freeFormQuery;
 
-  /* this converts a random boolean expression into a normalized form: 
+  /* this converts a random boolean expression into a normalized form:
    * A∧B∧… ∨ C∧D∧… ∨ …
    * for example: A∧(B∨C) ⇔ (A∧B)∨(A∧C)
    */
@@ -48,7 +48,7 @@ turbo.ffs = function() {
   function escRegexp(str) {
     return str.replace(/([()[{*+.$^\\|?])/g, '\\$1');
   }
-  
+
   ffs.construct_query = function(search, comment) {
     function quote_comment_str(s) {
       // quote strings that are to be used within c-style comments
@@ -78,7 +78,7 @@ turbo.ffs = function() {
     query_parts.push('[out:json][timeout:25];');
 
     switch(ffs.bounds) {
-      case "area": 
+      case "area":
         query_parts.push('// fetch area “'+ffs.area+'” to search in');
         query_parts.push('{{geocodeArea:'+ffs.area+'}}->.searchArea;');
         bounds_part = '(area.searchArea)';
@@ -315,8 +315,10 @@ turbo.ffs = function() {
     var repaired = false;
 
     ffs.query = normalize(ffs.query);
-    ffs.query = _.flatten(_.pluck(ffs.query.queries,"queries"));
-    ffs.query.forEach(function(cond_query) {
+    ffs.query.queries.forEach(function (q) {
+      q.queries.forEach(validateQuery);
+    });
+    function validateQuery(cond_query) {
       if (cond_query.query === "free form") {
         // eventually load free form query module
         if (!freeFormQuery) freeFormQuery = turbo.ffs.free();
@@ -335,7 +337,7 @@ turbo.ffs = function() {
           }
         }
       }
-    });
+    }
     search_parts.push(search);
 
     if (!repaired)
