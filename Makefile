@@ -190,3 +190,6 @@ icons-osmic:
 
 osmtogeojson:
 	wget https://github.com/tyrasd/osmtogeojson/raw/gh-pages/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js -O libs/osmtogeojson/osmtogeojson.js
+
+overpass-turbo-ffs.js: js/ffs.js js/ffs/free.js js/ffs/parser.js
+	cat $^ > $@
