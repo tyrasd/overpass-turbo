@@ -8,6 +8,7 @@ turbo.ffs.free = function() {
 
   // load presets
   (function loadPresets() {
+    if (turbo.ffs.free.noPresets) return;
     var presets_file = "data/iD_presets.json";
     try {
       $.ajax(presets_file,{async:false,dataType:"json"}).success(function(data){
@@ -26,6 +27,7 @@ turbo.ffs.free = function() {
   })();
   // load preset translations
   (function loadPresetTranslations() {
+    if (turbo.ffs.free.noPresets) return;
     var language = i18n.getLanguage();
     if (language == "en") return; 
     var translation_file = "data/iD_presets_"+language+".json";
