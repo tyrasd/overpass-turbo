@@ -12,7 +12,8 @@ turbo.ffs.free = function() {
     try {
       $.ajax(presets_file,{async:false,dataType:"json"}).success(function(data){
         presets = data;
-        _.each(presets, function(preset) {
+        Object.keys(presets).map(function(key) {
+          var preset = presets[key];
           preset.nameCased = preset.name;
           preset.name = preset.name.toLowerCase();
           preset.terms = !preset.terms ? [] : preset.terms.map(function(term) {return term.toLowerCase();});
@@ -21,18 +22,19 @@ turbo.ffs.free = function() {
         throw new Error();
       });
     } catch(e) {
-      console.log("failed to load presets file: "+presets_file);
+      console.log("failed to load presets file", presets_file, e);
     }
   })();
   // load preset translations
   (function loadPresetTranslations() {
     var language = i18n.getLanguage();
-    if (language == "en") return; 
+    if (language == "en") return;
     var translation_file = "data/iD_presets_"+language+".json";
     try {
       $.ajax(translation_file,{async:false,dataType:"json"}).success(function(data){
         // load translated names and terms into presets object
-        _.each(data, function(translation, preset) {
+        Object.keys(data).map(function(preset) {
+          var translation = data[preset];
           preset = presets[preset];
           preset.translated = true;
           // save original preset name under alternative terms
@@ -59,7 +61,9 @@ turbo.ffs.free = function() {
   freeFormQuery.get_query_clause = function(condition) {
     // search presets for ffs term
     var search = condition.free.toLowerCase();
-    var candidates = _.filter(presets, function(preset) {
+    var candidates = Object.keys(presets).map(function(key) {
+      return presets[key];
+    }).filter(function(preset) {
       if (preset.searchable===false) return false;
       if (preset.name === search) return true;
       preset._termsIndex = preset.terms.indexOf(search);
@@ -78,8 +82,8 @@ turbo.ffs.free = function() {
     var types = [];
     preset.geometry.forEach(function(g) {
       switch (g) {
-        case "point": 
-        case "vertex": 
+        case "point":
+        case "vertex":
           types.push("node");
           break;
         case "line":
@@ -96,9 +100,13 @@ turbo.ffs.free = function() {
           console.log("unknown geometry type "+g+" of preset "+preset.name);
       }
     });
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
     return {
-      types: _.uniq(types),
-      conditions: _.map(preset.tags, function(v,k) {
+      types: types.filter(onlyUnique),
+      conditions: Object.keys(preset.tags).map(function(k) {
+        var v = preset.tags[k];
         return {
           query: v==="*" ? "key" : "eq",
           key: k,
@@ -116,7 +124,9 @@ turbo.ffs.free = function() {
     function fuzzyMatch(term) {
       return levenshteinDistance(term, search) <= fuzzyness;
     }
-    var candidates = _.filter(presets, function(preset) {
+    var candidates = Object.keys(presets).map(function(key) {
+      return presets[key];
+    }).filter(function(preset) {
       if (preset.searchable===false) return false;
       if (fuzzyMatch(preset.name)) return true;
       return preset.terms.some(fuzzyMatch);
@@ -125,9 +135,11 @@ turbo.ffs.free = function() {
       return false;
     // sort candidates
     function preset_weight(preset) {
-      return _.min([preset.name].concat(preset.terms).map(function(term, index) {
+      return [preset.name].concat(preset.terms).map(function(term, index) {
         return levenshteinDistance(term,search);
-      }));
+      }).reduce(function min(a, b) {
+        return a <= b ? a : b;
+      });
     };
     candidates.sort(function(a,b) {
       return preset_weight(a) - preset_weight(b);
