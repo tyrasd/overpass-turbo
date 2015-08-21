@@ -4,10 +4,11 @@ if (typeof turbo === "undefined") turbo={};
 turbo.ffs.free = function() {
 
   var freeFormQuery = {};
-  var presets;
+  var presets = {};
 
   // load presets
   (function loadPresets() {
+    if (typeof $ === "undefined") return;
     var presets_file = "data/iD_presets.json";
     try {
       $.ajax(presets_file,{async:false,dataType:"json"}).success(function(data){
@@ -27,6 +28,7 @@ turbo.ffs.free = function() {
   })();
   // load preset translations
   (function loadPresetTranslations() {
+    if (typeof $ === "undefined" || typeof i18n === "undefined") return;
     var language = i18n.getLanguage();
     if (language == "en") return;
     var translation_file = "data/iD_presets_"+language+".json";
