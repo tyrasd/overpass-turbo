@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "Vennligst oppgrader nettleseren din til siste versjon eller bytt til en mer funksjonell en! De siste versjonene av <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> og <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> er testet og fungerer. Alternativt kan du bruke <a href=\"http://overpass-api.de/query_form.html\">søkeskjemaet til Overpass_API</a>.",
   "warning.incomplete.title": "Ikke-komplette data",
   "warning.incomplete.expl.1": "Dette søker returnerte ingen noder. I OSM kan bare noder inneholde koordinater, og en strekning kan derfor ikke vises uten tilhørende noder.",
-  "warning.incomplete.expl.2": "Hvis dette er noe annet enn det du mente å få, kan <i>Overpass Turbo</i> reparere (auto-complete) søket ved å velge \"reparer søket\" under. Eller du kan fortsette til dataene.",
+  "warning.incomplete.expl.2": "If this is not what you meant to get, <i>overpass turbo</i> can help you to repair (auto-complete) the query by choosing \"repair query\" below. Otherwise you can continue to the data.",
   "warning.incomplete.not_again": "ikke vis denne meldingen igjen",
   "warning.incomplete.remote.expl.1": "Søket vil tilsynelatende ikke returnere OSM data i XML format med metadata. Editorer som JOSM krever at dataene er i det formatet.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</i> kan hjelpe deg med å fikse søket ved å velge \"reparer søk\" nedenfor.",

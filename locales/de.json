@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "Bitte wechsle auf eine aktuellere Version deines Browsers oder gar einen anderen Browser! Aktuelle Versionen von <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> und <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> wurden getestet und funktionieren. Alternativ kannst du aber auch das <a href=\"http://overpass-api.de/query_form.html\">Overpass-API-Abfrage-Formular</a> benützen.",
   "warning.incomplete.title": "Unvollständige Daten",
   "warning.incomplete.expl.1": "Diese Abfrage hat keine Punkte zurückgeliefert. In OSM werden Koordinaten nur in den Punkten gespeichert. Das heißt, dass ein Weg ohne seine Punkte auf der Karte nicht angezeigt werden kann.",
-  "warning.incomplete.expl.2": "Wenn aber gewünscht ist, dass diese Daten auch angezeigt werden, kann <i>overpass tubo</i> dabei helfen, die Abfrage automatisch zu vervollständigen (zu \"reparieren\"). Anderenfalls wird zur Datenansicht gewechselt.",
+  "warning.incomplete.expl.2": "Wenn aber gewünscht ist, dass diese Daten auch angezeigt werden, kann <i>overpass turbo</i> dabei helfen, die Abfrage automatisch zu vervollständigen (zu \"reparieren\"). Anderenfalls wird zur Datenansicht gewechselt.",
   "warning.incomplete.not_again": "Diese Meldung nicht wieder anzeigen.",
   "warning.incomplete.remote.expl.1": "Diese Abfrage wird wahrscheinlich keine gültigen XML-Daten mit Metadaten liefern. Editoren wie JOSM benötigen dieses Format aber, um Bearbeitungen vornehmen zu können.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</i> kann helfen, die Abfrage entsprechend zu korrigieren.",

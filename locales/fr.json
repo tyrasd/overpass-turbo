@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "Veuillez mettre à jour votre navigateur ou passez à un plus performant ! Les versions récentes de <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> et <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> ont été testées et fonctionnent.\n\nAutrement vous pouvez toujours utiliser le <a href=\"http://overpass-api.de/query_form.html\">formulaire de requêtes de l'API Overpass</a>.",
   "warning.incomplete.title": "Données Incomplètes",
   "warning.incomplete.expl.1": "Cette requête n'a retourné aucun nœud. Dans OSM, seuls les nœuds contiennent des coordonnées. Par exemple, un chemin ne peut pas être affiché sans ses nœuds.",
-  "warning.incomplete.expl.2": "Si ce n'est pas ce que vous souhaitiez obtenir, <i>overpass turbo</i> peut vous aider à réparer (auto-compléter) la  requête en choisissant \"réparer la reqête\" ci-dessous. Sinon, vous pouvez continuer vers les données.",
+  "warning.incomplete.expl.2": "If this is not what you meant to get, <i>overpass turbo</i> can help you to repair (auto-complete) the query by choosing \"repair query\" below. Otherwise you can continue to the data.",
   "warning.incomplete.not_again": "Ne plus afficher ce message.",
   "warning.incomplete.remote.expl.1": "Il semble que la requête ne retournera pas les données OSM au format XML avec métadonnées. Les éditeurs comme JOSM nécessitent des données dans ce format.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</> peut vous aider à corriger la requête et choisissant \"réparer la requête\" ci-dessous.",

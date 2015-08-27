@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> and <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> have been tested to work. Alternatively, you can still use the <a href=\"http://overpass-api.de/query_form.html\">Overpass_API query form</a>.",
   "warning.incomplete.title": "Incomplete Data",
   "warning.incomplete.expl.1": "This query returned no nodes. In OSM, only nodes contain coordinates. For example, a way cannot be displayed without its nodes.",
-  "warning.incomplete.expl.2": "If this is not what you meant to get, <i>overpass tubo</i> can help you to repair (auto-complete) the query by choosing \"repair query\" below. Otherwise you can continue to the data.",
+  "warning.incomplete.expl.2": "If this is not what you meant to get, <i>overpass turbo</i> can help you to repair (auto-complete) the query by choosing \"repair query\" below. Otherwise you can continue to the data.",
   "warning.incomplete.not_again": "Deze boodschap niet meer weergeven",
   "warning.incomplete.remote.expl.1": "It looks like if this query will not return OSM data in XML format with metadata. Editors like JOSM require the data to be in that format, though.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</i> can help you to correct the query by choosing \"repair query\" below.",

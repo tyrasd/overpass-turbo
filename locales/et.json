@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "Palun uuenda oma veebibrauser või kasuta rohkemate võimalustega brauserit! Rakendus on testitud ja töötab <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> ja <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> viimaste veebibrauseritega. Teise võimalusena võid kasutada ikka veel <a href=\"http://overpass-api.de/query_form.html\">Overpass_API päringuvormi</a>.",
   "warning.incomplete.title": "Puudulikud andmed",
   "warning.incomplete.expl.1": "See päring ei andnud tulemuseks sõlmi. OSMis saavad ainult sõlmed omada koordinaate. Näiteks joont ei saa kuvada ilma selle sõlmedeta.",
-  "warning.incomplete.expl.2": "Kui see pole see, mida soovisid saada, siis <i>overpass tubo</i> võib aidata sul see päring parandata (automaatselt vormindada), valides allpool \"paranda päring\". Vastasel juhul võid jätkata andmetega.",
+  "warning.incomplete.expl.2": "Kui see pole see, mida ootasid, siis võib <i>overpass turbo</i> aidata sul päringut parandada (automaatse lõpetada) valides allpool \"paranda päring\". Vastasel juhul võid aga jätkata avades andmed.",
   "warning.incomplete.not_again": "ära näita rohkem.",
   "warning.incomplete.remote.expl.1": "Paistab, et see päring ei anna tulemuseks OSM andmeid XML vormingus koos metaandmetega. Ent JOSM redaktor nõuab, et need andmed oleksid antud vormingus.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</i> võib aidata sul seda päringut parandada, valides allpool \"paranda päring\".",

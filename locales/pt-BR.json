@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "Atualize seu navegador ou utilize um melhor! Versões recentes do <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> e <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> foram testadas no overpass. Como alternativa, você pode continuar a utilizar o <a href=\"http://overpass-api.de/query_form.html\">formulario de consulta Overpass_API</a>.",
   "warning.incomplete.title": "Dados incompletos",
   "warning.incomplete.expl.1": "A consulta não retornou nenhum ponto. No OSM, somente pontos possuem coordenadas. Por exemplo, uma linha não pode ser exibida sem os seus pontos.",
-  "warning.incomplete.expl.2": "Se este não é o resultado desejado, <i>overpass turbo</i> pode ajudar a reparar (auto-completar) a consulta clicando em \"reparar consulta\" logo abaixo. Caso contrário, basta prosseguir para os dados.",
+  "warning.incomplete.expl.2": "If this is not what you meant to get, <i>overpass turbo</i> can help you to repair (auto-complete) the query by choosing \"repair query\" below. Otherwise you can continue to the data.",
   "warning.incomplete.not_again": "não mostre essa menssagem novamente",
   "warning.incomplete.remote.expl.1": "Parece que essa consulta não retornará dados do OSM em formato XML com metadados. Editores como JOSM requerem que os dados estejam nesse formato.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</i> pode ajudar você a consertar a consultar selecionando \"reparar consulta\" abaixo.",

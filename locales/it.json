@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "È necessario l'aggiornamento ad una versione più recente del browser in uso oppure il passaggio ad uno con maggiori funzionalità! Sono state testate le versioni più recenti di <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> e <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a>. In alternativa è possibile utilizzare il modulo <a href=\"http://overpass-api.de/query_form.html\">Overpass_API query</a>.",
   "warning.incomplete.title": "Dati Incompleti",
   "warning.incomplete.expl.1": "La query non ha restituito alcun node. In OSM, solo i nodi contengono coordinate. Ad esempio, una linea (way) non può essere rappresentata senza i suoi nodi.",
-  "warning.incomplete.expl.2": "Se questo non è ciò che si voleva ottenere, allora <i>overpass turbo</i> può aiutare nel riparare la query (auto-completamento) selezioando \"riparara query\" qui sotto. Altrimenti si può continuare con questi dati.",
+  "warning.incomplete.expl.2": "Se questo non è il risultato che ti attendevi, <i>overpass turbo</i> può aiutarti a sistemare (auto-completare) la query selezionando sotto \"ripara query\". In alternativa puoi andare direttamente ai dati.",
   "warning.incomplete.not_again": "non mostrare di nuovo questo messaggio",
   "warning.incomplete.remote.expl.1": "Sembra che questa query non restituirà i dati OSM nel formato XML con metadati. Editor come JOSM richiedono però che i dati siano in quel formato.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</i> può aiutare correggendo la query selezionando \"ripara query\" qui sotto.",

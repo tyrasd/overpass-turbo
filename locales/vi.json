@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "Xin vui lòng nâng cấp đến một phiên bản mới hơn của trình duyệt của bạn hoặc đổi qua một trình duyệt có thêm khả năng! Các phiên bản gần đây của <a href=\"http://www.opera.com/vi\">Opera</a>, <a href=\"http://www.google.com/intl/vi/chrome/browser/\">Chrome</a>, và <a href=\"http://www.mozilla.org/vi/firefox/\">Firefox</a> chắc chắn tương thích với công cụ này. Dù sao, bạn vẫn có thể sử dụng <a href=\"http://overpass-api.de/query_form.html\">biểu mẫu truy vấn Overpass API</a>.",
   "warning.incomplete.title": "Dữ liệu Chưa Hoàn thành",
   "warning.incomplete.expl.1": "Truy vấn này không cho ra nốt nào. Trong OSM, chỉ có nốt có tọa độ, cho nên nếu không có các nốt của một lối chẳng hạn, lối đó không thể được hiển thị.",
-  "warning.incomplete.expl.2": "Nếu bạn không mong đợi các kết quả này, <i>overpass turbo</i> có thể giúp bạn sửa chữa (tự động hoàn thành) truy vấn; chỉ việc bấm “sửa chữa truy vấn” dưới đây. Nếu kết quả có lý, bạn có thể tiếp tục sử dụng dữ liệu.",
+  "warning.incomplete.expl.2": "Nếu bạn không có ý muốn điều này, <i>overpass turbo</i> có thể giúp bạn sửa lại (tự động hoàn thành) truy vấn. Chỉ việc chọn “sửa chữa truy vấn” dưới đây. Hoặc nếu không sao thì bạn có thể tiếp tục đi đến dữ liệu.",
   "warning.incomplete.not_again": "Bỏ qua thông báo này lần sau.",
   "warning.incomplete.remote.expl.1": "Hình như truy vấn này sẽ không cho ra dữ liệu OSM dưới một định dạng tương thích với các chương trình vẽ. Các chương trình vẽ bản đồ như JOSM cần dữ liệu dưới dạng XML có siêu dữ liệu.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</i> có thể giúp bạn sửa truy vấn. Chỉ việc chọn “sửa chữa truy vấn” dưới đây.",

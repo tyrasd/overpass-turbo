@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "¡Actualiza a una versión más reciente de tu navegador o cambia a otro con más capacidades! Las versiones recientes de <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> and <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> han sido probados para trabajar. Alternativamente, puedes utilizar el <a href=\"http://overpass-api.de/query_form.html\">formulario de consulta Overpass API</a>.",
   "warning.incomplete.title": "Datos incompletos",
   "warning.incomplete.expl.1": "Esta consulta no devolvió ningún nodo. En OSM, sólo los nodos contienen coordenadas. Por ejemplo, una vía no se puede visualizar sin sus nodos.",
-  "warning.incomplete.expl.2": "Si esto no es lo que querías decir por obtener, <i>overpass tubo</i> te puede ayudar a reparar (auto-completar) la consulta eligiendo «reparar consulta» a continuación. De lo contrario puedes continuar con los datos.",
+  "warning.incomplete.expl.2": "Si esto no es lo que quería obtener, <i>overpass turbo</ i> puede ayudarle a reparar (auto-completar) la consulta eligiendo a continuación «reparar consulta». De lo contrario, usted puede continuar a los datos.",
   "warning.incomplete.not_again": "no mostrar este mensaje de nuevo.",
   "warning.incomplete.remote.expl.1": "Parece como si esta consulta no devolviera los datos de OSM en formato XML con los metadatos. Sin embargo, editores como JOSM requieren que los datos estén en ese formato.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</i> te puede ayudar a corregir la consulta seleccionando «reparar consulta» a continuación.",

@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "Vær venlig at opgrader din browser til en nyere version eller skift til en bedre en! Det kan fx være <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> og <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> som er testet til at virke. Alternativt kan du benytte dig af  <a href=\"http://overpass-api.de/query_form.html\">Overpass_API query form</a>.",
   "warning.incomplete.title": "Ukomplete Geodata",
   "warning.incomplete.expl.1": "Denne søgning gav ingen punkter retur, kun punkter indeholder koordinater. For eksempel en vej/polygon kan ikke blive  vist uden punkterne der hører til.",
-  "warning.incomplete.expl.2": "Hvis det ikke var det du ønskede så kan <i>Overpass Turbo</i> hjælpe de med at reparere (auto-komplet) søgningen ved at vælge \\\"reparer søgning\\\" nedenfor. Ellers kan du fortsætte til geodata.",
+  "warning.incomplete.expl.2": "If this is not what you meant to get, <i>overpass turbo</i> can help you to repair (auto-complete) the query by choosing \"repair query\" below. Otherwise you can continue to the data.",
   "warning.incomplete.not_again": "vis ikke denne besked igen.",
   "warning.incomplete.remote.expl.1": "Det ser ud til at denne søgning ikke vil sende OSM Geodata i et XML format med metadata. Editorer som JOSM kræver at geodata er i det format.",
   "warning.incomplete.remote.expl.2": "Overpass Turbo kan hjælpe dig med rette søgningen til at understøtte dette ved at vælge \"reparerer søgning\" nedenfor. ",

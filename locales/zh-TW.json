@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "請更新你的瀏覽器，或者換另一款！<a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a>和<a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> 測試過已經能運作。當然，你仍可使用 <a href=\"http://overpass-api.de/query_form.html\">Overpass_API 檢索模式</a>.",
   "warning.incomplete.title": "不完整資料",
   "warning.incomplete.expl.1": "這次檢索並未回傳節點。在OSM，只有節點才有座標資訊。舉例來說，你無法在沒有節點的情況下顯示路徑。",
-  "warning.incomplete.expl.2": "如果這不是你想要得到的東西，選取下面<i>Overpass Tubo</i>的\"修復檢索\"選項，能夠幫你修復(自動完成)檢索。不然你就得繼續找看是不是你要的資料。",
+  "warning.incomplete.expl.2": "如果這不是你要的結果，<i>overpass turbo</i>能藉由選擇下面的 \"修復檢索\" 選項幫助你修復 (自動完成) 檢索。不然你也可以繼續原來原來選項檢索資料。",
   "warning.incomplete.not_again": "別再顯示這個訊息",
   "warning.incomplete.remote.expl.1": "看起來這次檢索不會回傳任何有metadata XML格式的OSM圖資。然後，像JOSM這類編輯器需要這種格式的資料。",
   "warning.incomplete.remote.expl.2": "透過下面的\"修復檢索\"功能，<i>Overpass Turbo</i>幫你修正檢索。",
