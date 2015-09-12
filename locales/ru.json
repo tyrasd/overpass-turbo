@@ -197,7 +197,7 @@
   "warning.browser.expl.3": "Пожалуйста, обновите ваш браузер до более свежей версии, или установите другой. Сайт проверен в последних версиях <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> and <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a>. Кроме того, вы можете воспользоваться <a href=\"http://overpass-api.de/query_form.html\">формой запроса к Overpass_API</a>.",
   "warning.incomplete.title": "Неполные данные",
   "warning.incomplete.expl.1": "Этот запрос не вернул точек. В OSM только у точек есть координаты. Например, без информации о точках линию нельзя нарисовать на карте.",
-  "warning.incomplete.expl.2": "If this is not what you meant to get, <i>overpass turbo</i> can help you to repair (auto-complete) the query by choosing \"repair query\" below. Otherwise you can continue to the data.",
+  "warning.incomplete.expl.2": "Если это не то, что вы ожидали, <i>overpass turbo</i> может помочь в починке (или автодополнении) запроса — нажмите «починить запрос» внизу. Или перейдите к данным.",
   "warning.incomplete.not_again": "больше не показывать это сообщение.",
   "warning.incomplete.remote.expl.1": "Похоже, этот запрос не вернёт данные OSM в формате XML с метаданными. Редакторы вроде JOSM требуют данных именно в таком формате.",
   "warning.incomplete.remote.expl.2": "<i>overpass turbo</i> может помочь в починке запроса — нажмите «починить запрос» внизу.",
