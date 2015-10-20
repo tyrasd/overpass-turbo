@@ -1704,20 +1704,20 @@ var ide = new(function() {
       ide.onRunClick(); // run query
       event.preventDefault();
     }
-    if ((String.fromCharCode(event.which).toLowerCase() == 's') && (event.ctrlKey || event.metaKey) && !event.shiftKey ) { // Ctrl+S
+    if ((String.fromCharCode(event.which).toLowerCase() == 's') && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey ) { // Ctrl+S
       ide.onSaveClick();
       event.preventDefault();
     }
-    if ((String.fromCharCode(event.which).toLowerCase() == 'o') && (event.ctrlKey || event.metaKey) && !event.shiftKey ) { // Ctrl+O
+    if ((String.fromCharCode(event.which).toLowerCase() == 'o') && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey ) { // Ctrl+O
       ide.onLoadClick();
       event.preventDefault();
     }
-    if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey) && !event.shiftKey ) { // Ctrl+H
+    if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey ) { // Ctrl+H
       ide.onHelpClick();
       event.preventDefault();
     }
-    if (((String.fromCharCode(event.which).toLowerCase() == 'i') && (event.ctrlKey || event.metaKey) && !event.shiftKey ) || // Ctrl+I
-        ((String.fromCharCode(event.which).toLowerCase() == 'f') && (event.ctrlKey || event.metaKey) &&  event.shiftKey ) ) { // Ctrl+Shift+F
+    if (((String.fromCharCode(event.which).toLowerCase() == 'i') && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey ) || // Ctrl+I
+        ((String.fromCharCode(event.which).toLowerCase() == 'f') && (event.ctrlKey || event.metaKey) &&  event.shiftKey && !event.altKey ) ) { // Ctrl+Shift+F
       ide.onFfsClick();
       event.preventDefault();
     }
