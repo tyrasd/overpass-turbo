@@ -1422,11 +1422,6 @@ var ide = new(function() {
               url:
                 // JOSM doesn't handle protocol-less links very well
                 server.replace(/^\/\//,location.protocol+"//")+
-                // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
-                // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
-                // See: http://josm.openstreetmap.de/ticket/8566#ticket
-                // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
-                // bad magic. Still looking for a proper fix, though.
                 "interpreter?data="+
                 encodeURIComponent(query),
             }).error(function(xhr,s,e) {
