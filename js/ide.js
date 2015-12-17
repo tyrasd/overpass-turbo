@@ -815,13 +815,13 @@ var ide = new(function() {
     var query = ide.getRawQuery();
     query = query.split("\n");
     query.forEach(function(line,i) {
-      if (line.indexOf("{{nominatim"+type+":"+search+"}}") !== -1)
+      if (line.indexOf("{{geocode"+type+":"+search+"}}") !== -1)
         ide.highlightError(i+1);
     });
     // show error message dialog
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
-    $('<div title="'+i18n.t("error.nominatim.title")+'"><p style="color:red;">'+i18n.t("error.nominatim.expl")+'</p><p><i>'+search+'</i></p></div>').dialog({
+    $('<div title="'+i18n.t("error.nominatim.title")+'"><p style="color:red;">'+i18n.t("error.nominatim.expl")+'</p><p><i>'+htmlentities(search)+'</i></p></div>').dialog({
       modal:true,
       buttons: dialog_buttons,
     }); // dialog
