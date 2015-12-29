@@ -126,7 +126,7 @@ var ide = new(function() {
     }
     // make panels resizable
     $("#editor").resizable({
-      handles:"e", 
+      handles:"e",
       minWidth:"200",
       resize: function() {
         $(this).next().css('left', $(this).outerWidth() + 'px');
@@ -155,7 +155,7 @@ var ide = new(function() {
           //+"r w n br bw" // recursors
         ),
       });
-      CodeMirror.defineMIME("text/x-overpassXML", 
+      CodeMirror.defineMIME("text/x-overpassXML",
         "xml"
       );
       CodeMirror.defineMode("xml+mustache", function(config) {
@@ -261,8 +261,8 @@ var ide = new(function() {
     }
     // init dataviewer
     ide.dataViewer = CodeMirror($("#data")[0], {
-      value:'no data loaded yet', 
-      lineNumbers: true, 
+      value:'no data loaded yet',
+      lineNumbers: true,
       readOnly: true,
       mode: "javascript",
     });
@@ -431,7 +431,7 @@ var ide = new(function() {
         duration: 100
       },
       position: {
-        my: "left+5 center", 
+        my: "left+5 center",
         at: "right center"
       }
     });
@@ -508,7 +508,7 @@ var ide = new(function() {
       .appendTo("#map");
     if (settings.enable_crosshairs)
       $(".crosshairs").show();
-   
+
     ide.map.bboxfilter = new L.LocationFilter({enable:!true,adjustButton:false,enableButton:false,}).addTo(ide.map);
 
     ide.map.on("popupopen popupclose",function(e) {
@@ -565,7 +565,7 @@ var ide = new(function() {
               settings.no_autorepair = true;
               settings.save();
             }
-            ide.switchTab("Data"); 
+            ide.switchTab("Data");
             $(this).dialog("close");
           };
           $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.expl.1")+'</p><p>'+i18n.t("warning.incomplete.expl.2")+'</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;'+i18n.t("warning.incomplete.not_again")+'</p></div>').dialog({
@@ -830,7 +830,7 @@ var ide = new(function() {
     var lang = ide.getQueryLang();
     function filter(n) {
       return n.osm_type && n.osm_id;
-    } 
+    }
     nominatim.getBest(instr,filter, function(err, res) {
       if (err) return onNominatimError(instr,"Id");
       if (lang=="OverpassQL")
@@ -844,7 +844,7 @@ var ide = new(function() {
     var lang = ide.getQueryLang();
     function filter(n) {
       return n.osm_type && n.osm_id && n.osm_type!=="node";
-    } 
+    }
     nominatim.getBest(instr,filter, function(err, res) {
       if (err) return onNominatimError(instr,"Area");
       var area_ref = 1*res.osm_id;
@@ -907,7 +907,7 @@ var ide = new(function() {
       "geocodeArea": ide.geocodeArea,
       "geocodeBbox": ide.geocodeBbox,
       "geocodeCoords": ide.geocodeCoords,
-      // legacy 
+      // legacy
       "nominatimId": queryLang=="xml" ? ide.geocodeId : function(instr,callback) {
         ide.geocodeId(instr, function(result) { callback(result+';'); });
       },
@@ -1119,7 +1119,7 @@ var ide = new(function() {
    // prepare export dialog
    ide.getQuery(function(query) {
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
-    var server = (ide.data_source && 
+    var server = (ide.data_source &&
                   ide.data_source.mode == "overpass" &&
                   ide.data_source.options.server) ?
                 ide.data_source.options.server : settings.server;
@@ -1166,7 +1166,7 @@ var ide = new(function() {
         var gJ = {
           type: "FeatureCollection",
           generator: configs.appname,
-          copyright: overpass.copyright, 
+          copyright: overpass.copyright,
           timestamp: overpass.timestamp,
           //TODO: make own copy of features array (re-using geometry) instead of deep copy?
           features: _.clone(geojson.features, true), // makes deep copy
@@ -1254,7 +1254,7 @@ var ide = new(function() {
         gpx_str = togpx(geojson, {
           creator: configs.appname,
           metadata: {
-            "copyright": overpass.copyright, 
+            "copyright": overpass.copyright,
             "desc": "Filtered OSM data converted to GPX by overpass turbo",
             "time": overpass.timestamp
           },
@@ -1369,7 +1369,7 @@ var ide = new(function() {
     $("#export-dialog a#export-convert-xml")[0].href = server+"convert?data="+encodeURIComponent(query)+"&target=xml";
     $("#export-dialog a#export-convert-ql")[0].href = server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
     $("#export-dialog a#export-convert-compact")[0].href = server+"convert?data="+encodeURIComponent(query)+"&target=compact";
-    
+
     // OSM editors
     // first check for possible mistakes in query.
     var validEditorQuery = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
@@ -1552,12 +1552,13 @@ var ide = new(function() {
   this.onFfsClick = function() {
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
     $("#ffs-dialog #ffs-dialog-typo").hide();
-    var build_query = function() {
+    var build_query = function(autorun) {
       // build query and run it immediately
       var ffs_result = ide.update_ffs_query();
       if (ffs_result === true) {
         $(this).dialog("close");
-        ide.onRunClick();
+        if (autorun !== false)
+          ide.onRunClick();
       } else {
         if (_.isArray(ffs_result)) {
           // show parse error message
@@ -1592,6 +1593,7 @@ var ide = new(function() {
       }
     });
     var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.wizard_build")] = function() { build_query.bind(this, false)(); }
     dialog_buttons[i18n.t("dialog.wizard_run")] = build_query;
     dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $("#ffs-dialog").dialog({
@@ -1759,13 +1761,3 @@ var ide = new(function() {
   }
 
 })(); // end create ide object
-
-
-
-
-
-
-
-
-
-

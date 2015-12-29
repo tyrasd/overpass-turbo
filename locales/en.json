@@ -209,6 +209,7 @@
   "dialog.repair_query": "repair query",
   "dialog.continue_anyway": "continue anyway",
   "dialog.show_data": "show data",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "build and run query",
 
   "dialog.delete_query.title": "Delete Query?",
