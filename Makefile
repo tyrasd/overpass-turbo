@@ -157,7 +157,7 @@ clean:
 	rm -f turbo.min.css
 
 test:
-	mocha-phantomjs tests/index.html
+	./node_modules/mocha-phantomjs/bin/mocha-phantomjs tests/index.html
 
 translations:
 	node locales/update_locales
