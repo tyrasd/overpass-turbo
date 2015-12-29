@@ -43,6 +43,7 @@ var ide = new(function() {
 
   this.waiter = {
     opened: false,
+    frames: "◴◷◶◵",
     open: function(show_info) {
       if (show_info) {
         $(".modal .wait-info h4").text(show_info);
@@ -51,9 +52,16 @@ var ide = new(function() {
         $(".wait-info").hide();
       }
       $("body").addClass("loading");
+      document.title = ide.waiter.frames[0] + " " + ide.waiter._initialTitle;
+      var f = 0;
+      ide.waiter.interval = setInterval(function() {
+        document.title = ide.waiter.frames[++f % ide.waiter.frames.length] + " " + ide.waiter._initialTitle;
+      }, 250);
       ide.waiter.opened = true;
     },
     close: function() {
+      clearInterval(ide.waiter.interval);
+      document.title = ide.waiter._initialTitle;
       $("body").removeClass("loading");
       $(".wait-info ul li").remove();
       delete ide.waiter.onAbort;
@@ -78,6 +86,7 @@ var ide = new(function() {
       }
     },
   };
+  this.waiter._initialTitle = document.title;
 
   // == public methods ==
 
