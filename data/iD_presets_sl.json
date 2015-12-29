@@ -334,10 +334,6 @@
     "name": "Mestna hiša",
     "terms": "magistrat,rotovž"
   },
-  "amenity/vending_machine": {
-    "name": "Prodajni avtomat",
-    "terms": "avtomat,kavomat,mlekomat"
-  },
   "amenity/veterinary": {
     "name": "Veterinar",
     "terms": "veterinarska klinika,klinika za pse,klinika za mačke"
@@ -442,18 +438,6 @@
     "name": "Koča",
     "terms": "kabina,brunarica"
   },
-  "building/cathedral": {
-    "name": "Katedrala",
-    "terms": "stolnica"
-  },
-  "building/chapel": {
-    "name": "Kapela",
-    "terms": "kapelica,znamenje"
-  },
-  "building/church": {
-    "name": "Cerkev",
-    "terms": "cerkvena stavba,božja hiša"
-  },
   "building/commercial": {
     "name": "Poslovna stavba",
     "terms": "pisarne"
@@ -461,10 +445,6 @@
   "building/construction": {
     "name": "Stavba v izgradnji",
     "terms": "stavba v gradnji"
-  },
-  "building/detached": {
-    "name": "Enodružinska hiša",
-    "terms": "samostojna hiša"
   },
   "building/dormitory": {
     "name": "Študentski/dijaški dom",
@@ -753,14 +733,6 @@
     "name": "Vhod/Izhod",
     "terms": "vstop/izstop"
   },
-  "footway/crossing": {
-    "name": "Prehod za pešce",
-    "terms": "zebra"
-  },
-  "footway/crosswalk": {
-    "name": "Prehod za pešce",
-    "terms": "prehod,zebra"
-  },
   "footway/sidewalk": {
     "name": "Pločnik",
     "terms": "pločnik"
@@ -813,14 +785,6 @@
     "name": "Avtobusno postajališče",
     "terms": "avtobusna postaja"
   },
-  "highway/crossing": {
-    "name": "Prehod za pešce",
-    "terms": "zebra"
-  },
-  "highway/crosswalk": {
-    "name": "Prehod za pešce",
-    "terms": "Prehod,zebra"
-  },
   "highway/cycleway": {
     "name": "Kolesarska steza",
     "terms": "kolesarska pot,steza za kolesarje"
@@ -852,10 +816,6 @@
   "highway/path": {
     "name": "Pot",
     "terms": "steza,gaz"
-  },
-  "highway/pedestrian": {
-    "name": "Peš cona",
-    "terms": "pločnik,območje za pešce"
   },
   "highway/primary": {
     "name": "Glavna cesta",
@@ -992,14 +952,6 @@
   "historic/wayside_shrine": {
     "name": "Kapelica",
     "terms": "kapelica"
-  },
-  "landuse": {
-    "name": "Raba tal",
-    "terms": "dejanska raba tal,namembnost zemljišča"
-  },
-  "landuse/allotments": {
-    "name": "Vrtički",
-    "terms": "vrtci,vrtovi"
   },
   "landuse/basin": {
     "name": "Čistilni bazen",
@@ -1494,10 +1446,6 @@
   "railway/halt": {
     "name": "Železniško postajališče",
     "terms": "postaja brez perona in objektov"
-  },
-  "railway/level_crossing": {
-    "name": "Nivojsko križišče",
-    "terms": "andrejev križ,potni prehod"
   },
   "railway/monorail": {
     "name": "Enotirna železnica",

@@ -73,7 +73,7 @@
   },
   "aeroway/taxiway": {
     "name": "Руліжна доріжка",
-    "terms": "Taxiway, heks;yf ljhs;rf, руліжна доріжка"
+    "terms": "taxiway,heks;yf ljhs;rf,руліжна доріжка"
   },
   "aeroway/terminal": {
     "name": "Термінал",
@@ -150,6 +150,10 @@
   "amenity/car_wash": {
     "name": "Автомийка",
     "terms": "Car Wash, fdnjvbqrf, мийка, автомийка"
+  },
+  "amenity/casino": {
+    "name": "Казино",
+    "terms": "карти,гра,азарт,ставки,гральні автомати,розваги,гроші,покер,блек джек,рулетка,кості"
   },
   "amenity/charging_station": {
     "name": "Зарядна станція",
@@ -246,6 +250,10 @@
   "amenity/marketplace": {
     "name": "Ринок",
     "terms": "Marketplace, hbyjr, базар, базарна площа"
+  },
+  "amenity/motorcycle_parking": {
+    "name": "Стоянка для мотоциклів",
+    "terms": "стоянка,мотоцикл"
   },
   "amenity/nightclub": {
     "name": "Нічний клуб",
@@ -379,8 +387,44 @@
     "name": "Територія університета",
     "terms": "університет, кампус, гуртожиток, корпус, бібліотека"
   },
-  "amenity/vending_machine": {
-    "name": "Торговельний автомат",
+  "amenity/vending_machine/cigarettes": {
+    "name": "Автомат продажу цигарок",
+    "terms": "циграки,торгівля,тютюн,палити,автомат,кіоск"
+  },
+  "amenity/vending_machine/condoms": {
+    "name": "Автомат продажу нацюцюрників",
+    "terms": "перезерватив,кондом,гандон,секс,захист,атомат,торгівля"
+  },
+  "amenity/vending_machine/drinks": {
+    "name": "Автомат продажу напоїв",
+    "terms": "напої,газована вода,вода,сік,автомат,продаж,кіоск"
+  },
+  "amenity/vending_machine/excrement_bags": {
+    "name": "Автомат пакетів для екскрементів",
+    "terms": "лайно,собака,тварина,кішка,пакет"
+  },
+  "amenity/vending_machine/news_papers": {
+    "name": "Автомат продажу газет",
+    "terms": "газети,новини,журнали"
+  },
+  "amenity/vending_machine/parcel_pickup_dropoff": {
+    "name": "Поштомат",
+    "terms": "посилка,прийом,видача,пошта,доставка"
+  },
+  "amenity/vending_machine/parking_tickets": {
+    "name": "Паркомат",
+    "terms": "стоянка,квиток,автомобіль"
+  },
+  "amenity/vending_machine/public_transport_tickets": {
+    "name": "Автомат продажу проїзних квитків",
+    "terms": "автобус,трамвай,тролейбус,паром,електричка,квиток,траспорт,громадський,проїзд"
+  },
+  "amenity/vending_machine/sweets": {
+    "name": "Автомат продажу солодощів",
+    "terms": "цукерки,жувальна гумка,чіпси,печиво,крекери"
+  },
+  "amenity/vending_machine/vending_machine": {
+    "name": "Торговий автомат",
     "terms": "Vending Machine,njhujdtkmybq fdnjvfn, торгівельний автомат, торговий автомат, автомат"
   },
   "amenity/veterinary": {
@@ -394,6 +438,10 @@
   "area": {
     "name": "Полігон",
     "terms": "Area, gjksujy, район, область, площа, простір, ділянка, край, площина, полігон"
+  },
+  "area/highway": {
+    "name": "Покриття дороги",
+    "terms": "дорога,покриття,асфальт,бруківка,пісок,грунт,трава"
   },
   "barrier": {
     "name": "Перепони",
@@ -489,15 +537,15 @@
   },
   "building/cathedral": {
     "name": "Собор",
-    "terms": "Cathedral, cjjh, собор"
+    "terms": "храм,собор,молитва,служба"
   },
   "building/chapel": {
     "name": "Каплиця",
-    "terms": "Chapel, rfgkbwz, каплиця"
+    "terms": "каплиця,служба,молитовня"
   },
   "building/church": {
     "name": "Церква",
-    "terms": "Church, wthrdf, церква"
+    "terms": "церква,молитва"
   },
   "building/college": {
     "name": "Коледж",
@@ -512,8 +560,8 @@
     "terms": "будівля, будівництво, будмайданчик"
   },
   "building/detached": {
-    "name": "Приватний Будинок",
-    "terms": "будівля, дім, будинок, відокремлений будинок, поселення"
+    "name": "Садиба",
+    "terms": "будинок,маєток,садиба"
   },
   "building/dormitory": {
     "name": "Гуртожиток",
@@ -578,6 +626,10 @@
   "building/school": {
     "name": "Школа",
     "terms": "School, irjkf, школа"
+  },
+  "building/semidetached_house": {
+    "name": "Двоквартирний будинок",
+    "terms": "будинок,квартира,два,дві,володар"
   },
   "building/shed": {
     "name": "Сарай",
@@ -816,12 +868,12 @@
     "terms": "вхід, вихід, блок, під’їзд, парадне, службовий"
   },
   "footway/crossing": {
-    "name": "Перехрестя",
-    "terms": "перехрестя"
+    "name": "Перехід через дорогу",
+    "terms": "Street Crossing,перехід,вулиця,дорога,перехід"
   },
   "footway/crosswalk": {
     "name": "Пішохідний перехід",
-    "terms": "перехід, пішохідний перехід, зебра, світлофор"
+    "terms": "Pedestrian Crosswalk,перехід,вулиця,дорога,перехід,зебра"
   },
   "footway/sidewalk": {
     "name": "Тротуар",
@@ -875,13 +927,17 @@
     "name": "Автобусна зупинка",
     "terms": "Bus Stop, fdnjecyf pegbyrf, автобусна зупинка"
   },
+  "highway/corridor": {
+    "name": "Коридор",
+    "terms": "Indoor Corridor,приміщення,коридор,прохід"
+  },
   "highway/crossing": {
-    "name": "Пішохідний перехід",
-    "terms": "Crossing, gsijslybq gthtsl, зебра, пішохідний перехід, перехід"
+    "name": "Перехід через дорогу",
+    "terms": "Street Crossing,перехід,вулиця,дорога,перехід"
   },
   "highway/crosswalk": {
-    "name": "Пішоходний перехід",
-    "terms": "перехід, пішохідний перехід, зебра, світлофор"
+    "name": "Пішохідний перехід",
+    "terms": "Pedestrian Crosswalk,перехід,вулиця,дорога,перехід,зебра"
   },
   "highway/cycleway": {
     "name": "Вело-доріжка",
@@ -916,8 +972,8 @@
     "terms": "Path, cntrf, тропа"
   },
   "highway/pedestrian": {
-    "name": "Пішохідна доріжка",
-    "terms": "Pedestrian, gsijslyf ljhsrf, пішохідна доріжка"
+    "name": "Пішохідна зона",
+    "terms": "Pedestrian Street,пішохідна,тротуар,люди,вулиця,площа,майдан"
   },
   "highway/primary": {
     "name": "Головна дорога",
@@ -1065,11 +1121,11 @@
   },
   "landuse": {
     "name": "Землекористування",
-    "terms": "Landuse, ptvktrjhbcnedfyyz, землекористування"
+    "terms": "призначення,використання землі,дерева,вода,промисловість,житло,торгівля,бізнес"
   },
   "landuse/allotments": {
     "name": "Дачі/горо́ди",
-    "terms": "Allotments, lfxs ujhjlb, дача, город, ділянка, наділ"
+    "terms": "дача,город,ділянка"
   },
   "landuse/basin": {
     "name": "Водойма",
@@ -1135,6 +1191,10 @@
     "name": "Сад",
     "terms": "Orchard, cfl, сад"
   },
+  "landuse/plant_nursery": {
+    "name": "Розплідник рослин",
+    "terms": "vivero,розплідник,рослини,садженці,дерева"
+  },
   "landuse/quarry": {
     "name": "Кар’єр",
     "terms": "Quarry, rfhh, кр’єр"
@@ -1154,6 +1214,14 @@
   "leisure": {
     "name": "Дозвілля",
     "terms": "Leisure, ljpdskkz, дозвілля"
+  },
+  "leisure/adult_gaming_centre": {
+    "name": "Гральні автомати",
+    "terms": "азарт,ставки,гроші,виграш,програш,атомат,казіно"
+  },
+  "leisure/bowling_alley": {
+    "name": "Боулінг",
+    "terms": "боулінг,кеглі,доріжка,розваги,дозвілля,центр,спорт,10"
   },
   "leisure/common": {
     "name": "Громада",
@@ -1211,6 +1279,14 @@
     "name": "Баскетбольний майданчик",
     "terms": "Basketball Court, fcrtnjkmybq vfqlfyxbr, баскетбольний майданчик, баскетбол"
   },
+  "leisure/pitch/rugby_league": {
+    "name": "Поле для регбіліг",
+    "terms": "регбі,м’яч,м'яч,спорт,поле,майданчик,регбіліг"
+  },
+  "leisure/pitch/rugby_union": {
+    "name": "Поле для регбі",
+    "terms": "регбіюніон,юніон,регбі,м'яч,м’яч,поле,майданчик,спорт"
+  },
   "leisure/pitch/skateboard": {
     "name": "Скейт-парк",
     "terms": "Skate Park, crtqn-gfhr, екстрім, скейт-парк"
@@ -1262,6 +1338,10 @@
   "man_made": {
     "name": "Штучні споруди",
     "terms": "Man Made, inexys cgjhelb, штучні споруди"
+  },
+  "man_made/adit": {
+    "name": "Штольня",
+    "terms": "entrance,underground,mine, cave,печера,шахта,вхід,вихід,підземелля"
   },
   "man_made/breakwater": {
     "name": "Хвилеріз",
@@ -1347,9 +1427,29 @@
     "name": "Бункер",
     "terms": "бункер, сховище"
   },
+  "military/checkpoint": {
+    "name": "Контрольно-пропускний пункт",
+    "terms": "Контрольно-пропускний пункт,пост,блок,блок-пост,перевірка,пункт"
+  },
+  "military/danger_area": {
+    "name": "Небезпечна зона",
+    "terms": "небезпека,військові дії,навчання,бойові дії"
+  },
+  "military/naval_base": {
+    "name": "Військово-морська база",
+    "terms": "флот,база,моряк,корабель,човен,вісйсковий,зброя"
+  },
+  "military/obstacle_course": {
+    "name": "Смуга перешкод",
+    "terms": "війська,тренування,перешкоди,навчання,учбовий центр"
+  },
   "military/range": {
     "name": "Військовий полігон",
     "terms": "військовий полігін "
+  },
+  "military/training_area": {
+    "name": "Полігон",
+    "terms": "тренувальний полігон,військовий,навчальний центр,стрільбище,тир,зброя"
   },
   "natural": {
     "name": "Природа",
@@ -1395,6 +1495,10 @@
     "name": "Пік",
     "terms": "Peak, gsr, пагорб, круча, вершина, гора, найвища точка, гребінь, узгір’я"
   },
+  "natural/saddle": {
+    "name": "Перевал",
+    "terms": "Saddle,pass,mountain pass,top,гора,перехід,перевал,вершина,прохід,проїзд"
+  },
   "natural/scree": {
     "name": "Кам’яний обвал",
     "terms": "Scree, rfvzybq jdfk, щебінь, осип"
@@ -1410,6 +1514,14 @@
   "natural/tree": {
     "name": "Дерево",
     "terms": "Tree, lthtdj, дерево"
+  },
+  "natural/tree_row": {
+    "name": "Ряд дерев",
+    "terms": "Tree row,дерева,ряд,рослини,природа"
+  },
+  "natural/volcano": {
+    "name": "Вулкан",
+    "terms": "mountain,crater,вулкан,лава,кратер,гора,попіл,жерло"
   },
   "natural/water": {
     "name": "Вода",
@@ -1636,8 +1748,8 @@
     "terms": "Railway Halt, pfkspybxyf pegbyrf, залізнична зупинка"
   },
   "railway/level_crossing": {
-    "name": "Залізничний переїзд",
-    "terms": "Level Crossing, pfkspybxybq gthtpl, залізничний переїзд"
+    "name": "Залізнийчний переїзд",
+    "terms": "crossing,railroad crossing,level crossing,grade crossing,road through railroad,train crossing,залізниця,переїзд,потяг,шлагбайм,небезпека"
   },
   "railway/monorail": {
     "name": "Монорейка",
@@ -1980,7 +2092,7 @@
     "terms": "музика, інструмент"
   },
   "shop/newsagent": {
-    "name": "Пресса",
+    "name": "Преса",
     "terms": "новини, журнал, газета"
   },
   "shop/optician": {
@@ -2296,8 +2408,8 @@
     "terms": "Tram Route, nhfvdfqybq vfhihen, трамвайний маршрут"
   },
   "type/route_master": {
-    "name": "Транспортний маршрут",
-    "terms": "Route Master, nhfycgjhnybq vfhihen, транспортний маршрут"
+    "name": "Маршрут громадського транспорту",
+    "terms": "Route Master,nhfycgjhnybq vfhihen,транспортний маршрут,маршрут,громадський,транспорт"
   },
   "vertex": {
     "name": "Інше",

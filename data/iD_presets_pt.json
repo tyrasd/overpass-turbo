@@ -151,6 +151,10 @@
     "name": "Lavagem de Veículos",
     "terms": "Lavagem, Lavagem Automática, Mangueira, Limpeza"
   },
+  "amenity/casino": {
+    "name": "Casino",
+    "terms": "Casino"
+  },
   "amenity/charging_station": {
     "name": "Posto de Carregamento para Veículos Elétricos",
     "terms": "Charging Station, Estação de recarga, Energia, Bateria"
@@ -247,6 +251,10 @@
     "name": "Mercado / Feira",
     "terms": "Bazar, Minimercado"
   },
+  "amenity/motorcycle_parking": {
+    "name": "Parque de Motas",
+    "terms": "Motorcycle Parking, Motas"
+  },
   "amenity/nightclub": {
     "name": "Clube Nocturno",
     "terms": "Nightclub, Discoteca"
@@ -319,6 +327,10 @@
     "name": "Restaurante",
     "terms": "Bar, Cafetaria, Café, Cantina, Almoço, Jantar, Cozinha, Restaurante, Pizzaria, Culinária, Gastronomia, Restauração"
   },
+  "amenity/sanitary_dump_station": {
+    "name": "Escoamento sanitário de autocaravana",
+    "terms": "RV Toilet Disposal"
+  },
   "amenity/school": {
     "name": "Escola",
     "terms": "Academia, Creche, Colégio, Departamento, Externato, Liceu, Seminário"
@@ -375,10 +387,6 @@
     "name": "Universidade",
     "terms": "University Grounds, Universidade, Faculdade, Instituto, Politécnico"
   },
-  "amenity/vending_machine": {
-    "name": "Máquina de Vendas Automática",
-    "terms": "Vending Machine, Máquina Automática de Vendas"
-  },
   "amenity/veterinary": {
     "name": "Veterinário",
     "terms": "Veterinary, Veterinária, Animais"
@@ -390,6 +398,9 @@
   "area": {
     "name": "Área",
     "terms": "Espaço, Extensão, Zona"
+  },
+  "area/highway": {
+    "name": "Área de Estrada"
   },
   "barrier": {
     "name": "Barreira",
@@ -484,16 +495,13 @@
     "terms": "Cabin, Praia, Campo, Cabana "
   },
   "building/cathedral": {
-    "name": "Catedral",
-    "terms": "Cathedral"
+    "name": "Edifício de Catedral"
   },
   "building/chapel": {
-    "name": "Capela",
-    "terms": "Chapel"
+    "name": "Edifício de Capela"
   },
   "building/church": {
-    "name": "Igreja",
-    "terms": "Church"
+    "name": "Edifício de Igreja"
   },
   "building/college": {
     "name": "Edifíco Colegial ",
@@ -508,8 +516,7 @@
     "terms": "Building Under Construction, Edifício sob Construção"
   },
   "building/detached": {
-    "name": "Casa Isolada",
-    "terms": "Detached Home, Cabana, Bangaló, Villa, Mansão"
+    "name": "Casa Isolada"
   },
   "building/dormitory": {
     "name": "Dormitório",
@@ -574,6 +581,9 @@
   "building/school": {
     "name": "Edifício Escolar",
     "terms": "School Building, Pavilhão Escolar"
+  },
+  "building/semidetached_house": {
+    "name": "Casa Semi-isolada"
   },
   "building/shed": {
     "name": "Barracão",
@@ -812,12 +822,10 @@
     "terms": "Entrance/Exit, Entrada, Acesso, Abertura, Porta, Pórtico, Portão"
   },
   "footway/crossing": {
-    "name": "Passadeira",
-    "terms": "Crossing"
+    "name": "Passadeira Pedestre"
   },
   "footway/crosswalk": {
-    "name": "Passadeira",
-    "terms": "Crosswalk, Passagem de Peões"
+    "name": "Passadeira Pedestre com Faixas"
   },
   "footway/sidewalk": {
     "name": "Passeio",
@@ -871,13 +879,14 @@
     "name": "Paragem de Autocarro",
     "terms": "Paragem de Autocarro, Terminal de Autocarros"
   },
+  "highway/corridor": {
+    "name": "Corredor Interior"
+  },
   "highway/crossing": {
-    "name": "Passadeira",
-    "terms": "Zebra, Faixa de segurança, Passagem, Passagem de Peões, Riscas"
+    "name": "Passadeira Geral"
   },
   "highway/crosswalk": {
-    "name": "Passadeira",
-    "terms": "Crosswalk, Passagem de Peões"
+    "name": "Passadeira Geral com Faixas"
   },
   "highway/cycleway": {
     "name": "Ciclovia",
@@ -912,8 +921,8 @@
     "terms": "Trilha, Caminho"
   },
   "highway/pedestrian": {
-    "name": "Praça / Rua Pedonal",
-    "terms": "Pedestrian, Rua Pedonal, Rua Pedestre"
+    "name": "Rua Pedonal",
+    "terms": "Pedestrian, Rua Pedonal, Rua Pedestre, Praça"
   },
   "highway/primary": {
     "name": "Estrada Primária",
@@ -952,8 +961,8 @@
     "terms": "Rodovia de Serviço"
   },
   "highway/service/alley": {
-    "name": "Traseiras",
-    "terms": "Beco"
+    "name": "Viela",
+    "terms": "Traseiras, Beco"
   },
   "highway/service/drive-through": {
     "name": "Drive-Through",
@@ -1060,12 +1069,10 @@
     "terms": "Junction"
   },
   "landuse": {
-    "name": "Uso do Solo",
-    "terms": "Uso de Terra, Uso de Solo"
+    "name": "Uso do Solo"
   },
   "landuse/allotments": {
-    "name": "Hortas",
-    "terms": "Horta Comunitária, Horta Urbana"
+    "name": "Horta / Jardin Comunitário"
   },
   "landuse/basin": {
     "name": "Bacia Hidrográfica",
@@ -1131,6 +1138,9 @@
     "name": "Pomar",
     "terms": "Plantação, Orchard"
   },
+  "landuse/plant_nursery": {
+    "name": "Viveiro de plantas"
+  },
   "landuse/quarry": {
     "name": "Pedreira",
     "terms": "Canteira, Quarry"
@@ -1150,6 +1160,12 @@
   "leisure": {
     "name": "Lazer",
     "terms": "Lazer, Diversão, Leisure"
+  },
+  "leisure/adult_gaming_centre": {
+    "name": "Centro de jogos para adultos"
+  },
+  "leisure/bowling_alley": {
+    "name": "Bowling"
   },
   "leisure/common": {
     "name": "Baldio",
@@ -1259,6 +1275,10 @@
     "name": "Estrutura Artificial",
     "terms": "Construção Humana, Obra Humana, Man Made"
   },
+  "man_made/adit": {
+    "name": "Galeria de acesso",
+    "terms": "entrada, acesso, mina, galeria mineira"
+  },
   "man_made/breakwater": {
     "name": "Quebra-mar / Molhe",
     "terms": "Breakwater"
@@ -1341,9 +1361,24 @@
     "name": "Bunker",
     "terms": "Bunker"
   },
+  "military/checkpoint": {
+    "name": "Posto de Segurança"
+  },
+  "military/danger_area": {
+    "name": "Área de Perigo"
+  },
+  "military/naval_base": {
+    "name": "Base Naval"
+  },
+  "military/obstacle_course": {
+    "name": "Pista de Obstáculos "
+  },
   "military/range": {
     "name": "Pista de Tiro",
     "terms": "Military Range"
+  },
+  "military/training_area": {
+    "name": "Área de Treinos"
   },
   "natural": {
     "name": "Natural",
@@ -1389,6 +1424,10 @@
     "name": "Pico / Cume",
     "terms": "Peak, Montanha, Pináculo"
   },
+  "natural/saddle": {
+    "name": "Passo de Montanha",
+    "terms": "Saddle, colo, porto, portela"
+  },
   "natural/scree": {
     "name": "Encosta de Rochas Soltas",
     "terms": "Sree, Cascalho, Pedras"
@@ -1404,6 +1443,12 @@
   "natural/tree": {
     "name": "Árvore",
     "terms": "Árvore"
+  },
+  "natural/tree_row": {
+    "name": "Linha de Árvores"
+  },
+  "natural/volcano": {
+    "name": "Vulcão"
   },
   "natural/water": {
     "name": "Água",
@@ -1630,8 +1675,7 @@
     "terms": "Railway Halt"
   },
   "railway/level_crossing": {
-    "name": "Passagem de Nível",
-    "terms": "Passagem em Nível, Passagem de Comboios"
+    "name": "Passagem de Nível"
   },
   "railway/monorail": {
     "name": "Monocarril",
@@ -2087,7 +2131,7 @@
   },
   "shop/variety_store": {
     "name": "Loja dos Chineses",
-    "terms": "Variety Store, Loja dos 300, Loja dos Trezentos javascript:;"
+    "terms": "Variety Store, Loja dos 300, Loja dos Trezentos"
   },
   "shop/video": {
     "name": "Videoclube",
@@ -2328,6 +2372,9 @@
   "waterway/riverbank": {
     "name": "Margem de Rio",
     "terms": "Riverbank"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "Escoamento sanitário marinho"
   },
   "waterway/stream": {
     "name": "Ribeiro",

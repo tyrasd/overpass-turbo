@@ -62,8 +62,8 @@
     "terms": "Pista d'enlairament, Pista d'aterratge"
   },
   "aeroway/taxiway": {
-    "name": "Carrer de rodatge",
-    "terms": "Carrer de rodatge, Pista de trànsit lent."
+    "name": "Plataforma de rodada",
+    "terms": "Plataforma de Rodada, Carrer de Taxi, Pista de Taxi, Carrer de Rodament, Carrer de Rodatge, Carril de Rodada, Carril de Rodatge"
   },
   "aeroway/terminal": {
     "name": "Terminal d'aeroport",
@@ -106,6 +106,9 @@
   "amenity/bicycle_repair_station": {
     "name": "Punt de reparació de bicicletes"
   },
+  "amenity/biergarten": {
+    "name": "Biergarten"
+  },
   "amenity/boat_rental": {
     "name": "Lloguer d'embarcacions"
   },
@@ -130,6 +133,9 @@
   "amenity/car_wash": {
     "name": "Rentat de cotxes",
     "terms": "Servei de neteja de cotxes, Tren de rentat de cotxes, Estació d'autorentat de cotxes"
+  },
+  "amenity/casino": {
+    "name": "Casino"
   },
   "amenity/charging_station": {
     "name": "Estació de càrrega"
@@ -214,6 +220,9 @@
   "amenity/marketplace": {
     "name": "Mercat",
     "terms": "Mercat, Mercat veïnal, Mercat de carrer"
+  },
+  "amenity/motorcycle_parking": {
+    "name": "Aparcament per a motocicletes"
   },
   "amenity/nightclub": {
     "name": "Club nocturn"
@@ -334,8 +343,35 @@
   "amenity/university": {
     "name": "Campus universitari"
   },
-  "amenity/vending_machine": {
-    "name": "Màquina de vending"
+  "amenity/vending_machine/cigarettes": {
+    "name": "Màquina de tabac"
+  },
+  "amenity/vending_machine/condoms": {
+    "name": "Expenedor de preservatius"
+  },
+  "amenity/vending_machine/drinks": {
+    "name": "Màquina de vènding de begudes"
+  },
+  "amenity/vending_machine/excrement_bags": {
+    "name": "Equipament de residus canins"
+  },
+  "amenity/vending_machine/news_papers": {
+    "name": "Màquina expenedora de diaris"
+  },
+  "amenity/vending_machine/parcel_pickup_dropoff": {
+    "name": "Màquina de recollida/enviament de paqueteria"
+  },
+  "amenity/vending_machine/parking_tickets": {
+    "name": "Màquina de cobrament de tiquet d'aparcament"
+  },
+  "amenity/vending_machine/public_transport_tickets": {
+    "name": "Màquina de venda de títols de transport públic"
+  },
+  "amenity/vending_machine/sweets": {
+    "name": "Màquina de vènding de comestibles"
+  },
+  "amenity/vending_machine/vending_machine": {
+    "name": "Màquina de vènding"
   },
   "amenity/veterinary": {
     "name": "Veterinari"
@@ -347,6 +383,9 @@
   "area": {
     "name": "Àrea",
     "terms": "Àrea"
+  },
+  "area/highway": {
+    "name": "Superfície de la carretera"
   },
   "barrier": {
     "name": "Barrera",
@@ -438,13 +477,13 @@
     "name": "Cabana"
   },
   "building/cathedral": {
-    "name": "Catedral"
+    "name": "Edifici Catedralici"
   },
   "building/chapel": {
-    "name": "Capella"
+    "name": "Edifici de capella"
   },
   "building/church": {
-    "name": "Església"
+    "name": "Edifici d'església"
   },
   "building/college": {
     "name": "Edifici d'escola professional"
@@ -457,8 +496,7 @@
     "name": "Edifici en construcció"
   },
   "building/detached": {
-    "name": "Xalet unifamiliar",
-    "terms": "casa aïllada, casa d'urbanització, xalet, chalet, xalets, chalets, casa i jardí, casa amb jardí"
+    "name": "Casa a quatre vents"
   },
   "building/dormitory": {
     "name": "Edifici d'habitacions"
@@ -515,6 +553,9 @@
   "building/school": {
     "name": "Edifici escolar",
     "terms": "Escola, Gimnàs, Poliesportiu, Aulari, Seminaris, Pati, Esbarjo, Aules, Despatxos, Tallers, Ateliers, Aules d'informàtica, Classes, Classe, Sala de música, Corredors, Corredor, Pasillo, Pasillos, Passadís, Passadissos, Sala de professors, Recepció"
+  },
+  "building/semidetached_house": {
+    "name": "Casa adossada"
   },
   "building/shed": {
     "name": "Traster"
@@ -700,12 +741,10 @@
     "terms": "Entrada/Sortida"
   },
   "footway/crossing": {
-    "name": "Pas de vianants",
-    "terms": "Travessera, Cruïlla, Pas de Vianants, Pas Zebra, Pas de peatons, pas de transeünts"
+    "name": "Creuament de carrer"
   },
   "footway/crosswalk": {
-    "name": "Pas de vianants",
-    "terms": "Pas de peatons, pas, de, peatons, vianants, persones, zebra"
+    "name": "Pas de vianants"
   },
   "footway/sidewalk": {
     "name": "Vorera"
@@ -749,17 +788,18 @@
     "name": "Parada d'autobús",
     "terms": "Parada de bus, Parada"
   },
+  "highway/corridor": {
+    "name": "Corredor interior"
+  },
   "highway/crossing": {
-    "name": "Pas de vianants",
-    "terms": "Travessera, Cruïlla, Pas de Vianants, Pas Zebra, Pas de peatons, pas de transeünts"
+    "name": "Creuament de carrer"
   },
   "highway/crosswalk": {
-    "name": "Pas de vianants",
-    "terms": "Pas de peatons, pas, de, peatons, vianants, persones, zebra"
+    "name": "Pas de vianants"
   },
   "highway/cycleway": {
-    "name": "Carril bici",
-    "terms": "Carril bici, Via verda, Via ciclista"
+    "name": "Carril Bici",
+    "terms": "Carril Bici, Via verda, Via ciclista"
   },
   "highway/footway": {
     "name": "Camí per a vianants",
@@ -789,8 +829,7 @@
     "terms": "Sender,Corriol"
   },
   "highway/pedestrian": {
-    "name": "Via Peatonal",
-    "terms": "Carrer Peatonal, Àrea per a peatons, Trànsit tallat, Carrer tancat al trànsit, Carrer per a vianants, Àrea per a vianants, Carrer per a transeünts, Peatons, Peatonal, Carrer per a Transeünts, Àrea peatonal"
+    "name": "Zona de vianants"
   },
   "highway/primary": {
     "name": "Carretera primària",
@@ -931,12 +970,10 @@
     "name": "Encreuament"
   },
   "landuse": {
-    "name": "Aprofitament del terreny",
-    "terms": "Ús del terra, Ús del sòl"
+    "name": "Ús de la terra"
   },
   "landuse/allotments": {
-    "name": "Horts",
-    "terms": "Assignació"
+    "name": "Jardí comunitari"
   },
   "landuse/basin": {
     "name": "Bassa",
@@ -994,6 +1031,9 @@
     "name": "Verger",
     "terms": "Horta,Hort,Plantació"
   },
+  "landuse/plant_nursery": {
+    "name": "Planter"
+  },
   "landuse/quarry": {
     "name": "Mina a cel obert",
     "terms": "Pedrera"
@@ -1011,6 +1051,12 @@
   "leisure": {
     "name": "Esbarjo",
     "terms": "Lleure,Temps lliure"
+  },
+  "leisure/adult_gaming_centre": {
+    "name": "Centre d'oci adult"
+  },
+  "leisure/bowling_alley": {
+    "name": "Bolera"
   },
   "leisure/common": {
     "name": "Àrea comuna"
@@ -1063,6 +1109,12 @@
     "name": "Pista de bàsquet",
     "terms": "Pista de bàsquet, Pavelló de bàsquet"
   },
+  "leisure/pitch/rugby_league": {
+    "name": "Camp de la lliga de Rugbi"
+  },
+  "leisure/pitch/rugby_union": {
+    "name": "Camp de la Unió de Rugbi"
+  },
   "leisure/pitch/skateboard": {
     "name": "Parc per a skates"
   },
@@ -1111,6 +1163,9 @@
   "man_made": {
     "name": "Fet per l'home",
     "terms": "Fet per la mà de l'home"
+  },
+  "man_made/adit": {
+    "name": "Entrada"
   },
   "man_made/breakwater": {
     "name": "trencaonades",
@@ -1184,8 +1239,23 @@
   "military/bunker": {
     "name": "Búnquer"
   },
+  "military/checkpoint": {
+    "name": "Punt de control"
+  },
+  "military/danger_area": {
+    "name": "Àrea de perill"
+  },
+  "military/naval_base": {
+    "name": "Base Naval"
+  },
+  "military/obstacle_course": {
+    "name": "Cursa d'obstacles"
+  },
   "military/range": {
     "name": "Terreny per a usos militars"
+  },
+  "military/training_area": {
+    "name": "Àrea d'entrenament"
   },
   "natural": {
     "name": "Natural"
@@ -1223,6 +1293,9 @@
     "name": "Pic",
     "terms": "Pic, cim, cimadal, pollegó, agulla."
   },
+  "natural/saddle": {
+    "name": "Seient"
+  },
   "natural/scree": {
     "name": "Tartera"
   },
@@ -1235,6 +1308,12 @@
   "natural/tree": {
     "name": "Arbre",
     "terms": "Arbre"
+  },
+  "natural/tree_row": {
+    "name": "Fila d'arbres"
+  },
+  "natural/volcano": {
+    "name": "Volcà"
   },
   "natural/water": {
     "name": "Aigua",
@@ -1424,8 +1503,7 @@
     "name": "Parada de Ferrocarril"
   },
   "railway/level_crossing": {
-    "name": "Pas a nivell",
-    "terms": "Pas a nivell, Pas de ferrocarril, guardaagulles, pas de ferrocarril, barreres, semàfors, tren, cotxe"
+    "name": "Pas a nivell"
   },
   "railway/monorail": {
     "name": "Monocarril",

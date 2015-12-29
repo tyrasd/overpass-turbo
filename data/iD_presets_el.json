@@ -54,6 +54,10 @@
     "name": "Μπαρ",
     "terms": "Μπαρ, διασκέδαση, ποτά"
   },
+  "amenity/bbq": {
+    "name": "Ψησταριά",
+    "terms": "Μπάρμπεκιου, γκριλ"
+  },
   "amenity/bench": {
     "name": "Παγκάκι",
     "terms": "Παγκάκι"
@@ -66,18 +70,24 @@
     "name": "Ενοικίαση Ποδηλάτων",
     "terms": "Ενοικίαση ποδηλάτων"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "Σταθμός Επισκευής Ποδηλάτων"
+  },
+  "amenity/biergarten": {
+    "name": "Κήπος Μπυραρίας"
+  },
   "amenity/boat_rental": {
     "name": "Ενοικίαση Σκαφών"
   },
   "amenity/bureau_de_change": {
-    "name": "Ανταλακτήριο Συναλάγματος"
+    "name": "Ανταλλακτήριο Συναλλάγματος"
   },
   "amenity/bus_station": {
     "name": "Σταθμός Λεωφορείων"
   },
   "amenity/cafe": {
     "name": "Καφετέρια",
-    "terms": "Καφετέρια, Καφενείο"
+    "terms": "Καφετέρια, Καφενείο, Μπιστρό, Καφέ"
   },
   "amenity/car_rental": {
     "name": "Ενοικίαση Αυτοκινήτων",
@@ -90,6 +100,9 @@
   "amenity/car_wash": {
     "name": "Πλυντήριο Αυτοκινήτων",
     "terms": "Πληντήριο αυτοκινήτων"
+  },
+  "amenity/casino": {
+    "name": "Καζίνο"
   },
   "amenity/charging_station": {
     "name": "Σταθμός Φόρτισης"
@@ -122,7 +135,7 @@
   },
   "amenity/drinking_water": {
     "name": "Πόσιμο Νερό",
-    "terms": "Πόσιμο νερό, Βρύση"
+    "terms": "Πόσιμο νερό, Βρύση, Ψύκτης, Ψύκτης Νερού, Πηγή"
   },
   "amenity/embassy": {
     "name": "Πρεσβεία",
@@ -130,7 +143,7 @@
   },
   "amenity/fast_food": {
     "name": "Ταχυφαγείο",
-    "terms": "Γρήγορο φαγητό, Πρόχειρο φαγητό"
+    "terms": "Γρήγορο φαγητό, Πρόχειρο φαγητό, Φαστφουντάδικο"
   },
   "amenity/fire_station": {
     "name": "Πυροσβεστική",
@@ -138,7 +151,7 @@
   },
   "amenity/fountain": {
     "name": "Συντριβάνι",
-    "terms": "Συντριβάνι"
+    "terms": "Συντριβάνι, Κρήνη"
   },
   "amenity/fuel": {
     "name": "Βενζινάδικο",
@@ -148,6 +161,13 @@
     "name": "Κοιμητήριο",
     "terms": "Νεκροταφείο"
   },
+  "amenity/hospital": {
+    "name": "Χώρος Νοσοκομείου"
+  },
+  "amenity/kindergarten": {
+    "name": "Χώρος Νηπιαγωγείου/Παιδικού σταθμού",
+    "terms": "Νηπιαγωγείο, Βρεφονηπιακός σταθμός, Παιδικός σταθμός"
+  },
   "amenity/library": {
     "name": "Βιβλιοθήκη",
     "terms": "Βιβλιοθήκη"
@@ -156,11 +176,20 @@
     "name": "Αγορά",
     "terms": "Αγορά"
   },
+  "amenity/motorcycle_parking": {
+    "name": "Στάθμευση μοτοσυκλετών",
+    "terms": "Στάθμευση μοτοσικλετών, πάρκινγκ μοτοσυκλετών"
+  },
   "amenity/nightclub": {
     "name": "Νυχτερινό Κέντρο"
   },
   "amenity/parking": {
-    "name": "Στάθμευση Αυτοκινήτων"
+    "name": "Στάθμευση Αυτοκινήτων",
+    "terms": "Πάρκινγκ Αυτοκινήτων, Γκαράζ Αυτοκινήτων"
+  },
+  "amenity/parking_entrance": {
+    "name": "Είσοδος/έξοδος στάθμευσης αυτοκινήτων ",
+    "terms": "Είσοδος/έξοδος γκαράζ, Είσοδος/έξοδος πάρκινγκ"
   },
   "amenity/pharmacy": {
     "name": "Φαρμακείο",
@@ -202,18 +231,33 @@
     "name": "Παμπ",
     "terms": "Παμπ"
   },
+  "amenity/public_bookcase": {
+    "name": "Ανταλλακτική βιβλιοθήκη δρόμου"
+  },
   "amenity/recycling": {
     "name": "Ανακύκλωση"
   },
+  "amenity/register_office": {
+    "name": "Ληξιαρχείο"
+  },
   "amenity/restaurant": {
     "name": "Εστιατόριο",
-    "terms": "Εστιατόριο"
+    "terms": "Εστιατόριο, Ταβέρνα, Μεζεδοπωλείο, Μαγειρείο, Οινομαγειρείο"
+  },
+  "amenity/school": {
+    "name": "Χώρος Σχολείου"
   },
   "amenity/shelter": {
     "name": "Στέγαστρο"
   },
+  "amenity/social_facility": {
+    "name": "Κοινωνική Μονάδα"
+  },
   "amenity/social_facility/homeless_shelter": {
     "name": "Καταφύγιο Αστέγων"
+  },
+  "amenity/studio": {
+    "name": "Στούντιο"
   },
   "amenity/swimming_pool": {
     "name": "Πισίνα",
@@ -239,9 +283,9 @@
     "name": "Δημαρχείο",
     "terms": "Δημαρχείο"
   },
-  "amenity/vending_machine": {
-    "name": "Μηχάνημα Αυτόματης Πώλησης",
-    "terms": "αυτόματος πωλητής"
+  "amenity/university": {
+    "name": "Χώρος Πανεπιστημίου",
+    "terms": "Πανεπιστημιούπολη, Πανεπιστήμιο"
   },
   "amenity/veterinary": {
     "name": "Κτηνιατρείο"
@@ -253,6 +297,9 @@
   "area": {
     "name": "Περιοχή",
     "terms": "Περιοχή"
+  },
+  "area/highway": {
+    "name": "Επιφάνεια Δρόμου"
   },
   "barrier": {
     "name": "Εμπόδιο",
@@ -298,7 +345,7 @@
     "terms": "Μπάρα, Αναρτούμενη πύλη, όπως είναι στα διόδια"
   },
   "barrier/retaining_wall": {
-    "name": "Διατηρητέα Τείχη"
+    "name": "Τοίχος Αντιστήριξης"
   },
   "barrier/stile": {
     "name": "Στύλος",
@@ -323,21 +370,21 @@
   "building/apartments": {
     "name": "Διαμερίσματα"
   },
-  "building/cathedral": {
-    "name": "Καθεδρικός"
-  },
-  "building/chapel": {
-    "name": "Παρεκλήσι"
-  },
-  "building/church": {
-    "name": "Εκκλησία"
+  "building/barn": {
+    "name": "Αποθήκη αγροκτήματος",
+    "terms": "Σιταποθήκη, Αχυρώνας"
   },
   "building/commercial": {
     "name": "Εμπορικό Κτίριο",
     "terms": "Εμπορικό Κτήριο, Επαγγελματικό κτήριο"
   },
   "building/construction": {
-    "name": "Κτήριο Υπό Κατασκευή"
+    "name": "Κτίριο Υπό Κατασκευή",
+    "terms": "Κτήριο Υπό Κατασκευή"
+  },
+  "building/dormitory": {
+    "name": "Φοιτητική Εστία",
+    "terms": "Κοιτώνας"
   },
   "building/entrance": {
     "name": "Είσοδος/Έξοδος"
@@ -346,11 +393,16 @@
     "name": "Εργαστήριο",
     "terms": "Γκαράζ"
   },
+  "building/greenhouse": {
+    "name": "Θερμοκήπιο"
+  },
   "building/hospital": {
-    "name": "Κτήριο Νοσοκομείου"
+    "name": "Κτίριο Νοσοκομείου",
+    "terms": "Κτήριο Νοσοκομείου"
   },
   "building/hotel": {
-    "name": "Κτήριο Ξενοδοχείου"
+    "name": "Κτίριο Ξενοδοχείου",
+    "terms": "Κτήριο Ξενοδοχείου"
   },
   "building/house": {
     "name": "Σπίτι",
@@ -358,14 +410,18 @@
   },
   "building/hut": {
     "name": "Καλύβα",
-    "terms": "Καλύβα"
+    "terms": "Καλύβα, Παράγκα"
   },
   "building/industrial": {
-    "name": "Βιομηχανικό Κτήριο",
+    "name": "Βιομηχανικό Κτίριο",
     "terms": "Βιομηχανικό κτήριο"
   },
+  "building/kindergarten": {
+    "name": "Κτίριο Νηπιαγωγείου/Παιδικού σταθμού"
+  },
   "building/public": {
-    "name": "Δημόσιο κτήριο"
+    "name": "Δημόσιο Κτίριο",
+    "terms": "Δημόσιο Κτήριο"
   },
   "building/residential": {
     "name": "Κτίριο Κατοικιών",
@@ -375,13 +431,18 @@
     "name": "Στέγη"
   },
   "building/school": {
-    "name": "Κτήριο Σχολείου"
+    "name": "Κτήριο Σχολείου",
+    "terms": "Κτήριο Σχολείου"
+  },
+  "building/terrace": {
+    "name": "Ενωμένα Ομοιόμορφα Σπίτια"
   },
   "building/train_station": {
     "name": "Σταθμός Τρένου"
   },
   "building/university": {
-    "name": "Κτήριο Πανεπιστημίου"
+    "name": "Κτίριο Πανεπιστημίου",
+    "terms": "Κτήριο Πανεπιστημίου"
   },
   "building/warehouse": {
     "name": "Αποθήκη"
@@ -398,6 +459,9 @@
   "craft/boatbuilder": {
     "name": "Ναυπηγός"
   },
+  "craft/bookbinder": {
+    "name": "Βιβλιοδέτης"
+  },
   "craft/brewery": {
     "name": "Ζυθοποιείο",
     "terms": "ζυθοποιός, ζυθοποιία"
@@ -409,6 +473,9 @@
   "craft/clockmaker": {
     "name": "Ωρολογοποιός",
     "terms": "ρολογάς"
+  },
+  "craft/confectionery": {
+    "name": "Ζαχαροπλαστείο"
   },
   "craft/electrician": {
     "name": "Ηλεκτρολόγος",
@@ -439,8 +506,11 @@
   "craft/sawmill": {
     "name": "Πριονιστήριο"
   },
+  "craft/scaffolder": {
+    "name": "Κατασκευαστής σκαλωσιών"
+  },
   "craft/sculpter": {
-    "name": "Γλυπτης"
+    "name": "Γλύπτης"
   },
   "craft/shoemaker": {
     "name": "Τσαγκάρης",
@@ -450,8 +520,14 @@
     "name": "Ραφτική",
     "terms": "ράφτης"
   },
+  "craft/tinsmith": {
+    "name": "Λευκοσιδηρουργός"
+  },
   "craft/watchmaker": {
     "name": "Ωρολογοποιός"
+  },
+  "craft/winery": {
+    "name": "Οινοποιείο"
   },
   "embankment": {
     "name": "Ανάχωμα"
@@ -472,7 +548,13 @@
     "name": "Είσοδος/Έξοδος"
   },
   "footway/crossing": {
-    "name": "Διασταύρωση"
+    "name": "Διάβαση"
+  },
+  "footway/crosswalk": {
+    "name": "Διαγραμμισμένη Διάβαση Πεζών"
+  },
+  "footway/sidewalk": {
+    "name": "Πεζοδρόμιο"
   },
   "ford": {
     "name": "Κοιτόστρωση"
@@ -490,8 +572,10 @@
     "terms": "Στάση λεοφωρίου"
   },
   "highway/crossing": {
-    "name": "Διασταύρωση",
-    "terms": "Διάβαση"
+    "name": "Διάβαση"
+  },
+  "highway/crosswalk": {
+    "name": "Διαγραμμισμένη Διάβαση Πεζών"
   },
   "highway/cycleway": {
     "name": "Ποδηλατόδρομος",
@@ -519,10 +603,6 @@
   "highway/path": {
     "name": "Μονοπάτι",
     "terms": "Διαδρομή, μονοπάτι"
-  },
-  "highway/pedestrian": {
-    "name": "Πεζόδρομος",
-    "terms": "Πεζόδρομος, Περιοχή μόνο για πεζούς"
   },
   "highway/primary": {
     "name": "Πρωτεύων Δρόμος",
@@ -619,10 +699,6 @@
     "name": "Εικονοστάσιο",
     "terms": "Εικονοστάσιο, Εικόνισμα"
   },
-  "landuse": {
-    "name": "Χρήση γης",
-    "terms": "Χρήση γης"
-  },
   "landuse/basin": {
     "name": "Κανάλι Αποστράγγισης",
     "terms": "Λεκανοπέδιο"
@@ -630,6 +706,9 @@
   "landuse/cemetery": {
     "name": "Κοιμητήριο",
     "terms": "Νεκροταφείο"
+  },
+  "landuse/commercial": {
+    "name": "Εμπορική Περιοχή"
   },
   "landuse/construction": {
     "name": "Κατασκευές",
@@ -645,6 +724,10 @@
   "landuse/grass": {
     "name": "Γρασίδι",
     "terms": "Γρασίδι, Χορτάρι"
+  },
+  "landuse/industrial": {
+    "name": "Βιομηχανική Περιοχή",
+    "terms": "Βιομηχανική Ζώνη"
   },
   "landuse/meadow": {
     "name": "Λιβάδι",
@@ -680,13 +763,23 @@
     "name": "Γήπεδο Γκολφ",
     "terms": "Γήπεδο γκολφ"
   },
+  "leisure/ice_rink": {
+    "name": "Παγοδρόμιο"
+  },
   "leisure/marina": {
     "name": "Μαρίνα",
     "terms": "Μαρίνα"
   },
+  "leisure/nature_reserve": {
+    "name": "Προστατευόμενος Βιότοπος"
+  },
   "leisure/park": {
     "name": "Πάρκο",
     "terms": "Πάρκο"
+  },
+  "leisure/picnic_table": {
+    "name": "Τραπέζι Πικ Νικ",
+    "terms": "Τραπέζι Πικνίκ"
   },
   "leisure/pitch": {
     "name": "Γήπεδο",
@@ -720,7 +813,7 @@
   },
   "leisure/slipway": {
     "name": "Γλύστρα",
-    "terms": "Γλίστρα"
+    "terms": "Γλίστρα, Νεωλκείο"
   },
   "leisure/sports_center": {
     "name": "Αθλητικό Κέντρο / Γυμναστήριο"
@@ -757,7 +850,11 @@
     "terms": "Αποβάθρα, Προβλήτα, Προκυμαία"
   },
   "man_made/pipeline": {
-    "name": "Σωλήνωση"
+    "name": "Σωλήνωση",
+    "terms": "Αγωγός"
+  },
+  "man_made/storage_tank": {
+    "name": "Δεξαμενή Αποθήκευσης"
   },
   "man_made/survey_point": {
     "name": "Σημείο Επισκόπησης",
@@ -768,11 +865,15 @@
     "terms": "Πύργος"
   },
   "man_made/wastewater_plant": {
-    "name": "Βιολογικός Καθαρισμός"
+    "name": "Βιολογικός Καθαρισμός",
+    "terms": "Εγκατάσταση Επεξεργασίας Λυμάτων"
   },
   "man_made/water_tower": {
     "name": "Δεξαμενή Νερού",
-    "terms": "Πύργος νερού, Δεξαμενή"
+    "terms": "Πύργος νερού, Δεξαμενή, Πύργος Υδατοδεξαμενής"
+  },
+  "man_made/water_well": {
+    "name": "Πηγάδι"
   },
   "man_made/water_works": {
     "name": "Υδραυλικά Έργα",
@@ -789,6 +890,10 @@
   "natural/beach": {
     "name": "Παραλία",
     "terms": "Παραλία"
+  },
+  "natural/cave_entrance": {
+    "name": "Είσοδος Σπηλαίου",
+    "terms": "Είσοδος Σπηλιάς, Σπηλιά, Σπήλαιο"
   },
   "natural/cliff": {
     "name": "Γκρεμός",
@@ -814,6 +919,14 @@
     "name": "Κορυφή",
     "terms": "Κορυφή"
   },
+  "natural/saddle": {
+    "name": "Διάσελο",
+    "terms": "Αυχένας"
+  },
+  "natural/scree": {
+    "name": "Σάρα",
+    "terms": "Πλευρικά Κορήματα, Κολλούβιο"
+  },
   "natural/scrub": {
     "name": "Θαμνότοπος"
   },
@@ -824,6 +937,12 @@
   "natural/tree": {
     "name": "Δέντρο",
     "terms": "Δέντρο"
+  },
+  "natural/tree_row": {
+    "name": "Δεντροστοιχία"
+  },
+  "natural/volcano": {
+    "name": "Ηφαίστειο"
   },
   "natural/water": {
     "name": "Νερό",
@@ -860,9 +979,23 @@
     "name": "Αρχιτέκτονας",
     "terms": "Πολιτικός μηχανικός"
   },
+  "office/company": {
+    "name": "Εταιρικό Γραφείο",
+    "terms": "Γραφείο Εταιρείας"
+  },
+  "office/educational_institution": {
+    "name": "Εκπαιδευτικό Ίδρυμα"
+  },
+  "office/employment_agency": {
+    "name": "Γραφείο Ευρέσεως Εργασίας",
+    "terms": "Γραφείο Εύρεσης Εργασίας"
+  },
   "office/estate_agent": {
     "name": "Κτηματομεσιτικό Γραφείο",
     "terms": "μεσιτικό γραφείο, μεσίτης"
+  },
+  "office/government": {
+    "name": "Κυβερνητικό Γραφείο"
   },
   "office/insurance": {
     "name": "Ασφαλιστικό Γραφείο"
@@ -875,6 +1008,9 @@
   },
   "office/ngo": {
     "name": "Γραφείο ΜΚΟ"
+  },
+  "office/physician": {
+    "name": "Γιατρός"
   },
   "office/political_party": {
     "name": "Πολιτικό Κόμμα"
@@ -940,6 +1076,9 @@
     "name": "Υποσταθμός ",
     "terms": "Υποσταθμός"
   },
+  "power/substation": {
+    "name": "Υποσταθμός"
+  },
   "power/tower": {
     "name": "Κολόνα Υψηλής Τάσης",
     "terms": "Πυλώνας Υψηλής Τάσης"
@@ -957,14 +1096,16 @@
   },
   "railway/abandoned": {
     "name": "Εγκαταλελειμμένη Σιδηροδρομική Γραμμή",
-    "terms": "Εγκαταλελειμένος σηδιρόδρομος"
+    "terms": "Εγκαταλελειμμένος σιδηρόδρομος"
   },
   "railway/disused": {
     "name": "Σιδηροτροχιά εκτός Χρήσης"
   },
   "railway/level_crossing": {
-    "name": "Ισόπεδη διάβαση",
-    "terms": "Ισόπεδη διάβαση"
+    "name": "Σιδηροδρομική Διάβαση"
+  },
+  "railway/narrow_gauge": {
+    "name": "Σιδηροτροχιά Στενού Εύρους"
   },
   "railway/platform": {
     "name": "Σιδηροδρομική Αποβάθρα",
@@ -1006,6 +1147,13 @@
     "name": "Κάβα Ποτών",
     "terms": "Κατάστημα ποτών, Κάβα"
   },
+  "shop/art": {
+    "name": "Γκαλερί Τέχνης",
+    "terms": "Πινακοθήκη"
+  },
+  "shop/baby_goods": {
+    "name": "Κατάστημα Βρεφικών Ειδών"
+  },
   "shop/bakery": {
     "name": "Αρτοποιείο",
     "terms": "Αρτοποιείο, Φούρνος"
@@ -1019,6 +1167,10 @@
   "shop/bicycle": {
     "name": "Κατάστημα Ποδηλάτων",
     "terms": "Ποδηλατάδικο, Κατάστημα ποδηλάτων"
+  },
+  "shop/books": {
+    "name": "Βιβλιοπωλείο",
+    "terms": "Παλαιοβιβλιοπωλείο"
   },
   "shop/boutique": {
     "name": "Μπουτίκ",
@@ -1055,6 +1207,9 @@
     "name": "Παντοπωλείο",
     "terms": "Ψιλικατζίδικο, Παντοπολείο"
   },
+  "shop/dairy": {
+    "name": "Γαλακτοπωλείο"
+  },
   "shop/deli": {
     "name": "Ντελικατέσεν",
     "terms": "Εκλεκτά τρόφιμα, Μεζεδοπωλείο, Ντελικατέσεν"
@@ -1066,6 +1221,9 @@
   "shop/doityourself": {
     "name": "Κατάστημα ιδιοκατασκευών",
     "terms": "Φτιάξτο μόνος σου, Κατάστημα Ιδιοκατασκευών"
+  },
+  "shop/dry_cleaning": {
+    "name": "Στεγνοκαθαριστήριο"
   },
   "shop/electronics": {
     "name": "Κατάστημα Ηλεκτρονικών",
@@ -1081,6 +1239,9 @@
   },
   "shop/furniture": {
     "name": "Κατάστημα Επίπλων"
+  },
+  "shop/garden_centre": {
+    "terms": "Φυτώριο"
   },
   "shop/gift": {
     "name": "Κατάστημα Δώρων",
@@ -1126,7 +1287,7 @@
   },
   "shop/music": {
     "name": "Κατάστημα Μουσικής",
-    "terms": "Κατάστημα μουσικής"
+    "terms": "Κατάστημα μουσικής, Δισκοπωλείο"
   },
   "shop/optician": {
     "name": "Οπτικός",
@@ -1162,6 +1323,10 @@
   "shop/tailor": {
     "name": "Ράφτης"
   },
+  "shop/tattoo": {
+    "name": "Στούντιο Τατουάζ",
+    "terms": "Τατουατζίδικο"
+  },
   "shop/toys": {
     "name": "Κατάστημα Παιχνιδιών",
     "terms": "Κατάστημα παιχνιδιών"
@@ -1177,6 +1342,9 @@
   "shop/video": {
     "name": "Βιντεοκλάμπ",
     "terms": "Βιντεοκλάμπ"
+  },
+  "shop/video_games": {
+    "name": "Μαγαζί Βιντεοπαιχνιδιών"
   },
   "tourism": {
     "name": "Τουρισμός",
@@ -1229,8 +1397,8 @@
     "terms": "Μουσείο"
   },
   "tourism/picnic_site": {
-    "name": "Χώρος πικ νικ",
-    "terms": "Χώρος εκδρομής, Χώρος πικ νικ"
+    "name": "Χώρος Πικ νικ",
+    "terms": "Χώρος εκδρομής, Χώρος Πικνίκ"
   },
   "tourism/theme_park": {
     "name": "Πάρκο Ψυχαγωγίας",
@@ -1243,6 +1411,10 @@
   "tourism/zoo": {
     "name": "Ζωολογικός Κήπος",
     "terms": "Ζωολογικός κήπος"
+  },
+  "traffic_calming/bump": {
+    "name": "Σαμαράκι",
+    "terms": "Μειωτής Ταχύτητας"
   },
   "type/boundary": {
     "name": "Όριο",
@@ -1257,7 +1429,7 @@
     "terms": "Πολύγωνο, Πολύ-πολύγωνο"
   },
   "type/restriction": {
-    "name": "Περιορισμός",
+    "name": "Απαγόρευση",
     "terms": "Περιορισμός"
   },
   "type/restriction/no_left_turn": {
@@ -1337,6 +1509,9 @@
   },
   "waterway/drain": {
     "name": "Οχετός"
+  },
+  "waterway/fuel": {
+    "name": "Πρατήριο Καυσίμων Λιμένα"
   },
   "waterway/river": {
     "name": "Ποταμός",

@@ -151,6 +151,10 @@
     "name": "Autolavaggio",
     "terms": "Autolavaggio"
   },
+  "amenity/casino": {
+    "name": "Casinò",
+    "terms": "gioco d'azzardo,sala da gioco,bisca"
+  },
   "amenity/charging_station": {
     "name": "Stazione di ricarica",
     "terms": "stazione di ricarica,ricarica"
@@ -242,6 +246,10 @@
   "amenity/marketplace": {
     "name": "Mercato",
     "terms": "Mercato"
+  },
+  "amenity/motorcycle_parking": {
+    "name": "Parcheggio moto",
+    "terms": "parcheggio scooter,moto,scooter"
   },
   "amenity/nightclub": {
     "name": "Discoteca",
@@ -373,7 +381,43 @@
   "amenity/university": {
     "name": "Area universitaria"
   },
-  "amenity/vending_machine": {
+  "amenity/vending_machine/cigarettes": {
+    "name": "Distributore automatico di sigarette",
+    "terms": "distributore automatico,macchinetta,sigarette,tabacco,cartine,accendini"
+  },
+  "amenity/vending_machine/condoms": {
+    "name": "Distributore automatico di preservativi",
+    "terms": "distributore automatico,macchinetta,preservativi"
+  },
+  "amenity/vending_machine/drinks": {
+    "name": "Distributore automatico di bevande",
+    "terms": "distributore automatico,macchinetta,bevande,bottiglie,bottigliette"
+  },
+  "amenity/vending_machine/excrement_bags": {
+    "name": "Distributore automatico di sacchetti per escrementi",
+    "terms": "distributore automatico,macchinetta,cacca,cane"
+  },
+  "amenity/vending_machine/news_papers": {
+    "name": "Distributore automatico di giornali",
+    "terms": "distributore automatico,macchinetta,gioranli,riviste,quotidiani"
+  },
+  "amenity/vending_machine/parcel_pickup_dropoff": {
+    "name": "Distributore postale automatico",
+    "terms": "distributore automatico,macchinetta,posta,pacchi"
+  },
+  "amenity/vending_machine/parking_tickets": {
+    "name": "Distributore automatico di ticket per parcheggio",
+    "terms": "distributore automatico,macchinetta,parcheggio,ticket,biglietto"
+  },
+  "amenity/vending_machine/public_transport_tickets": {
+    "name": "Distributore automatico di biglietti per trasporto pubblico",
+    "terms": "distributore automatico,macchinetta,biglietti,bus,metro,tram"
+  },
+  "amenity/vending_machine/sweets": {
+    "name": "Distributore automatico di snack",
+    "terms": "distributore automatico,macchinetta,snack,cibo"
+  },
+  "amenity/vending_machine/vending_machine": {
     "name": "Distributore automatico",
     "terms": "distributore automatico,macchinetta"
   },
@@ -388,6 +432,10 @@
   "area": {
     "name": "Area",
     "terms": "Area"
+  },
+  "area/highway": {
+    "name": "Superificie stradale",
+    "terms": "superficie,manto stradale,materiale"
   },
   "barrier": {
     "name": "Barriera",
@@ -482,15 +530,15 @@
     "terms": "capanna,attrezzi,rimessa,ripostiglio,basso servizio"
   },
   "building/cathedral": {
-    "name": "Cattedrale",
+    "name": "Cattedrale (edificio)",
     "terms": "cattedrale,chiesa,monumento,religioso"
   },
   "building/chapel": {
-    "name": "Cappella",
+    "name": "Cappella (edificio)",
     "terms": "chiesetta,capellina"
   },
   "building/church": {
-    "name": "Chiesa",
+    "name": "Chiesa (edificio)",
     "terms": "cristiano,abbazia,basilica,cattedrale,presbiterio,cappella,chiesa,casa di Dio,luogo di preghiera,luogo di culto,missione,oratorio,parrocchia,sacello,edicola votiva,tabernacolo,tempio"
   },
   "building/college": {
@@ -505,8 +553,8 @@
     "terms": "cantiere,struttura,in costruzione"
   },
   "building/detached": {
-    "name": "Casa autonoma",
-    "terms": "casa autonoma"
+    "name": "Casa indipendente",
+    "terms": "abitazione indipendente,indipendente"
   },
   "building/dormitory": {
     "name": "Dormitorio",
@@ -570,6 +618,10 @@
   "building/school": {
     "name": "Edificio scolastico",
     "terms": "accademia,alma mater,lavagna,collegio,dipartimento,disciplina,classe,facoltà,aula,istituto,istituzione,riformatorio,scuola,edificio scolastico,seminario,università"
+  },
+  "building/semidetached_house": {
+    "name": "Casa semi indipendente",
+    "terms": "semi-indipendente,semiindipendente,semindipendente, abitazione semi indipendente"
   },
   "building/shed": {
     "name": "Capanno",
@@ -657,6 +709,9 @@
     "name": "Gioielliere",
     "terms": "gioielli,bigiotteria,orafo,gioielleria"
   },
+  "craft/key_cutter": {
+    "name": "Duplicazione di chiavi"
+  },
   "craft/locksmith": {
     "name": "Fabbro",
     "terms": "fabbro,ferraio,ferro battuto,officina"
@@ -678,6 +733,9 @@
   },
   "craft/plumber": {
     "name": "Idraulico"
+  },
+  "craft/pottery": {
+    "name": "Negozio di ceramica"
   },
   "craft/saddler": {
     "name": "Sellaio"
@@ -749,11 +807,11 @@
     "terms": "entrata,uscita,emergenza,accesso,porta,portone,ingresso"
   },
   "footway/crossing": {
-    "name": "Attraversamento",
+    "name": "Attraversamento pedonale",
     "terms": "attraversamento pedonale,strisce pedonali,attraversamento,dosso"
   },
   "footway/crosswalk": {
-    "name": "Attraversamento pedonale",
+    "name": "Strisce pedonali",
     "terms": "strisce pedonali,attraversamento"
   },
   "footway/sidewalk": {
@@ -806,12 +864,16 @@
     "name": "Fermata dell'autobus",
     "terms": "Fermata Autobus"
   },
+  "highway/corridor": {
+    "name": "Corridoio interno",
+    "terms": "corridoio"
+  },
   "highway/crossing": {
-    "name": "Attraversamento",
+    "name": "Attraversamento stradale",
     "terms": "attraversamento pedonale,strisce pedonali,attraversamento,dosso"
   },
   "highway/crosswalk": {
-    "name": "Attraversamento pedonale",
+    "name": "Strisce pedonali",
     "terms": "strisce pedonali,attraversamento"
   },
   "highway/cycleway": {
@@ -995,12 +1057,12 @@
     "terms": "svincolo,uscita"
   },
   "landuse": {
-    "name": "Uso del suolo",
-    "terms": "Utilizzo del suolo"
+    "name": "Utilizzi del terreno",
+    "terms": "uso del suolo,suolo,terreno,uso,utilizzo,destinazione"
   },
   "landuse/allotments": {
     "name": "Orti in concessione",
-    "terms": "Area pubblica concessa ai cittadini per la realizzazione di orti"
+    "terms": "orti,orto,pubblico,concessione,comune,giardino,lotto"
   },
   "landuse/basin": {
     "name": "Bacino",
@@ -1066,6 +1128,10 @@
     "name": "Frutteto",
     "terms": "Frutteto"
   },
+  "landuse/plant_nursery": {
+    "name": "Vivaio",
+    "terms": "vivaio,fiorista,rimboschimento,serra"
+  },
   "landuse/quarry": {
     "name": "Cava",
     "terms": "Cava"
@@ -1086,6 +1152,14 @@
     "name": "Svago",
     "terms": "Svago"
   },
+  "leisure/adult_gaming_centre": {
+    "name": "Sala da gioco",
+    "terms": "gioco d'azzardo,casinò,bisca"
+  },
+  "leisure/bowling_alley": {
+    "name": "Sala da Bowling",
+    "terms": "sala,bowling,birilli"
+  },
   "leisure/common": {
     "name": "Luogo pubblico",
     "terms": "beni comuni,comune,pubblico,spazio pubblico,spazio comune,libero accesso"
@@ -1101,6 +1175,10 @@
   "leisure/golf_course": {
     "name": "Campo da Golf",
     "terms": "Campo da golf"
+  },
+  "leisure/ice_rink": {
+    "name": "Pista di Ghiaccio",
+    "terms": "pista di pattinaggio su ghiaccio, campo da hockey su ghiaccio"
   },
   "leisure/marina": {
     "name": "Marina",
@@ -1133,6 +1211,12 @@
   "leisure/pitch/basketball": {
     "name": "Campo da basket",
     "terms": "Campo da pallacanestro"
+  },
+  "leisure/pitch/rugby_league": {
+    "name": "Campo di rugby a 13"
+  },
+  "leisure/pitch/rugby_union": {
+    "name": "Campo di rugby"
   },
   "leisure/pitch/skateboard": {
     "name": "Skate Park",
@@ -1185,6 +1269,10 @@
   "man_made": {
     "name": "Costruzioni civili",
     "terms": "Artificiale"
+  },
+  "man_made/adit": {
+    "name": "Cunicolo",
+    "terms": "adito,miniera,ingresso"
   },
   "man_made/breakwater": {
     "name": "Frangiflutti",
@@ -1270,8 +1358,26 @@
     "name": "Bunker",
     "terms": "bunker,casamatta"
   },
+  "military/checkpoint": {
+    "name": "Posto di controllo",
+    "terms": "checkpoint,check point,posto di blocco"
+  },
+  "military/danger_area": {
+    "name": "Area pericolosa"
+  },
+  "military/naval_base": {
+    "name": "Base navale",
+    "terms": "base,navi,marina,marina militare"
+  },
+  "military/obstacle_course": {
+    "name": "Percorso ad ostacoli"
+  },
   "military/range": {
     "name": "Poligono di tiro militare"
+  },
+  "military/training_area": {
+    "name": "Area di addestramento",
+    "terms": "campo di addestramento,addestramento"
   },
   "natural": {
     "name": "Naturale",
@@ -1317,6 +1423,10 @@
     "name": "Picco",
     "terms": "culmine,guglia,alpe,apice,cresta,sommità,cima,cocuzzolo,collina,monte,montagna,pinnacolo,estremità,vertice,vetta,piz"
   },
+  "natural/saddle": {
+    "name": "Sella",
+    "terms": "passo,valico,sella,forcella"
+  },
   "natural/scree": {
     "name": "Ghiaione",
     "terms": "ghiaione,frana,scarica,ghiaia,sassi,pietraia,sassaia,pietre"
@@ -1332,6 +1442,14 @@
   "natural/tree": {
     "name": "Albero",
     "terms": "Albero"
+  },
+  "natural/tree_row": {
+    "name": "Filare di alberi",
+    "terms": "alberi,filare"
+  },
+  "natural/volcano": {
+    "name": "Vulcano",
+    "terms": "vulcano,stromboli"
   },
   "natural/water": {
     "name": "Specchio d'acqua",
@@ -1419,6 +1537,9 @@
   "office/political_party": {
     "name": "Sede di partito",
     "terms": "circolo,partito,politica,sezione"
+  },
+  "office/research": {
+    "name": "Istituto di Ricerca"
   },
   "office/telecommunication": {
     "name": "Ufficio di telecomunicazioni",
@@ -1613,9 +1734,15 @@
     "name": "Negozio di opere d'arte",
     "terms": "opere d'arte,quadri,sculture,galleria"
   },
+  "shop/bag": {
+    "name": "Negozio di borse e valigie"
+  },
   "shop/bakery": {
     "name": "Panificio",
     "terms": "Panificio"
+  },
+  "shop/bathroom_furnishing": {
+    "name": "Negozio di Prodotti per Bagno"
   },
   "shop/beauty": {
     "name": "Negozio di articoli di bellezza",
@@ -1686,6 +1813,9 @@
     "name": "Negozio di informatica",
     "terms": "Negozio di computer"
   },
+  "shop/confectionery": {
+    "name": "Negozio di Dolciumi"
+  },
   "shop/convenience": {
     "name": "Minimarket",
     "terms": "Drogheria"
@@ -1698,6 +1828,9 @@
   },
   "shop/curtain": {
     "name": "Negozio di tende"
+  },
+  "shop/dairy": {
+    "name": "Negozio di latticini"
   },
   "shop/deli": {
     "name": "Gastronomia",
@@ -1723,9 +1856,16 @@
     "name": "Negozio erotico",
     "terms": "Sexy shop"
   },
+  "shop/fabric": {
+    "name": "Negozio di Tessuti",
+    "terms": "Merceria,Negozio di Stoffe,Stoffe e Tessuti"
+  },
   "shop/farm": {
     "name": "Banchetto Alimentari Freschi",
     "terms": "negozio agricolo,banchetto agricolo,banchetto"
+  },
+  "shop/fashion": {
+    "name": "Negozio di moda"
   },
   "shop/fishmonger": {
     "name": "Pescivendolo",
@@ -1763,6 +1903,9 @@
     "name": "Ferramenta",
     "terms": "Negozio di Ferramenta"
   },
+  "shop/herbalist": {
+    "name": "Erboristeria"
+  },
   "shop/hifi": {
     "name": "Negozio Hifi",
     "terms": "Negozio Hi-Fi"
@@ -1775,9 +1918,18 @@
     "name": "Gioielliere",
     "terms": "Gioielleria"
   },
+  "shop/kiosk": {
+    "name": "Edicola"
+  },
+  "shop/kitchen": {
+    "name": "Negozio di cucine"
+  },
   "shop/laundry": {
     "name": "Lavanderia",
     "terms": "Lavanderia"
+  },
+  "shop/leather": {
+    "name": "Pelletteria"
   },
   "shop/locksmith": {
     "name": "Fabbro",
@@ -1791,9 +1943,15 @@
     "name": "Centro commerciale",
     "terms": " Centro commerciale "
   },
+  "shop/massage": {
+    "name": "Centro Massaggi"
+  },
   "shop/mobile_phone": {
     "name": "Negozio di telefonia mobile",
     "terms": "Negozio di Cellulari"
+  },
+  "shop/money_lender": {
+    "name": "Agenzia Prestito"
   },
   "shop/motorcycle": {
     "name": "Concessionario di motociclette",
@@ -1803,9 +1961,21 @@
     "name": "Negozio di musica",
     "terms": "Negozio di nusica"
   },
+  "shop/musical_instrument": {
+    "name": "Negozio di Strumenti Musicali"
+  },
+  "shop/newsagent": {
+    "name": "Edicola"
+  },
   "shop/optician": {
     "name": "Ottico",
     "terms": "Ottico"
+  },
+  "shop/organic": {
+    "name": "Negozio di Prodotti Biologici"
+  },
+  "shop/paint": {
+    "name": "Negozio di vernici"
   },
   "shop/pawnbroker": {
     "name": "Banco dei pegni"
@@ -1817,6 +1987,18 @@
   "shop/photo": {
     "name": "Fotografo",
     "terms": "fotografia,fotografico,fotografo,foto,diapositive,rullini,macchine fotografiche"
+  },
+  "shop/pyrotechnics": {
+    "name": "Negozio di Fuochi d'Artificio"
+  },
+  "shop/radiotechnics": {
+    "name": "Negozio di elettronica"
+  },
+  "shop/religion": {
+    "name": "Negozio Religioso"
+  },
+  "shop/scuba_diving": {
+    "name": "Negozio di attrezzatura per subacquei"
   },
   "shop/seafood": {
     "name": "Pescheria",
@@ -1842,6 +2024,15 @@
     "name": "Sartoria",
     "terms": "sarto,vestiti,abiti"
   },
+  "shop/tattoo": {
+    "name": "Studio per Tatuaggi"
+  },
+  "shop/tea": {
+    "name": "Negozio di Tè"
+  },
+  "shop/ticket": {
+    "name": "Rivenditore di Biglietti"
+  },
   "shop/tobacco": {
     "name": "Tabacchino",
     "terms": "Tabaccheria"
@@ -1862,6 +2053,9 @@
     "name": "Negozio vuoto",
     "terms": "Negozio vuoto"
   },
+  "shop/vacuum_cleaner": {
+    "name": "Negozio di Aspirapolveri"
+  },
   "shop/variety_store": {
     "name": "Negozio a Prezzo Fisso",
     "terms": "Articoli a basso costo (\"tutto a ...\")"
@@ -1870,8 +2064,14 @@
     "name": "Videoteca",
     "terms": "Videoteca"
   },
+  "shop/video_games": {
+    "name": "Negozio di Videogiochi"
+  },
   "shop/weapons": {
     "name": "Armeria"
+  },
+  "shop/window_blind": {
+    "name": "Negozio di tapparelle e serrande"
   },
   "shop/wine": {
     "name": "Enoteca",
@@ -1944,6 +2144,12 @@
   "tourism/zoo": {
     "name": "Zoo",
     "terms": "Zoo"
+  },
+  "traffic_calming/bump": {
+    "name": "Dosso Artificiale"
+  },
+  "traffic_calming/table": {
+    "name": "Attraversamento Pedonale Sopraelevato"
   },
   "type/boundary": {
     "name": "Confine",

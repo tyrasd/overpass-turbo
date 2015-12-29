@@ -111,6 +111,9 @@
   "amenity/bicycle_repair_station": {
     "name": "Punkt naprawy rowerów"
   },
+  "amenity/biergarten": {
+    "name": "Ogródek piwny"
+  },
   "amenity/boat_rental": {
     "name": "Wypożyczalnia łodzi",
     "terms": "wynajem łodzi"
@@ -137,6 +140,9 @@
     "name": "Myjnia samochodowa",
     "terms": "myjnia"
   },
+  "amenity/casino": {
+    "name": "Kasyno"
+  },
   "amenity/charging_station": {
     "name": "Stacja ładowania pojazdów"
   },
@@ -162,7 +168,8 @@
     "name": "Dom kultury"
   },
   "amenity/compressed_air": {
-    "name": "Kompresor"
+    "name": "Kompresor",
+    "terms": "kompresor"
   },
   "amenity/courthouse": {
     "name": "Sąd",
@@ -224,6 +231,9 @@
   "amenity/marketplace": {
     "name": "Targowisko",
     "terms": "targowisko,targ,rynek,giełda"
+  },
+  "amenity/motorcycle_parking": {
+    "name": "Parking dla motocyklów"
   },
   "amenity/nightclub": {
     "name": "Klub nocny",
@@ -336,10 +346,6 @@
   "amenity/university": {
     "name": "Teren uniwersytetu"
   },
-  "amenity/vending_machine": {
-    "name": "Automat sprzedający",
-    "terms": "automat do sprzedaży"
-  },
   "amenity/veterinary": {
     "name": "Weterynarz",
     "terms": "Zakład weterynaryjny, Weterynarz"
@@ -351,6 +357,9 @@
   "area": {
     "name": "Obszar",
     "terms": "obszar,obręb,powierzchnia"
+  },
+  "area/highway": {
+    "name": "Nawierzchnia"
   },
   "barrier": {
     "name": "Bariera",
@@ -434,22 +443,11 @@
     "name": "Stodoła"
   },
   "building/bunker": {
-    "name": "Bunkier"
+    "name": "Bunkier",
+    "terms": "bunkier, schron,"
   },
   "building/cabin": {
     "name": "Chata"
-  },
-  "building/cathedral": {
-    "name": "Katedra",
-    "terms": "Katedra, "
-  },
-  "building/chapel": {
-    "name": "Kaplica",
-    "terms": "Kaplica, "
-  },
-  "building/church": {
-    "name": "Kościół",
-    "terms": "Kościół, "
   },
   "building/college": {
     "name": "Budynek uczelni"
@@ -461,9 +459,6 @@
   "building/construction": {
     "name": "Budynek w budowie",
     "terms": "Budowa"
-  },
-  "building/detached": {
-    "name": "Dom wolnostojący"
   },
   "building/dormitory": {
     "name": "Akademik",
@@ -712,12 +707,7 @@
     "name": "Wejście/wyjście"
   },
   "footway/crossing": {
-    "name": "Przejście dla pieszych",
-    "terms": "przejście dla pieszych, "
-  },
-  "footway/crosswalk": {
-    "name": "Przejście dla pieszych",
-    "terms": "przejście,pasy,zebra"
+    "name": "Przejście dla pieszych"
   },
   "footway/sidewalk": {
     "name": "Chodnik",
@@ -734,27 +724,19 @@
     "terms": "droga,szlak,ulica"
   },
   "highway/bridleway": {
-    "name": "Ścieżka do jazdy konnej",
+    "name": "Droga dla koni",
     "terms": "jazda konna,szlak jeździecki,szlak konny"
   },
   "highway/bus_stop": {
     "name": "Przystanek autobusowy",
     "terms": "przystanek,stacja,postój"
   },
-  "highway/crossing": {
-    "name": "Przejście dla pieszych",
-    "terms": "skrzyżowanie,krzyżówka"
-  },
-  "highway/crosswalk": {
-    "name": "Przejście dla pieszych",
-    "terms": "przejście,pasy,zebra"
-  },
   "highway/cycleway": {
-    "name": "Ścieżka rowerowa",
+    "name": "Droga rowerowa",
     "terms": "droga,rowerowa,ścieżka,rowerów"
   },
   "highway/footway": {
-    "name": "Ścieżka dla pieszych",
+    "name": "Chodnik",
     "terms": "pobocze,bulwar,ścieżka,deptak,szosa,spacer"
   },
   "highway/living_street": {
@@ -777,12 +759,8 @@
     "terms": "rampa,wjazd,wyjazd,zjazd"
   },
   "highway/path": {
-    "name": "Ścieżka",
+    "name": "Droga dla pieszych",
     "terms": "ścieżka,dróżka"
-  },
-  "highway/pedestrian": {
-    "name": "Deptak",
-    "terms": "piesi,pieszych,deptak,droga"
   },
   "highway/primary": {
     "name": "Droga pierwszorzędna",
@@ -853,7 +831,7 @@
   },
   "highway/tertiary": {
     "name": "Droga trzeciorzędna",
-    "terms": "droga,trzeciorzędna,powiatowa"
+    "terms": "droga,trzeciorzędna"
   },
   "highway/tertiary_link": {
     "name": "Łącznik dróg trzeciorzędnych",
@@ -868,11 +846,11 @@
     "terms": "światła,sygnalizacja świetlna,sygnalizator"
   },
   "highway/trunk": {
-    "name": "Droga ekspresowa",
-    "terms": "ekspresowa,szybkiego,ruchu"
+    "name": "Droga główna",
+    "terms": "główna"
   },
   "highway/trunk_link": {
-    "name": "Droga ekspresowa - zjazd/wjazd",
+    "name": "Droga główna - zjazd/wjazd",
     "terms": "rampa,wjazd,wyjazd,zjazd"
   },
   "highway/turning_circle": {
@@ -881,7 +859,7 @@
   },
   "highway/unclassified": {
     "name": "Droga czwartorzędna",
-    "terms": "droga,niesklasyfikowana,klasyfikacji,bez"
+    "terms": "droga,czwartorzędna"
   },
   "historic": {
     "name": "Miejsce historyczne",
@@ -900,11 +878,11 @@
     "terms": "zamek,gród"
   },
   "historic/memorial": {
-    "name": "Miejsce pamięci",
+    "name": "Pomnik/miejsce pamięci",
     "terms": "miejsce,pamięci,pamiątkowy,memoriał,pomnik"
   },
   "historic/monument": {
-    "name": "Pomnik",
+    "name": "Monument",
     "terms": "monument,pomnik"
   },
   "historic/ruins": {
@@ -923,12 +901,7 @@
     "name": "Skrzyżowanie"
   },
   "landuse": {
-    "name": "Użytkowanie gruntów",
-    "terms": "teren,zagospodarowanie,terenu,użytkowanie,wykorzystanie"
-  },
-  "landuse/allotments": {
-    "name": "Ogródki działkowe",
-    "terms": "działki,ogródki,ogródek"
+    "name": "Zagospodarowanie terenu"
   },
   "landuse/basin": {
     "name": "Zbiornik wodny",
@@ -1216,6 +1189,12 @@
     "name": "Drzewo",
     "terms": "Drzewo, dąb, drzewko, krzew,"
   },
+  "natural/tree_row": {
+    "name": "Rząd drzew"
+  },
+  "natural/volcano": {
+    "name": "Wulkan"
+  },
   "natural/water": {
     "name": "Woda",
     "terms": "Woda, rzeka, potok, strumyk, strumień"
@@ -1322,6 +1301,9 @@
     "name": "Miasto",
     "terms": "miasto"
   },
+  "place/farm": {
+    "name": "Farma"
+  },
   "place/hamlet": {
     "name": "Przysiółek",
     "terms": "mała wioska, przysiołek"
@@ -1409,8 +1391,7 @@
     "terms": "stacja,przystanek,kolej,kolejowa"
   },
   "railway/level_crossing": {
-    "name": "Rogatka",
-    "terms": "skrzyżowanie, krzyżówka, Przejazd kolejowy"
+    "name": "Przejazd kolejowy"
   },
   "railway/monorail": {
     "name": "Kolej jednoszynowa",
@@ -1592,6 +1573,9 @@
   },
   "shop/farm": {
     "name": "Stragan produktów"
+  },
+  "shop/fashion": {
+    "name": "Sklep odzieżowy"
   },
   "shop/fishmonger": {
     "name": "Sklep rybny"

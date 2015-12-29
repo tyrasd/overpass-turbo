@@ -45,7 +45,7 @@
   },
   "aeroway": {
     "name": "Aviation",
-    "terms": "Piste de décollage, Piste d'atterissage, Piste"
+    "terms": "Piste de décollage, Piste d'atterrissage, Piste"
   },
   "aeroway/aerodrome": {
     "name": "Aéroport",
@@ -108,8 +108,8 @@
     "terms": "Banc public"
   },
   "amenity/bicycle_parking": {
-    "name": "Parc à vélos",
-    "terms": "Parking à vélo, Parking à bicyclette, Stationnement à vélo"
+    "name": "Parking à vélos",
+    "terms": "Parc à vélos,Parking à vélo, Parking à bicyclette, Stationnement à vélo"
   },
   "amenity/bicycle_rental": {
     "name": "Location de vélos",
@@ -148,8 +148,12 @@
     "terms": "Autopartage, partage de voitures"
   },
   "amenity/car_wash": {
-    "name": "Lavage de voiture, Lave auto",
+    "name": "Lavage de voiture",
     "terms": "Lavage de voiture, lave auto"
+  },
+  "amenity/casino": {
+    "name": "Casino",
+    "terms": "Casino"
   },
   "amenity/charging_station": {
     "name": "Borne de recharge",
@@ -177,7 +181,7 @@
   },
   "amenity/community_centre": {
     "name": "Salle des fêtes",
-    "terms": "Salle festive, Salle polyvalente, Centre communautaire => Canada"
+    "terms": "Salle festive, Salle polyvalente, Centre communautaire"
   },
   "amenity/compressed_air": {
     "name": "Air comprimé",
@@ -185,7 +189,7 @@
   },
   "amenity/courthouse": {
     "name": "Tribunal",
-    "terms": "Palais de Justice, Tribunal"
+    "terms": "Palais de Justice"
   },
   "amenity/dentist": {
     "name": "Dentiste",
@@ -237,7 +241,7 @@
   },
   "amenity/kindergarten": {
     "name": "Terrains d'école maternelle / jardin d'enfants",
-    "terms": "Terrains d'école maternelle / jardin d'enfants"
+    "terms": "Crèche,Halte-garderie,Jardin d'enfants,École maternelle,École enfantine"
   },
   "amenity/library": {
     "name": "Bibliothèque",
@@ -247,13 +251,17 @@
     "name": "Place de marché",
     "terms": "Marché"
   },
+  "amenity/motorcycle_parking": {
+    "name": "Parking pour motos",
+    "terms": "Parc à motos,Stationnement motos"
+  },
   "amenity/nightclub": {
     "name": "Boîte de nuit",
     "terms": "Boîte de nuit"
   },
   "amenity/parking": {
-    "name": "Parc de stationnement",
-    "terms": "Parc de stationnement, parking"
+    "name": "Parking",
+    "terms": "Parc de stationnement"
   },
   "amenity/parking_entrance": {
     "name": "Entrée/Sortie de parking",
@@ -309,7 +317,7 @@
   },
   "amenity/recycling": {
     "name": "Recyclage",
-    "terms": "Recyclage"
+    "terms": "déchèterie,déchetterie"
   },
   "amenity/register_office": {
     "name": "Bureau d'état-civil",
@@ -341,7 +349,7 @@
   },
   "amenity/social_facility/group_home": {
     "name": "Résidence collective pour personnes âgées",
-    "terms": "Résidence collective pour personnes âgées"
+    "terms": "Maison de retraite"
   },
   "amenity/social_facility/homeless_shelter": {
     "name": "Foyer pour sans-abri",
@@ -373,13 +381,49 @@
   },
   "amenity/townhall": {
     "name": "Mairie",
-    "terms": "Mairie"
+    "terms": "Mairie,Hôtel de ville,Maison commune"
   },
   "amenity/university": {
     "name": "Terrains d'université",
     "terms": "Campus universitaire"
   },
-  "amenity/vending_machine": {
+  "amenity/vending_machine/cigarettes": {
+    "name": "Distributeur de cigarettes",
+    "terms": "Distributeur de cigarettes"
+  },
+  "amenity/vending_machine/condoms": {
+    "name": "Distributeur de préservatifs",
+    "terms": "Distributeur de préservatifs"
+  },
+  "amenity/vending_machine/drinks": {
+    "name": "Distributeur de boissons",
+    "terms": "Distributeur de boissons"
+  },
+  "amenity/vending_machine/excrement_bags": {
+    "name": "Distributeur de sacs pour les excréments d'animaux ",
+    "terms": "Distributeur de sacs pour les excréments d'animaux "
+  },
+  "amenity/vending_machine/news_papers": {
+    "name": "Distributeur de journaux",
+    "terms": "Distributeur de journaux"
+  },
+  "amenity/vending_machine/parcel_pickup_dropoff": {
+    "name": "Dépôt ou retrait de colis",
+    "terms": "Dépôt ou retrait de colis"
+  },
+  "amenity/vending_machine/parking_tickets": {
+    "name": "Distributeur de tickets de parking",
+    "terms": "Distributeur de tickets de parking"
+  },
+  "amenity/vending_machine/public_transport_tickets": {
+    "name": "Distributeur de tickets de transit",
+    "terms": "Distributeur de tickets de transit"
+  },
+  "amenity/vending_machine/sweets": {
+    "name": "Distributeur de snacks",
+    "terms": "Distributeur de snacks"
+  },
+  "amenity/vending_machine/vending_machine": {
     "name": "Distributeur automatique",
     "terms": "Distributeur automatique"
   },
@@ -394,6 +438,10 @@
   "area": {
     "name": "Polygone",
     "terms": "Zone, Aire"
+  },
+  "area/highway": {
+    "name": "Revêtement",
+    "terms": "Revêtement"
   },
   "barrier": {
     "name": "Barrière",
@@ -488,15 +536,15 @@
     "terms": "Cabane"
   },
   "building/cathedral": {
-    "name": "Cathédrale",
+    "name": "Cathédrale - bâtiment",
     "terms": "Cathédrale"
   },
   "building/chapel": {
-    "name": "Chapelle",
+    "name": "Chapelle - bâtiment",
     "terms": "Chapelle"
   },
   "building/church": {
-    "name": "Église",
+    "name": "Église - bâtiment",
     "terms": "Église"
   },
   "building/college": {
@@ -513,7 +561,7 @@
   },
   "building/detached": {
     "name": "Maison individuelle",
-    "terms": "Maison non attenante"
+    "terms": "Maison indépendante"
   },
   "building/dormitory": {
     "name": "Résidence universitaire",
@@ -557,7 +605,7 @@
   },
   "building/kindergarten": {
     "name": "Bâtiment d'école maternelle / jardin d'enfants",
-    "terms": "Bâtiment d'école maternelle / jardin d'enfants"
+    "terms": "Crèche,Halte-garderie,Jardin d'enfants,École maternelle,École enfantine"
   },
   "building/public": {
     "name": "Établissement public",
@@ -578,6 +626,10 @@
   "building/school": {
     "name": "Bâtiment d'école primaire, collège, lycée  Cycles primaires et secondaires",
     "terms": "Bâtiment d'école primaire, collège, lycée  Cycles primaires et secondaires"
+  },
+  "building/semidetached_house": {
+    "name": "maison mitoyenne",
+    "terms": "maison jumelée"
   },
   "building/shed": {
     "name": "Cabanon",
@@ -817,7 +869,7 @@
   },
   "footway/crossing": {
     "name": "Passage piéton ",
-    "terms": "Passage piéton"
+    "terms": "Traversée de rue"
   },
   "footway/crosswalk": {
     "name": "Passage piéton",
@@ -875,13 +927,17 @@
     "name": "Arrêt de bus",
     "terms": "Arrêt de bus, Gare, Gare routière"
   },
+  "highway/corridor": {
+    "name": "Couloir intérieur",
+    "terms": "Corridor intérieur"
+  },
   "highway/crossing": {
-    "name": "Passage piéton",
-    "terms": "Carrefour, Intersection"
+    "name": "Passage piéton ",
+    "terms": "Passage piéton "
   },
   "highway/crosswalk": {
     "name": "Passage piéton",
-    "terms": "Passage clouté"
+    "terms": "Passage piéton, Zébra, Passage zébré"
   },
   "highway/cycleway": {
     "name": "Voie cyclable",
@@ -916,8 +972,8 @@
     "terms": "Chemin"
   },
   "highway/pedestrian": {
-    "name": "Piétonnier",
-    "terms": "Piéton"
+    "name": "Rue piétonne",
+    "terms": "Rue piétonnière,Espace piétonnier,Place piétonne,Rue piétonne"
   },
   "highway/primary": {
     "name": "Route principale",
@@ -1000,8 +1056,8 @@
     "terms": "Bretelle d'accès à une route tertiaire"
   },
   "highway/track": {
-    "name": "Piste carrossable",
-    "terms": "Piste, Chemin carrossable"
+    "name": "Chemin carrossable",
+    "terms": "Piste, Piste carrossable"
   },
   "highway/traffic_signals": {
     "name": "Feux tricolores",
@@ -1064,12 +1120,12 @@
     "terms": "Jonction routière, Jonction, Carrefour, Intersection routière,  Intersection"
   },
   "landuse": {
-    "name": "Type de terrain",
-    "terms": "Utilisation du terrain"
+    "name": "Utilisation du sol",
+    "terms": "Type d'utilisation du sol, terrain"
   },
   "landuse/allotments": {
     "name": "Jardins familiaux",
-    "terms": "Jardins familiaux, eco-jardins, jardins communautaires, jardin communautaire"
+    "terms": "Jardins familiaux"
   },
   "landuse/basin": {
     "name": "Bassin",
@@ -1100,8 +1156,8 @@
     "terms": "Terre agricole : cultures et élevage"
   },
   "landuse/farmyard": {
-    "name": "Exploitation agricole",
-    "terms": "Cour de ferme, ensemble des bâtiments d'une ferme"
+    "name": "Cour de ferme",
+    "terms": "exploitation agricole,cour de ferme,ensemble des bâtiments d'une ferme"
   },
   "landuse/forest": {
     "name": "Forêt",
@@ -1135,6 +1191,10 @@
     "name": "Verger",
     "terms": "Verger"
   },
+  "landuse/plant_nursery": {
+    "name": "Pépinière",
+    "terms": "Pépinière"
+  },
   "landuse/quarry": {
     "name": "Carrière",
     "terms": "Carrière"
@@ -1154,6 +1214,14 @@
   "leisure": {
     "name": "Loisirs",
     "terms": "Loisir"
+  },
+  "leisure/adult_gaming_centre": {
+    "name": "Jeux pour adultes",
+    "terms": "Jeux pour adultes"
+  },
+  "leisure/bowling_alley": {
+    "name": "Bowling",
+    "terms": "Jeux de boules,Jeu de quilles,Quilles"
   },
   "leisure/common": {
     "name": "Terrain communal",
@@ -1208,11 +1276,19 @@
     "terms": "Terrain de base-ball"
   },
   "leisure/pitch/basketball": {
-    "name": "Terrain de basketball",
+    "name": "Terrain de basket",
     "terms": "Terrain de basket, terrain de basketball"
   },
+  "leisure/pitch/rugby_league": {
+    "name": "Terrain de rugby à XIII",
+    "terms": "Rugby"
+  },
+  "leisure/pitch/rugby_union": {
+    "name": "Terrain de Rugby à XV",
+    "terms": "Rugby"
+  },
   "leisure/pitch/skateboard": {
-    "name": "Planchodrome",
+    "name": "Skatepark",
     "terms": "Planchodrome, skate park"
   },
   "leisure/pitch/soccer": {
@@ -1237,7 +1313,7 @@
   },
   "leisure/slipway": {
     "name": "Plan incliné",
-    "terms": "Cale de lancement"
+    "terms": "Cale de lancement, Cale, Cale de mise à l'eau"
   },
   "leisure/sports_center": {
     "name": "Centre sportif / Salle de gymnastique",
@@ -1262,6 +1338,10 @@
   "man_made": {
     "name": "Édifices",
     "terms": "Créé par l'homme"
+  },
+  "man_made/adit": {
+    "name": "Entrée de mine",
+    "terms": "Entrée de galerie de mine,Entrée de galerie"
   },
   "man_made/breakwater": {
     "name": "Brise-lames",
@@ -1347,9 +1427,29 @@
     "name": "Bunker",
     "terms": "casemate, blockhaus, bunker"
   },
+  "military/checkpoint": {
+    "name": "Poste de contrôle militaire",
+    "terms": "Poste-frontière, Point de contrôle, Poste de contrôle,Militaire"
+  },
+  "military/danger_area": {
+    "name": "Zone militaire dangeureuse",
+    "terms": "Zone dangereuse, Région dangereuse, Dangereuse, Danger,Militaire"
+  },
+  "military/naval_base": {
+    "name": "Base navale",
+    "terms": "Base Navale, Base militaire, Marine, Port maritime"
+  },
+  "military/obstacle_course": {
+    "name": "Parcours du combattant",
+    "terms": "Parcours du combattant, Course, Obstacles"
+  },
   "military/range": {
     "name": "Stand de tir",
     "terms": "Champ de tir,Stand de tir"
+  },
+  "military/training_area": {
+    "name": "Zone d'entraînement militaire",
+    "terms": "Zone d'entraînement"
   },
   "natural": {
     "name": "Nature",
@@ -1389,11 +1489,15 @@
   },
   "natural/heath": {
     "name": "Lande",
-    "terms": "Santé"
+    "terms": "Bruyère"
   },
   "natural/peak": {
     "name": "Sommet",
     "terms": "Pic, Mont"
+  },
+  "natural/saddle": {
+    "name": "Col de montagne",
+    "terms": "Passe"
   },
   "natural/scree": {
     "name": "Pierrier",
@@ -1410,6 +1514,14 @@
   "natural/tree": {
     "name": "Arbre",
     "terms": "Arbre"
+  },
+  "natural/tree_row": {
+    "name": "Rangée d'arbres",
+    "terms": "Rangée d'arbres,Alignement d'arbres"
+  },
+  "natural/volcano": {
+    "name": "Volcan",
+    "terms": "Volcan"
   },
   "natural/water": {
     "name": "Eau",
@@ -1524,8 +1636,8 @@
     "terms": "Piste de ski"
   },
   "place": {
-    "name": "Toponymie",
-    "terms": "Lieu"
+    "name": "Lieu",
+    "terms": "Toponymie,Place"
   },
   "place/city": {
     "name": "Grande ville (>100.000 habitants)",
@@ -1636,8 +1748,8 @@
     "terms": "Arrêt ferroviaire, Arrêt"
   },
   "railway/level_crossing": {
-    "name": "Passage à niveau",
-    "terms": "Passage à niveau, traverse de chemin de fer"
+    "name": "Passage à niveau ",
+    "terms": "Passage à niveau "
   },
   "railway/monorail": {
     "name": "Monorail",
@@ -1848,8 +1960,8 @@
     "terms": "Magasin de tissus"
   },
   "shop/farm": {
-    "name": "Étal de fruits et légumes",
-    "terms": "Étal de fruits et légumes"
+    "name": "Magasin de producteurs",
+    "terms": "Étal de fruits et légumes,Vente à la ferme,Vente producteurs"
   },
   "shop/fashion": {
     "name": "Boutique de mode",
@@ -2196,8 +2308,8 @@
     "terms": "Dos d'âne"
   },
   "traffic_calming/rumble_strip": {
-    "name": "Section de route à rainurage",
-    "terms": "Bande rugueuse"
+    "name": "Bande rugueuse",
+    "terms": "Section de route à rainurage"
   },
   "traffic_calming/table": {
     "name": "Passage pour piétons surélévé",
