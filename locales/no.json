@@ -177,6 +177,7 @@
   "dialog.repair_query": "reparer søk",
   "dialog.continue_anyway": "fortsett allikevel",
   "dialog.show_data": "vis data",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "konstruer og kjør søk",
   "dialog.delete_query.title": "Slett søket?",
   "dialog.delete_query.expl": "Vil du virkelig slette det følgende søket",

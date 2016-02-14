@@ -177,6 +177,7 @@
   "dialog.repair_query": "διόρθωση ερωτήματος",
   "dialog.continue_anyway": "συνέχιση έτσι",
   "dialog.show_data": "εμφάνιση δεδομένων",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "δημιουργία και εκτέλεση ερωτήματος",
   "dialog.delete_query.title": "Να διαγραφεί το ερώτημα;",
   "dialog.delete_query.expl": "Θέλετε πραγματικά να διαγράψετε το ακόλουθο ερώτημα",

@@ -116,8 +116,8 @@
     "terms": "腳踏車出租"
   },
   "amenity/bicycle_repair_station": {
-    "name": "自行車維修站",
-    "terms": "提供自行車維修服務的地方"
+    "name": "自行車維修工具站",
+    "terms": "單車維修工具站,自行車自助維修站,單車自助維修站"
   },
   "amenity/biergarten": {
     "name": "啤酒花園",
@@ -195,9 +195,9 @@
     "name": "牙醫",
     "terms": "牙醫診所"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "醫生",
-    "terms": "醫生"
+    "terms": "醫生診療處"
   },
   "amenity/dojo": {
     "name": "道場/武術研習班",
@@ -214,6 +214,10 @@
   "amenity/fast_food": {
     "name": "速食餐廳",
     "terms": "速食店"
+  },
+  "amenity/ferry_terminal": {
+    "name": "水運碼頭",
+    "terms": "水路碼頭,遊艇碼頭"
   },
   "amenity/fire_station": {
     "name": "消防局",
@@ -238,6 +242,10 @@
   "amenity/hospital": {
     "name": "醫院用地",
     "terms": "醫院"
+  },
+  "amenity/hunting_stand": {
+    "name": "獵寮",
+    "terms": "獵寮"
   },
   "amenity/kindergarten": {
     "name": "育幼院/幼稚園範圍",
@@ -266,6 +274,10 @@
   "amenity/parking_entrance": {
     "name": "停車場入口/出口",
     "terms": "停車場入口/出口,停車塔入口/出口,立體停車場入口/出口"
+  },
+  "amenity/parking_space": {
+    "name": "停車空間",
+    "terms": "停車楁"
   },
   "amenity/pharmacy": {
     "name": "藥房",
@@ -434,6 +446,14 @@
   "amenity/waste_basket": {
     "name": "垃圾筒",
     "terms": "廢物箱,垃圾箱"
+  },
+  "amenity/waste_disposal": {
+    "name": "垃圾場",
+    "terms": "垃圾集中處,垃圾放置點"
+  },
+  "amenity/water_point": {
+    "name": "送水車",
+    "terms": "運水車"
   },
   "area": {
     "name": "區域",
@@ -1076,8 +1096,8 @@
     "terms": "回轉圈"
   },
   "highway/unclassified": {
-    "name": "未分類的道路",
-    "terms": "未分類的道路"
+    "name": "非主要道路",
+    "terms": "非主要道路"
   },
   "historic": {
     "name": "歷史景點",
@@ -1315,9 +1335,13 @@
     "name": "船架滑道",
     "terms": "船架滑道"
   },
-  "leisure/sports_center": {
-    "name": "體育中心/健身室",
-    "terms": "體育中心/健身房"
+  "leisure/sports_centre": {
+    "name": "健身中心 / 健身房",
+    "terms": "健身中心 / 健身房,重訓室"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "游泳池附屬設施",
+    "terms": "游泳池設施,游池附屬設施,游池設施"
   },
   "leisure/stadium": {
     "name": "體育場",
@@ -1330,6 +1354,10 @@
   "leisure/track": {
     "name": "操場(非摩托賽道)",
     "terms": "賽道(非摩托賽道)"
+  },
+  "leisure/water_park": {
+    "name": "水上樂園",
+    "terms": "水上公園"
   },
   "line": {
     "name": "線",
@@ -1347,6 +1375,10 @@
     "name": "防波堤",
     "terms": "防波堤"
   },
+  "man_made/chimney": {
+    "name": "煙囪",
+    "terms": "煙筒"
+  },
   "man_made/cutline": {
     "name": "山林分界線",
     "terms": "山林分界線"
@@ -1358,6 +1390,14 @@
   "man_made/flagpole": {
     "name": "旗桿",
     "terms": "旗桿"
+  },
+  "man_made/gasometer": {
+    "name": "煤氣鼓",
+    "terms": "煤氣筒"
+  },
+  "man_made/groyne": {
+    "name": "堤防",
+    "terms": "河堤,海堤"
   },
   "man_made/lighthouse": {
     "name": "燈塔",
@@ -1391,6 +1431,10 @@
     "name": "儲油槽",
     "terms": "存放槽,油罐,儲罐,儲水槽,儲汽槽"
   },
+  "man_made/surveillance": {
+    "name": "監視器",
+    "terms": "監視錄影器"
+  },
   "man_made/survey_point": {
     "name": "測量點",
     "terms": "三角點,土地測量點,控制點"
@@ -1414,6 +1458,10 @@
   "man_made/water_works": {
     "name": "淨水廠",
     "terms": "水務設施"
+  },
+  "man_made/works": {
+    "name": "工廠",
+    "terms": "工廠"
   },
   "military/airfield": {
     "name": "軍用機場",
@@ -1613,7 +1661,7 @@
   },
   "office/political_party": {
     "name": "政黨辦公室",
-    "terms": "黨部"
+    "terms": "黨部,競選總部,服務處"
   },
   "office/research": {
     "name": "研究機構",
@@ -2419,6 +2467,10 @@
     "name": "水道",
     "terms": "水路"
   },
+  "waterway/boatyard": {
+    "name": "船塢",
+    "terms": "船塢"
+  },
   "waterway/canal": {
     "name": "運河",
     "terms": "運河"
@@ -2430,6 +2482,10 @@
   "waterway/ditch": {
     "name": "溝",
     "terms": "水溝"
+  },
+  "waterway/dock": {
+    "name": "碼頭",
+    "terms": "碼頭"
   },
   "waterway/drain": {
     "name": "渠",
@@ -2454,6 +2510,10 @@
   "waterway/stream": {
     "name": "溪流",
     "terms": "小溪"
+  },
+  "waterway/water_point": {
+    "name": "海洋飲用水",
+    "terms": "海洋飲用水"
   },
   "waterway/weir": {
     "name": "水壩",

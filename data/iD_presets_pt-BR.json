@@ -115,10 +115,6 @@
     "name": "Estação de Bicicletas Públicas",
     "terms": "Estação de Bicicletas Públicas, Compartilhamento de Bicicletas"
   },
-  "amenity/bicycle_repair_station": {
-    "name": "Estação de Conserto de Bicicletas",
-    "terms": "Estação de Conserto de Bicicletas, Estação de Reparo de Bicicletas"
-  },
   "amenity/biergarten": {
     "name": "Biergarten",
     "terms": "Biergarten, Cervejaria ao Ar Livre"
@@ -194,10 +190,6 @@
   "amenity/dentist": {
     "name": "Dentista",
     "terms": "Dentista, Odontologista"
-  },
-  "amenity/doctor": {
-    "name": "Médico",
-    "terms": "Doutor, Médico, Clínica, Saúde"
   },
   "amenity/dojo": {
     "name": "Academia de Artes Marciais",
@@ -387,6 +379,24 @@
     "name": "Área Universitária",
     "terms": "Área de Universidade, Faculdade, Área de Faculdade, Centro Universitário"
   },
+  "amenity/vending_machine/cigarettes": {
+    "name": "Máquina de Venda de Cigarros"
+  },
+  "amenity/vending_machine/condoms": {
+    "name": "Máquina de Venda de Preservativos"
+  },
+  "amenity/vending_machine/drinks": {
+    "name": "Máquina de Venda de Bebidas"
+  },
+  "amenity/vending_machine/news_papers": {
+    "name": "Máquina de Venda de Jornal"
+  },
+  "amenity/vending_machine/sweets": {
+    "name": "Máquina de Venda de Lanches"
+  },
+  "amenity/vending_machine/vending_machine": {
+    "name": "Máquina de Venda"
+  },
   "amenity/veterinary": {
     "name": "Veterinário",
     "terms": "Veterinário, Médico veterinário, pet, animal de estimação, animais"
@@ -494,6 +504,15 @@
   "building/cabin": {
     "name": "Cabine",
     "terms": "Cabine"
+  },
+  "building/cathedral": {
+    "name": "Catedral"
+  },
+  "building/chapel": {
+    "name": "Capela"
+  },
+  "building/church": {
+    "name": "Igreja"
   },
   "building/college": {
     "name": "Edifício de Escola Técnica",
@@ -1023,10 +1042,6 @@
     "name": "Balão de Retorno",
     "terms": "Balão de Retorno"
   },
-  "highway/unclassified": {
-    "name": "Via Não Classificada",
-    "terms": "Via Sem Classificação"
-  },
   "historic": {
     "name": "Local Histórico",
     "terms": "Lugar Histórico"
@@ -1259,10 +1274,6 @@
   "leisure/slipway": {
     "name": "Rampa Náutica",
     "terms": "Rampa Náutica"
-  },
-  "leisure/sports_center": {
-    "name": "Centro Esportivo / Academia",
-    "terms": "Ginásio de Esportes, Ginásio Poliesportivo, Academia, Esportes"
   },
   "leisure/stadium": {
     "name": "Estádio",

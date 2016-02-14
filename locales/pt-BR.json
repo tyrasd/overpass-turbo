@@ -177,6 +177,7 @@
   "dialog.repair_query": "reparar consulta",
   "dialog.continue_anyway": "continuar assim mesmo",
   "dialog.show_data": "mostrar dados",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "construir e executar consulta",
   "dialog.delete_query.title": "Apagar Consulta?",
   "dialog.delete_query.expl": "Você tem certeza que deseja excluir a consulta a seguir",

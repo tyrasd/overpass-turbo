@@ -117,7 +117,7 @@
   },
   "amenity/bicycle_repair_station": {
     "name": "Станція ремонту велосипедів",
-    "terms": "вело-ремонт, ремонт, станція"
+    "terms": "вело-ремонт,ремонт,станція,стенд"
   },
   "amenity/biergarten": {
     "name": "Пивний садок",
@@ -195,9 +195,9 @@
     "name": "Дантист",
     "terms": "Dentist, lfynbcn, стоматолог, зубний лікар, лікар"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "Лікар",
-    "terms": "Doctor, Ksrfh, лікар"
+    "terms": "лікар,медицина,допомога"
   },
   "amenity/dojo": {
     "name": "Додзьо / Школа бойових мистецтв",
@@ -214,6 +214,10 @@
   "amenity/fast_food": {
     "name": "Фаст-Фуд",
     "terms": "Fast Food, afcn-ael, проста їжа, швидкі страви, фаст-фуд"
+  },
+  "amenity/ferry_terminal": {
+    "name": "Паром",
+    "terms": "паром,причал,переправа,термінал"
   },
   "amenity/fire_station": {
     "name": "Пожежна станція",
@@ -238,6 +242,10 @@
   "amenity/hospital": {
     "name": "Територія лікарні",
     "terms": "Hospital grounds, nthbnjhsz ksrfhys, територія лікарні, лікарня"
+  },
+  "amenity/hunting_stand": {
+    "name": "Мисливська вежа",
+    "terms": "вежа,здобич,полювання"
   },
   "amenity/kindergarten": {
     "name": "Підготовча школа / Територія дитсадка",
@@ -266,6 +274,10 @@
   "amenity/parking_entrance": {
     "name": "В’їзд/виїзд в паркінг",
     "terms": "стоянка, паркінг"
+  },
+  "amenity/parking_space": {
+    "name": "Місце на стоянці",
+    "terms": "стоянка,місце,автомобіль"
   },
   "amenity/pharmacy": {
     "name": "Аптека",
@@ -434,6 +446,14 @@
   "amenity/waste_basket": {
     "name": "Бак для сміття",
     "terms": "Waste Basket, fr lkz cvsnnz, кошик для сміття, сміття"
+  },
+  "amenity/waste_disposal": {
+    "name": "Контейнер для сміття",
+    "terms": "контейнер,сміття,відходи,комунальні служби,вивіз сміття"
+  },
+  "amenity/water_point": {
+    "name": "Заправка питною водою",
+    "terms": "вода,заправка,потяг,кемпінг,табір"
   },
   "area": {
     "name": "Полігон",
@@ -917,7 +937,7 @@
   },
   "highway": {
     "name": "Дорога",
-    "terms": "Highway, ljhjuf, шлях, автомагістраль, шосе, тротуар, стежка, тропа, путівець, напрямок, проїзд, дорога"
+    "terms": "Highway, ljhjuf, шлях, автомагістраль, шосе, тротуар, стежка, тропа, путівець, напрямок, проїзд, дорога,пішохідна доріжка"
   },
   "highway/bridleway": {
     "name": "Доріжка для вершників ",
@@ -944,7 +964,7 @@
     "terms": "Cycle Path, dtkj-ljhsrf, веодоріжка"
   },
   "highway/footway": {
-    "name": "Тротуар",
+    "name": "Пішохідна доріжка",
     "terms": "Foot Path, nhjnefh, стежка, маршрут, доріжка"
   },
   "highway/living_street": {
@@ -1076,8 +1096,8 @@
     "terms": "Turning Circle, vscwt lkz hjdjhjne, місце для розвороту"
   },
   "highway/unclassified": {
-    "name": "Не має класифікації",
-    "terms": "Unclassified Road, ytvf rkfcbasrfws, немає класифікації"
+    "name": "Некласифікована дорога",
+    "terms": "дорога,некласифікована,сільска,промислова,загальна"
   },
   "historic": {
     "name": "Історичні місця",
@@ -1315,10 +1335,6 @@
     "name": "Стапель",
     "terms": "Slipway, cnfgtkm, стапель"
   },
-  "leisure/sports_center": {
-    "name": "Спортивний центр / Спортзал",
-    "terms": "тренажери, зал, спортивний центр, спорт"
-  },
   "leisure/stadium": {
     "name": "Стадіон",
     "terms": "Stadium, cnflsjy, стадіон"
@@ -1347,6 +1363,10 @@
     "name": "Хвилеріз",
     "terms": "Breakwater, dbkthsp, хвилеріз"
   },
+  "man_made/chimney": {
+    "name": "Димохід",
+    "terms": "труба,дим,димохід,викиди"
+  },
   "man_made/cutline": {
     "name": "Просіка",
     "terms": "Cut line, ghjcsrf, просіка"
@@ -1358,6 +1378,14 @@
   "man_made/flagpole": {
     "name": "Флагшток",
     "terms": "флагшток"
+  },
+  "man_made/gasometer": {
+    "name": "Газгольдер",
+    "terms": "газгольдер,резервуар"
+  },
+  "man_made/groyne": {
+    "name": "Хвилеріз",
+    "terms": "хвилі,споруда,захист,пляж,бухта"
   },
   "man_made/lighthouse": {
     "name": "Маяк",
@@ -1391,6 +1419,10 @@
     "name": "Резервуар",
     "terms": "water,oil,gas,petrol,вода,нафта,газ,бензин"
   },
+  "man_made/surveillance": {
+    "name": "Камера відео-спостереження",
+    "terms": "камера,спостереження,швидкість"
+  },
   "man_made/survey_point": {
     "name": "Геодезичний пункт",
     "terms": "Survey Point, utjltpbxybq geyrn, місце спостереження"
@@ -1414,6 +1446,10 @@
   "man_made/water_works": {
     "name": "Водозабір",
     "terms": "Water Works, djljpfsh, водозабір"
+  },
+  "man_made/works": {
+    "name": "Завод",
+    "terms": "завод,підприємство,фабрика,виробництво"
   },
   "military/airfield": {
     "name": "Аеродром",
@@ -2419,6 +2455,10 @@
     "name": "Водний шлях",
     "terms": "Waterway, djlybq ikz, водний путь"
   },
+  "waterway/boatyard": {
+    "name": "Човнова станція",
+    "terms": "човен,стоянка,станція,зберігання,ремонт"
+  },
   "waterway/canal": {
     "name": "Канал",
     "terms": "Canal, rfyfk, канал"
@@ -2430,6 +2470,10 @@
   "waterway/ditch": {
     "name": "Канава",
     "terms": "Ditch, rfyfdf, канава"
+  },
+  "waterway/dock": {
+    "name": "Док",
+    "terms": "док,верф,корабель,будівництво"
   },
   "waterway/drain": {
     "name": "Дренажний канал",
@@ -2454,6 +2498,10 @@
   "waterway/stream": {
     "name": "Струмок",
     "terms": "Stream, cnhevjr, струмок"
+  },
+  "waterway/water_point": {
+    "name": "Заправка човнів питною водою",
+    "terms": "човен,корабель,вода,питна"
   },
   "waterway/weir": {
     "name": "Водозлив",

@@ -177,6 +177,7 @@
   "dialog.repair_query": "repara la consulta",
   "dialog.continue_anyway": "continua igualment",
   "dialog.show_data": "mostra les dades",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "construeix i executa la consulta",
   "dialog.delete_query.title": "Voleu suprimir la consulta?",
   "dialog.delete_query.expl": "Voleu suprimir la consulta següent",

@@ -70,9 +70,6 @@
     "name": "Ενοικίαση Ποδηλάτων",
     "terms": "Ενοικίαση ποδηλάτων"
   },
-  "amenity/bicycle_repair_station": {
-    "name": "Σταθμός Επισκευής Ποδηλάτων"
-  },
   "amenity/biergarten": {
     "name": "Κήπος Μπυραρίας"
   },
@@ -128,10 +125,6 @@
   "amenity/dentist": {
     "name": "Οδοντιατρείο",
     "terms": "οδοντίατρος, οδοντογιατρός"
-  },
-  "amenity/doctor": {
-    "name": "Ιατρείο",
-    "terms": "γιατρός, ιατρός"
   },
   "amenity/drinking_water": {
     "name": "Πόσιμο Νερό",
@@ -664,10 +657,6 @@
   "highway/trunk": {
     "name": "Λεωφόρος"
   },
-  "highway/unclassified": {
-    "name": "Μη κατηγοριοποιημένος Δρόμος",
-    "terms": "Αταξινόμητη οδός, Οδός χωρίς κατηγορία"
-  },
   "historic": {
     "name": "Ιστορική τοποθεσία",
     "terms": "Ιστορικός χώρος"
@@ -814,9 +803,6 @@
   "leisure/slipway": {
     "name": "Γλύστρα",
     "terms": "Γλίστρα, Νεωλκείο"
-  },
-  "leisure/sports_center": {
-    "name": "Αθλητικό Κέντρο / Γυμναστήριο"
   },
   "leisure/stadium": {
     "name": "Στάδιο",

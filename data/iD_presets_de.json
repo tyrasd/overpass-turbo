@@ -116,8 +116,8 @@
     "terms": "Fahrrad-Verleih"
   },
   "amenity/bicycle_repair_station": {
-    "name": "Fahrradreparaturstation",
-    "terms": "Fahrradreparaturstation, Fahrradreparaturbox"
+    "name": "Fahrradreperatur-Werkzeugkasten",
+    "terms": "Fahrradreperatur-Werkzeugkasten, Fahrradreperatur-Werkzeug-Standplatz"
   },
   "amenity/biergarten": {
     "name": "Biergarten",
@@ -195,9 +195,9 @@
     "name": "Zahnarzt",
     "terms": "Zahnarzt, Dentist, Stomatologe"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "Arzt",
-    "terms": "Arzt, Mediziner, Doktor"
+    "terms": "Arzt, Ärztin, Mediziner, Medizinerin"
   },
   "amenity/dojo": {
     "name": "Kampfsportstudio",
@@ -214,6 +214,10 @@
   "amenity/fast_food": {
     "name": "Schnellimbiss",
     "terms": "Fast Food, Imbiss"
+  },
+  "amenity/ferry_terminal": {
+    "name": "Fährhafen",
+    "terms": "Fährhafen"
   },
   "amenity/fire_station": {
     "name": "Feuerwehr",
@@ -238,6 +242,10 @@
   "amenity/hospital": {
     "name": "Krankenhausgelände",
     "terms": "Krankenhaus, Klinik, Klinikgelände, Hospital"
+  },
+  "amenity/hunting_stand": {
+    "name": "Hochstand",
+    "terms": "Hochstand, Jagdhochstand, Jagdunterstand"
   },
   "amenity/kindergarten": {
     "name": "Kindergarten",
@@ -266,6 +274,10 @@
   "amenity/parking_entrance": {
     "name": "Garageneinfahrt/-ausfahrt",
     "terms": "Parkgaragen-Einfahrt/Ausfahrt, Garageneinfahrt/-ausfahrt, Garagenzufahrt/-abfahrt"
+  },
+  "amenity/parking_space": {
+    "name": "Stellplatz",
+    "terms": "Parkplatz, Parkbox, Parklücke, Parkfeld, Stellplatz, Autoabstellplatz, Abstellplatz"
   },
   "amenity/pharmacy": {
     "name": "Apotheke",
@@ -434,6 +446,14 @@
   "amenity/waste_basket": {
     "name": "Abfalleimer",
     "terms": "Abfalleimer,Abfallkübel,Abfallbehälter,Mistkübel,Mülleimer"
+  },
+  "amenity/waste_disposal": {
+    "name": "Müllcontainer",
+    "terms": "Müllcontainer, Müllkübel, Abfallcontainer, Abfallkübel"
+  },
+  "amenity/water_point": {
+    "name": "Camping-Trinkwasser",
+    "terms": "Trinkwasserreserve, Frischwasserreserve"
   },
   "area": {
     "name": "Fläche",
@@ -1077,7 +1097,7 @@
   },
   "highway/unclassified": {
     "name": "Nebenstraße",
-    "terms": "Unklassifizierte Straße"
+    "terms": "Nebenstraße, niederrangige Straße"
   },
   "historic": {
     "name": "Historische Stätte",
@@ -1315,9 +1335,13 @@
     "name": "Slipanlage",
     "terms": "Gleitbahn, Rampe"
   },
-  "leisure/sports_center": {
-    "name": "Sportzentrum",
-    "terms": "Fitnessstudio, Sportstudio, Trainingszentrum, Aerobicstudio, Sporthalle"
+  "leisure/sports_centre": {
+    "name": "Turnhalle / Fitnessstudio",
+    "terms": "Turnhalle, Finessstudio, Turnsaal"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "Badeanstalt",
+    "terms": "Badeanstalt, Schwimmbad, Hallenbad"
   },
   "leisure/stadium": {
     "name": "Stadion",
@@ -1330,6 +1354,10 @@
   "leisure/track": {
     "name": "Rennbahn (nicht-Motorsport)",
     "terms": "Rennbahn (Nicht Motorsport),Rennstrecke (Nicht Motorsport)"
+  },
+  "leisure/water_park": {
+    "name": "Erlebnisbad",
+    "terms": "Erlebnisbad, Badeparadies, Freizeitpark, Wasserpark"
   },
   "line": {
     "name": "Linie",
@@ -1347,6 +1375,10 @@
     "name": "Wellenbrecher",
     "terms": "Wellenbrecher, Buhnen"
   },
+  "man_made/chimney": {
+    "name": "Schornstein",
+    "terms": "Schornstein, Kamin"
+  },
   "man_made/cutline": {
     "name": "Schneise",
     "terms": "Schneise, Durchhau, Lücke, Bewuchsunterbrechung"
@@ -1358,6 +1390,14 @@
   "man_made/flagpole": {
     "name": "Fahnenstange",
     "terms": "Fahne"
+  },
+  "man_made/gasometer": {
+    "name": "Gasometer",
+    "terms": "Gasometer, Gaslagertank"
+  },
+  "man_made/groyne": {
+    "name": "Wellenbrecher",
+    "terms": "Wellenbrecher, Buhne, Kribbe"
   },
   "man_made/lighthouse": {
     "name": "Leuchtturm",
@@ -1391,6 +1431,10 @@
     "name": "Aufbewahrungstank für Flüssigkeiten",
     "terms": "Lagertank, Speichertank, Vorratstank"
   },
+  "man_made/surveillance": {
+    "name": "Überwachungskamera",
+    "terms": "Überwachungskamera, Überwachungseinrichtung"
+  },
   "man_made/survey_point": {
     "name": "Vermessungspunkt",
     "terms": "Trigonometrischer Punkt, Geodätischer Festpunkt"
@@ -1414,6 +1458,10 @@
   "man_made/water_works": {
     "name": "Wasserwerk",
     "terms": "Wasserwerk"
+  },
+  "man_made/works": {
+    "name": "Fabrik",
+    "terms": "Fabrik, Werk, Betrieb, Werksanlage, Industrieproduktion "
   },
   "military/airfield": {
     "name": "Militärflugplatz",
@@ -2419,6 +2467,10 @@
     "name": "Wasserweg",
     "terms": "Wasserweg"
   },
+  "waterway/boatyard": {
+    "name": "Werft",
+    "terms": "Werft, Bootswerft"
+  },
   "waterway/canal": {
     "name": "Kanal",
     "terms": "Kanal"
@@ -2430,6 +2482,10 @@
   "waterway/ditch": {
     "name": "Graben",
     "terms": "Entwässerungsgraben"
+  },
+  "waterway/dock": {
+    "name": "Dock",
+    "terms": "Dock, Trockendock, Hafenbecken, Kai, Ampfer"
   },
   "waterway/drain": {
     "name": "Ablauf",
@@ -2454,6 +2510,10 @@
   "waterway/stream": {
     "name": "Bach",
     "terms": "Bach"
+  },
+  "waterway/water_point": {
+    "name": "Marine Frischwasser",
+    "terms": "Frischwasser, Trinkwasser"
   },
   "waterway/weir": {
     "name": "Wehr",

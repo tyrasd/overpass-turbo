@@ -116,8 +116,8 @@
     "terms": "Cykeludlejning, Rent-a-Bike"
   },
   "amenity/bicycle_repair_station": {
-    "name": "Cykelværktøjlån",
-    "terms": "Cykelværktøjlån, Cykelværktøj"
+    "name": "Cykelreperationsværktøj",
+    "terms": "Cykelreperationsværktøj"
   },
   "amenity/biergarten": {
     "name": "Ølhave",
@@ -195,9 +195,9 @@
     "name": "Tandlæge",
     "terms": "Tandlæge"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "Læge",
-    "terms": "Læge, Doktor"
+    "terms": "Læge, doktor"
   },
   "amenity/dojo": {
     "name": "Dojo/Kampsports akdemi",
@@ -214,6 +214,10 @@
   "amenity/fast_food": {
     "name": "Fast food",
     "terms": "Fastfood, Grillbar, Pølsevogn"
+  },
+  "amenity/ferry_terminal": {
+    "name": "Færgeterminal",
+    "terms": "Færgeterminal, Færgekaj"
   },
   "amenity/fire_station": {
     "name": "Brandstation",
@@ -238,6 +242,10 @@
   "amenity/hospital": {
     "name": "Hospitalsområde",
     "terms": "Hospitalsområde"
+  },
+  "amenity/hunting_stand": {
+    "name": "Jagttårn",
+    "terms": "Jagttårn, Jagtskydeplads"
   },
   "amenity/kindergarten": {
     "name": "Børnehavegrund",
@@ -266,6 +274,10 @@
   "amenity/parking_entrance": {
     "name": "Parkeringsgarage Indgang/Udgang",
     "terms": "Parkeringsgarage Indgang/Udgang, Parkeringskælder Indgang/Udgang"
+  },
+  "amenity/parking_space": {
+    "name": "Parkeringsplads",
+    "terms": "Parkeringsplads"
   },
   "amenity/pharmacy": {
     "name": "Apotek",
@@ -434,6 +446,14 @@
   "amenity/waste_basket": {
     "name": "Skraldespand",
     "terms": "<oversæt med synonymer eller beslægtet termer for 'Skraldespand', adskilt med kommaer>"
+  },
+  "amenity/waste_disposal": {
+    "name": "Skraldespand",
+    "terms": "Skraldespand"
+  },
+  "amenity/water_point": {
+    "name": "Genbrugsvand",
+    "terms": "Genbrugsvand"
   },
   "area": {
     "name": "Område",
@@ -1077,7 +1097,7 @@
   },
   "highway/unclassified": {
     "name": "Mindre vej",
-    "terms": "Ukendt vejtype"
+    "terms": "Mindre vej"
   },
   "historic": {
     "name": "Historisk sted",
@@ -1315,9 +1335,13 @@
     "name": "Bådrampe",
     "terms": "Bådrampe, Skibsrampe"
   },
-  "leisure/sports_center": {
-    "name": "Sportscenter/Gymnastik",
-    "terms": "Sportscenter/Gymnastik"
+  "leisure/sports_centre": {
+    "name": "Sportscenter / Gymnastik",
+    "terms": "Sportscenter / Gymnastik"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "Swimmingpool",
+    "terms": "Swimmingpool, Svømmepool"
   },
   "leisure/stadium": {
     "name": "Stadion",
@@ -1330,6 +1354,10 @@
   "leisure/track": {
     "name": "Racebane (ej motorspor)",
     "terms": "Racebane (ej motorspor)"
+  },
+  "leisure/water_park": {
+    "name": "Vandland",
+    "terms": "Vandland, Badeland"
   },
   "line": {
     "name": "Linje",
@@ -1347,6 +1375,10 @@
     "name": "Bølgebryder",
     "terms": "Bølgebryder"
   },
+  "man_made/chimney": {
+    "name": "Skorsten",
+    "terms": "Skorsten"
+  },
   "man_made/cutline": {
     "name": "Skærelinje",
     "terms": "Skærelinje"
@@ -1358,6 +1390,14 @@
   "man_made/flagpole": {
     "name": "Flagstang",
     "terms": "Flagstang"
+  },
+  "man_made/gasometer": {
+    "name": "Gasværk",
+    "terms": "Gasværk, Gasometer"
+  },
+  "man_made/groyne": {
+    "name": "Høfde",
+    "terms": "Høfde"
   },
   "man_made/lighthouse": {
     "name": "Fyr (navigation)",
@@ -1391,6 +1431,10 @@
     "name": "Lagertank",
     "terms": "Lagertank"
   },
+  "man_made/surveillance": {
+    "name": "Overvågning",
+    "terms": "Overvågning"
+  },
   "man_made/survey_point": {
     "name": "Geografisk fixpunkt",
     "terms": "Geografisk fixpunkt"
@@ -1414,6 +1458,10 @@
   "man_made/water_works": {
     "name": "Vandforsyning",
     "terms": "Vandforsyning, Vandværk"
+  },
+  "man_made/works": {
+    "name": "Fabrik",
+    "terms": "Fabrik, Produktionsvirksomhed"
   },
   "military/airfield": {
     "name": "Flyveplads",
@@ -2419,6 +2467,10 @@
     "name": "Vandvej",
     "terms": "Vandvej"
   },
+  "waterway/boatyard": {
+    "name": "Bådplads",
+    "terms": "Bådplads"
+  },
   "waterway/canal": {
     "name": "Kanal",
     "terms": "Kanal"
@@ -2430,6 +2482,10 @@
   "waterway/ditch": {
     "name": "Grøft",
     "terms": "Grøft, Grøftekant"
+  },
+  "waterway/dock": {
+    "name": "Dok",
+    "terms": "Dok, Dock"
   },
   "waterway/drain": {
     "name": "Drænløb",
@@ -2454,6 +2510,10 @@
   "waterway/stream": {
     "name": "Bæk",
     "terms": "Bæk"
+  },
+  "waterway/water_point": {
+    "name": "Havnedrikkevand",
+    "terms": "Havnedrikkevand"
   },
   "waterway/weir": {
     "name": "Stemmeværk",

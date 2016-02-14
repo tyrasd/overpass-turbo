@@ -177,6 +177,7 @@
   "dialog.repair_query": "reparerer søgning",
   "dialog.continue_anyway": "fortsæt alligevel",
   "dialog.show_data": "Vis geodata",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "Opbyg og udfør søgning",
   "dialog.delete_query.title": "Slet søgning?",
   "dialog.delete_query.expl": "Er du sikker på du vil slette denne søgning?",

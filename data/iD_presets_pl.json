@@ -90,8 +90,8 @@
     "terms": "bankowość, kasa"
   },
   "amenity/bar": {
-    "name": "Bar",
-    "terms": "bar"
+    "name": "Bar alkoholowy",
+    "terms": "knajpa,wyszynk"
   },
   "amenity/bbq": {
     "name": "Grill"
@@ -107,9 +107,6 @@
   "amenity/bicycle_rental": {
     "name": "Wypożyczalnia rowerów",
     "terms": "wypożyczalnia"
-  },
-  "amenity/bicycle_repair_station": {
-    "name": "Punkt naprawy rowerów"
   },
   "amenity/biergarten": {
     "name": "Ogródek piwny"
@@ -162,10 +159,11 @@
     "terms": "Zegar, "
   },
   "amenity/college": {
-    "name": "Teren uczelni"
+    "name": "Teren szkoły"
   },
   "amenity/community_centre": {
-    "name": "Dom kultury"
+    "name": "Dom kultury",
+    "terms": "świetlica wiejska"
   },
   "amenity/compressed_air": {
     "name": "Kompresor",
@@ -179,9 +177,8 @@
     "name": "Dentysta",
     "terms": "stomatolog, gabinet stomatologiczny"
   },
-  "amenity/doctor": {
-    "name": "Gabinet lub przychodnia lekarska",
-    "terms": "lekarz, doktor, medyk, uzdrowiciel, nzoz, zoz, spzoz, gabinet lekarski"
+  "amenity/doctors": {
+    "name": "Gabinet lub przychodnia lekarska"
   },
   "amenity/dojo": {
     "name": "Dojo/szkoła sztuk walki"
@@ -195,11 +192,11 @@
     "terms": "ambasada"
   },
   "amenity/fast_food": {
-    "name": "Fast food",
+    "name": "bar",
     "terms": "kebab, hot dog, fast food, McDonald's, McDonald"
   },
   "amenity/fire_station": {
-    "name": "Straż pożarna",
+    "name": "Remiza strażacka",
     "terms": "straż,osp,psp,ochotnicza straż pożarna"
   },
   "amenity/fountain": {
@@ -207,11 +204,11 @@
     "terms": "fontanna,wodotrysk"
   },
   "amenity/fuel": {
-    "name": "Stacja benzynowa",
-    "terms": "gaz,lpg"
+    "name": "Stacja paliw",
+    "terms": "stacja benzynowa,gaz,lpg"
   },
   "amenity/grave_yard": {
-    "name": "Cmentarz",
+    "name": "Cmentarz przykościelny",
     "terms": "cmentarz,pochówek"
   },
   "amenity/grit_bin": {
@@ -221,8 +218,12 @@
     "name": "Teren szpitala",
     "terms": "Teren szpitala, szpital, służba zdrowia, ambulatorium, chirurgia, oddział"
   },
+  "amenity/hunting_stand": {
+    "name": "Ambona strzelnicza"
+  },
   "amenity/kindergarten": {
-    "name": "Teren przedszkola"
+    "name": "Teren przedszkola",
+    "terms": "Teren żłobka"
   },
   "amenity/library": {
     "name": "Biblioteka",
@@ -245,12 +246,15 @@
   "amenity/parking_entrance": {
     "name": "Wjazd/wyjazd z parkingu/garażu"
   },
+  "amenity/parking_space": {
+    "name": "Miejsce parkingowe (pojedyncze)"
+  },
   "amenity/pharmacy": {
     "name": "Apteka",
     "terms": "apteka,leki"
   },
   "amenity/place_of_worship": {
-    "name": "Miejsce kultu religijnego",
+    "name": "Miejsce odbywania się praktyk religijnych",
     "terms": "opactwo,bazylika,katedra,prezbiterium,kaplica,kościół,owczarnia,dom Boży,dom modlitwy,tum,misja,meczet,parafia,sanktuarium,świątynia,synagoga,tabernakulum"
   },
   "amenity/place_of_worship/buddhist": {
@@ -279,7 +283,7 @@
   },
   "amenity/post_office": {
     "name": "Poczta",
-    "terms": "poczta,urząd,pocztowy"
+    "terms": "poczta,urząd pocztowy"
   },
   "amenity/pub": {
     "name": "Pub",
@@ -336,15 +340,28 @@
     "terms": "teatr,sztuka,przedstawienie"
   },
   "amenity/toilets": {
-    "name": "Toalety",
+    "name": "Toalety publiczne",
     "terms": "toaleta,wc"
   },
   "amenity/townhall": {
-    "name": "Ratusz",
+    "name": "Ratusz (siedziba władz)",
     "terms": "władze miasta,ratusz,urząd miasta,urząd gminy,starostwo"
   },
   "amenity/university": {
-    "name": "Teren uniwersytetu"
+    "name": "Teren uczelni wyższej",
+    "terms": "teren uniwersytetu,teren akademii,teren politechniki"
+  },
+  "amenity/vending_machine/condoms": {
+    "name": "Automat z prezerwatywami"
+  },
+  "amenity/vending_machine/drinks": {
+    "name": "Automat z napojami"
+  },
+  "amenity/vending_machine/news_papers": {
+    "name": "Automat z gazetami"
+  },
+  "amenity/vending_machine/sweets": {
+    "name": "Automat z przekąskami"
   },
   "amenity/veterinary": {
     "name": "Weterynarz",
@@ -382,7 +399,7 @@
     "terms": "mur,ściana,miejski"
   },
   "barrier/cycle_barrier": {
-    "name": "Przegroda dla rowerzystów"
+    "name": "Przegroda antyrowerowa"
   },
   "barrier/ditch": {
     "name": "Rów",
@@ -450,7 +467,7 @@
     "name": "Chata"
   },
   "building/college": {
-    "name": "Budynek uczelni"
+    "name": "Budynek szkoły policealnej"
   },
   "building/commercial": {
     "name": "Nieruchomość komercyjna",
@@ -489,8 +506,8 @@
     "terms": "dom,domek,chata"
   },
   "building/hut": {
-    "name": "Chata",
-    "terms": "chata,szałas,schronienie,koliba"
+    "name": "buda",
+    "terms": "chata,szałas,schronienie,koliba,szopa"
   },
   "building/industrial": {
     "name": "Budynek przemysłowy",
@@ -517,13 +534,14 @@
     "name": "Budynek szkolny"
   },
   "building/shed": {
-    "name": "Szopa"
+    "name": "Szopa",
+    "terms": "wiata"
   },
   "building/stable": {
     "name": "Stajnia"
   },
   "building/static_caravan": {
-    "name": "Stojący dom na kołach"
+    "name": "Przyczepa/wóz kempingowy ustawiony na stałe"
   },
   "building/terrace": {
     "name": "Domki szeregowe"
@@ -533,11 +551,14 @@
     "terms": "Stacja kolejowa, "
   },
   "building/university": {
-    "name": "Budynek uczelni",
+    "name": "Budynek uczelni wyższej",
     "terms": "uniwersytet, szkoła wyższa, wydział, uczelnia"
   },
   "building/warehouse": {
     "name": "Magazyn"
+  },
+  "craft": {
+    "name": "Rzemiosło"
   },
   "craft/basket_maker": {
     "name": "Wikliniarz"
@@ -709,6 +730,9 @@
   "footway/crossing": {
     "name": "Przejście dla pieszych"
   },
+  "footway/crosswalk": {
+    "name": "Przejście dla pieszych z zebrą"
+  },
   "footway/sidewalk": {
     "name": "Chodnik",
     "terms": "chodnik"
@@ -731,16 +755,25 @@
     "name": "Przystanek autobusowy",
     "terms": "przystanek,stacja,postój"
   },
+  "highway/corridor": {
+    "name": "Korytarz (w budynku)"
+  },
+  "highway/crossing": {
+    "name": "Przejście dla pieszych"
+  },
+  "highway/crosswalk": {
+    "name": "Przejście dla pieszych"
+  },
   "highway/cycleway": {
     "name": "Droga rowerowa",
     "terms": "droga,rowerowa,ścieżka,rowerów"
   },
   "highway/footway": {
-    "name": "Chodnik",
+    "name": "Droga/ścieżka dla pieszych",
     "terms": "pobocze,bulwar,ścieżka,deptak,szosa,spacer"
   },
   "highway/living_street": {
-    "name": "Strefa zamieszkania",
+    "name": "Droga w oznaczonej strefie zamieszkania",
     "terms": "strefa,zamieszkania,zamieszkała,droga,ulica"
   },
   "highway/mini_roundabout": {
@@ -759,7 +792,7 @@
     "terms": "rampa,wjazd,wyjazd,zjazd"
   },
   "highway/path": {
-    "name": "Droga dla pieszych",
+    "name": "Ścieżka/droga ",
     "terms": "ścieżka,dróżka"
   },
   "highway/primary": {
@@ -778,7 +811,7 @@
     "terms": "lokalna, osiedlowa, zamieszkała"
   },
   "highway/rest_area": {
-    "name": "Obszar wypoczynkowy"
+    "name": "Miejsce odpoczynku dla kierowców"
   },
   "highway/road": {
     "name": "Nieokreślona droga",
@@ -814,8 +847,8 @@
     "name": "Uliczka parkingowa"
   },
   "highway/services": {
-    "name": "Obszar usługowy",
-    "terms": "Obszar serwisowy, "
+    "name": "Miejsce Obsługi Podróżnych (MOP)",
+    "terms": "MOP"
   },
   "highway/steps": {
     "name": "Schody",
@@ -847,7 +880,7 @@
   },
   "highway/trunk": {
     "name": "Droga główna",
-    "terms": "główna"
+    "terms": "główna,szybkiego ruchu,ekspresowa"
   },
   "highway/trunk_link": {
     "name": "Droga główna - zjazd/wjazd",
@@ -856,10 +889,6 @@
   "highway/turning_circle": {
     "name": "Miejsce do zawracania",
     "terms": "miejsce,zawracania,zawracanie"
-  },
-  "highway/unclassified": {
-    "name": "Droga czwartorzędna",
-    "terms": "droga,czwartorzędna"
   },
   "historic": {
     "name": "Miejsce historyczne",
@@ -902,6 +931,9 @@
   },
   "landuse": {
     "name": "Zagospodarowanie terenu"
+  },
+  "landuse/allotments": {
+    "name": "Ogródki działkowe"
   },
   "landuse/basin": {
     "name": "Zbiornik wodny",
@@ -963,7 +995,7 @@
   },
   "landuse/quarry": {
     "name": "Kamieniołom",
-    "terms": "kamieniołom, żwirownia, kruszywo"
+    "terms": "kamieniołom, żwirownia, kruszywo,kopalnia odkrywkowa"
   },
   "landuse/residential": {
     "name": "Zabudowa mieszkaniowa"
@@ -999,7 +1031,7 @@
   },
   "leisure/marina": {
     "name": "Przystań",
-    "terms": "przystań"
+    "terms": "przystań,marina"
   },
   "leisure/nature_reserve": {
     "name": "Rezerwat przyrody"
@@ -1053,9 +1085,6 @@
     "name": "Pochylnia okrętowa",
     "terms": "pochylnia"
   },
-  "leisure/sports_center": {
-    "name": "Centrum sportowe"
-  },
   "leisure/stadium": {
     "name": "Stadion",
     "terms": "stadion"
@@ -1074,6 +1103,9 @@
   "man_made": {
     "name": "Obiekty sztuczne"
   },
+  "man_made/adit": {
+    "name": "Sztolnia"
+  },
   "man_made/breakwater": {
     "name": "Falochron"
   },
@@ -1086,6 +1118,9 @@
   "man_made/flagpole": {
     "name": "Maszt flagowy"
   },
+  "man_made/groyne": {
+    "name": "Ostroga brzegowa"
+  },
   "man_made/lighthouse": {
     "name": "Latarnia morska",
     "terms": "latarnia"
@@ -1094,12 +1129,18 @@
     "name": "Wieża obserwacyjna",
     "terms": "wieża obserwacyjna"
   },
+  "man_made/petroleum_well": {
+    "name": "Szyb naftowy"
+  },
   "man_made/pier": {
     "name": "Molo",
     "terms": "pomost"
   },
   "man_made/pipeline": {
     "name": "Rurociąg"
+  },
+  "man_made/silo": {
+    "name": "Silos"
   },
   "man_made/survey_point": {
     "name": "Punkt geodezyjny"
@@ -1120,16 +1161,20 @@
     "name": "Studnia"
   },
   "man_made/water_works": {
-    "name": "Filtracja wody"
+    "name": "Zakład uzdatniania wody",
+    "terms": "Filtracja wody,wodociągi"
   },
   "military/airfield": {
-    "name": "Lotnisko"
+    "name": "Lotnisko wojskowe"
   },
   "military/barracks": {
     "name": "Koszary"
   },
   "military/bunker": {
     "name": "Bunkier"
+  },
+  "military/checkpoint": {
+    "name": "Wojskowy punkt kontrolny"
   },
   "military/range": {
     "name": "Poligon wojskowy"
@@ -1156,7 +1201,7 @@
     "terms": "Linia brzegowa"
   },
   "natural/fell": {
-    "name": "Wzgórze"
+    "name": "Wzgórza"
   },
   "natural/glacier": {
     "name": "Lodowiec",
@@ -1172,6 +1217,9 @@
   "natural/peak": {
     "name": "Szczyt",
     "terms": "szczyt"
+  },
+  "natural/saddle": {
+    "name": "Przełęcz"
   },
   "natural/scree": {
     "name": "Rumowisko",
@@ -1302,7 +1350,8 @@
     "terms": "miasto"
   },
   "place/farm": {
-    "name": "Farma"
+    "name": "Farma/gospodarstwo rolne",
+    "terms": "farma,gospodarstwo rolne"
   },
   "place/hamlet": {
     "name": "Przysiółek",
@@ -1364,7 +1413,8 @@
     "name": "Wieża wysokiego napięcia"
   },
   "power/transformer": {
-    "name": "Transformator"
+    "name": "Transformator",
+    "terms": "transformator"
   },
   "public_transport/platform": {
     "name": "Miejsce oczekiwania"
@@ -1398,10 +1448,12 @@
     "terms": "Kolej jednoszynowa"
   },
   "railway/narrow_gauge": {
-    "name": "Linia kolejowa wąskotorowa"
+    "name": "Linia kolejowa wąskotorowa",
+    "terms": "kolej wąskotorowa"
   },
   "railway/platform": {
-    "name": "Peron kolejowy"
+    "name": "Peron kolejowy",
+    "terms": "peron kolejowy"
   },
   "railway/rail": {
     "name": "Tor"
@@ -1467,7 +1519,8 @@
     "terms": "kosmetyczka, wizaż"
   },
   "shop/bed": {
-    "name": "Sklep z łóżkami/materacami"
+    "name": "Sklep z łóżkami/materacami",
+    "terms": "materace"
   },
   "shop/beverages": {
     "name": "Sklep z napojami"
@@ -1477,7 +1530,8 @@
     "terms": "sklep rowerowy"
   },
   "shop/bookmaker": {
-    "name": "Bukmacher"
+    "name": "Bukmacher",
+    "terms": "hazard,zakłady sportowe"
   },
   "shop/books": {
     "name": "Księgarnia",
@@ -1510,7 +1564,8 @@
     "terms": "wykładzina"
   },
   "shop/cheese": {
-    "name": "Sklep z serami"
+    "name": "Sklep z serami",
+    "terms": "sery"
   },
   "shop/chemist": {
     "name": "Drogeria",
@@ -1533,26 +1588,29 @@
   },
   "shop/convenience": {
     "name": "Sklep ogólnospożywczy",
-    "terms": "mały sklep, sklepik osiedlowy"
+    "terms": "mały sklep, sklepik osiedlowy,spożywczak,żabka,freshmarket, sklep osiedlowy, sklep spożywczy"
   },
   "shop/copyshop": {
     "name": "Punkt ksero",
     "terms": "kopiowanie"
   },
   "shop/cosmetics": {
-    "name": "Sklep z kosmetykami"
+    "name": "Sklep z kosmetykami",
+    "terms": "kosmetyki,drogeria"
   },
   "shop/curtain": {
     "name": "Sklep z zasłonami"
   },
   "shop/dairy": {
-    "name": "Sklep z nabiałem"
+    "name": "Sklep z nabiałem",
+    "terms": "nabiał"
   },
   "shop/deli": {
     "name": "Delikatesy"
   },
   "shop/department_store": {
-    "name": "Dom towarowy"
+    "name": "Dom towarowy",
+    "terms": "dom towarowy,dom handlowy"
   },
   "shop/doityourself": {
     "name": "Sklep dla majsterkowiczów",
@@ -1562,14 +1620,16 @@
     "name": "Pralnia chemiczna"
   },
   "shop/electronics": {
-    "name": "Sklep elektroniczny"
+    "name": "Sklep RTV/AGD",
+    "terms": "EuroRTVAgd,MediaExpert,Saturn,MediaMarkt"
   },
   "shop/erotic": {
     "name": "Sklep erotyczny",
     "terms": "sex shop"
   },
   "shop/fabric": {
-    "name": "Sklep z tkaninami"
+    "name": "Sklep z tkaninami",
+    "terms": "tkaniny"
   },
   "shop/farm": {
     "name": "Stragan produktów"
@@ -1597,18 +1657,19 @@
   },
   "shop/furniture": {
     "name": "Sklep meblowy",
-    "terms": "sklep meblowy"
+    "terms": "sklep meblowy,meble"
   },
   "shop/garden_centre": {
-    "name": "Centrum ogrodnicze"
+    "name": "Centrum ogrodnicze",
+    "terms": "ogrodniczy"
   },
   "shop/gift": {
     "name": "Sklep z pamiątkami",
-    "terms": "sklep z prezentami"
+    "terms": "sklep z prezentami,pamiątki,prezenty"
   },
   "shop/greengrocer": {
     "name": "Warzywniak",
-    "terms": "warzywniak"
+    "terms": "warzywniak,sklep warzywny"
   },
   "shop/hairdresser": {
     "name": "Fryzjer",
@@ -1622,14 +1683,14 @@
   },
   "shop/herbalist": {
     "name": "Zielarz",
-    "terms": "Herbaciarnia, zielarz"
+    "terms": "Herbaciarnia,zielarz,zioła"
   },
   "shop/hifi": {
     "name": "Sklep ze sprzętem Hi-fi"
   },
   "shop/houseware": {
     "name": "Sklep z małymi artykułami gospodarstwa domowego",
-    "terms": "sztućce, garnki, artykuły kuchenne"
+    "terms": "sztućce, garnki, artykuły kuchenne, małe agd"
   },
   "shop/interior_decoration": {
     "name": "Sklep z dekoracją wnętrz"
@@ -1656,10 +1717,12 @@
     "name": "Ślusarz"
   },
   "shop/lottery": {
-    "name": "Kolektura"
+    "name": "Kolektura",
+    "terms": "lotto"
   },
   "shop/mall": {
-    "name": "Centrum handlowe"
+    "name": "Centrum handlowe",
+    "terms": "pasaż,galeria,promenady,arkady,tarasy"
   },
   "shop/massage": {
     "name": "Masaż"
@@ -1697,7 +1760,7 @@
   },
   "shop/outdoor": {
     "name": "Sklep turystyczny",
-    "terms": "outdoor"
+    "terms": "outdoor,Decathlon"
   },
   "shop/paint": {
     "name": "Sklep z farbami"
@@ -1713,7 +1776,8 @@
     "name": "sklep fotograficzny"
   },
   "shop/pyrotechnics": {
-    "name": "Sklep z ogniami sztucznymi"
+    "name": "Sklep z ogniami sztucznymi",
+    "terms": "fajerwerki"
   },
   "shop/religion": {
     "name": "Sklep z dewocjonaliami"
@@ -1722,14 +1786,16 @@
     "name": "Sklep nurkowy"
   },
   "shop/seafood": {
-    "name": "Sklep z owocami morza"
+    "name": "Sklep z owocami morza",
+    "terms": "ryby"
   },
   "shop/second_hand": {
     "name": "Sklep z rzeczami używanymi",
     "terms": "second hand, komis"
   },
   "shop/shoes": {
-    "name": "Sklep obuwniczy"
+    "name": "Sklep obuwniczy",
+    "terms": "buty,obuwie"
   },
   "shop/sports": {
     "name": "Sklep sportowy"
@@ -1739,7 +1805,7 @@
   },
   "shop/supermarket": {
     "name": "Supermarket",
-    "terms": "supermarket"
+    "terms": "supermarket,biedronka,netto,dino"
   },
   "shop/tailor": {
     "name": "Krawiec",
@@ -1767,7 +1833,8 @@
     "terms": "Biuro podróży, "
   },
   "shop/tyres": {
-    "name": "Sklep z oponami"
+    "name": "Sklep z oponami",
+    "terms": "wulkanizator,wulkanizacja,opony"
   },
   "shop/vacant": {
     "name": "Pusty lokal sklepowy"
@@ -1779,7 +1846,7 @@
     "name": "Sklep z różnościami"
   },
   "shop/video": {
-    "name": "Sklep wideo"
+    "name": "Sklep/wypożyczalnia z filmami wideo/dvd"
   },
   "shop/video_games": {
     "name": "Sklep z grami wideo"
@@ -1791,7 +1858,7 @@
     "name": "Sklep z żaluzjami/roletami"
   },
   "shop/wine": {
-    "name": "Winiarnia",
+    "name": "Sklep z winami",
     "terms": "Winiarnia"
   },
   "tourism": {
@@ -1802,7 +1869,7 @@
     "name": "Chata górska"
   },
   "tourism/artwork": {
-    "name": "Sztuka"
+    "name": "Rzeźba"
   },
   "tourism/attraction": {
     "name": "Atrakcja turystyczna",
@@ -1819,7 +1886,8 @@
     "name": "Drewniana chata"
   },
   "tourism/guest_house": {
-    "name": "Domek gościnny"
+    "name": "Pensjonat",
+    "terms": "dom gościnny,kwatery"
   },
   "tourism/hostel": {
     "name": "Schronisko lub hostel",
@@ -1914,8 +1982,8 @@
     "terms": "trasa"
   },
   "type/route/bicycle": {
-    "name": "Droga rowerowa",
-    "terms": "Trasa rowerowa, "
+    "name": "Trasa rowerowa",
+    "terms": "szlak rowerowy"
   },
   "type/route/bus": {
     "name": "Trasa autobusowa "
@@ -1945,7 +2013,8 @@
     "name": "Trasa pociągów"
   },
   "type/route/tram": {
-    "name": "Trasa tramwajowa"
+    "name": "Trasa tramwajowa",
+    "terms": "linia tramwajowa,trasa tramwajowa"
   },
   "type/route_master": {
     "name": "Trasa główna"

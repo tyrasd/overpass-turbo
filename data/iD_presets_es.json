@@ -116,8 +116,8 @@
     "terms": "alquiler, renta, préstamo, flete, bici, bicicleta"
   },
   "amenity/bicycle_repair_station": {
-    "name": "Estación pública de reparación de bicicletas",
-    "terms": "bicicletería, reparación, estación, taller, pública, bicicleta, bici"
+    "name": "Puesto de reparación de bicicletas",
+    "terms": "reparación, estación, puesto, bicicletería, taller, bicicleta, bici, cadena, bomba, inflador"
   },
   "amenity/biergarten": {
     "name": "Bar al aire libre",
@@ -195,9 +195,9 @@
     "name": "Dentista",
     "terms": "dentista, odontólogo"
   },
-  "amenity/doctor": {
-    "name": "Consultorio médico",
-    "terms": "médico, médica, doctor, curador, curandero, consultorio"
+  "amenity/doctors": {
+    "name": "Doctor",
+    "terms": "médico, galeno, consultorio"
   },
   "amenity/dojo": {
     "name": "Academia de artes marciales",
@@ -214,6 +214,10 @@
   "amenity/fast_food": {
     "name": "Comida rápida",
     "terms": "comida rápida,platos preparados"
+  },
+  "amenity/ferry_terminal": {
+    "name": "Terminal de ferry",
+    "terms": "ferry, ferri, transbordador, chalana, catamarán, lancha, pontón, terminal, estación"
   },
   "amenity/fire_station": {
     "name": "Estación de bomberos",
@@ -238,6 +242,10 @@
   "amenity/hospital": {
     "name": "Terreno de hospital",
     "terms": "Recinto hospitalario, hospital, clínica, terreno, área, suelo"
+  },
+  "amenity/hunting_stand": {
+    "name": "Puesto de caza",
+    "terms": "caza, puesto, caseta"
   },
   "amenity/kindergarten": {
     "name": "Terreno de preescolar/Jardín de infancia",
@@ -266,6 +274,10 @@
   "amenity/parking_entrance": {
     "name": "Entrada/Salida del estacionamiento",
     "terms": "Entrada/Salida del aparcamiento, coche, carro, auto, automóvil, vehículo, aparcamiento, parking, aparcadero, estacionamiento, garaje, parqueadero, parqueo"
+  },
+  "amenity/parking_space": {
+    "name": "Zona de aparcamiento",
+    "terms": "aparcamiento, estacionamiento, lugar, zona, área, plaza"
   },
   "amenity/pharmacy": {
     "name": "Farmacia",
@@ -364,7 +376,7 @@
     "terms": "piscina,estanque,pileta"
   },
   "amenity/taxi": {
-    "name": "Parada de taxis",
+    "name": "Parada de taxi",
     "terms": "taxi, parada"
   },
   "amenity/telephone": {
@@ -434,6 +446,14 @@
   "amenity/waste_basket": {
     "name": "Cesto ",
     "terms": "papelera, papelero, cubo, contenedor, basura, papeles, deshecho, tacho"
+  },
+  "amenity/waste_disposal": {
+    "name": "Contenedor de residuos",
+    "terms": "residuo, basura, desperdicio, contenedor, depósito, basurero"
+  },
+  "amenity/water_point": {
+    "name": "Agua potable para casa rodante",
+    "terms": "casa rodante, autocaravana, motorhome, camper, agua potable"
   },
   "area": {
     "name": "Área",
@@ -1076,8 +1096,8 @@
     "terms": "círculo de giro, cul de sac"
   },
   "highway/unclassified": {
-    "name": "Carretera sin clasificación",
-    "terms": "Carretera sin clasificación, Carretera sin clasificar"
+    "name": "Carretera menor",
+    "terms": "carretera, camino, menor, no clasificado, sin clasificación"
   },
   "historic": {
     "name": "Lugar histórico",
@@ -1315,9 +1335,13 @@
     "name": "Rampa para botes",
     "terms": "Grada, rampa, rampa para botes"
   },
-  "leisure/sports_center": {
-    "name": "Polideportivo / Gimnasio",
-    "terms": "centro deportivo, club deportivo, club atlético, gimnasio, recinto deportivo, polideportivo"
+  "leisure/sports_centre": {
+    "name": "Instalación deportiva / Gimnasio",
+    "terms": "Centro de deportes, Deportes, Gimnasio, Instalación Deportiva"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "Natatorio",
+    "terms": "Natatorio, piscina, pileta, alberca"
   },
   "leisure/stadium": {
     "name": "Estadio",
@@ -1331,13 +1355,17 @@
     "name": "Pista de carreras (no motorizado)",
     "terms": "pista, hipódromo"
   },
+  "leisure/water_park": {
+    "name": "Parque acuático",
+    "terms": "Parque acuático, parque de agua"
+  },
   "line": {
     "name": "Línea",
     "terms": "línea, linea"
   },
   "man_made": {
     "name": "Estructura artificial creada por el hombre",
-    "terms": "estructura, artificial, hecho por el hombre, creado por el hombre"
+    "terms": "estructura, construcción, artificial, hecho, creado, construido, hombre"
   },
   "man_made/adit": {
     "name": "Socavón",
@@ -1346,6 +1374,10 @@
   "man_made/breakwater": {
     "name": "Rompeolas",
     "terms": "cortaolas, rompeolas, malecón"
+  },
+  "man_made/chimney": {
+    "name": "Chimenea",
+    "terms": "chimenea, fogón, fuego"
   },
   "man_made/cutline": {
     "name": "Línea de corte forestal",
@@ -1358,6 +1390,14 @@
   "man_made/flagpole": {
     "name": "Asta de bandera",
     "terms": "mástil, mastil, asta de bandera, astabandera"
+  },
+  "man_made/gasometer": {
+    "name": "Gasómetro",
+    "terms": "gasómetro, gas, depósito, contenedor, tanque"
+  },
+  "man_made/groyne": {
+    "name": "Escollera",
+    "terms": "escollera, rompeola, espigón, espolón, erosión, playa"
   },
   "man_made/lighthouse": {
     "name": "Faro",
@@ -1391,6 +1431,10 @@
     "name": "Tanque de almacenamiento",
     "terms": "tanque, depósito, deposito, almacenamiento, líquido, gas, petróleo"
   },
+  "man_made/surveillance": {
+    "name": "Vigilancia",
+    "terms": "vigilancia, observación, supervisión, cámara, control, seguridad, cctv"
+  },
   "man_made/survey_point": {
     "name": "Punto geodésico",
     "terms": "vértice geodésico, punto geodésico"
@@ -1414,6 +1458,10 @@
   "man_made/water_works": {
     "name": "Obras hidráulicas",
     "terms": "obras hidráulicas, obras hidraulicas, obra Hidráulica, obras sanitarias, obras hídricas, infraestructura hidráulica"
+  },
+  "man_made/works": {
+    "name": "Fábrica",
+    "terms": "fábrica, factoría, manofactura, industria, taller, emsamblaje"
   },
   "military/airfield": {
     "name": "Base aérea militar",
@@ -1961,7 +2009,7 @@
   },
   "shop/farm": {
     "name": "Tienda de productos agrícolas",
-    "terms": "granja, agrícola, productos agrícolas, productos de granja"
+    "terms": "granja, agrícola, productos, puesto, caseta"
   },
   "shop/fashion": {
     "name": "Tienda de moda",
@@ -2300,12 +2348,12 @@
     "terms": "zoo, zoológico "
   },
   "traffic_calming/bump": {
-    "name": "Badén corto",
-    "terms": "badén, guardia tumbado, lomo de burro, lomo de toro, resalto, resalte, tope, rompemuelle, túmulo, calmado de tráfico"
+    "name": "Reductor de velocidad corto",
+    "terms": "badén, guardia tumbado, lomo de burro, lomo de toro, resalto, resalte, tope, rompemuelle, túmulo, calmado de tráfico, reductor de velocidad"
   },
   "traffic_calming/hump": {
-    "name": "Badén largo",
-    "terms": "badén, guardia tumbado, lomo de burro, lomo de toro, resalto, resalte, tope, rompemuelle, túmulo"
+    "name": "Reductor de velocidad largo",
+    "terms": "badén, guardia tumbado, lomo de burro, lomo de toro, resalto, resalte, tope, rompemuelle, túmulo, calmado de tráfico, reductor de velocidad"
   },
   "traffic_calming/rumble_strip": {
     "name": "Banda sonora reductora de velocidad",
@@ -2419,6 +2467,10 @@
     "name": "Vía fluvial",
     "terms": "cauce, acueducto, fluvial, agua, vía navegable, vía fluvial, vía marítima"
   },
+  "waterway/boatyard": {
+    "name": "Astillero",
+    "terms": "astillero, varadero, bote, lancha, embarcación"
+  },
   "waterway/canal": {
     "name": "Canal",
     "terms": "canaleta, canaleja, canalón, canalizo, cauce, canal, canales"
@@ -2430,6 +2482,10 @@
   "waterway/ditch": {
     "name": "Acequia",
     "terms": "zanja, zanjas, acequia, foso, cuneta, hoyo"
+  },
+  "waterway/dock": {
+    "name": "Dársena",
+    "terms": "dársena, carga, barco, bote, lancha, embarcación"
   },
   "waterway/drain": {
     "name": "Desagüe",
@@ -2454,6 +2510,10 @@
   "waterway/stream": {
     "name": "Arroyo / Riachuelo",
     "terms": "torrente, riachuelo, arroyuelo, regato, reguero, torrentera, rivera, corriente, afluente, arroyo, arroyos, flujo, flujos, corrientes, chorro, cauce"
+  },
+  "waterway/water_point": {
+    "name": "Agua potable de mar",
+    "terms": "agua potable, agua marina, marino, mar"
   },
   "waterway/weir": {
     "name": "Represa",

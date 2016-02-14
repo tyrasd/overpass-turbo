@@ -104,7 +104,7 @@
     "terms": "Lloguer de bicicletes, Servei de lloguer de bicicletes"
   },
   "amenity/bicycle_repair_station": {
-    "name": "Punt de reparació de bicicletes"
+    "name": "Lloc de reparació de Bicicletes"
   },
   "amenity/biergarten": {
     "name": "Biergarten"
@@ -169,7 +169,7 @@
   "amenity/dentist": {
     "name": "Dentista"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "Doctor"
   },
   "amenity/dojo": {
@@ -186,6 +186,9 @@
   "amenity/fast_food": {
     "name": "Local de menjar ràpid",
     "terms": "Menjar ràpid, servei de menjar ràpid, restaurant de menjar ràpid, Local de menjar ràpid"
+  },
+  "amenity/ferry_terminal": {
+    "name": "Terminal de Ferry"
   },
   "amenity/fire_station": {
     "name": "Parc de bombers",
@@ -210,6 +213,9 @@
     "name": "Hospital",
     "terms": "Hospital, centre hospitalari, policlínica, clínica, CAP, Centre d'atenció primària, Centre de salut, Centre, Atenció, Primària, Centre d'Atenció Primària."
   },
+  "amenity/hunting_stand": {
+    "name": "Punt de caça"
+  },
   "amenity/kindergarten": {
     "name": "Centre preescolar"
   },
@@ -233,6 +239,9 @@
   },
   "amenity/parking_entrance": {
     "name": "Entrada de Garatge/Sortida"
+  },
+  "amenity/parking_space": {
+    "name": "Espai d'aparcament"
   },
   "amenity/pharmacy": {
     "name": "Farmàcia",
@@ -379,6 +388,9 @@
   "amenity/waste_basket": {
     "name": "Paperera",
     "terms": "Paperera, Basura, Paperera pública, Contenidor, deixalles, brossa"
+  },
+  "amenity/waste_disposal": {
+    "name": "Contenidor d'escombraries"
   },
   "area": {
     "name": "Àrea",
@@ -927,8 +939,7 @@
     "terms": "Girar 180 graus, Canviar de sentit"
   },
   "highway/unclassified": {
-    "name": "Altres carreteres",
-    "terms": "Carretera municipal"
+    "name": "Carretera local"
   },
   "historic": {
     "name": "Lloc històric",
@@ -1142,9 +1153,6 @@
     "name": "Pendent per a embarcacions",
     "terms": "Varador"
   },
-  "leisure/sports_center": {
-    "name": "Centre d'esports / Gimnàs"
-  },
   "leisure/stadium": {
     "name": "Estadi",
     "terms": "Estadi,Camp"
@@ -1171,6 +1179,9 @@
     "name": "trencaonades",
     "terms": "Escullera,Espigó,Espatller"
   },
+  "man_made/chimney": {
+    "name": "Xemeneia"
+  },
   "man_made/cutline": {
     "name": "Línia de tall",
     "terms": "Línia de tall"
@@ -1180,6 +1191,12 @@
   },
   "man_made/flagpole": {
     "name": "Màstil"
+  },
+  "man_made/gasometer": {
+    "name": "Gasòmetre"
+  },
+  "man_made/groyne": {
+    "name": "Dic"
   },
   "man_made/lighthouse": {
     "name": "Far",
@@ -1208,6 +1225,9 @@
   "man_made/storage_tank": {
     "name": "Dipòsit d'emmagatzematge"
   },
+  "man_made/surveillance": {
+    "name": "Vigilància"
+  },
   "man_made/survey_point": {
     "name": "Punt referencial",
     "terms": "Punt de salvació,Punt de salvament,Punt d'evacuació"
@@ -1229,6 +1249,9 @@
   },
   "man_made/water_works": {
     "name": "Planta potabilitzadora"
+  },
+  "man_made/works": {
+    "name": "Obres"
   },
   "military/airfield": {
     "name": "Aeròdrom militar"
@@ -2069,6 +2092,9 @@
     "name": "Via aqüífera",
     "terms": "Curs fluvial"
   },
+  "waterway/boatyard": {
+    "name": "Dic sec"
+  },
   "waterway/canal": {
     "name": "Canal ",
     "terms": "Canal, Sèquia, Séquia"
@@ -2080,6 +2106,9 @@
   "waterway/ditch": {
     "name": "Séquia",
     "terms": "Séquia, Sèquia, Rara, Canal, Aigua, Via aqüífera, Torrent, Conducció d'aigua, Aqüífer, Rierol"
+  },
+  "waterway/dock": {
+    "name": "Embarcador"
   },
   "waterway/drain": {
     "name": "Torrent",
@@ -2102,6 +2131,9 @@
   "waterway/stream": {
     "name": "Rierol",
     "terms": "Séquia, rierol, Fil d'aigua, Rajolí, Riuet, Ramal, Reguer, Segla, Canal, Rec, Regueró, Sequiola, Sequió, Cavim."
+  },
+  "waterway/water_point": {
+    "name": "Aigua marina potable"
   },
   "waterway/weir": {
     "name": "Assut"

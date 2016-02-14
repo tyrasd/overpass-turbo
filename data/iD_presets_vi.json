@@ -117,7 +117,7 @@
   },
   "amenity/bicycle_repair_station": {
     "name": "Quầy Sửa Xe đạp",
-    "terms": "quầy sửa xe đạp, quay sua xe dap"
+    "terms": "quầy sửa xe đạp, xích, bơm, quay sua xe dap, xich, bom"
   },
   "amenity/biergarten": {
     "name": "Vườn Bia",
@@ -195,7 +195,7 @@
     "name": "Nha sĩ",
     "terms": "văn phòng nha sĩ, văn phòng nha sỹ, văn phòng bác sĩ nha khoa, văn phòng bác sỹ nha khoa, văn phòng chữa răng, van phong nha si, van phong nha sy, van phong bac si nha khoa, van phong bac sy nha khoa, van phong chua rang"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "Bác sĩ",
     "terms": "văn phòng bác sĩ, văn phòng bác sỹ, văn phòng thầy thuốc, van phong bac si, van phong bac sy, van phong thay thuoc"
   },
@@ -214,6 +214,10 @@
   "amenity/fast_food": {
     "name": "Nhà hàng Ăn nhanh",
     "terms": "nhà hàng ăn nhanh, quán ăn nhanh, tiệm ăn nhanh, cửa hàng ăn nhanh, food-to-go, food 2 go, nha hang an nhanh, quan an nhanh, tiem an nhanh, cua hang an nhanh"
+  },
+  "amenity/ferry_terminal": {
+    "name": "Bến Phà",
+    "terms": "bến phà, nhà ga phà, ben pha, nha ga pha"
   },
   "amenity/fire_station": {
     "name": "Trạm Cứu hỏa",
@@ -238,6 +242,10 @@
   "amenity/hospital": {
     "name": "Sân Bệnh viện",
     "terms": "sân bệnh viện, sân nhà thương, sân trung tâm y tế, san benh vien, san nha thuong, san trung tam y te"
+  },
+  "amenity/hunting_stand": {
+    "name": "Chỗ Săn Cao",
+    "terms": "chỗ săn cao, cho san cao"
   },
   "amenity/kindergarten": {
     "name": "Sân Nhà trẻ",
@@ -266,6 +274,10 @@
   "amenity/parking_entrance": {
     "name": "Lối Ra vào Ga ra",
     "terms": "lối ra vào ga ra, lối ra vào ga-ra, lối ra ga ra, lối vào ga ra, lối ra ga-ra, lối ra ga-ra, loi ra vao ga ra, loi ra vao ga-ra, loi ra ga ra, loi vao ga ra, loi ra ga-ra, loi ra ga-ra"
+  },
+  "amenity/parking_space": {
+    "name": "Chỗ Đậu xe",
+    "terms": "chỗ đậu xe, chỗ đỗ xe, nơi đậu xe, nơi đỗ xe, cho dau xe, cho do xe, noi dau xe, noi do xe"
   },
   "amenity/pharmacy": {
     "name": "Nhà thuốc",
@@ -434,6 +446,14 @@
   "amenity/waste_basket": {
     "name": "Thùng rác",
     "terms": "thùng rác, sọt rác, thung rac, sot rac"
+  },
+  "amenity/waste_disposal": {
+    "name": "Thùng Rác Lớn",
+    "terms": "thùng rác lớn, thùng rác công nghiệp, thung rac lon, thung rac cong nghiep"
+  },
+  "amenity/water_point": {
+    "name": "Vòi Nước uống dành cho Nhà lưu động",
+    "terms": "vòi nước uống dành cho nhà lưu động, máy nước uống dành cho nhà lưu động, trạm nước uống dành cho nhà lưu động, voi nuoc uong danh cho nha luu dong, may nuoc uong danh cho nha luu dong, tram nuoc uong danh cho nha luu dong"
   },
   "area": {
     "name": "Vùng",
@@ -1315,9 +1335,13 @@
     "name": "Đường Trượt tàu",
     "terms": "đường trượt tàu, duong truot tau"
   },
-  "leisure/sports_center": {
+  "leisure/sports_centre": {
     "name": "Trung tâm Thể dục Thể thao",
-    "terms": "trung tâm thể thao, trung tâm thể dục, tòa nhà thể thao, toà nhà thể thao, tòa nhà thể dục, toà nhà thể dục, trung tâm bơi lội, trung tâm spa, trung tâm thể dục, sân vận động trong nhà, SVĐ trong nhà, trung tam the thao, trung tam theo duc, toa nha the thao, toa nha the duc, trung tam boi loi, trung tam spa, trung tam the duc, san van dong trong nha, svd trong nha"
+    "terms": "trung tâm thể thao, trung tâm thể dục, tòa nhà thể thao, toà nhà thể thao, tòa nhà thể dục, toà nhà thể dục, trung tâm thể dục, sân vận động trong nhà, SVĐ trong nhà, trung tam the thao, trung tam theo duc, toa nha the thao, toa nha the duc, trung tam the duc, san van dong trong nha, svd trong nha"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "Trung tâm Bơi lội",
+    "terms": "trung tâm bơi lội, trung tâm spa, trung tam boi loi, trung tam spa"
   },
   "leisure/stadium": {
     "name": "Sân vận động",
@@ -1330,6 +1354,10 @@
   "leisure/track": {
     "name": "Đường Đua (Không phải Ô tô)",
     "terms": "đường đua, trường đua, đường đua ngựa, đường đua xe đạp, duong dua, truong dua, duong dua ngua, duong dua xe dap"
+  },
+  "leisure/water_park": {
+    "name": "Công viên Nước",
+    "terms": "công viên nước, công viên chơi nước, cong vien nuoc, cong vien choi nuoc"
   },
   "line": {
     "name": "Đường kẻ",
@@ -1347,6 +1375,10 @@
     "name": "Đê Chắn Sóng",
     "terms": "đê chắn sóng, de chan song"
   },
+  "man_made/chimney": {
+    "name": "Ống khói",
+    "terms": "ống khói, lò sưởi, ong khoi, lo suoi"
+  },
   "man_made/cutline": {
     "name": "Vành đai Chặt cây",
     "terms": "vành đai chặt cây, hàng cây chặt, vanh dai chat cay, hang cay chat"
@@ -1358,6 +1390,14 @@
   "man_made/flagpole": {
     "name": "Cột cờ",
     "terms": "cột cờ, kỳ đài, kì đài, cot co, ky dai, ki dai"
+  },
+  "man_made/gasometer": {
+    "name": "Bể Khí",
+    "terms": "bể khí, bể chứa khí, bể đựng khí, thùng chứa khí, thùng đựng khí, be khi, be chua khi, be dung khi, thung chua khi, thung dung khi"
+  },
+  "man_made/groyne": {
+    "name": "Đê Chắn Sóng",
+    "terms": "đê chắn sóng, đập chắn sóng, êpi, ê-pi, đê biển, de chan song, dap chan song, epi, e-pi"
   },
   "man_made/lighthouse": {
     "name": "Hải đăng",
@@ -1391,6 +1431,10 @@
     "name": "Thùng Chứa",
     "terms": "thùng chứa, bể chứa, bình chứa, xi-téc, xi-tẹc, bể nước, thung chua, be chua, binh chua, xi-tec, be nuoc"
   },
+  "man_made/surveillance": {
+    "name": "Camera Giám sát",
+    "terms": "camera giám sát, máy ảnh giám sát, giám sát, camera giam sat, may anh giam sat, giám sát"
+  },
   "man_made/survey_point": {
     "name": "Điểm Khảo sát",
     "terms": "điểm khảo sát, diem khao sat"
@@ -1414,6 +1458,10 @@
   "man_made/water_works": {
     "name": "Nhà máy Nước",
     "terms": "nhà máy nước, nha may nuoc"
+  },
+  "man_made/works": {
+    "name": "Nhà máy",
+    "terms": "nhà máy, hãng, xưởng, nha may, hang, xuong"
   },
   "military/airfield": {
     "name": "Căn cứ Không quân",
@@ -2419,6 +2467,10 @@
     "name": "Đường sông",
     "terms": "đường sông, dòng nước, duong song, dong nuoc"
   },
+  "waterway/boatyard": {
+    "name": "Xưởng Đóng Tàu",
+    "terms": "xưởng đóng tàu, xưởng đóng thuyền, xuong dong tau, xuong dong thuyen"
+  },
   "waterway/canal": {
     "name": "Kênh đào",
     "terms": "kênh đào, sông đào, kenh dao, song dao"
@@ -2430,6 +2482,10 @@
   "waterway/ditch": {
     "name": "Mương",
     "terms": "hào, rãnh, mương, hao, ranh, muong"
+  },
+  "waterway/dock": {
+    "name": "Vũng Tàu",
+    "terms": "vũng tàu, vũng tàu đậu, xưởng đóng tàu, xưởng sửa chữa tàu, vung tau, vung tau dau, xuong dong tau, xuong sau chua tau"
   },
   "waterway/drain": {
     "name": "Cống",
@@ -2454,6 +2510,10 @@
   "waterway/stream": {
     "name": "Dòng suối",
     "terms": "dòng suối, dòng chảy, dong suoi, dong chay"
+  },
+  "waterway/water_point": {
+    "name": "Vòi Nước uống dành cho Tàu biển",
+    "terms": "vòi nước uống dành cho tàu biển, máy nước uống dành cho tàu biển, trạm nước uống dành cho tàu biển, voi nuoc uong danh cho tau bien, may nuoc uong danh cho tau bien, tram nuoc uong danh cho tau bien"
   },
   "waterway/weir": {
     "name": "Đập Tràn",

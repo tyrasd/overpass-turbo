@@ -116,8 +116,8 @@
     "terms": "Cykeluthyrning, cykellån, cykelleasing, lånecykel, hyrcykel, cykel"
   },
   "amenity/bicycle_repair_station": {
-    "name": "Station för cykelreparation ",
-    "terms": "Cykelreparation, kedjebrytare, cykelpump, tryckluft, pumpstation, cykel, "
+    "name": "Station för cykelreparation",
+    "terms": "Cykelreparation, kedjebrytare, cykelpump, tryckluft, pumpstation, cykel,"
   },
   "amenity/biergarten": {
     "name": "Ölträdgård",
@@ -195,7 +195,7 @@
     "name": "Tandläkare",
     "terms": "Tandläkare, tanddoktor, odontolog, tandhygienist, tänder, tandborstning, tand, tandhygien"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "Doktor",
     "terms": "Doktor, vårdcentral, sjukhus, klinik, vårdinrättning, läkare, läkare, doktor, sjukvårdare, sjukvård"
   },
@@ -214,6 +214,10 @@
   "amenity/fast_food": {
     "name": "Snabbmat",
     "terms": "Snabbmat, skräpmat, gatuköksmat, bukfylla, junk-food, gatukök, restaurang"
+  },
+  "amenity/ferry_terminal": {
+    "name": "Färjeterminal",
+    "terms": "Färjeterminal, terminal, färja, båtterminal, båthållplats"
   },
   "amenity/fire_station": {
     "name": "Brandstation",
@@ -238,6 +242,10 @@
   "amenity/hospital": {
     "name": "Sjukhusområde",
     "terms": "Sjukhusområde, lasarett, sjukhus, klinik, läkare, läkarmottagning, sjukvård, sjukstuga, vårdhem, sjuk, kirurgi"
+  },
+  "amenity/hunting_stand": {
+    "name": "Jakttorn",
+    "terms": "Jakttorn, älgtorn, Skjutstege"
   },
   "amenity/kindergarten": {
     "name": "Förskoleområde",
@@ -266,6 +274,10 @@
   "amenity/parking_entrance": {
     "name": "In- och utfart parkeringsgarage",
     "terms": "garage, parkeringshus, infart, utfart"
+  },
+  "amenity/parking_space": {
+    "name": "Parkeringsruta",
+    "terms": "Enskild parkeringsplats, parkeringsyta, parkeringsficka, handikapsparkering, handikapsficka, Parkeringsruta"
   },
   "amenity/pharmacy": {
     "name": "Läkemedel",
@@ -432,8 +444,16 @@
     "terms": "Veterinär, djurläkare, djurdoktor, djurklinik, djursjukhus"
   },
   "amenity/waste_basket": {
-    "name": "Soptunna",
+    "name": "Soptunna (liten)",
     "terms": "Soptunna, papperskorg, sopkärl, papperskärl, skräpkorg, avfallskorg, skräp, sopor"
+  },
+  "amenity/waste_disposal": {
+    "name": "Soptunna (hushålls- eller industrisopor)",
+    "terms": "Soptunna, avfallstunna, sopkärl, sopor, hushållssopor, industrisopor, avfall, avfallskärl, avfallskontainer"
+  },
+  "amenity/water_point": {
+    "name": "Dricksvatten för campingfordon",
+    "terms": "Dricksvatten för campingfordon, Dricksvatten, vattenpåfyllning"
   },
   "area": {
     "name": "Yta",
@@ -1315,9 +1335,9 @@
     "name": "Stapelbädd",
     "terms": "Stapelbädd, Sjösättningsplats, staplar, varv, docka, fartygsdocka, torrdocka, båtramp, sjösättning, båtramp"
   },
-  "leisure/sports_center": {
+  "leisure/sports_centre": {
     "name": "Sportcenter / Gym",
-    "terms": "Sportcenter, gym,  sportanläggning, idrottshall, träning"
+    "terms": "Sportcenter, gym, idrottsanläggning, idrottsplats, sportpalats, simhall, motion, träningsanläggning, idrottshall, träning, sporthall, idrottsplan"
   },
   "leisure/stadium": {
     "name": "Stadium",
@@ -1347,6 +1367,10 @@
     "name": "Vågbrytare",
     "terms": "Vågbrytare, pir, hamnarm, vågskydd, fördämning, hamnpir"
   },
+  "man_made/chimney": {
+    "name": "Skorsten",
+    "terms": "skorsten, rökgång"
+  },
   "man_made/cutline": {
     "name": "Snittlinje i skog",
     "terms": "Snittlinje, skiljelinje, rågång, gränslinje, gräns, brandgata, skogssektion, skidspår, pipeline, rörgata, pipelinegata, jaktgata,  skogsområde, domän"
@@ -1358,6 +1382,14 @@
   "man_made/flagpole": {
     "name": "Flaggstolpe",
     "terms": "Flaggstång, flagga"
+  },
+  "man_made/gasometer": {
+    "name": "Gasklocka",
+    "terms": "Gasklocka, gasbehållare, gas, gasometer, cistern, gascistern, stadsgas, naturgas"
+  },
+  "man_made/groyne": {
+    "name": "Hövd, vågbrytare vinkelrätt mot kusten",
+    "terms": "hövd, vågbrytare, pir, erosion, erosionsskydd"
   },
   "man_made/lighthouse": {
     "name": "Fyr",
@@ -1391,6 +1423,10 @@
     "name": "Lagringstank",
     "terms": "Lagringstank, tank, reservoar, vattentorn, cistern"
   },
+  "man_made/surveillance": {
+    "name": "Övervakning",
+    "terms": "Övervakning, övervakningskamera, övervakningsutrustning, kamera, bevakning, bevakningskamera, bevakning, bevakningskamera"
+  },
   "man_made/survey_point": {
     "name": "Trianguleringspunkt",
     "terms": "Trianguleringspunkt, triangulering, kartritning, fixpunkt"
@@ -1414,6 +1450,10 @@
   "man_made/water_works": {
     "name": "Vattenverk",
     "terms": "Vattenverk, vattenreningsanläggning, vattenreningsverk,\nvattenanläggning, vatten"
+  },
+  "man_made/works": {
+    "name": "Fabrik",
+    "terms": "Fabrik, tillverkning, fabrikstillverkning, industri, verkstad,  fabriksbyggnad"
   },
   "military/airfield": {
     "name": "Flygfält",
@@ -2419,6 +2459,10 @@
     "name": "Vattenväg",
     "terms": "Vattenväg, vattenflöde"
   },
+  "waterway/boatyard": {
+    "name": "Båtvarv",
+    "terms": "Båtvarv, varv, båtställplats, vinterförvaring,uppläggningsplats"
+  },
   "waterway/canal": {
     "name": "Kanal",
     "terms": "Kanal, vattenväg, vattenled"
@@ -2430,6 +2474,10 @@
   "waterway/ditch": {
     "name": "Dike",
     "terms": "Dike, fåra"
+  },
+  "waterway/dock": {
+    "name": "Docka",
+    "terms": "Docka, båtvarv, båtdocka, fartygsdocka, fartygsvarv, varv"
   },
   "waterway/drain": {
     "name": "Dränering",
@@ -2454,6 +2502,10 @@
   "waterway/stream": {
     "name": "Bäck",
     "terms": "vattendrag, bäck, dike, biflöde, flöde, ström, flod, flöde, rännil, biflod"
+  },
+  "waterway/water_point": {
+    "name": "Dricksvatten för båt",
+    "terms": "Dricksvatten för båt, Dricksvatten, vattenpåfyllning, vattentank"
   },
   "waterway/weir": {
     "name": "Damm",

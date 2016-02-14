@@ -177,6 +177,7 @@
   "dialog.repair_query": "correggi la richiesta",
   "dialog.continue_anyway": "continua ugualmente",
   "dialog.show_data": "mostra i dati",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "componi ed esegui una query",
   "dialog.delete_query.title": "Eliminare la query?",
   "dialog.delete_query.expl": "Vuoi veramente cancellare la seguente richiesta",

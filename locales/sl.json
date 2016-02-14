@@ -177,6 +177,7 @@
   "dialog.repair_query": "popravi poizvedbo",
   "dialog.continue_anyway": "vseeno nadaljuj",
   "dialog.show_data": "show data",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "build and run query",
   "dialog.delete_query.title": "Izbrišem poizvedbo?",
   "dialog.delete_query.expl": "Do you really want to delete the following query",

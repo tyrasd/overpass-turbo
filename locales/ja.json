@@ -177,6 +177,7 @@
   "dialog.repair_query": "クエリの修復",
   "dialog.continue_anyway": "処理を続行",
   "dialog.show_data": "データ表示",
+  "dialog.wizard_build": "クエリ生成",
   "dialog.wizard_run": "クエリを作成して実行",
   "dialog.delete_query.title": "クエリを削除しますか？",
   "dialog.delete_query.expl": "以下のクエリを削除してよいでしょうか",

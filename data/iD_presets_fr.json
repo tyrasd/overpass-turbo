@@ -116,8 +116,8 @@
     "terms": "Location de vélo, Location de bicyclette"
   },
   "amenity/bicycle_repair_station": {
-    "name": "Station de réparation de vélos",
-    "terms": "Borne de réparation de vélos,Point de réparation de vélos"
+    "name": "Stand D'outils De Réparation De Vélos",
+    "terms": "Magasin de vélos , Atelier De Réparation De Vélos"
   },
   "amenity/biergarten": {
     "name": "Brasserie de plein air",
@@ -181,7 +181,7 @@
   },
   "amenity/community_centre": {
     "name": "Salle des fêtes",
-    "terms": "Salle festive, Salle polyvalente, Centre communautaire"
+    "terms": "Salle festive, Salle polyvalente, Centre communautaire, Salle des associations"
   },
   "amenity/compressed_air": {
     "name": "Air comprimé",
@@ -195,7 +195,7 @@
     "name": "Dentiste",
     "terms": "Dentiste"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "Médecin",
     "terms": "Docteur, Médecin"
   },
@@ -214,6 +214,10 @@
   "amenity/fast_food": {
     "name": "Restauration rapide",
     "terms": "Fast Food, Restauration Rapide"
+  },
+  "amenity/ferry_terminal": {
+    "name": "Terminal ferry",
+    "terms": "Terminal des ferries, Gare maritime"
   },
   "amenity/fire_station": {
     "name": "Caserne de pompiers",
@@ -238,6 +242,10 @@
   "amenity/hospital": {
     "name": "Terrains d'hôpital",
     "terms": "Terrains d'hôpital"
+  },
+  "amenity/hunting_stand": {
+    "name": "Mirador",
+    "terms": "Mirador"
   },
   "amenity/kindergarten": {
     "name": "Terrains d'école maternelle / jardin d'enfants",
@@ -266,6 +274,10 @@
   "amenity/parking_entrance": {
     "name": "Entrée/Sortie de parking",
     "terms": "Entrée/Sortie de parking"
+  },
+  "amenity/parking_space": {
+    "name": "Place de parking",
+    "terms": "Parking, Zone de stationnement"
   },
   "amenity/pharmacy": {
     "name": "Pharmacie",
@@ -434,6 +446,14 @@
   "amenity/waste_basket": {
     "name": "Corbeille",
     "terms": "Corbeille, Poubelle"
+  },
+  "amenity/waste_disposal": {
+    "name": "Bac à déchets",
+    "terms": "Benne à ordures, poubelle"
+  },
+  "amenity/water_point": {
+    "name": "Eau potable",
+    "terms": "Eau potable"
   },
   "area": {
     "name": "Polygone",
@@ -1076,8 +1096,8 @@
     "terms": "Point de retournement"
   },
   "highway/unclassified": {
-    "name": "Route de desserte locale",
-    "terms": "Route inconnue"
+    "name": "Route secondaire",
+    "terms": "Voie secondaire"
   },
   "historic": {
     "name": "Site historique",
@@ -1315,9 +1335,13 @@
     "name": "Plan incliné",
     "terms": "Cale de lancement, Cale, Cale de mise à l'eau"
   },
-  "leisure/sports_center": {
+  "leisure/sports_centre": {
     "name": "Centre sportif / Salle de gymnastique",
-    "terms": "Centre sportif,Salle de sport,Gymnase,Terrain de sport,Piscine"
+    "terms": "Centre sportif,Salle de sport"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "Piscine",
+    "terms": "Piscine"
   },
   "leisure/stadium": {
     "name": "Stade",
@@ -1330,6 +1354,10 @@
   "leisure/track": {
     "name": "Piste de course (sports non motorisés)",
     "terms": "Piste de course (sports non motorisés)"
+  },
+  "leisure/water_park": {
+    "name": "Parc à thème aquatique",
+    "terms": "Parc d'attractions aquatiques"
   },
   "line": {
     "name": "Ligne",
@@ -1347,6 +1375,10 @@
     "name": "Brise-lames",
     "terms": "Brise-lames"
   },
+  "man_made/chimney": {
+    "name": "Cheminée",
+    "terms": "Cheminée"
+  },
   "man_made/cutline": {
     "name": "Ligne de coupe",
     "terms": "ligne de coupe forestière"
@@ -1358,6 +1390,14 @@
   "man_made/flagpole": {
     "name": "Porte-drapeau",
     "terms": "Hampe"
+  },
+  "man_made/gasometer": {
+    "name": "Gazomètre",
+    "terms": "Gazomètre"
+  },
+  "man_made/groyne": {
+    "name": "Épi maritime",
+    "terms": "épi maritime"
   },
   "man_made/lighthouse": {
     "name": "Phare",
@@ -1391,6 +1431,10 @@
     "name": "Réservoir de stockage",
     "terms": "Silo de stockage"
   },
+  "man_made/surveillance": {
+    "name": "Caméra de surveillance",
+    "terms": "caméra, vidéo"
+  },
   "man_made/survey_point": {
     "name": "Poteau de triangulation",
     "terms": "Borne géodésique, monument géodésique, repère géodésique"
@@ -1414,6 +1458,10 @@
   "man_made/water_works": {
     "name": "Station de pompage d'eau potable",
     "terms": "Station de pompage"
+  },
+  "man_made/works": {
+    "name": "Usine",
+    "terms": "usine, site industriel"
   },
   "military/airfield": {
     "name": "Aérodrome",
@@ -2419,6 +2467,10 @@
     "name": "Voie navigable",
     "terms": "Voie d'eau, Cours d'eau"
   },
+  "waterway/boatyard": {
+    "name": "Chantier naval",
+    "terms": "Chantier naval, Chantier maritime"
+  },
   "waterway/canal": {
     "name": "Canal",
     "terms": "Canal"
@@ -2430,6 +2482,10 @@
   "waterway/ditch": {
     "name": "Fossé",
     "terms": "Fossé"
+  },
+  "waterway/dock": {
+    "name": "Quai",
+    "terms": "Quai, Dock"
   },
   "waterway/drain": {
     "name": "Canal d'évacuation d'eau pluviale",
@@ -2454,6 +2510,10 @@
   "waterway/stream": {
     "name": "Ruisseau",
     "terms": "Ruisseau"
+  },
+  "waterway/water_point": {
+    "name": "Eau potable",
+    "terms": "Eau potable"
   },
   "waterway/weir": {
     "name": "Seuil",

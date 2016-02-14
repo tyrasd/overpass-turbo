@@ -447,6 +447,10 @@
     "name": "Waste Basket",
     "terms": "bin,rubbish,litter,trash,garbage"
   },
+  "amenity/waste_disposal": {
+    "name": "Garbage Dumpster",
+    "terms": "rubbish,litter,trash"
+  },
   "amenity/water_point": {
     "name": "RV Drinking Water",
     "terms": ""
@@ -1092,7 +1096,7 @@
     "terms": "cul-de-sac"
   },
   "highway/unclassified": {
-    "name": "Unclassified Road",
+    "name": "Minor Road",
     "terms": ""
   },
   "historic": {
@@ -1331,9 +1335,13 @@
     "name": "Slipway",
     "terms": "boat launch,boat ramp"
   },
-  "leisure/sports_center": {
+  "leisure/sports_centre": {
     "name": "Sports Center / Gym",
     "terms": "gym"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "Swimming Pool Facility",
+    "terms": "dive,water"
   },
   "leisure/stadium": {
     "name": "Stadium",
@@ -1341,11 +1349,15 @@
   },
   "leisure/swimming_pool": {
     "name": "Swimming Pool",
-    "terms": ""
+    "terms": "dive,water"
   },
   "leisure/track": {
     "name": "Racetrack (non-Motorsport)",
     "terms": ""
+  },
+  "leisure/water_park": {
+    "name": "Water Park",
+    "terms": "swim,pool,dive"
   },
   "line": {
     "name": "Line",
@@ -1363,6 +1375,10 @@
     "name": "Breakwater",
     "terms": ""
   },
+  "man_made/chimney": {
+    "name": "Chimney",
+    "terms": ""
+  },
   "man_made/cutline": {
     "name": "Cut line",
     "terms": ""
@@ -1373,6 +1389,14 @@
   },
   "man_made/flagpole": {
     "name": "Flagpole",
+    "terms": ""
+  },
+  "man_made/gasometer": {
+    "name": "Gasometer",
+    "terms": "gas holder"
+  },
+  "man_made/groyne": {
+    "name": "Groyne",
     "terms": ""
   },
   "man_made/lighthouse": {
@@ -1407,6 +1431,10 @@
     "name": "Storage Tank",
     "terms": "water,oil,gas,petrol"
   },
+  "man_made/surveillance": {
+    "name": "Surveillance",
+    "terms": ""
+  },
   "man_made/survey_point": {
     "name": "Survey Point",
     "terms": ""
@@ -1430,6 +1458,10 @@
   "man_made/water_works": {
     "name": "Water Works",
     "terms": ""
+  },
+  "man_made/works": {
+    "name": "Works",
+    "terms": "car assembly plant,aluminium processing plant,brewery,furniture manufacture factory,oil refinery,plastic recycling"
   },
   "military/airfield": {
     "name": "Airfield",
@@ -2175,6 +2207,10 @@
     "name": "Stationery Store",
     "terms": "card,paper"
   },
+  "shop/storage_rental": {
+    "name": "Storage Rental",
+    "terms": ""
+  },
   "shop/supermarket": {
     "name": "Supermarket",
     "terms": "grocery,store,shop"
@@ -2425,6 +2461,10 @@
   },
   "type/route_master": {
     "name": "Route Master",
+    "terms": ""
+  },
+  "type/site": {
+    "name": "Site",
     "terms": ""
   },
   "vertex": {

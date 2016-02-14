@@ -177,6 +177,7 @@
   "dialog.repair_query": "popravi upit",
   "dialog.continue_anyway": "svejedno nastavi",
   "dialog.show_data": "prikaži podatke",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "build and run query",
   "dialog.delete_query.title": "Obrisati upit?",
   "dialog.delete_query.expl": "Do you really want to delete the following query",

@@ -8,16 +8,16 @@
     "terms": "索道, ロープウェイ, リフト"
   },
   "aerialway/cable_car": {
-    "name": "ケーブルカー",
-    "terms": "ケーブルカー, インクライン"
+    "name": "交走式ロープウェイ",
+    "terms": "ケーブルカー, インクライン, ロープウェイ, ロープウェー, ゴンドラ, ゴンドラリフト, 索道"
   },
   "aerialway/chair_lift": {
     "name": "チェアリフト",
     "terms": "チェアリフト, 椅子リフト, いすリフト"
   },
   "aerialway/gondola": {
-    "name": "ゴンドラ",
-    "terms": "ゴンドラ"
+    "name": "循環式ロープウェイ",
+    "terms": "ゴンドラ, ロープウェイ, ロープウェー, ゴンドラリフト, 索道"
   },
   "aerialway/magic_carpet": {
     "name": "マジックカーペットリフト",
@@ -37,7 +37,7 @@
   },
   "aerialway/station": {
     "name": "索道駅",
-    "terms": "索道駅, ロープウェイ駅, リフト駅"
+    "terms": "索道駅, ロープウェイ駅, リフト駅, 駅"
   },
   "aerialway/t-bar": {
     "name": "Tバーリフト",
@@ -115,10 +115,6 @@
     "name": "レンタサイクル",
     "terms": "レンタサイクル"
   },
-  "amenity/bicycle_repair_station": {
-    "name": "自転車修理ステーション",
-    "terms": "自転車修理ステーション"
-  },
   "amenity/biergarten": {
     "name": "ビアガーデン",
     "terms": "ビアガーデン"
@@ -195,9 +191,9 @@
     "name": "歯医者",
     "terms": "歯科, 歯医者, 歯科医"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "医院",
-    "terms": "医者, 医師"
+    "terms": "町医者, 診療所"
   },
   "amenity/dojo": {
     "name": "道場",
@@ -214,6 +210,9 @@
   "amenity/fast_food": {
     "name": "ファストフード",
     "terms": "ファストフード店, ファストフード, ジャンクフード, ジャンク"
+  },
+  "amenity/ferry_terminal": {
+    "name": "フェリー乗り場"
   },
   "amenity/fire_station": {
     "name": "消防署",
@@ -386,6 +385,42 @@
   "amenity/university": {
     "name": "大学の敷地",
     "terms": "大学の敷地, キャンパス"
+  },
+  "amenity/vending_machine/cigarettes": {
+    "name": "たばこ自動販売機",
+    "terms": "たばこ, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/condoms": {
+    "name": "コンドーム自動販売機",
+    "terms": "コンドーム, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/drinks": {
+    "name": "飲料自動販売機",
+    "terms": "飲料, ジュース, 酒, 飲み物, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/excrement_bags": {
+    "name": "犬の糞入れ自動販売機",
+    "terms": "犬の糞入れ, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/news_papers": {
+    "name": "新聞自動販売機",
+    "terms": "新聞, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/parking_tickets": {
+    "name": "パーキングチケット発給機",
+    "terms": "パーキングチケット, パーキングメーター, 駐車券, 券売機, 自動券売機, 自動販売機, 自販機, 自動発券機, 発券機"
+  },
+  "amenity/vending_machine/public_transport_tickets": {
+    "name": "切符販売機",
+    "terms": "券売機, 自動券売機, 自動販売機, 自販機, 自動発券機, 発券機"
+  },
+  "amenity/vending_machine/sweets": {
+    "name": "菓子販売機",
+    "terms": "菓子,お菓子, スナック, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/vending_machine": {
+    "name": "自動販売機",
+    "terms": "自動販売機, 自販機"
   },
   "amenity/veterinary": {
     "name": "獣医",
@@ -609,7 +644,7 @@
   },
   "building/train_station": {
     "name": "駅舎",
-    "terms": "駅舎"
+    "terms": "駅舎, 駅本屋, 駅, 駅ビル"
   },
   "building/university": {
     "name": "大学",
@@ -1035,10 +1070,6 @@
     "name": "転回場",
     "terms": "転回場, 車回し"
   },
-  "highway/unclassified": {
-    "name": "一般道（2車線未満）",
-    "terms": "一般道（2車線未満）"
-  },
   "historic": {
     "name": "史跡",
     "terms": "史跡, 歴史的建造物"
@@ -1274,10 +1305,6 @@
   "leisure/slipway": {
     "name": "進水路",
     "terms": "進水路, スリップウェイ"
-  },
-  "leisure/sports_center": {
-    "name": "スポーツセンター／ジム",
-    "terms": "スポーツセンター, ジム, フィットネスクラブ"
   },
   "leisure/stadium": {
     "name": "スタジアム",
@@ -1700,8 +1727,8 @@
     "terms": "ケーブルカー"
   },
   "railway/halt": {
-    "name": "停留所",
-    "terms": "停留所, 停留場"
+    "name": "鉄道駅（停留場）",
+    "terms": "停留所, 停留場, 駅, 鉄道駅"
   },
   "railway/level_crossing": {
     "name": "踏切",
@@ -1724,8 +1751,8 @@
     "terms": "線路"
   },
   "railway/station": {
-    "name": "鉄道駅",
-    "terms": "鉄道駅, 駅"
+    "name": "鉄道駅（停車場）",
+    "terms": "鉄道駅, 駅, 停車場"
   },
   "railway/subway": {
     "name": "地下鉄",
@@ -2390,7 +2417,7 @@
   },
   "waterway/river": {
     "name": "河川",
-    "terms": "川,河川"
+    "terms": "川, 河川"
   },
   "waterway/riverbank": {
     "name": "河岸",

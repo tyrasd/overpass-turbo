@@ -80,9 +80,6 @@
   "amenity/dentist": {
     "name": "Hambaarst"
   },
-  "amenity/doctor": {
-    "name": "Arst"
-  },
   "amenity/drinking_water": {
     "name": "Joogivesi"
   },
@@ -409,10 +406,6 @@
   },
   "highway/turning_circle": {
     "name": "Ümberpööramiskoht"
-  },
-  "highway/unclassified": {
-    "name": "Olulise tähtsusega kohalik tee",
-    "terms": "Unclassified Road, Klassifitseerimata tee"
   },
   "historic": {
     "name": "Ajalooline koht"

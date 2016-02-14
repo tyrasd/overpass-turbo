@@ -177,6 +177,7 @@
   "dialog.repair_query": "napraw kwerendę",
   "dialog.continue_anyway": "kontynuuj mimo wszystko",
   "dialog.show_data": "pokaż dane",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "build and run query",
   "dialog.delete_query.title": "Skasować kwerendę?",
   "dialog.delete_query.expl": "Czy na pewno chcesz skasować następującą kwerendę",

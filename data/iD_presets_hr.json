@@ -105,9 +105,6 @@
     "name": "Najam bicikla",
     "terms": "rentanje bicikala,rentanje bicikla,iznajmljivanje bicikala,iznajmljivanje bicikla,najam bicikala,najam bicikla,rent a bike"
   },
-  "amenity/bicycle_repair_station": {
-    "name": "Bicikl servis"
-  },
   "amenity/boat_rental": {
     "name": "Najam brodova",
     "terms": "rentanje brodova,rentanje broda,iznajmljivanje brodova,iznajmljivanje broda,najam brodova,najam broda,rentanje čamaca,rentanje čamca,iznajmljivanje čamaca,iznajmljivanje čamca,najam čamaca,najam čamca,rent a boat"
@@ -170,9 +167,6 @@
   },
   "amenity/dentist": {
     "name": "Zubar"
-  },
-  "amenity/doctor": {
-    "name": "Doktor"
   },
   "amenity/dojo": {
     "name": "Škola borilačkih vještina"
@@ -774,9 +768,6 @@
   "highway/turning_circle": {
     "name": "Površina na kraju ceste za polukružno okretanje"
   },
-  "highway/unclassified": {
-    "name": "Nerazvrstana cesta"
-  },
   "historic": {
     "name": "Povijesno područje"
   },
@@ -939,9 +930,6 @@
     "name": "Navoz za brodove",
     "terms": "istezalište"
   },
-  "leisure/sports_center": {
-    "name": "Sportski centar"
-  },
   "leisure/stadium": {
     "name": "Stadion",
     "terms": "stadion,sportska arena"
@@ -1065,7 +1053,8 @@
     "terms": "planinski vrh,vrh,sljeme,vrhunac,šiljak,najviša točka"
   },
   "natural/saddle": {
-    "name": "Prijevoj"
+    "name": "Sedlo",
+    "terms": "prijevoj"
   },
   "natural/scree": {
     "name": "Sitno kamenje na strmini",

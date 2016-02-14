@@ -177,6 +177,7 @@
   "dialog.repair_query": "sửa chữa truy vấn",
   "dialog.continue_anyway": "cứ tiếp tục",
   "dialog.show_data": "xem dữ liệu",
+  "dialog.wizard_build": "biên dịch truy vấn",
   "dialog.wizard_run": "biên dịch và chạy truy vấn",
   "dialog.delete_query.title": "Xóa Truy vấn?",
   "dialog.delete_query.expl": "Bạn có chắc chắn muốn xóa truy vấn sau?",

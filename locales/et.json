@@ -177,6 +177,7 @@
   "dialog.repair_query": "paranda päring",
   "dialog.continue_anyway": "jätka ikkagi",
   "dialog.show_data": "kuva andmed",
+  "dialog.wizard_build": "loo päring",
   "dialog.wizard_run": "loo ja käivita päring",
   "dialog.delete_query.title": "Kustutada päring?",
   "dialog.delete_query.expl": "Kas soovid tõesti kustutada järgneva päringu",

@@ -177,6 +177,7 @@
   "dialog.repair_query": "修正檢索",
   "dialog.continue_anyway": "無論如何繼續",
   "dialog.show_data": "顯示資料",
+  "dialog.wizard_build": "建構檢索",
   "dialog.wizard_run": "建立並執行檢索",
   "dialog.delete_query.title": "刪除檢索？",
   "dialog.delete_query.expl": "你確定你真的要刪除下列檢索",

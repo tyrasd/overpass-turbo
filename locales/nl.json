@@ -177,6 +177,7 @@
   "dialog.repair_query": "repair query",
   "dialog.continue_anyway": "toch doorgaan",
   "dialog.show_data": "Gegevens weergeven",
+  "dialog.wizard_build": "build query",
   "dialog.wizard_run": "build and run query",
   "dialog.delete_query.title": "Query verwijderen?",
   "dialog.delete_query.expl": "Wenst u de onderstaand bevraging echt te verwijderen",

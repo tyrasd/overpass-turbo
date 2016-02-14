@@ -177,6 +177,7 @@
   "dialog.repair_query": "починить запрос",
   "dialog.continue_anyway": "всё равно продолжить",
   "dialog.show_data": "показать данные",
+  "dialog.wizard_build": "составить запрос",
   "dialog.wizard_run": "Составить и запустить запрос",
   "dialog.delete_query.title": "Удалить запрос?",
   "dialog.delete_query.expl": "Действительно удалить этот запрос",
