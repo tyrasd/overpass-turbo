@@ -129,19 +129,29 @@ var ide = new(function() {
 
     ide.waiter.addInfo("initialize page");
     // init page layout
-    if (settings.editor_width != "") {
+    var isInitialAspectPortrait = $(window).width() / $(window).height() < 0.75;
+    if (settings.editor_width != "" && !isInitialAspectPortrait) {
       $("#editor").css("width",settings.editor_width);
       $("#dataviewer").css("left",settings.editor_width);
     }
+    if (isInitialAspectPortrait) {
+      $("#editor, #dataviewer").addClass('portrait');
+    }
     // make panels resizable
     $("#editor").resizable({
-      handles:"e",
-      minWidth:"200",
-      resize: function() {
-        $(this).next().css('left', $(this).outerWidth() + 'px');
+      handles: isInitialAspectPortrait ? "s" : "e",
+      minWidth: isInitialAspectPortrait ? undefined : "200",
+      resize: function(ev) {
+        if (!isInitialAspectPortrait) {
+          $(this).next().css('left', $(this).outerWidth() + 'px');
+        } else {
+          var top = $(this).offset().top + $(this).outerHeight();
+          $(this).next().css('top', top + 'px');
+        }
         ide.map.invalidateSize(false);
       },
       stop:function() {
+        if (isInitialAspectPortrait) return;
         settings.editor_width = $("#editor").css("width");
         settings.save();
       }
