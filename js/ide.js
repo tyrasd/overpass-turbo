@@ -129,7 +129,7 @@ var ide = new(function() {
 
     ide.waiter.addInfo("initialize page");
     // init page layout
-    var isInitialAspectPortrait = $(window).width() / $(window).height() < 0.75;
+    var isInitialAspectPortrait = $(window).width() / $(window).height() < 0.8;
     if (settings.editor_width != "" && !isInitialAspectPortrait) {
       $("#editor").css("width",settings.editor_width);
       $("#dataviewer").css("left",settings.editor_width);
