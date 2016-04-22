@@ -52,7 +52,6 @@ turbo.js: \
 	js/jsmapcss/StyleList.js \
 	js/jsmapcss/RuleSet.js \
 	libs/misc.js \
-	libs/jxon.js \
 	libs/momentjs/moment-with-locales.min.js \
 	libs/osmtogeojson/osmtogeojson.js \
 	js/GeoJsonNoVanish.js \
