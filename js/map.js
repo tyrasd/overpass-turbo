@@ -94,7 +94,6 @@ $(document).ready(function() {
         $("#map_blank").remove();
     },
   };
-  styleparser.PointStyle = function() {}; styleparser.PointStyle.prototype.properties = []; // hack
   overpass.init();
   // (very raw) compatibility check
   if (jQuery.support.cors != true ||
