@@ -94,6 +94,7 @@ turbo.map.js: \
 	libs/osmtogeojson/osmtogeojson.js \
 	js/GeoJsonNoVanish.js \
 	js/OSM4Leaflet.js \
+	libs/mapbbcode/PopupIcon.js \
 	js/configs.js \
 	js/overpass.js \
 	js/query.js \
