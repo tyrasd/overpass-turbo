@@ -53,7 +53,7 @@
   },
   "aeroway/apron": {
     "name": "Aire de stationnement",
-    "terms": "Aire de manoeuvre, tarmac"
+    "terms": "Aire de manœuvre, tarmac"
   },
   "aeroway/gate": {
     "name": "Porte d'embarquement",
@@ -77,7 +77,7 @@
   },
   "aeroway/terminal": {
     "name": "Terminal aéroportuaire",
-    "terms": "Terminal, Terminal Aéroportuaire"
+    "terms": "Terminal, Terminal aéroportuaire"
   },
   "amenity": {
     "name": "Équipement",
@@ -89,7 +89,7 @@
   },
   "amenity/atm": {
     "name": "Distributeur de billets",
-    "terms": "Distributeur de billets, guichet automatique, ATM"
+    "terms": "Distributeur de billets, guichet automatique, DAB, GAB"
   },
   "amenity/bank": {
     "name": "Banque",
@@ -109,15 +109,15 @@
   },
   "amenity/bicycle_parking": {
     "name": "Parking à vélos",
-    "terms": "Parc à vélos,Parking à vélo, Parking à bicyclette, Stationnement à vélo"
+    "terms": "Parc à vélos, Parking à vélo, Parking à bicyclette, Stationnement à vélo"
   },
   "amenity/bicycle_rental": {
     "name": "Location de vélos",
     "terms": "Location de vélo, Location de bicyclette"
   },
   "amenity/bicycle_repair_station": {
-    "name": "Stand D'outils De Réparation De Vélos",
-    "terms": "Magasin de vélos , Atelier De Réparation De Vélos"
+    "name": "Stand d'outils de réparation de vélos",
+    "terms": "Magasin de vélos , Atelier de réparation de vélos"
   },
   "amenity/biergarten": {
     "name": "Brasserie de plein air",
@@ -128,7 +128,7 @@
     "terms": "Location de bateaux"
   },
   "amenity/bureau_de_change": {
-    "name": "Échange de Devises",
+    "name": "Échange de devises",
     "terms": "change, bureau de change, échange, devises, intermédiaire financier de change, banque de devises"
   },
   "amenity/bus_station": {
@@ -141,7 +141,7 @@
   },
   "amenity/car_rental": {
     "name": "Location de voiture",
-    "terms": "Location de voiture"
+    "terms": "Location de voitures"
   },
   "amenity/car_sharing": {
     "name": "Autopartage",
@@ -161,7 +161,7 @@
   },
   "amenity/childcare": {
     "name": "Nurserie/Garde d'enfants",
-    "terms": "Nurserie, Garde d'enfants"
+    "terms": "Nurserie, Garde d'enfants, Nourricerie"
   },
   "amenity/cinema": {
     "name": "Cinéma",
@@ -189,11 +189,11 @@
   },
   "amenity/courthouse": {
     "name": "Tribunal",
-    "terms": "Palais de Justice"
+    "terms": "Palais de justice"
   },
   "amenity/dentist": {
     "name": "Dentiste",
-    "terms": "Dentiste"
+    "terms": "Dentiste, Cabinet dentaire"
   },
   "amenity/doctors": {
     "name": "Médecin",
@@ -213,7 +213,7 @@
   },
   "amenity/fast_food": {
     "name": "Restauration rapide",
-    "terms": "Fast Food, Restauration Rapide"
+    "terms": "Fast Food, Restauration rapide"
   },
   "amenity/ferry_terminal": {
     "name": "Terminal ferry",
@@ -253,14 +253,14 @@
   },
   "amenity/library": {
     "name": "Bibliothèque",
-    "terms": "Bibliothèque"
+    "terms": "Bibliothèque, Médiathèque"
   },
   "amenity/marketplace": {
     "name": "Place de marché",
     "terms": "Marché"
   },
   "amenity/motorcycle_parking": {
-    "name": "Parking pour motos",
+    "name": "Parking pour motocyclettes",
     "terms": "Parc à motos,Stationnement motos"
   },
   "amenity/nightclub": {
@@ -292,8 +292,8 @@
     "terms": "Temple boudhiste"
   },
   "amenity/place_of_worship/christian": {
-    "name": "Église",
-    "terms": "Église"
+    "name": "Église chrétienne",
+    "terms": "Église, Culte chrétien"
   },
   "amenity/place_of_worship/jewish": {
     "name": "Synagogue",
@@ -314,6 +314,10 @@
   "amenity/post_office": {
     "name": "Bureau de poste",
     "terms": "Bureau de poste"
+  },
+  "amenity/prison": {
+    "name": "Terrains de prison",
+    "terms": "Enceinte de prison"
   },
   "amenity/pub": {
     "name": "Pub",
@@ -420,8 +424,8 @@
     "terms": "Distributeur de journaux"
   },
   "amenity/vending_machine/parcel_pickup_dropoff": {
-    "name": "Dépôt ou retrait de colis",
-    "terms": "Dépôt ou retrait de colis"
+    "name": "Dépôt ou retrait automatique de colis",
+    "terms": "Dépôt ou retrait de colis, Machine à colis"
   },
   "amenity/vending_machine/parking_tickets": {
     "name": "Distributeur de tickets de parking",
@@ -488,8 +492,8 @@
     "terms": "Chicane vélos, Barrière vélos"
   },
   "barrier/ditch": {
-    "name": "Fossé",
-    "terms": "Fossé"
+    "name": "Tranchée",
+    "terms": "Tranchée,Cheminement,Retranchement,Boyau"
   },
   "barrier/entrance": {
     "name": "Ouverture",
@@ -633,7 +637,7 @@
   },
   "building/residential": {
     "name": "Bâtiment résidentiel",
-    "terms": "Bâtiment résidentiel"
+    "terms": "Bâtiment résidentiel,Bâtiment d'habitations"
   },
   "building/retail": {
     "name": "Bâtiment commercial",
@@ -648,8 +652,8 @@
     "terms": "Bâtiment d'école primaire, collège, lycée  Cycles primaires et secondaires"
   },
   "building/semidetached_house": {
-    "name": "maison mitoyenne",
-    "terms": "maison jumelée"
+    "name": "Maison mitoyenne",
+    "terms": "Maison jumelée"
   },
   "building/shed": {
     "name": "Cabanon",
@@ -732,8 +736,8 @@
     "terms": "Couturier, Tailleur, Designer textile"
   },
   "craft/electrician": {
-    "name": "Electricien",
-    "terms": "Électricien"
+    "name": "Électricien",
+    "terms": "Electricien"
   },
   "craft/gardener": {
     "name": "Jardinier",
@@ -768,12 +772,12 @@
     "terms": "Serrurier"
   },
   "craft/metal_construction": {
-    "name": "Constructions métalliquess",
+    "name": "Constructions métalliques",
     "terms": "Construction métallique"
   },
   "craft/optician": {
     "name": "Opticien",
-    "terms": "Opticien"
+    "terms": "Opticien,Marchand de lunettes"
   },
   "craft/painter": {
     "name": "Peintre",
@@ -888,11 +892,11 @@
     "terms": "Entrée/Sortie,Évacuation,Porte d'entrée"
   },
   "footway/crossing": {
-    "name": "Passage piéton ",
-    "terms": "Traversée de rue"
+    "name": "Passage piéton",
+    "terms": "Traversée de rue,Passage clouté"
   },
   "footway/crosswalk": {
-    "name": "Passage piéton",
+    "name": "Passage pour piétons",
     "terms": "Passage piéton, Zébra, Passage zébré"
   },
   "footway/sidewalk": {
@@ -952,7 +956,7 @@
     "terms": "Corridor intérieur"
   },
   "highway/crossing": {
-    "name": "Passage piéton ",
+    "name": "Passage piéton",
     "terms": "Passage piéton "
   },
   "highway/crosswalk": {
@@ -972,7 +976,7 @@
     "terms": "Zone de rencontre"
   },
   "highway/mini_roundabout": {
-    "name": "Mini rond-point",
+    "name": "Mini carrefour giratoire",
     "terms": "Mini rond-point"
   },
   "highway/motorway": {
@@ -1076,8 +1080,8 @@
     "terms": "Bretelle d'accès à une route tertiaire"
   },
   "highway/track": {
-    "name": "Chemin carrossable",
-    "terms": "Piste, Piste carrossable"
+    "name": "Piste carrossable non entretenue",
+    "terms": "route forestière,piste pare-feu, chemin d'exploitation, chemin agricole,chemin non entretenu"
   },
   "highway/traffic_signals": {
     "name": "Feux tricolores",
@@ -1096,8 +1100,8 @@
     "terms": "Point de retournement"
   },
   "highway/unclassified": {
-    "name": "Route secondaire",
-    "terms": "Voie secondaire"
+    "name": "Route mineure ou non classifiée",
+    "terms": "route non classée;voie communale"
   },
   "historic": {
     "name": "Site historique",
@@ -1120,7 +1124,7 @@
     "terms": "Mémorial, Monument aux morts, statue, buste, stèle, plaque"
   },
   "historic/monument": {
-    "name": "Monument commémoratif",
+    "name": "Grand monument commémoratif",
     "terms": "Grand mémorial"
   },
   "historic/ruins": {
@@ -1160,12 +1164,12 @@
     "terms": "Cimetière"
   },
   "landuse/commercial": {
-    "name": "Zone Commerciale",
+    "name": "Zone commerciale",
     "terms": "Commerces"
   },
   "landuse/construction": {
     "name": "Construction",
-    "terms": "Construction"
+    "terms": "Construction, Chantier"
   },
   "landuse/farm": {
     "name": "Zone agricole",
@@ -1192,7 +1196,7 @@
     "terms": "Herbe"
   },
   "landuse/industrial": {
-    "name": "Zone Industrielle",
+    "name": "Zone industrielle",
     "terms": "Usines"
   },
   "landuse/landfill": {
@@ -1204,8 +1208,8 @@
     "terms": "Prairie"
   },
   "landuse/military": {
-    "name": "Zone Militaire",
-    "terms": "Zone Militaire"
+    "name": "Zone militaire",
+    "terms": "Zone militaire"
   },
   "landuse/orchard": {
     "name": "Verger",
@@ -1220,7 +1224,7 @@
     "terms": "Carrière"
   },
   "landuse/residential": {
-    "name": "Zone Résidentielle",
+    "name": "Zone résidentielle",
     "terms": "Zone d’habitation"
   },
   "landuse/retail": {
@@ -1238,6 +1242,10 @@
   "leisure/adult_gaming_centre": {
     "name": "Jeux pour adultes",
     "terms": "Jeux pour adultes"
+  },
+  "leisure/bird_hide": {
+    "name": "Observatoire ornithologique",
+    "terms": "Observatoire d'oiseaux"
   },
   "leisure/bowling_alley": {
     "name": "Bowling",
@@ -1304,7 +1312,7 @@
     "terms": "Rugby"
   },
   "leisure/pitch/rugby_union": {
-    "name": "Terrain de Rugby à XV",
+    "name": "Terrain de rugby à XV",
     "terms": "Rugby"
   },
   "leisure/pitch/skateboard": {
@@ -1480,7 +1488,7 @@
     "terms": "Poste-frontière, Point de contrôle, Poste de contrôle,Militaire"
   },
   "military/danger_area": {
-    "name": "Zone militaire dangeureuse",
+    "name": "Zone militaire dangereuse",
     "terms": "Zone dangereuse, Région dangereuse, Dangereuse, Danger,Militaire"
   },
   "military/naval_base": {
@@ -1601,7 +1609,7 @@
   },
   "office/accountant": {
     "name": "Comptable",
-    "terms": "Comptable"
+    "terms": "Comptable, Expert-comptable"
   },
   "office/administrative": {
     "name": "Bureau administratif",
@@ -1632,7 +1640,7 @@
     "terms": "Bureau financier"
   },
   "office/government": {
-    "name": "Établissement Public",
+    "name": "Établissement public",
     "terms": "Bureau du gouvernement"
   },
   "office/insurance": {
@@ -1641,7 +1649,7 @@
   },
   "office/it": {
     "name": "Bureau informatique",
-    "terms": "Bureau informatique"
+    "terms": "Bureau informatique,SSII,ESN"
   },
   "office/lawyer": {
     "name": "Cabinet d'avocats",
@@ -1668,8 +1676,8 @@
     "terms": "Centre de recherches"
   },
   "office/telecommunication": {
-    "name": "Agence télécom",
-    "terms": "Agence télécom"
+    "name": "Agence de télécommunications",
+    "terms": "Agence télécom,FAI,Opérateur"
   },
   "office/therapist": {
     "name": "Thérapeute",
@@ -1688,7 +1696,7 @@
     "terms": "Toponymie,Place"
   },
   "place/city": {
-    "name": "Grande ville (>100.000 habitants)",
+    "name": "Grande ville (plus de 100 000 habitants)",
     "terms": "Ville"
   },
   "place/farm": {
@@ -1696,7 +1704,7 @@
     "terms": "Écart"
   },
   "place/hamlet": {
-    "name": "Hameau (Moins de 100 habitants)",
+    "name": "Hameau (moins de 100 habitants)",
     "terms": "Hameau"
   },
   "place/island": {
@@ -1708,7 +1716,7 @@
     "terms": "Habitation isolée"
   },
   "place/locality": {
-    "name": "Lieu-dit (pas d'habitation)",
+    "name": "Lieu-dit sans habitation",
     "terms": "Localité"
   },
   "place/neighbourhood": {
@@ -1720,11 +1728,11 @@
     "terms": "Commune, Municipalité, District, Arrondissement, Bourough"
   },
   "place/town": {
-    "name": "Ville (10.000-100.000 habitants)",
+    "name": "Ville (de 10 000 à 100 000 habitants)",
     "terms": "Ville"
   },
   "place/village": {
-    "name": "Village (100 - 10 000 habitants)",
+    "name": "Village (de 100 à 10 000 habitants)",
     "terms": "Village"
   },
   "point": {
@@ -1733,7 +1741,7 @@
   },
   "power": {
     "name": "Énergie",
-    "terms": "Electricité"
+    "terms": "Electricité,Électricité,Energie"
   },
   "power/generator": {
     "name": "Génératrice",
@@ -1752,7 +1760,7 @@
     "terms": "Pylone électrique, Poteau éléctrique"
   },
   "power/sub_station": {
-    "name": "Transformateur",
+    "name": "Poste de transformation",
     "terms": "Sous-station"
   },
   "power/substation": {
@@ -1772,7 +1780,7 @@
     "terms": "Quai"
   },
   "public_transport/stop_position": {
-    "name": "Position exacte d’arrêt du vehicule sur le « way » d’une route de transport en commun",
+    "name": "Position exacte d’arrêt du véhicule sur le « way » d’une route de transport en commun",
     "terms": "Arrêt"
   },
   "railway": {
@@ -1820,7 +1828,7 @@
     "terms": "Gare ferroviaire, Gare, Arrêt"
   },
   "railway/subway": {
-    "name": "Métro",
+    "name": "Métropolitain",
     "terms": "Métro, Métropolitain"
   },
   "railway/subway_entrance": {
@@ -1845,14 +1853,14 @@
   },
   "shop": {
     "name": "Magasin",
-    "terms": "Magasin"
+    "terms": "Magasin,Boutique"
   },
   "shop/alcohol": {
     "name": "Magasin de vente d'alcool",
     "terms": "Cave, Caviste, Magasin de vin, Vins & Spiritueux"
   },
   "shop/anime": {
-    "name": "Boutique d' \"animes\"",
+    "name": "Boutique d'« animes »",
     "terms": "Vente de mangas, de CD et DVD, déguisements, accessoires"
   },
   "shop/antiques": {
@@ -1860,8 +1868,8 @@
     "terms": "Brocante"
   },
   "shop/art": {
-    "name": "Galerie d'art",
-    "terms": "Galerie d'art"
+    "name": "Marchand d'art",
+    "terms": "Galeriste"
   },
   "shop/baby_goods": {
     "name": "Magasin de produits pour bébés",
@@ -1947,6 +1955,10 @@
     "name": "Magasin de vêtements",
     "terms": "Magasin de vêtements"
   },
+  "shop/coffee": {
+    "name": "Boutique de vente de cafés",
+    "terms": "Magasin de café"
+  },
   "shop/computer": {
     "name": "Magasin d'informatique",
     "terms": "Magasin d'informatique"
@@ -2016,7 +2028,7 @@
     "terms": "Boutique de mode"
   },
   "shop/fishmonger": {
-    "name": "Poissonnerie",
+    "name": "Poissonnier",
     "terms": "Poissonnerie"
   },
   "shop/florist": {
@@ -2121,7 +2133,7 @@
   },
   "shop/mobile_phone": {
     "name": "Magasin de téléphonie mobile",
-    "terms": "Vente de téléphone portable, magasin de téléphones portables"
+    "terms": "Vente de téléphone portable, magasin de téléphones portables, cellulaires"
   },
   "shop/money_lender": {
     "name": "Prêteur sur gages",
@@ -2129,7 +2141,7 @@
   },
   "shop/motorcycle": {
     "name": "Vendeur de motos",
-    "terms": "Vendeur de motos"
+    "terms": "Vendeur de motocyclettes"
   },
   "shop/music": {
     "name": "Vente d'instruments de musique",
@@ -2143,9 +2155,13 @@
     "name": "Magasin de journaux",
     "terms": "Vente de journaux, de magazines, Maison de la presse"
   },
+  "shop/nutrition_supplements": {
+    "name": "Boutique de compléments alimentaires",
+    "terms": "compléments alimentaires;compléments nutritionnels"
+  },
   "shop/optician": {
     "name": "Opticien",
-    "terms": "Opticien"
+    "terms": "Opticien,Marchand de lunettes"
   },
   "shop/organic": {
     "name": "Magasin de produits biologiques",
@@ -2207,6 +2223,10 @@
     "name": "Papeterie",
     "terms": "Papeterie"
   },
+  "shop/storage_rental": {
+    "name": "Location de stockage - Ne pas utiliser",
+    "terms": "Location de stockage - Ne pas utiliser"
+  },
   "shop/supermarket": {
     "name": "Supermarché",
     "terms": "Supermarché"
@@ -2225,7 +2245,7 @@
   },
   "shop/ticket": {
     "name": "Boutique de vente de billets",
-    "terms": "Boutique de vente de billets"
+    "terms": "Boutique de vente de billets,Billetterie"
   },
   "shop/tobacco": {
     "name": "Bureau de tabac",
@@ -2307,6 +2327,10 @@
     "name": "Chalet",
     "terms": "Chalet"
   },
+  "tourism/gallery": {
+    "name": "Galerie d'art",
+    "terms": "Artothèque,Pinacothèque,Photothèque,Glyptothèque"
+  },
   "tourism/guest_house": {
     "name": "Chambre d'hôtes",
     "terms": "Chambre d'hôtes, Gîte"
@@ -2344,7 +2368,7 @@
     "terms": "Point de vue, observatoire, mirador"
   },
   "tourism/zoo": {
-    "name": "Zoo",
+    "name": "Parc zoologique",
     "terms": "Zoo"
   },
   "traffic_calming/bump": {
@@ -2435,6 +2459,10 @@
     "name": "Sentier pédestre",
     "terms": "Sentier pédestre"
   },
+  "type/route/horse": {
+    "name": "Itinéraire équestre",
+    "terms": "Trajet équestre"
+  },
   "type/route/pipeline": {
     "name": "Trajet de pipeline",
     "terms": "Pipeline, gazoduc, oléoduc"
@@ -2458,6 +2486,10 @@
   "type/route_master": {
     "name": "Route parente",
     "terms": "Relation principale, route master"
+  },
+  "type/site": {
+    "name": "Site",
+    "terms": "Site"
   },
   "vertex": {
     "name": "Autre",
@@ -2484,8 +2516,8 @@
     "terms": "Fossé"
   },
   "waterway/dock": {
-    "name": "Quai",
-    "terms": "Quai, Dock"
+    "name": "Darse / Cale sèche",
+    "terms": "Quai pour cargo"
   },
   "waterway/drain": {
     "name": "Canal d'évacuation d'eau pluviale",

@@ -315,6 +315,10 @@
     "name": "郵局",
     "terms": "中華郵政,郵政公司,郵便局"
   },
+  "amenity/prison": {
+    "name": "監獄範圍",
+    "terms": "監獄,監獄範圍"
+  },
   "amenity/pub": {
     "name": "Pub",
     "terms": "酒館"
@@ -452,7 +456,7 @@
     "terms": "垃圾集中處,垃圾放置點"
   },
   "amenity/water_point": {
-    "name": "送水車",
+    "name": "RV 飲用水",
     "terms": "運水車"
   },
   "area": {
@@ -1096,8 +1100,8 @@
     "terms": "回轉圈"
   },
   "highway/unclassified": {
-    "name": "非主要道路",
-    "terms": "非主要道路"
+    "name": "小道路/未分類道路",
+    "terms": "小道路/未分類道路"
   },
   "historic": {
     "name": "歷史景點",
@@ -1238,6 +1242,10 @@
   "leisure/adult_gaming_centre": {
     "name": "成人遊戲中心",
     "terms": "成人遊樂場"
+  },
+  "leisure/bird_hide": {
+    "name": "鳥類棲息處",
+    "terms": "鳥類棲息處,鳥類棲地,鳥類藏身處"
   },
   "leisure/bowling_alley": {
     "name": "保齡球館",
@@ -1860,8 +1868,8 @@
     "terms": "古董店"
   },
   "shop/art": {
-    "name": "畫廊",
-    "terms": "藝廏"
+    "name": "藝術商店",
+    "terms": "藝術商店"
   },
   "shop/baby_goods": {
     "name": "嬰兒用品店",
@@ -1946,6 +1954,10 @@
   "shop/clothes": {
     "name": "服飾店",
     "terms": "衣服店,賣衣店"
+  },
+  "shop/coffee": {
+    "name": "咖啡店",
+    "terms": "咖啡廳, 咖啡館"
   },
   "shop/computer": {
     "name": "電腦店",
@@ -2143,6 +2155,10 @@
     "name": "報紙/雜誌攤",
     "terms": "報刊攤,報刊商店"
   },
+  "shop/nutrition_supplements": {
+    "name": "營養補充品店",
+    "terms": "營養補充品店, 保健食品專賣店"
+  },
   "shop/optician": {
     "name": "眼鏡行",
     "terms": "眼鏡行"
@@ -2206,6 +2222,10 @@
   "shop/stationery": {
     "name": "文具店",
     "terms": "文具店"
+  },
+  "shop/storage_rental": {
+    "name": "儲物空間出租",
+    "terms": "儲物空間出租"
   },
   "shop/supermarket": {
     "name": "超級市場",
@@ -2306,6 +2326,10 @@
   "tourism/chalet": {
     "name": "木屋",
     "terms": "木屋"
+  },
+  "tourism/gallery": {
+    "name": "藝廊",
+    "terms": "藝廊"
   },
   "tourism/guest_house": {
     "name": "招待所",
@@ -2435,6 +2459,10 @@
     "name": "遠足路線",
     "terms": "遠足路線"
   },
+  "type/route/horse": {
+    "name": "騎馬路線",
+    "terms": "騎馬路線,騎乘路線"
+  },
   "type/route/pipeline": {
     "name": "管道路線",
     "terms": "管線路線"
@@ -2458,6 +2486,10 @@
   "type/route_master": {
     "name": "路線總纜",
     "terms": "路線總目"
+  },
+  "type/site": {
+    "name": "地點",
+    "terms": "場地"
   },
   "vertex": {
     "name": "其他",
@@ -2484,8 +2516,8 @@
     "terms": "水溝"
   },
   "waterway/dock": {
-    "name": "碼頭",
-    "terms": "碼頭"
+    "name": "濕塢 / 乾塢",
+    "terms": "濕塢 / 乾塢"
   },
   "waterway/drain": {
     "name": "渠",

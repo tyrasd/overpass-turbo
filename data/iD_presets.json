@@ -357,6 +357,7 @@
         "icon": "bank",
         "fields": [
             "operator",
+            "currency_multi",
             "drive_through"
         ],
         "geometry": [
@@ -440,7 +441,8 @@
             "point"
         ],
         "terms": [
-            "bbq"
+            "bbq",
+            "grill"
         ],
         "tags": {
             "amenity": "bbq"
@@ -570,7 +572,8 @@
     "amenity/bureau_de_change": {
         "icon": "bank",
         "fields": [
-            "operator"
+            "operator",
+            "currency_multi"
         ],
         "geometry": [
             "point",
@@ -1021,7 +1024,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "geometry": [
             "point",
@@ -1492,7 +1496,7 @@
             "operator",
             "address",
             "building_area",
-            "collection_times"
+            "opening_hours"
         ],
         "geometry": [
             "point",
@@ -1506,6 +1510,25 @@
             "amenity": "post_office"
         },
         "name": "Post Office"
+    },
+    "amenity/prison": {
+        "icon": "prison",
+        "fields": [
+            "operator",
+            "address"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "cell",
+            "jail"
+        ],
+        "tags": {
+            "amenity": "prison"
+        },
+        "name": "Prison Grounds"
     },
     "amenity/pub": {
         "icon": "beer",
@@ -1581,13 +1604,7 @@
         "fields": [
             "operator",
             "address",
-            "recycling/type",
-            "recycling/cans",
-            "recycling/glass_bottles",
-            "recycling/paper",
-            "recycling/glass",
-            "recycling/plastic",
-            "recycling/clothes"
+            "recycling_accepts"
         ],
         "geometry": [
             "point",
@@ -1710,7 +1727,8 @@
     },
     "amenity/shelter": {
         "fields": [
-            "shelter_type"
+            "shelter_type",
+            "bin"
         ],
         "geometry": [
             "point",
@@ -1818,7 +1836,7 @@
     "amenity/studio": {
         "icon": "music",
         "fields": [
-            "studio_type",
+            "studio",
             "address",
             "building_area"
         ],
@@ -1980,7 +1998,9 @@
     },
     "amenity/vending_machine/cigarettes": {
         "fields": [
-            "operator"
+            "operator",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -1996,7 +2016,9 @@
     },
     "amenity/vending_machine/condoms": {
         "fields": [
-            "operator"
+            "operator",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -2012,7 +2034,9 @@
     },
     "amenity/vending_machine/drinks": {
         "fields": [
-            "operator"
+            "operator",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -2032,7 +2056,11 @@
     },
     "amenity/vending_machine/excrement_bags": {
         "fields": [
-            "operator"
+            "operator",
+            "fee",
+            "bin",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -2051,7 +2079,10 @@
     },
     "amenity/vending_machine/news_papers": {
         "fields": [
-            "operator"
+            "operator",
+            "fee",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -2067,7 +2098,9 @@
     },
     "amenity/vending_machine/parcel_pickup_dropoff": {
         "fields": [
-            "operator"
+            "operator",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -2085,7 +2118,9 @@
     },
     "amenity/vending_machine/parking_tickets": {
         "fields": [
-            "operator"
+            "operator",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -2102,7 +2137,9 @@
     },
     "amenity/vending_machine/public_transport_tickets": {
         "fields": [
-            "operator"
+            "operator",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -2123,7 +2160,9 @@
     },
     "amenity/vending_machine/sweets": {
         "fields": [
-            "operator"
+            "operator",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -2145,7 +2184,9 @@
     "amenity/vending_machine/vending_machine": {
         "fields": [
             "vending",
-            "operator"
+            "operator",
+            "payment_multi",
+            "currency_multi"
         ],
         "geometry": [
             "point"
@@ -2248,6 +2289,7 @@
         "name": "Road Surface"
     },
     "barrier": {
+        "icon": "roadblock",
         "geometry": [
             "point",
             "vertex",
@@ -2263,6 +2305,7 @@
         "name": "Barrier"
     },
     "barrier/block": {
+        "icon": "roadblock",
         "fields": [
             "access"
         ],
@@ -2276,6 +2319,7 @@
         "name": "Block"
     },
     "barrier/bollard": {
+        "icon": "roadblock",
         "fields": [
             "access"
         ],
@@ -2290,6 +2334,7 @@
         "name": "Bollard"
     },
     "barrier/cattle_grid": {
+        "icon": "prison",
         "geometry": [
             "vertex"
         ],
@@ -2299,6 +2344,7 @@
         "name": "Cattle Grid"
     },
     "barrier/city_wall": {
+        "icon": "prison",
         "geometry": [
             "line",
             "area"
@@ -2309,6 +2355,7 @@
         "name": "City Wall"
     },
     "barrier/cycle_barrier": {
+        "icon": "roadblock",
         "fields": [
             "access"
         ],
@@ -2321,6 +2368,7 @@
         "name": "Cycle Barrier"
     },
     "barrier/ditch": {
+        "icon": "roadblock",
         "geometry": [
             "line",
             "area"
@@ -2328,7 +2376,7 @@
         "tags": {
             "barrier": "ditch"
         },
-        "name": "Ditch"
+        "name": "Trench"
     },
     "barrier/entrance": {
         "icon": "entrance",
@@ -2342,6 +2390,7 @@
         "searchable": false
     },
     "barrier/fence": {
+        "icon": "prison",
         "geometry": [
             "line"
         ],
@@ -2351,6 +2400,7 @@
         "name": "Fence"
     },
     "barrier/gate": {
+        "icon": "prison",
         "fields": [
             "access"
         ],
@@ -2375,6 +2425,7 @@
         "name": "Hedge"
     },
     "barrier/kissing_gate": {
+        "icon": "prison",
         "fields": [
             "access"
         ],
@@ -2387,6 +2438,7 @@
         "name": "Kissing Gate"
     },
     "barrier/lift_gate": {
+        "icon": "roadblock",
         "fields": [
             "access"
         ],
@@ -2410,6 +2462,7 @@
         "name": "Retaining Wall"
     },
     "barrier/stile": {
+        "icon": "roadblock",
         "fields": [
             "access"
         ],
@@ -2423,6 +2476,7 @@
         "name": "Stile"
     },
     "barrier/toll_booth": {
+        "icon": "roadblock",
         "fields": [
             "access"
         ],
@@ -2435,6 +2489,7 @@
         "name": "Toll Booth"
     },
     "barrier/wall": {
+        "icon": "prison",
         "geometry": [
             "line",
             "area"
@@ -4855,9 +4910,27 @@
         },
         "terms": [
             "woods road",
-            "fire road"
+            "forest road",
+            "logging road",
+            "fire road",
+            "farm road",
+            "agricultural road",
+            "ranch road",
+            "carriage road",
+            "primitive",
+            "unmaintained",
+            "rut",
+            "offroad",
+            "4wd",
+            "4x4",
+            "four wheel drive",
+            "atv",
+            "quad",
+            "jeep",
+            "double track",
+            "two track"
         ],
-        "name": "Track"
+        "name": "Unmaintained Track Road"
     },
     "highway/traffic_signals": {
         "geometry": [
@@ -4949,7 +5022,7 @@
             "highway": "unclassified"
         },
         "terms": [],
-        "name": "Minor Road"
+        "name": "Minor/Unclassified Road"
     },
     "historic": {
         "fields": [
@@ -5382,6 +5455,23 @@
             "leisure": "adult_gaming_centre"
         },
         "name": "Adult Gaming Center"
+    },
+    "leisure/bird_hide": {
+        "fields": [
+            "building_area"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "leisure": "bird_hide"
+        },
+        "terms": [
+            "machan",
+            "ornithology"
+        ],
+        "name": "Bird Hide"
     },
     "leisure/bowling_alley": {
         "fields": [
@@ -6101,6 +6191,9 @@
         "geometry": [
             "line",
             "area"
+        ],
+        "terms": [
+            "dock"
         ],
         "tags": {
             "man_made": "pier"
@@ -7814,8 +7907,9 @@
         "name": "Antiques Shop"
     },
     "shop/art": {
-        "icon": "art-gallery",
+        "icon": "shop",
         "fields": [
+            "artwork_type",
             "operator",
             "address",
             "building_area",
@@ -7825,10 +7919,15 @@
             "point",
             "area"
         ],
+        "terms": [
+            "art*",
+            "exhibit*",
+            "gallery"
+        ],
         "tags": {
             "shop": "art"
         },
-        "name": "Art Gallery"
+        "name": "Art Store"
     },
     "shop/baby_goods": {
         "icon": "shop",
@@ -8216,6 +8315,23 @@
         },
         "name": "Clothing Store"
     },
+    "shop/coffee": {
+        "icon": "shop",
+        "fields": [
+            "operator",
+            "address",
+            "building_area",
+            "opening_hours"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "shop": "coffee"
+        },
+        "name": "Coffee Store"
+    },
     "shop/computer": {
         "icon": "shop",
         "fields": [
@@ -8302,7 +8418,7 @@
         "name": "Cosmetics Store"
     },
     "shop/craft": {
-        "icon": "art-gallery",
+        "icon": "shop",
         "fields": [
             "operator",
             "address",
@@ -8316,6 +8432,11 @@
         "tags": {
             "shop": "craft"
         },
+        "terms": [
+            "art*",
+            "paint*",
+            "frame"
+        ],
         "name": "Arts and Crafts Store"
     },
     "shop/curtain": {
@@ -8589,6 +8710,12 @@
         "tags": {
             "shop": "frame"
         },
+        "terms": [
+            "art*",
+            "paint*",
+            "photo*",
+            "frame"
+        ],
         "name": "Framing Shop"
     },
     "shop/funeral_directors": {
@@ -9046,7 +9173,8 @@
             "operator",
             "address",
             "building_area",
-            "opening_hours"
+            "opening_hours",
+            "currency_multi"
         ],
         "geometry": [
             "point",
@@ -9128,6 +9256,23 @@
             "shop": "newsagent"
         },
         "name": "Newspaper/Magazine Shop"
+    },
+    "shop/nutrition_supplements": {
+        "icon": "shop",
+        "fields": [
+            "operator",
+            "address",
+            "building_area",
+            "opening_hours"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "tags": {
+            "shop": "nutrition_supplements"
+        },
+        "name": "Nutrition Supplements Store"
     },
     "shop/optician": {
         "icon": "shop",
@@ -9906,6 +10051,31 @@
         },
         "name": "Chalet"
     },
+    "tourism/gallery": {
+        "icon": "art-gallery",
+        "fields": [
+            "artwork_type",
+            "operator",
+            "address",
+            "building_area",
+            "opening_hours"
+        ],
+        "geometry": [
+            "point",
+            "area"
+        ],
+        "terms": [
+            "art*",
+            "exhibit*",
+            "paint*",
+            "photo*",
+            "sculpt*"
+        ],
+        "tags": {
+            "tourism": "gallery"
+        },
+        "name": "Art Gallery"
+    },
     "tourism/guest_house": {
         "icon": "lodging",
         "fields": [
@@ -10008,11 +10178,15 @@
             "area"
         ],
         "terms": [
-            "exhibition",
-            "foundation",
+            "art*",
+            "exhibit*",
             "gallery",
+            "foundation",
             "hall",
-            "institution"
+            "institution",
+            "paint*",
+            "photo*",
+            "sculpt*"
         ],
         "tags": {
             "tourism": "museum"
@@ -10401,6 +10575,21 @@
             "network"
         ]
     },
+    "type/route/horse": {
+        "geometry": [
+            "relation"
+        ],
+        "tags": {
+            "type": "route",
+            "route": "horse"
+        },
+        "name": "Riding Route",
+        "icon": "route-horse",
+        "fields": [
+            "ref",
+            "operator"
+        ]
+    },
     "type/route/pipeline": {
         "geometry": [
             "relation"
@@ -10594,10 +10783,16 @@
             "vertex",
             "point"
         ],
+        "terms": [
+            "boat",
+            "ship",
+            "vessel",
+            "marine"
+        ],
         "tags": {
             "waterway": "dock"
         },
-        "name": "Dock"
+        "name": "Wet Dock / Dry Dock"
     },
     "waterway/drain": {
         "icon": "waterway-stream",
@@ -10617,7 +10812,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "geometry": [
             "point",
@@ -10780,7 +10976,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10798,7 +10995,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10816,7 +11014,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10834,7 +11033,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10852,7 +11052,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10870,7 +11071,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10888,7 +11090,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10906,7 +11109,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10924,7 +11128,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10942,7 +11147,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10960,7 +11166,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10978,7 +11185,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -10996,7 +11204,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11014,7 +11223,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11032,7 +11242,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11050,7 +11261,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11068,7 +11280,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11086,7 +11299,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11104,7 +11318,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11122,7 +11337,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11140,7 +11356,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11158,7 +11375,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11176,7 +11394,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11194,7 +11413,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11212,7 +11432,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11230,7 +11451,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11248,7 +11470,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11266,7 +11489,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11284,7 +11508,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11302,7 +11527,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11320,7 +11546,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11338,7 +11565,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11356,7 +11584,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11374,7 +11603,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11392,7 +11622,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11410,7 +11641,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11428,7 +11660,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11446,7 +11679,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11464,7 +11698,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11482,7 +11717,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11500,7 +11736,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11518,7 +11755,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11536,7 +11774,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11554,7 +11793,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11572,7 +11812,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11590,7 +11831,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11608,7 +11850,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11626,7 +11869,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11644,7 +11888,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11662,7 +11907,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11680,7 +11926,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11698,7 +11945,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11716,7 +11964,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11734,7 +11983,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11752,7 +12002,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11770,7 +12021,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11788,7 +12040,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11806,7 +12059,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11824,7 +12078,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11842,7 +12097,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11860,7 +12116,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11878,7 +12135,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11896,7 +12154,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11914,7 +12173,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11932,7 +12192,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11950,7 +12211,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11968,7 +12230,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -11986,7 +12249,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12004,7 +12268,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12022,7 +12287,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12040,7 +12306,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12058,7 +12325,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12076,7 +12344,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12094,7 +12363,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12112,7 +12382,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12130,7 +12401,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12148,7 +12420,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12166,7 +12439,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12184,7 +12458,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12202,7 +12477,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12220,7 +12496,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12238,7 +12515,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12256,7 +12534,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12274,7 +12553,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12292,7 +12572,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12310,7 +12591,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12328,7 +12610,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12346,7 +12629,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12364,7 +12648,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12382,7 +12667,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12400,7 +12686,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12418,7 +12705,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12436,7 +12724,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12454,7 +12743,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12472,7 +12762,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12490,7 +12781,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12508,7 +12800,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12526,7 +12819,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12544,7 +12838,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12562,7 +12857,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12580,7 +12876,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12598,7 +12895,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12616,7 +12914,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12634,7 +12933,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12652,7 +12952,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12670,7 +12971,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12688,7 +12990,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12706,7 +13009,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12724,7 +13028,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12742,7 +13047,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12760,7 +13066,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12778,7 +13085,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12796,7 +13104,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12814,7 +13123,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12832,7 +13142,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12850,7 +13161,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12868,7 +13180,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12886,7 +13199,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12904,7 +13218,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12922,7 +13237,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12940,7 +13256,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12958,7 +13275,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12976,7 +13294,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -12994,7 +13313,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13012,7 +13332,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13030,7 +13351,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13048,7 +13370,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13066,7 +13389,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13084,7 +13408,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13102,7 +13427,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13120,7 +13446,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13138,7 +13465,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13156,7 +13484,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13174,7 +13503,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13192,7 +13522,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13210,7 +13541,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13228,7 +13560,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13246,7 +13579,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13264,7 +13598,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13283,7 +13618,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13301,7 +13637,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13319,7 +13656,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13337,7 +13675,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13355,7 +13694,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13373,7 +13713,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13391,7 +13732,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13409,7 +13751,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13427,7 +13770,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13445,7 +13789,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13463,7 +13808,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13481,7 +13827,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13499,7 +13846,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13517,7 +13865,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13535,7 +13884,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13553,7 +13903,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13571,7 +13922,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13589,7 +13941,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13607,7 +13960,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13625,7 +13979,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13643,7 +13998,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13661,7 +14017,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13679,7 +14036,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13697,7 +14055,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13715,7 +14074,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13733,7 +14093,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13751,7 +14112,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13769,7 +14131,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13787,7 +14150,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },
@@ -13805,7 +14169,8 @@
         "fields": [
             "operator",
             "address",
-            "opening_hours"
+            "opening_hours",
+            "fuel_multi"
         ],
         "suggestion": true
     },

@@ -279,6 +279,9 @@
     "name": "Oficina de correus",
     "terms": "Oficina de Correus, Correus, Edifici de Correus, Cartes, Carters"
   },
+  "amenity/prison": {
+    "name": "Terrenys de presó"
+  },
   "amenity/pub": {
     "name": "Pub",
     "terms": "Bar, Bar Musical, Pub, Local de copes, Local d'oci nocturn, Bareto"
@@ -392,6 +395,9 @@
   "amenity/waste_disposal": {
     "name": "Contenidor d'escombraries"
   },
+  "amenity/water_point": {
+    "name": "Aigua potable d'autocaravana"
+  },
   "area": {
     "name": "Àrea",
     "terms": "Àrea"
@@ -422,10 +428,6 @@
   "barrier/cycle_barrier": {
     "name": "Barrera per a ciclistes",
     "terms": "Barrera per a ciclistes, Ciclisme, Bicicleta, Ruta cicloturista, Valla, Tanca, Tancament, Tanca per a bicicletes"
-  },
-  "barrier/ditch": {
-    "name": "Sèquia",
-    "terms": "Sèquia, Canal, Aigua, Via aquífera, Torrent, Conducció d'aigua, Aquífer, Rierol"
   },
   "barrier/entrance": {
     "name": "Entrada",
@@ -919,8 +921,7 @@
     "terms": "Enllaç amb terciària"
   },
   "highway/track": {
-    "name": "Pista",
-    "terms": "Pista, Traça, Camí"
+    "name": "Pista forestal no mantinguda"
   },
   "highway/traffic_signals": {
     "name": "Semàfors",
@@ -939,7 +940,7 @@
     "terms": "Girar 180 graus, Canviar de sentit"
   },
   "highway/unclassified": {
-    "name": "Carretera local"
+    "name": "Carretera menor / sense classificació"
   },
   "historic": {
     "name": "Lloc històric",
@@ -1066,6 +1067,9 @@
   "leisure/adult_gaming_centre": {
     "name": "Centre d'oci adult"
   },
+  "leisure/bird_hide": {
+    "name": "Observatori d'ocells"
+  },
   "leisure/bowling_alley": {
     "name": "Bolera"
   },
@@ -1153,6 +1157,12 @@
     "name": "Pendent per a embarcacions",
     "terms": "Varador"
   },
+  "leisure/sports_centre": {
+    "name": "Centre d'esport / Gimnàs"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "Instal·lacions de Piscina"
+  },
   "leisure/stadium": {
     "name": "Estadi",
     "terms": "Estadi,Camp"
@@ -1163,6 +1173,9 @@
   },
   "leisure/track": {
     "name": "Circuit de curses (sense motor)"
+  },
+  "leisure/water_park": {
+    "name": "Parc Aquàtic"
   },
   "line": {
     "name": "Línia",
@@ -1581,7 +1594,7 @@
     "name": "Botiga d'antiguitats"
   },
   "shop/art": {
-    "name": "Galeria d'art"
+    "name": "Botiga d'art"
   },
   "shop/baby_goods": {
     "name": "Botiga per a nadons"
@@ -1650,6 +1663,9 @@
   "shop/clothes": {
     "name": "Botiga de roba",
     "terms": "Botiga de roba"
+  },
+  "shop/coffee": {
+    "name": "Botiga de cafè"
   },
   "shop/computer": {
     "name": "Botiga d'informàtica",
@@ -1815,6 +1831,9 @@
   "shop/newsagent": {
     "name": "Botiga de diaris i revistes"
   },
+  "shop/nutrition_supplements": {
+    "name": "Botiga de suplements nutricionals"
+  },
   "shop/optician": {
     "name": "Òptica"
   },
@@ -1863,6 +1882,9 @@
   },
   "shop/stationery": {
     "name": "Papereria"
+  },
+  "shop/storage_rental": {
+    "name": "Lloguer de magatzem"
   },
   "shop/supermarket": {
     "name": "Supermercat",
@@ -1945,6 +1967,9 @@
   },
   "tourism/chalet": {
     "name": "Xalet"
+  },
+  "tourism/gallery": {
+    "name": "Galeria d'art"
   },
   "tourism/guest_house": {
     "name": "Habitacions de lloguer",
@@ -2084,6 +2109,9 @@
   "type/route_master": {
     "name": "Patró de la Ruta"
   },
+  "type/site": {
+    "name": "Lloc"
+  },
   "vertex": {
     "name": "Altres",
     "terms": "Altre, Altres"
@@ -2108,7 +2136,7 @@
     "terms": "Séquia, Sèquia, Rara, Canal, Aigua, Via aqüífera, Torrent, Conducció d'aigua, Aqüífer, Rierol"
   },
   "waterway/dock": {
-    "name": "Embarcador"
+    "name": "Moll humit/Moll sec"
   },
   "waterway/drain": {
     "name": "Torrent",

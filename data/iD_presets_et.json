@@ -178,9 +178,6 @@
   "barrier/city_wall": {
     "name": "Linnamüür"
   },
-  "barrier/ditch": {
-    "name": "Kraav"
-  },
   "barrier/fence": {
     "name": "Aed"
   },
@@ -730,9 +727,6 @@
   },
   "shop/alcohol": {
     "name": "Alkoholipood"
-  },
-  "shop/art": {
-    "name": "Kunstigalerii"
   },
   "shop/bakery": {
     "name": "Pagariäri"

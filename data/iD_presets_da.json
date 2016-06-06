@@ -269,15 +269,15 @@
   },
   "amenity/parking": {
     "name": "Bilparkering",
-    "terms": "Bilparkering"
+    "terms": "Bilparkering, Parkering"
   },
   "amenity/parking_entrance": {
     "name": "Parkeringsgarage Indgang/Udgang",
     "terms": "Parkeringsgarage Indgang/Udgang, Parkeringskælder Indgang/Udgang"
   },
   "amenity/parking_space": {
-    "name": "Parkeringsplads",
-    "terms": "Parkeringsplads"
+    "name": "Parkeringsbås",
+    "terms": "Parkeringsbås"
   },
   "amenity/pharmacy": {
     "name": "Apotek",
@@ -314,6 +314,10 @@
   "amenity/post_office": {
     "name": "Postkontor",
     "terms": "Posthus, Postkontor"
+  },
+  "amenity/prison": {
+    "name": "Fængselsgrund",
+    "terms": "Fængselsgrund, Fængselsområde"
   },
   "amenity/pub": {
     "name": "Værtshus",
@@ -486,10 +490,6 @@
   "barrier/cycle_barrier": {
     "name": "Cykelbarriere",
     "terms": "Cykelbarriere"
-  },
-  "barrier/ditch": {
-    "name": "Grøft",
-    "terms": "Grøft, Grøftekant"
   },
   "barrier/entrance": {
     "name": "Indgang",
@@ -1076,8 +1076,8 @@
     "terms": "Link til tertiær vej"
   },
   "highway/track": {
-    "name": "Mark/Skovvej",
-    "terms": "Mark/Skovvej"
+    "name": "Uvedligeholdt markvej",
+    "terms": "Uvedligeholdt markvej"
   },
   "highway/traffic_signals": {
     "name": "Trafiksignal",
@@ -1096,8 +1096,8 @@
     "terms": "Vendeplads"
   },
   "highway/unclassified": {
-    "name": "Mindre vej",
-    "terms": "Mindre vej"
+    "name": "Mindre/Uspecificeret vej",
+    "terms": "Mindre/Uspecificeret vej"
   },
   "historic": {
     "name": "Historisk sted",
@@ -1238,6 +1238,10 @@
   "leisure/adult_gaming_centre": {
     "name": "Voksen spillecenter",
     "terms": "Voksen spillecenter"
+  },
+  "leisure/bird_hide": {
+    "name": "Fugletårn",
+    "terms": "Fugletårn"
   },
   "leisure/bowling_alley": {
     "name": "Bowlingbaner",
@@ -1860,8 +1864,8 @@
     "terms": "Antikvitetsforretning, Antikvitetsbutik"
   },
   "shop/art": {
-    "name": "Kunstgalleri",
-    "terms": "Kunstgalleri"
+    "name": "Kunstbutik",
+    "terms": "Kunstbutik, Galleributik"
   },
   "shop/baby_goods": {
     "name": "Babyudstyrsbutik",
@@ -1946,6 +1950,10 @@
   "shop/clothes": {
     "name": "Tøjbutik",
     "terms": "Tøjbutik, Herretøjsbutik, Dametøjsbutik, Børnetøjsbutik"
+  },
+  "shop/coffee": {
+    "name": "Kaffebutik",
+    "terms": "Kaffebutik, Kaffeforretning"
   },
   "shop/computer": {
     "name": "Computerforhandler",
@@ -2143,6 +2151,10 @@
     "name": "Avis/Bladforhandler",
     "terms": "Avis/Bladforhandler"
   },
+  "shop/nutrition_supplements": {
+    "name": "Helsekostbutik",
+    "terms": "Helsekostbutik, Helsekostforretning"
+  },
   "shop/optician": {
     "name": "Optiker",
     "terms": "Optiker, Optikerforretning"
@@ -2206,6 +2218,10 @@
   "shop/stationery": {
     "name": "Papirforhandler",
     "terms": "Papirforhandler"
+  },
+  "shop/storage_rental": {
+    "name": "Lagerhotel",
+    "terms": "Lagerhotel, Opbevaringshotel"
   },
   "shop/supermarket": {
     "name": "Supermarked",
@@ -2306,6 +2322,10 @@
   "tourism/chalet": {
     "name": "Bjergferiehytte",
     "terms": "Bjergferiehytte"
+  },
+  "tourism/gallery": {
+    "name": "Kunstgalleri",
+    "terms": "Kunstgalleri, Galleri"
   },
   "tourism/guest_house": {
     "name": "Gæstehus",
@@ -2435,6 +2455,10 @@
     "name": "Vandrerute",
     "terms": "Vandrerute, Vandretur, Gårute"
   },
+  "type/route/horse": {
+    "name": "Kørerute",
+    "terms": "Kørerute"
+  },
   "type/route/pipeline": {
     "name": "Rørledningsnet",
     "terms": "Rørledningsnet"
@@ -2458,6 +2482,10 @@
   "type/route_master": {
     "name": "Rutemasterplan",
     "terms": "Rutemasterplan"
+  },
+  "type/site": {
+    "name": "Sted",
+    "terms": "Sted"
   },
   "vertex": {
     "name": "Andre",
@@ -2484,8 +2512,8 @@
     "terms": "Grøft, Grøftekant"
   },
   "waterway/dock": {
-    "name": "Dok",
-    "terms": "Dok, Dock"
+    "name": "Våddok / Tørdok",
+    "terms": "Våddok / Tørdok"
   },
   "waterway/drain": {
     "name": "Drænløb",

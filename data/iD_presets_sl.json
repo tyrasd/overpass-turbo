@@ -366,10 +366,6 @@
     "name": "Ovira za kolesarje",
     "terms": "kolesarska ovira,ovira za kolo"
   },
-  "barrier/ditch": {
-    "name": "Jarek",
-    "terms": "grapa"
-  },
   "barrier/entrance": {
     "name": "Vhod",
     "terms": "portal,vrata,vhod,izhod"
@@ -813,6 +809,9 @@
     "name": "Pot",
     "terms": "steza,gaz"
   },
+  "highway/pedestrian": {
+    "name": "Ulica namenjena pešcem"
+  },
   "highway/primary": {
     "name": "Glavna cesta",
     "terms": "glavna cesta,primarna cesta"
@@ -889,10 +888,6 @@
     "name": "Priključek na lokalno cesto",
     "terms": "priključek na lokalno cesto,priključek na terciarno cesto"
   },
-  "highway/track": {
-    "name": "Kolovoz",
-    "terms": "kolesnice,brazda"
-  },
   "highway/traffic_signals": {
     "name": "Semafor",
     "terms": "signalna naprava"
@@ -908,6 +903,9 @@
   "highway/turning_circle": {
     "name": "Obračališče",
     "terms": "obračalni krog"
+  },
+  "highway/unclassified": {
+    "name": "Ožja/Neopredeljena cestna povezava"
   },
   "historic": {
     "name": "Zgodovinska znamenitost",

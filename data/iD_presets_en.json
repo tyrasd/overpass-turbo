@@ -101,7 +101,7 @@
   },
   "amenity/bbq": {
     "name": "Barbecue/Grill",
-    "terms": "bbq"
+    "terms": "bbq,grill"
   },
   "amenity/bench": {
     "name": "Bench",
@@ -315,6 +315,10 @@
     "name": "Post Office",
     "terms": "letter,mail"
   },
+  "amenity/prison": {
+    "name": "Prison Grounds",
+    "terms": "cell,jail"
+  },
   "amenity/pub": {
     "name": "Pub",
     "terms": "dive,beer,bier,booze"
@@ -488,7 +492,7 @@
     "terms": ""
   },
   "barrier/ditch": {
-    "name": "Ditch",
+    "name": "Trench",
     "terms": ""
   },
   "barrier/entrance": {
@@ -1076,8 +1080,8 @@
     "terms": "ramp,on ramp,off ramp"
   },
   "highway/track": {
-    "name": "Track",
-    "terms": "woods road,fire road"
+    "name": "Unmaintained Track Road",
+    "terms": "woods road,forest road,logging road,fire road,farm road,agricultural road,ranch road,carriage road,primitive,unmaintained,rut,offroad,4wd,4x4,four wheel drive,atv,quad,jeep,double track,two track"
   },
   "highway/traffic_signals": {
     "name": "Traffic Signals",
@@ -1096,7 +1100,7 @@
     "terms": "cul-de-sac"
   },
   "highway/unclassified": {
-    "name": "Minor Road",
+    "name": "Minor/Unclassified Road",
     "terms": ""
   },
   "historic": {
@@ -1238,6 +1242,10 @@
   "leisure/adult_gaming_centre": {
     "name": "Adult Gaming Center",
     "terms": "gambling,slot machine"
+  },
+  "leisure/bird_hide": {
+    "name": "Bird Hide",
+    "terms": "machan,ornithology"
   },
   "leisure/bowling_alley": {
     "name": "Bowling Alley",
@@ -1417,7 +1425,7 @@
   },
   "man_made/pier": {
     "name": "Pier",
-    "terms": ""
+    "terms": "dock"
   },
   "man_made/pipeline": {
     "name": "Pipeline",
@@ -1860,8 +1868,8 @@
     "terms": ""
   },
   "shop/art": {
-    "name": "Art Gallery",
-    "terms": ""
+    "name": "Art Store",
+    "terms": "art*,exhibit*,gallery"
   },
   "shop/baby_goods": {
     "name": "Baby Goods Store",
@@ -1947,6 +1955,10 @@
     "name": "Clothing Store",
     "terms": ""
   },
+  "shop/coffee": {
+    "name": "Coffee Store",
+    "terms": ""
+  },
   "shop/computer": {
     "name": "Computer Store",
     "terms": ""
@@ -1969,7 +1981,7 @@
   },
   "shop/craft": {
     "name": "Arts and Crafts Store",
-    "terms": ""
+    "terms": "art*,paint*,frame"
   },
   "shop/curtain": {
     "name": "Curtain Store",
@@ -2025,7 +2037,7 @@
   },
   "shop/frame": {
     "name": "Framing Shop",
-    "terms": ""
+    "terms": "art*,paint*,photo*,frame"
   },
   "shop/funeral_directors": {
     "name": "Funeral Home",
@@ -2141,6 +2153,10 @@
   },
   "shop/newsagent": {
     "name": "Newspaper/Magazine Shop",
+    "terms": ""
+  },
+  "shop/nutrition_supplements": {
+    "name": "Nutrition Supplements Store",
     "terms": ""
   },
   "shop/optician": {
@@ -2311,6 +2327,10 @@
     "name": "Chalet",
     "terms": ""
   },
+  "tourism/gallery": {
+    "name": "Art Gallery",
+    "terms": "art*,exhibit*,paint*,photo*,sculpt*"
+  },
   "tourism/guest_house": {
     "name": "Guest House",
     "terms": "B&B,Bed and Breakfast"
@@ -2333,7 +2353,7 @@
   },
   "tourism/museum": {
     "name": "Museum",
-    "terms": "exhibition,foundation,gallery,hall,institution"
+    "terms": "art*,exhibit*,gallery,foundation,hall,institution,paint*,photo*,sculpt*"
   },
   "tourism/picnic_site": {
     "name": "Picnic Site",
@@ -2439,6 +2459,10 @@
     "name": "Hiking Route",
     "terms": ""
   },
+  "type/route/horse": {
+    "name": "Riding Route",
+    "terms": ""
+  },
   "type/route/pipeline": {
     "name": "Pipeline Route",
     "terms": ""
@@ -2492,8 +2516,8 @@
     "terms": ""
   },
   "waterway/dock": {
-    "name": "Dock",
-    "terms": ""
+    "name": "Wet Dock / Dry Dock",
+    "terms": "boat,ship,vessel,marine"
   },
   "waterway/drain": {
     "name": "Drain",

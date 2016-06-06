@@ -315,6 +315,10 @@
     "name": "Postkontor",
     "terms": "Postkontor, post, posten, postverk, postväsende, brev, paket, försändelser, postgång, kort, frimärke,"
   },
+  "amenity/prison": {
+    "name": "Fängelseområde",
+    "terms": "Fängelseområde, fängelse, fånganstalt, anstalt, fångvårdsanstalt, häkte, polisarrest, arrest, finka, fängelseförvar"
+  },
   "amenity/pub": {
     "name": "Pub",
     "terms": "Pub, bar, ölservering, ölstuga, krog, nattklubb, öl, sprit"
@@ -1076,7 +1080,7 @@
     "terms": "Anslutning, påfart, avfart, länsväg, huvudgata, tertiär väg"
   },
   "highway/track": {
-    "name": "Bruksväg",
+    "name": "Ej underhållen bruksväg",
     "terms": "Bruksväg, traktorväg, skogsväg, åkerväg, virkesväg, timmerväg, traktor, skogsmaskin, åker, timmer, jordbruk, brandväg, brandgata"
   },
   "highway/traffic_signals": {
@@ -1096,7 +1100,7 @@
     "terms": "Vändplan, vändplats, återvändsgata"
   },
   "highway/unclassified": {
-    "name": "Oklassificerad väg",
+    "name": "Mindre/oklassificerad väg",
     "terms": "Oklassificerad väg, mindre väg, liten väg, enskild väg, skogsväg, övrig väg, industriväg, industrigata"
   },
   "historic": {
@@ -1239,6 +1243,10 @@
     "name": "Center för vuxenspel",
     "terms": "Center för vuxenspel, vuxenspel, spelmaskiner, spel, spelmaskin, flipperspel, flipper"
   },
+  "leisure/bird_hide": {
+    "name": "Torn/gömsle för fågelskådning",
+    "terms": "Fågelskådning, fågelskådare, fågelskådartorn, vilttorn, fågeltorn, fågelskådargömsel, utsiktstorn, fågelskådningstorn"
+  },
   "leisure/bowling_alley": {
     "name": "Bowlinghall",
     "terms": "Bowlingbana, bowlinghall, bowling, kägelsport, kägelspel"
@@ -1339,6 +1347,10 @@
     "name": "Sportcenter / Gym",
     "terms": "Sportcenter, gym, idrottsanläggning, idrottsplats, sportpalats, simhall, motion, träningsanläggning, idrottshall, träning, sporthall, idrottsplan"
   },
+  "leisure/sports_centre/swimming": {
+    "name": "Badanläggning",
+    "terms": "Badanläggning, badhall, simhall, simbassäng, bassäng, swimmingpool, pool, simning, badhus, motionssim, tävlingssim "
+  },
   "leisure/stadium": {
     "name": "Stadium",
     "terms": "Stadium, arena"
@@ -1350,6 +1362,10 @@
   "leisure/track": {
     "name": "Tävlingsbana (Icke motorsport)",
     "terms": "Tävlingsbana, cykeltävling, hundkapplöpning, hästkapplöpning, galoppbana, travbana, löpbana"
+  },
+  "leisure/water_park": {
+    "name": "Äventyrsbad / Vattenpark",
+    "terms": "Äventyrsbad, Vattenpark, vattenlekpark, vattenland"
   },
   "line": {
     "name": "Linje",
@@ -1852,8 +1868,8 @@
     "terms": "Antikaffär, antikshop, antikt, antikvitetsaffär, antikvariat"
   },
   "shop/art": {
-    "name": "Konstgalleri",
-    "terms": "Konstgalleri, konst, konstaffär, tavlor, statyer, kulturer, galleri"
+    "name": "Konstaffär",
+    "terms": "Konstaffär, konst, konsthandlare, konstgalleri, galleri, konstverk, tavlor,\nstatyer, kulturer, konstutställning"
   },
   "shop/baby_goods": {
     "name": "Babyprodukter",
@@ -1938,6 +1954,10 @@
   "shop/clothes": {
     "name": "Klädaffär",
     "terms": "Klädaffär, kläder, klädbutik, ekipering"
+  },
+  "shop/coffee": {
+    "name": "Kaffeaffär",
+    "terms": "kaffeaffär, kaffeböner, kaffebönor, kaffepulver, bryggkaffe, kaffe"
   },
   "shop/computer": {
     "name": "Datorbutik",
@@ -2135,6 +2155,10 @@
     "name": "Tidningsaffär",
     "terms": "Tidningsaffär, pressbyrå, pressbyrån, kiosk, tidningskiosk, tidningsställ, tidningar, magasin, tidskrifter"
   },
+  "shop/nutrition_supplements": {
+    "name": "Hälsokost",
+    "terms": "Hälsokost, hälsa, viktminskning, hälsoprodukter, vitaminer, mineraler, hälsoörter"
+  },
   "shop/optician": {
     "name": "Optiker",
     "terms": "Optiker, synundersökning, glasögon, linser, ögon"
@@ -2198,6 +2222,10 @@
   "shop/stationery": {
     "name": "Pappershandel",
     "terms": "pappersvaror , pappershandel, papper, anteckningsböcker, grattiskort, kuvert, pennor, Kontorsmaterial, kort, papper"
+  },
+  "shop/storage_rental": {
+    "name": "Hyrlager",
+    "terms": "Hyrlager, långtidslager, vinterförvaring, förråd, magasinera, Magasinering, förvaring, förrådsutrymme, båtförvaring, säsongsförvaring, möbelförvaring, bilförvaring, husvagnsförvaring"
   },
   "shop/supermarket": {
     "name": "Snabbköp",
@@ -2298,6 +2326,10 @@
   "tourism/chalet": {
     "name": "Campingstuga",
     "terms": "Campingstuga, stuga, sommarstuga"
+  },
+  "tourism/gallery": {
+    "name": "Konstgalleri",
+    "terms": "Konstaffär, konst, konsthandlare, konstgalleri, galleri, konstverk, tavlor,\nstatyer, kulturer, konstutställning"
   },
   "tourism/guest_house": {
     "name": "Gästhus",
@@ -2427,6 +2459,10 @@
     "name": "Vandringsled",
     "terms": "Vandringsrutt, vandringsled, stig"
   },
+  "type/route/horse": {
+    "name": "Hästspår",
+    "terms": "Ridrutt, ridning, rida, häst, hästrutt, hästspår, ridspår"
+  },
   "type/route/pipeline": {
     "name": "Rörledningsrutt",
     "terms": "Rörledningsrutt, rörledning, pipeline, oljeledning, vattenledning, avloppsledning"
@@ -2450,6 +2486,10 @@
   "type/route_master": {
     "name": "Huvudrutt",
     "terms": "Huvudrutt, huvudförbindelse, huvudväg"
+  },
+  "type/site": {
+    "name": "Plats",
+    "terms": "Plats, ställe, läge, anläggning"
   },
   "vertex": {
     "name": "Annat",
@@ -2476,8 +2516,8 @@
     "terms": "Dike, fåra"
   },
   "waterway/dock": {
-    "name": "Docka",
-    "terms": "Docka, båtvarv, båtdocka, fartygsdocka, fartygsvarv, varv"
+    "name": "Våt- / Torrdocka",
+    "terms": "Torrdocka, våtdocka, docka, båtvarv, båtdocka, fartygsdocka, fartygsvarv, varv, lastdocka"
   },
   "waterway/drain": {
     "name": "Dränering",

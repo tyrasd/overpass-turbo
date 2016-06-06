@@ -315,6 +315,10 @@
     "name": "Posta",
     "terms": "postaközpont,posta,levél,kézbesítő,kézbesítés"
   },
+  "amenity/prison": {
+    "name": "Börtönterület",
+    "terms": "börtön, fogház, fegyház"
+  },
   "amenity/pub": {
     "name": "Kocsma",
     "terms": "italmérés, késdobáló, csehó, borozó, poharazó, italbolt, ivó, talponálló, kricsmi, piálda, söntés, csapszék, söröző, sörház"
@@ -489,7 +493,7 @@
   },
   "barrier/ditch": {
     "name": "Árok",
-    "terms": "Árok"
+    "terms": "árok, gödör"
   },
   "barrier/entrance": {
     "name": "Bejárat",
@@ -1076,8 +1080,8 @@
     "terms": "Harmadrendű főút csatlakozás"
   },
   "highway/track": {
-    "name": "Földút",
-    "terms": "Földút"
+    "name": "Nem karbantartott földút",
+    "terms": "földút,nem karbantartott"
   },
   "highway/traffic_signals": {
     "name": "Jelzőlámpa",
@@ -1097,7 +1101,7 @@
   },
   "highway/unclassified": {
     "name": "Alsóbbrendű út",
-    "terms": "alsórendű út"
+    "terms": "alsóbbrendű út"
   },
   "historic": {
     "name": "Történelmi hely",
@@ -1239,6 +1243,10 @@
     "name": "Felnőtt játékközpont",
     "terms": "játékterem"
   },
+  "leisure/bird_hide": {
+    "name": "Madárles",
+    "terms": "madárles"
+  },
   "leisure/bowling_alley": {
     "name": "Tekepálya",
     "terms": "bowling pálya"
@@ -1328,7 +1336,7 @@
     "terms": "Játszótér"
   },
   "leisure/running_track": {
-    "name": "Fútópálya",
+    "name": "Futópálya",
     "terms": "Futópálya"
   },
   "leisure/slipway": {
@@ -1860,8 +1868,8 @@
     "terms": "Régiségkereskedés"
   },
   "shop/art": {
-    "name": "Művészeti galéria",
-    "terms": "Műalkotások boltja"
+    "name": "Művészeti bolt",
+    "terms": "művészbolt"
   },
   "shop/baby_goods": {
     "name": "Bababolt",
@@ -1946,6 +1954,10 @@
   "shop/clothes": {
     "name": "Ruhabolt",
     "terms": "Ruházati bolt , fehérneműbolt, öltönyáruház, "
+  },
+  "shop/coffee": {
+    "name": "Kávébolt",
+    "terms": "kávébolt, kávéüzlet, kávé kereskedés"
   },
   "shop/computer": {
     "name": "Számítógépbolt",
@@ -2143,6 +2155,10 @@
     "name": "Újságos",
     "terms": "Újságos"
   },
+  "shop/nutrition_supplements": {
+    "name": "Étrend-kiegészítő üzlet",
+    "terms": "étrend-kiegészítő, táplálékkiegészítő, bolt"
+  },
   "shop/optician": {
     "name": "Optikus",
     "terms": "Szemüveg és kontaktlencse bolt"
@@ -2205,7 +2221,11 @@
   },
   "shop/stationery": {
     "name": "Írószerbolt",
-    "terms": "Papír - Írószer és nyomtatván bolt,  Papír - írószer és irodaszer kereskedelem, papirbolt, irodaszerbolt"
+    "terms": "Papír - Írószer és nyomtatvány bolt,  Papír - írószer és irodaszer kereskedelem, papírbolt, irodaszerbolt"
+  },
+  "shop/storage_rental": {
+    "name": "Tárolókölcsönző",
+    "terms": "tároló"
   },
   "shop/supermarket": {
     "name": "Szupermarket",
@@ -2306,6 +2326,10 @@
   "tourism/chalet": {
     "name": "Nyaralóház",
     "terms": "Vikkendház"
+  },
+  "tourism/gallery": {
+    "name": "Művészeti galéria",
+    "terms": "galéria, kiállítás, kiállító terem, képzőművészet"
   },
   "tourism/guest_house": {
     "name": "Vendégház",
@@ -2435,6 +2459,10 @@
     "name": "Turistaút",
     "terms": "Túraút, Gyalogtúra"
   },
+  "type/route/horse": {
+    "name": "Lovaglóút",
+    "terms": "lovagló út, lovagló útvonal, lovas út, lovas útvonal"
+  },
   "type/route/pipeline": {
     "name": "Csővezeték útvonal",
     "terms": "Csővezeték útvonal"
@@ -2458,6 +2486,10 @@
   "type/route_master": {
     "name": "Route Master",
     "terms": "Route Master"
+  },
+  "type/site": {
+    "name": "Telek",
+    "terms": "telek,házhely"
   },
   "vertex": {
     "name": "Egyéb",
@@ -2484,8 +2516,8 @@
     "terms": "Vizesárok"
   },
   "waterway/dock": {
-    "name": "Kikötő",
-    "terms": "kikötő,dokk"
+    "name": "Nedves dokk / szárazdokk",
+    "terms": "kikötő, dokk, nedves dokk, szárazdokk"
   },
   "waterway/drain": {
     "name": "Vízelvezető árok",

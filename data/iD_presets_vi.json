@@ -315,6 +315,10 @@
     "name": "Bưu điện",
     "terms": "nhà bưu điện, bưu điện, bưu chính, nha buu dien, buu dien, buu chinh"
   },
+  "amenity/prison": {
+    "name": "Sân Nhà tù",
+    "terms": "sân nhà tù, sân tù, san nha tu, san tu"
+  },
   "amenity/pub": {
     "name": "Quán rượu Pub",
     "terms": "quán rượu pub, quán nhậu pub, tiệm rượu pub, tiệm nhậu pub, pub, quan ruou pub, quan nhau pub, tiem ruou pub, tiem nhau pub"
@@ -645,7 +649,7 @@
   },
   "building/school": {
     "name": "Nhà Trường",
-    "terms": "nhà trường, trường học, học viện, nha truong, truong học, hoc vien"
+    "terms": "nhà trường, trường học, học viện, trường sở, nha truong, truong học, hoc vien, truong so"
   },
   "building/semidetached_house": {
     "name": "Nhà Bán tách biệt",
@@ -1076,8 +1080,8 @@
     "terms": "đường nhánh phố, đoạn nhánh phố, đường nhánh rẽ phố, đoạn nhánh rẽ phố, đường nhánh chuyển đường phố, nhánh chuyển đường phố, lối ra vào phố, lối ra phố, lối vào phố, nhánh ra phố, nhánh vào phố, đường nối phố, duong nhanh pho, doan nhanh pho, duong nhanh re pho, doan nhanh re pho, duong nhanh chuyen duong pho, nhanh chuyen duong pho, loi ra vao pho, loi ra pho, loi vao pho, nhanh ra pho, nhanh vao pho, duong noi pho"
   },
   "highway/track": {
-    "name": "Đường mòn",
-    "terms": "đường mòn, duong mon"
+    "name": "Đường gom",
+    "terms": "đường gom, đường mòn, đường nông thôn, đường lâm nghiệp, đường bỏ hoang, duong gom, duong mon, duong nong thon, duong lam nghiep, duong bo hoang"
   },
   "highway/traffic_signals": {
     "name": "Đèn Giao thông",
@@ -1238,6 +1242,10 @@
   "leisure/adult_gaming_centre": {
     "name": "Trung tâm Đánh bạc",
     "terms": "trung tâm đánh bạc, máy đánh bạc, trung tam danh bac, may danh bac"
+  },
+  "leisure/bird_hide": {
+    "name": "Căn nhà Quan sát Chim",
+    "terms": "căn nhà quan sát chim, căn nhà quan sát động vật, can nha quan sat chim, can nha quan sat dong vat"
   },
   "leisure/bowling_alley": {
     "name": "Khu Bowling",
@@ -1861,7 +1869,7 @@
   },
   "shop/art": {
     "name": "Tiệm Nghệ phẩm",
-    "terms": "tiệm nghệ phẩm, tiệm bức tranh, tiệm bức vẽ, cửa hàng nghệ phẩm, cửa hàng bức tranh, cửa hàng bức vẽ, quán nghệ phẩm, quán bức tranh, quán bức vẽ, nơi bán nghệ phẩm, nơi bán bức tranh, nơi bán bức vẽ, tiem nghe pham, tiem buc tranh, tiem buc ve, cua hang nghe pham, cua hang buc tranh, cua hang buc ve, quan nghe pham, quan buc tranh, quan buc ve, noi ban nghe pham, noi ban buc tranh, noi ban buc ve"
+    "terms": "tiệm nghệ phẩm, tiệm tác phẩm nghệ thuật, tiệm bức tranh, tiệm bức vẽ, cửa hàng nghệ phẩm, cửa hàng tác phẩm nghệ thuật, cửa hàng bức tranh, cửa hàng bức vẽ, quán nghệ phẩm, quán bức tranh, quán bức vẽ, nơi bán nghệ phẩm, nơi bán bức tranh, nơi bán bức vẽ, tiem nghe pham, tiem tac pham nghe thuat, tiem buc tranh, tiem buc ve, cua hang nghe pham, cua hang tac pham nghe thuat, cua hang buc tranh, cua hang buc ve, quan nghe pham, quan buc tranh, quan buc ve, noi ban nghe pham, noi ban buc tranh, noi ban buc ve"
   },
   "shop/baby_goods": {
     "name": "Tiệm Đồ Sơ sinh",
@@ -1946,6 +1954,10 @@
   "shop/clothes": {
     "name": "Tiệm Quần áo",
     "terms": "tiệm quần áo, cửa hàng quần áo, chỗ bán bộ quần áo, tiem quan ao, cua hang quan ao, cho ban bo quan ao"
+  },
+  "shop/coffee": {
+    "name": "Tiệm Bột Cà phê",
+    "terms": "tiệm bột cà phê, tiệm bột cà-phê, cửa hàng bột cà phê, cửa hàng bột cà-phê, quầy bột cà phê, quầy bột cà-phê, tiem bot ca phe, tiem bot ca-phe, cua hang bot ca phe, cua hang bot ca-phe, quay bot ca phe, quay bot ca-phe"
   },
   "shop/computer": {
     "name": "Tiệm Máy tính",
@@ -2143,6 +2155,10 @@
     "name": "Tiệm Báo",
     "terms": "tiệm báo, cửa hàng báo, cửa hiệu báo, quán báo, tiệm tạp chí, cửa hàng tạp chí, cửa hiệu tạp chí, quán tạp chí, tiem bao, cua hang bao, cua hieu bao, quan bao, tiem tap chi, cua hang tap chi, cua hieu tap chi, quan tap chi"
   },
+  "shop/nutrition_supplements": {
+    "name": "Tiệm Thuốc bổ",
+    "terms": "tiệm thuốc bổ, tiệm thuốc uống bổ trợ, cửa hàng thuốc bổ, cửa hàng thuốc uống bổ trợ, quầy thuốc bổ, quầy thuốc uống bổ trợ, tiem thuoc bo, tiem thuoc uong bo tro, cua hang thuoc bo, cua hang thuoc uong bo tro, quay thuoc bo, quay thuoc uong bo tro"
+  },
   "shop/optician": {
     "name": "Tiệm Kính mắt",
     "terms": "tiệm kính đeo mắt, tiệm kiếng đeo mắt, chỗ đo mắt, bác sĩ mắt, văn phòng đo mắt, cửa hàng kính đeo mắt, cửa hiệu kính đeo mắt, chỗ làm kính đeo mắt, tiem kinh deo mat, tiem kieng deo mat, cho do mat, bac si mat, van phong do mat, cua hang kinh deo mat, cua hieu kinh deo mat, cho lam kinh deo mat"
@@ -2206,6 +2222,10 @@
   "shop/stationery": {
     "name": "Tiệm Văn phòng phẩm",
     "terms": "tiệm văn phòng phẩm, tiệm đồ văn phòng, cửa hàng văn phòng phẩm, cửa hiệu văn phòng phẩm, bút, chì, giấy, máy tính, máy chữ, máy in, máy sao, máy quét, mực, thư mục, phong bì, tiem van phong pham, tiem do van phong, cua hang van phong pham, cua hieu van phong pham, but, chi, giay, may tinh, may chu, may in, may sao, may quet, muc, thu muc, phong bi"
+  },
+  "shop/storage_rental": {
+    "name": "Cho thuê Chỗ Để đồ",
+    "terms": "cho thuê chỗ để đồ, cho thuê phòng kho, cho thuê phòng để đồ, cho thuê ga ra, cho thuê chỗ đậu xe, nhà kho tự túc, cho thue cho de do, cho thue phong kho, cho thue phong de do, cho thue ga ra, cho thu cho dau xe, nha kho tu tuc"
   },
   "shop/supermarket": {
     "name": "Siêu thị",
@@ -2306,6 +2326,10 @@
   "tourism/chalet": {
     "name": "Nhà nghỉ Riêng biệt",
     "terms": "nhà nghỉ riêng biệt, nhà ván gỗ kiểu Thụy Sĩ, nhà ván gỗ kiểu Thụy Sỹ, nhà ván gỗ kiểu Thuỵ Sĩ, nhà ván gỗ kiểu Thuỵ Sỹ, nhà nghỉ trên núi tuyết, nha nghi rieng biet, nha van go kieu Thuy Si, nha van go kieu Thuy Sy, nha nghi tren nui tuyet"
+  },
+  "tourism/gallery": {
+    "name": "Phòng tranh",
+    "terms": "phòng tranh, phòng triển lãm nghệ thuật, phòng triển lãm nghệ phẩm, phong tranh, phong trien lam nghe thuat, phong trien lam nghe pham"
   },
   "tourism/guest_house": {
     "name": "Nhà khách",
@@ -2435,6 +2459,10 @@
     "name": "Tuyến Đường đi bộ dài",
     "terms": "tuyến đường đi bộ dài, tuyến đi bộ đường dài, tuyen duong di bo dai, tuyen di bo duong dai"
   },
+  "type/route/horse": {
+    "name": "Tuyến đường Cưỡi ngựa",
+    "terms": "tuyến đường cưỡi ngựa, tuyen duong cuoi ngua"
+  },
   "type/route/pipeline": {
     "name": "Tuyến Đường ống",
     "terms": "tuyến đường ống, tuyến ống dẫn, tuyen duong ong, tuyen ong dan"
@@ -2458,6 +2486,10 @@
   "type/route_master": {
     "name": "Tuyến đường Chung",
     "terms": "tuyến đường chung, dịch vụ xe buýt, tổ hợp tuyến đường, tuyen duong chung, dich vu xe buyt, to hop tuyen duong"
+  },
+  "type/site": {
+    "name": "Nơi",
+    "terms": "nơi, chỗ, khu, trường, địa điểm, noi, cho, truong, dia diem"
   },
   "vertex": {
     "name": "Khác",

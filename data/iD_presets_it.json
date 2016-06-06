@@ -184,7 +184,8 @@
     "terms": "evento,sala comune"
   },
   "amenity/compressed_air": {
-    "name": "Aria Compressa"
+    "name": "Aria Compressa",
+    "terms": "Aria Compressa"
   },
   "amenity/courthouse": {
     "name": "Tribunale",
@@ -313,6 +314,10 @@
   "amenity/post_office": {
     "name": "Ufficio Postale",
     "terms": "Uffico postale"
+  },
+  "amenity/prison": {
+    "name": "Area carceraria",
+    "terms": "carcere,prigione,penitenziario,galera,gattabuia,casa circondariale,casa di reclusione,riformatorio"
   },
   "amenity/pub": {
     "name": "Pub",
@@ -487,8 +492,8 @@
     "terms": "Barriera Biciclette"
   },
   "barrier/ditch": {
-    "name": "Fossato",
-    "terms": "Fosso"
+    "name": "Trincea",
+    "terms": "trincea,fossato"
   },
   "barrier/entrance": {
     "name": "Entrata",
@@ -658,6 +663,9 @@
     "name": "Stalla",
     "terms": "stalla,ricovero,scuderia"
   },
+  "building/static_caravan": {
+    "name": "Roulotte stazionaria"
+  },
   "building/terrace": {
     "name": "Villette a schiera",
     "terms": "villette,fila di case"
@@ -673,6 +681,9 @@
   "building/warehouse": {
     "name": "Magazzino",
     "terms": "magazzino,ripostiglio,rimessa"
+  },
+  "craft": {
+    "name": "Mestiere"
   },
   "craft/basket_maker": {
     "name": "Cestaio"
@@ -782,6 +793,9 @@
   "craft/rigger": {
     "name": "Cablaggi",
     "terms": "cavi,corde,gomene"
+  },
+  "craft/roofer": {
+    "name": "Riparatore tetti"
   },
   "craft/saddler": {
     "name": "Sellaio"
@@ -1042,8 +1056,8 @@
     "terms": "Svincolo terziario"
   },
   "highway/track": {
-    "name": "Strada ad uso agricolo / forestale",
-    "terms": "Strada Sterrata"
+    "name": "Tracciato stradale non manutenuto",
+    "terms": "strada sterrata,strada forestale,strada agricola,abbandonata,fuoristrada,4x4,quattro ruote motrici,quad,atv,jeep"
   },
   "highway/traffic_signals": {
     "name": "Semaforo",
@@ -1062,8 +1076,7 @@
     "terms": "Slargo per inversione di marcia"
   },
   "highway/unclassified": {
-    "name": "Strada minore",
-    "terms": "non classificata,strada secondaria,viabilità ordinaria"
+    "name": "Strada secondaria / non classificata"
   },
   "historic": {
     "name": "Sito storico",
@@ -1204,6 +1217,9 @@
   "leisure/adult_gaming_centre": {
     "name": "Sala da gioco",
     "terms": "gioco d'azzardo,casinò,bisca"
+  },
+  "leisure/bird_hide": {
+    "name": "osservazione uccelli"
   },
   "leisure/bowling_alley": {
     "name": "Sala da Bowling",
@@ -1816,7 +1832,10 @@
   },
   "shop/art": {
     "name": "Negozio di opere d'arte",
-    "terms": "opere d'arte,quadri,sculture,galleria"
+    "terms": "opere d'arte,quadri,sculture,galleria,art*"
+  },
+  "shop/baby_goods": {
+    "name": "Negozio di prodotti per l'infanzia"
   },
   "shop/bag": {
     "name": "Negozio di borse e valigie",
@@ -1824,7 +1843,7 @@
   },
   "shop/bakery": {
     "name": "Panificio",
-    "terms": "Panificio"
+    "terms": "panificio,forno,panetteria,pane,fornaio"
   },
   "shop/bathroom_furnishing": {
     "name": "Negozio di Prodotti per Bagno"
@@ -1893,6 +1912,9 @@
   "shop/clothes": {
     "name": "Negozio di abbigliamento",
     "terms": "Negozio vestiti"
+  },
+  "shop/coffee": {
+    "name": "Bar Caffetteria"
   },
   "shop/computer": {
     "name": "Negozio di informatica",
@@ -1965,6 +1987,9 @@
     "name": "Fioraio",
     "terms": "Fioraio"
   },
+  "shop/frame": {
+    "name": "Negozio di cornici"
+  },
   "shop/funeral_directors": {
     "name": "Casa funeraria",
     "terms": "funerale,cimitero"
@@ -1996,6 +2021,9 @@
   "shop/hardware": {
     "name": "Ferramenta",
     "terms": "Negozio di Ferramenta"
+  },
+  "shop/hearing_aids": {
+    "name": "Negozio di apparecchi acustici"
   },
   "shop/herbalist": {
     "name": "Erboristeria",
@@ -2049,6 +2077,9 @@
     "name": "Centro Massaggi",
     "terms": "massaggi,estetica"
   },
+  "shop/medical_supply": {
+    "name": "Negozio di forniture mediche"
+  },
   "shop/mobile_phone": {
     "name": "Negozio di telefonia mobile",
     "terms": "Negozio di Cellulari"
@@ -2070,6 +2101,9 @@
   },
   "shop/newsagent": {
     "name": "Edicola"
+  },
+  "shop/nutrition_supplements": {
+    "name": "Negozio di integratori alimentari"
   },
   "shop/optician": {
     "name": "Ottico",
@@ -2132,6 +2166,10 @@
   "shop/stationery": {
     "name": "Negozio di cancelleria",
     "terms": "Cartoleria"
+  },
+  "shop/storage_rental": {
+    "name": "Noleggio",
+    "terms": "noleggio"
   },
   "shop/supermarket": {
     "name": "Supermercato",
@@ -2231,6 +2269,10 @@
   "tourism/chalet": {
     "name": "Chalet",
     "terms": " Casetta (chalet) "
+  },
+  "tourism/gallery": {
+    "name": "Galleria d'arte",
+    "terms": "opere d'arte,quadri,sculture,galleria,fotografie,dipinti,art*"
   },
   "tourism/guest_house": {
     "name": "Affittacamere",
@@ -2360,6 +2402,10 @@
     "name": "Percorso escursionistico",
     "terms": "sentiero,escursione,gita,rotta,percorso,passeggiata,cammino"
   },
+  "type/route/horse": {
+    "name": "Ippovia",
+    "terms": "cavallo,strada,ippica,sentiero,equitazione"
+  },
   "type/route/pipeline": {
     "name": "Condotta",
     "terms": "Itinerario conduttura"
@@ -2383,6 +2429,10 @@
   "type/route_master": {
     "name": "Percorso Principale",
     "terms": "Route Master"
+  },
+  "type/site": {
+    "name": "Luogo",
+    "terms": "area,zona,sito,posto"
   },
   "vertex": {
     "name": "Altro",
@@ -2409,8 +2459,7 @@
     "terms": "Fosso"
   },
   "waterway/dock": {
-    "name": "Darsena",
-    "terms": "cantiere"
+    "name": "Bacino galleggiante / di carenaggio"
   },
   "waterway/drain": {
     "name": "Canale di scolo",

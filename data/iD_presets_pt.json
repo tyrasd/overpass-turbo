@@ -315,6 +315,10 @@
     "name": "Estação de correios",
     "terms": "Central de Correio, CTT, C.T.T., CTTs, Correio de Portugal"
   },
+  "amenity/prison": {
+    "name": "Prisão",
+    "terms": "Prison Grounds"
+  },
   "amenity/pub": {
     "name": "Taberna / Tasca",
     "terms": "Pub, Taverna, Petiscos, Petisqueira,  Locanda, Tasco, Tasca"
@@ -486,10 +490,6 @@
   "barrier/cycle_barrier": {
     "name": "Barreira de bicicletas",
     "terms": "Bicicleta"
-  },
-  "barrier/ditch": {
-    "name": "Fosso sem água",
-    "terms": "Sem Água, Seca, Vala sem Água, Vala Seca, Trincheira sem Água, Trincheira  Seca"
   },
   "barrier/entrance": {
     "name": "Entrada",
@@ -1032,7 +1032,7 @@
     "terms": "Rodovia de Serviço"
   },
   "highway/service/alley": {
-    "name": "Rua de traseiras",
+    "name": "Viela / Traseiras",
     "terms": "Traseiras"
   },
   "highway/service/drive-through": {
@@ -1048,7 +1048,7 @@
     "terms": "Acesso de Emergência, Entrada de Emergência, Corredor de Emergência, Ambulâncias, Ambulância, Emergência"
   },
   "highway/service/parking_aisle": {
-    "name": "Estrada de estacionamento",
+    "name": "Corredor de estacionamento",
     "terms": "Pista de Estacionamento, Estacionar, Estacionamento, Estrada"
   },
   "highway/services": {
@@ -1077,7 +1077,7 @@
   },
   "highway/track": {
     "name": "Estrada florestal / agrícola",
-    "terms": "Track, Estrada Rural, Carreiro, Carreiro Florestal"
+    "terms": "Estrada de terra, estrada agrícola"
   },
   "highway/traffic_signals": {
     "name": "Semáforos",
@@ -1096,7 +1096,7 @@
     "terms": "Inversão de Marcha"
   },
   "highway/unclassified": {
-    "name": "Estrada menor",
+    "name": "Estrada menor / sem classificação",
     "terms": "Minor Road"
   },
   "historic": {
@@ -1239,6 +1239,10 @@
     "name": "Centro de jogos para adultos",
     "terms": "Adult Gaming Center"
   },
+  "leisure/bird_hide": {
+    "name": "Abrigo de passaros",
+    "terms": "Bird Hide"
+  },
   "leisure/bowling_alley": {
     "name": "Pista de Bowling",
     "terms": "Bowling Alley, Bowling, Boulingue, Bólingue, boliche"
@@ -1335,6 +1339,14 @@
     "name": "Rampa para barcos",
     "terms": "Slipway"
   },
+  "leisure/sports_centre": {
+    "name": "Centro Esportivo / Academia",
+    "terms": "Ginástica, Academia, Ginásio, Escola, Centro de Treinamento, Treinamento, Esportes, Centro de Esportes"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "Academia de Natação",
+    "terms": "Piscina, Natação, Aquática, Centro Aquático, Saltos ornamentais, Esportes Aquáticos, Polo aquático"
+  },
   "leisure/stadium": {
     "name": "Estádio",
     "terms": "Estádio, Stadium"
@@ -1346,6 +1358,10 @@
   "leisure/track": {
     "name": "Circuito de corrida (não motorizada)",
     "terms": "Racetrack (non-Motorsport), Circuito de Bicicletas"
+  },
+  "leisure/water_park": {
+    "name": "Parque Aquático",
+    "terms": "Piscina, Parque de diversões, Lazer, Diversão,"
   },
   "line": {
     "name": "Linha",
@@ -1676,7 +1692,7 @@
     "terms": "Lugar"
   },
   "place/city": {
-    "name": "Capital de distrito (cidade)",
+    "name": "Capital de distrito",
     "terms": "City, Cidade, Capital, Distrito"
   },
   "place/farm": {
@@ -1708,11 +1724,11 @@
     "terms": "Borough"
   },
   "place/town": {
-    "name": "Sede de Concelho (cidade, vila)",
+    "name": "Cidade / Vila",
     "terms": "Town, Conselho, Concelho"
   },
   "place/village": {
-    "name": "Sede de freguesia (cidade, vila, aldeia)",
+    "name": "Capital de freguesia",
     "terms": "Village, Freguesia, Freguezia"
   },
   "point": {
@@ -1848,8 +1864,8 @@
     "terms": "Antiques Shop, Antiguidade, Antiguidades, Antigo, Relíquia, Relíquias"
   },
   "shop/art": {
-    "name": "Galeria de arte",
-    "terms": "Art Gallery, Art Shop, Exposição"
+    "name": "Loja de Artes",
+    "terms": "Artesanato, Decoração, Objetos artísticos, Objetos decorativos, Quadros, Pintura,"
   },
   "shop/baby_goods": {
     "name": "Loja de acessórios para bebés",
@@ -1934,6 +1950,10 @@
   "shop/clothes": {
     "name": "Loja de roupas",
     "terms": "Clothing, Roupa, Roupas"
+  },
+  "shop/coffee": {
+    "name": "Loja de cafés",
+    "terms": "Coffee Store"
   },
   "shop/computer": {
     "name": "Loja de informática",
@@ -2131,6 +2151,10 @@
     "name": "Loja de jornais / revistas",
     "terms": "Newspaper/Magazine Shop, Jornal, Revista"
   },
+  "shop/nutrition_supplements": {
+    "name": "Loja de suplementos alimentares",
+    "terms": "Nutrition Supplements Store"
+  },
   "shop/optician": {
     "name": "Loja de ótica / óculos",
     "terms": "Optician, Óptica, Óptico, òculos de sol, Graduados, Armação"
@@ -2194,6 +2218,10 @@
   "shop/stationery": {
     "name": "Papelaria",
     "terms": "Stationery Store, Loja de Material de Escritório"
+  },
+  "shop/storage_rental": {
+    "name": "Aluguel de Armazenamento",
+    "terms": "Estoque, Armazenamento, Depósito"
   },
   "shop/supermarket": {
     "name": "Supermercado / Hipermercado",
@@ -2294,6 +2322,10 @@
   "tourism/chalet": {
     "name": "Chalé / Casa de férias",
     "terms": "Chalet"
+  },
+  "tourism/gallery": {
+    "name": "Galeria de arte",
+    "terms": "Centro Cultural, Galeria, Exposição, Arte"
   },
   "tourism/guest_house": {
     "name": "Casa de hóspedes",
@@ -2446,6 +2478,10 @@
   "type/route_master": {
     "name": "Rede de rotas",
     "terms": "Route Master, Rota Mestre"
+  },
+  "type/site": {
+    "name": "Sítio",
+    "terms": "Site"
   },
   "vertex": {
     "name": "Outro",
