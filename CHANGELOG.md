@@ -1,6 +1,20 @@
+2016-06-06
+----------
+* add visual (warning) indicator if query results are very outdated
+* add "build query" button to wizard dialog
+* show fancy spinner animation in browser tab title while waiting for Overpass API
+* partial mapcss and data statement support in "interactive map" exports
+* enable small features rendering in "interactive map" exports
+* add api to execute queries of an iframe-embedded map.html page
+* activate Greek translation set
+* add osmic icon set
+* optimize layout also for portrait style monitors
+* update translations, presets, icons
+* update libraries (leaflet, osmtogeojson, togpx)
+
 2015-05-18
 ----------
-* bugfixe (htts everywhere issues)
+* bugfix (htts everywhere issues)
 * update translations, presets and icons
 
 2015-04-23
