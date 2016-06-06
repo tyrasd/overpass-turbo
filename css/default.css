@@ -275,6 +275,9 @@ body.loading .modal {
   height:22px;
   line-height:22px;
 }
+.leaflet-container a:visited {
+  color: #4b2f89;
+}
 /* touch specific styles */
 .leaflet-touch .leaflet-control-layers,
 .leaflet-touch .leaflet-control-zoom,
