@@ -27,6 +27,7 @@ var i18n = new(function() {
     "ca":    "Catalan",
     "da":    "Danish",
     "de":    "German",
+    "el":    "Greek",
     "es":    "Spanish",
     "et":    "Estonian",
     "fr":    "French",

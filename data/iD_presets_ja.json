@@ -5,19 +5,19 @@
   },
   "aerialway": {
     "name": "索道",
-    "terms": "索道,ロープウェイ,リフト"
+    "terms": "索道, ロープウェイ, リフト"
   },
   "aerialway/cable_car": {
-    "name": "ケーブルカー",
-    "terms": "ケーブルカー,インクライン"
+    "name": "交走式ロープウェイ",
+    "terms": "ケーブルカー, インクライン, ロープウェイ, ロープウェー, ゴンドラ, ゴンドラリフト, 索道"
   },
   "aerialway/chair_lift": {
     "name": "チェアリフト",
-    "terms": "チェアリフト,椅子リフト,いすリフト"
+    "terms": "チェアリフト, 椅子リフト, いすリフト"
   },
   "aerialway/gondola": {
-    "name": "ゴンドラ",
-    "terms": "ゴンドラ"
+    "name": "循環式ロープウェイ",
+    "terms": "ゴンドラ, ロープウェイ, ロープウェー, ゴンドラリフト, 索道"
   },
   "aerialway/magic_carpet": {
     "name": "マジックカーペットリフト",
@@ -29,7 +29,7 @@
   },
   "aerialway/pylon": {
     "name": "索道用支柱",
-    "terms": "索道用支柱,パイロン"
+    "terms": "索道用支柱, パイロン"
   },
   "aerialway/rope_tow": {
     "name": "ロープタウリフト",
@@ -37,7 +37,7 @@
   },
   "aerialway/station": {
     "name": "索道駅",
-    "terms": "索道駅,ロープウェイ駅,リフト駅"
+    "terms": "索道駅, ロープウェイ駅, リフト駅, 駅"
   },
   "aerialway/t-bar": {
     "name": "Tバーリフト",
@@ -45,11 +45,11 @@
   },
   "aeroway": {
     "name": "航空施設",
-    "terms": "索道,ロープウェイ,リフト"
+    "terms": "索道, ロープウェイ, リフト"
   },
   "aeroway/aerodrome": {
     "name": "空港",
-    "terms": "空港,飛行場"
+    "terms": "空港, 飛行場"
   },
   "aeroway/apron": {
     "name": "エプロン",
@@ -65,7 +65,7 @@
   },
   "aeroway/helipad": {
     "name": "ヘリパッド",
-    "terms": "ヘリパッド,ヘリコプター発着所"
+    "terms": "ヘリパッド, ヘリコプター発着所"
   },
   "aeroway/runway": {
     "name": "滑走路",
@@ -77,11 +77,11 @@
   },
   "aeroway/terminal": {
     "name": "空港ターミナル",
-    "terms": "空港ターミナル,ターミナル,空港"
+    "terms": "空港ターミナル, ターミナル, 空港"
   },
   "amenity": {
     "name": "施設",
-    "terms": "飲食店,設備"
+    "terms": "飲食店, 設備"
   },
   "amenity/arts_centre": {
     "name": "アートセンター",
@@ -89,19 +89,19 @@
   },
   "amenity/atm": {
     "name": "ATM",
-    "terms": "ATM,CD,現金自動預払機"
+    "terms": "ATM, CD, 現金自動預払機"
   },
   "amenity/bank": {
     "name": "銀行",
-    "terms": "銀行,信用金庫,信用組合"
+    "terms": "銀行, 信用金庫, 信用組合"
   },
   "amenity/bar": {
     "name": "バー",
-    "terms": "バー,飲み屋,呑み屋,ばー"
+    "terms": "バー, 飲み屋, 呑み屋, ばー, スナック"
   },
   "amenity/bbq": {
     "name": "バーベキュー/グリル",
-    "terms": "バーベキュー,グリル,BBQ,飯盒炊爨"
+    "terms": "バーベキュー, グリル, BBQ, 飯盒炊爨"
   },
   "amenity/bench": {
     "name": "ベンチ",
@@ -109,15 +109,15 @@
   },
   "amenity/bicycle_parking": {
     "name": "駐輪場",
-    "terms": "駐輪場,自転車駐車場"
+    "terms": "駐輪場, 自転車駐車場"
   },
   "amenity/bicycle_rental": {
     "name": "レンタサイクル",
     "terms": "レンタサイクル"
   },
-  "amenity/bicycle_repair_station": {
-    "name": "自転車修理ステーション",
-    "terms": "自転車修理ステーション"
+  "amenity/biergarten": {
+    "name": "ビアガーデン",
+    "terms": "ビアガーデン"
   },
   "amenity/boat_rental": {
     "name": "貸しボート",
@@ -133,11 +133,11 @@
   },
   "amenity/cafe": {
     "name": "喫茶店",
-    "terms": "喫茶店,カフェ"
+    "terms": "喫茶店, カフェ"
   },
   "amenity/car_rental": {
     "name": "レンタカー",
-    "terms": "レンタカー,貸自動車,カーレンタル"
+    "terms": "レンタカー, 貸自動車, カーレンタル"
   },
   "amenity/car_sharing": {
     "name": "カーシェアリング",
@@ -147,17 +147,21 @@
     "name": "車の洗浄",
     "terms": "洗車機, 洗車, 車洗浄, カーウォッシュ"
   },
+  "amenity/casino": {
+    "name": "カジノ",
+    "terms": "カジノ, 賭博場"
+  },
   "amenity/charging_station": {
     "name": "充電スタンド",
     "terms": "充電ステーション, 急速充電システム, 充電スタンド, 給電スタンド"
   },
   "amenity/childcare": {
     "name": "保育園/幼稚園",
-    "terms": "保育園,幼稚園,チャイルドケア,ナーセリー"
+    "terms": "保育園, 幼稚園, チャイルドケア, ナーセリー"
   },
   "amenity/cinema": {
     "name": "映画館",
-    "terms": "映画館,上映施設,スクリーン,銀幕"
+    "terms": "映画館, 上映施設, スクリーン, 銀幕"
   },
   "amenity/clinic": {
     "name": "クリニック",
@@ -185,11 +189,11 @@
   },
   "amenity/dentist": {
     "name": "歯医者",
-    "terms": "歯科"
+    "terms": "歯科, 歯医者, 歯科医"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "医院",
-    "terms": "医者,医師"
+    "terms": "町医者, 診療所"
   },
   "amenity/dojo": {
     "name": "道場",
@@ -205,7 +209,11 @@
   },
   "amenity/fast_food": {
     "name": "ファストフード",
-    "terms": "ファストフード店,ファストフード,ジャンクフード,ジャンク"
+    "terms": "ファストフード店, ファストフード, ジャンクフード, ジャンク"
+  },
+  "amenity/ferry_terminal": {
+    "name": "フェリー乗り場",
+    "terms": "フェリーターミナル, 渡船"
   },
   "amenity/fire_station": {
     "name": "消防署",
@@ -217,11 +225,11 @@
   },
   "amenity/fuel": {
     "name": "ガソリンスタンド",
-    "terms": "ガソリンスタンド,ガス,ガスステーション"
+    "terms": "ガソリンスタンド, ガス, ガスステーション"
   },
   "amenity/grave_yard": {
     "name": "（教会・寺院にある）墓所",
-    "terms": "墓地,霊園,墓場,お墓,墓苑"
+    "terms": "墓地, 霊園, 墓場, お墓, 墓苑"
   },
   "amenity/grit_bin": {
     "name": "砂箱",
@@ -237,11 +245,15 @@
   },
   "amenity/library": {
     "name": "図書館",
-    "terms": "図書館,ライブラリ,ライブラリー"
+    "terms": "図書館, ライブラリ, ライブラリー"
   },
   "amenity/marketplace": {
     "name": "市場",
-    "terms": "市場,マーケット,朝市,マルシェ"
+    "terms": "市場, マーケット, 朝市, マルシェ"
+  },
+  "amenity/motorcycle_parking": {
+    "name": "オートバイの駐車場",
+    "terms": "バイクの駐車場, 二輪駐車場, 二輪駐輪場"
   },
   "amenity/nightclub": {
     "name": "ナイトクラブ",
@@ -249,27 +261,31 @@
   },
   "amenity/parking": {
     "name": "駐車場",
-    "terms": "駐車場"
+    "terms": "駐車場, パーキング"
   },
   "amenity/parking_entrance": {
     "name": "駐車場の出入口",
     "terms": "駐車場の出入口"
   },
+  "amenity/parking_space": {
+    "name": "駐車場",
+    "terms": "駐車場, 駐車スペース"
+  },
   "amenity/pharmacy": {
     "name": "薬局",
-    "terms": "調剤,調剤薬局,薬局"
+    "terms": "調剤, 調剤薬局, 薬局, 薬店"
   },
   "amenity/place_of_worship": {
     "name": "宗教施設",
-    "terms": "礼拝所,祈りの場所,参拝所"
+    "terms": "礼拝所, 祈りの場所, 参拝所, 寺社, 神社"
   },
   "amenity/place_of_worship/buddhist": {
     "name": "仏教寺院",
-    "terms": "寺院,仏閣,寺,寺社,院,堂"
+    "terms": "寺院, 仏閣, 寺, 寺社, 院, 堂, お寺, 寺"
   },
   "amenity/place_of_worship/christian": {
     "name": "教会",
-    "terms": "教会,礼拝堂,礼拝所,チャーチ"
+    "terms": "教会, 礼拝堂, 礼拝所, チャーチ"
   },
   "amenity/place_of_worship/jewish": {
     "name": "シナゴーグ",
@@ -281,11 +297,11 @@
   },
   "amenity/police": {
     "name": "警察",
-    "terms": "警察,警察署,交番,駐在所"
+    "terms": "警察, 警察署, 交番, 駐在所"
   },
   "amenity/post_box": {
     "name": "郵便ポスト",
-    "terms": "郵便ポスト,郵便箱"
+    "terms": "郵便ポスト, 郵便箱, ポスト"
   },
   "amenity/post_office": {
     "name": "郵便局",
@@ -293,7 +309,7 @@
   },
   "amenity/pub": {
     "name": "居酒屋",
-    "terms": "パブ,居酒屋"
+    "terms": "パブ, 居酒屋, 焼き鳥屋"
   },
   "amenity/public_bookcase": {
     "name": "公共の本棚",
@@ -305,11 +321,19 @@
   },
   "amenity/recycling": {
     "name": "リサイクルボックス",
-    "terms": "リサイクルボックス"
+    "terms": "リサイクルボックス, 回収箱, リサイクル"
+  },
+  "amenity/register_office": {
+    "name": "登記所",
+    "terms": "登記所, 法人登記, 登録所, 法務局"
   },
   "amenity/restaurant": {
     "name": "レストラン",
-    "terms": "レストラン,食堂"
+    "terms": "レストラン, 食堂"
+  },
+  "amenity/sanitary_dump_station": {
+    "name": "キャンピングカー用汚物廃棄所",
+    "terms": "汚物廃棄所"
   },
   "amenity/school": {
     "name": "学校の敷地",
@@ -317,7 +341,7 @@
   },
   "amenity/shelter": {
     "name": "避難所",
-    "terms": "避難所,シェルター,逃げ場"
+    "terms": "避難所, シェルター, 逃げ場"
   },
   "amenity/social_facility": {
     "name": "福祉施設",
@@ -345,15 +369,15 @@
   },
   "amenity/taxi": {
     "name": "タクシー乗り場",
-    "terms": "タクシー乗り場"
+    "terms": "タクシー乗り場, タクシー"
   },
   "amenity/telephone": {
     "name": "公衆電話",
-    "terms": "公衆電話"
+    "terms": "公衆電話, 電話"
   },
   "amenity/theatre": {
     "name": "劇場",
-    "terms": "劇場,ホール"
+    "terms": "劇場, ホール, 映画館"
   },
   "amenity/toilets": {
     "name": "トイレ",
@@ -361,15 +385,47 @@
   },
   "amenity/townhall": {
     "name": "役場",
-    "terms": "市役所,区役所,町役場,村役場,市庁"
+    "terms": "市役所, 区役所, 町役場, 村役場, 市庁, 役所"
   },
   "amenity/university": {
     "name": "大学の敷地",
     "terms": "大学の敷地, キャンパス"
   },
-  "amenity/vending_machine": {
+  "amenity/vending_machine/cigarettes": {
+    "name": "たばこ自動販売機",
+    "terms": "たばこ, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/condoms": {
+    "name": "コンドーム自動販売機",
+    "terms": "コンドーム, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/drinks": {
+    "name": "飲料自動販売機",
+    "terms": "飲料, ジュース, 酒, 飲み物, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/excrement_bags": {
+    "name": "犬の糞入れ自動販売機",
+    "terms": "犬の糞入れ, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/news_papers": {
+    "name": "新聞自動販売機",
+    "terms": "新聞, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/parking_tickets": {
+    "name": "パーキングチケット発給機",
+    "terms": "パーキングチケット, パーキングメーター, 駐車券, 券売機, 自動券売機, 自動販売機, 自販機, 自動発券機, 発券機"
+  },
+  "amenity/vending_machine/public_transport_tickets": {
+    "name": "切符販売機",
+    "terms": "券売機, 自動券売機, 自動販売機, 自販機, 自動発券機, 発券機"
+  },
+  "amenity/vending_machine/sweets": {
+    "name": "菓子販売機",
+    "terms": "菓子,お菓子, スナック, 自動販売機, 自販機"
+  },
+  "amenity/vending_machine/vending_machine": {
     "name": "自動販売機",
-    "terms": "自動販売機"
+    "terms": "自動販売機, 自販機"
   },
   "amenity/veterinary": {
     "name": "獣医",
@@ -377,15 +433,19 @@
   },
   "amenity/waste_basket": {
     "name": "ゴミ箱",
-    "terms": "ゴミ箱"
+    "terms": "ゴミ箱, ごみ箱"
   },
   "area": {
     "name": "エリア",
     "terms": "エリア, 領域, 範囲"
   },
+  "area/highway": {
+    "name": "道路の種類",
+    "terms": "道路の種類"
+  },
   "barrier": {
     "name": "障害物",
-    "terms": "障害物"
+    "terms": "障害物, バリア"
   },
   "barrier/block": {
     "name": "車止め",
@@ -407,10 +467,6 @@
     "name": "自転車止め",
     "terms": "自転車止め"
   },
-  "barrier/ditch": {
-    "name": "堀",
-    "terms": "堀"
-  },
   "barrier/entrance": {
     "name": "出入口",
     "terms": "出入口"
@@ -421,7 +477,7 @@
   },
   "barrier/gate": {
     "name": "門",
-    "terms": "門, ゲート"
+    "terms": "門, ゲート, 鳥居"
   },
   "barrier/hedge": {
     "name": "生垣",
@@ -476,15 +532,15 @@
     "terms": "ログハウス"
   },
   "building/cathedral": {
-    "name": "大聖堂",
-    "terms": "大聖堂"
+    "name": "聖堂の建物",
+    "terms": "聖堂"
   },
   "building/chapel": {
-    "name": "礼拝堂",
-    "terms": "礼拝堂"
+    "name": "教会の建物",
+    "terms": "教会"
   },
   "building/church": {
-    "name": "教会",
+    "name": "教会の建物",
     "terms": "教会"
   },
   "building/college": {
@@ -501,7 +557,7 @@
   },
   "building/detached": {
     "name": "一戸建て住宅",
-    "terms": "一戸建て住宅"
+    "terms": "滞在時間"
   },
   "building/dormitory": {
     "name": "寮",
@@ -532,8 +588,8 @@
     "terms": "ホテルの建物, 宿泊棟"
   },
   "building/house": {
-    "name": "連結住宅",
-    "terms": "連結住宅"
+    "name": "一戸建て住宅",
+    "terms": "一戸建て住宅"
   },
   "building/hut": {
     "name": "小屋",
@@ -557,7 +613,7 @@
   },
   "building/retail": {
     "name": "商業施設",
-    "terms": "商業施設, 店舗"
+    "terms": "商業施設, 店舗, 商業ビル, 店"
   },
   "building/roof": {
     "name": "屋根",
@@ -566,6 +622,10 @@
   "building/school": {
     "name": "校舎",
     "terms": "校舎, 学校の建物"
+  },
+  "building/semidetached_house": {
+    "name": "二世帯住宅",
+    "terms": "セミデタッチドハウス, 二世帯住宅"
   },
   "building/shed": {
     "name": "格納庫",
@@ -585,7 +645,7 @@
   },
   "building/train_station": {
     "name": "駅舎",
-    "terms": "駅舎"
+    "terms": "駅舎, 駅本屋, 駅, 駅ビル, 鉄道駅"
   },
   "building/university": {
     "name": "大学",
@@ -601,7 +661,7 @@
   },
   "craft/basket_maker": {
     "name": "かご製造所",
-    "terms": "かご,籠"
+    "terms": "かご, 籠"
   },
   "craft/beekeeper": {
     "name": "養蜂所",
@@ -641,7 +701,7 @@
   },
   "craft/confectionery": {
     "name": "菓子屋",
-    "terms": "駄菓子屋,パシティエ"
+    "terms": "駄菓子屋, パシティエ"
   },
   "craft/dressmaker": {
     "name": "衣服製造所",
@@ -681,11 +741,11 @@
   },
   "craft/locksmith": {
     "name": "錠前師",
-    "terms": "錠前師,鍵屋"
+    "terms": "錠前師, 鍵屋"
   },
   "craft/metal_construction": {
     "name": "金属加工",
-    "terms": "金属加工,鋳造"
+    "terms": "金属加工, 鋳造"
   },
   "craft/optician": {
     "name": "眼鏡士",
@@ -697,7 +757,7 @@
   },
   "craft/photographer": {
     "name": "写真屋",
-    "terms": "カメラマン,写真屋"
+    "terms": "カメラマン, 写真屋"
   },
   "craft/photographic_laboratory": {
     "name": "現像所",
@@ -713,7 +773,7 @@
   },
   "craft/pottery": {
     "name": "窯元",
-    "terms": "窯元,陶器製造業"
+    "terms": "窯元, 陶器製造業"
   },
   "craft/rigger": {
     "name": "艤装者",
@@ -737,7 +797,7 @@
   },
   "craft/scaffolder": {
     "name": "足場職人",
-    "terms": "足場職人,とび職"
+    "terms": "足場職人, とび職"
   },
   "craft/sculpter": {
     "name": "彫刻家",
@@ -745,11 +805,11 @@
   },
   "craft/shoemaker": {
     "name": "製靴",
-    "terms": "製靴,靴製造"
+    "terms": "製靴, 靴製造"
   },
   "craft/stonemason": {
     "name": "石工",
-    "terms": "石工,石材加工"
+    "terms": "石工, 石材加工"
   },
   "craft/sweep": {
     "name": "煙突掃除",
@@ -757,7 +817,7 @@
   },
   "craft/tailor": {
     "name": "仕立て屋",
-    "terms": "仕立て屋,テイラー"
+    "terms": "仕立て屋, テイラー"
   },
   "craft/tiler": {
     "name": "タイル職人",
@@ -765,7 +825,7 @@
   },
   "craft/tinsmith": {
     "name": "すず細工職人",
-    "terms": "ブリキ屋,すず細工職人"
+    "terms": "ブリキ屋, すず細工職人"
   },
   "craft/upholsterer": {
     "name": "椅子張り職人",
@@ -785,7 +845,7 @@
   },
   "embankment": {
     "name": "土手",
-    "terms": "土手"
+    "terms": "土手, 築堤"
   },
   "emergency/ambulance_station": {
     "name": "救急車の基地",
@@ -805,11 +865,11 @@
   },
   "footway/crossing": {
     "name": "横断歩道",
-    "terms": "横断歩道, 自転車横断帯"
+    "terms": "横断歩道"
   },
   "footway/crosswalk": {
     "name": "横断歩道",
-    "terms": "横断歩道, 歩行者踏切"
+    "terms": "横断歩道"
   },
   "footway/sidewalk": {
     "name": "歩道",
@@ -821,11 +881,11 @@
   },
   "golf/bunker": {
     "name": "サンドトラップ",
-    "terms": "サンドトラップ,バンカー"
+    "terms": "サンドトラップ, バンカー"
   },
   "golf/fairway": {
     "name": "フェアウェイ",
-    "terms": "フェアウェー,フェアウェイ"
+    "terms": "フェアウェー, フェアウェイ"
   },
   "golf/green": {
     "name": "グリーン",
@@ -849,7 +909,7 @@
   },
   "golf/water_hazard": {
     "name": "ウォーターハザード",
-    "terms": "ウォーターハザード, 池ポチャ"
+    "terms": "ウォーターハザード, 池ポチャ, 池"
   },
   "highway": {
     "name": "道路",
@@ -861,11 +921,15 @@
   },
   "highway/bus_stop": {
     "name": "バス停",
-    "terms": "バス停, バス停留所, 停留所, バス乗り場"
+    "terms": "バス停, バス停留所, 停留所, バス乗り場, BS, バスストップ"
+  },
+  "highway/corridor": {
+    "name": "建物内の通り抜け道路",
+    "terms": "建物内の通り抜け道路"
   },
   "highway/crossing": {
     "name": "横断歩道",
-    "terms": "横断歩道, 自転車横断帯"
+    "terms": "横断歩道"
   },
   "highway/crosswalk": {
     "name": "横断歩道",
@@ -885,15 +949,15 @@
   },
   "highway/mini_roundabout": {
     "name": "小さな環状交差点",
-    "terms": "小さな環状交差点"
+    "terms": "小さな環状交差点, ラウンドアバウト, ロータリー"
   },
   "highway/motorway": {
     "name": "自動車専用道路",
-    "terms": "自動車専用道路,高速道路"
+    "terms": "自動車専用道路, 高速道路"
   },
   "highway/motorway_junction": {
     "name": "自動車道のIC/JCT",
-    "terms": "自動車道のIC/JCT,インターチェンジ,ジャンクション"
+    "terms": "自動車道のIC/JCT, インターチェンジ, ジャンクション, IC, JCT"
   },
   "highway/motorway_link": {
     "name": "自動車専用道路の接続路",
@@ -904,8 +968,8 @@
     "terms": "小道"
   },
   "highway/pedestrian": {
-    "name": "歩行者専用道路",
-    "terms": "歩行者専用道路, 歩行者天国"
+    "name": "歩行者天国",
+    "terms": "歩行者天国"
   },
   "highway/primary": {
     "name": "主要地方道",
@@ -917,7 +981,7 @@
   },
   "highway/raceway": {
     "name": "サーキット",
-    "terms": "サーキット,自動車レース場"
+    "terms": "サーキット, 自動車レース場"
   },
   "highway/residential": {
     "name": "居住区域内道路",
@@ -933,7 +997,7 @@
   },
   "highway/secondary": {
     "name": "一般都道府県道",
-    "terms": "一般都道府県道,都道,道道,府道,県道"
+    "terms": "一般都道府県道, 都道, 道道, 府道, 県道"
   },
   "highway/secondary_link": {
     "name": "一般都道府県道の接続路",
@@ -957,7 +1021,7 @@
   },
   "highway/service/emergency_access": {
     "name": "緊急通用路",
-    "terms": "緊急通用路, 消防車専用口"
+    "terms": "緊急通用路, 消防車専用口, 非常用道路"
   },
   "highway/service/parking_aisle": {
     "name": "駐車場内通路",
@@ -965,7 +1029,7 @@
   },
   "highway/services": {
     "name": "サービスエリア",
-    "terms": "サービスエリア, 道の駅"
+    "terms": "サービスエリア, 道の駅, SA"
   },
   "highway/steps": {
     "name": "階段",
@@ -973,7 +1037,7 @@
   },
   "highway/stop": {
     "name": "一時停止標識",
-    "terms": "一時停止標識"
+    "terms": "一時停止標識, 一旦停止"
   },
   "highway/street_lamp": {
     "name": "街路灯",
@@ -989,15 +1053,15 @@
   },
   "highway/track": {
     "name": "農道・林道",
-    "terms": "農道,林道"
+    "terms": "未舗装農道, 農道, 未舗装林道, 林道, 獣道, けもの道, 酷道, 腐道, 険道, 死道, 損道, 道路"
   },
   "highway/traffic_signals": {
     "name": "信号機",
-    "terms": "信号機"
+    "terms": "信号機, 交通信号, 道路信号"
   },
   "highway/trunk": {
     "name": "国道",
-    "terms": "国道,一般国道"
+    "terms": "国道, 一般国道"
   },
   "highway/trunk_link": {
     "name": "国道の接続路",
@@ -1007,17 +1071,13 @@
     "name": "転回場",
     "terms": "転回場, 車回し"
   },
-  "highway/unclassified": {
-    "name": "一般道（2車線未満）",
-    "terms": "一般道（2車線未満）"
-  },
   "historic": {
     "name": "史跡",
     "terms": "史跡, 歴史的建造物"
   },
   "historic/archaeological_site": {
     "name": "遺跡",
-    "terms": "遺跡, 貝塚, 古墳"
+    "terms": "遺跡, 貝塚, 古墳, 史跡"
   },
   "historic/boundary_stone": {
     "name": "境界石",
@@ -1029,7 +1089,7 @@
   },
   "historic/memorial": {
     "name": "記念碑",
-    "terms": "記念碑"
+    "terms": "記念碑, 石碑, 石仏, 像"
   },
   "historic/monument": {
     "name": "記念堂",
@@ -1045,7 +1105,7 @@
   },
   "historic/wayside_shrine": {
     "name": "道祖神",
-    "terms": "道祖神"
+    "terms": "道祖神, 地蔵, お地蔵さん"
   },
   "junction": {
     "name": "交差点",
@@ -1056,8 +1116,8 @@
     "terms": "土地利用"
   },
   "landuse/allotments": {
-    "name": "市民農園",
-    "terms": "市民農園, 市民菜園, クラインガルテン"
+    "name": "市民庭園",
+    "terms": "庭園, 市民庭園, コミュニティガーデン, ガーデン"
   },
   "landuse/basin": {
     "name": "遊水地",
@@ -1077,15 +1137,15 @@
   },
   "landuse/construction": {
     "name": "建設用地",
-    "terms": "工事中用地, 建設用地"
+    "terms": "工事中用地, 建設用地, 工事現場"
   },
   "landuse/farm": {
     "name": "農地",
-    "terms": "農地"
+    "terms": "農地, 畑, 田, 茶畑"
   },
   "landuse/farmland": {
     "name": "農地",
-    "terms": "農地"
+    "terms": "農地, 畑, 田, 茶畑"
   },
   "landuse/farmyard": {
     "name": "農業施設用地",
@@ -1093,10 +1153,11 @@
   },
   "landuse/forest": {
     "name": "人工林",
-    "terms": "人工林, 二次林, 営林, 保安林, 鉄道林"
+    "terms": "人工林, 二次林, 営林, 保安林, 鉄道林, 防風林"
   },
   "landuse/garages": {
-    "name": "車庫"
+    "name": "車庫",
+    "terms": "ガレージ"
   },
   "landuse/grass": {
     "name": "草地",
@@ -1104,7 +1165,7 @@
   },
   "landuse/industrial": {
     "name": "工業用地",
-    "terms": "工業用地, 工業団地"
+    "terms": "工業用地, 工業団地, 工業地"
   },
   "landuse/landfill": {
     "name": "最終処分場",
@@ -1116,15 +1177,19 @@
   },
   "landuse/military": {
     "name": "軍用地",
-    "terms": "軍用地"
+    "terms": "軍用地, 自衛隊, 軍事基地, 陸軍, 海軍, 空軍, 陸上自衛隊, 海上自衛隊, 航空自衛隊"
   },
   "landuse/orchard": {
     "name": "果樹園",
     "terms": "果樹園, 果物畑, リンゴ畑, ミカン畑"
   },
+  "landuse/plant_nursery": {
+    "name": "育苗所",
+    "terms": "育苗所,苗床"
+  },
   "landuse/quarry": {
     "name": "露天掘り鉱山",
-    "terms": "採石場, 石切り場, 露天掘り鉱山"
+    "terms": "採石場, 石切り場, 露天掘り鉱山, 鉱山"
   },
   "landuse/residential": {
     "name": "住宅地",
@@ -1132,18 +1197,30 @@
   },
   "landuse/retail": {
     "name": "商業地",
-    "terms": "商業地,ショッピング地区,ショッピング街"
+    "terms": "商業地, ショッピング地区, ショッピング街, 商店街"
   },
   "landuse/vineyard": {
     "name": "ぶどう畑",
-    "terms": "ぶどう畑"
+    "terms": "ぶどう畑, 果樹園"
   },
   "leisure": {
     "name": "レジャー",
     "terms": "レジャー, 娯楽"
   },
+  "leisure/adult_gaming_centre": {
+    "name": "遊技場",
+    "terms": "遊技場, パチンコ, パチスロ, スロット"
+  },
+  "leisure/bird_hide": {
+    "name": "野鳥観察舎",
+    "terms": "ハイド, 野鳥観察小屋"
+  },
+  "leisure/bowling_alley": {
+    "name": "ボウリング場",
+    "terms": "ボウリング場, ボウリング, ボーリング"
+  },
   "leisure/common": {
-    "name": "共通地",
+    "name": "共有地",
     "terms": "共有地, コモンズ"
   },
   "leisure/dog_park": {
@@ -1160,15 +1237,19 @@
   },
   "leisure/golf_course": {
     "name": "ゴルフコース",
-    "terms": "ゴルフコース"
+    "terms": "ゴルフコース, ゴルフ場"
   },
   "leisure/ice_rink": {
     "name": "アイススケート場",
-    "terms": "アイススケート,アイススケート場,アイススケートリンク"
+    "terms": "アイススケート, アイススケート場, アイススケートリンク, スケートリンク"
   },
   "leisure/marina": {
     "name": "マリーナ",
     "terms": "マリーナ, ヨットハーバー"
+  },
+  "leisure/nature_reserve": {
+    "name": "自然保護区",
+    "terms": "自然保護区"
   },
   "leisure/park": {
     "name": "公園",
@@ -1188,11 +1269,19 @@
   },
   "leisure/pitch/baseball": {
     "name": "野球場",
-    "terms": "野球場"
+    "terms": "野球場, 球場"
   },
   "leisure/pitch/basketball": {
     "name": "バスケットボール場",
     "terms": "バスケットボール場"
+  },
+  "leisure/pitch/rugby_league": {
+    "name": "ラグビーリーグ場",
+    "terms": "ラグビー場, ラグビー, リーグ"
+  },
+  "leisure/pitch/rugby_union": {
+    "name": "ラグビー場",
+    "terms": "ラグビーユニオン場"
   },
   "leisure/pitch/skateboard": {
     "name": "スケートパーク",
@@ -1212,19 +1301,23 @@
   },
   "leisure/playground": {
     "name": "児童公園",
-    "terms": "児童公園, 遊び場"
+    "terms": "児童公園, 遊び場, 児童遊園, 公園"
   },
   "leisure/running_track": {
     "name": "トラック（周回走路）",
-    "terms": "ランニングトラック,ランニング用周回走路"
+    "terms": "ランニングトラック, ランニング用周回走路"
   },
   "leisure/slipway": {
     "name": "進水路",
     "terms": "進水路, スリップウェイ"
   },
-  "leisure/sports_center": {
+  "leisure/sports_centre": {
     "name": "スポーツセンター／ジム",
-    "terms": "スポーツセンター, ジム, フィットネスクラブ"
+    "terms": "ジム, スポーツセンター, 道場"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "スイミングプール施設",
+    "terms": "遊泳プール, プール, 水泳場"
   },
   "leisure/stadium": {
     "name": "スタジアム",
@@ -1232,23 +1325,35 @@
   },
   "leisure/swimming_pool": {
     "name": "遊泳プール",
-    "terms": "遊泳プール"
+    "terms": "遊泳プール, プール, 水泳場"
   },
   "leisure/track": {
-    "name": "（モータースポーツ以外の）レース用トラック（周回走路）",
-    "terms": "レース用トラック, レース用周回走路"
+    "name": "（モータースポーツ以外の）競技用トラック（周回走路）",
+    "terms": "レース用トラック, レース用周回走路, トラック, 競技トラック"
+  },
+  "leisure/water_park": {
+    "name": "親水公園",
+    "terms": "公園, ウォーターパーク"
   },
   "line": {
     "name": "線",
     "terms": "線, ライン"
   },
   "man_made": {
-    "name": "建造物",
+    "name": "人工物",
     "terms": "人工物, 建造物"
+  },
+  "man_made/adit": {
+    "name": "坑口",
+    "terms": "坑口, 坑道"
   },
   "man_made/breakwater": {
     "name": "防波堤",
     "terms": "防波堤"
+  },
+  "man_made/chimney": {
+    "name": "煙突",
+    "terms": "煙突"
   },
   "man_made/cutline": {
     "name": "森林の切れ目",
@@ -1256,19 +1361,35 @@
   },
   "man_made/embankment": {
     "name": "土手",
-    "terms": "土手"
+    "terms": "土手, 築堤"
   },
   "man_made/flagpole": {
     "name": "旗竿",
     "terms": "旗竿"
   },
+  "man_made/gasometer": {
+    "name": "ガスタンク",
+    "terms": "ガスタンク"
+  },
+  "man_made/groyne": {
+    "name": "突堤",
+    "terms": "突堤"
+  },
   "man_made/lighthouse": {
     "name": "灯台",
     "terms": "灯台, ライトハウス"
   },
+  "man_made/mast": {
+    "name": "無線塔",
+    "terms": "無線塔"
+  },
   "man_made/observation": {
     "name": "監視塔",
     "terms": "監視塔"
+  },
+  "man_made/petroleum_well": {
+    "name": "油田",
+    "terms": "油田"
   },
   "man_made/pier": {
     "name": "桟橋",
@@ -1277,6 +1398,14 @@
   "man_made/pipeline": {
     "name": "パイプライン",
     "terms": "パイプライン"
+  },
+  "man_made/silo": {
+    "name": "サイロ",
+    "terms": "サイロ, 貯蔵タンク"
+  },
+  "man_made/storage_tank": {
+    "name": "貯蔵タンク",
+    "terms": "貯蔵タンク, タンク"
   },
   "man_made/survey_point": {
     "name": "観測設備",
@@ -1302,21 +1431,45 @@
     "name": "浄水場",
     "terms": "浄水場"
   },
+  "man_made/works": {
+    "name": "工場",
+    "terms": "プラント"
+  },
   "military/airfield": {
     "name": "軍用飛行場",
-    "terms": "軍用飛行場, 航空基地"
+    "terms": "軍用飛行場, 航空基地, 飛行場, 空港, 空軍, 空自, 航空自衛隊, 軍事基地"
   },
   "military/barracks": {
     "name": "兵舎",
-    "terms": "兵舎,兵営"
+    "terms": "兵舎, 兵営"
   },
   "military/bunker": {
     "name": "バンカー",
-    "terms": "掩蔽壕,観測室,バンカー"
+    "terms": "掩蔽壕, 観測室, バンカー"
+  },
+  "military/checkpoint": {
+    "name": "チェックポイント",
+    "terms": "チェックポイント"
+  },
+  "military/danger_area": {
+    "name": "危険区域",
+    "terms": "危険区域"
+  },
+  "military/naval_base": {
+    "name": "海軍基地",
+    "terms": "海軍基地, 軍艦, 海軍, 海自, 海上自衛隊, 軍事基地"
+  },
+  "military/obstacle_course": {
+    "name": "障害物コース",
+    "terms": "アスレッチックコース"
   },
   "military/range": {
     "name": "軍事演習場",
     "terms": "軍事演習場"
+  },
+  "military/training_area": {
+    "name": "練習場",
+    "terms": "練習場, トレーニングエリア, 訓練場"
   },
   "natural": {
     "name": "自然",
@@ -1324,11 +1477,15 @@
   },
   "natural/bay": {
     "name": "湾",
-    "terms": "湾"
+    "terms": "湾, 入り江"
   },
   "natural/beach": {
     "name": "砂浜",
-    "terms": "砂浜, ビーチ"
+    "terms": "砂浜, ビーチ, 浜"
+  },
+  "natural/cave_entrance": {
+    "name": "洞窟の入口",
+    "terms": "洞窟の入口, 洞穴"
   },
   "natural/cliff": {
     "name": "崖",
@@ -1358,6 +1515,10 @@
     "name": "山頂",
     "terms": "山頂, 頂"
   },
+  "natural/saddle": {
+    "name": "鞍部",
+    "terms": "鞍部"
+  },
   "natural/scree": {
     "name": "ガレ場",
     "terms": "ガレ場"
@@ -1372,7 +1533,15 @@
   },
   "natural/tree": {
     "name": "樹木・林",
-    "terms": "樹木, 林"
+    "terms": "樹木, 林, 木"
+  },
+  "natural/tree_row": {
+    "name": "並木",
+    "terms": "並木, 木, 樹木"
+  },
+  "natural/volcano": {
+    "name": "火口",
+    "terms": "火口, 火山"
   },
   "natural/water": {
     "name": "水域",
@@ -1480,11 +1649,11 @@
   },
   "office/travel_agent": {
     "name": "旅行代理店",
-    "terms": "旅行代理店,トラベル,ツアー"
+    "terms": "旅行代理店, トラベル, ツアー"
   },
   "piste": {
     "name": "ゲレンデ/スキー路",
-    "terms": "ゲレンデ,スキーコース"
+    "terms": "ゲレンデ, スキーコース"
   },
   "place": {
     "name": "地名",
@@ -1492,27 +1661,31 @@
   },
   "place/city": {
     "name": "市名",
-    "terms": "市名"
+    "terms": "市名, 地名"
+  },
+  "place/farm": {
+    "name": "農場",
+    "terms": "農場"
   },
   "place/hamlet": {
     "name": "集落",
-    "terms": "集落"
+    "terms": "集落, 地名"
   },
   "place/island": {
     "name": "島",
     "terms": "島"
   },
   "place/isolated_dwelling": {
-    "name": "一軒家, 街区外居住地",
-    "terms": "一軒家"
+    "name": "孤立した(2世帯以下の)居住区",
+    "terms": "一軒家, 住宅地, 地名"
   },
   "place/locality": {
     "name": "地形名",
-    "terms": "地形名"
+    "terms": "地形名, 地名"
   },
   "place/neighbourhood": {
     "name": "小字",
-    "terms": "小字"
+    "terms": "小字, 地名"
   },
   "place/suburb": {
     "name": "自治区",
@@ -1520,11 +1693,11 @@
   },
   "place/town": {
     "name": "町",
-    "terms": "町"
+    "terms": "町, 地名"
   },
   "place/village": {
     "name": "村",
-    "terms": "村"
+    "terms": "村, 地名"
   },
   "point": {
     "name": "ポイント",
@@ -1536,7 +1709,7 @@
   },
   "power/generator": {
     "name": "発電機",
-    "terms": "発電機"
+    "terms": "発電機, 発電所"
   },
   "power/line": {
     "name": "送電線",
@@ -1556,11 +1729,11 @@
   },
   "power/substation": {
     "name": "変電所",
-    "terms": "変電所,変圧所"
+    "terms": "変電所, 変圧所"
   },
   "power/tower": {
     "name": "送電塔",
-    "terms": "送電塔"
+    "terms": "送電塔, 鉄塔"
   },
   "power/transformer": {
     "name": "変圧器",
@@ -1576,23 +1749,23 @@
   },
   "railway": {
     "name": "鉄道",
-    "terms": "鉄道"
+    "terms": "鉄道, 線路"
   },
   "railway/abandoned": {
     "name": "線路跡",
-    "terms": "鉄道跡, 線路跡"
+    "terms": "鉄道跡, 線路跡, 廃線跡"
   },
   "railway/disused": {
     "name": "休止線路",
-    "terms": "休止線路"
+    "terms": "休止線路, 廃線"
   },
   "railway/funicular": {
     "name": "ケーブルカー",
     "terms": "ケーブルカー"
   },
   "railway/halt": {
-    "name": "信号場",
-    "terms": "信号場"
+    "name": "鉄道駅（停留場）",
+    "terms": "停留所, 停留場, 駅, 鉄道駅"
   },
   "railway/level_crossing": {
     "name": "踏切",
@@ -1604,7 +1777,7 @@
   },
   "railway/narrow_gauge": {
     "name": "軽便鉄道",
-    "terms": "軽便鉄道, ナローゲージ"
+    "terms": "軽便鉄道, ナローゲージ, 線路"
   },
   "railway/platform": {
     "name": "プラットホーム（旧）",
@@ -1615,12 +1788,12 @@
     "terms": "線路"
   },
   "railway/station": {
-    "name": "鉄道駅",
-    "terms": "鉄道駅, 駅"
+    "name": "鉄道駅（停車場）",
+    "terms": "鉄道駅, 駅, 停車場"
   },
   "railway/subway": {
     "name": "地下鉄",
-    "terms": "地下鉄"
+    "terms": "地下鉄, 線路"
   },
   "railway/subway_entrance": {
     "name": "地下鉄の出入口",
@@ -1659,8 +1832,7 @@
     "terms": "古美術品店, アンティークショップ"
   },
   "shop/art": {
-    "name": "アートギャラリー",
-    "terms": "アートギャラリー"
+    "name": "美術品販売店"
   },
   "shop/baby_goods": {
     "name": "赤ちゃん用品店",
@@ -1668,11 +1840,15 @@
   },
   "shop/bag": {
     "name": "バッグ/カバン店",
-    "terms": "バッグ,カバン,鞄"
+    "terms": "バッグ, カバン, 鞄"
   },
   "shop/bakery": {
     "name": "パン屋",
     "terms": "パン屋, ベーカリー"
+  },
+  "shop/bathroom_furnishing": {
+    "name": "浴室用品店",
+    "terms": "浴室用品店"
   },
   "shop/beauty": {
     "name": "美容サービス",
@@ -1680,7 +1856,7 @@
   },
   "shop/bed": {
     "name": "ベッド/マットレス専門店",
-    "terms": "ベッド,マットレス,寝具"
+    "terms": "ベッド, マットレス, 寝具"
   },
   "shop/beverages": {
     "name": "飲料店",
@@ -1696,7 +1872,7 @@
   },
   "shop/books": {
     "name": "本屋",
-    "terms": "本屋,ブックストア,古書店,古書,書籍販売"
+    "terms": "本屋, ブックストア, 古書店, 古書, 書籍販売, 書店"
   },
   "shop/boutique": {
     "name": "ブティック",
@@ -1708,7 +1884,7 @@
   },
   "shop/candles": {
     "name": "キャンドル専門店",
-    "terms": "キャンドル,ロウソク,蝋燭,蠟燭"
+    "terms": "キャンドル, ロウソク, 蝋燭, 蠟燭"
   },
   "shop/car": {
     "name": "自動車販売店",
@@ -1724,23 +1900,58 @@
   },
   "shop/carpet": {
     "name": "カーペット専門店",
-    "terms": "カーペット,敷物,表具店,表具"
+    "terms": "カーペット, 敷物, 表具店, 表具"
+  },
+  "shop/cheese": {
+    "name": "チーズ店",
+    "terms": "チーズ店"
   },
   "shop/chemist": {
     "name": "薬品・化粧品店",
     "terms": "薬品店, 化粧品店"
   },
+  "shop/chocolate": {
+    "name": "チョコレート店",
+    "terms": "チョコレート店"
+  },
   "shop/clothes": {
     "name": "衣料品店",
     "terms": "衣料品店, 洋服店, 呉服店"
+  },
+  "shop/coffee": {
+    "name": "コーヒー豆販売店"
   },
   "shop/computer": {
     "name": "コンピューター店",
     "terms": "コンピューター店, パソコン店"
   },
+  "shop/confectionery": {
+    "name": "菓子屋",
+    "terms": "菓子店, 駄菓子屋"
+  },
   "shop/convenience": {
     "name": "コンビニエンスストア",
     "terms": "コンビニエンスストア, コンビニ"
+  },
+  "shop/copyshop": {
+    "name": "コピー店",
+    "terms": "コピー店"
+  },
+  "shop/cosmetics": {
+    "name": "化粧品店",
+    "terms": "化粧品店"
+  },
+  "shop/craft": {
+    "name": "アートショップ",
+    "terms": "アートショップ, 工芸品"
+  },
+  "shop/curtain": {
+    "name": "カーテン店",
+    "terms": "カーテン店"
+  },
+  "shop/dairy": {
+    "name": "日配品店",
+    "terms": "日配品店"
   },
   "shop/deli": {
     "name": "惣菜屋",
@@ -1751,16 +1962,32 @@
     "terms": "百貨店, デパート"
   },
   "shop/doityourself": {
-    "name": "日曜大工用品店",
+    "name": "ホームセンター",
     "terms": "日曜大工用品店, 工具店, DIYショップ, ホームセンター"
+  },
+  "shop/dry_cleaning": {
+    "name": "クリーニング店",
+    "terms": "クリーニング, ドライクリーニング店, 洗濯屋"
   },
   "shop/electronics": {
     "name": "家電販売店",
-    "terms": "家電販売店"
+    "terms": "家電販売店, 家電量販店"
+  },
+  "shop/erotic": {
+    "name": "アダルトショップ",
+    "terms": "アダルトショップ"
+  },
+  "shop/fabric": {
+    "name": "生地屋",
+    "terms": "布地, 織物, 反物, ファブリック店"
   },
   "shop/farm": {
     "name": "農産物直売所",
     "terms": "農産物直売所"
+  },
+  "shop/fashion": {
+    "name": "ファッション店",
+    "terms": "洋品店, ファッション, 衣類, 衣服, 服, 店"
   },
   "shop/fishmonger": {
     "name": "魚屋",
@@ -1768,11 +1995,19 @@
   },
   "shop/florist": {
     "name": "生花店",
-    "terms": "生花店"
+    "terms": "生花店, 花屋"
+  },
+  "shop/frame": {
+    "name": "額縁店",
+    "terms": "額縁店"
   },
   "shop/funeral_directors": {
     "name": "葬儀社",
     "terms": "葬儀屋, 葬儀業"
+  },
+  "shop/furnace": {
+    "name": "釜戸屋",
+    "terms": "かまど, 釜戸, 竈, 竃, 炉"
   },
   "shop/furniture": {
     "name": "家具店",
@@ -1792,39 +2027,79 @@
   },
   "shop/hairdresser": {
     "name": "理美容店",
-    "terms": "理容店, 床屋, 美容室, 美容院"
+    "terms": "理容店, 床屋, 美容室, 美容院, 散髪屋"
   },
   "shop/hardware": {
     "name": "金物屋",
     "terms": "金物屋, 金物店"
   },
+  "shop/hearing_aids": {
+    "name": "補聴器店",
+    "terms": "補聴器店"
+  },
+  "shop/herbalist": {
+    "name": "薬草店",
+    "terms": "ハーブ店, 薬草店"
+  },
   "shop/hifi": {
     "name": "音響機器店",
     "terms": "音響機器店, オーディオ店"
+  },
+  "shop/houseware": {
+    "name": "生活雑貨店",
+    "terms": "雑貨屋"
+  },
+  "shop/interior_decoration": {
+    "name": "室内装飾店",
+    "terms": "インテリアショップ"
   },
   "shop/jewelry": {
     "name": "宝石店",
     "terms": "宝石店"
   },
+  "shop/kiosk": {
+    "name": "ニュースキオスク",
+    "terms": "キオスク,　ニューススタンド"
+  },
+  "shop/kitchen": {
+    "name": "キッチンデザイン店",
+    "terms": "台所, キッチン, デザイン, design, Kitchen"
+  },
   "shop/laundry": {
     "name": "洗濯屋・コインランドリー",
-    "terms": "洗濯屋, コインランドリー"
+    "terms": "洗濯屋, コインランドリー, ランドリー"
+  },
+  "shop/leather": {
+    "name": "皮革用品店",
+    "terms": "皮革洋品店, レザーショップ, 皮革, レザー"
   },
   "shop/locksmith": {
     "name": "錠前屋",
-    "terms": "錠前屋"
+    "terms": "錠前屋, 鍵屋"
   },
   "shop/lottery": {
     "name": "宝くじ売り場",
-    "terms": "宝くじ売り場"
+    "terms": "宝くじ売り場, くじ"
   },
   "shop/mall": {
     "name": "ショッピングセンター",
     "terms": "ショッピングセンター, ショッピングモール, 複合商業施設"
   },
+  "shop/massage": {
+    "name": "マッサージ店",
+    "terms": "マッサージ店, マッサージ, あんま, 指圧"
+  },
+  "shop/medical_supply": {
+    "name": "医療器具店",
+    "terms": "医療器具店"
+  },
   "shop/mobile_phone": {
     "name": "携帯電話店",
     "terms": "携帯電話店, ケータイショップ"
+  },
+  "shop/money_lender": {
+    "name": "消費者金融",
+    "terms": "消費者金融, サラ金, 貸金"
   },
   "shop/motorcycle": {
     "name": "バイク店",
@@ -1834,21 +2109,65 @@
     "name": "CD/レコード店",
     "terms": "CD店, レコード店"
   },
+  "shop/musical_instrument": {
+    "name": "楽器店",
+    "terms": "楽器店"
+  },
+  "shop/newsagent": {
+    "name": "新聞・雑誌店",
+    "terms": "新聞, 雑誌, マガジン, ニュース, スタンド"
+  },
   "shop/optician": {
     "name": "メガネ",
-    "terms": "メガネ,眼鏡,メガネ屋,眼鏡屋"
+    "terms": "メガネ, 眼鏡, メガネ屋, 眼鏡屋"
+  },
+  "shop/organic": {
+    "name": "オーガニック商品店",
+    "terms": "オーガニック商品店, 有機野菜, オーガニック, 有機"
+  },
+  "shop/outdoor": {
+    "name": "アウトドアショップ",
+    "terms": "アウトドアショップ"
+  },
+  "shop/paint": {
+    "name": "塗料店",
+    "terms": "塗料店"
+  },
+  "shop/pawnbroker": {
+    "name": "質店",
+    "terms": "質屋, 質店"
   },
   "shop/pet": {
     "name": "ペットショップ",
-    "terms": "ペット売り場,ペット,家禽,ペットショップ"
+    "terms": "ペット売り場, ペット, 家禽, ペットショップ"
   },
   "shop/photo": {
     "name": "写真屋",
     "terms": "写真屋"
   },
+  "shop/pyrotechnics": {
+    "name": "花火店",
+    "terms": "花火店"
+  },
+  "shop/radiotechnics": {
+    "name": "電子部品店",
+    "terms": "電子部品店, ラジオ, 電子部品, 電子工作"
+  },
+  "shop/religion": {
+    "name": "宗教用品店",
+    "terms": "宗教用品店, 仏壇, 仏具, 祭祀用品"
+  },
+  "shop/scuba_diving": {
+    "name": "スキューバダイビングショップ",
+    "terms": "スキューバダイビングショップ, スキューバダイビング"
+  },
   "shop/seafood": {
     "name": "魚屋",
-    "terms": "海鮮食品店,魚屋,魚市場"
+    "terms": "海鮮食品店, 魚屋, 魚市場"
+  },
+  "shop/second_hand": {
+    "name": "リサイクルショップ",
+    "terms": "古物商, リユースショップ"
   },
   "shop/shoes": {
     "name": "靴店",
@@ -1860,7 +2179,11 @@
   },
   "shop/stationery": {
     "name": "文具店",
-    "terms": "文具店"
+    "terms": "文具店, 文房具屋"
+  },
+  "shop/storage_rental": {
+    "name": "レンタルスペース",
+    "terms": "貸し倉庫, レンタルボックス, 貸しコンテナ"
   },
   "shop/supermarket": {
     "name": "スーパーマーケット",
@@ -1868,7 +2191,23 @@
   },
   "shop/tailor": {
     "name": "仕立て屋",
-    "terms": "仕立て屋,テイラー,洋裁店"
+    "terms": "仕立て屋, テイラー, 洋裁店"
+  },
+  "shop/tattoo": {
+    "name": "タトゥースタジオ",
+    "terms": "刺青屋"
+  },
+  "shop/tea": {
+    "name": "茶店",
+    "terms": "茶舗"
+  },
+  "shop/ticket": {
+    "name": "チケット店",
+    "terms": "チケット店, 金券ショップ, チケット"
+  },
+  "shop/tobacco": {
+    "name": "煙草屋",
+    "terms": "たばこ店, たばこ屋, タバコ, たばこ"
   },
   "shop/toys": {
     "name": "玩具店",
@@ -1876,7 +2215,7 @@
   },
   "shop/travel_agency": {
     "name": "旅行代理店",
-    "terms": "旅行代理店,トラベル,ツアー"
+    "terms": "旅行代理店, トラベル,ツアー"
   },
   "shop/tyres": {
     "name": "タイヤ店",
@@ -1884,7 +2223,11 @@
   },
   "shop/vacant": {
     "name": "空き店舗",
-    "terms": "空き店舗,未入居店舗"
+    "terms": "空き店舗, 未入居店舗"
+  },
+  "shop/vacuum_cleaner": {
+    "name": "掃除機店",
+    "terms": "掃除機店"
   },
   "shop/variety_store": {
     "name": "雑貨店",
@@ -1893,6 +2236,21 @@
   "shop/video": {
     "name": "ビデオソフト店",
     "terms": "ビデオソフト店, DVD店"
+  },
+  "shop/video_games": {
+    "name": "テレビゲーム専門店",
+    "terms": "ゲーム屋"
+  },
+  "shop/water_sports": {
+    "name": "ウォータースポーツ用品店",
+    "terms": "マリンスポーツ専門店, ウォータースポーツ専門店, 水着屋"
+  },
+  "shop/weapons": {
+    "name": "武器屋",
+    "terms": "銃砲店"
+  },
+  "shop/window_blind": {
+    "name": "ブラインドカーテン専門店"
   },
   "shop/wine": {
     "name": "ワイン店",
@@ -1926,6 +2284,10 @@
     "name": "貸別荘",
     "terms": "貸別荘, コテージ"
   },
+  "tourism/gallery": {
+    "name": "アートギャラリー",
+    "terms": "画廊"
+  },
   "tourism/guest_house": {
     "name": "民宿",
     "terms": "民宿, ゲストハウス"
@@ -1940,7 +2302,7 @@
   },
   "tourism/information": {
     "name": "観光案内",
-    "terms": "観光案内"
+    "terms": "観光案内, 案内, 案内板, 案内所"
   },
   "tourism/motel": {
     "name": "モーテル",
@@ -1965,6 +2327,22 @@
   "tourism/zoo": {
     "name": "動物園",
     "terms": "動物園"
+  },
+  "traffic_calming/bump": {
+    "name": "スピードバンプ",
+    "terms": "スピードバンプ"
+  },
+  "traffic_calming/hump": {
+    "name": "スピードハンプ",
+    "terms": "スピードハンプ"
+  },
+  "traffic_calming/rumble_strip": {
+    "name": "ランブルストリップ",
+    "terms": "ランブルストリップ"
+  },
+  "traffic_calming/table": {
+    "name": "歩道橋",
+    "terms": "歩道橋, 横断歩道橋"
   },
   "type/boundary": {
     "name": "境界",
@@ -2051,8 +2429,8 @@
     "terms": "道路ルート"
   },
   "type/route/train": {
-    "name": "鉄道ルート",
-    "terms": "鉄道ルート"
+    "name": "列車ルート",
+    "terms": "列車ルート, 運行系統"
   },
   "type/route/tram": {
     "name": "路面電車系統",
@@ -2070,6 +2448,9 @@
     "name": "水路",
     "terms": "水路"
   },
+  "waterway/boatyard": {
+    "name": "造船所"
+  },
   "waterway/canal": {
     "name": "運河",
     "terms": "運河"
@@ -2086,17 +2467,25 @@
     "name": "放水路",
     "terms": "放水路"
   },
+  "waterway/fuel": {
+    "name": "マリンスタンド",
+    "terms": "マリンガススタンド, マリンガソリンスタンド"
+  },
   "waterway/river": {
     "name": "河川",
-    "terms": "川,河川"
+    "terms": "川, 河川"
   },
   "waterway/riverbank": {
     "name": "河岸",
-    "terms": "河岸"
+    "terms": "河岸, 川"
+  },
+  "waterway/sanitary_dump_station": {
+    "name": "海上汚物廃棄所",
+    "terms": "海上汚物廃棄所"
   },
   "waterway/stream": {
     "name": "小川",
-    "terms": "小川,せせらぎ"
+    "terms": "小川, せせらぎ, 川"
   },
   "waterway/weir": {
     "name": "堰",

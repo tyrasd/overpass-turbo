@@ -101,11 +101,11 @@
   },
   "amenity/bbq": {
     "name": "Barbecue/Grill",
-    "terms": "bbq"
+    "terms": "bbq,grill"
   },
   "amenity/bench": {
     "name": "Bench",
-    "terms": ""
+    "terms": "seat"
   },
   "amenity/bicycle_parking": {
     "name": "Bicycle Parking",
@@ -116,8 +116,12 @@
     "terms": "bike"
   },
   "amenity/bicycle_repair_station": {
-    "name": "Bicycle Repair Station",
-    "terms": "bike"
+    "name": "Bicycle Repair Tool Stand",
+    "terms": "bike,repair,chain,pump"
+  },
+  "amenity/biergarten": {
+    "name": "Beer Garden",
+    "terms": "beer,bier,booze"
   },
   "amenity/boat_rental": {
     "name": "Boat Rental",
@@ -133,7 +137,7 @@
   },
   "amenity/cafe": {
     "name": "Cafe",
-    "terms": "coffee,tea"
+    "terms": "bistro,coffee,tea"
   },
   "amenity/car_rental": {
     "name": "Car Rental",
@@ -146,6 +150,10 @@
   "amenity/car_wash": {
     "name": "Car Wash",
     "terms": ""
+  },
+  "amenity/casino": {
+    "name": "Casino",
+    "terms": "gambling,roulette,craps,poker,blackjack"
   },
   "amenity/charging_station": {
     "name": "Charging Station",
@@ -187,7 +195,7 @@
     "name": "Dentist",
     "terms": "tooth,teeth"
   },
-  "amenity/doctor": {
+  "amenity/doctors": {
     "name": "Doctor",
     "terms": "medic*"
   },
@@ -207,6 +215,10 @@
     "name": "Fast Food",
     "terms": "restaurant"
   },
+  "amenity/ferry_terminal": {
+    "name": "Ferry Terminal",
+    "terms": ""
+  },
   "amenity/fire_station": {
     "name": "Fire Station",
     "terms": ""
@@ -217,7 +229,7 @@
   },
   "amenity/fuel": {
     "name": "Gas Station",
-    "terms": "petrol,fuel,propane,diesel,lng,cng,biodiesel"
+    "terms": "petrol,fuel,gasoline,propane,diesel,lng,cng,biodiesel"
   },
   "amenity/grave_yard": {
     "name": "Graveyard",
@@ -231,6 +243,10 @@
     "name": "Hospital Grounds",
     "terms": "clinic,doctor,emergency room,health service,hospice,infirmary,institution,nursing home,sanatorium,sanitarium,sick,surgery,ward"
   },
+  "amenity/hunting_stand": {
+    "name": "Hunting Stand",
+    "terms": ""
+  },
   "amenity/kindergarten": {
     "name": "Preschool/Kindergarten Grounds",
     "terms": "kindergarden,pre-school"
@@ -243,6 +259,10 @@
     "name": "Marketplace",
     "terms": ""
   },
+  "amenity/motorcycle_parking": {
+    "name": "Motorcycle Parking",
+    "terms": ""
+  },
   "amenity/nightclub": {
     "name": "Nightclub",
     "terms": "disco*,night club,dancing,dance club"
@@ -253,6 +273,10 @@
   },
   "amenity/parking_entrance": {
     "name": "Parking Garage Entrance/Exit",
+    "terms": ""
+  },
+  "amenity/parking_space": {
+    "name": "Parking Space",
     "terms": ""
   },
   "amenity/pharmacy": {
@@ -291,6 +315,10 @@
     "name": "Post Office",
     "terms": "letter,mail"
   },
+  "amenity/prison": {
+    "name": "Prison Grounds",
+    "terms": "cell,jail"
+  },
   "amenity/pub": {
     "name": "Pub",
     "terms": "dive,beer,bier,booze"
@@ -314,6 +342,10 @@
   "amenity/restaurant": {
     "name": "Restaurant",
     "terms": "bar,breakfast,cafe,café,canteen,coffee,dine,dining,dinner,drive-in,eat,grill,lunch,table"
+  },
+  "amenity/sanitary_dump_station": {
+    "name": "RV Toilet Disposal",
+    "terms": "Motor Home,Camper,Sanitary,Dump Station,Elsan,CDP,CTDP,Chemical Toilet"
   },
   "amenity/school": {
     "name": "School Grounds",
@@ -371,9 +403,45 @@
     "name": "University Grounds",
     "terms": "college"
   },
-  "amenity/vending_machine": {
+  "amenity/vending_machine/cigarettes": {
+    "name": "Cigarette Vending Machine",
+    "terms": "cigarette"
+  },
+  "amenity/vending_machine/condoms": {
+    "name": "Condom Vending Machine",
+    "terms": "condom"
+  },
+  "amenity/vending_machine/drinks": {
+    "name": "Drink Vending Machine",
+    "terms": "drink,soda,beverage,juice,pop"
+  },
+  "amenity/vending_machine/excrement_bags": {
+    "name": "Excrement Bag Vending Machine",
+    "terms": "excrement bags,poop,dog,animal"
+  },
+  "amenity/vending_machine/news_papers": {
+    "name": "Newspaper Vending Machine",
+    "terms": "newspaper"
+  },
+  "amenity/vending_machine/parcel_pickup_dropoff": {
+    "name": "Parcel Pickup/Dropoff Vending Machine",
+    "terms": "parcel,mail,pickup"
+  },
+  "amenity/vending_machine/parking_tickets": {
+    "name": "Parking Ticket Vending Machine",
+    "terms": "parking,ticket"
+  },
+  "amenity/vending_machine/public_transport_tickets": {
+    "name": "Transit Ticket Vending Machine",
+    "terms": "bus,train,ferry,rail,ticket,transportation"
+  },
+  "amenity/vending_machine/sweets": {
+    "name": "Snack Vending Machine",
+    "terms": "candy,gum,chip,pretzel,cookie,cracker"
+  },
+  "amenity/vending_machine/vending_machine": {
     "name": "Vending Machine",
-    "terms": "snack,soda,ticket"
+    "terms": ""
   },
   "amenity/veterinary": {
     "name": "Veterinary",
@@ -381,10 +449,22 @@
   },
   "amenity/waste_basket": {
     "name": "Waste Basket",
-    "terms": "rubbish,litter,trash,garbage"
+    "terms": "bin,rubbish,litter,trash,garbage"
+  },
+  "amenity/waste_disposal": {
+    "name": "Garbage Dumpster",
+    "terms": "rubbish,litter,trash"
+  },
+  "amenity/water_point": {
+    "name": "RV Drinking Water",
+    "terms": ""
   },
   "area": {
     "name": "Area",
+    "terms": ""
+  },
+  "area/highway": {
+    "name": "Road Surface",
     "terms": ""
   },
   "barrier": {
@@ -412,7 +492,7 @@
     "terms": ""
   },
   "barrier/ditch": {
-    "name": "Ditch",
+    "name": "Trench",
     "terms": ""
   },
   "barrier/entrance": {
@@ -480,15 +560,15 @@
     "terms": ""
   },
   "building/cathedral": {
-    "name": "Cathedral",
+    "name": "Cathedral Building",
     "terms": ""
   },
   "building/chapel": {
-    "name": "Chapel",
+    "name": "Chapel Building",
     "terms": ""
   },
   "building/church": {
-    "name": "Church",
+    "name": "Church Building",
     "terms": ""
   },
   "building/college": {
@@ -504,8 +584,8 @@
     "terms": ""
   },
   "building/detached": {
-    "name": "Detached Home",
-    "terms": ""
+    "name": "Detached House",
+    "terms": "home,single,family,residence,dwelling"
   },
   "building/dormitory": {
     "name": "Dormitory",
@@ -537,7 +617,7 @@
   },
   "building/house": {
     "name": "House",
-    "terms": ""
+    "terms": "home,family,residence,dwelling"
   },
   "building/hut": {
     "name": "Hut",
@@ -571,6 +651,10 @@
     "name": "School Building",
     "terms": "academy,elementary school,middle school,high school"
   },
+  "building/semidetached_house": {
+    "name": "Semi-Detached House",
+    "terms": "home,double,duplex,twin,family,residence,dwelling"
+  },
   "building/shed": {
     "name": "Shed",
     "terms": ""
@@ -585,7 +669,7 @@
   },
   "building/terrace": {
     "name": "Row Houses",
-    "terms": ""
+    "terms": "home,terrace,brownstone,family,residence,dwelling"
   },
   "building/train_station": {
     "name": "Train Station",
@@ -808,11 +892,11 @@
     "terms": ""
   },
   "footway/crossing": {
-    "name": "Crossing",
+    "name": "Street Crossing",
     "terms": ""
   },
   "footway/crosswalk": {
-    "name": "Crosswalk",
+    "name": "Pedestrian Crosswalk",
     "terms": "zebra crossing"
   },
   "footway/sidewalk": {
@@ -867,12 +951,16 @@
     "name": "Bus Stop",
     "terms": ""
   },
+  "highway/corridor": {
+    "name": "Indoor Corridor",
+    "terms": "gallery,hall,hallway,indoor,passage,passageway"
+  },
   "highway/crossing": {
-    "name": "Crossing",
+    "name": "Street Crossing",
     "terms": ""
   },
   "highway/crosswalk": {
-    "name": "Crosswalk",
+    "name": "Pedestrian Crosswalk",
     "terms": "zebra crossing"
   },
   "highway/cycleway": {
@@ -908,7 +996,7 @@
     "terms": "hike,hiking,trackway,trail,walk"
   },
   "highway/pedestrian": {
-    "name": "Pedestrian",
+    "name": "Pedestrian Street",
     "terms": ""
   },
   "highway/primary": {
@@ -992,8 +1080,8 @@
     "terms": "ramp,on ramp,off ramp"
   },
   "highway/track": {
-    "name": "Track",
-    "terms": "woods road,fire road"
+    "name": "Unmaintained Track Road",
+    "terms": "woods road,forest road,logging road,fire road,farm road,agricultural road,ranch road,carriage road,primitive,unmaintained,rut,offroad,4wd,4x4,four wheel drive,atv,quad,jeep,double track,two track"
   },
   "highway/traffic_signals": {
     "name": "Traffic Signals",
@@ -1012,7 +1100,7 @@
     "terms": "cul-de-sac"
   },
   "highway/unclassified": {
-    "name": "Unclassified Road",
+    "name": "Minor/Unclassified Road",
     "terms": ""
   },
   "historic": {
@@ -1056,12 +1144,12 @@
     "terms": ""
   },
   "landuse": {
-    "name": "Landuse",
+    "name": "Land Use",
     "terms": ""
   },
   "landuse/allotments": {
-    "name": "Allotments",
-    "terms": ""
+    "name": "Community Garden",
+    "terms": "allotment,garden"
   },
   "landuse/basin": {
     "name": "Basin",
@@ -1127,6 +1215,10 @@
     "name": "Orchard",
     "terms": ""
   },
+  "landuse/plant_nursery": {
+    "name": "Plant Nursery",
+    "terms": "vivero"
+  },
   "landuse/quarry": {
     "name": "Quarry",
     "terms": ""
@@ -1145,6 +1237,18 @@
   },
   "leisure": {
     "name": "Leisure",
+    "terms": ""
+  },
+  "leisure/adult_gaming_centre": {
+    "name": "Adult Gaming Center",
+    "terms": "gambling,slot machine"
+  },
+  "leisure/bird_hide": {
+    "name": "Bird Hide",
+    "terms": "machan,ornithology"
+  },
+  "leisure/bowling_alley": {
+    "name": "Bowling Alley",
     "terms": ""
   },
   "leisure/common": {
@@ -1203,6 +1307,14 @@
     "name": "Basketball Court",
     "terms": ""
   },
+  "leisure/pitch/rugby_league": {
+    "name": "Rugby League Field",
+    "terms": ""
+  },
+  "leisure/pitch/rugby_union": {
+    "name": "Rugby Union Field",
+    "terms": ""
+  },
   "leisure/pitch/skateboard": {
     "name": "Skate Park",
     "terms": ""
@@ -1231,9 +1343,13 @@
     "name": "Slipway",
     "terms": "boat launch,boat ramp"
   },
-  "leisure/sports_center": {
+  "leisure/sports_centre": {
     "name": "Sports Center / Gym",
     "terms": "gym"
+  },
+  "leisure/sports_centre/swimming": {
+    "name": "Swimming Pool Facility",
+    "terms": "dive,water"
   },
   "leisure/stadium": {
     "name": "Stadium",
@@ -1241,11 +1357,15 @@
   },
   "leisure/swimming_pool": {
     "name": "Swimming Pool",
-    "terms": ""
+    "terms": "dive,water"
   },
   "leisure/track": {
     "name": "Racetrack (non-Motorsport)",
     "terms": ""
+  },
+  "leisure/water_park": {
+    "name": "Water Park",
+    "terms": "swim,pool,dive"
   },
   "line": {
     "name": "Line",
@@ -1255,8 +1375,16 @@
     "name": "Man Made",
     "terms": ""
   },
+  "man_made/adit": {
+    "name": "Adit",
+    "terms": "entrance,underground,mine,cave"
+  },
   "man_made/breakwater": {
     "name": "Breakwater",
+    "terms": ""
+  },
+  "man_made/chimney": {
+    "name": "Chimney",
     "terms": ""
   },
   "man_made/cutline": {
@@ -1269,6 +1397,14 @@
   },
   "man_made/flagpole": {
     "name": "Flagpole",
+    "terms": ""
+  },
+  "man_made/gasometer": {
+    "name": "Gasometer",
+    "terms": "gas holder"
+  },
+  "man_made/groyne": {
+    "name": "Groyne",
     "terms": ""
   },
   "man_made/lighthouse": {
@@ -1289,10 +1425,22 @@
   },
   "man_made/pier": {
     "name": "Pier",
-    "terms": ""
+    "terms": "dock"
   },
   "man_made/pipeline": {
     "name": "Pipeline",
+    "terms": ""
+  },
+  "man_made/silo": {
+    "name": "Silo",
+    "terms": "grain,corn,wheat"
+  },
+  "man_made/storage_tank": {
+    "name": "Storage Tank",
+    "terms": "water,oil,gas,petrol"
+  },
+  "man_made/surveillance": {
+    "name": "Surveillance",
     "terms": ""
   },
   "man_made/survey_point": {
@@ -1319,6 +1467,10 @@
     "name": "Water Works",
     "terms": ""
   },
+  "man_made/works": {
+    "name": "Works",
+    "terms": "car assembly plant,aluminium processing plant,brewery,furniture manufacture factory,oil refinery,plastic recycling"
+  },
   "military/airfield": {
     "name": "Airfield",
     "terms": ""
@@ -1331,8 +1483,28 @@
     "name": "Bunker",
     "terms": ""
   },
+  "military/checkpoint": {
+    "name": "Checkpoint",
+    "terms": ""
+  },
+  "military/danger_area": {
+    "name": "Danger Area",
+    "terms": ""
+  },
+  "military/naval_base": {
+    "name": "Naval Base",
+    "terms": ""
+  },
+  "military/obstacle_course": {
+    "name": "Obstacle Course",
+    "terms": ""
+  },
   "military/range": {
     "name": "Military Range",
+    "terms": ""
+  },
+  "military/training_area": {
+    "name": "Training area",
     "terms": ""
   },
   "natural": {
@@ -1349,7 +1521,7 @@
   },
   "natural/cave_entrance": {
     "name": "Cave Entrance",
-    "terms": ""
+    "terms": "cavern,hollow,grotto,shelter,cavity"
   },
   "natural/cliff": {
     "name": "Cliff",
@@ -1379,13 +1551,17 @@
     "name": "Peak",
     "terms": "acme,aiguille,alp,climax,crest,crown,hill,mount,mountain,pinnacle,summit,tip,top"
   },
+  "natural/saddle": {
+    "name": "Saddle",
+    "terms": "pass,mountain pass,top"
+  },
   "natural/scree": {
     "name": "Scree",
     "terms": "loose rocks"
   },
   "natural/scrub": {
     "name": "Scrub",
-    "terms": ""
+    "terms": "bush,shrubs"
   },
   "natural/spring": {
     "name": "Spring",
@@ -1394,6 +1570,14 @@
   "natural/tree": {
     "name": "Tree",
     "terms": ""
+  },
+  "natural/tree_row": {
+    "name": "Tree row",
+    "terms": ""
+  },
+  "natural/volcano": {
+    "name": "Volcano",
+    "terms": "mountain,crater"
   },
   "natural/water": {
     "name": "Water",
@@ -1620,8 +1804,8 @@
     "terms": "break,interrupt,rest,wait,interruption"
   },
   "railway/level_crossing": {
-    "name": "Level Crossing",
-    "terms": "crossing,railroad crossing,railway crossing,grade crossing,road through railroad,train crossing"
+    "name": "Railway Crossing",
+    "terms": "crossing,railroad crossing,level crossing,grade crossing,road through railroad,train crossing"
   },
   "railway/monorail": {
     "name": "Monorail",
@@ -1684,8 +1868,8 @@
     "terms": ""
   },
   "shop/art": {
-    "name": "Art Gallery",
-    "terms": ""
+    "name": "Art Store",
+    "terms": "art*,exhibit*,gallery"
   },
   "shop/baby_goods": {
     "name": "Baby Goods Store",
@@ -1717,7 +1901,7 @@
   },
   "shop/bicycle": {
     "name": "Bicycle Shop",
-    "terms": ""
+    "terms": "bike,repair"
   },
   "shop/bookmaker": {
     "name": "Bookmaker",
@@ -1771,6 +1955,10 @@
     "name": "Clothing Store",
     "terms": ""
   },
+  "shop/coffee": {
+    "name": "Coffee Store",
+    "terms": ""
+  },
   "shop/computer": {
     "name": "Computer Store",
     "terms": ""
@@ -1793,7 +1981,7 @@
   },
   "shop/craft": {
     "name": "Arts and Crafts Store",
-    "terms": ""
+    "terms": "art*,paint*,frame"
   },
   "shop/curtain": {
     "name": "Curtain Store",
@@ -1849,7 +2037,7 @@
   },
   "shop/frame": {
     "name": "Framing Shop",
-    "terms": ""
+    "terms": "art*,paint*,photo*,frame"
   },
   "shop/funeral_directors": {
     "name": "Funeral Home",
@@ -1967,6 +2155,10 @@
     "name": "Newspaper/Magazine Shop",
     "terms": ""
   },
+  "shop/nutrition_supplements": {
+    "name": "Nutrition Supplements Store",
+    "terms": ""
+  },
   "shop/optician": {
     "name": "Optician",
     "terms": "eye,glasses"
@@ -2030,6 +2222,10 @@
   "shop/stationery": {
     "name": "Stationery Store",
     "terms": "card,paper"
+  },
+  "shop/storage_rental": {
+    "name": "Storage Rental",
+    "terms": ""
   },
   "shop/supermarket": {
     "name": "Supermarket",
@@ -2121,15 +2317,19 @@
   },
   "tourism/camp_site": {
     "name": "Camp Site",
-    "terms": ""
+    "terms": "Tent"
   },
   "tourism/caravan_site": {
     "name": "RV Park",
-    "terms": ""
+    "terms": "Motor Home,Camper"
   },
   "tourism/chalet": {
     "name": "Chalet",
     "terms": ""
+  },
+  "tourism/gallery": {
+    "name": "Art Gallery",
+    "terms": "art*,exhibit*,paint*,photo*,sculpt*"
   },
   "tourism/guest_house": {
     "name": "Guest House",
@@ -2153,7 +2353,7 @@
   },
   "tourism/museum": {
     "name": "Museum",
-    "terms": "exhibition,foundation,gallery,hall,institution"
+    "terms": "art*,exhibit*,gallery,foundation,hall,institution,paint*,photo*,sculpt*"
   },
   "tourism/picnic_site": {
     "name": "Picnic Site",
@@ -2259,6 +2459,10 @@
     "name": "Hiking Route",
     "terms": ""
   },
+  "type/route/horse": {
+    "name": "Riding Route",
+    "terms": ""
+  },
   "type/route/pipeline": {
     "name": "Pipeline Route",
     "terms": ""
@@ -2283,12 +2487,20 @@
     "name": "Route Master",
     "terms": ""
   },
+  "type/site": {
+    "name": "Site",
+    "terms": ""
+  },
   "vertex": {
     "name": "Other",
     "terms": ""
   },
   "waterway": {
     "name": "Waterway",
+    "terms": ""
+  },
+  "waterway/boatyard": {
+    "name": "Boatyard",
     "terms": ""
   },
   "waterway/canal": {
@@ -2303,9 +2515,17 @@
     "name": "Ditch",
     "terms": ""
   },
+  "waterway/dock": {
+    "name": "Wet Dock / Dry Dock",
+    "terms": "boat,ship,vessel,marine"
+  },
   "waterway/drain": {
     "name": "Drain",
     "terms": ""
+  },
+  "waterway/fuel": {
+    "name": "Marine Fuel Station",
+    "terms": "petrol,gas,diesel,boat"
   },
   "waterway/river": {
     "name": "River",
@@ -2315,9 +2535,17 @@
     "name": "Riverbank",
     "terms": ""
   },
+  "waterway/sanitary_dump_station": {
+    "name": "Marine Toilet Disposal",
+    "terms": "Boat,Watercraft,Sanitary,Dump Station,Pumpout,Pump out,Elsan,CDP,CTDP,Chemical Toilet"
+  },
   "waterway/stream": {
     "name": "Stream",
     "terms": "beck,branch,brook,burn,course,creek,current,drift,flood,flow,freshet,race,rill,rindle,rivulet,run,runnel,rush,spate,spritz,surge,tide,torrent,tributary,watercourse"
+  },
+  "waterway/water_point": {
+    "name": "Marine Drinking Water",
+    "terms": ""
   },
   "waterway/weir": {
     "name": "Weir",

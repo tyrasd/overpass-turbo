@@ -1,6 +1,7 @@
 before_script:
-  - "npm install -g mocha-phantomjs"
+  - "npm install mocha-phantomjs"
 script: mocha-phantomjs tests/index.html
 branches:
   except:
     - modularize
+sudo: false

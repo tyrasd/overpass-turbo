@@ -65,14 +65,14 @@ examples = {
   "Where am I?":{"overpass":"/*\nThis lists all areas which include the map center point.\n*/\n[out:json];\nis_in({{center}});\nout;"},
   "Mountains in Area":{"overpass":"/*\nThis shows all mountains (peaks) in the Dolomites.\nYou may want to use the \"zoom onto data\" button. =>\n*/\n\n[out:json];\n\n// search the area of the Dolmites\narea\n  [place=region]\n  [\"region:type\"=\"mountain_area\"]\n  [\"name:en\"=\"Dolomites\"];\nout body;\n\n// get all peaks in the area\nnode\n  [natural=peak]\n  (area);\nout body qt;\n\n// additionally, show the outline of the area\nrelation\n  [place=region]\n  [\"region:type\"=\"mountain_area\"]\n  [\"name:en\"=\"Dolomites\"];\nout body;\n>;\nout skel qt;"},
   "Map Call":{"overpass":"/*\nThis is a simple map call.\nIt returns all data in the bounding box.\n*/\n[out:xml];\n(\n  node({{bbox}});\n  <;\n);\nout meta;"},
-  "MapCSS styling": {"overpass": "/*\nThis example shows how the data can be styled.\nHere, some common amenities are displayed in \ndifferent colors.\n\nRead more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\n*/\n[out:json];\n\n(\n  node[amenity]({{bbox}});\n  way[amenity]({{bbox}});\n  relation[amenity]({{bbox}});\n);\nout body;\n<;\nout skel qt;\n\n{{style: /* this is the MapCSS stylesheet */\nnode, area\n{ color:gray; fill-color:gray; }\n\nnode[amenity=drinking_water],\nnode[amenity=fountain]\n{ color:blue; fill-color:blue; }\n\nnode[amenity=place_of_worship],\narea[amenity=place_of_worship]\n{ color:grey; fill-color:grey; }\n\nnode[amenity=~/(restaurant|hotel|cafe)/],\narea[amenity=~/(restaurant|hotel|cafe)/]\n{ color:red; fill-color:red; }\n\nnode[amenity=parking],\narea[amenity=parking]\n{ color:yellow; fill-color:yellow; }\n\nnode[amenity=bench]\n{ color:brown; fill-color:brown; }\n\nnode[amenity=~/(kindergarten|school|university)/],\narea[amenity=~/(kindergarten|school|university)/]\n{ color:green; fill-color:green; }\n}}"},
+  "MapCSS styling": {"overpass": "/*\nThis example shows how the data can be styled.\nHere, some common amenities are displayed in \ndifferent colors.\n\nRead more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\n*/\n[out:json];\n\n(\n  node[amenity]({{bbox}});\n  way[amenity]({{bbox}});\n  relation[amenity]({{bbox}});\n);\nout body;\n>;\nout skel qt;\n\n{{style: /* this is the MapCSS stylesheet */\nnode, area\n{ color:gray; fill-color:gray; }\n\nnode[amenity=drinking_water],\nnode[amenity=fountain]\n{ color:blue; fill-color:blue; }\n\nnode[amenity=place_of_worship],\narea[amenity=place_of_worship]\n{ color:grey; fill-color:grey; }\n\nnode[amenity=~/(restaurant|hotel|cafe)/],\narea[amenity=~/(restaurant|hotel|cafe)/]\n{ color:red; fill-color:red; }\n\nnode[amenity=parking],\narea[amenity=parking]\n{ color:yellow; fill-color:yellow; }\n\nnode[amenity=bench]\n{ color:brown; fill-color:brown; }\n\nnode[amenity=~/(kindergarten|school|university)/],\narea[amenity=~/(kindergarten|school|university)/]\n{ color:green; fill-color:green; }\n}}"},
 };
 examples_initial_example = "Drinking Water";
 
 // global settings object
 var settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
-  31 // settings version number
+  32 // settings version number
 );
 
 // map coordinates
@@ -292,5 +292,11 @@ settings.define_upgrade_callback(31, function(s) {
     }
   });
   delete s.saves["Drinking Water (Overpass QL)"];
+  s.save();
+});
+
+settings.define_upgrade_callback(32, function(s) {
+  // fix typo in query definition
+  s.saves["MapCSS styling"].overpass = s.saves["MapCSS styling"].overpass.replace("<;",">;");
   s.save();
 });

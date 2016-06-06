@@ -43,6 +43,7 @@ var ide = new(function() {
 
   this.waiter = {
     opened: false,
+    frames: "◴◷◶◵",
     open: function(show_info) {
       if (show_info) {
         $(".modal .wait-info h4").text(show_info);
@@ -51,9 +52,16 @@ var ide = new(function() {
         $(".wait-info").hide();
       }
       $("body").addClass("loading");
+      document.title = ide.waiter.frames[0] + " " + ide.waiter._initialTitle;
+      var f = 0;
+      ide.waiter.interval = setInterval(function() {
+        document.title = ide.waiter.frames[++f % ide.waiter.frames.length] + " " + ide.waiter._initialTitle;
+      }, 250);
       ide.waiter.opened = true;
     },
     close: function() {
+      clearInterval(ide.waiter.interval);
+      document.title = ide.waiter._initialTitle;
       $("body").removeClass("loading");
       $(".wait-info ul li").remove();
       delete ide.waiter.onAbort;
@@ -78,6 +86,7 @@ var ide = new(function() {
       }
     },
   };
+  this.waiter._initialTitle = document.title;
 
   // == public methods ==
 
@@ -120,19 +129,29 @@ var ide = new(function() {
 
     ide.waiter.addInfo("initialize page");
     // init page layout
-    if (settings.editor_width != "") {
+    var isInitialAspectPortrait = $(window).width() / $(window).height() < 0.8;
+    if (settings.editor_width != "" && !isInitialAspectPortrait) {
       $("#editor").css("width",settings.editor_width);
       $("#dataviewer").css("left",settings.editor_width);
     }
+    if (isInitialAspectPortrait) {
+      $("#editor, #dataviewer").addClass('portrait');
+    }
     // make panels resizable
     $("#editor").resizable({
-      handles:"e", 
-      minWidth:"200",
-      resize: function() {
-        $(this).next().css('left', $(this).outerWidth() + 'px');
+      handles: isInitialAspectPortrait ? "s" : "e",
+      minWidth: isInitialAspectPortrait ? undefined : "200",
+      resize: function(ev) {
+        if (!isInitialAspectPortrait) {
+          $(this).next().css('left', $(this).outerWidth() + 'px');
+        } else {
+          var top = $(this).offset().top + $(this).outerHeight();
+          $(this).next().css('top', top + 'px');
+        }
         ide.map.invalidateSize(false);
       },
       stop:function() {
+        if (isInitialAspectPortrait) return;
         settings.editor_width = $("#editor").css("width");
         settings.save();
       }
@@ -155,7 +174,7 @@ var ide = new(function() {
           //+"r w n br bw" // recursors
         ),
       });
-      CodeMirror.defineMIME("text/x-overpassXML", 
+      CodeMirror.defineMIME("text/x-overpassXML",
         "xml"
       );
       CodeMirror.defineMode("xml+mustache", function(config) {
@@ -261,8 +280,8 @@ var ide = new(function() {
     }
     // init dataviewer
     ide.dataViewer = CodeMirror($("#data")[0], {
-      value:'no data loaded yet', 
-      lineNumbers: true, 
+      value:'no data loaded yet',
+      lineNumbers: true,
       readOnly: true,
       mode: "javascript",
     });
@@ -431,7 +450,7 @@ var ide = new(function() {
         duration: 100
       },
       position: {
-        my: "left+5 center", 
+        my: "left+5 center",
         at: "right center"
       }
     });
@@ -508,7 +527,7 @@ var ide = new(function() {
       .appendTo("#map");
     if (settings.enable_crosshairs)
       $(".crosshairs").show();
-   
+
     ide.map.bboxfilter = new L.LocationFilter({enable:!true,adjustButton:false,enableButton:false,}).addTo(ide.map);
 
     ide.map.on("popupopen popupclose",function(e) {
@@ -565,7 +584,7 @@ var ide = new(function() {
               settings.no_autorepair = true;
               settings.save();
             }
-            ide.switchTab("Data"); 
+            ide.switchTab("Data");
             $(this).dialog("close");
           };
           $('<div title="'+i18n.t("warning.incomplete.title")+'"><p>'+i18n.t("warning.incomplete.expl.1")+'</p><p>'+i18n.t("warning.incomplete.expl.2")+'</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;'+i18n.t("warning.incomplete.not_again")+'</p></div>').dialog({
@@ -815,13 +834,13 @@ var ide = new(function() {
     var query = ide.getRawQuery();
     query = query.split("\n");
     query.forEach(function(line,i) {
-      if (line.indexOf("{{nominatim"+type+":"+search+"}}") !== -1)
+      if (line.indexOf("{{geocode"+type+":"+search+"}}") !== -1)
         ide.highlightError(i+1);
     });
     // show error message dialog
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
-    $('<div title="'+i18n.t("error.nominatim.title")+'"><p style="color:red;">'+i18n.t("error.nominatim.expl")+'</p><p><i>'+search+'</i></p></div>').dialog({
+    $('<div title="'+i18n.t("error.nominatim.title")+'"><p style="color:red;">'+i18n.t("error.nominatim.expl")+'</p><p><i>'+htmlentities(search)+'</i></p></div>').dialog({
       modal:true,
       buttons: dialog_buttons,
     }); // dialog
@@ -830,7 +849,7 @@ var ide = new(function() {
     var lang = ide.getQueryLang();
     function filter(n) {
       return n.osm_type && n.osm_id;
-    } 
+    }
     nominatim.getBest(instr,filter, function(err, res) {
       if (err) return onNominatimError(instr,"Id");
       if (lang=="OverpassQL")
@@ -844,7 +863,7 @@ var ide = new(function() {
     var lang = ide.getQueryLang();
     function filter(n) {
       return n.osm_type && n.osm_id && n.osm_type!=="node";
-    } 
+    }
     nominatim.getBest(instr,filter, function(err, res) {
       if (err) return onNominatimError(instr,"Area");
       var area_ref = 1*res.osm_id;
@@ -907,7 +926,7 @@ var ide = new(function() {
       "geocodeArea": ide.geocodeArea,
       "geocodeBbox": ide.geocodeBbox,
       "geocodeCoords": ide.geocodeCoords,
-      // legacy 
+      // legacy
       "nominatimId": queryLang=="xml" ? ide.geocodeId : function(instr,callback) {
         ide.geocodeId(instr, function(result) { callback(result+';'); });
       },
@@ -1119,9 +1138,20 @@ var ide = new(function() {
    // prepare export dialog
    ide.getQuery(function(query) {
     var baseurl=location.protocol+"//"+location.host+location.pathname.match(/.*\//)[0];
-    $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(query);
+    var server = (ide.data_source &&
+                  ide.data_source.mode == "overpass" &&
+                  ide.data_source.options.server) ?
+                ide.data_source.options.server : settings.server;
+    var queryWithMapCSS = query;
+    if (queryParser.hasStatement("style"))
+      queryWithMapCSS += "{{style: "+queryParser.getStatement("style")+" }}";
+    if (queryParser.hasStatement("data"))
+      queryWithMapCSS += "{{data:"+queryParser.getStatement("data")+"}}";
+    else if (settings.server !== configs.defaultServer)
+      queryWithMapCSS += "{{data:overpass,server="+settings.server+"}}";
+    $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(queryWithMapCSS);
     // encoding exclamation marks for better command line usability (bash)
-    $("#export-dialog a#export-overpass-api")[0].href = settings.server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21").replace(/\(/g,"%28").replace(/\)/g,"%29");
+    $("#export-dialog a#export-overpass-api")[0].href = server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21").replace(/\(/g,"%28").replace(/\)/g,"%29");
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(query,true);
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
@@ -1155,7 +1185,7 @@ var ide = new(function() {
         var gJ = {
           type: "FeatureCollection",
           generator: configs.appname,
-          copyright: overpass.copyright, 
+          copyright: overpass.copyright,
           timestamp: overpass.timestamp,
           //TODO: make own copy of features array (re-using geometry) instead of deep copy?
           features: _.clone(geojson.features, true), // makes deep copy
@@ -1243,7 +1273,7 @@ var ide = new(function() {
         gpx_str = togpx(geojson, {
           creator: configs.appname,
           metadata: {
-            "copyright": overpass.copyright, 
+            "copyright": overpass.copyright,
             "desc": "Filtered OSM data converted to GPX by overpass turbo",
             "time": overpass.timestamp
           },
@@ -1355,10 +1385,10 @@ var ide = new(function() {
       }
       return false;
     });
-    $("#export-dialog a#export-convert-xml")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=xml";
-    $("#export-dialog a#export-convert-ql")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
-    $("#export-dialog a#export-convert-compact")[0].href = settings.server+"convert?data="+encodeURIComponent(query)+"&target=compact";
-    
+    $("#export-dialog a#export-convert-xml")[0].href = server+"convert?data="+encodeURIComponent(query)+"&target=xml";
+    $("#export-dialog a#export-convert-ql")[0].href = server+"convert?data="+encodeURIComponent(query)+"&target=mapql";
+    $("#export-dialog a#export-convert-compact")[0].href = server+"convert?data="+encodeURIComponent(query)+"&target=compact";
+
     // OSM editors
     // first check for possible mistakes in query.
     var validEditorQuery = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
@@ -1368,7 +1398,7 @@ var ide = new(function() {
     function constructLevel0Link(query) {
       return "http://level0.osmz.ru/?url="+
               encodeURIComponent(
-                settings.server+"interpreter?data="+encodeURIComponent(query)
+                server+"interpreter?data="+encodeURIComponent(query)
               );
     }
     if (validEditorQuery) {
@@ -1410,12 +1440,7 @@ var ide = new(function() {
             $.get(JRC_url+"import", {
               url:
                 // JOSM doesn't handle protocol-less links very well
-                settings.server.replace(/^\/\//,location.protocol+"//")+
-                // this is an emergency (and temporal) workaround for "load into JOSM" functionality: 
-                // JOSM doesn't properly handle the percent-encoded url parameter of the import command.
-                // See: http://josm.openstreetmap.de/ticket/8566#ticket
-                // OK, it looks like if adding a dummy get parameter can fool JOSM to not apply its
-                // bad magic. Still looking for a proper fix, though.
+                server.replace(/^\/\//,location.protocol+"//")+
                 "interpreter?data="+
                 encodeURIComponent(query),
             }).error(function(xhr,s,e) {
@@ -1546,12 +1571,13 @@ var ide = new(function() {
   this.onFfsClick = function() {
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
     $("#ffs-dialog #ffs-dialog-typo").hide();
-    var build_query = function() {
+    var build_query = function(autorun) {
       // build query and run it immediately
       var ffs_result = ide.update_ffs_query();
       if (ffs_result === true) {
         $(this).dialog("close");
-        ide.onRunClick();
+        if (autorun !== false)
+          ide.onRunClick();
       } else {
         if (_.isArray(ffs_result)) {
           // show parse error message
@@ -1586,6 +1612,7 @@ var ide = new(function() {
       }
     });
     var dialog_buttons= {};
+    dialog_buttons[i18n.t("dialog.wizard_build")] = function() { build_query.bind(this, false)(); }
     dialog_buttons[i18n.t("dialog.wizard_run")] = build_query;
     dialog_buttons[i18n.t("dialog.cancel")] = function() {$(this).dialog("close");};
     $("#ffs-dialog").dialog({
@@ -1697,20 +1724,20 @@ var ide = new(function() {
       ide.onRunClick(); // run query
       event.preventDefault();
     }
-    if ((String.fromCharCode(event.which).toLowerCase() == 's') && (event.ctrlKey || event.metaKey) && !event.shiftKey ) { // Ctrl+S
+    if ((String.fromCharCode(event.which).toLowerCase() == 's') && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey ) { // Ctrl+S
       ide.onSaveClick();
       event.preventDefault();
     }
-    if ((String.fromCharCode(event.which).toLowerCase() == 'o') && (event.ctrlKey || event.metaKey) && !event.shiftKey ) { // Ctrl+O
+    if ((String.fromCharCode(event.which).toLowerCase() == 'o') && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey ) { // Ctrl+O
       ide.onLoadClick();
       event.preventDefault();
     }
-    if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey) && !event.shiftKey ) { // Ctrl+H
+    if ((String.fromCharCode(event.which).toLowerCase() == 'h') && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey ) { // Ctrl+H
       ide.onHelpClick();
       event.preventDefault();
     }
-    if (((String.fromCharCode(event.which).toLowerCase() == 'i') && (event.ctrlKey || event.metaKey) && !event.shiftKey ) || // Ctrl+I
-        ((String.fromCharCode(event.which).toLowerCase() == 'f') && (event.ctrlKey || event.metaKey) &&  event.shiftKey ) ) { // Ctrl+Shift+F
+    if (((String.fromCharCode(event.which).toLowerCase() == 'i') && (event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey ) || // Ctrl+I
+        ((String.fromCharCode(event.which).toLowerCase() == 'f') && (event.ctrlKey || event.metaKey) &&  event.shiftKey && !event.altKey ) ) { // Ctrl+Shift+F
       ide.onFfsClick();
       event.preventDefault();
     }
@@ -1753,13 +1780,3 @@ var ide = new(function() {
   }
 
 })(); // end create ide object
-
-
-
-
-
-
-
-
-
-
