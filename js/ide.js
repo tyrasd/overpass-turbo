@@ -1293,6 +1293,8 @@ var ide = new(function() {
             return "http://osm.org/browse/"+props.type+"/"+props.id;
           }
         });
+        if (gpx_str[1] !== '?')
+          gpx_str = '<?xml version="1.0" encoding="UTF-8"?>\n' + gpx_str;
       }
       var d = $("#export-gpx-dialog");
       var dialog_buttons= {};
