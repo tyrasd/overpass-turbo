@@ -879,6 +879,10 @@
     "name": "Mentőállomás",
     "terms": "Mentőautó állomás"
   },
+  "emergency/defibrillator": {
+    "name": "Defibrillátor",
+    "terms": "Defibrillátor"
+  },
   "emergency/fire_hydrant": {
     "name": "Tűzcsap",
     "terms": "Tűzcsap"
@@ -970,6 +974,10 @@
   "highway/footway": {
     "name": "Gyalogút",
     "terms": "Járda"
+  },
+  "highway/give_way": {
+    "name": "Elsőbbségadás kötelező tábla",
+    "terms": "elsőbbségadás"
   },
   "highway/living_street": {
     "name": "Pihenőút",
@@ -1382,6 +1390,10 @@
   "man_made/breakwater": {
     "name": "Hullámtörő",
     "terms": "Hullámtörő"
+  },
+  "man_made/bridge": {
+    "name": "Híd",
+    "terms": "híd"
   },
   "man_made/chimney": {
     "name": "Kémény",
@@ -1945,7 +1957,7 @@
   },
   "shop/chemist": {
     "name": "Drogéria",
-    "terms": "Drogéria"
+    "terms": "drogéria, gyógyszertár"
   },
   "shop/chocolate": {
     "name": "Csokoládébolt",

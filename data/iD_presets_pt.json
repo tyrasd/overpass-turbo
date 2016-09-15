@@ -491,6 +491,10 @@
     "name": "Barreira de bicicletas",
     "terms": "Bicicleta"
   },
+  "barrier/ditch": {
+    "name": "Fosso / Vala / Trincheira (seca)",
+    "terms": "Trench"
+  },
   "barrier/entrance": {
     "name": "Entrada",
     "terms": "Entrada, Acesso, Abertura, Porta, Pórtico, Portão"
@@ -875,6 +879,10 @@
     "name": "Central de ambulâncias",
     "terms": "Ambulance Station, Ambulância, Ambulâncias"
   },
+  "emergency/defibrillator": {
+    "name": "Desfibrilador",
+    "terms": "Defibrillator "
+  },
   "emergency/fire_hydrant": {
     "name": "Boca de incêndio",
     "terms": "Fire Hydrant, Hidrante, Marco de Água, Marco de Incêndio"
@@ -966,6 +974,10 @@
   "highway/footway": {
     "name": "Caminho pedonal",
     "terms": "Andar, Caminho, Estrada, Pé, Pedestre, Percurso, Rua, Ruela, Trajectória, Trilha, Trilho, Via, Viela, Caminho Pedonal"
+  },
+  "highway/give_way": {
+    "name": "Sinal de cedência",
+    "terms": "Tield Sign"
   },
   "highway/living_street": {
     "name": "Zona de coexistência",
@@ -1378,6 +1390,10 @@
   "man_made/breakwater": {
     "name": "Molhe",
     "terms": "Breakwater"
+  },
+  "man_made/bridge": {
+    "name": "Ponte",
+    "terms": "Bridge, Viaduto"
   },
   "man_made/chimney": {
     "name": "Chaminé",
@@ -1941,7 +1957,7 @@
   },
   "shop/chemist": {
     "name": "Parafarmácia",
-    "terms": "Chemist, Para-farmácia, Para farmácia, Medicamento, Medicamentos, Não sujeito a receita médica"
+    "terms": "Drugstore"
   },
   "shop/chocolate": {
     "name": "Loja de chocolates",
@@ -2455,6 +2471,10 @@
     "name": "Rota de caminhada",
     "terms": "Hiking Route, Rota de Escalagem"
   },
+  "type/route/horse": {
+    "name": "Rota de equitação",
+    "terms": "Riding Route"
+  },
   "type/route/pipeline": {
     "name": "Rota de gasoduto / oleoduto",
     "terms": "Pipeline Route"
@@ -2504,7 +2524,7 @@
     "terms": "Dam, Usina, Hidrelétrica, Hidroelétrica, Hidro-elétrica, Hidro elétrica"
   },
   "waterway/ditch": {
-    "name": "Fosso / vala / trincheira",
+    "name": "Fosso / Vala / Trincheira",
     "terms": "Vala, Trincheira, Represa"
   },
   "waterway/dock": {

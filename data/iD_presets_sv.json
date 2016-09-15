@@ -176,7 +176,7 @@
     "terms": "Klocka, ur, urtavla, kyrkklocka, tidur, solur, väggur, väggklocka"
   },
   "amenity/college": {
-    "name": "Gymnasieområde",
+    "name": "Collegeområde",
     "terms": "Gymnasium, gymnasie, college, vidareutbildning, gymnasiumområde, gymnasieområde"
   },
   "amenity/community_centre": {
@@ -572,7 +572,7 @@
     "terms": "Kyrka, kyrkobyggnad, kyrkbyggnad, kyrksal, andaktssal, missionshus, gudstjänst, gudstjänstslokal, andaktslokal, gudshus"
   },
   "building/college": {
-    "name": "Gymnasiebyggnad",
+    "name": "Collegebyggnad",
     "terms": "Gymnasie, gymnasium, gymnasiebyggnad, universitet"
   },
   "building/commercial": {
@@ -970,6 +970,10 @@
   "highway/footway": {
     "name": "Gångväg",
     "terms": "gångväg, gc-väg, gång- och cykelväg, stig, vandring, vandra, löparbana, motionsspår, promenad"
+  },
+  "highway/give_way": {
+    "name": "Väjningsplikt",
+    "terms": "väjningsplikt, företräde, väjningspliktsskylt, utfartsregeln, utfart, lämna företräde"
   },
   "highway/living_street": {
     "name": "Gångfartsområde",
@@ -1382,6 +1386,10 @@
   "man_made/breakwater": {
     "name": "Vågbrytare",
     "terms": "Vågbrytare, pir, hamnarm, vågskydd, fördämning, hamnpir"
+  },
+  "man_made/bridge": {
+    "name": "Bro",
+    "terms": "bro, viadukt, akvedukt, vägport, överfart, spång, övergång, förbindelse, fällbro, vridbro"
   },
   "man_made/chimney": {
     "name": "Skorsten",
@@ -1942,10 +1950,6 @@
   "shop/cheese": {
     "name": "Ostaffär",
     "terms": "Ostaffär, ost, ostar, ostbutik"
-  },
-  "shop/chemist": {
-    "name": "Kemiaffär (hygien,  kosmetika & städ)",
-    "terms": "Kemiaffär, kemi, hygien, hygienartiklar, kosmetik, smink, kosmetika, städ, städmaterial, rengöring, rengöringsmedel"
   },
   "shop/chocolate": {
     "name": "Chokladaffär",

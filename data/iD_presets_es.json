@@ -156,8 +156,8 @@
     "terms": "casino, azar, casa de juego, ruleta, black jack, póquer, tragamoneda"
   },
   "amenity/charging_station": {
-    "name": "Estación de carga",
-    "terms": "recarga, electricidad, eléctrico, estación de carga para vehículos eléctricos"
+    "name": "Estación de carga eléctrica",
+    "terms": "recarga, electricidad, eléctrico, estación de carga para vehículo eléctrico, punto de recarga, electrolinera"
   },
   "amenity/childcare": {
     "name": "Guardería/Cuidado de niños",
@@ -879,6 +879,10 @@
     "name": "Estación de ambulancias",
     "terms": "Estación de ambulancia, ambulacias"
   },
+  "emergency/defibrillator": {
+    "name": "Desfibrilador",
+    "terms": "desfibrilador, resucitador, reanimador, restablecedor, ritmo cardíaco"
+  },
   "emergency/fire_hydrant": {
     "name": "Hidrante contra incendios",
     "terms": "boca de incendio,hidrante de incendio, hidrante contra incendios"
@@ -970,6 +974,10 @@
   "highway/footway": {
     "name": "Acera peatonal",
     "terms": "camino, senda, sendero, acera, vereda, andén, banqueta, peatón, peatonal"
+  },
+  "highway/give_way": {
+    "name": "Señal de ceda el paso",
+    "terms": "ceder el paso, dar el paso, señal, signo, cartel, detención"
   },
   "highway/living_street": {
     "name": "Calle residencial",
@@ -1080,7 +1088,7 @@
     "terms": "Enlace a carretera terciaria, Enlace a carretera local, Enlace de carretera local"
   },
   "highway/track": {
-    "name": "Camino o pista sin mantenimiento",
+    "name": "Pista o camino rural",
     "terms": "camino, senda, sendero, calle, vía, pista, rural, forestal, agrícola, campo, sin mantenimiento, offroad, jeep, doble tracción, tractor, 4x4, atv, cuadrimotor, quadratrack, con huella"
   },
   "highway/traffic_signals": {
@@ -1148,8 +1156,8 @@
     "terms": "uso del suelo, uso de la tierra, uso de tierras, explotación del suelo, utilización del suelo, uso del terreno, utilización del terreno, ocupación del suelo"
   },
   "landuse/allotments": {
-    "name": "Jardín comunitario",
-    "terms": "jardín, huerto, huerta, comunitario, comunal, vecindad"
+    "name": "Huerto comunitario",
+    "terms": "jardín, huerto, huerta, comunitario, comunal, vecindad, huerto urbano"
   },
   "landuse/basin": {
     "name": "Cuenca",
@@ -1382,6 +1390,10 @@
   "man_made/breakwater": {
     "name": "Rompeolas",
     "terms": "cortaolas, rompeolas, malecón"
+  },
+  "man_made/bridge": {
+    "name": "Puente",
+    "terms": "puente"
   },
   "man_made/chimney": {
     "name": "Chimenea",
@@ -1944,8 +1956,8 @@
     "terms": "quesería, quesos, lácteos"
   },
   "shop/chemist": {
-    "name": "Droguería / Parafarmacia",
-    "terms": "droguería, drogueria, parafarmacia, perfumería, cosméticos, salud, belleza, wellness"
+    "name": "Tienda de suministros médicos",
+    "terms": "suministros médicos, droguería, botica, farmacia sin receta"
   },
   "shop/chocolate": {
     "name": "Chocolatería",

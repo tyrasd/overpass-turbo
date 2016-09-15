@@ -125,7 +125,7 @@
   "help.intro.shortcuts.date": "ISO 8601 date-time-string de um determinado intervalo temporal retroativo (e.g. “24 hours”)",
   "help.intro.shortcuts.style": "definir uma <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\">folha de estilos MapCSS</a>",
   "help.intro.shortcuts.custom": "Atalhos arbitrários podem ser definidos inserindo <i>{{shortcut=value}}</i> em algum local do código.",
-  "help.intro.shortcuts.more": "More Overpass shortcuts, additional information about the above and usage examples can be found in the <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a>.",
+  "help.intro.shortcuts.more": "More overpass-turbo shortcuts, additional information about the above and usage examples can be found in the <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a>.",
   "help.section.ide": "IDE",
   "help.ide.share.title": "Compartilhando",
   "help.ide.share.expl": "É possível enviar para alguém um link-permanente para uma consulta que você está trabalhando. Para tanto, use a ferramenta <i>Share</i>, que exibe um link para enviar para um amigo ou postar na rede. (terceiros irão trabalhar em uma cópia própria da consulta)",

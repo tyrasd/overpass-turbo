@@ -125,7 +125,7 @@
   "help.intro.shortcuts.date": "ISO8601 の日時書式での特定のタイムインターバル (例: \"24時間\")",
   "help.intro.shortcuts.style": "<a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\">MapCSSスタイルシート</a>定義",
   "help.intro.shortcuts.custom": "独自に定義する省略記法は、スクリプト内で<i>{{shortcut=value}}</i>のように記載します。",
-  "help.intro.shortcuts.more": "OverPass のショートカットや追加情報、クエリのサンプルなどは <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a> に記載されています。",
+  "help.intro.shortcuts.more": "More overpass-turbo shortcuts, additional information about the above and usage examples can be found in the <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a>.",
   "help.section.ide": "IDE",
   "help.ide.share.title": "共有",
   "help.ide.share.expl": "現在実行中のクエリを、そのままパーマリンクURLとして共有することができます。<i>共有</i>ツールを開くとリンクが表示されますので、友人に送付したり、Webに投稿したりすることが可能です。(クエリ自体はそれぞれの端末から実行されます)",

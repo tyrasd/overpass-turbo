@@ -857,6 +857,10 @@
     "name": "Stazione ambulanze",
     "terms": "Stazione ambulanze"
   },
+  "emergency/defibrillator": {
+    "name": "Defibrillatore",
+    "terms": "dae,defibrillatore"
+  },
   "emergency/fire_hydrant": {
     "name": "Idrante",
     "terms": " Pompa antincendio "
@@ -946,6 +950,10 @@
   "highway/footway": {
     "name": "Percorso pedonale",
     "terms": "percorso battuto,viale,pista pedonale,strada,corsia,percorso,sentiero,cammino,strada,rotta,via,traiettoria,camminata"
+  },
+  "highway/give_way": {
+    "name": "Dare la precedenza",
+    "terms": "precedenza,dare precedenza,cartello"
   },
   "highway/living_street": {
     "name": "Strada residenziale prevalentemente pedonale",
@@ -1354,6 +1362,10 @@
   "man_made/breakwater": {
     "name": "Frangiflutti",
     "terms": "Frangifrutti"
+  },
+  "man_made/bridge": {
+    "name": "Ponte",
+    "terms": "ponte,viadotto,pontile,arco,strallato,cavalcavia"
   },
   "man_made/chimney": {
     "name": "Ciminiera",

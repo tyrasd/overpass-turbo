@@ -125,7 +125,7 @@
   "help.intro.shortcuts.date": "ISO 8601 stringa-di-tipo-temporale riferita ad un certo intervallo temporale (ad esempio “24 ore”)",
   "help.intro.shortcuts.style": "definisce un <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\">foglio di stile MapCSS</a>",
   "help.intro.shortcuts.custom": "Scorciatorie arbitrarei possono essere definite inserendo <i>{{shortcut=value}}</i> in qualche parte nello script",
-  "help.intro.shortcuts.more": "Nella <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">wiki di OpenStreetMap</a> puoi trovare ulteriori scorciatoie di Overpass, informazioni su quelle appena viste ed anche esempi.",
+  "help.intro.shortcuts.more": "More overpass-turbo shortcuts, additional information about the above and usage examples can be found in the <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a>.",
   "help.section.ide": "IDE",
   "help.ide.share.title": "Condivisione",
   "help.ide.share.expl": "È possibile inviare, a qualcuno, un collegamento permanente con la query attualmente in uso. Questo è possibile grazie allo strumento <i>Condividi</i> dove viene mostrato un link da convidire con amici o inviare online. (Da notare che gli altri lavoreranno su una propria copia della query).",

@@ -13,7 +13,8 @@
     "name": "Telecadira"
   },
   "aerialway/gondola": {
-    "name": "Telecabina"
+    "name": "Telecabina",
+    "terms": "Góndola"
   },
   "aerialway/magic_carpet": {
     "name": "Cinta remuntadora"
@@ -429,6 +430,9 @@
     "name": "Barrera per a ciclistes",
     "terms": "Barrera per a ciclistes, Ciclisme, Bicicleta, Ruta cicloturista, Valla, Tanca, Tancament, Tanca per a bicicletes"
   },
+  "barrier/ditch": {
+    "name": "Trinxera"
+  },
   "barrier/entrance": {
     "name": "Entrada",
     "terms": "Entrada, Porta, Portes, Portalada, Accés"
@@ -742,6 +746,9 @@
   "emergency/ambulance_station": {
     "name": "Parada d'ambulàncies"
   },
+  "emergency/defibrillator": {
+    "name": "Desfibril·lador"
+  },
   "emergency/fire_hydrant": {
     "name": "Boca d'incendis",
     "terms": "Boca d'incendis, presa d'aigua per a bombers, incendi, bombers, sortida d'aigua, aigua"
@@ -818,6 +825,9 @@
   "highway/footway": {
     "name": "Camí per a vianants",
     "terms": "Camí per a vianants, carrer peatonal, camí per a peatons, a peu, camí per caminar, vianant, vianants, peató, peatons, transeünt, transeünts, peatonal"
+  },
+  "highway/give_way": {
+    "name": "Senyal de cediu el pas"
   },
   "highway/living_street": {
     "name": "Carrer residencial",
@@ -1191,6 +1201,9 @@
   "man_made/breakwater": {
     "name": "trencaonades",
     "terms": "Escullera,Espigó,Espatller"
+  },
+  "man_made/bridge": {
+    "name": "Pont"
   },
   "man_made/chimney": {
     "name": "Xemeneia"
@@ -1654,8 +1667,7 @@
     "name": "Botiga de formatge"
   },
   "shop/chemist": {
-    "name": "Farmàcia",
-    "terms": "Farmàcia"
+    "name": "Farmàcia"
   },
   "shop/chocolate": {
     "name": "Botiga de xocolata"
@@ -2090,6 +2102,9 @@
   },
   "type/route/hiking": {
     "name": "Ruta senderista"
+  },
+  "type/route/horse": {
+    "name": "Ruta de conducció"
   },
   "type/route/pipeline": {
     "name": "Traçat d'una canonada"

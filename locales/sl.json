@@ -125,7 +125,7 @@
   "help.intro.shortcuts.date": "ISO 8601 date-time-string a certain time interval ago (e.g. “24 hours”)",
   "help.intro.shortcuts.style": "defines a <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\">MapCSS stylesheet</a>",
   "help.intro.shortcuts.custom": "Arbitrary shortcuts can be defined by putting <i>{{shortcut=value}}</i> somewhere in the script.",
-  "help.intro.shortcuts.more": "More Overpass shortcuts, additional information about the above and usage examples can be found in the <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a>.",
+  "help.intro.shortcuts.more": "More overpass-turbo shortcuts, additional information about the above and usage examples can be found in the <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a>.",
   "help.section.ide": "IDE",
   "help.ide.share.title": "Deljenje",
   "help.ide.share.expl": "It is possible to send a permalink with the query you are currently working on to someone else. This is found in the <i>Share</i> tool and shows you a link which you can send to a friend or post online. (Note that others will work on their own copy of the query.)",

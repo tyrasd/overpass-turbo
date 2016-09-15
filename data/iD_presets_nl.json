@@ -523,7 +523,7 @@
   },
   "building/apartments": {
     "name": "Appartementen",
-    "terms": "flatgebouw,flats,appartementsgebouw,wolkenkrabber,woongebouw,residentie"
+    "terms": "flatgebouw,flats,appartementsgebouw,wolkenkrabber,woongebouw,residentie,apartementen"
   },
   "building/barn": {
     "name": "Schuur",
@@ -587,7 +587,7 @@
   },
   "building/hotel": {
     "name": "Hotelgebouw",
-    "terms": "hotel"
+    "terms": "hotel,kamers"
   },
   "building/house": {
     "name": "Huis",
@@ -828,6 +828,9 @@
   "emergency/ambulance_station": {
     "name": "Ambulancestandplaats"
   },
+  "emergency/defibrillator": {
+    "name": "Defibrillator"
+  },
   "emergency/fire_hydrant": {
     "name": "Brandkraan"
   },
@@ -896,7 +899,8 @@
     "terms": "bushalte"
   },
   "highway/corridor": {
-    "name": "Gang in Gebouw"
+    "name": "Gang in gebouw",
+    "terms": "binnen,binnenshuis,hal"
   },
   "highway/crossing": {
     "name": "Zebrapad"
@@ -911,6 +915,10 @@
   "highway/footway": {
     "name": "Wandelpad",
     "terms": "voetpad"
+  },
+  "highway/give_way": {
+    "name": "Voorrangsbord",
+    "terms": "voorrangsteken,haaientanden"
   },
   "highway/living_street": {
     "name": "Woonerf"
@@ -1020,7 +1028,8 @@
     "terms": "expressweg,autostrade,autosnelweg"
   },
   "highway/turning_circle": {
-    "name": "Keerplein"
+    "name": "Keerplein",
+    "terms": "draaicirkel,pijpekop,pijpenkop,einde van de straat,cul-de-sac"
   },
   "highway/unclassified": {
     "name": "Kleine openbare weg"
@@ -1274,6 +1283,10 @@
   },
   "man_made/breakwater": {
     "name": "Golfbreker"
+  },
+  "man_made/bridge": {
+    "name": "Brug",
+    "terms": "tunnel,overspanning,brugomtrek,brugoppervlak"
   },
   "man_made/chimney": {
     "name": "Industriële schoorsteen"
@@ -1620,7 +1633,7 @@
   },
   "public_transport/platform": {
     "name": "Perron",
-    "terms": "perron"
+    "terms": "spoorwegperron,spoorwegplatform,treinperron,treinplatform,tramperron,tramhalte,tramplatform,metroperron,metrohalte,metroplatform,busperron,bushalte,busplatform,platform"
   },
   "public_transport/stop_position": {
     "name": "Stopplaats"
@@ -1659,7 +1672,7 @@
   },
   "railway/platform": {
     "name": "Spoorperron",
-    "terms": "spoorwegperron,treinperron,tramperron,metroperron"
+    "terms": "spoorwegperron,spoorwegplatform,treinperron,treinplatform,tramperron,tramplatform,metroperron,metroplatform"
   },
   "railway/rail": {
     "name": "Spoorweg",
@@ -1772,8 +1785,8 @@
     "name": "Kaaswinkel"
   },
   "shop/chemist": {
-    "name": "Drogist",
-    "terms": "apotheek,apotheker,apothekerij"
+    "name": "Geneesmiddelenwinkel zonder apotheker",
+    "terms": "apotheek,apoteek,geneesmiddelen"
   },
   "shop/chocolate": {
     "name": "Chocoladewinkel",
@@ -2122,7 +2135,7 @@
   },
   "tourism/hotel": {
     "name": "Hotel",
-    "terms": "hotel"
+    "terms": "hotelgebouw,kamers"
   },
   "tourism/information": {
     "name": "Informatie",
@@ -2177,26 +2190,29 @@
     "name": "Beperking"
   },
   "type/restriction/no_left_turn": {
-    "name": "Niet Links Afslaan"
+    "name": "Niet links afslaan",
+    "terms": "links afslaan verboden,links inslaan verboden,niet links inslaan,niet naar links"
   },
   "type/restriction/no_right_turn": {
-    "name": "Niet Rechts Afslaan"
+    "name": "Niet rechts afslaan",
+    "terms": "rechts afslaan verboden,rechts inslaan verboden,niet rechts inslaan,niet naar rechts"
   },
   "type/restriction/no_straight_on": {
     "name": "Niet Rechtdoor"
   },
   "type/restriction/no_u_turn": {
-    "name": "Niet Omkeren"
+    "name": "Niet omkeren",
+    "terms": "geen U-bocht,U-bocht verboden,omkeren verboden,omdraaien verboden,verboden om te draaien,verboden om te keren,niet omdraaien"
   },
   "type/restriction/only_left_turn": {
-    "name": "Enkel Links Afslaan"
+    "name": "Enkel links afslaan"
   },
   "type/restriction/only_right_turn": {
-    "name": "Enkel Rechts Afslaan"
+    "name": "Enkel rechts afslaan"
   },
   "type/restriction/only_straight_on": {
-    "name": "Niet Afslaan",
-    "terms": "rechtdoor,niet,draaien,afslaan"
+    "name": "Enkel rechtdoor",
+    "terms": "rechtdoor,niet draaien,niet afslaan,niet inslaan,draaien verboden,afslaan verboden, draaien verboden"
   },
   "type/route": {
     "name": "Route"

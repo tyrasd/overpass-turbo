@@ -125,7 +125,7 @@
   "help.intro.shortcuts.date": "ISO 8601 Zeitangabe auf einen bestimmten Zeitabschnitt in der Vergangenheit bezogen (z.B. \"24 Stunden\")",
   "help.intro.shortcuts.style": "definiert ein <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\">MapCSS Stylesheet</a>",
   "help.intro.shortcuts.custom": "Eigene Abkürzungen können einfach selbst definiert werden: <i>{{shortcut=wert}}</i>.",
-  "help.intro.shortcuts.more": "Weitere Overpass Kürzel (shortcuts) sowie mehr Informationen über die oben genannten gibt es im <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM-Wiki</a>.",
+  "help.intro.shortcuts.more": "Weitere overpass-turbo Kürzel sowie mehr Informationen über die oben genannten gibt es im  <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a>.",
   "help.section.ide": "IDE",
   "help.ide.share.title": "Teilen",
   "help.ide.share.expl": "Es ist möglich, sich einen Permalink erstellen zu lassen, der die Abfrage beinhaltet, an der gerade gearbeitet wird. Dieser Link kann dann z.B. an Freunde verteilt werden.",

@@ -115,6 +115,10 @@
     "name": "レンタサイクル",
     "terms": "レンタサイクル"
   },
+  "amenity/bicycle_repair_station": {
+    "name": "自転車修理店",
+    "terms": "自転車修理店, 自転車店（修理）"
+  },
   "amenity/biergarten": {
     "name": "ビアガーデン",
     "terms": "ビアガーデン"
@@ -172,7 +176,7 @@
     "terms": "時計"
   },
   "amenity/college": {
-    "name": "大学の敷地",
+    "name": "短大・高専・専門学校の敷地",
     "terms": "キャンパス"
   },
   "amenity/community_centre": {
@@ -238,6 +242,10 @@
   "amenity/hospital": {
     "name": "病院の敷地",
     "terms": "病院の敷地"
+  },
+  "amenity/hunting_stand": {
+    "name": "狩猟スタンド",
+    "terms": "狩猟スタンド"
   },
   "amenity/kindergarten": {
     "name": "保育園/幼稚園の敷地",
@@ -306,6 +314,10 @@
   "amenity/post_office": {
     "name": "郵便局",
     "terms": "郵便局"
+  },
+  "amenity/prison": {
+    "name": "刑務所の敷地",
+    "terms": "刑務所, 刑務所の敷地, 監獄, 拘置所, 少年院"
   },
   "amenity/pub": {
     "name": "居酒屋",
@@ -411,6 +423,9 @@
     "name": "新聞自動販売機",
     "terms": "新聞, 自動販売機, 自販機"
   },
+  "amenity/vending_machine/parcel_pickup_dropoff": {
+    "terms": "自動販売機, 自販機"
+  },
   "amenity/vending_machine/parking_tickets": {
     "name": "パーキングチケット発給機",
     "terms": "パーキングチケット, パーキングメーター, 駐車券, 券売機, 自動券売機, 自動販売機, 自販機, 自動発券機, 発券機"
@@ -434,6 +449,14 @@
   "amenity/waste_basket": {
     "name": "ゴミ箱",
     "terms": "ゴミ箱, ごみ箱"
+  },
+  "amenity/waste_disposal": {
+    "name": "ゴミ収集ボックス",
+    "terms": "ゴミステーション, ゴミ集積所, ゴミ捨て場, ゴミ置き場, ゴミ, ゴミ箱, ゴミコンテナ, ゴミ回収, ダストボックス"
+  },
+  "amenity/water_point": {
+    "name": "キャンピングカー用の給水施設",
+    "terms": "給水, 補給, 給水所, キャンピングカー, 給水塔, 飲料水, 飲水, 飲み水, キャンプ場, オートキャンプ場"
   },
   "area": {
     "name": "エリア",
@@ -466,6 +489,10 @@
   "barrier/cycle_barrier": {
     "name": "自転車止め",
     "terms": "自転車止め"
+  },
+  "barrier/ditch": {
+    "name": "塹壕・空堀",
+    "terms": "塹壕, 空堀, 堀, 溝, 谷"
   },
   "barrier/entrance": {
     "name": "出入口",
@@ -544,8 +571,8 @@
     "terms": "教会"
   },
   "building/college": {
-    "name": "大学の建物",
-    "terms": "大学の建物"
+    "name": "短大・高専・専門学校の建物",
+    "terms": "短大, 高専, 高等専門学校, 短期大学, 専門, 専門学校"
   },
   "building/commercial": {
     "name": "オフィスビル",
@@ -1071,6 +1098,9 @@
     "name": "転回場",
     "terms": "転回場, 車回し"
   },
+  "highway/unclassified": {
+    "name": "一般道（2車線未満）"
+  },
   "historic": {
     "name": "史跡",
     "terms": "史跡, 歴史的建造物"
@@ -1153,7 +1183,7 @@
   },
   "landuse/forest": {
     "name": "人工林",
-    "terms": "人工林, 二次林, 営林, 保安林, 鉄道林, 防風林"
+    "terms": "人工林, 二次林, 営林, 保安林, 鉄道林, 防風林, 森林（人工）"
   },
   "landuse/garages": {
     "name": "車庫",
@@ -1261,7 +1291,7 @@
   },
   "leisure/pitch": {
     "name": "スポーツ競技場",
-    "terms": "スポーツ競技場, 運動場"
+    "terms": "スポーツ競技場, 運動場, 競技場, グラウンド"
   },
   "leisure/pitch/american_football": {
     "name": "アメリカンフットボール場",
@@ -1406,6 +1436,10 @@
   "man_made/storage_tank": {
     "name": "貯蔵タンク",
     "terms": "貯蔵タンク, タンク"
+  },
+  "man_made/surveillance": {
+    "name": "監視カメラ",
+    "terms": "監視カメラ, 監視装置"
   },
   "man_made/survey_point": {
     "name": "観測設備",
@@ -1565,7 +1599,7 @@
   },
   "natural/wood": {
     "name": "自然林",
-    "terms": "自然林, 原生林"
+    "terms": "自然林, 原生林, 森林（自然）"
   },
   "office": {
     "name": "オフィス",
@@ -1832,7 +1866,8 @@
     "terms": "古美術品店, アンティークショップ"
   },
   "shop/art": {
-    "name": "美術品販売店"
+    "name": "美術品販売店",
+    "terms": "現代美術の商店"
   },
   "shop/baby_goods": {
     "name": "赤ちゃん用品店",
@@ -1906,10 +1941,6 @@
     "name": "チーズ店",
     "terms": "チーズ店"
   },
-  "shop/chemist": {
-    "name": "薬品・化粧品店",
-    "terms": "薬品店, 化粧品店"
-  },
   "shop/chocolate": {
     "name": "チョコレート店",
     "terms": "チョコレート店"
@@ -1919,7 +1950,8 @@
     "terms": "衣料品店, 洋服店, 呉服店"
   },
   "shop/coffee": {
-    "name": "コーヒー豆販売店"
+    "name": "コーヒー豆販売店",
+    "terms": "コーヒー豆専門店"
   },
   "shop/computer": {
     "name": "コンピューター店",
@@ -1955,7 +1987,7 @@
   },
   "shop/deli": {
     "name": "惣菜屋",
-    "terms": "惣菜屋, 弁当屋"
+    "terms": "惣菜屋, 弁当屋, デリカ"
   },
   "shop/department_store": {
     "name": "百貨店",
@@ -2117,6 +2149,10 @@
     "name": "新聞・雑誌店",
     "terms": "新聞, 雑誌, マガジン, ニュース, スタンド"
   },
+  "shop/nutrition_supplements": {
+    "name": "栄養サプリ販売店",
+    "terms": "栄養サプリメント販売店, サプリ専門店, サプリメント専門店"
+  },
   "shop/optician": {
     "name": "メガネ",
     "terms": "メガネ, 眼鏡, メガネ屋, 眼鏡屋"
@@ -2198,8 +2234,8 @@
     "terms": "刺青屋"
   },
   "shop/tea": {
-    "name": "茶店",
-    "terms": "茶舗"
+    "name": "茶舗",
+    "terms": "茶舗, 茶店（販売）"
   },
   "shop/ticket": {
     "name": "チケット店",
@@ -2250,7 +2286,8 @@
     "terms": "銃砲店"
   },
   "shop/window_blind": {
-    "name": "ブラインドカーテン専門店"
+    "name": "ブラインドカーテン専門店",
+    "terms": "ブラインド販売店"
   },
   "shop/wine": {
     "name": "ワイン店",
@@ -2302,7 +2339,7 @@
   },
   "tourism/information": {
     "name": "観光案内",
-    "terms": "観光案内, 案内, 案内板, 案内所"
+    "terms": "観光案内, 案内, 案内板, 案内所, インフォメーション"
   },
   "tourism/motel": {
     "name": "モーテル",
@@ -2373,16 +2410,16 @@
     "terms": "直進禁止"
   },
   "type/restriction/no_u_turn": {
-    "name": "転回禁止",
-    "terms": "転回禁止, Uターン禁止"
+    "name": "Uターン禁止",
+    "terms": "Uターン禁止"
   },
   "type/restriction/only_left_turn": {
-    "name": "左折のみ可",
-    "terms": "左折のみ可"
+    "name": "左折専用",
+    "terms": "左折専用, 左折のみ"
   },
   "type/restriction/only_right_turn": {
-    "name": "右折のみ可",
-    "terms": "右折のみ可"
+    "name": "右折専用",
+    "terms": "右折専用, 右折のみ"
   },
   "type/restriction/only_straight_on": {
     "name": "直進のみ可",
@@ -2449,7 +2486,8 @@
     "terms": "水路"
   },
   "waterway/boatyard": {
-    "name": "造船所"
+    "name": "小型船造船所",
+    "terms": "造船所, 小型船造船所"
   },
   "waterway/canal": {
     "name": "運河",
