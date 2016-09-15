@@ -1,19 +1,34 @@
 
 
 Expression
-  = op1:Operator _ "==" _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 == op2 : +op1 == +op2) }
-  / op1:Operator _ ("!=" / "<>") _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 != op2 : +op1 != +op2) }
-  / op1:Operator _ ">"  _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 >  op2 : +op1 >  +op2) }
-  / op1:Operator _ ">=" _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 >= op2 : +op1 >= +op2) }
-  / op1:Operator _ "<"  _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 <  op2 : +op1 <  +op2) }
-  / op1:Operator _ "<=" _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 <= op2 : +op1 <= +op2) }
-  / op1:Operator _ "eq" _ op2:Expression { return ""+(op1 === op2) }
-  / op1:Operator _ "ne" _ op2:Expression { return ""+(op1 !== op2) }
-  / op1:Operator _ "&&" _ op2:Expression { return ""+(["false", "no", "0", 0, ""].indexOf(op1) < 0 && ["false", "no", "0", 0, ""].indexOf(op2) < 0) }
-  / op1:Operator _ "||" _ op2:Expression { return ""+(["false", "no", "0", 0, ""].indexOf(op1) < 0 || ["false", "no", "0", 0, ""].indexOf(op2) < 0) }
-  / Operator
+  = op1:Operand _ op:("==" / "!=" / "<>" / ">=" / ">" / "<=" / "<" / "eq" / "ne" / "&&" / "||") _ op2:Expression {
+      switch (op) {
+      case "==":
+        return ""+(isNaN(+op1) || isNaN(+op2) ? op1 == op2 : +op1 == +op2);
+      case "!=":
+      case "<>":
+        return ""+(isNaN(+op1) || isNaN(+op2) ? op1 != op2 : +op1 != +op2);
+      case ">":
+        return ""+(isNaN(+op1) || isNaN(+op2) ? op1 >  op2 : +op1 >  +op2);
+      case ">=":
+        return ""+(isNaN(+op1) || isNaN(+op2) ? op1 >= op2 : +op1 >= +op2);
+      case "<":
+        return ""+(isNaN(+op1) || isNaN(+op2) ? op1 <  op2 : +op1 <  +op2);
+      case "<=":
+        return ""+(isNaN(+op1) || isNaN(+op2) ? op1 <= op2 : +op1 <= +op2);
+      case "eq":
+        return ""+(op1 === op2);
+      case "ne":
+        return ""+(op1 !== op2);
+      case "&&":
+        return ""+(["false", "no", "0", 0, ""].indexOf(op1) < 0 && ["false", "no", "0", 0, ""].indexOf(op2) < 0);
+      case "||":
+        return ""+(["false", "no", "0", 0, ""].indexOf(op1) < 0 || ["false", "no", "0", 0, ""].indexOf(op2) < 0);
+      }
+    }
+  / Operand
   
-Operator
+Operand
   = head:Term tail:(_ ("." / "+" / "-") _ Term)* {
       var result = head, i;
 
@@ -40,61 +55,43 @@ Term
 
 Factor
   = "!" _ expr:Expression { return ["false", "no", "0", 0, ""].indexOf(expr) >= 0 ? "true" : "false" }
-  / "num(" _ expr:Expression _ ")" { return ""+(parseFloat(expr) || "") }
-  / "str(" _ expr:Expression _ ")" { return ""+expr }
-  / "sqrt(" _ expr:Expression _ ")" { return ""+Math.sqrt(expr) }
-  / "int(" _ expr:Expression _ ")" { return ""+(expr < 0 ? Math.ceil(expr) : Math.floor(expr)) }
-  / "boolean(" _ expr:Expression _ ")" { return ["false", "no", "0", 0, ""].indexOf(expr) >= 0 ? "false" : "true" }
-  / "max(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return ""+tail.reduce(function(acc,val) { return Math.max(+acc,+val[3]); }, +head) }
-  / "min(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return ""+tail.reduce(function(acc,val) { return Math.min(+acc,+val[3]); }, +head) }
-  / "concat(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return tail.reduce(function(acc,val) { return acc+val[3]; }, ""+head) }
+  / fun:("num" / "str" / "boolean" / "int" / "sqrt" / "tag") "(" _ expr:Expression _ ")" {
+      switch (fun) {
+      case "num":
+        return ""+(parseFloat(expr) || "");
+      case "str":
+        return ""+expr;
+      case "boolean":
+        return ["false", "no", "0", 0, ""].indexOf(expr) >= 0 ? "false" : "true";
+      case "int":
+        return ""+(expr < 0 ? Math.ceil(expr) : Math.floor(expr));
+      case "sqrt":
+        return ""+Math.sqrt(expr);
+      case "tag":
+        return styleparser.evalparser.tag(expr);
+      }
+    }
   / "cond(" _ exprCond:Expression _ "," _ exprTrue:Expression _ "," _ exprFalse:Expression _ ")" { return ["false", "no", "0", 0, ""].indexOf(exprCond) < 0 ? exprTrue : exprFalse }
-  / "any(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return tail.reduce(function(acc,val) { return acc || val[3]; }, head) }
-  / "tag(" _ expr:Expression _ ")" { return styleparser.evalparser.tag(expr) }
+  / fun:("max" / "min" / "concat" / "any") "(" _ head:Expression tail:(_ "," _ Expression)* _ ")" {
+      switch (fun) {
+      case "max":
+        return ""+tail.reduce(function(acc,val) { return Math.max(+acc,+val[3]); }, +head);
+      case "min":
+        return ""+tail.reduce(function(acc,val) { return Math.min(+acc,+val[3]); }, +head);
+      case "concat":
+        return tail.reduce(function(acc,val) { return acc+val[3]; }, ""+head);
+      case "any":
+        return tail.reduce(function(acc,val) { return acc || val[3]; }, head);
+      }
+    }
   / "(" _ expr:Expression _ ")" { return expr; }
   / String
 
 String "string"
   = "none" { return "" }
   / "-"? [0-9]+ ("." [0-9]+)? ("E" "-"? [0-9]+)? { return ""+parseFloat(text()); }
-  / parts:('"' DoubleStringCharacters '"' / "'" SingleStringCharacters "'") { return parts[1]; }
+  / '"' s:[^"]* '"' { return s.join(''); }
 
 _ "whitespace"
   = [ \t\n\r]*
-
-/* ==== strings ==== */
-
-DoubleStringCharacters
-  = chars:DoubleStringCharacter* { return chars.join(""); }
-
-SingleStringCharacters
-  = chars:SingleStringCharacter* { return chars.join(""); }
-
-DoubleStringCharacter
-  = !('"' / "\\") char_:.        { return char_;     }
-  / "\\" sequence:EscapeSequence { return sequence;  }
-
-SingleStringCharacter
-  = !("'" / "\\") char_:.        { return char_;     }
-  / "\\" sequence:EscapeSequence { return sequence;  }
-
-EscapeSequence
-  = CharacterEscapeSequence
-  // / "0" !DecimalDigit { return "\0"; }
-  // / HexEscapeSequence
-  // / UnicodeEscapeSequence //TODO?
-
-CharacterEscapeSequence
-  = SingleEscapeCharacter
-
-SingleEscapeCharacter
-  = char_:['"\\bfnrtv] {
-      return char_
-        .replace("b", "\b")
-        .replace("f", "\f")
-        .replace("n", "\n")
-        .replace("r", "\r")
-        .replace("t", "\t")
-        .replace("v", "\x0B") // IE does not recognize "\v".
-    }
 

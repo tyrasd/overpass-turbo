@@ -196,6 +196,6 @@ overpass-turbo-ffs.js: js/ffs.js js/ffs/free.js js/ffs/parser.js
 	cat $^ > $@
 
 mapcss-parser: js/jsmapcss/eval.pegjs
-	$(PEGJS) -o size -e styleparser.evalparser < js/jsmapcss/eval.pegjs > js/jsmapcss/evalparser.js
+	$(PEGJS) -o speed -e styleparser.evalparser < js/jsmapcss/eval.pegjs > js/jsmapcss/evalparser.js
 
 
