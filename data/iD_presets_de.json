@@ -232,8 +232,8 @@
     "terms": "Tankstelle, Tanke"
   },
   "amenity/grave_yard": {
-    "name": "Friedhof",
-    "terms": "Friedhof"
+    "name": "Gräberfeld",
+    "terms": "Gräberfeld, kleiner Friedhof"
   },
   "amenity/grit_bin": {
     "name": "Streugutkiste",
@@ -879,6 +879,10 @@
     "name": "Rettungswache",
     "terms": "Rettungswache"
   },
+  "emergency/defibrillator": {
+    "name": "Defibrillator",
+    "terms": "Defibrillator, Defi, Schockgeber"
+  },
   "emergency/fire_hydrant": {
     "name": "Hydrant",
     "terms": "Hydrant,Löschwasserentnahmestelle"
@@ -970,6 +974,10 @@
   "highway/footway": {
     "name": "Fußweg",
     "terms": "Fußweg, Fußgängerweg, Fußpfad"
+  },
+  "highway/give_way": {
+    "name": "Vorfahrt gewähren",
+    "terms": "Vorfahrt gewähren-Zeichen, Vorrang gewähren-Zeichen"
   },
   "highway/living_street": {
     "name": "Verkehrsberuhigter Bereich, auch „Spielstraße“ genannt",
@@ -1382,6 +1390,10 @@
   "man_made/breakwater": {
     "name": "Wellenbrecher",
     "terms": "Wellenbrecher, Buhnen"
+  },
+  "man_made/bridge": {
+    "name": "Brücke",
+    "terms": "Brücke, Brückenbauwerk, Steg, Übergang"
   },
   "man_made/chimney": {
     "name": "Schornstein",
@@ -1945,7 +1957,7 @@
   },
   "shop/chemist": {
     "name": "Drogerie",
-    "terms": "Drogerie"
+    "terms": "Apotheke, Drogerie"
   },
   "shop/chocolate": {
     "name": "Schokoladeladen",

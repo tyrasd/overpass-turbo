@@ -37,6 +37,7 @@ var i18n = new(function() {
     "nl":    "Dutch",
     "no":    "Norwegian",
     "pl":    "Polish",
+    "pt":    "Portuguese",
     "pt-BR": "Portuguese (Brazil)",
     "ru":    "Russian",
     "sl":    "Slovenian",

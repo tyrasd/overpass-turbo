@@ -46,21 +46,12 @@ styleparser.Style.prototype = {
 	},
 
 	runEvals: function(tags) {
-	    // helper object for eval() properties
-        var eval_functions = {
-          // mapcss 0.2 eval function
-          tag: function(t) {return tags[t];},
-          prop: function(p) {}, // todo
-          cond: function(expr, i, e) {if (expr) return i; else return e;},
-          any: function() {for (var i=0;i<arguments.length;i++) if(arguments[i]) return arguments[i];},
-          max: Math.max,
-          min: Math.min,
-          // JOSM eval functions ?
-        };
+		// helper object for eval() properties
 		for (var k in this.evals) {
 			try {
-			  this.setPropertyFromString(k, eval("with (tags) with (eval_functions) {"+this.evals[k]+"}"),false);
-			} catch(e) {}
+				styleparser.evalparser.tag = function(t) {return tags[t];};
+				this.setPropertyFromString(k, styleparser.evalparser.parse(this.evals[k]));
+			} catch(e) { console.error("Error while evaluating mapcss evals", e); }
 		}
 	},
 

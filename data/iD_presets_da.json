@@ -491,6 +491,10 @@
     "name": "Cykelbarriere",
     "terms": "Cykelbarriere"
   },
+  "barrier/ditch": {
+    "name": "Grøft",
+    "terms": "Grøft"
+  },
   "barrier/entrance": {
     "name": "Indgang",
     "terms": "Indgang, Indgangsparti"
@@ -875,6 +879,10 @@
     "name": "Udrykningsstation",
     "terms": "Ambulancestation, Falckstation"
   },
+  "emergency/defibrillator": {
+    "name": "Hjertestarter",
+    "terms": "Hjertestarter, AED"
+  },
   "emergency/fire_hydrant": {
     "name": "Brandhane",
     "terms": "Brandhane"
@@ -966,6 +974,10 @@
   "highway/footway": {
     "name": "Gangsti",
     "terms": "Gangsti"
+  },
+  "highway/give_way": {
+    "name": "Advarselsskilte",
+    "terms": "Advarselsskilte, stopskilte"
   },
   "highway/living_street": {
     "name": "Stillevej",
@@ -1378,6 +1390,10 @@
   "man_made/breakwater": {
     "name": "Bølgebryder",
     "terms": "Bølgebryder"
+  },
+  "man_made/bridge": {
+    "name": "Bro",
+    "terms": "Bro"
   },
   "man_made/chimney": {
     "name": "Skorsten",
@@ -1940,8 +1956,8 @@
     "terms": "Ostehandler, Ostebutik, Osteforretning"
   },
   "shop/chemist": {
-    "name": "Kemiforhandler",
-    "terms": "Kemiforhandler"
+    "name": "Medicinbutik",
+    "terms": "Medicinbutik, Materialist"
   },
   "shop/chocolate": {
     "name": "Chokoladeforretning",

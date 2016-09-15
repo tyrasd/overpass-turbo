@@ -125,7 +125,7 @@
   "help.intro.shortcuts.date": "συμβολοσειρά ημερομηνίας-ώρας για συγκεκριμένο προηγούμενο χρονικό διάστημα, σύμφωνα με ISO 8601  (π.χ. “24 hours”)",
   "help.intro.shortcuts.style": "ορίζει ένα <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\">MapCSS stylesheet</a>",
   "help.intro.shortcuts.custom": "Αυθαίρετες συντομεύσεις μπορούν να οριστούν βάζοντας <i>{{shortcut=value}}</i> κάπου στο σενάριο.",
-  "help.intro.shortcuts.more": "Περισσότερες συντομεύσεις Overpass, πρόσθετες πληροφορίες σχετικά με τα παραπάνω και παραδείγματα χρήσης, μπορούν να βρεθούν στο <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a>.",
+  "help.intro.shortcuts.more": "More overpass-turbo shortcuts, additional information about the above and usage examples can be found in the <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries\">OSM wiki</a>.",
   "help.section.ide": "IDE",
   "help.ide.share.title": "Μοίρασμα",
   "help.ide.share.expl": "Είναι δυνατό να στείλετε ένα σταθεροδεσμό, με το ερώτημα πάνω στο οποίο εργάζεστε, σε κάποιον άλλο. Αυτό γίνεται με το εργαλείο <i>Μοίρασμα</i> και σας εμφανίζει ένα σύνδεσμο τον οποίο μπορείτε να στείλετε σε ένα φίλο ή να αναρτήσετε στο διαδίκτυο. (Σημειώστε ότι οι άλλοι θα δουλεύουν στο δικό τους αντίγραφο του ερωτήματος.)",

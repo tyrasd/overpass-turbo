@@ -390,9 +390,15 @@
     "name": "Automat z gazetami",
     "terms": "Automat z gazetami"
   },
+  "amenity/vending_machine/parcel_pickup_dropoff": {
+    "name": "Poczkomat z funkcją nadawania przesyłek"
+  },
   "amenity/vending_machine/parking_tickets": {
     "name": "Parkomat",
     "terms": "Parkomat"
+  },
+  "amenity/vending_machine/public_transport_tickets": {
+    "name": "Automat z biletami komunikacji publicznej"
   },
   "amenity/vending_machine/sweets": {
     "name": "Automat z przekąskami",
@@ -409,6 +415,9 @@
   "amenity/waste_basket": {
     "name": "Kosz na śmieci",
     "terms": "kosz,kubeł,śmietnik"
+  },
+  "amenity/waste_disposal": {
+    "name": "Śmietnik"
   },
   "area": {
     "name": "Obszar",
@@ -439,6 +448,9 @@
   },
   "barrier/cycle_barrier": {
     "name": "Przegroda antyrowerowa"
+  },
+  "barrier/ditch": {
+    "name": "Rów"
   },
   "barrier/entrance": {
     "name": "Wejście",
@@ -567,14 +579,16 @@
     "name": "Budynek przedszkola"
   },
   "building/public": {
-    "name": "Budynek publiczny"
+    "name": "Budynek publiczny",
+    "terms": "budynek użyteczności publicznej"
   },
   "building/residential": {
     "name": "Budynek mieszkalny",
     "terms": "blok, kamienica, dom, czynszówka"
   },
   "building/retail": {
-    "name": "Budynek handlu detalicznego"
+    "name": "Budynek handlu detalicznego",
+    "terms": "handel detaliczny"
   },
   "building/roof": {
     "name": "Zadaszenie",
@@ -584,7 +598,8 @@
     "name": "Budynek szkolny"
   },
   "building/semidetached_house": {
-    "name": "Bliźniak"
+    "name": "Bliźniak",
+    "terms": "Dom bliźniaczy"
   },
   "building/shed": {
     "name": "Szopa",
@@ -609,16 +624,20 @@
     "terms": "uniwersytet, szkoła wyższa, wydział, uczelnia"
   },
   "building/warehouse": {
-    "name": "Magazyn"
+    "name": "Magazyn",
+    "terms": "Magazyn"
   },
   "craft": {
-    "name": "Rzemiosło"
+    "name": "Rzemiosło",
+    "terms": "rzemieślnicy"
   },
   "craft/basket_maker": {
-    "name": "Wikliniarz"
+    "name": "Wikliniarz",
+    "terms": "wikilina"
   },
   "craft/beekeeper": {
-    "name": "Pszczelarz"
+    "name": "Pszczelarz",
+    "terms": "Miód"
   },
   "craft/blacksmith": {
     "name": "Kowal",
@@ -651,10 +670,12 @@
     "terms": "zegarmistrz"
   },
   "craft/confectionery": {
-    "name": "Sklep ze słodyczami"
+    "name": "Sklep ze słodyczami",
+    "terms": "Słodycze"
   },
   "craft/dressmaker": {
-    "name": "Krawiec"
+    "name": "Krawiec",
+    "terms": "Krawcowa"
   },
   "craft/electrician": {
     "name": "Elektryk",
@@ -730,7 +751,8 @@
     "name": "Tartak"
   },
   "craft/scaffolder": {
-    "name": "Rusztowania"
+    "name": "Rusztowania",
+    "terms": "Wyrób rusztowań"
   },
   "craft/sculpter": {
     "name": "Rzeźbiarz"
@@ -759,10 +781,12 @@
     "name": "Tapicer"
   },
   "craft/watchmaker": {
-    "name": "Zegarmistrz"
+    "name": "Zegarmistrz",
+    "terms": "zegarki"
   },
   "craft/window_construction": {
-    "name": "Montaż okien"
+    "name": "Montaż okien",
+    "terms": "Monter okien"
   },
   "craft/winery": {
     "name": "Winnica",
@@ -775,6 +799,9 @@
     "name": "Stacja pogotowia ratunkowego",
     "terms": "pogotowie ratunkowe"
   },
+  "emergency/defibrillator": {
+    "name": "Defibrylator"
+  },
   "emergency/fire_hydrant": {
     "name": "Hydrant",
     "terms": "hydrant"
@@ -784,13 +811,15 @@
     "terms": "telefon,alarmowy,alarm"
   },
   "entrance": {
-    "name": "Wejście/wyjście"
+    "name": "Wejście/wyjście",
+    "terms": "Wejście, Wyjście"
   },
   "footway/crossing": {
     "name": "Przejście dla pieszych"
   },
   "footway/crosswalk": {
-    "name": "Przejście dla pieszych z zebrą"
+    "name": "Przejście dla pieszych z zebrą",
+    "terms": "zebra"
   },
   "footway/sidewalk": {
     "name": "Chodnik",
@@ -799,6 +828,9 @@
   "ford": {
     "name": "Bród"
   },
+  "golf/green": {
+    "name": "green"
+  },
   "golf/hole": {
     "name": "dołek na polu golfowym "
   },
@@ -806,15 +838,23 @@
     "name": "Poprzeczna przeszkoda wodna",
     "terms": "Przeszkoda wodna, Golf woda"
   },
+  "golf/rough": {
+    "name": "rough",
+    "terms": "rough"
+  },
+  "golf/tee": {
+    "name": "rzutnia"
+  },
   "golf/water_hazard": {
-    "name": "Przeszkoda Wodna"
+    "name": "Przeszkoda Wodna",
+    "terms": "Niebezpieczeństwo wodne"
   },
   "highway": {
     "name": "Droga",
     "terms": "droga,szlak,ulica"
   },
   "highway/bridleway": {
-    "name": "Droga dla koni",
+    "name": "Droga tylko dla koni",
     "terms": "jazda konna,szlak jeździecki,szlak konny"
   },
   "highway/bus_stop": {
@@ -825,10 +865,12 @@
     "name": "Korytarz (w budynku)"
   },
   "highway/crossing": {
-    "name": "Przejście dla pieszych"
+    "name": "Przejście dla pieszych",
+    "terms": "Przejście drogowe"
   },
   "highway/crosswalk": {
-    "name": "Przejście dla pieszych"
+    "name": "Przejście dla pieszych",
+    "terms": "Przejście drogowe"
   },
   "highway/cycleway": {
     "name": "Droga rowerowa",
@@ -837,6 +879,9 @@
   "highway/footway": {
     "name": "Droga/ścieżka dla pieszych",
     "terms": "pobocze,bulwar,ścieżka,deptak,szosa,spacer"
+  },
+  "highway/give_way": {
+    "name": "Ustąp pierwszeństwa przejazdu"
   },
   "highway/living_street": {
     "name": "Droga w oznaczonej strefie zamieszkania",
@@ -875,7 +920,8 @@
     "terms": "rampa,wjazd,wyjazd,zjazd"
   },
   "highway/raceway": {
-    "name": "Tor wyścigowy"
+    "name": "Tor wyścigowy",
+    "terms": "tor samochodowy"
   },
   "highway/residential": {
     "name": "Droga lokalna",
@@ -915,7 +961,8 @@
     "name": "Dojazd dla służb ratowniczych"
   },
   "highway/service/parking_aisle": {
-    "name": "Uliczka parkingowa"
+    "name": "Uliczka parkingowa",
+    "terms": "podjazd parkingowy"
   },
   "highway/services": {
     "name": "Miejsce Obsługi Podróżnych (MOP)",
@@ -942,7 +989,8 @@
     "terms": "rampa,wjazd,wyjazd,zjazd"
   },
   "highway/track": {
-    "name": "Droga polna lub leśna"
+    "name": "Droga polna lub leśna",
+    "terms": "trakt leśny"
   },
   "highway/traffic_signals": {
     "name": "Sygnalizacja świetlna",
@@ -1000,7 +1048,8 @@
     "terms": "kapliczka,przydrożna"
   },
   "junction": {
-    "name": "Skrzyżowanie"
+    "name": "Skrzyżowanie",
+    "terms": "krzyżówka"
   },
   "landuse": {
     "name": "Zagospodarowanie terenu",
@@ -1019,7 +1068,8 @@
     "terms": "cmentarz"
   },
   "landuse/churchyard": {
-    "name": "Dziedziniec kościelny"
+    "name": "Dziedziniec kościelny",
+    "terms": "Plac kościelny"
   },
   "landuse/commercial": {
     "name": "Obszar biurowo-biznesowy"
@@ -1033,7 +1083,8 @@
     "terms": "ziemia uprawna,grunty rolne"
   },
   "landuse/farmland": {
-    "name": "Pola uprawne"
+    "name": "Pola uprawne",
+    "terms": "Uprawy"
   },
   "landuse/farmyard": {
     "name": "Teren z zabudowaniami rolniczymi",
@@ -1044,14 +1095,16 @@
     "terms": "Las"
   },
   "landuse/garages": {
-    "name": "Garaże"
+    "name": "Garaże",
+    "terms": "garaże"
   },
   "landuse/grass": {
     "name": "Trawa",
     "terms": "trawa, trawnik, "
   },
   "landuse/industrial": {
-    "name": "Obszar przemysłowy"
+    "name": "Obszar przemysłowy",
+    "terms": "Teren przemysłowy"
   },
   "landuse/landfill": {
     "name": "Wysypisko",
@@ -1078,7 +1131,8 @@
     "terms": "kamieniołom, żwirownia, kruszywo,kopalnia odkrywkowa"
   },
   "landuse/residential": {
-    "name": "Zabudowa mieszkaniowa"
+    "name": "Zabudowa mieszkaniowa",
+    "terms": "Teren zamieszkały"
   },
   "landuse/retail": {
     "name": "Obszar handlowy"
@@ -1099,10 +1153,12 @@
     "name": "Czatownia ornitologiczna"
   },
   "leisure/bowling_alley": {
-    "name": "Kręgielnia"
+    "name": "Kręgielnia",
+    "terms": "Kręgle"
   },
   "leisure/dog_park": {
-    "name": "Park dla psów"
+    "name": "Park dla psów",
+    "terms": "psi park"
   },
   "leisure/firepit": {
     "name": "Miejsce na ognisko",
@@ -1189,6 +1245,10 @@
     "name": "Ośrodek Sportu / Siłownia",
     "terms": "siłownia"
   },
+  "leisure/sports_centre/swimming": {
+    "name": "Pływalnia",
+    "terms": "basen"
+  },
   "leisure/stadium": {
     "name": "Stadion",
     "terms": "stadion"
@@ -1212,11 +1272,15 @@
     "name": "Obiekty sztuczne"
   },
   "man_made/adit": {
-    "name": "Sztolnia"
+    "name": "Sztolnia",
+    "terms": "Tunel kopalniany"
   },
   "man_made/breakwater": {
     "name": "Falochron",
     "terms": "bodiony"
+  },
+  "man_made/bridge": {
+    "name": "Most/wiadukt"
   },
   "man_made/chimney": {
     "name": "Komin",
@@ -1244,7 +1308,8 @@
     "terms": "latarnia"
   },
   "man_made/mast": {
-    "name": "Maszt radiowy"
+    "name": "Maszt radiowy",
+    "terms": "Wieża radiowa"
   },
   "man_made/observation": {
     "name": "Wieża obserwacyjna",
@@ -1677,7 +1742,8 @@
     "terms": "alkohol"
   },
   "shop/anime": {
-    "name": "Sklep z anime"
+    "name": "Sklep z anime",
+    "terms": "sklep anime"
   },
   "shop/antiques": {
     "name": "Antykwariat",
@@ -1756,8 +1822,7 @@
     "terms": "sery"
   },
   "shop/chemist": {
-    "name": "Drogeria",
-    "terms": "apteka"
+    "name": "Drogeria"
   },
   "shop/chocolate": {
     "name": "Sklep z czekoladą",
@@ -1792,7 +1857,8 @@
     "terms": "kosmetyki,drogeria"
   },
   "shop/craft": {
-    "name": "Sklep z rzemiosłem artystycznym"
+    "name": "Sklep z rzemiosłem artystycznym",
+    "terms": "rzemiosło artystyczne"
   },
   "shop/curtain": {
     "name": "Sklep z zasłonami",
@@ -2263,6 +2329,9 @@
   "type/route/hiking": {
     "name": "Szlak pieszy",
     "terms": "szlak górski,szlak alpejski,szlak turystyki pieszej"
+  },
+  "type/route/horse": {
+    "name": "Szlak konny"
   },
   "type/route/pipeline": {
     "name": "Trasa rurociągu",

@@ -1551,10 +1551,6 @@
   "shop/cheese": {
     "name": "Prodavaonica sira"
   },
-  "shop/chemist": {
-    "name": "Drogerija",
-    "terms": "ljekarna, farmacija, apoteka"
-  },
   "shop/chocolate": {
     "name": "Prodavaonica čokolade"
   },

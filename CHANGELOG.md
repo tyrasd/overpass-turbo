@@ -1,3 +1,10 @@
+2016-09-15
+----------
+* make sure GPX output is well formated
+* fix handling of mapcss [eval statements](http://wiki.openstreetmap.org/wiki/MapCSS/0.2/eval), closing XSS vector
+* new translation: Portuguese
+* update translations, presets, icons
+
 2016-06-06
 ----------
 * add visual (warning) indicator if query results are very outdated

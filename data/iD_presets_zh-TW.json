@@ -57,7 +57,7 @@
   },
   "aeroway/gate": {
     "name": "登機閘門",
-    "terms": "機場閘口,機場閘門"
+    "terms": "機場閘口,機場閘門,登機門,登機口"
   },
   "aeroway/hangar": {
     "name": "機庫",
@@ -77,7 +77,7 @@
   },
   "aeroway/terminal": {
     "name": "機場航廈",
-    "terms": "機場大堂"
+    "terms": "航廈,機場大堂"
   },
   "amenity": {
     "name": "便利設施",
@@ -129,11 +129,11 @@
   },
   "amenity/bureau_de_change": {
     "name": "外幣兌換",
-    "terms": "錢幣兌換"
+    "terms": "錢幣兌換,貨幣兌換"
   },
   "amenity/bus_station": {
-    "name": "公車轉運站",
-    "terms": "客運站,轉運站"
+    "name": "公車客運站",
+    "terms": "客運站,轉運站,長途客運站"
   },
   "amenity/cafe": {
     "name": "咖啡廳",
@@ -879,6 +879,10 @@
     "name": "救護站",
     "terms": "急救站"
   },
+  "emergency/defibrillator": {
+    "name": "去顫器",
+    "terms": "去顫器,心臟去顫器,自動體外心臟去顫器,AED"
+  },
   "emergency/fire_hydrant": {
     "name": "消防栓",
     "terms": "消防栓,消防設施,"
@@ -970,6 +974,10 @@
   "highway/footway": {
     "name": "人行道",
     "terms": "步行徑,人行步道"
+  },
+  "highway/give_way": {
+    "name": "通行標誌",
+    "terms": "讓車標誌"
   },
   "highway/living_street": {
     "name": "生活街道",
@@ -1209,7 +1217,7 @@
   },
   "landuse/military": {
     "name": "軍事用地",
-    "terms": "營區,軍營"
+    "terms": "營區,軍營,部隊用地,軍事區,軍用地"
   },
   "landuse/orchard": {
     "name": "果園",
@@ -1383,6 +1391,10 @@
     "name": "防波堤",
     "terms": "防波堤"
   },
+  "man_made/bridge": {
+    "name": "橋樑",
+    "terms": "橋樑,橋,陸橋,天橋"
+  },
   "man_made/chimney": {
     "name": "煙囪",
     "terms": "煙筒"
@@ -1501,7 +1513,7 @@
   },
   "military/range": {
     "name": "軍事靶場",
-    "terms": "靶場"
+    "terms": "靶場,軍用靶場, 射擊場"
   },
   "military/training_area": {
     "name": "訓練場地",
@@ -1785,7 +1797,7 @@
   },
   "railway": {
     "name": "鐵路",
-    "terms": "鐵支路,鐵軌"
+    "terms": "鐵支路,鐵軌,鐵道"
   },
   "railway/abandoned": {
     "name": "鐵路線遺跡",
@@ -1825,7 +1837,7 @@
   },
   "railway/station": {
     "name": "火車站",
-    "terms": "鐵路站"
+    "terms": "鐵路站,車站,高鐵站"
   },
   "railway/subway": {
     "name": "捷運",
@@ -1833,7 +1845,7 @@
   },
   "railway/subway_entrance": {
     "name": "捷運入口",
-    "terms": "地鐵入口,地下鐵入口"
+    "terms": "地鐵入口,地下鐵入口,捷運出入口,地鐵出入口,地下鐵出入口"
   },
   "railway/tram": {
     "name": "電車",
@@ -2316,8 +2328,8 @@
     "terms": "觀光點"
   },
   "tourism/camp_site": {
-    "name": "營地",
-    "terms": "露營地"
+    "name": "露營營地",
+    "terms": "露營地,營地"
   },
   "tourism/caravan_site": {
     "name": "露營車停車場",
