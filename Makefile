@@ -44,6 +44,7 @@ turbo.js: \
 	libs/locationfilter/src/locationfilter.js \
 	libs/mapbbcode/PopupIcon.js \
 	js/jsmapcss/styleparser.js \
+	js/jsmapcss/evalparser.js \
 	js/jsmapcss/Condition.js \
 	js/jsmapcss/Rule.js \
 	js/jsmapcss/RuleChain.js \
@@ -193,3 +194,8 @@ osmtogeojson:
 
 overpass-turbo-ffs.js: js/ffs.js js/ffs/free.js js/ffs/parser.js
 	cat $^ > $@
+
+mapcss-parser: js/jsmapcss/eval.pegjs
+	$(PEGJS) -o size -e styleparser.evalparser < js/jsmapcss/eval.pegjs > js/jsmapcss/evalparser.js
+
+
