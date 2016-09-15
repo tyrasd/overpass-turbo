@@ -1,16 +1,16 @@
 
 
 Expression
-  = op1:Operator _ "==" _ op2:Expression { return ""+(op1 == op2) }
-  / op1:Operator _ ("!=" / "<>") _ op2:Expression { return ""+(op1 != op2) }
-  / op1:Operator _ ">"  _ op2:Expression { return ""+(op1 >  op2) }
-  / op1:Operator _ ">=" _ op2:Expression { return ""+(op1 >= op2) }
-  / op1:Operator _ "<"  _ op2:Expression { return ""+(op1 <  op2) }
-  / op1:Operator _ "<=" _ op2:Expression { return ""+(op1 <= op2) }
+  = op1:Operator _ "==" _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 == op2 : +op1 == +op2) }
+  / op1:Operator _ ("!=" / "<>") _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 != op2 : +op1 != +op2) }
+  / op1:Operator _ ">"  _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 >  op2 : +op1 >  +op2) }
+  / op1:Operator _ ">=" _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 >= op2 : +op1 >= +op2) }
+  / op1:Operator _ "<"  _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 <  op2 : +op1 <  +op2) }
+  / op1:Operator _ "<=" _ op2:Expression { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 <= op2 : +op1 <= +op2) }
   / op1:Operator _ "eq" _ op2:Expression { return ""+(op1 === op2) }
   / op1:Operator _ "ne" _ op2:Expression { return ""+(op1 !== op2) }
-  / op1:Operator _ "&&" _ op2:Expression { return ""+(["false", "no", "0", 0].indexOf(op1) < 0 && ["false", "no", "0", 0].indexOf(op2) < 0) }
-  / op1:Operator _ "||" _ op2:Expression { return ""+(["false", "no", "0", 0].indexOf(op1) < 0 || ["false", "no", "0", 0].indexOf(op2) < 0) }
+  / op1:Operator _ "&&" _ op2:Expression { return ""+(["false", "no", "0", 0, ""].indexOf(op1) < 0 && ["false", "no", "0", 0, ""].indexOf(op2) < 0) }
+  / op1:Operator _ "||" _ op2:Expression { return ""+(["false", "no", "0", 0, ""].indexOf(op1) < 0 || ["false", "no", "0", 0, ""].indexOf(op2) < 0) }
   / Operator
   
 Operator
@@ -18,9 +18,9 @@ Operator
       var result = head, i;
 
       for (i = 0; i < tail.length; i++) {
-        if (tail[i][1] === ".") { result += ""+tail[i][3]; }
-        if (tail[i][1] === "+") { result = +result + +tail[i][3]; }
-        if (tail[i][1] === "-") { result -= tail[i][3]; }
+        if (tail[i][1] === ".") { result = ""+(result + tail[i][3]); }
+        if (tail[i][1] === "+") { result = ""+(+result + +tail[i][3]); }
+        if (tail[i][1] === "-") { result = ""+(result-tail[i][3]); }
       }
 
       return result;
@@ -31,25 +31,25 @@ Term
       var result = head, i;
 
       for (i = 0; i < tail.length; i++) {
-        if (tail[i][1] === "*") { result *= tail[i][3]; }
-        if (tail[i][1] === "/") { result /= tail[i][3]; }
+        if (tail[i][1] === "*") { result = ""+(result * tail[i][3]); }
+        if (tail[i][1] === "/") { result = ""+(result / tail[i][3]); }
       }
 
       return result;
     }
 
 Factor
-  = "!" _ expr:Expression { return ["false", "no", "0", 0].indexOf(expr) >= 0 ? "true" : "false" }
+  = "!" _ expr:Expression { return ["false", "no", "0", 0, ""].indexOf(expr) >= 0 ? "true" : "false" }
   / "num(" _ expr:Expression _ ")" { return ""+(parseFloat(expr) || "") }
   / "str(" _ expr:Expression _ ")" { return ""+expr }
   / "sqrt(" _ expr:Expression _ ")" { return ""+Math.sqrt(expr) }
   / "int(" _ expr:Expression _ ")" { return ""+(expr < 0 ? Math.ceil(expr) : Math.floor(expr)) }
-  / "boolean(" _ expr:Expression _ ")" { return ["false", "no", "0", 0].indexOf(expr) >= 0 ? "false" : "true" }
-  / "max(" _ expr1:Expression _ "," _ expr2:Expression _ ")" { return Math.max(expr1, expr2) }
-  / "min(" _ expr1:Expression _ "," _ expr2:Expression _ ")" { return Math.min(expr1, expr2) }
-  / "concat(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return tail.reduce(function(acc,val) { return acc+val[3] }, ""+head) }
-  / "cond(" _ exprCond:Expression _ "," _ exprTrue:Expression _ "," _ exprFalse:Expression _ ")" { return ["false", "no", "0", 0].indexOf(exprCond) < 0 ? exprTrue : exprFalse }
-  / "any(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return tail.reduce(function(acc,val) { return acc || val[3] }, ""+head) }
+  / "boolean(" _ expr:Expression _ ")" { return ["false", "no", "0", 0, ""].indexOf(expr) >= 0 ? "false" : "true" }
+  / "max(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return ""+tail.reduce(function(acc,val) { return Math.max(+acc,+val[3]); }, +head) }
+  / "min(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return ""+tail.reduce(function(acc,val) { return Math.min(+acc,+val[3]); }, +head) }
+  / "concat(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return tail.reduce(function(acc,val) { return acc+val[3]; }, ""+head) }
+  / "cond(" _ exprCond:Expression _ "," _ exprTrue:Expression _ "," _ exprFalse:Expression _ ")" { return ["false", "no", "0", 0, ""].indexOf(exprCond) < 0 ? exprTrue : exprFalse }
+  / "any(" _ head:Expression tail:(_ "," _ Expression)* _ ")" { return tail.reduce(function(acc,val) { return acc || val[3]; }, head) }
   / "tag(" _ expr:Expression _ ")" { return styleparser.evalparser.tag(expr) }
   / "(" _ expr:Expression _ ")" { return expr; }
   / String

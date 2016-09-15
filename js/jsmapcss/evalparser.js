@@ -36,24 +36,24 @@ styleparser.evalparser = (function() {
           peg$FAILED,
           "==",
           { type: "literal", value: "==", description: "\"==\"" },
-          function(op1, op2) { return ""+(op1 == op2) },
+          function(op1, op2) { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 == op2 : +op1 == +op2) },
           "!=",
           { type: "literal", value: "!=", description: "\"!=\"" },
           "<>",
           { type: "literal", value: "<>", description: "\"<>\"" },
-          function(op1, op2) { return ""+(op1 != op2) },
+          function(op1, op2) { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 != op2 : +op1 != +op2) },
           ">",
           { type: "literal", value: ">", description: "\">\"" },
-          function(op1, op2) { return ""+(op1 >  op2) },
+          function(op1, op2) { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 >  op2 : +op1 >  +op2) },
           ">=",
           { type: "literal", value: ">=", description: "\">=\"" },
-          function(op1, op2) { return ""+(op1 >= op2) },
+          function(op1, op2) { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 >= op2 : +op1 >= +op2) },
           "<",
           { type: "literal", value: "<", description: "\"<\"" },
-          function(op1, op2) { return ""+(op1 <  op2) },
+          function(op1, op2) { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 <  op2 : +op1 <  +op2) },
           "<=",
           { type: "literal", value: "<=", description: "\"<=\"" },
-          function(op1, op2) { return ""+(op1 <= op2) },
+          function(op1, op2) { return ""+(isNaN(+op1) || isNaN(+op2) ? op1 <= op2 : +op1 <= +op2) },
           "eq",
           { type: "literal", value: "eq", description: "\"eq\"" },
           function(op1, op2) { return ""+(op1 === op2) },
@@ -62,10 +62,10 @@ styleparser.evalparser = (function() {
           function(op1, op2) { return ""+(op1 !== op2) },
           "&&",
           { type: "literal", value: "&&", description: "\"&&\"" },
-          function(op1, op2) { return ""+(["false", "no", "0", 0].indexOf(op1) < 0 && ["false", "no", "0", 0].indexOf(op2) < 0) },
+          function(op1, op2) { return ""+(["false", "no", "0", 0, ""].indexOf(op1) < 0 && ["false", "no", "0", 0, ""].indexOf(op2) < 0) },
           "||",
           { type: "literal", value: "||", description: "\"||\"" },
-          function(op1, op2) { return ""+(["false", "no", "0", 0].indexOf(op1) < 0 || ["false", "no", "0", 0].indexOf(op2) < 0) },
+          function(op1, op2) { return ""+(["false", "no", "0", 0, ""].indexOf(op1) < 0 || ["false", "no", "0", 0, ""].indexOf(op2) < 0) },
           [],
           ".",
           { type: "literal", value: ".", description: "\".\"" },
@@ -77,9 +77,9 @@ styleparser.evalparser = (function() {
                 var result = head, i;
 
                 for (i = 0; i < tail.length; i++) {
-                  if (tail[i][1] === ".") { result += ""+tail[i][3]; }
-                  if (tail[i][1] === "+") { result = +result + +tail[i][3]; }
-                  if (tail[i][1] === "-") { result -= tail[i][3]; }
+                  if (tail[i][1] === ".") { result = ""+(result + tail[i][3]); }
+                  if (tail[i][1] === "+") { result = ""+(+result + +tail[i][3]); }
+                  if (tail[i][1] === "-") { result = ""+(result-tail[i][3]); }
                 }
 
                 return result;
@@ -92,15 +92,15 @@ styleparser.evalparser = (function() {
                 var result = head, i;
 
                 for (i = 0; i < tail.length; i++) {
-                  if (tail[i][1] === "*") { result *= tail[i][3]; }
-                  if (tail[i][1] === "/") { result /= tail[i][3]; }
+                  if (tail[i][1] === "*") { result = ""+(result * tail[i][3]); }
+                  if (tail[i][1] === "/") { result = ""+(result / tail[i][3]); }
                 }
 
                 return result;
               },
           "!",
           { type: "literal", value: "!", description: "\"!\"" },
-          function(expr) { return ["false", "no", "0", 0].indexOf(expr) >= 0 ? "true" : "false" },
+          function(expr) { return ["false", "no", "0", 0, ""].indexOf(expr) >= 0 ? "true" : "false" },
           "num(",
           { type: "literal", value: "num(", description: "\"num(\"" },
           ")",
@@ -117,24 +117,24 @@ styleparser.evalparser = (function() {
           function(expr) { return ""+(expr < 0 ? Math.ceil(expr) : Math.floor(expr)) },
           "boolean(",
           { type: "literal", value: "boolean(", description: "\"boolean(\"" },
-          function(expr) { return ["false", "no", "0", 0].indexOf(expr) >= 0 ? "false" : "true" },
+          function(expr) { return ["false", "no", "0", 0, ""].indexOf(expr) >= 0 ? "false" : "true" },
           "max(",
           { type: "literal", value: "max(", description: "\"max(\"" },
           ",",
           { type: "literal", value: ",", description: "\",\"" },
-          function(expr1, expr2) { return Math.max(expr1, expr2) },
+          function(head, tail) { return ""+tail.reduce(function(acc,val) { return Math.max(+acc,+val[3]); }, +head) },
           "min(",
           { type: "literal", value: "min(", description: "\"min(\"" },
-          function(expr1, expr2) { return Math.min(expr1, expr2) },
+          function(head, tail) { return ""+tail.reduce(function(acc,val) { return Math.min(+acc,+val[3]); }, +head) },
           "concat(",
           { type: "literal", value: "concat(", description: "\"concat(\"" },
-          function(head, tail) { return tail.reduce(function(acc,val) { return acc+val[3] }, ""+head) },
+          function(head, tail) { return tail.reduce(function(acc,val) { return acc+val[3]; }, ""+head) },
           "cond(",
           { type: "literal", value: "cond(", description: "\"cond(\"" },
-          function(exprCond, exprTrue, exprFalse) { return ["false", "no", "0", 0].indexOf(exprCond) < 0 ? exprTrue : exprFalse },
+          function(exprCond, exprTrue, exprFalse) { return ["false", "no", "0", 0, ""].indexOf(exprCond) < 0 ? exprTrue : exprFalse },
           "any(",
           { type: "literal", value: "any(", description: "\"any(\"" },
-          function(head, tail) { return tail.reduce(function(acc,val) { return acc || val[3] }, ""+head) },
+          function(head, tail) { return tail.reduce(function(acc,val) { return acc || val[3]; }, head) },
           "tag(",
           { type: "literal", value: "tag(", description: "\"tag(\"" },
           function(expr) { return styleparser.evalparser.tag(expr) },
@@ -183,7 +183,7 @@ styleparser.evalparser = (function() {
           peg$decode("!7!+W$7%+M%.!\"\"2!3\"+=%7%+3%7 +)%4%6#%\"$ %$%#  $$#  $##  $\"#  \"#  *\u029C \"!7!+c$7%+Y%.$\"\"2$3%*) \".&\"\"2&3'+=%7%+3%7 +)%4%6(%\"$ %$%#  $$#  $##  $\"#  \"#  *\u024B \"!7!+W$7%+M%.)\"\"2)3*+=%7%+3%7 +)%4%6+%\"$ %$%#  $$#  $##  $\"#  \"#  *\u0206 \"!7!+W$7%+M%.,\"\"2,3-+=%7%+3%7 +)%4%6.%\"$ %$%#  $$#  $##  $\"#  \"#  *\u01C1 \"!7!+W$7%+M%./\"\"2/30+=%7%+3%7 +)%4%61%\"$ %$%#  $$#  $##  $\"#  \"#  *\u017C \"!7!+W$7%+M%.2\"\"2233+=%7%+3%7 +)%4%64%\"$ %$%#  $$#  $##  $\"#  \"#  *\u0137 \"!7!+W$7%+M%.5\"\"2536+=%7%+3%7 +)%4%67%\"$ %$%#  $$#  $##  $\"#  \"#  *\xF2 \"!7!+W$7%+M%.8\"\"2839+=%7%+3%7 +)%4%6:%\"$ %$%#  $$#  $##  $\"#  \"#  *\xAD \"!7!+W$7%+M%.;\"\"2;3<+=%7%+3%7 +)%4%6=%\"$ %$%#  $$#  $##  $\"#  \"#  *h \"!7!+W$7%+M%.>\"\"2>3?+=%7%+3%7 +)%4%6@%\"$ %$%#  $$#  $##  $\"#  \"#  *# \"7!"),
           peg$decode("!7\"+\xC9$ A!7%+_$.B\"\"2B3C*5 \".D\"\"2D3E*) \".F\"\"2F3G+7%7%+-%7\"+#%'$%$$#  $##  $\"#  \"#  ,j&!7%+_$.B\"\"2B3C*5 \".D\"\"2D3E*) \".F\"\"2F3G+7%7%+-%7\"+#%'$%$$#  $##  $\"#  \"#  \"+)%4\"6H\"\"! %$\"#  \"#  "),
           peg$decode("!7#+\xB1$ A!7%+S$.I\"\"2I3J*) \".K\"\"2K3L+7%7%+-%7#+#%'$%$$#  $##  $\"#  \"#  ,^&!7%+S$.I\"\"2I3J*) \".K\"\"2K3L+7%7%+-%7#+#%'$%$$#  $##  $\"#  \"#  \"+)%4\"6M\"\"! %$\"#  \"#  "),
-          peg$decode("!.N\"\"2N3O+<$7%+2%7 +(%4#6P#! %$##  $\"#  \"#  *\u0539 \"!.Q\"\"2Q3R+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6U%!\"%$%#  $$#  $##  $\"#  \"#  *\u04EF \"!.V\"\"2V3W+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6X%!\"%$%#  $$#  $##  $\"#  \"#  *\u04A5 \"!.Y\"\"2Y3Z+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6[%!\"%$%#  $$#  $##  $\"#  \"#  *\u045B \"!.\\\"\"2\\3]+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6^%!\"%$%#  $$#  $##  $\"#  \"#  *\u0411 \"!._\"\"2_3`+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6a%!\"%$%#  $$#  $##  $\"#  \"#  *\u03C7 \"!.b\"\"2b3c+\x85$7%+{%7 +q%7%+g%.d\"\"2d3e+W%7%+M%7 +C%7%+9%.S\"\"2S3T+)%4)6f)\"&\"%$)#  $(#  $'#  $&#  $%#  $$#  $##  $\"#  \"#  *\u034E \"!.g\"\"2g3h+\x85$7%+{%7 +q%7%+g%.d\"\"2d3e+W%7%+M%7 +C%7%+9%.S\"\"2S3T+)%4)6i)\"&\"%$)#  $(#  $'#  $&#  $%#  $$#  $##  $\"#  \"#  *\u02D5 \"!.j\"\"2j3k+\xC7$7%+\xBD%7 +\xB3% A!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  ,R&!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  \"+C%7%+9%.S\"\"2S3T+)%4&6l&\"#\"%$&#  $%#  $$#  $##  $\"#  \"#  *\u021A \"!.m\"\"2m3n+\xB4$7%+\xAA%7 +\xA0%7%+\x96%.d\"\"2d3e+\x86%7%+|%7 +r%7%+h%.d\"\"2d3e+X%7%+N%7 +D%7%+:%.S\"\"2S3T+*%4-6o-#*&\"%$-#  $,#  $+#  $*#  $)#  $(#  $'#  $&#  $%#  $$#  $##  $\"#  \"#  *\u0172 \"!.p\"\"2p3q+\xC7$7%+\xBD%7 +\xB3% A!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  ,R&!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  \"+C%7%+9%.S\"\"2S3T+)%4&6r&\"#\"%$&#  $%#  $$#  $##  $\"#  \"#  *\xB7 \"!.s\"\"2s3t+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6u%!\"%$%#  $$#  $##  $\"#  \"#  *m \"!.v\"\"2v3w+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6x%!\"%$%#  $$#  $##  $\"#  \"#  *# \"7$"),
+          peg$decode("!.N\"\"2N3O+<$7%+2%7 +(%4#6P#! %$##  $\"#  \"#  *\u05BD \"!.Q\"\"2Q3R+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6U%!\"%$%#  $$#  $##  $\"#  \"#  *\u0573 \"!.V\"\"2V3W+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6X%!\"%$%#  $$#  $##  $\"#  \"#  *\u0529 \"!.Y\"\"2Y3Z+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6[%!\"%$%#  $$#  $##  $\"#  \"#  *\u04DF \"!.\\\"\"2\\3]+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6^%!\"%$%#  $$#  $##  $\"#  \"#  *\u0495 \"!._\"\"2_3`+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6a%!\"%$%#  $$#  $##  $\"#  \"#  *\u044B \"!.b\"\"2b3c+\xC7$7%+\xBD%7 +\xB3% A!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  ,R&!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  \"+C%7%+9%.S\"\"2S3T+)%4&6f&\"#\"%$&#  $%#  $$#  $##  $\"#  \"#  *\u0390 \"!.g\"\"2g3h+\xC7$7%+\xBD%7 +\xB3% A!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  ,R&!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  \"+C%7%+9%.S\"\"2S3T+)%4&6i&\"#\"%$&#  $%#  $$#  $##  $\"#  \"#  *\u02D5 \"!.j\"\"2j3k+\xC7$7%+\xBD%7 +\xB3% A!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  ,R&!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  \"+C%7%+9%.S\"\"2S3T+)%4&6l&\"#\"%$&#  $%#  $$#  $##  $\"#  \"#  *\u021A \"!.m\"\"2m3n+\xB4$7%+\xAA%7 +\xA0%7%+\x96%.d\"\"2d3e+\x86%7%+|%7 +r%7%+h%.d\"\"2d3e+X%7%+N%7 +D%7%+:%.S\"\"2S3T+*%4-6o-#*&\"%$-#  $,#  $+#  $*#  $)#  $(#  $'#  $&#  $%#  $$#  $##  $\"#  \"#  *\u0172 \"!.p\"\"2p3q+\xC7$7%+\xBD%7 +\xB3% A!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  ,R&!7%+G$.d\"\"2d3e+7%7%+-%7 +#%'$%$$#  $##  $\"#  \"#  \"+C%7%+9%.S\"\"2S3T+)%4&6r&\"#\"%$&#  $%#  $$#  $##  $\"#  \"#  *\xB7 \"!.s\"\"2s3t+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6u%!\"%$%#  $$#  $##  $\"#  \"#  *m \"!.v\"\"2v3w+V$7%+L%7 +B%7%+8%.S\"\"2S3T+(%4%6x%!\"%$%#  $$#  $##  $\"#  \"#  *# \"7$"),
           peg$decode("8!.z\"\"2z3{+& 4!6|! %*\u0173 \"!.F\"\"2F3G*# \" }+\xEE$ A0~\"\"1!3+,$,)&0~\"\"1!3\"\"\"  +\xC9%!.B\"\"2B3C+H$ A0~\"\"1!3+,$,)&0~\"\"1!3\"\"\"  +#%'\"%$\"#  \"#  *# \" }+\x83%!.\x80\"\"2\x803\x81+^$.F\"\"2F3G*# \" }+H% A0~\"\"1!3+,$,)&0~\"\"1!3\"\"\"  +#%'#%$##  $\"#  \"#  *# \" }+'%4$6\x82$ %$$#  $##  $\"#  \"#  *\x8B \"!!.\x83\"\"2\x833\x84+=$7&+3%.\x83\"\"2\x833\x84+#%'#%$##  $\"#  \"#  *N \"!.\x85\"\"2\x853\x86+=$7'+3%.\x85\"\"2\x853\x86+#%'#%$##  $\"#  \"#  +' 4!6\x87!! %9*\" 3y"),
           peg$decode("8 A0\x89\"\"1!3\x8A,)&0\x89\"\"1!3\x8A\"9*\" 3\x88"),
           peg$decode("! A7(,#&7(\"+' 4!6\x8B!! %"),
