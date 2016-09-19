@@ -1,4 +1,12 @@
 describe("mapcss.eval", function () {
+  it("strings", function () {
+    var q = '"foo"'
+    var p = styleparser.evalparser.parse(q)
+    expect(p).to.equal("foo");
+    var q = "'foo'"
+    var p = styleparser.evalparser.parse(q)
+    expect(p).to.equal("foo");
+  });
   it("num()", function () {
     var q = 'num("12.3")'
     var p = styleparser.evalparser.parse(q)
