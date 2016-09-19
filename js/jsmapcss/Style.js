@@ -20,7 +20,7 @@ styleparser.Style.prototype = {
 	has: function(k) {
 		return this.properties.indexOf(k)>-1;
 	},
-	
+
 	mergeWith: function(additional) {
 		for (var prop in this.properties) {
 			if (additional[prop]) {
@@ -29,7 +29,7 @@ styleparser.Style.prototype = {
 		}
 		this.merged=true;
 	},
-	
+
 	setPropertyFromString: function(k,v,isEval) {
 		this.edited=true;
 		if (isEval) { this.evals[k]=v; return; }
@@ -41,7 +41,7 @@ styleparser.Style.prototype = {
 		} else if (this[k] && this[k].constructor==Array) {
 			v = v.split(',').map(function(a) { return Number(a); });
 		}
-		this[k]=v; 
+		this[k]=v;
 		return true;
 	},
 
@@ -49,7 +49,7 @@ styleparser.Style.prototype = {
 		// helper object for eval() properties
 		for (var k in this.evals) {
 			try {
-				styleparser.evalparser.tag = function(t) {return tags[t];};
+				styleparser.evalparser.tag = function(t) {return tags[t] || "";};
 				this.setPropertyFromString(k, styleparser.evalparser.parse(this.evals[k]));
 			} catch(e) { console.error("Error while evaluating mapcss evals", e); }
 		}
@@ -63,7 +63,7 @@ styleparser.Style.prototype = {
 		return str;
 	}
 };
-styleparser.inherit_from_Style = function(target) { 
+styleparser.inherit_from_Style = function(target) {
   for (var p in styleparser.Style.prototype)
     if (target[p] === undefined)
   	  target[p] = styleparser.Style.prototype[p];
@@ -125,11 +125,11 @@ styleparser.ShapeStyle.prototype = {
 
 	width:0, color:null, opacity:NaN, dashes:[],
 	linecap:null, linejoin:null, line_style:null,
-	fill_image:null, fill_color:null, fill_opacity:NaN, 
+	fill_image:null, fill_color:null, fill_opacity:NaN,
 	casing_width:NaN, casing_color:null, casing_opacity:NaN, casing_dashes:[],
 	layer:NaN,				// optional layer override (usually set by OSM tag)
 	styleType: 'ShapeStyle',
-	
+
 	drawn:function() {
 		return (this.fill_image || !isNaN(this.fill_color) || this.width || this.casing_width);
 	},
@@ -206,7 +206,7 @@ styleparser.TextStyle.prototype = {
 	text_center: true,
 	letter_spacing: 0,
 	styleType: 'TextStyle',
-	
+
 	fontStyler:function() {
 		return {
 			family: this.font_family ? this.font_family : 'Arial',

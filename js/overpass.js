@@ -14,7 +14,7 @@ var overpass = new(function() {
     if (typeof overpass.handlers[name] != "function")
       return undefined;
     var handler_args = [];
-    for (var i=1; i<args.length; i++) 
+    for (var i=1; i<args.length; i++)
       handler_args.push(args[i]);
     return overpass.handlers[name].apply({},handler_args);
   }
@@ -42,7 +42,7 @@ var overpass = new(function() {
 
   // updates the map
     this.run_query = function (query, query_lang, cache, shouldCacheOnly) {
-    var server = (ide.data_source && 
+    var server = (ide.data_source &&
                   ide.data_source.mode == "overpass" &&
                   ide.data_source.options.server) ?
                  ide.data_source.options.server : settings.server;
@@ -87,7 +87,7 @@ var overpass = new(function() {
       else
         data_txt = data_amount / 1000000 + " MB";
       fire("onProgress", "received about "+data_txt+" of data");
-      fire("onDataRecieved", data_amount, data_txt, 
+      fire("onDataRecieved", data_amount, data_txt,
       function() { // abort callback
         fire("onAbort");
         return;
@@ -120,7 +120,7 @@ setTimeout(function() {
         data_mode = "unknown";
         var is_error = false;
         is_error = is_error || (typeof data == "string" && // html coded error messages
-          data.indexOf("Error") != -1 && 
+          data.indexOf("Error") != -1 &&
           data.indexOf("<script") == -1 && // detect output="custom" content
           data.indexOf("<h2>Public Transport Stops</h2>") == -1); // detect output="popup" content
         is_error = is_error || (typeof data == "object" &&
@@ -193,7 +193,7 @@ setTimeout(function() {
       //fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 setTimeout(function() {
       // test user supplied mapcss stylesheet
-      var user_mapcss = ide.mapcss; 
+      var user_mapcss = ide.mapcss;
       try {
         var dummy_mapcss = new styleparser.RuleSet();
         dummy_mapcss.parseCSS(user_mapcss);
@@ -233,8 +233,8 @@ setTimeout(function() {
       var get_feature_style = function(feature, highlight) {
         function hasInterestingTags(props) {
           // this checks if the node has any tags other than "created_by"
-          return props && 
-                  props.tags && 
+          return props &&
+                  props.tags &&
                   (function(o){for(var k in o) if(k!="created_by"&&k!="source") return true; return false;})(props.tags);
         }
         var s = mapcss.getStyles({
@@ -256,13 +256,13 @@ setTimeout(function() {
                 return {
                   tags: rel.reltags,
                   isSubject: function(subject) {
-                    return subject=="relation" || 
+                    return subject=="relation" ||
                             (subject=="area" && rel.reltags.type=="multipolyon");
                   },
                   getParentObjects: function() {return [];},
                 }
               });
-          } 
+          }
         }, $.extend(
           feature.properties && feature.properties.tainted ? {":tainted": true} : {},
           feature.properties && feature.properties.geometry ? {":placeholder": true} : {},
@@ -296,14 +296,15 @@ setTimeout(function() {
             latlng = L.latLng([ (latlng1.lat+latlng2.lat)/2, (latlng1.lng+latlng2.lng)/2 ]);
           }
         } // todo: multilinestrings, multipoints
-        if (stl["text"] && (text = feature.properties.tags[stl["text"]])) {
+        if ((stl["text"] && stl.evals["text"] && (text = stl["text"]))
+          || (stl["text"] && (text = feature.properties.tags[stl["text"]]))) {
           var textIcon = new L.PopupIcon(htmlentities(text), {color: "rgba(255,255,255,0.8)"});
           var textmarker = new L.Marker(latlng, {icon: textIcon});
           return new L.FeatureGroup(_.compact([layer, textmarker]));
         }
         return layer;
       }
-      //overpass.geojsonLayer = 
+      //overpass.geojsonLayer =
         //new L.GeoJSON(null, {
         //new L.GeoJsonNoVanish(null, {
       overpass.osmLayer =
@@ -431,7 +432,7 @@ setTimeout(function() {
                 }
                 // hyperlinks for wikipedia entries
                 var wiki_lang, wiki_page;
-                if (((wiki_lang = k.match(/^wikipedia\:(.*)$/)) && (wiki_page = v)) || 
+                if (((wiki_lang = k.match(/^wikipedia\:(.*)$/)) && (wiki_page = v)) ||
                     ((k == "wikipedia") && (wiki_lang = v.match(/^([a-zA-Z]+)\:(.*)$/)) && (wiki_page = wiki_lang[2])))
                   v = '<a href="//'+wiki_lang[1]+'.wikipedia.org/wiki/'+encodeURIComponent(wiki_page)+'" target="_blank">'+v+'</a>';
                 // hyperlinks for wikidata entries
@@ -447,14 +448,14 @@ setTimeout(function() {
               popup += '<h3>Relations:</h3><ul class="plain">';
               $.each(feature.properties.relations, function (k,v) {
                 popup += "<li><a href='//www.openstreetmap.org/relation/"+v["rel"]+"' target='_blank'>"+v["rel"]+"</a>";
-                if (v.reltags && 
+                if (v.reltags &&
                     (v.reltags.name || v.reltags.ref || v.reltags.type))
-                  popup += " <i>" + 
+                  popup += " <i>" +
                     $.trim((v.reltags.type ? htmlentities(v.reltags.type)+" " : "") +
                             (v.reltags.ref ?  htmlentities(v.reltags.ref)+" " : "") +
                             (v.reltags.name ? htmlentities(v.reltags.name)+" " : "")) +
                     "</i>";
-                if (v["role"]) 
+                if (v["role"])
                   popup += " as <i>"+htmlentities(v["role"])+"</i>";
                 popup += "</li>";
               });
@@ -610,21 +611,8 @@ setTimeout(function() {
     }); // getJSON
 
     }
-    
+
   }
 
   // == initializations ==
 })(); // end create overpass object
-
-
-
-
-
-
-
-
-
-
-
-
-
