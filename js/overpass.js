@@ -279,27 +279,51 @@ setTimeout(function() {
         var stl = s.textStyles["default"] || {};
         var layer = originalGeom2Layer.apply(this, arguments);
 
-        var latlng;
-        if (feature.geometry.type=="Point") {
-          latlng = layer.getLatLng();
-        } else if (feature.geometry.type=="Polygon") {
-          latlng = layer.getBounds().getCenter();
-        } else if (feature.geometry.type=="MultiPolygon") {
-          latlng = layer.getLayers()[0].getBounds().getCenter();
-        } else if (feature.geometry.type=="LineString") {
-          var latlngs = layer.getLatLngs();
-          if (latlngs.length % 2 == 1)
-            latlng = latlngs[Math.floor(latlngs.length/2)];
-          else {
-            var latlng1 = latlngs[Math.floor(latlngs.length/2)],
-                latlng2 = latlngs[Math.floor(latlngs.length/2-1)];
-            latlng = L.latLng([ (latlng1.lat+latlng2.lat)/2, (latlng1.lng+latlng2.lng)/2 ]);
+        function getFeatureLabelPosition(feature) {
+          var latlng;
+          switch (feature.geometry.type) {
+          case "Point":
+            latlng = layer.getLatLng();
+          break;
+          case "MultiPolygon":
+            var labelPolygon, bestVal = -Infinity;
+            layer.getLayers().forEach(function(layer) {
+              var size = layer.getBounds().getNorthEast().distanceTo(layer.getBounds().getSouthWest());
+              if (size > bestVal) {
+                labelPolygon = layer;
+                bestVal = size;
+              }
+            });
+          case "Polygon":
+            if (!labelPolygon) labelPolygon = layer;
+            latlng = ide.map.unproject(polylabel(
+              [labelPolygon.getLatLngs()].concat(labelPolygon._holes).map(function(ring) {
+                return ring
+                  .map(function(latlng) { return ide.map.project(latlng); })
+                  .map(function(p) { return [p.x, p.y]; });
+              })
+            ));
+          break;
+          case "LineString":
+            var latlngs = layer.getLatLngs();
+            if (latlngs.length % 2 == 1)
+              latlng = latlngs[Math.floor(latlngs.length/2)];
+            else {
+              var latlng1 = latlngs[Math.floor(latlngs.length/2)],
+                  latlng2 = latlngs[Math.floor(latlngs.length/2-1)];
+              latlng = L.latLng([ (latlng1.lat+latlng2.lat)/2, (latlng1.lng+latlng2.lng)/2 ]);
+            }
+          break;
+          default:
+            // todo: multilinestrings, multipoints
+            console.error("unsupported geometry type while constructing text label:", feature.geometry.type)
           }
-        } // todo: multilinestrings, multipoints
+          return latlng;
+        }
         if ((stl["text"] && stl.evals["text"] && (text = stl["text"]))
           || (stl["text"] && (text = feature.properties.tags[stl["text"]]))) {
           var textIcon = new L.PopupIcon(htmlentities(text), {color: "rgba(255,255,255,0.8)"});
-          var textmarker = new L.Marker(latlng, {icon: textIcon});
+          var textmarker = new L.Marker(getFeatureLabelPosition(feature), {icon: textIcon});
           return new L.FeatureGroup(_.compact([layer, textmarker]));
         }
         return layer;
