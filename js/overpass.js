@@ -604,7 +604,23 @@ setTimeout(function() {
     if(cache && cache.hasOwnProperty(query)) {
       onSuccessCb.apply(this, cache[query]);
     } else {
-      overpass.ajax_request = $.ajax(server+"interpreter"+additional_get_data, {
+      fetch(server+"interpreter"+additional_get_data, {
+        method: "POST",
+        body: query
+      }).then(function(response) {
+        return response.blob();
+      }).then(function(result) {
+        if (result.type === "application/vnd.openstreetmap.data.pbf") {
+          var fileReader = new FileReader();
+          fileReader.onload = function() {
+            var json = tinyosmpbf(this.result);
+            json.osm3s = {};
+            onSuccessCb(json, 200, {responseText: ''})
+          };
+          fileReader.readAsArrayBuffer(result);
+        }
+      })
+      if (false) overpass.ajax_request = $.ajax(server+"interpreter"+additional_get_data, {
       type: 'POST',
       data: {data:query},
       headers: request_headers,
