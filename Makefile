@@ -56,6 +56,7 @@ turbo.js: \
 	libs/momentjs/moment-with-locales.min.js \
 	libs/polylabel/polylabel.js \
 	libs/osmtogeojson/osmtogeojson.js \
+	libs/tinyosmpbf/tinyosmpbf.js \
 	js/GeoJsonNoVanish.js \
 	js/OSM4Leaflet.js \
 	js/configs.js \
