@@ -72,7 +72,7 @@ examples_initial_example = "Drinking Water";
 // global settings object
 var settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
-  32 // settings version number
+  33 // settings version number
 );
 
 // map coordinates
@@ -298,5 +298,24 @@ settings.define_upgrade_callback(31, function(s) {
 settings.define_upgrade_callback(32, function(s) {
   // fix typo in query definition
   s.saves["MapCSS styling"].overpass = s.saves["MapCSS styling"].overpass.replace("<;",">;");
+  s.save();
+});
+
+settings.define_upgrade_callback(33, function(s) {
+  s.saves["Attic date query"] = {
+    type: "example",
+    overpass: [
+      '/* This query loads all objects as of 2016-01-01 */',
+      '[date:"2016-01-01T00:00:00Z"]',
+      '(',
+      '  node({{bbox}});',
+      '  way({{bbox}});',
+      '  relation({{bbox}});',
+      ');',
+      'out body;',
+      '>;',
+      'out skel qt;'
+    ].join('\n')
+  };
   s.save();
 });
