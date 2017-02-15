@@ -1,3 +1,5 @@
+import L from 'leaflet';
+
 L.GeoJsonNoVanish = L.GeoJSON.extend({
   initialize: function (geojson, options) {
     this.options = {
@@ -77,3 +79,5 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
 L.geoJsonNoVanish = function (geojson, options) {
   return new L.GeoJsonNoVanish(geojson, options);
 };
+
+export default L.GeoJsonNoVanish;

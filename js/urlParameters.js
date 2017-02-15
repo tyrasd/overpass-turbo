@@ -1,8 +1,11 @@
 // urlParameters module
-if (typeof turbo === "undefined") turbo={};
-turbo.urlParameters = function(param_str) {
+import ffs from './ffs';
+import settings from './settings';
+import {Base64, lzw_decode} from '../libs/misc';
+
+export default function urlParameters(param_str) {
   // defaults
-  t = {
+  var t = {
     has_query: false,
     query: undefined,
     has_coords: false,
@@ -92,8 +95,7 @@ turbo.urlParameters = function(param_str) {
     }
   }
   if (args.w) { // construct a query using the wizard
-    var ffs = turbo.ffs();
-    var query = ffs.construct_query(args.w, wizard_comment);
+    var query = ffs().construct_query(args.w, wizard_comment);
     if (query) {
       t.query = query;
       t.has_query = true;
@@ -107,4 +109,4 @@ turbo.urlParameters = function(param_str) {
   }
 
   return t;
-};
+}

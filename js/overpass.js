@@ -1,5 +1,14 @@
-
 // global overpass object
+import $ from 'jquery';
+import _ from 'lodash';
+import L from 'leaflet';
+import polylabel from 'polylabel';
+
+import ide from './ide';
+import configs from './configs';
+import settings from './settings';
+import overpass from './overpass';
+import {htmlentities} from '../libs/misc';
 
 var overpass = new(function() {
   // == private members ==
@@ -320,6 +329,7 @@ setTimeout(function() {
           }
           return latlng;
         }
+        var text;
         if ((stl["text"] && stl.evals["text"] && (text = stl["text"]))
           || (stl["text"] && (text = feature.properties.tags[stl["text"]]))) {
           var textIcon = new L.PopupIcon(htmlentities(text), {color: "rgba(255,255,255,0.8)"});
@@ -561,6 +571,7 @@ setTimeout(function() {
       // this is needed for auto-tab-switching: if there is only non map-visible data, show it directly
       if (geojson.features.length === 0) { // no visible data
         // switch only if there is some unplottable data in the returned json/xml.
+        var empty_msg;
         if ((data_mode == "json" && data.elements.length > 0) ||
             (data_mode == "xml" && $("osm",data).children().not("note,meta,bounds").length > 0)) {
           // check for "only areas returned"
@@ -640,3 +651,5 @@ setTimeout(function() {
 
   // == initializations ==
 })(); // end create overpass object
+
+export default overpass;

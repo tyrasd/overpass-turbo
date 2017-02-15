@@ -1,4 +1,8 @@
 // global i18n object
+import $ from 'jquery';
+import _ from 'lodash';
+
+import settings from './settings';
 
 var i18n = new(function() {
   function browser_locale() {
@@ -124,3 +128,4 @@ var i18n = new(function() {
   var td;
 })(); // end create i18n object
 
+export default i18n;

@@ -1,6 +1,5 @@
 // ffs/wizard module
-if (typeof turbo === "undefined") turbo={};
-turbo.ffs = function() {
+export default function FFS() {
   var ffs = {};
   var freeFormQuery;
 
@@ -57,7 +56,7 @@ turbo.ffs = function() {
     }
 
     try {
-      ffs = turbo.ffs.parser.parse(search);
+      ffs = FFS.parser.parse(search);
     } catch(e) {
       console.log("ffs parse error");
       return false;
@@ -249,7 +248,7 @@ turbo.ffs = function() {
         // todo: looks like some code duplication here could be reduced by refactoring
         if (cond_query.query === "free form") {
           // eventually load free form query module
-          if (!freeFormQuery) freeFormQuery = turbo.ffs.free();
+          if (!freeFormQuery) freeFormQuery = FFS.free();
           var ffs_clause = freeFormQuery.get_query_clause(cond_query);
           if (ffs_clause === false)
             return false;
@@ -300,7 +299,7 @@ turbo.ffs = function() {
   // this is a "did you mean …" mechanism against typos in preset names
   ffs.repair_search = function(search) {
     try {
-      ffs = turbo.ffs.parser.parse(search);
+      ffs = FFS.parser.parse(search);
     } catch(e) {
       return false;
     }
@@ -321,7 +320,7 @@ turbo.ffs = function() {
     function validateQuery(cond_query) {
       if (cond_query.query === "free form") {
         // eventually load free form query module
-        if (!freeFormQuery) freeFormQuery = turbo.ffs.free();
+        if (!freeFormQuery) freeFormQuery = FFS.free();
         var ffs_clause = freeFormQuery.get_query_clause(cond_query);
         if (ffs_clause === false) {
           // try to find suggestions for occasional typos

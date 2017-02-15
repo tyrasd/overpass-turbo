@@ -1,7 +1,10 @@
 // ffs/wizard module
-if (typeof turbo === "undefined") turbo={};
+import $ from 'jquery';
 
-turbo.ffs.free = function() {
+import i18n from '../i18n';
+import {levenshteinDistance} from '../../libs/misc';
+
+export default function ffs_free() {
 
   var freeFormQuery = {};
   var presets = {};
