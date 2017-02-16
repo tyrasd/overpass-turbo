@@ -9,10 +9,10 @@ const productionBuild = process.env.npm_lifecycle_script !== 'webpack-dev-server
 
 module.exports = {
   entry: {
-    'main': './js/index.js',
+    turbo: './js/index.js',
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: '[name].[chunkhash].js',
     sourceMapFilename: '[name].[chunkhash].map',
   },

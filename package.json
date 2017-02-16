@@ -4,6 +4,10 @@
   "homepage": "http://overpass-turbo.eu/",
   "repository": "git+https://github.com/tyrasd/overpass-turbo.git",
   "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack -p"
+  },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.15",
     "css-loader": "^0.26.1",
