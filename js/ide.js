@@ -1783,7 +1783,7 @@ var ide = new(function() {
   }
   this.update_ffs_query = function(s) {
     var search = s || $("#ffs-dialog input[type=text]").val();
-    query = ffs.construct_query(search);
+    var query = ffs.construct_query(search);
     if (query === false) {
       var repaired = ffs.repair_search(search);
       if (repaired) {

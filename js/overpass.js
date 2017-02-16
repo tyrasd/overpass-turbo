@@ -2,6 +2,8 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import L from 'leaflet';
+import L_OSM4Leaflet from './OSM4Leaflet';
+import L_GeoJsonNoVanish from './GeoJsonNoVanish';
 import polylabel from 'polylabel';
 
 import ide from './ide';
@@ -19,13 +21,12 @@ var overpass = new(function() {
 
   // == private methods ==
   var fire = function() {
-    var args = fire.arguments;
-    var name = args[0];
+    var name = arguments[0];
     if (typeof overpass.handlers[name] != "function")
       return undefined;
     var handler_args = [];
-    for (var i=1; i<args.length; i++)
-      handler_args.push(args[i]);
+    for (var i=1; i<arguments.length; i++)
+      handler_args.push(arguments[i]);
     return overpass.handlers[name].apply({},handler_args);
   }
 
@@ -343,9 +344,9 @@ setTimeout(function() {
         //new L.GeoJSON(null, {
         //new L.GeoJsonNoVanish(null, {
       overpass.osmLayer =
-        new L.OSM4Leaflet(null, {
+        new L_OSM4Leaflet(null, {
         afterParse: function() {fire("onProgress", "rendering geoJSON");},
-        baseLayerClass: settings.disable_poiomatic ? L.GeoJSON : L.GeoJsonNoVanish,
+        baseLayerClass: settings.disable_poiomatic ? L.GeoJSON : L_GeoJsonNoVanish,
         baseLayerOptions: {
         threshold: 9*Math.sqrt(2)*2,
         compress: function(feature) {

@@ -58,8 +58,8 @@ styleparser.StyleList.prototype = {
 		return str;
 	},
 
-	hasShapeStyles:function()  { for (var a in shapeStyles ) { return true; } return false; },
-	hasTextStyles:function()   { for (var a in textStyles  ) { return true; } return false; },
-	hasPointStyles:function()  { for (var a in pointStyles ) { return true; } return false; },
-	hasShieldStyles:function() { for (var a in shieldStyles) { return true; } return false; }
+	hasShapeStyles:function()  { for (var a in this.shapeStyles ) { return true; } return false; },
+	hasTextStyles:function()   { for (var a in this.textStyles  ) { return true; } return false; },
+	hasPointStyles:function()  { for (var a in this.pointStyles ) { return true; } return false; },
+	hasShieldStyles:function() { for (var a in this.shieldStyles) { return true; } return false; }
 };

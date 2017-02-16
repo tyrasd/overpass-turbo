@@ -1,3 +1,4 @@
+@media(max-width: 700px) {
 html,body {
   height: auto;
 }
@@ -106,4 +107,6 @@ div.ui-dialog {
 }
 .leaflet-control-buttons a.leaflet-control-buttons-fullscreen {
   display:none;
+}
+
 }
