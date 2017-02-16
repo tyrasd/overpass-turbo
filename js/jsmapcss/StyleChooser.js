@@ -1,5 +1,7 @@
 // styleparser/StyleChooser.js
 
+import styleparser from './evalparser';
+
 styleparser.StyleChooser = function() {
     this.ruleChains = [new styleparser.RuleChain()];
     this.styles = [];

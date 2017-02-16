@@ -14,6 +14,8 @@
 
 */
 
+import styleparser from './evalparser';
+
 styleparser.RuleChain = function() {
     this.rules=[];				// list of Rules
     this.subpart= 'default';		// subpart name, as in way[highway=primary]::centreline

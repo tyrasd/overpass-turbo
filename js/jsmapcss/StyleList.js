@@ -1,5 +1,8 @@
 // ----------------------------------------------------------------------
 // StyleList class
+
+import styleparser from './evalparser';
+
 styleparser.StyleList = function() {
 	this.shapeStyles  = {};
 	this.textStyles   = {};
