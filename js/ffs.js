@@ -1,5 +1,8 @@
 // ffs/wizard module
-export default function FFS() {
+import ffs_free from './ffs/free';
+import ffs_parser from './ffs/parser';
+
+export default function() {
   var ffs = {};
   var freeFormQuery;
 
@@ -56,7 +59,7 @@ export default function FFS() {
     }
 
     try {
-      ffs = FFS.parser.parse(search);
+      ffs = ffs_parser.parse(search);
     } catch(e) {
       console.log("ffs parse error");
       return false;
@@ -248,7 +251,7 @@ export default function FFS() {
         // todo: looks like some code duplication here could be reduced by refactoring
         if (cond_query.query === "free form") {
           // eventually load free form query module
-          if (!freeFormQuery) freeFormQuery = FFS.free();
+          if (!freeFormQuery) freeFormQuery = ffs_free();
           var ffs_clause = freeFormQuery.get_query_clause(cond_query);
           if (ffs_clause === false)
             return false;
@@ -299,7 +302,7 @@ export default function FFS() {
   // this is a "did you mean …" mechanism against typos in preset names
   ffs.repair_search = function(search) {
     try {
-      ffs = FFS.parser.parse(search);
+      ffs = ffs_parser.parse(search);
     } catch(e) {
       return false;
     }
@@ -320,7 +323,7 @@ export default function FFS() {
     function validateQuery(cond_query) {
       if (cond_query.query === "free form") {
         // eventually load free form query module
-        if (!freeFormQuery) freeFormQuery = FFS.free();
+        if (!freeFormQuery) freeFormQuery = ffs_free();
         var ffs_clause = freeFormQuery.get_query_clause(cond_query);
         if (ffs_clause === false) {
           // try to find suggestions for occasional typos
