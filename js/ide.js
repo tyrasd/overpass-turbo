@@ -3,7 +3,7 @@ import $ from 'jquery';
 import _ from 'lodash';
 import jQuery from 'jquery';
 import L from 'leaflet';
-import CodeMirror from 'codemirror';
+import CodeMirror from 'codemirror/lib/codemirror.js';
 import moment from 'moment';
 import tokml from 'tokml';
 import togpx from 'togpx';

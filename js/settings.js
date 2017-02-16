@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import configs from './configs';
 
-export default function Settings(namespace,version) {
+function Settings(namespace,version) {
   // == private members ==
   var prefix = namespace+"_";
   var ls = {setItem:function(n,v){this[n]=v;}, getItem:function(n){return this[n]!==undefined?this[n]:null;}}; try { localStorage.setItem(prefix+"test",123); localStorage.removeItem(prefix+"test"); ls = localStorage; } catch(e) {};
@@ -78,6 +78,8 @@ var settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
   33 // settings version number
 );
+
+export default settings;
 
 // map coordinates
 settings.define_setting("coords_lat","Float",configs.defaultMapView.lat,1);
