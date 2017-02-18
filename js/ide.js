@@ -1592,37 +1592,38 @@ var ide = new(function() {
     $("#ffs-dialog #ffs-dialog-typo").hide();
     var build_query = function(autorun) {
       // build query and run it immediately
-      var ffs_result = ide.update_ffs_query();
-      if (ffs_result === true) {
-        $(this).dialog("close");
-        if (autorun !== false)
-          ide.onRunClick();
-      } else {
-        if (_.isArray(ffs_result)) {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-parse-error").hide();
-          $("#ffs-dialog #ffs-dialog-typo").show();
-          var correction = ffs_result.join("");
-          var correction_html = ffs_result.map(function(ffs_result_part,i) {
-            if (i%2===1)
-              return "<b>"+ffs_result_part+"</b>";
-            else
-              return ffs_result_part;
-          }).join("");
-          $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
-          $("#ffs-dialog #ffs-dialog-typo-correction").unbind("click").bind("click", function(e) {
-            $("#ffs-dialog input[type=text]").val(correction);
-            $(this).parent().hide();
-            e.preventDefault();
-          });
-          $("#ffs-dialog #ffs-dialog-typo").effect("shake", {direction:"right",distance:10,times:2}, 300);
+      ide.update_ffs_query(undefined, function(err, ffs_result) {
+        if (!err) {
+          $(this).dialog("close");
+          if (autorun !== false)
+            ide.onRunClick();
         } else {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-typo").hide();
-          $("#ffs-dialog #ffs-dialog-parse-error").show();
-          $("#ffs-dialog #ffs-dialog-parse-error").effect("shake", {direction:"right",distance:10,times:2}, 300);
+          if (_.isArray(ffs_result)) {
+            // show parse error message
+            $("#ffs-dialog #ffs-dialog-parse-error").hide();
+            $("#ffs-dialog #ffs-dialog-typo").show();
+            var correction = ffs_result.join("");
+            var correction_html = ffs_result.map(function(ffs_result_part,i) {
+              if (i%2===1)
+                return "<b>"+ffs_result_part+"</b>";
+              else
+                return ffs_result_part;
+            }).join("");
+            $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
+            $("#ffs-dialog #ffs-dialog-typo-correction").unbind("click").bind("click", function(e) {
+              $("#ffs-dialog input[type=text]").val(correction);
+              $(this).parent().hide();
+              e.preventDefault();
+            });
+            $("#ffs-dialog #ffs-dialog-typo").effect("shake", {direction:"right",distance:10,times:2}, 300);
+          } else {
+            // show parse error message
+            $("#ffs-dialog #ffs-dialog-typo").hide();
+            $("#ffs-dialog #ffs-dialog-parse-error").show();
+            $("#ffs-dialog #ffs-dialog-parse-error").effect("shake", {direction:"right",distance:10,times:2}, 300);
+          }
         }
-      }
+      }.bind(this));
     };
     $("#ffs-dialog input[type=text]").unbind("keypress").bind("keypress", function(e) {
       if (e.which==13 || e.which==10) {
@@ -1781,21 +1782,24 @@ var ide = new(function() {
       overpass.run_query(query,query_lang);
     });
   }
-  this.update_ffs_query = function(s) {
+  this.update_ffs_query = function(s, callback) {
     var search = s || $("#ffs-dialog input[type=text]").val();
-    var query = ffs.construct_query(search);
-    if (query === false) {
-      var repaired = ffs.repair_search(search);
-      if (repaired) {
-        return repaired;
+    ffs.construct_query(search, undefined, function(err, query) {
+      if (err) {
+        ffs.repair_search(search, function(repaired) {
+          if (repaired) {
+            callback("repairable query", repaired);
+          } else {
+            if (s) return callback(true);
+            // try to parse as generic ffs search
+            this.update_ffs_query('"'+search+'"', callback);
+          }
+        }.bind(this));
       } else {
-        if (s) return false;
-        // try to parse as generic ffs search
-        return this.update_ffs_query('"'+search+'"');
+        ide.setQuery(query);
+        callback(null);
       }
-    }
-    ide.setQuery(query);
-    return true;
+    }.bind(this));
   }
 
 })(); // end create ide object

@@ -95,13 +95,14 @@ export default function urlParameters(param_str) {
     }
   }
   if (args.w) { // construct a query using the wizard
-    var query = ffs().construct_query(args.w, wizard_comment);
-    if (query) {
-      t.query = query;
-      t.has_query = true;
-    } else {
-      console.log("invalid wizard syntax:\n  "+args.w);
-    }
+    ffs().construct_query(args.w, wizard_comment, function(err, query) {
+      if (!err) {
+        t.query = query;
+        t.has_query = true;
+      } else {
+        console.log("invalid wizard syntax:\n  "+args.w);
+      }
+    });
   }
   if (args.R !== undefined) { // indicates that the supplied query shall be executed immediately
     if (t.has_query) // only run if there is also a query to execute
