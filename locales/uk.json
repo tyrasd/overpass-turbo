@@ -177,7 +177,7 @@
   "dialog.repair_query": "полагодити запит",
   "dialog.continue_anyway": "продовжити тим не менше",
   "dialog.show_data": "показати дані",
-  "dialog.wizard_build": "побудувати запит",
+  "dialog.wizard_build": "Скласти запит",
   "dialog.wizard_run": "Скласти і запустити запит",
   "dialog.delete_query.title": "Вилучити запит?",
   "dialog.delete_query.expl": "Дійсно вилучити цей запит",
