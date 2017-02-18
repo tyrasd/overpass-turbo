@@ -54,6 +54,7 @@ turbo.js: \
 	js/jsmapcss/RuleSet.js \
 	libs/misc.js \
 	libs/momentjs/moment-with-locales.min.js \
+	libs/polylabel/polylabel.js \
 	libs/osmtogeojson/osmtogeojson.js \
 	js/GeoJsonNoVanish.js \
 	js/OSM4Leaflet.js \
@@ -197,5 +198,3 @@ overpass-turbo-ffs.js: js/ffs.js js/ffs/free.js js/ffs/parser.js
 
 mapcss-parser: js/jsmapcss/eval.pegjs
 	$(PEGJS) -o speed -e styleparser.evalparser < js/jsmapcss/eval.pegjs > js/jsmapcss/evalparser.js
-
-

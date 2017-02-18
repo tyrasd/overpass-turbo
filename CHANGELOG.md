@@ -1,3 +1,9 @@
+2017-02-18
+----------
+* switch to (newish) osmnames geocoder for map location search 
+* improvements to mapcss (better text label placement, improved eval statements)
+* updated translations
+
 2016-09-15
 ----------
 * make sure GPX output is well formated

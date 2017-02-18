@@ -128,7 +128,7 @@ a.external::after {
   display: inline-block;
   height: 16px;
   width: 16px;
-  background-image: url("http://code.jquery.com/ui/1.10.3/themes/smoothness/images/ui-icons_222222_256x240.png");
+  background-image: url("../libs/jqueryui/images/ui-icons_222222_256x240.png");
   background-position: -32px -80px;
 }
 a.external {
@@ -243,7 +243,7 @@ body.loading .modal {
 
 .leaflet-control-buttons a:hover {
   background-color: #FFFFFF;
-  color: #777777; 
+  color: #777777;
 }
 .leaflet-control-buttons a {
   display: block;

@@ -9,16 +9,6 @@ $(document).ready(function() {
     window.addEventListener("message", function (evt) {
       var data = JSON.parse(evt.data);
       switch(data.cmd){
-        case 'catch_alert':
-          overpass.handlers["onAjaxError"] = function(errmsg) {
-              parent.postMessage(JSON.stringify({handler: "onAjaxError",
-                                                 msg: errmsg }), "*");
-          };
-          overpass.handlers["onQueryError"] = function(errmsg) {
-              parent.postMessage(JSON.stringify({handler: "onQueryError",
-                                                 msg: errmsg }), "*");
-          };
-          break;
         case 'update_map':
           settings.code["overpass"] = data.value[0];
           ide.update_map();
@@ -110,6 +100,8 @@ $(document).ready(function() {
     var kv = get[i].split("=");
     if (kv[0] == "Q") // uncompressed query set in url
       settings.code["overpass"] = decodeURIComponent(kv[1].replace(/\+/g,"%20"));
+    if (kv[0] == "silent") // don't alert on overpass errors, but send messages to parent window
+      settings.silent = true;
   }
   // init leaflet
   ide.map = new L.Map("map");
@@ -140,8 +132,13 @@ $(document).ready(function() {
   });
   // overpass functionality
   overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {$('<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>('+empty_msg+')</small></div>').appendTo("#map");};
-  overpass.handlers["onAjaxError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\n" + errmsg);};
-  overpass.handlers["onQueryError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\nThis is what overpass API returned:\n" + errmsg);};
+  if (settings.silent) {
+    overpass.handlers["onAjaxError"] = function(errmsg) {parent.postMessage(JSON.stringify({handler: "onAjaxError", msg: errmsg}), "*"); }
+    overpass.handlers["onQueryError"] = function(errmsg) {parent.postMessage(JSON.stringify({handler: "onQueryError", msg: errmsg }), "*"); }
+  } else {
+    overpass.handlers["onAjaxError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\n" + errmsg);};
+    overpass.handlers["onQueryError"] = function(errmsg) {alert("An error occured during the execution of the overpass query!\nThis is what overpass API returned:\n" + errmsg);};
+  }
     overpass.handlers["onGeoJsonReady"] = function() {ide.map.addLayer(overpass.osmLayer);};
   overpass.handlers["onPopupReady"] = function(p) {p.openOn(ide.map);};
   overpass.handlers["onDataRecieved"] = function(amount,txt, abortCB,continueCB) {continueCB();};

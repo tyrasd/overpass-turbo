@@ -27,7 +27,7 @@ Expression
       }
     }
   / Operand
-  
+
 Operand
   = head:Term tail:(_ ("." / "+" / "-") _ Term)* {
       var result = head, i;
@@ -91,7 +91,7 @@ String "string"
   = "none" { return "" }
   / "-"? [0-9]+ ("." [0-9]+)? ("E" "-"? [0-9]+)? { return ""+parseFloat(text()); }
   / '"' s:[^"]* '"' { return s.join(''); }
+  / "'" s:[^']* "'" { return s.join(''); }
 
 _ "whitespace"
   = [ \t\n\r]*
-

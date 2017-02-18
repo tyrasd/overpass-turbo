@@ -331,21 +331,21 @@ var ide = new(function() {
       }
     });
 
-    // wait spinner
-    $(document).on({
-      ajaxStart: function() {
-        if (!ide.waiter.opened) {
-          ide.waiter.open();
-          ide.waiter.ajaxAutoOpened = true;
-        }
-      },
-      ajaxStop: function() {
-        if (ide.waiter.ajaxAutoOpened) {
-          ide.waiter.close();
-          delete ide.waiter.ajaxAutoOpened;
-        }
-      },
-    });
+    //// wait spinner
+    //$(document).on({
+    //  ajaxStart: function() {
+    //    if (!ide.waiter.opened) {
+    //      ide.waiter.open();
+    //      ide.waiter.ajaxAutoOpened = true;
+    //    }
+    //  },
+    //  ajaxStop: function() {
+    //    if (ide.waiter.ajaxAutoOpened) {
+    //      ide.waiter.close();
+    //      delete ide.waiter.ajaxAutoOpened;
+    //    }
+    //  },
+    //});
 
     // keyboard event listener
     $(document).keydown(ide.onKeyPress);
@@ -476,11 +476,7 @@ var ide = new(function() {
         $(inp).autocomplete({
           source: function(request,response) {
             // ajax (GET) request to nominatim
-            $.ajax("//nominatim.openstreetmap.org/search"+"?X-Requested-With="+configs.appname, {
-              data:{
-                format:"json",
-                q: request.term
-              },
+            $.ajax("https://search.osmnames.org/q/"+encodeURIComponent(request.term)+".js?key="+configs.osmnamesApiKey, {
               success: function(data) {
                 // hacky firefox hack :( (it is not properly detecting json from the content-type header)
                 if (typeof data == "string") { // if the data is a string, but looks more like a json object
@@ -488,20 +484,21 @@ var ide = new(function() {
                     data = $.parseJSON(data);
                   } catch (e) {}
                 }
-                response($.map(data,function(item) {
+                response($.map(data.results.slice(0,10),function(item) {
                   return {label:item.display_name, value:item.display_name,lat:item.lat,lon:item.lon,boundingbox:item.boundingbox}
                 }));
               },
               error: function() {
                 // todo: better error handling
-                alert("An error occured while contacting the osm search server nominatim.openstreetmap.org :(");
+                console.error("An error occured while contacting the search server osmnames.org :(");
               },
             });
           },
           minLength: 2,
+          autoFocus: true,
           select: function(event,ui) {
             if (ui.item.boundingbox && ui.item.boundingbox instanceof Array)
-              ide.map.fitBounds(L.latLngBounds([[ui.item.boundingbox[0],ui.item.boundingbox[3]],[ui.item.boundingbox[1],ui.item.boundingbox[2]]]), {maxZoom: 18});
+              ide.map.fitBounds(L.latLngBounds([[ui.item.boundingbox[1],ui.item.boundingbox[0]],[ui.item.boundingbox[3],ui.item.boundingbox[2]]]), {maxZoom: 18});
             else
               ide.map.panTo(new L.LatLng(ui.item.lat,ui.item.lon));
             this.value="";
@@ -514,8 +511,8 @@ var ide = new(function() {
             $(this).addClass("ui-corner-all").removeClass("ui-corner-top");
           },
         });
-        $(inp).autocomplete("option","delay",2000000000); // do not do this at all
-        $(inp).autocomplete().keypress(function(e) {if (e.which==13 || e.which==10) $(this).autocomplete("search");});
+        $(inp).autocomplete("option","delay",20);
+        //$(inp).autocomplete().keypress(function(e) {if (e.which==13 || e.which==10) $(this).autocomplete("search");});
         return container;
       },
     });
