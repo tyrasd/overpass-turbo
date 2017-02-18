@@ -1051,10 +1051,15 @@ var ide = new(function() {
     for(var example in settings.saves) {
       var type = settings.saves[example].type;
       if (type == 'template') continue;
-      $('<li>'+
-          '<a href="" onclick="ide.loadExample(\''+htmlentities(example).replace(/'/g,"\\'")+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
-          '<a href="" onclick="ide.removeExample(\''+htmlentities(example).replace(/'/g,"\\'")+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
-        '</li>').appendTo("#load-dialog ul."+type);
+      $('<li></li>')
+      .append(
+        $('<a href="#">'+example+'</a>').on("click", function(example) {
+          return function() {ide.loadExample(example); $(this).parents('.ui-dialog-content').dialog('close'); return false; }
+        }(example)),
+        $('<a href="#" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>').on("click", function(example) {
+          return function() { ide.removeExample(example, this); return false; }
+        }(example))
+      ).appendTo("#load-dialog ul."+type);
       if (type == "saved_query")
         has_saved_query = true;
     }
