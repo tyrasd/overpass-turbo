@@ -95,7 +95,12 @@ var ide = new(function() {
       var li = $('<li><span class="ui-icon ui-icon-arrowthick-1-e" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>'+txt+"</li>");
       if (typeof abortCallback == "function") {
         ide.waiter.onAbort = abortCallback;
-        li.append('<span id="aborter">&nbsp;(<a href="#" onclick="ide.waiter.abort(); return false;">abort</a>)</span>');
+        var aborter = $('<span id="aborter">&nbsp;(<a href="#">abort</a>)</span>')
+          .on("click", function() {
+            ide.waiter.abort();
+            return false;
+          });
+        li.append(aborter);
       }
       $(".wait-info ul").prepend(li);
     },
