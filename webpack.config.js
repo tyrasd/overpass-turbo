@@ -50,5 +50,5 @@ module.exports = {
       inject: 'head'
     }),
   ],
-  devtool: productionBuild ? undefined : 'eval-cheap-module-source-map',
+  devtool: productionBuild ? undefined : 'eval-source-map',
 };
