@@ -36,5 +36,5 @@ Development is done in the *master* branch, stable releases are committed to *gh
 ### install & run
 
 1. `npm install`
-2. `npm run start` for a Development server listening at localhost:8000
+2. `npm start` for a Development server listening at localhost:8000
 3. `npm run build` for a minified build in `./build`
