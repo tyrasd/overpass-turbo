@@ -72,7 +72,7 @@ examples_initial_example = "Drinking Water";
 // global settings object
 var settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
-  33 // settings version number
+  34 // settings version number
 );
 
 // map coordinates
@@ -319,3 +319,8 @@ settings.define_upgrade_callback(33, function(s) {
   };
   s.save();
 });
+
+settings.define_upgrade_callback(34, function(s) {
+  s.saves["Attic date query"].overpass = s.saves["Attic date query"].overpass.replace('00:00Z"]\n', '00:00Z"];\n');
+});
+
