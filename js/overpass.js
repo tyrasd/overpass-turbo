@@ -253,7 +253,7 @@ setTimeout(function() {
             switch (subject) {
               case "node":     return feature.properties.type == "node" || feature.geometry.type == "Point";
               case "area":     return feature.geometry.type == "Polygon" || feature.geometry.type == "MultiPolygon";
-              case "line":     return feature.geometry.type == "LineString";
+              case "line":     return feature.geometry.type == "LineString" || feature.geometry.type == "MultiLineString";
               case "way":      return feature.properties.type == "way";
               case "relation": return feature.properties.type == "relation";
             }
@@ -315,8 +315,18 @@ setTimeout(function() {
               })
             ));
           break;
+          case "MultiLineString":
+            var labelLayer, bestVal = -Infinity;
+            layer.getLayers().forEach(function(layer) {
+              var size = layer.getBounds().getNorthEast().distanceTo(layer.getBounds().getSouthWest());
+              if (size > bestVal) {
+                labelLayer = layer;
+                bestVal = size;
+              }
+            });
           case "LineString":
-            var latlngs = layer.getLatLngs();
+            if (!labelLayer) labelLayer = layer;
+            var latlngs = labelLayer.getLatLngs();
             if (latlngs.length % 2 == 1)
               latlng = latlngs[Math.floor(latlngs.length/2)];
             else {
@@ -326,7 +336,7 @@ setTimeout(function() {
             }
           break;
           default:
-            // todo: multilinestrings, multipoints
+            // todo: multipoints
             console.error("unsupported geometry type while constructing text label:", feature.geometry.type)
           }
           return latlng;
@@ -378,6 +388,7 @@ setTimeout(function() {
               if (p !== undefined) stl.dashArray   = p.join(",");
               break;
             case "LineString":
+            case "MultiLineString":
               var styles = s.shapeStyles["default"];
               var p = get_property(styles, ["color"]);
               if (p !== undefined) stl.color       = p;
