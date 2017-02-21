@@ -7,7 +7,7 @@ import CodeMirror from 'codemirror/lib/codemirror.js';
 import moment from 'moment';
 import tokml from 'tokml';
 import togpx from 'togpx';
-import * as _saveAs from 'file-saver';
+import {saveAs} from 'file-saver';
 
 import configs from './configs';
 import Query from './query';
@@ -19,9 +19,6 @@ import overpass from './overpass';
 import urlParameters from './urlParameters';
 import Autorepair from './autorepair';
 import {Base64, htmlentities, lzw_encode} from '../libs/misc';
-
-console.log(_saveAs)
-var saveAs = _saveAs.saveAs;
 
 var ide = new(function() {
   // == private members ==
