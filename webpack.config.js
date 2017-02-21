@@ -10,6 +10,7 @@ const productionBuild = process.env.npm_lifecycle_script !== 'webpack-dev-server
 module.exports = {
   entry: {
     turbo: './js/index.js',
+    map: './js/map.js',
   },
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -47,7 +48,14 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './index.html',
-      inject: 'head'
+      chunks: ['turbo'],
+      inject: 'head',
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'map.html',
+      template: './map.html',
+      chunks: ['map'],
+      inject: 'head',
     }),
   ],
   devtool: productionBuild ? undefined : 'eval-source-map',

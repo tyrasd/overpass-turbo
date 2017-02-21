@@ -6,7 +6,6 @@ import L_OSM4Leaflet from './OSM4Leaflet';
 import L_GeoJsonNoVanish from './GeoJsonNoVanish';
 import polylabel from 'polylabel';
 
-import ide from './ide';
 import configs from './configs';
 import settings from './settings';
 import overpass from './overpass';
@@ -52,11 +51,8 @@ var overpass = new(function() {
   }
 
   // updates the map
-    this.run_query = function (query, query_lang, cache, shouldCacheOnly) {
-    var server = (ide.data_source &&
-                  ide.data_source.mode == "overpass" &&
-                  ide.data_source.options.server) ?
-                 ide.data_source.options.server : settings.server;
+  this.run_query = function (query, query_lang, cache, shouldCacheOnly, server, user_mapcss) {
+    server = server || configs.defaultServer;
     // 1. get overpass json data
     if (query_lang == "xml") {
       // beautify not well formed xml queries (workaround for non matching error lines)
@@ -204,7 +200,6 @@ setTimeout(function() {
       //fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 setTimeout(function() {
       // test user supplied mapcss stylesheet
-      var user_mapcss = ide.mapcss;
       try {
         var dummy_mapcss = new styleparser.RuleSet();
         dummy_mapcss.parseCSS(user_mapcss);
@@ -307,6 +302,7 @@ setTimeout(function() {
             });
           case "Polygon":
             if (!labelPolygon) labelPolygon = layer;
+            // FIXME ide.map is not defined since ide is not imported
             latlng = ide.map.unproject(polylabel(
               [labelPolygon.getLatLngs()].concat(labelPolygon._holes).map(function(ring) {
                 return ring

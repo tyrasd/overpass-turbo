@@ -1789,7 +1789,11 @@ var ide = new(function() {
     // run the query via the overpass object
     ide.getQuery(function(query) {
       var query_lang = ide.getQueryLang();
-      overpass.run_query(query,query_lang);
+      var server = (ide.data_source &&
+              ide.data_source.mode == "overpass" &&
+              ide.data_source.options.server) ?
+              ide.data_source.options.server : settings.server;
+      overpass.run_query(query, query_lang, undefined, undefined, server, ide.mapcss);
     });
   }
   this.update_ffs_query = function(s, callback) {

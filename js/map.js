@@ -2,10 +2,12 @@
 import $ from 'jquery';
 import L from 'leaflet';
 
+// include the CSS files
+import 'leaflet/dist/leaflet.css';
+import '../css/map.css';
+
 import configs from './configs';
-import ide from './ide';
 import overpass from './overpass';
-import settings from './settings';
 import Query from './query';
 
 $(document).ready(function() {
@@ -13,7 +15,7 @@ $(document).ready(function() {
   var cache = {};
 
     window.addEventListener("message", function (evt) {
-      var data = JSON.parse(evt.data);
+      var data = typeof evt.data === 'string' ? JSON.parse(evt.data): {};
       switch(data.cmd){
         case 'update_map':
           settings.code["overpass"] = data.value[0];
@@ -23,7 +25,7 @@ $(document).ready(function() {
           settings.code["overpass"] = data.value[0];
           ide.getQuery(function(query){
               var query_lang = ide.getQueryLang();
-              overpass.run_query(query, query_lang, cache, true);
+              overpass.run_query(query, query_lang, cache, true, undefined, ide.mapcss);
           });
           break;
       }
@@ -35,14 +37,14 @@ $(document).ready(function() {
     alert("error :( "+$(this).html());
   };
   configs.appname = "overpass-ide-map";
-  settings = {
+  var settings = {
     code:{},
     server: configs.defaultServer,
     tileServer: configs.defaultTiles,
     force_simple_cors_request: true,
     disable_poiomatic: false,
   };
-  ide = {
+  var ide = {
     getQuery: function(callback) {
       var query = settings.code["overpass"];
       var queryParser = Query();
@@ -85,7 +87,7 @@ $(document).ready(function() {
           ide.map.removeLayer(overpass.osmLayer);
         ide.getQuery(function(query){
             var query_lang = ide.getQueryLang();
-            overpass.run_query(query, query_lang, cache, false);
+            overpass.run_query(query, query_lang, cache, false, undefined, ide.mapcss);
         });
         $("#map_blank").remove();
     },
