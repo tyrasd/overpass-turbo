@@ -4,6 +4,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 const productionBuild = process.env.npm_lifecycle_script !== 'webpack-dev-server';
 
@@ -32,7 +33,7 @@ module.exports = {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
         loader: 'url-loader',
         options: {
-          limit: 10000
+          limit: 4000
         }
       },
       {
@@ -45,6 +46,22 @@ module.exports = {
     new CleanWebpackPlugin(['./dist']),
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
+    }),
+    new FaviconsWebpackPlugin({
+      logo: './turbo.png',
+      prefix: 'turbo-[hash]-',
+      icons: {
+        android: false,
+        appleIcon: false,
+        appleStartup: false,
+        coast: false,
+        favicons: true,
+        firefox: false,
+        opengraph: false,
+        twitter: false,
+        yandex: false,
+        windows: false,
+      }
     }),
     new HtmlWebpackPlugin({
       template: './index.html',
