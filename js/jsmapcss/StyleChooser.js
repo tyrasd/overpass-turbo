@@ -70,14 +70,6 @@ styleparser.StyleChooser.prototype = {
 			
 					r.runEvals(tags);
                                         // helper function
-                                        function extend(destination, source) {
-                                          for (var property in source) {
-                                            if (source.hasOwnProperty(property)) {
-                                              destination[property] = source[property];
-                                            }
-                                          }
-                                          return destination;
-                                        };
 					if (a[c.subpart]) {
 						// // If there's already a style on this sublayer, then merge them
 						// // (making a deep copy if necessary to avoid altering the root style)
@@ -92,3 +84,12 @@ styleparser.StyleChooser.prototype = {
 		}
 	}
 };
+
+function extend(destination, source) {
+	for (var property in source) {
+		if (source.hasOwnProperty(property)) {
+			destination[property] = source[property];
+		}
+	}
+	return destination;
+}

@@ -1,3 +1,8 @@
+import chai from 'chai';
+var expect = chai.expect;
+import sinon from 'sinon';
+import ide from '../js/ide';
+
 describe("ide.autorepair.recurse", function () {
   // autocomplete missing recurse statements: xml query
   it("autocomplete xml query", function () {

@@ -1,3 +1,7 @@
+import chai from 'chai';
+var expect = chai.expect;
+import ide from '../js/ide';
+
 describe("ide.permalink", function () {
   // check share links
   it("share uncompressed", function () {

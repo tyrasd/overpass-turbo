@@ -96,19 +96,20 @@ export var Base64 = {
       }
     }
     
+    function str2ab(str) {
+      var buf = new ArrayBuffer(str.length); // 1 byte for each char
+      var bufView = new Uint8Array(buf);
+      for (var i=0, strLen=str.length; i<strLen; i++) {
+        bufView[i] = str.charCodeAt(i);
+      }
+      return buf;
+    }
+
     if (!binary) {
       // try to decode utf8 characters
       try { output = decodeURIComponent(escape(output)); } catch(e) {}
     } else {
       // convert binary string to typed (Uint8) array
-      function str2ab(str) {
-        var buf = new ArrayBuffer(str.length); // 1 byte for each char
-        var bufView = new Uint8Array(buf);
-        for (var i=0, strLen=str.length; i<strLen; i++) {
-          bufView[i] = str.charCodeAt(i);
-        }
-        return buf;
-      }
       output = str2ab(output);
     }
     return output;

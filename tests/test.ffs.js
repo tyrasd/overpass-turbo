@@ -1,8 +1,13 @@
+import chai from 'chai';
+var expect = chai.expect;
+import sinon from 'sinon';
+import FFS from '../js/ffs';
+
 describe("ide.ffs", function () {
 
   var ffs;
   before(function() {
-    ffs = turbo.ffs();
+    ffs = FFS();
   });
 
   function compact(q) {
@@ -47,7 +52,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // key-value
     it("key=value", function () {
@@ -61,7 +66,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // not key-value
     it("key!=value", function () {
@@ -75,7 +80,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // regex key-value
     it("key~value", function () {
@@ -89,7 +94,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // regex key
     it("~key~value", function () {
@@ -103,7 +108,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // not regex key-value
     it("key!~value", function () {
@@ -117,7 +122,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // susbtring key-value
     it("key:value", function () {
@@ -132,7 +137,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
       // but also escape special characters
       search = "foo:'*'";
       ffs.construct_query(search, undefined, function(result) {
@@ -144,7 +149,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
   });
 
@@ -165,7 +170,7 @@ describe("ide.ffs", function () {
             ');'+
             out_str
           );
-        )};
+        });
       });
       it("single-quoted string", function () {
         var search, result;
@@ -180,7 +185,7 @@ describe("ide.ffs", function () {
             ');'+
             out_str
           );
-        )};
+        });
       });
       it("quoted unicode string", function () {
         var search = "name='بیجنگ'";
@@ -193,7 +198,7 @@ describe("ide.ffs", function () {
             ');'+
             out_str
           );
-        )};
+        });
       });
       it("unicode string", function () {
         var search = "name=Béziers";
@@ -206,7 +211,7 @@ describe("ide.ffs", function () {
             ');'+
             out_str
           );
-        )};
+        });
       });
     });
     // regexes
@@ -223,7 +228,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
       // simple regex with modifier
       search = "foo~/bar/i";
       ffs.construct_query(search, undefined, function(result) {
@@ -235,7 +240,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
   });
 
@@ -253,7 +258,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     it("logical and (& operator)", function () {
       var search = "foo=bar & asd=fasd";
@@ -266,7 +271,7 @@ describe("ide.ffs", function () {
           ');'+
           out_str
         );
-      )};
+      });
     });
     it("logical and (&& operator)", function () {
       var search = "foo=bar && asd=fasd";
@@ -279,7 +284,7 @@ describe("ide.ffs", function () {
           ');'+
           out_str
         );
-      )};
+      });
     });
     // logical or
     it("logical or", function () {
@@ -296,7 +301,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     it("logical or (| operator)", function () {
       var search = "foo=bar | asd=fasd";
@@ -312,7 +317,7 @@ describe("ide.ffs", function () {
           ');'+
           out_str
         );
-      )};
+      });
     });
     it("logical or (|| operator)", function () {
       var search = "foo=bar || asd=fasd";
@@ -328,7 +333,7 @@ describe("ide.ffs", function () {
           ');'+
           out_str
         );
-      )};
+      });
     });
     // boolean expression
     it("boolean expression", function () {
@@ -351,7 +356,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
   });
 
@@ -368,7 +373,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
       // multiple types
       search = "foo=bar and (type:node or type:way)";
       ffs.construct_query(search, undefined, function(result) {
@@ -379,7 +384,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
       // excluding types
       search = "foo=bar and type:node and type:way";
       ffs.construct_query(search, undefined, function(result) {
@@ -388,7 +393,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // newer
     it("newer", function () {
@@ -401,7 +406,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
       // relative
       search = "newer:1day and type:node";
       ffs.construct_query(search, undefined, function(result) {
@@ -411,7 +416,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // user
     it("user", function () {
@@ -424,7 +429,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
       // uid
       search = "uid:123 and type:node";
       ffs.construct_query(search, undefined, function(result) {
@@ -434,7 +439,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // id
     it("id", function () {
@@ -447,7 +452,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
       // without type
       search = "id:123";
       ffs.construct_query(search, undefined, function(result) {
@@ -459,7 +464,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
   });
 
@@ -475,7 +480,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // bbox
     it("in bbox", function () {
@@ -488,7 +493,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
       // explicit
       search = "type:node in bbox";
       ffs.construct_query(search, undefined, function(result) {
@@ -498,7 +503,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // area
     it("in area", function () {
@@ -511,7 +516,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
     // around
     it("around", function () {
@@ -523,7 +528,7 @@ describe("ide.ffs", function () {
           ");"+
           out_str
         );
-      )};
+      });
     });
 
   });

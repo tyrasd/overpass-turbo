@@ -1,3 +1,7 @@
+import chai from 'chai';
+var expect = chai.expect;
+import styleparser from '../js/jsmapcss/evalparser';
+
 describe("mapcss.eval", function () {
   it("strings", function () {
     var q = '"foo"'

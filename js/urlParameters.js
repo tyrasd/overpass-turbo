@@ -81,11 +81,6 @@ export default function urlParameters(param_str) {
         var param = params[i];
         var value = args[param];
         if (typeof value !== "string") value="???";
-        function quotes(s) {
-          if (s.match(/^[a-zA-Z0-9_]+$/) === null)
-            return '"'+s.replace(/"/g,'\\"')+'"';
-          return s;
-        }
         q = q.replace("{{"+param+"}}",quotes(value));
       }
       args.w = q; // let the wizard do the work
@@ -110,4 +105,10 @@ export default function urlParameters(param_str) {
   }
 
   return t;
+}
+
+function quotes(s) {
+  if (s.match(/^[a-zA-Z0-9_]+$/) === null)
+    return '"'+s.replace(/"/g,'\\"')+'"';
+  return s;
 }
