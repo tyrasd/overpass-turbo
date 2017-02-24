@@ -1,6 +1,4 @@
-before_script:
-  - "npm install mocha-phantomjs"
-script: mocha-phantomjs tests/index.html
+language: node_js
 branches:
   except:
     - modularize
