@@ -1,7 +1,10 @@
 // ffs/wizard module
-if (typeof turbo === "undefined") turbo={};
+import $ from 'jquery';
 
-turbo.ffs.free = function() {
+import i18n from '../i18n';
+import {levenshteinDistance} from '../../libs/misc';
+
+export default function ffs_free() {
 
   var freeFormQuery = {};
   var presets = {};
@@ -9,9 +12,8 @@ turbo.ffs.free = function() {
   // load presets
   (function loadPresets() {
     if (typeof $ === "undefined") return;
-    var presets_file = "data/iD_presets.json";
     try {
-      $.ajax(presets_file,{async:false,dataType:"json"}).success(function(data){
+      import("../../data/iD_presets.json").then(function(data){
         presets = data;
         Object.keys(presets).map(function(key) {
           var preset = presets[key];
@@ -19,11 +21,11 @@ turbo.ffs.free = function() {
           preset.name = preset.name.toLowerCase();
           preset.terms = !preset.terms ? [] : preset.terms.map(function(term) {return term.toLowerCase();});
         });
-      }).error(function(){
+      }, function(){
         throw new Error();
       });
     } catch(e) {
-      console.log("failed to load presets file", presets_file, e);
+      console.log("failed to load presets file", e);
     }
   })();
   // load preset translations
@@ -31,9 +33,8 @@ turbo.ffs.free = function() {
     if (typeof $ === "undefined" || typeof i18n === "undefined") return;
     var language = i18n.getLanguage();
     if (language == "en") return;
-    var translation_file = "data/iD_presets_"+language+".json";
     try {
-      $.ajax(translation_file,{async:false,dataType:"json"}).success(function(data){
+      import("../../data/iD_presets_"+language+".json").then(function(data){
         // load translated names and terms into presets object
         Object.keys(data).map(function(preset) {
           var translation = data[preset];
@@ -52,11 +53,11 @@ turbo.ffs.free = function() {
           // add this to the front to allow exact (english) preset names to match before terms
           preset.terms.unshift(oriPresetName);
         });
-      }).error(function(){
+      }, function(){
         throw new Error();
       });
     } catch(e) {
-      console.log("failed to load preset translations file: "+translation_file);
+      console.log("failed to load preset translations file: "+language);
     }
   })();
 

@@ -1,10 +1,12 @@
 // shortcuts module
 // see http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries
-if (typeof turbo === "undefined") turbo={};
-turbo.shortcuts = function(nominatim) {
+import ide from './ide';
+import nominatim_ from './nominatim';
+
+export default function shortcuts(nominatim) {
 
   if (!nominatim)
-    nominatim = turbo.nominatim();
+    nominatim = nominatim_();
   
   // helpers
 
@@ -157,4 +159,4 @@ turbo.shortcuts = function(nominatim) {
       "nominatimCoords": geocodeCoords,
     };
   }
-};
+}

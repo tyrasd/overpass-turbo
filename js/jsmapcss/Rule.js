@@ -1,5 +1,8 @@
 // ----------------------------------------------------------------------
 // Rule class
+
+import styleparser from './evalparser';
+
 styleparser.Rule = function() {};
 styleparser.Rule.prototype = {
 

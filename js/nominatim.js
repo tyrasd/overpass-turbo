@@ -1,6 +1,9 @@
 // nominatim module
-if (typeof turbo === "undefined") turbo={};
-turbo.nominatim = function() {
+import $ from 'jquery';
+
+import configs from './configs';
+
+export default function() {
   var cache = {};
 
   var nominatim = {};
@@ -23,7 +26,7 @@ turbo.nominatim = function() {
         callback(undefined,data);
       },
       error: function() {
-        var err = "An error occured while contacting the osm search server nominatim.openstreetmap.org :(";
+        var err = "An error occurred while contacting the osm search server nominatim.openstreetmap.org :(";
         console.log(err);
         callback(err,null);
       },
@@ -57,4 +60,4 @@ turbo.nominatim = function() {
   };
 
   return nominatim;
-};
+}

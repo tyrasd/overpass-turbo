@@ -1,4 +1,4 @@
-var configs = {
+export default {
   appname: "overpass-turbo",
   defaultServer: "//overpass-api.de/api/",
   suggestedServers: [

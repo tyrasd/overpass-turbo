@@ -1,3 +1,6 @@
+import L from 'leaflet';
+import osmtogeojson from 'osmtogeojson';
+
 L.OSM4Leaflet = L.Class.extend({
   initialize: function (data, options) {
     this.options = {
@@ -47,3 +50,5 @@ setTimeout(function(){
 L.osm4Leaflet = function (data, options) {
   return new L.OSM4Leaflet(data, options);
 };
+
+export default L.OSM4Leaflet;

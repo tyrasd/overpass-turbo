@@ -1,7 +1,13 @@
 // escape strings to show them directly in the html.
-function htmlentities(str) {
-  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+import $ from 'jquery';
+import L from 'leaflet';
+
+import configs from './configs';
+import ide from './ide';
+import overpass from './overpass';
+import settings from './settings';
+import Query from './query';
+
 $(document).ready(function() {
   // main map cache
   var cache = {};
@@ -39,7 +45,7 @@ $(document).ready(function() {
   ide = {
     getQuery: function(callback) {
       var query = settings.code["overpass"];
-      var queryParser = turbo.query();
+      var queryParser = Query();
 
       queryParser.parse(query, {}, function(query) {
           // parse mapcss declarations
@@ -86,7 +92,7 @@ $(document).ready(function() {
   };
   overpass.init();
   // (very raw) compatibility check
-  if (jQuery.support.cors != true ||
+  if ($.support.cors != true ||
       false) {
     // the currently used browser is not capable of running the IDE. :(
     $('<div title="Your browser is not supported :(">'+
@@ -109,7 +115,7 @@ $(document).ready(function() {
   var tilesAttrib = '&copy; <a href="www.openstreetmap.org/copyright">OpenStreetMap</a> contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
   var tiles = new L.TileLayer(tilesUrl,{attribution:tilesAttrib});
   ide.map.setView([0,0],1).addLayer(tiles);
-  scaleControl = new L.Control.Scale({metric:true,imperial:false,});
+  var scaleControl = new L.Control.Scale({metric:true,imperial:false,});
   scaleControl.addTo(ide.map);
   // wait spinner
   $(document).on({

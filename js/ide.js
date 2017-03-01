@@ -1,12 +1,32 @@
 // global ide object
+import $ from 'jquery';
+import _ from 'lodash';
+import jQuery from 'jquery';
+import L from 'leaflet';
+import CodeMirror from 'codemirror/lib/codemirror.js';
+import moment from 'moment';
+import tokml from 'tokml';
+import togpx from 'togpx';
+import saveAs from 'file-saver';
+
+import configs from './configs';
+import Query from './query';
+import Nominatim from './nominatim';
+import FFS from './ffs';
+import i18n from './i18n';
+import settings from './settings';
+import overpass from './overpass';
+import urlParameters from './urlParameters';
+import Autorepair from './autorepair';
+import {Base64, htmlentities, lzw_encode} from '../libs/misc';
 
 var ide = new(function() {
   // == private members ==
   var attribControl = null;
   var scaleControl = null;
-  var queryParser = turbo.query();
-  var nominatim = turbo.nominatim();
-  var ffs = turbo.ffs();
+  var queryParser = Query();
+  var nominatim = Nominatim();
+  var ffs = FFS();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
@@ -111,7 +131,7 @@ var ide = new(function() {
     moment.locale(i18n.getLanguage());
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
-    var args = turbo.urlParameters(location.search);
+    var args = urlParameters(location.search);
     // set appropriate settings
     if (args.has_coords) { // map center coords set via url
       settings.coords_lat = args.coords.lat;
@@ -161,7 +181,7 @@ var ide = new(function() {
     // init codemirror
     $("#editor textarea")[0].value = settings.code["overpass"];
     if (settings.use_rich_editor) {
-      pending=0;
+      var pending=0;
       CodeMirror.defineMIME("text/x-overpassQL", {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
@@ -975,7 +995,7 @@ var ide = new(function() {
     // - preparations -
     var q = ide.getRawQuery(), // get original query
         lng = ide.getQueryLang();
-    var autorepair = turbo.autorepair(q, lng);
+    var autorepair = Autorepair(q, lng);
     // - repairs -
     if (repair == "no visible data") {
       // repair missing recurse statements
@@ -1390,7 +1410,7 @@ var ide = new(function() {
 
     // OSM editors
     // first check for possible mistakes in query.
-    var validEditorQuery = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+    var validEditorQuery = Autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
     // * Level0
     var exportToLevel0 = $("#export-dialog a#export-editors-level0");
     exportToLevel0.unbind("click");
@@ -1467,7 +1487,7 @@ var ide = new(function() {
         });
       }
       // first check for possible mistakes in query.
-      var valid = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+      var valid = Autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
       if (valid) {
         // now send the query to JOSM via remote control
         send_to_josm(query);
@@ -1763,7 +1783,7 @@ var ide = new(function() {
   }
   this.update_ffs_query = function(s) {
     var search = s || $("#ffs-dialog input[type=text]").val();
-    query = ffs.construct_query(search);
+    var query = ffs.construct_query(search);
     if (query === false) {
       var repaired = ffs.repair_search(search);
       if (repaired) {
@@ -1779,3 +1799,5 @@ var ide = new(function() {
   }
 
 })(); // end create ide object
+
+export default ide;

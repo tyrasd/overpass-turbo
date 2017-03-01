@@ -1,6 +1,9 @@
 // query autorepair module
-if (typeof turbo === "undefined") turbo={};
-turbo.autorepair = function(q, lng) {
+import $ from 'jquery';
+
+import {Base64} from '../libs/misc';
+
+export default function autorepair(q, lng) {
   var repair = {};
 
   var comments = {};
@@ -156,8 +159,8 @@ turbo.autorepair = function(q, lng) {
 };
 
 
-turbo.autorepair.detect = {};
-turbo.autorepair.detect.editors = function(q, lng) {
+autorepair.detect = {};
+autorepair.detect.editors = function(q, lng) {
   // todo: test this
   // todo: move into autorepair "module" /// todo. done?
   q = q.replace(/{{.*?}}/g,"");

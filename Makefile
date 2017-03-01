@@ -169,7 +169,7 @@ presets:
 	node data/get_preset_translations
 
 ffs:
-	$(PEGJS) -o size -e turbo.ffs.parser < misc/ffs.pegjs > js/ffs/parser.js
+	$(PEGJS) -o size < misc/ffs.pegjs > js/ffs/parser.js
 
 icons: icons-maki icons-mapnik icons-osmic
 
@@ -197,4 +197,4 @@ overpass-turbo-ffs.js: js/ffs.js js/ffs/free.js js/ffs/parser.js
 	cat $^ > $@
 
 mapcss-parser: js/jsmapcss/eval.pegjs
-	$(PEGJS) -o speed -e styleparser.evalparser < js/jsmapcss/eval.pegjs > js/jsmapcss/evalparser.js
+	$(PEGJS) -o speed < js/jsmapcss/eval.pegjs > js/jsmapcss/evalparser.js
