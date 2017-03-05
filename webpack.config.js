@@ -43,7 +43,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['./dist']),
+    new CleanWebpackPlugin([
+      path.resolve(__dirname, 'build'),
+    ]),
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
     }),
