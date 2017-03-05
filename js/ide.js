@@ -12,7 +12,7 @@ import {saveAs} from 'file-saver';
 import configs from './configs';
 import Query from './query';
 import Nominatim from './nominatim';
-import FFS from './ffs';
+import ffs from './ffs';
 import i18n from './i18n';
 import settings from './settings';
 import overpass from './overpass';
@@ -26,7 +26,6 @@ var ide = new(function() {
   var scaleControl = null;
   var queryParser = Query();
   var nominatim = Nominatim();
-  var ffs = FFS();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;

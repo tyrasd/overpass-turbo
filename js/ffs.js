@@ -2,7 +2,6 @@
 import ffs_free from './ffs/free';
 import ffs_parser from './ffs/parser';
 
-export default function() {
   var ffs = {};
   var freeFormQuery;
 
@@ -365,5 +364,4 @@ export default function() {
     freeFormQuery = undefined;
   }
 
-  return ffs;
-};
+  export default ffs;

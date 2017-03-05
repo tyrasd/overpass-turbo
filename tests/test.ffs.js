@@ -2,14 +2,9 @@ import chai from 'chai';
 import $ from 'jquery';
 var expect = chai.expect;
 import sinon from 'sinon';
-import FFS from '../js/ffs';
+import ffs from '../js/ffs';
 
 describe("ide.ffs", function () {
-
-  var ffs;
-  before(function() {
-    ffs = FFS();
-  });
 
   function compact(q) {
     q = q.replace(/\/\*[\s\S]*?\*\//g,"");
