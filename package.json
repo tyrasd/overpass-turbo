@@ -40,7 +40,6 @@
   },
   "dependencies": {
     "canvas-toBlob": "^1.0.0",
-    "canvg": "^0.0.8",
     "codemirror": "https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz",
     "file-saver": "^1.3.3",
     "html2canvas": "https://github.com/niklasvh/html2canvas/archive/0.4.1.tar.gz",
