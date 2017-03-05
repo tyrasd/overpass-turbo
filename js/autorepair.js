@@ -1,7 +1,7 @@
 // query autorepair module
 import $ from 'jquery';
 
-import {Base64} from '../libs/misc';
+import {Base64} from './misc';
 
 export default function autorepair(q, lng) {
   var repair = {};

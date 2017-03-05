@@ -19,7 +19,7 @@ import settings from './settings';
 import overpass from './overpass';
 import urlParameters from './urlParameters';
 import Autorepair from './autorepair';
-import {Base64, htmlentities, lzw_encode} from '../libs/misc';
+import {Base64, htmlentities, lzw_encode} from './misc';
 
 var ide = new(function() {
   // == private members ==

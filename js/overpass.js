@@ -9,7 +9,7 @@ import polylabel from 'polylabel';
 import configs from './configs';
 import settings from './settings';
 import overpass from './overpass';
-import {htmlentities} from '../libs/misc';
+import {htmlentities} from './misc';
 import styleparser from './jsmapcss';
 
 var overpass = new(function() {

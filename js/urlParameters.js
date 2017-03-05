@@ -1,7 +1,7 @@
 // urlParameters module
 import ffs from './ffs';
 import settings from './settings';
-import {Base64, lzw_decode} from '../libs/misc';
+import {Base64, lzw_decode} from './misc';
 
 export default function urlParameters(param_str) {
   // defaults
