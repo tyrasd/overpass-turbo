@@ -2,6 +2,7 @@
 import $ from 'jquery';
 import _ from 'lodash';
 
+import './promise-polyfill';
 import settings from './settings';
 
 var i18n = new(function() {

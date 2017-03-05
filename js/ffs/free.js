@@ -1,6 +1,7 @@
 // ffs/wizard module
 import $ from 'jquery';
 
+import '../promise-polyfill';
 import i18n from '../i18n';
 import {levenshteinDistance} from '../../libs/misc';
 

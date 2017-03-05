@@ -53,6 +53,7 @@
     "moment": "2.8.3",
     "osmtogeojson": "^3.0.0-beta.0",
     "polylabel": "^1.0.2",
+    "promise-polyfill": "^6.0.2",
     "togpx": "^0.5.3",
     "tokml": "^0.4.0"
   }
