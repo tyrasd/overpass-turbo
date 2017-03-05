@@ -85,14 +85,14 @@ describe("urlParameters", function () {
   });
   // template
   it("template", function () {
-    sinon.stub(turbo,"ffs").returns({construct_query: function(x) {return x;}});
     var orig_ss = settings.saves;
     settings.saves = {"T":{"type":"template","parameters":["p"],"wizard":"{{p}}"}}
     var args = urlParameters("?template=T&p=foo");
-    expect(args.has_query).to.be.equal(true);
-    expect(args.query).to.be.equal("foo");
-    settings.saves = orig_ss;
-    turbo.ffs.restore();
+    setTimeout(function() { // await ffs.construct_query callback
+      expect(args.has_query).to.be.equal(true);
+      expect(args.query).to.be.equal("foo");
+      settings.saves = orig_ss;
+    }, 100);
   });
 
 

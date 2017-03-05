@@ -1,4 +1,5 @@
 import chai from 'chai';
+import $ from 'jquery';
 var expect = chai.expect;
 import sinon from 'sinon';
 import FFS from '../js/ffs';
@@ -29,7 +30,7 @@ describe("ide.ffs", function () {
     // key
     it("key=*", function () {
       var search = "foo=*";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"](bbox);"+
@@ -43,7 +44,7 @@ describe("ide.ffs", function () {
     // not key
     it("key!=*", function () {
       var search = "foo!=*";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"!~\".*\"](bbox);"+
@@ -57,7 +58,7 @@ describe("ide.ffs", function () {
     // key-value
     it("key=value", function () {
       var search = "foo=bar";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"=\"bar\"](bbox);"+
@@ -71,7 +72,7 @@ describe("ide.ffs", function () {
     // not key-value
     it("key!=value", function () {
       var search = "foo!=bar";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"!=\"bar\"](bbox);"+
@@ -85,7 +86,7 @@ describe("ide.ffs", function () {
     // regex key-value
     it("key~value", function () {
       var search = "foo~bar";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"~\"bar\"](bbox);"+
@@ -99,7 +100,7 @@ describe("ide.ffs", function () {
     // regex key
     it("~key~value", function () {
       var search = "~foo~bar";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[~\"foo\"~\"bar\"](bbox);"+
@@ -113,7 +114,7 @@ describe("ide.ffs", function () {
     // not regex key-value
     it("key!~value", function () {
       var search = "foo!~bar";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"!~\"bar\"](bbox);"+
@@ -128,7 +129,7 @@ describe("ide.ffs", function () {
     it("key:value", function () {
       // normal case: just do a regex search
       var search = "foo:bar";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"~\"bar\"](bbox);"+
@@ -140,7 +141,7 @@ describe("ide.ffs", function () {
       });
       // but also escape special characters
       search = "foo:'*'";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"~\"\\\\*\"](bbox);"+
@@ -161,7 +162,7 @@ describe("ide.ffs", function () {
         var search, result;
         // double-quoted string
         search = '"a key"="a value"';
-        ffs.construct_query(search, undefined, function(result) {
+        ffs.construct_query(search, undefined, function(err, result) {
           expect(compact(result)).to.equal(
             '('+
               'node["a key"="a value"](bbox);'+
@@ -176,7 +177,7 @@ describe("ide.ffs", function () {
         var search, result;
         // single-quoted string
         search = "'foo bar'='asd fasd'";
-        ffs.construct_query(search, undefined, function(result) {
+        ffs.construct_query(search, undefined, function(err, result) {
           expect(compact(result)).to.equal(
             '('+
               'node["foo bar"="asd fasd"](bbox);'+
@@ -189,7 +190,7 @@ describe("ide.ffs", function () {
       });
       it("quoted unicode string", function () {
         var search = "name='بیجنگ'";
-        ffs.construct_query(search, undefined, function(result) {
+        ffs.construct_query(search, undefined, function(err, result) {
           expect(compact(result)).to.equal(
             '('+
               'node["name"="بیجنگ"](bbox);'+
@@ -202,7 +203,7 @@ describe("ide.ffs", function () {
       });
       it("unicode string", function () {
         var search = "name=Béziers";
-        ffs.construct_query(search, undefined, function(result) {
+        ffs.construct_query(search, undefined, function(err, result) {
           expect(compact(result)).to.equal(
             '('+
               'node["name"="Béziers"](bbox);'+
@@ -219,7 +220,7 @@ describe("ide.ffs", function () {
       var search, result;
       // simple regex
       search = "foo~/bar/";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"~\"bar\"](bbox);"+
@@ -231,7 +232,7 @@ describe("ide.ffs", function () {
       });
       // simple regex with modifier
       search = "foo~/bar/i";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"~\"bar\",i](bbox);"+
@@ -249,7 +250,7 @@ describe("ide.ffs", function () {
     // logical and
     it("logical and", function () {
       var search = "foo=bar and asd=fasd";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"=\"bar\"][\"asd\"=\"fasd\"](bbox);"+
@@ -262,7 +263,7 @@ describe("ide.ffs", function () {
     });
     it("logical and (& operator)", function () {
       var search = "foo=bar & asd=fasd";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           '('+
             'node["foo"="bar"]["asd"="fasd"](bbox);'+
@@ -275,7 +276,7 @@ describe("ide.ffs", function () {
     });
     it("logical and (&& operator)", function () {
       var search = "foo=bar && asd=fasd";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           '('+
             'node["foo"="bar"]["asd"="fasd"](bbox);'+
@@ -289,7 +290,7 @@ describe("ide.ffs", function () {
     // logical or
     it("logical or", function () {
       var search = "foo=bar or asd=fasd";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"=\"bar\"](bbox);"+
@@ -305,7 +306,7 @@ describe("ide.ffs", function () {
     });
     it("logical or (| operator)", function () {
       var search = "foo=bar | asd=fasd";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           '('+
             'node["foo"="bar"](bbox);'+
@@ -321,7 +322,7 @@ describe("ide.ffs", function () {
     });
     it("logical or (|| operator)", function () {
       var search = "foo=bar || asd=fasd";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           '('+
             'node["foo"="bar"](bbox);'+
@@ -338,7 +339,7 @@ describe("ide.ffs", function () {
     // boolean expression
     it("boolean expression", function () {
       var search = "(foo=* or bar=*) and (asd=* or fasd=*)";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"][\"asd\"](bbox);"+
@@ -366,7 +367,7 @@ describe("ide.ffs", function () {
     it("type", function () {
       // simple
       var search = "foo=bar and type:node";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"=\"bar\"](bbox);"+
@@ -376,7 +377,7 @@ describe("ide.ffs", function () {
       });
       // multiple types
       search = "foo=bar and (type:node or type:way)";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"=\"bar\"](bbox);"+
@@ -387,7 +388,7 @@ describe("ide.ffs", function () {
       });
       // excluding types
       search = "foo=bar and type:node and type:way";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
           ");"+
@@ -399,7 +400,7 @@ describe("ide.ffs", function () {
     it("newer", function () {
       // regular
       var search = "newer:\"2000-01-01T01:01:01Z\" and type:node";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node(newer:\"2000-01-01T01:01:01Z\")(bbox);"+
@@ -409,7 +410,7 @@ describe("ide.ffs", function () {
       });
       // relative
       search = "newer:1day and type:node";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node(newer:\"date:1day\")(bbox);"+
@@ -422,7 +423,7 @@ describe("ide.ffs", function () {
     it("user", function () {
       // user name
       var search = "user:foo and type:node";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node(user:\"foo\")(bbox);"+
@@ -432,7 +433,7 @@ describe("ide.ffs", function () {
       });
       // uid
       search = "uid:123 and type:node";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node(uid:123)(bbox);"+
@@ -445,7 +446,7 @@ describe("ide.ffs", function () {
     it("id", function () {
       // with type
       var search = "id:123 and type:node";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node(123)(bbox);"+
@@ -455,7 +456,7 @@ describe("ide.ffs", function () {
       });
       // without type
       search = "id:123";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node(123)(bbox);"+
@@ -473,7 +474,7 @@ describe("ide.ffs", function () {
     // global
     it("global", function () {
       var search = "foo=bar and type:node global";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node[\"foo\"=\"bar\"];"+
@@ -486,7 +487,7 @@ describe("ide.ffs", function () {
     it("in bbox", function () {
       // implicit
       var search = "type:node";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node(bbox);"+
@@ -496,7 +497,7 @@ describe("ide.ffs", function () {
       });
       // explicit
       search = "type:node in bbox";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node(bbox);"+
@@ -508,7 +509,7 @@ describe("ide.ffs", function () {
     // area
     it("in area", function () {
       var search = "type:node in foobar";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "area(foobar)->.searchArea;"+
           "("+
@@ -521,7 +522,7 @@ describe("ide.ffs", function () {
     // around
     it("around", function () {
       var search = "type:node around foobar";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "node(around:,coords:foobar);"+
@@ -564,7 +565,6 @@ describe("ide.ffs", function () {
         error: function(cb) {}
       };
       sinon.stub($,"ajax").returns(fake_ajax);
-      i18n = {getLanguage: function() {return "en";}};
     });
     after(function() {
       $.ajax.restore();
@@ -574,12 +574,12 @@ describe("ide.ffs", function () {
       var search, result;
       // preset not found
       search = "foo";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(result).to.equal(false);
       });
       // preset (points, key-value)
       search = "Shelter";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(result).to.not.equal(false);
         expect(compact(result)).to.equal(
           "("+
@@ -590,7 +590,7 @@ describe("ide.ffs", function () {
       });
       // preset (points, areas, key-value)
       search = "Hospital";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(result).to.not.equal(false);
         expect(compact(result)).to.equal(
           "("+
@@ -603,7 +603,7 @@ describe("ide.ffs", function () {
       });
       // preset (lines, key=*)
       search = "Highway";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(result).to.not.equal(false);
         expect(compact(result)).to.equal(
           "("+
@@ -622,7 +622,7 @@ describe("ide.ffs", function () {
     // empty value
     it("empty value", function () {
       var search = "foo='' and type:way";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "way[\"foo\"~\"^$\"](bbox);"+
@@ -634,7 +634,7 @@ describe("ide.ffs", function () {
     // empty key
     it("empty key", function () {
       var search = "''=bar and type:way";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "way[~\"^$\"~\"^bar$\"](bbox);"+
@@ -644,7 +644,7 @@ describe("ide.ffs", function () {
       });
       // make sure stuff in the value section gets escaped properly
       search = "''='*' and type:way";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "way[~\"^$\"~\"^\\\\*$\"](bbox);"+
@@ -654,7 +654,7 @@ describe("ide.ffs", function () {
       });
       // does also work for =*, ~ and : searches
       search = "(''=* or ''~/.../) and type:way";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "way[~\"^$\"~\".*\"](bbox);"+
@@ -667,7 +667,7 @@ describe("ide.ffs", function () {
     // newlines, tabs
     it("newlines, tabs", function () {
       var search = "(foo='\t' or foo='\n' or asd='\\t') and type:way";
-      ffs.construct_query(search, undefined, function(result) {
+      ffs.construct_query(search, undefined, function(err, result) {
         expect(compact(result)).to.equal(
           "("+
             "way[\"foo\"=\"\\t\"](bbox);"+
