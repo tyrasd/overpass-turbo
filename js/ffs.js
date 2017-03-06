@@ -1,6 +1,6 @@
 // ffs/wizard module
 import ffs_free from './ffs/free';
-import ffs_parser from './ffs/parser';
+import ffs_parser from './ffs/ffs.pegjs';
 
   var ffs = {};
   var freeFormQuery;

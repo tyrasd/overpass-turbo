@@ -1,4 +1,6 @@
 /* eslint-env node */
+const webpackConfig = require('./webpack.config');
+
 module.exports = function(config) {
   var tests = 'tests/test.*.js';
 
@@ -14,6 +16,8 @@ module.exports = function(config) {
     preprocessors: {
       [tests]: ['webpack'],
     },
+
+    webpack: webpackConfig,
 
   });
 };

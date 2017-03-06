@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 // StyleList class
 
-import styleparser from './evalparser';
+import styleparser from './eval.pegjs';
 
 styleparser.StyleList = function() {
 	this.shapeStyles  = {};

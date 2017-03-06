@@ -1,6 +1,6 @@
 import chai from 'chai';
 var expect = chai.expect;
-import evalparser from '../js/jsmapcss/evalparser';
+import evalparser from '../js/jsmapcss/eval.pegjs';
 
 describe("mapcss.eval", function () {
   it("strings", function () {

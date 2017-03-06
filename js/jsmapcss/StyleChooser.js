@@ -1,6 +1,6 @@
 // styleparser/StyleChooser.js
 
-import styleparser from './evalparser';
+import styleparser from './eval.pegjs';
 
 styleparser.StyleChooser = function() {
     this.ruleChains = [new styleparser.RuleChain()];

@@ -35,8 +35,19 @@ module.exports = {
         options: {
           limit: 4000
         }
-      },
-      {
+      }, {
+        test: path.resolve('./js/ffs/ffs.pegjs'),
+        loader: 'pegjs-loader',
+        options: {
+          optimize: 'size'
+        }
+      }, {
+        test: path.resolve('./js/jsmapcss/eval.pegjs'),
+        loader: 'pegjs-loader',
+        options: {
+          optimize: 'speed'
+        }
+      }, {
         test: require.resolve('codemirror/lib/codemirror.js'),
         use: 'exports-loader?window.CodeMirror'
       },

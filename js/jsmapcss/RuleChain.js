@@ -14,7 +14,7 @@
 
 */
 
-import styleparser from './evalparser';
+import styleparser from './eval.pegjs';
 
 styleparser.RuleChain = function() {
     this.rules=[];				// list of Rules
