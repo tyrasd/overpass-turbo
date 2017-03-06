@@ -13,6 +13,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "clean-webpack-plugin": "^0.1.15",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
     "csso": "^1.3.11",
     "exports-loader": "^0.6.3",

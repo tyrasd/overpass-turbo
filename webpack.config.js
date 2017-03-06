@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const productionBuild = process.env.npm_lifecycle_script !== 'webpack-dev-server';
 
@@ -76,6 +77,10 @@ module.exports = {
         windows: false,
       }
     }),
+    new CopyWebpackPlugin([{
+      from: './icons/**',
+      to: path.resolve(__dirname, 'build')
+    }]),
     new HtmlWebpackPlugin({
       template: './index.html',
       chunks: ['turbo'],
