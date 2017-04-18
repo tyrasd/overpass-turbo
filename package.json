@@ -49,7 +49,7 @@
     "jquery-ui": "1.10.4",
     "leaflet": "0.7.7",
     "leaflet-polylineoffset": "^1.0.0",
-    "leaflet.locationfilter": "^0.1.0",
+    "leaflet.locationfilter": "tyrasd/leaflet-locationfilter#1eed148a41f8e4487e2b4b202a32f28839cbff1a",
     "lodash": "2.4.1",
     "mapbbcode": "https://github.com/MapBBCode/mapbbcode/archive/v1.2.0.tar.gz",
     "moment": "2.8.3",

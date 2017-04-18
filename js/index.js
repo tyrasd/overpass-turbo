@@ -16,7 +16,7 @@ import 'codemirror/lib/util/closetag';
 // include the CSS files
 import 'codemirror/lib/codemirror.css';
 import 'leaflet/dist/leaflet.css';
-// import 'leaflet.locationfilter/src/locationfilter.css';
+import 'leaflet.locationfilter/src/locationfilter.css';
 import 'jquery-ui/themes/base/jquery-ui.css';
 import '../css/default.css';
 import '../css/compact.css';
