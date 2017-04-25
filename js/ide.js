@@ -1214,8 +1214,12 @@ var ide = new(function() {
           generator: configs.appname,
           copyright: overpass.copyright,
           timestamp: overpass.timestamp,
-          //TODO: make own copy of features array (re-using geometry) instead of deep copy?
-          features: _.clone(geojson.features, true), // makes deep copy
+          features: geojson.features.map(function(feature) {
+            return {
+              properties: feature.properties,
+              geometry: feature.geometry
+            };
+          }), // makes deep copy
         }
         gJ.features.forEach(function(f) {
           var p = f.properties;
