@@ -1,6 +1,8 @@
 // ----------------------------------------------------------------------
 // Condition base class
 
+import styleparser from './eval.pegjs';
+
 styleparser.Condition = function() {};
 styleparser.Condition.prototype = {
 	type: '',				// eq/ne/regex etc.

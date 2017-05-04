@@ -1,3 +1,5 @@
+import styleparser from './eval.pegjs';
+
 styleparser.Style = function() {this.__init__()};
 
 styleparser.Style.prototype = {

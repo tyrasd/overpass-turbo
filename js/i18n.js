@@ -1,4 +1,9 @@
 // global i18n object
+import $ from 'jquery';
+import _ from 'lodash';
+
+import './promise-polyfill';
+import settings from './settings';
 
 var i18n = new(function() {
   function browser_locale() {
@@ -80,17 +85,16 @@ var i18n = new(function() {
     }
 
     // load language pack
-    var lng_file = "locales/"+lng+".json";
     try {
-      $.ajax(lng_file,{async:false,dataType:"json"}).success(function(data){
+      import("../locales/"+lng+".json").then(function(data){
         td = data;
         i18n.translate_ui();
         // todo: nicer implementation
-      }).error(function(){
-        console.log("failed to load language file: "+lng_file);
+      }, function(e){
+        console.log("failed to load language file "+lng, e);
       });
     } catch(e) {
-      console.log("failed to load language file: "+lng_file);
+      console.log("failed to load language file "+lng, e);
     }
   }
   this.translate_ui = function(element) {
@@ -121,6 +125,7 @@ var i18n = new(function() {
   }
 
   // translated texts
-  var td;
+  var td = {};
 })(); // end create i18n object
 
+export default i18n;

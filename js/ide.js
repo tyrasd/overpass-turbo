@@ -1,12 +1,32 @@
 // global ide object
+import $ from 'jquery';
+import _ from 'lodash';
+import jQuery from 'jquery';
+import L from 'leaflet';
+import CodeMirror from 'codemirror/lib/codemirror.js';
+import moment from 'moment';
+import tokml from 'tokml';
+import togpx from 'togpx';
+import {saveAs} from 'file-saver';
+
+import 'canvas-toBlob'; // polyfill
+import configs from './configs';
+import Query from './query';
+import Nominatim from './nominatim';
+import ffs from './ffs';
+import i18n from './i18n';
+import settings from './settings';
+import overpass from './overpass';
+import urlParameters from './urlParameters';
+import Autorepair from './autorepair';
+import {Base64, htmlentities, lzw_encode} from './misc';
 
 var ide = new(function() {
   // == private members ==
   var attribControl = null;
   var scaleControl = null;
-  var queryParser = turbo.query();
-  var nominatim = turbo.nominatim();
-  var ffs = turbo.ffs();
+  var queryParser = Query();
+  var nominatim = Nominatim();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
@@ -75,7 +95,12 @@ var ide = new(function() {
       var li = $('<li><span class="ui-icon ui-icon-arrowthick-1-e" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>'+txt+"</li>");
       if (typeof abortCallback == "function") {
         ide.waiter.onAbort = abortCallback;
-        li.append('<span id="aborter">&nbsp;(<a href="#" onclick="ide.waiter.abort(); return false;">abort</a>)</span>');
+        var aborter = $('<span id="aborter">&nbsp;(<a href="#">abort</a>)</span>')
+          .on("click", function() {
+            ide.waiter.abort();
+            return false;
+          });
+        li.append(aborter);
       }
       $(".wait-info ul").prepend(li);
     },
@@ -111,7 +136,7 @@ var ide = new(function() {
     moment.locale(i18n.getLanguage());
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
-    var args = turbo.urlParameters(location.search);
+    var args = urlParameters(location.search);
     // set appropriate settings
     if (args.has_coords) { // map center coords set via url
       settings.coords_lat = args.coords.lat;
@@ -161,7 +186,7 @@ var ide = new(function() {
     // init codemirror
     $("#editor textarea")[0].value = settings.code["overpass"];
     if (settings.use_rich_editor) {
-      pending=0;
+      var pending=0;
       CodeMirror.defineMIME("text/x-overpassQL", {
         name: "clike",
         keywords: (function(str){var r={}; var a=str.split(" "); for(var i=0; i<a.length; i++) r[a[i]]=true; return r;})(
@@ -975,7 +1000,7 @@ var ide = new(function() {
     // - preparations -
     var q = ide.getRawQuery(), // get original query
         lng = ide.getQueryLang();
-    var autorepair = turbo.autorepair(q, lng);
+    var autorepair = Autorepair(q, lng);
     // - repairs -
     if (repair == "no visible data") {
       // repair missing recurse statements
@@ -1026,10 +1051,15 @@ var ide = new(function() {
     for(var example in settings.saves) {
       var type = settings.saves[example].type;
       if (type == 'template') continue;
-      $('<li>'+
-          '<a href="" onclick="ide.loadExample(\''+htmlentities(example).replace(/'/g,"\\'")+'\'); $(this).parents(\'.ui-dialog-content\').dialog(\'close\'); return false;">'+example+'</a>'+
-          '<a href="" onclick="ide.removeExample(\''+htmlentities(example).replace(/'/g,"\\'")+'\',this); return false;" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'+
-        '</li>').appendTo("#load-dialog ul."+type);
+      $('<li></li>')
+      .append(
+        $('<a href="#">'+example+'</a>').on("click", function(example) {
+          return function() {ide.loadExample(example); $(this).parents('.ui-dialog-content').dialog('close'); return false; }
+        }(example)),
+        $('<a href="#" title="'+i18n.t("load.delete_query")+'" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>').on("click", function(example) {
+          return function() { ide.removeExample(example, this); return false; }
+        }(example))
+      ).appendTo("#load-dialog ul."+type);
       if (type == "saved_query")
         has_saved_query = true;
     }
@@ -1184,8 +1214,12 @@ var ide = new(function() {
           generator: configs.appname,
           copyright: overpass.copyright,
           timestamp: overpass.timestamp,
-          //TODO: make own copy of features array (re-using geometry) instead of deep copy?
-          features: _.clone(geojson.features, true), // makes deep copy
+          features: geojson.features.map(function(feature) {
+            return {
+              properties: feature.properties,
+              geometry: feature.geometry
+            };
+          }), // makes deep copy
         }
         gJ.features.forEach(function(f) {
           var p = f.properties;
@@ -1390,7 +1424,7 @@ var ide = new(function() {
 
     // OSM editors
     // first check for possible mistakes in query.
-    var validEditorQuery = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+    var validEditorQuery = Autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
     // * Level0
     var exportToLevel0 = $("#export-dialog a#export-editors-level0");
     exportToLevel0.unbind("click");
@@ -1467,7 +1501,7 @@ var ide = new(function() {
         });
       }
       // first check for possible mistakes in query.
-      var valid = turbo.autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
+      var valid = Autorepair.detect.editors(ide.getRawQuery(), ide.getQueryLang());
       if (valid) {
         // now send the query to JOSM via remote control
         send_to_josm(query);
@@ -1572,37 +1606,38 @@ var ide = new(function() {
     $("#ffs-dialog #ffs-dialog-typo").hide();
     var build_query = function(autorun) {
       // build query and run it immediately
-      var ffs_result = ide.update_ffs_query();
-      if (ffs_result === true) {
-        $(this).dialog("close");
-        if (autorun !== false)
-          ide.onRunClick();
-      } else {
-        if (_.isArray(ffs_result)) {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-parse-error").hide();
-          $("#ffs-dialog #ffs-dialog-typo").show();
-          var correction = ffs_result.join("");
-          var correction_html = ffs_result.map(function(ffs_result_part,i) {
-            if (i%2===1)
-              return "<b>"+ffs_result_part+"</b>";
-            else
-              return ffs_result_part;
-          }).join("");
-          $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
-          $("#ffs-dialog #ffs-dialog-typo-correction").unbind("click").bind("click", function(e) {
-            $("#ffs-dialog input[type=text]").val(correction);
-            $(this).parent().hide();
-            e.preventDefault();
-          });
-          $("#ffs-dialog #ffs-dialog-typo").effect("shake", {direction:"right",distance:10,times:2}, 300);
+      ide.update_ffs_query(undefined, function(err, ffs_result) {
+        if (!err) {
+          $(this).dialog("close");
+          if (autorun !== false)
+            ide.onRunClick();
         } else {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-typo").hide();
-          $("#ffs-dialog #ffs-dialog-parse-error").show();
-          $("#ffs-dialog #ffs-dialog-parse-error").effect("shake", {direction:"right",distance:10,times:2}, 300);
+          if (_.isArray(ffs_result)) {
+            // show parse error message
+            $("#ffs-dialog #ffs-dialog-parse-error").hide();
+            $("#ffs-dialog #ffs-dialog-typo").show();
+            var correction = ffs_result.join("");
+            var correction_html = ffs_result.map(function(ffs_result_part,i) {
+              if (i%2===1)
+                return "<b>"+ffs_result_part+"</b>";
+              else
+                return ffs_result_part;
+            }).join("");
+            $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
+            $("#ffs-dialog #ffs-dialog-typo-correction").unbind("click").bind("click", function(e) {
+              $("#ffs-dialog input[type=text]").val(correction);
+              $(this).parent().hide();
+              e.preventDefault();
+            });
+            $("#ffs-dialog #ffs-dialog-typo").effect("shake", {direction:"right",distance:10,times:2}, 300);
+          } else {
+            // show parse error message
+            $("#ffs-dialog #ffs-dialog-typo").hide();
+            $("#ffs-dialog #ffs-dialog-parse-error").show();
+            $("#ffs-dialog #ffs-dialog-parse-error").effect("shake", {direction:"right",distance:10,times:2}, 300);
+          }
         }
-      }
+      }.bind(this));
     };
     $("#ffs-dialog input[type=text]").unbind("keypress").bind("keypress", function(e) {
       if (e.which==13 || e.which==10) {
@@ -1758,24 +1793,33 @@ var ide = new(function() {
     // run the query via the overpass object
     ide.getQuery(function(query) {
       var query_lang = ide.getQueryLang();
-      overpass.run_query(query,query_lang);
+      var server = (ide.data_source &&
+              ide.data_source.mode == "overpass" &&
+              ide.data_source.options.server) ?
+              ide.data_source.options.server : settings.server;
+      overpass.run_query(query, query_lang, undefined, undefined, server, ide.mapcss);
     });
   }
-  this.update_ffs_query = function(s) {
+  this.update_ffs_query = function(s, callback) {
     var search = s || $("#ffs-dialog input[type=text]").val();
-    query = ffs.construct_query(search);
-    if (query === false) {
-      var repaired = ffs.repair_search(search);
-      if (repaired) {
-        return repaired;
+    ffs.construct_query(search, undefined, function(err, query) {
+      if (err) {
+        ffs.repair_search(search, function(repaired) {
+          if (repaired) {
+            callback("repairable query", repaired);
+          } else {
+            if (s) return callback(true);
+            // try to parse as generic ffs search
+            this.update_ffs_query('"'+search+'"', callback);
+          }
+        }.bind(this));
       } else {
-        if (s) return false;
-        // try to parse as generic ffs search
-        return this.update_ffs_query('"'+search+'"');
+        ide.setQuery(query);
+        callback(null);
       }
-    }
-    ide.setQuery(query);
-    return true;
+    }.bind(this));
   }
 
 })(); // end create ide object
+
+export default ide;

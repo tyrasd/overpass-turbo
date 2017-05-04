@@ -1,5 +1,8 @@
 // ----------------------------------------------------------------------
 // Rule class
+
+import styleparser from './eval.pegjs';
+
 styleparser.Rule = function() {};
 styleparser.Rule.prototype = {
 

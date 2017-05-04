@@ -1,6 +1,7 @@
 // ffs/wizard module
-if (typeof turbo === "undefined") turbo={};
-turbo.ffs = function() {
+import ffs_free from './ffs/free';
+import ffs_parser from './ffs/ffs.pegjs';
+
   var ffs = {};
   var freeFormQuery;
 
@@ -49,7 +50,7 @@ turbo.ffs = function() {
     return str.replace(/([()[{*+.$^\\|?])/g, '\\$1');
   }
 
-  ffs.construct_query = function(search, comment) {
+  ffs.construct_query = function(search, comment, callback) {
     function quote_comment_str(s) {
       // quote strings that are to be used within c-style comments
       // replace any comment-ending sequences in these strings that would break the resulting query
@@ -57,10 +58,10 @@ turbo.ffs = function() {
     }
 
     try {
-      ffs = turbo.ffs.parser.parse(search);
+      ffs = ffs_parser.parse(search);
     } catch(e) {
       console.log("ffs parse error");
-      return false;
+      return callback("ffs parse error");
     }
 
     var query_parts = [];
@@ -236,73 +237,86 @@ turbo.ffs = function() {
 
     ffs.query = normalize(ffs.query);
 
-    query_parts.push('// gather results');
-    query_parts.push('(');
+    var freeForm = false;
     for (var i=0; i<ffs.query.queries.length; i++) {
       var and_query = ffs.query.queries[i];
-
-      var types = ['node','way','relation'];
-      var clauses = [];
-      var clauses_str = [];
       for (var j=0; j<and_query.queries.length; j++) {
         var cond_query = and_query.queries[j];
-        // todo: looks like some code duplication here could be reduced by refactoring
         if (cond_query.query === "free form") {
-          // eventually load free form query module
-          if (!freeFormQuery) freeFormQuery = turbo.ffs.free();
-          var ffs_clause = freeFormQuery.get_query_clause(cond_query);
-          if (ffs_clause === false)
-            return false;
-          // restrict possible data types
-          types = types.filter(function(t) {
-            return ffs_clause.types.indexOf(t) != -1;
-          });
-          // add clauses
-          clauses_str.push(get_query_clause_str(cond_query));
-          clauses = clauses.concat(ffs_clause.conditions.map(function(condition) {
-            return get_query_clause(condition);
-          }));
-        } else if (cond_query.query === "type") {
-          // restrict possible data types
-          types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
-        } else {
-          // add another query clause
-          clauses_str.push(get_query_clause_str(cond_query));
-          var clause = get_query_clause(cond_query);
-          if (clause === false) return false;
-          clauses.push(clause);
+          freeForm = true;
+          break;
         }
       }
-      clauses_str = clauses_str.join(' and ');
-
-      // construct query
-      query_parts.push('  // query part for: “'+clauses_str+'”')
-      for (var t=0; t<types.length; t++) {
-        var buffer = '  '+types[t];
-        for (var c=0; c<clauses.length; c++)
-          buffer += clauses[c];
-        if (bounds_part)
-          buffer += bounds_part;
-        buffer += ';';
-        query_parts.push(buffer);
-      }
     }
-    query_parts.push(');');
 
-    query_parts.push('// print results');
-    query_parts.push('out body;');
-    query_parts.push('>;');
-    query_parts.push('out skel qt;');
+    // if we have a "free form" query part, need to load it before first use:
+    (freeForm ? ffs_free : function(x) {x(null);})(function(freeFormQuery) {
+      query_parts.push('// gather results');
+      query_parts.push('(');
+      for (var i=0; i<ffs.query.queries.length; i++) {
+        var and_query = ffs.query.queries[i];
 
-    return query_parts.join('\n');
+        var types = ['node','way','relation'];
+        var clauses = [];
+        var clauses_str = [];
+        for (var j=0; j<and_query.queries.length; j++) {
+          var cond_query = and_query.queries[j];
+          // todo: looks like some code duplication here could be reduced by refactoring
+          if (cond_query.query === "free form") {
+            var ffs_clause = freeFormQuery.get_query_clause(cond_query);
+            if (ffs_clause === false)
+              return callback("unknown ffs string");
+            // restrict possible data types
+            types = types.filter(function(t) {
+              return ffs_clause.types.indexOf(t) != -1;
+            });
+            // add clauses
+            clauses_str.push(get_query_clause_str(cond_query));
+            clauses = clauses.concat(ffs_clause.conditions.map(function(condition) {
+              return get_query_clause(condition);
+            }));
+          } else if (cond_query.query === "type") {
+            // restrict possible data types
+            types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
+          } else {
+            // add another query clause
+            clauses_str.push(get_query_clause_str(cond_query));
+            var clause = get_query_clause(cond_query);
+            if (clause === false) return false;
+            clauses.push(clause);
+          }
+        }
+        clauses_str = clauses_str.join(' and ');
+
+        // construct query
+        query_parts.push('  // query part for: “'+clauses_str+'”')
+        for (var t=0; t<types.length; t++) {
+          var buffer = '  '+types[t];
+          for (var c=0; c<clauses.length; c++)
+            buffer += clauses[c];
+          if (bounds_part)
+            buffer += bounds_part;
+          buffer += ';';
+          query_parts.push(buffer);
+        }
+      }
+      query_parts.push(');');
+
+      query_parts.push('// print results');
+      query_parts.push('out body;');
+      query_parts.push('>;');
+      query_parts.push('out skel qt;');
+
+      callback(null, query_parts.join('\n'));
+    });
   }
 
   // this is a "did you mean …" mechanism against typos in preset names
-  ffs.repair_search = function(search) {
+  ffs.repair_search = function(search, callback) {
     try {
-      ffs = turbo.ffs.parser.parse(search);
+      ffs = ffs_parser.parse(search);
     } catch(e) {
-      return false;
+      return callback(false);
     }
 
     function quotes(s) {
@@ -314,40 +328,40 @@ turbo.ffs = function() {
     var search_parts = [];
     var repaired = false;
 
-    ffs.query = normalize(ffs.query);
-    ffs.query.queries.forEach(function (q) {
-      q.queries.forEach(validateQuery);
-    });
-    function validateQuery(cond_query) {
-      if (cond_query.query === "free form") {
-        // eventually load free form query module
-        if (!freeFormQuery) freeFormQuery = turbo.ffs.free();
-        var ffs_clause = freeFormQuery.get_query_clause(cond_query);
-        if (ffs_clause === false) {
-          // try to find suggestions for occasional typos
-          var fuzzy = freeFormQuery.fuzzy_search(cond_query);
-          var free_regex = null;
-          try { free_regex = new RegExp("['\"]?"+escRegexp(cond_query.free)+"['\"]?"); } catch(e) {}
-          if (fuzzy && search.match(free_regex)) {
-            search_parts = search_parts.concat(search.split(free_regex));
-            search = search_parts.pop();
-            var replacement = quotes(fuzzy);
-            search_parts.push(replacement);
-            repaired = true;
+    ffs_free(function(freeFormQuery) {
+      ffs.query = normalize(ffs.query);
+      ffs.query.queries.forEach(function (q) {
+        q.queries.forEach(validateQuery);
+      });
+      function validateQuery(cond_query) {
+        if (cond_query.query === "free form") {
+          var ffs_clause = freeFormQuery.get_query_clause(cond_query);
+          if (ffs_clause === false) {
+            // try to find suggestions for occasional typos
+            var fuzzy = freeFormQuery.fuzzy_search(cond_query);
+            var free_regex = null;
+            try { free_regex = new RegExp("['\"]?"+escRegexp(cond_query.free)+"['\"]?"); } catch(e) {}
+            if (fuzzy && search.match(free_regex)) {
+              search_parts = search_parts.concat(search.split(free_regex));
+              search = search_parts.pop();
+              var replacement = quotes(fuzzy);
+              search_parts.push(replacement);
+              repaired = true;
+            }
           }
         }
       }
-    }
-    search_parts.push(search);
+      search_parts.push(search);
 
-    if (!repaired)
-      return false;
-    return search_parts;
+      if (!repaired)
+        callback(false);
+      else
+        callback(search_parts);
+    });
   }
 
   ffs.invalidateCache = function() {
     freeFormQuery = undefined;
   }
 
-  return ffs;
-};
+  export default ffs;

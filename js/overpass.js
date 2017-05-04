@@ -1,5 +1,17 @@
-
 // global overpass object
+import $ from 'jquery';
+import _ from 'lodash';
+import L from 'leaflet';
+import L_PopupIcon from 'mapbbcode/src/controls/PopupIcon.js';
+import L_OSM4Leaflet from './OSM4Leaflet';
+import L_GeoJsonNoVanish from './GeoJsonNoVanish';
+import polylabel from 'polylabel';
+
+import configs from './configs';
+import settings from './settings';
+import overpass from './overpass';
+import {htmlentities} from './misc';
+import styleparser from './jsmapcss';
 
 var overpass = new(function() {
   // == private members ==
@@ -9,13 +21,12 @@ var overpass = new(function() {
 
   // == private methods ==
   var fire = function() {
-    var args = fire.arguments;
-    var name = args[0];
+    var name = arguments[0];
     if (typeof overpass.handlers[name] != "function")
       return undefined;
     var handler_args = [];
-    for (var i=1; i<args.length; i++)
-      handler_args.push(args[i]);
+    for (var i=1; i<arguments.length; i++)
+      handler_args.push(arguments[i]);
     return overpass.handlers[name].apply({},handler_args);
   }
 
@@ -41,11 +52,8 @@ var overpass = new(function() {
   }
 
   // updates the map
-    this.run_query = function (query, query_lang, cache, shouldCacheOnly) {
-    var server = (ide.data_source &&
-                  ide.data_source.mode == "overpass" &&
-                  ide.data_source.options.server) ?
-                 ide.data_source.options.server : settings.server;
+  this.run_query = function (query, query_lang, cache, shouldCacheOnly, server, user_mapcss) {
+    server = server || configs.defaultServer;
     // 1. get overpass json data
     if (query_lang == "xml") {
       // beautify not well formed xml queries (workaround for non matching error lines)
@@ -193,7 +201,6 @@ setTimeout(function() {
       //fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 setTimeout(function() {
       // test user supplied mapcss stylesheet
-      var user_mapcss = ide.mapcss;
       try {
         var dummy_mapcss = new styleparser.RuleSet();
         dummy_mapcss.parseCSS(user_mapcss);
@@ -242,7 +249,7 @@ setTimeout(function() {
             switch (subject) {
               case "node":     return feature.properties.type == "node" || feature.geometry.type == "Point";
               case "area":     return feature.geometry.type == "Polygon" || feature.geometry.type == "MultiPolygon";
-              case "line":     return feature.geometry.type == "LineString";
+              case "line":     return feature.geometry.type == "LineString" || feature.geometry.type == "MultiLineString";
               case "way":      return feature.properties.type == "way";
               case "relation": return feature.properties.type == "relation";
             }
@@ -296,6 +303,7 @@ setTimeout(function() {
             });
           case "Polygon":
             if (!labelPolygon) labelPolygon = layer;
+            // FIXME ide.map is not defined since ide is not imported
             latlng = ide.map.unproject(polylabel(
               [labelPolygon.getLatLngs()].concat(labelPolygon._holes).map(function(ring) {
                 return ring
@@ -304,8 +312,18 @@ setTimeout(function() {
               })
             ));
           break;
+          case "MultiLineString":
+            var labelLayer, bestVal = -Infinity;
+            layer.getLayers().forEach(function(layer) {
+              var size = layer.getBounds().getNorthEast().distanceTo(layer.getBounds().getSouthWest());
+              if (size > bestVal) {
+                labelLayer = layer;
+                bestVal = size;
+              }
+            });
           case "LineString":
-            var latlngs = layer.getLatLngs();
+            if (!labelLayer) labelLayer = layer;
+            var latlngs = labelLayer.getLatLngs();
             if (latlngs.length % 2 == 1)
               latlng = latlngs[Math.floor(latlngs.length/2)];
             else {
@@ -315,11 +333,12 @@ setTimeout(function() {
             }
           break;
           default:
-            // todo: multilinestrings, multipoints
+            // todo: multipoints
             console.error("unsupported geometry type while constructing text label:", feature.geometry.type)
           }
           return latlng;
         }
+        var text;
         if ((stl["text"] && stl.evals["text"] && (text = stl["text"]))
           || (stl["text"] && (text = feature.properties.tags[stl["text"]]))) {
           var textIcon = new L.PopupIcon(htmlentities(text), {color: "rgba(255,255,255,0.8)"});
@@ -332,9 +351,9 @@ setTimeout(function() {
         //new L.GeoJSON(null, {
         //new L.GeoJsonNoVanish(null, {
       overpass.osmLayer =
-        new L.OSM4Leaflet(null, {
+        new L_OSM4Leaflet(null, {
         afterParse: function() {fire("onProgress", "rendering geoJSON");},
-        baseLayerClass: settings.disable_poiomatic ? L.GeoJSON : L.GeoJsonNoVanish,
+        baseLayerClass: settings.disable_poiomatic ? L.GeoJSON : L_GeoJsonNoVanish,
         baseLayerOptions: {
         threshold: 9*Math.sqrt(2)*2,
         compress: function(feature) {
@@ -366,6 +385,7 @@ setTimeout(function() {
               if (p !== undefined) stl.dashArray   = p.join(",");
               break;
             case "LineString":
+            case "MultiLineString":
               var styles = s.shapeStyles["default"];
               var p = get_property(styles, ["color"]);
               if (p !== undefined) stl.color       = p;
@@ -561,6 +581,7 @@ setTimeout(function() {
       // this is needed for auto-tab-switching: if there is only non map-visible data, show it directly
       if (geojson.features.length === 0) { // no visible data
         // switch only if there is some unplottable data in the returned json/xml.
+        var empty_msg;
         if ((data_mode == "json" && data.elements.length > 0) ||
             (data_mode == "xml" && $("osm",data).children().not("note,meta,bounds").length > 0)) {
           // check for "only areas returned"
@@ -640,3 +661,5 @@ setTimeout(function() {
 
   // == initializations ==
 })(); // end create overpass object
+
+export default overpass;

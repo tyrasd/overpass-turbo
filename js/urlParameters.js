@@ -1,8 +1,11 @@
 // urlParameters module
-if (typeof turbo === "undefined") turbo={};
-turbo.urlParameters = function(param_str) {
+import ffs from './ffs';
+import settings from './settings';
+import {Base64, lzw_decode} from './misc';
+
+export default function urlParameters(param_str) {
   // defaults
-  t = {
+  var t = {
     has_query: false,
     query: undefined,
     has_coords: false,
@@ -78,11 +81,6 @@ turbo.urlParameters = function(param_str) {
         var param = params[i];
         var value = args[param];
         if (typeof value !== "string") value="???";
-        function quotes(s) {
-          if (s.match(/^[a-zA-Z0-9_]+$/) === null)
-            return '"'+s.replace(/"/g,'\\"')+'"';
-          return s;
-        }
         q = q.replace("{{"+param+"}}",quotes(value));
       }
       args.w = q; // let the wizard do the work
@@ -92,14 +90,14 @@ turbo.urlParameters = function(param_str) {
     }
   }
   if (args.w) { // construct a query using the wizard
-    var ffs = turbo.ffs();
-    var query = ffs.construct_query(args.w, wizard_comment);
-    if (query) {
-      t.query = query;
-      t.has_query = true;
-    } else {
-      console.log("invalid wizard syntax:\n  "+args.w);
-    }
+    ffs.construct_query(args.w, wizard_comment, function(err, query) {
+      if (!err) {
+        t.query = query;
+        t.has_query = true;
+      } else {
+        console.log("invalid wizard syntax:\n  "+args.w);
+      }
+    });
   }
   if (args.R !== undefined) { // indicates that the supplied query shall be executed immediately
     if (t.has_query) // only run if there is also a query to execute
@@ -107,4 +105,10 @@ turbo.urlParameters = function(param_str) {
   }
 
   return t;
-};
+}
+
+function quotes(s) {
+  if (s.match(/^[a-zA-Z0-9_]+$/) === null)
+    return '"'+s.replace(/"/g,'\\"')+'"';
+  return s;
+}

@@ -1,6 +1,7 @@
 // query parser module
-if (typeof turbo === "undefined") turbo={};
-turbo.query = function() {
+import _ from 'lodash';
+
+export default function query() {
   var statements = {};
 
   var parser = {};

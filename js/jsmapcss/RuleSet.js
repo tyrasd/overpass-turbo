@@ -2,6 +2,8 @@
 // needs to cope with nested CSS files
 // doesn't do untagged nodes optimisation
 
+import styleparser from './eval.pegjs';
+
 styleparser.RuleSet = function() {};
 
 styleparser.RuleSet.prototype = {

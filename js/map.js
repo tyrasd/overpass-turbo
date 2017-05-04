@@ -1,13 +1,21 @@
 // escape strings to show them directly in the html.
-function htmlentities(str) {
-  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+import $ from 'jquery';
+import L from 'leaflet';
+
+// include the CSS files
+import 'leaflet/dist/leaflet.css';
+import '../css/map.css';
+
+import configs from './configs';
+import overpass from './overpass';
+import Query from './query';
+
 $(document).ready(function() {
   // main map cache
   var cache = {};
 
     window.addEventListener("message", function (evt) {
-      var data = JSON.parse(evt.data);
+      var data = typeof evt.data === 'string' ? JSON.parse(evt.data): {};
       switch(data.cmd){
         case 'update_map':
           settings.code["overpass"] = data.value[0];
@@ -17,7 +25,7 @@ $(document).ready(function() {
           settings.code["overpass"] = data.value[0];
           ide.getQuery(function(query){
               var query_lang = ide.getQueryLang();
-              overpass.run_query(query, query_lang, cache, true);
+              overpass.run_query(query, query_lang, cache, true, undefined, ide.mapcss);
           });
           break;
       }
@@ -29,17 +37,17 @@ $(document).ready(function() {
     alert("error :( "+$(this).html());
   };
   configs.appname = "overpass-ide-map";
-  settings = {
+  var settings = {
     code:{},
     server: configs.defaultServer,
     tileServer: configs.defaultTiles,
     force_simple_cors_request: true,
     disable_poiomatic: false,
   };
-  ide = {
+  var ide = {
     getQuery: function(callback) {
       var query = settings.code["overpass"];
-      var queryParser = turbo.query();
+      var queryParser = Query();
 
       queryParser.parse(query, {}, function(query) {
           // parse mapcss declarations
@@ -79,14 +87,14 @@ $(document).ready(function() {
           ide.map.removeLayer(overpass.osmLayer);
         ide.getQuery(function(query){
             var query_lang = ide.getQueryLang();
-            overpass.run_query(query, query_lang, cache, false);
+            overpass.run_query(query, query_lang, cache, false, undefined, ide.mapcss);
         });
         $("#map_blank").remove();
     },
   };
   overpass.init();
   // (very raw) compatibility check
-  if (jQuery.support.cors != true ||
+  if ($.support.cors != true ||
       false) {
     // the currently used browser is not capable of running the IDE. :(
     $('<div title="Your browser is not supported :(">'+
@@ -109,7 +117,7 @@ $(document).ready(function() {
   var tilesAttrib = '&copy; <a href="www.openstreetmap.org/copyright">OpenStreetMap</a> contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
   var tiles = new L.TileLayer(tilesUrl,{attribution:tilesAttrib});
   ide.map.setView([0,0],1).addLayer(tiles);
-  scaleControl = new L.Control.Scale({metric:true,imperial:false,});
+  var scaleControl = new L.Control.Scale({metric:true,imperial:false,});
   scaleControl.addTo(ide.map);
   // wait spinner
   $(document).on({

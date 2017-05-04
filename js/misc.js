@@ -10,7 +10,7 @@
  * ---
  * Levenshtein Distance from iD editor project, WTFPL
  */
-var Base64 = {
+export var Base64 = {
 
   // private property
   _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
@@ -96,19 +96,20 @@ var Base64 = {
       }
     }
     
+    function str2ab(str) {
+      var buf = new ArrayBuffer(str.length); // 1 byte for each char
+      var bufView = new Uint8Array(buf);
+      for (var i=0, strLen=str.length; i<strLen; i++) {
+        bufView[i] = str.charCodeAt(i);
+      }
+      return buf;
+    }
+
     if (!binary) {
       // try to decode utf8 characters
       try { output = decodeURIComponent(escape(output)); } catch(e) {}
     } else {
       // convert binary string to typed (Uint8) array
-      function str2ab(str) {
-        var buf = new ArrayBuffer(str.length); // 1 byte for each char
-        var bufView = new Uint8Array(buf);
-        for (var i=0, strLen=str.length; i<strLen; i++) {
-          bufView[i] = str.charCodeAt(i);
-        }
-        return buf;
-      }
       output = str2ab(output);
     }
     return output;
@@ -220,7 +221,7 @@ var Base64 = {
 
 
 // LZW-compress a string
-function lzw_encode(s) {
+export function lzw_encode(s) {
     //s = Base64._utf8_encode(s);
     s = unescape(encodeURIComponent(s));
     var dict = {};
@@ -249,7 +250,7 @@ function lzw_encode(s) {
 }
 
 // Decompress an LZW-encoded string
-function lzw_decode(s) {
+export function lzw_decode(s) {
     var dict = {};
     var data = (s + "").split("");
     var currChar = data[0];
@@ -277,14 +278,14 @@ function lzw_decode(s) {
 
 
 // escape strings to show them directly in the html.
-function htmlentities(str) {
+export function htmlentities(str) {
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 
 // Levenshtein Distance
 // from https://github.com/systemed/iD/blob/1e78ee5c87669aac407c69493f3f532c823346ef/js/id/util.js#L97-L115
-function levenshteinDistance(a, b) {
+export function levenshteinDistance(a, b) {
     if (a.length === 0) return b.length;
     if (b.length === 0) return a.length;
     var matrix = [];
@@ -302,5 +303,5 @@ function levenshteinDistance(a, b) {
         }
     }
     return matrix[b.length][a.length];
-};
+}
 

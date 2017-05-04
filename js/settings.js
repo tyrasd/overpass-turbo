@@ -1,5 +1,9 @@
 // Settings class
-var Settings = function(namespace,version) {
+import _ from 'lodash';
+
+import configs from './configs';
+
+function Settings(namespace,version) {
   // == private members ==
   var prefix = namespace+"_";
   var ls = {setItem:function(n,v){this[n]=v;}, getItem:function(n){return this[n]!==undefined?this[n]:null;}}; try { localStorage.setItem(prefix+"test",123); localStorage.removeItem(prefix+"test"); ls = localStorage; } catch(e) {};
@@ -57,9 +61,9 @@ var Settings = function(namespace,version) {
       this.set(name,this[name]);
     }
   };
-};
+}
 // examples
-examples = {
+var examples = {
   "Drinking Water":{"overpass":"/*\nThis is an example Overpass query.\nTry it out by pressing the Run button above!\nYou can find more examples with the Load tool.\n*/\nnode\n  [amenity=drinking_water]\n  ({{bbox}});\nout;"},
   "Cycle Network":{"overpass":"/*\nThis shows the cycleway and cycleroute network.\n*/\n\n[out:json];\n\n(\n  // get cycle route relatoins\n  relation[route=bicycle]({{bbox}})->.cr;\n  // get cycleways\n  way[highway=cycleway]({{bbox}});\n  way[highway=path][bicycle=designated]({{bbox}});\n);\n\nout body;\n>;\nout skel qt;"},
   "Where am I?":{"overpass":"/*\nThis lists all areas which include the map center point.\n*/\n[out:json];\nis_in({{center}});\nout;"},
@@ -67,13 +71,15 @@ examples = {
   "Map Call":{"overpass":"/*\nThis is a simple map call.\nIt returns all data in the bounding box.\n*/\n[out:xml];\n(\n  node({{bbox}});\n  <;\n);\nout meta;"},
   "MapCSS styling": {"overpass": "/*\nThis example shows how the data can be styled.\nHere, some common amenities are displayed in \ndifferent colors.\n\nRead more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\n*/\n[out:json];\n\n(\n  node[amenity]({{bbox}});\n  way[amenity]({{bbox}});\n  relation[amenity]({{bbox}});\n);\nout body;\n>;\nout skel qt;\n\n{{style: /* this is the MapCSS stylesheet */\nnode, area\n{ color:gray; fill-color:gray; }\n\nnode[amenity=drinking_water],\nnode[amenity=fountain]\n{ color:blue; fill-color:blue; }\n\nnode[amenity=place_of_worship],\narea[amenity=place_of_worship]\n{ color:grey; fill-color:grey; }\n\nnode[amenity=~/(restaurant|hotel|cafe)/],\narea[amenity=~/(restaurant|hotel|cafe)/]\n{ color:red; fill-color:red; }\n\nnode[amenity=parking],\narea[amenity=parking]\n{ color:yellow; fill-color:yellow; }\n\nnode[amenity=bench]\n{ color:brown; fill-color:brown; }\n\nnode[amenity=~/(kindergarten|school|university)/],\narea[amenity=~/(kindergarten|school|university)/]\n{ color:green; fill-color:green; }\n}}"},
 };
-examples_initial_example = "Drinking Water";
+var examples_initial_example = "Drinking Water";
 
 // global settings object
 var settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
   34 // settings version number
 );
+
+export default settings;
 
 // map coordinates
 settings.define_setting("coords_lat","Float",configs.defaultMapView.lat,1);

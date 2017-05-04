@@ -1,3 +1,6 @@
+import L from 'leaflet';
+import osmtogeojson from 'osmtogeojson';
+
 L.OSM4Leaflet = L.Class.extend({
   initialize: function (data, options) {
     this.options = {
@@ -6,7 +9,7 @@ L.OSM4Leaflet = L.Class.extend({
       baseLayerOptions: {}
     };
     L.Util.setOptions(this,options);
-    
+
     this._baseLayer = new this.options.baseLayerClass(null, this.options.baseLayerOptions);
     this._resultData = null;
     // if data
@@ -17,8 +20,7 @@ L.OSM4Leaflet = L.Class.extend({
     var obj = this;
 setTimeout(function(){
     // 1. convert to GeoJSON
-    var converter = osmtogeojson.toGeojson;
-    var geojson = converter.call(obj, data);
+    var geojson = osmtogeojson(data, {flatProperties: false});
     obj._resultData = geojson;
     if (obj.options.afterParse)
       obj.options.afterParse();
@@ -47,3 +49,5 @@ setTimeout(function(){
 L.osm4Leaflet = function (data, options) {
   return new L.OSM4Leaflet(data, options);
 };
+
+export default L.OSM4Leaflet;
