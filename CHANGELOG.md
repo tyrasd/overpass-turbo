@@ -1,6 +1,12 @@
+2017-05-04
+----------
+* switch to a webpack-based build system, making further development easier. Thanks @simon04
+* make exporting of complex GeoJSON geometries much faster
+* update translations, activate Esperanto
+
 2017-02-18
 ----------
-* switch to (newish) osmnames geocoder for map location search 
+* switch to (newish) osmnames geocoder for map location search
 * improvements to mapcss (better text label placement, improved eval statements)
 * updated translations
 
