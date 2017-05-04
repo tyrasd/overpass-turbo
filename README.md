@@ -31,7 +31,7 @@ For example, one can provide a query to load, set the initial map location, or i
 
 ### git-branches
 
-Development is done in the *master* branch, stable releases are committed to *gh-pages*.
+Development is done in the *master* branch, stable releases are marked with git tags, the *gh-pages* branch contains static builds of the releases.
 
 ### install & run
 
