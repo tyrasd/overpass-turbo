@@ -31,6 +31,7 @@ var i18n = new(function() {
     "en":    "English",
     "ca":    "Catalan",
     "da":    "Danish",
+    "eo":    "Esperanto",
     "de":    "German",
     "el":    "Greek",
     "es":    "Spanish",
