@@ -1216,6 +1216,7 @@ var ide = new(function() {
           timestamp: overpass.timestamp,
           features: geojson.features.map(function(feature) {
             return {
+              type: "Feature",
               properties: feature.properties,
               geometry: feature.geometry
             };
