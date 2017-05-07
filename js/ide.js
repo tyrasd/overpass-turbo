@@ -1179,7 +1179,9 @@ var ide = new(function() {
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(queryWithMapCSS);
     // encoding exclamation marks for better command line usability (bash)
     $("#export-dialog a#export-overpass-api")[0].href = server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21").replace(/\(/g,"%28").replace(/\)/g,"%29");
+    $("#export-dialog a#export-text-raw")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(ide.getRawQuery(),true);
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(query,true);
+
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
     $("#export-dialog a#export-map-state").unbind("click").bind("click",function() {

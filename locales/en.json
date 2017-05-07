@@ -86,7 +86,8 @@
   "export.save_geoJSON_gist": "save GeoJSON to <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
 
   "export.section.query": "Query",
-  "export.as_text": "as <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">text</a>",
+  "export.as_text": "as <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">text</a> (<abbr title=\"For direct use with the Overpass API, has expanded shortcuts and doesn't include additional overpass turbo features such as MapCSS.\">standalone query</abbr>)",
+  "export.as_text_raw": "as <a id=\"export-text-raw\" href=\"\" download=\"query.txt\" target=\"_blank\">text</a> (<abbr title=\"Unaltered overpass turbo query – just as in the code editor\">raw query</abbr>)",
   "export.to_xml": "convert to <a id=\"export-convert-xml\" href=\"\" target=\"_blank\" class=\"external\">Overpass-XML</a>",
   "export.to_ql": "convert to (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>) <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL</a>",
   "export.editors": "load data into an OSM editor:",
