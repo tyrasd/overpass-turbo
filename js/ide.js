@@ -1179,8 +1179,18 @@ var ide = new(function() {
     $("#export-dialog a#export-interactive-map")[0].href = baseurl+"map.html?Q="+encodeURIComponent(queryWithMapCSS);
     // encoding exclamation marks for better command line usability (bash)
     $("#export-dialog a#export-overpass-api")[0].href = server+"interpreter?data="+encodeURIComponent(query).replace(/!/g,"%21").replace(/\(/g,"%28").replace(/\)/g,"%29");
-    $("#export-dialog a#export-text-raw")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(ide.getRawQuery(),true);
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(query,true);
+    var query_raw = ide.getRawQuery();
+    $("#export-dialog a#export-text-raw")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(query_raw,true);
+    var query_wiki = "{{OverpassTurboExample|query=\n";
+    query_wiki += query_raw
+      .replace(/{{/g, "mSAvmrw81O8NgWlX").replace(/{/g, "Z9P563g6zQYzjiLE")
+      .replace(/}}/g, "AtUhvGGxAlM1mP5i").replace(/}/g, "Yfxw6RTW5lewTqtg")
+      .replace(/mSAvmrw81O8NgWlX/g, "{{((}}").replace(/Z9P563g6zQYzjiLE/g, "{{(}}")
+      .replace(/AtUhvGGxAlM1mP5i/g, "{{))}}").replace(/Yfxw6RTW5lewTqtg/g, "{{)}}")
+      .replace(/\|/g, "{{!}}").replace(/{{!}}{{!}}/g, "{{!!}}");
+    query_wiki += "\n}}";
+    $("#export-dialog a#export-text-wiki")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(query_wiki,true);
 
     var dialog_buttons= {};
     dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
