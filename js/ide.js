@@ -1796,7 +1796,7 @@ var ide = new(function() {
     // todo: more shortcuts
   }
   this.update_map = function() {
-    ide.waiter.open(i18n.t("waiter.processing_query") || "processing query...");
+    ide.waiter.open(i18n.t("waiter.processing_query") !== "/missing translation/" ? i18n.t("waiter.processing_query") : "processing query...");
     ide.waiter.addInfo("resetting map");
     $("#data_stats").remove();
     // resets previously highlighted error lines
