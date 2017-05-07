@@ -1,3 +1,7 @@
+2017-05-07
+----------
+* bugfix: make exported GeoJSON return valid Feature objects #295
+
 2017-05-04
 ----------
 * switch to a webpack-based build system, making further development easier. Thanks @simon04
