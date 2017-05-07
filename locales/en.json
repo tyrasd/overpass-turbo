@@ -110,7 +110,6 @@
   "export.KML.no_data": "No KML data available! Please run a query first.",
 
   "export.raw.title": "Export - raw",
-  "export.raw.expl": "The currently shown raw-data:",
   "export.raw.no_data": "No raw data available! Please run a query first.",
 
   "export.map_view.title": "Current Map View",

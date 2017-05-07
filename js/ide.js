@@ -1254,18 +1254,20 @@ var ide = new(function() {
     $("#export-dialog a#export-geoJSON").unbind("click").on("click", function() {
       var geoJSON_str = constructGeojsonString(overpass.geojson);
       var d = $("#export-geojson-dialog");
-      var dialog_buttons= {};
-      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
-      d.dialog({
-        modal:true,
-        width:500,
-        buttons: dialog_buttons,
-      });
-      $("textarea",d)[0].value=geoJSON_str;
+
       // make content downloadable as file
       if (overpass.geojson) {
         var blob = new Blob([geoJSON_str], {type: "application/json;charset=utf-8"});
         saveAs(blob, "export.geojson");
+      } else {
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
+        d.dialog({
+          modal:true,
+          width:500,
+          buttons: dialog_buttons,
+        });
+        $(".message", d).text(geoJSON_str);
       }
       return false;
     });
@@ -1330,19 +1332,20 @@ var ide = new(function() {
         if (gpx_str[1] !== '?')
           gpx_str = '<?xml version="1.0" encoding="UTF-8"?>\n' + gpx_str;
       }
-      var d = $("#export-gpx-dialog");
-      var dialog_buttons= {};
-      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
-      d.dialog({
-        modal:true,
-        width:500,
-        buttons: dialog_buttons,
-      });
-      $("textarea",d)[0].value=gpx_str;
       // make content downloadable as file
       if (geojson) {
         var blob = new Blob([gpx_str], {type: "application/xml;charset=utf-8"});
         saveAs(blob, "export.gpx");
+      } else {
+        var d = $("#export-gpx-dialog");
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
+        d.dialog({
+          modal:true,
+          width:500,
+          buttons: dialog_buttons,
+        });
+        $(".message",d).text(gpx_str);
       }
       return false;
     });
@@ -1360,19 +1363,20 @@ var ide = new(function() {
           description: "description"
         });
       }
-      var d = $("#export-kml-dialog");
-      var dialog_buttons= {};
-      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
-      d.dialog({
-        modal:true,
-        width:500,
-        buttons: dialog_buttons,
-      });
-      $("textarea",d)[0].value=kml_str;
       // make content downloadable as file
       if (geojson) {
         var blob = new Blob([kml_str], {type: "application/xml;charset=utf-8"});
         saveAs(blob, "export.kml");
+      } else {
+        var d = $("#export-kml-dialog");
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
+        d.dialog({
+          modal:true,
+          width:500,
+          buttons: dialog_buttons,
+        });
+        $(".message",d).text(kml_str);
       }
       return false;
     });
@@ -1397,15 +1401,6 @@ var ide = new(function() {
           }
         }
       }
-      var d = $("#export-raw-dialog");
-      var dialog_buttons= {};
-      dialog_buttons[i18n.t("dialog.done")] = function() {$(this).dialog("close");};
-      d.dialog({
-        modal:true,
-        width:500,
-        buttons: dialog_buttons,
-      });
-      $("textarea",d)[0].value=raw_str;
       // make content downloadable as file
       if (geojson) {
         if (raw_type == "osm" || raw_type == "xml") {
@@ -1418,6 +1413,16 @@ var ide = new(function() {
           var blob = new Blob([raw_str], {type: "application/octet-stream;charset=utf-8"});
           saveAs(blob, "export.dat");
         }
+      } else {
+        var d = $("#export-raw-dialog");
+        var dialog_buttons= {};
+        dialog_buttons[i18n.t("dialog.dismiss")] = function() {$(this).dialog("close");};
+        d.dialog({
+          modal:true,
+          width:500,
+          buttons: dialog_buttons,
+        });
+        $(".message",d).text(raw_str);
       }
       return false;
     });
