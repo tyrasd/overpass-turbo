@@ -2,6 +2,8 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import jQuery from 'jquery';
+import html2canvas from 'html2canvas';
+import './promise-polyfill';
 import L from 'leaflet';
 import CodeMirror from 'codemirror/lib/codemirror.js';
 import moment from 'moment';
@@ -1570,7 +1572,7 @@ var ide = new(function() {
     if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     ide.waiter.addInfo("rendering map tiles");
-    $("#map").html2canvas({
+    html2canvas(document.getElementById("map"), {
       useCORS: true,
       allowTaint: false,
       proxy: configs.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined, // use own proxy if necessary and available
