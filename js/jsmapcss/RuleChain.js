@@ -14,7 +14,7 @@
 
 */
 
-import styleparser from './eval.pegjs';
+import styleparser from './Style.js';
 
 styleparser.RuleChain = function() {
     this.rules=[];				// list of Rules
@@ -55,7 +55,7 @@ styleparser.RuleChain.prototype = {
 
     test:function(pos, entity, tags, zoom) {
         // summary:		Test a rule chain by running all the tests in reverse order.
-        if (this.rules.length === 0) { return true; } // orig: { return false; } // todo: wildcard selector "*" semms broken... 
+        if (this.rules.length === 0) { return true; } // orig: { return false; } // todo: wildcard selector "*" semms broken...
         if (pos==-1) { pos=this.rules.length-1; }
 
         var r = this.rules[pos];

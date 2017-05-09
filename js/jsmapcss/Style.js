@@ -1,5 +1,6 @@
-import styleparser from './eval.pegjs';
+import evalparser from './eval.pegjs';
 
+var styleparser = {};
 styleparser.Style = function() {this.__init__()};
 
 styleparser.Style.prototype = {
@@ -51,8 +52,8 @@ styleparser.Style.prototype = {
 		// helper object for eval() properties
 		for (var k in this.evals) {
 			try {
-				styleparser.evalparser.tag = function(t) {return tags[t] || "";};
-				this.setPropertyFromString(k, styleparser.evalparser.parse(this.evals[k]));
+				evalparser.tag = function(t) {return tags[t] || "";};
+				this.setPropertyFromString(k, evalparser.parse(this.evals[k]));
 			} catch(e) { console.error("Error while evaluating mapcss evals", e); }
 		}
 	},
@@ -252,3 +253,5 @@ styleparser.inherit_from_Style(styleparser.ShieldStyle.prototype);
 
 // ----------------------------------------------------------------------
 // End of module
+
+export default styleparser;

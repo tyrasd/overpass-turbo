@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 // StyleList class
 
-import styleparser from './eval.pegjs';
+import styleparser from './Style.js';
 
 styleparser.StyleList = function() {
 	this.shapeStyles  = {};
@@ -38,12 +38,12 @@ styleparser.StyleList.prototype = {
 	},
 
 	addSubpart:function(s) {
-		// summary:		Record that a subpart is used in this StyleList. 
+		// summary:		Record that a subpart is used in this StyleList.
 		if (this.subparts.indexOf(s)==-1) { this.subparts.push(s); }
 	},
 
 	isValidAt:function(zoom) {
-		// summary:		Is this StyleList valid at a given zoom? 
+		// summary:		Is this StyleList valid at a given zoom?
 		return (this.validAt==-1 || this.validAt==zoom);
 	},
 

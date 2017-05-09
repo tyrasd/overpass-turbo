@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 // Condition base class
 
-import styleparser from './eval.pegjs';
+import styleparser from './Style.js';
 
 styleparser.Condition = function() {};
 styleparser.Condition.prototype = {
@@ -14,7 +14,7 @@ styleparser.Condition.prototype = {
 		this.params=Array.prototype.slice.call(arguments,1);
                 return this;
 	},
-	
+
 	test:function(tags) {
 		// summary:		Run the condition against the supplied tags.
 		var p=this.params;
@@ -34,7 +34,7 @@ styleparser.Condition.prototype = {
 		}
 		return false;
 	},
-	
+
 	toString:function() {
 		return "["+this.type+": "+this.params+"]";
 	}

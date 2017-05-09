@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 // Rule class
 
-import styleparser from './eval.pegjs';
+import styleparser from './Style.js';
 
 styleparser.Rule = function() {};
 styleparser.Rule.prototype = {
@@ -13,7 +13,7 @@ styleparser.Rule.prototype = {
     subject: '',		// entity type to which the Rule applies: 'way', 'node', 'relation', 'area' (closed way) or 'line' (unclosed way)
 
     addSubject: function(_subject) {
-        // summary:		A MapCSS selector. Contains a list of Conditions; the entity type to which the selector applies; 
+        // summary:		A MapCSS selector. Contains a list of Conditions; the entity type to which the selector applies;
         //				and the zoom levels at which it is true. way[waterway=river][boat=yes] would be parsed into one Rule.
         //				The selectors and declaration together form a StyleChooser.
         this.subject=_subject;
@@ -48,4 +48,3 @@ styleparser.Rule.prototype = {
         return this.subject+" z"+this.minZoom+"-"+this.maxZoom+": "+this.conditions;
     }
 };
-

@@ -2,7 +2,7 @@
 // needs to cope with nested CSS files
 // doesn't do untagged nodes optimisation
 
-import styleparser from './eval.pegjs';
+import styleparser from './Style.js';
 
 styleparser.RuleSet = function() {};
 
@@ -154,7 +154,7 @@ styleparser.RuleSet.prototype = {
         }
 
         /*// Find sublayer
-        // TODO: Why the renaming z_index -> sublayer? 
+        // TODO: Why the renaming z_index -> sublayer?
         //       This hardcoded variable isn't used anywhere.
         //       Looks like this was replaced by the "subparts"...
         var sub=5;
@@ -238,7 +238,7 @@ styleparser.RuleSet.prototype = {
             return this.CSSCOLORS[colorStr];
         } else {
             var match = this.HEX.exec(colorStr);
-            if ( match ) { 
+            if ( match ) {
                 if ( match[1].length == 3) {
                     // repeat digits. #abc => 0xaabbcc
                     return Number("0x"+match[1].charAt(0)+match[1].charAt(0)+
@@ -267,12 +267,12 @@ styleparser.RuleSet.prototype = {
     DECLARATION	:/^\{(.+?)\}\s*/,
     SUBPART		:/^::(\w+)\s*/,
     UNKNOWN		:/^(\S+)\s*/,
-    
+
     ZOOM_MINMAX	:/^(\d+)\-(\d+)$/,
     ZOOM_MIN	:/^(\d+)\-$/,
     ZOOM_MAX	:/^\-(\d+)$/,
     ZOOM_SINGLE	:/^(\d+)$/,
-    
+
     CONDITION_TRUE      :/^\s*([:\w]+)\s*=\s*yes\s*$/i,
     CONDITION_FALSE     :/^\s*([:\w]+)\s*=\s*no\s*$/i,
     CONDITION_SET       :/^\s*([:\w]+)\s*$/,
@@ -284,21 +284,21 @@ styleparser.RuleSet.prototype = {
     CONDITION_LT        :/^\s*([:\w]+)\s*<\s*(.+)\s*$/,
     CONDITION_LE        :/^\s*([:\w]+)\s*<=\s*(.+)\s*$/,
     CONDITION_REGEX     :/^\s*([:\w]+)\s*=~\/\s*(.+)\/\s*$/,
-    
+
     ASSIGNMENT_EVAL	:/^\s*(\S+)\s*\:\s*eval\s*\(\s*['"](.+?)['"]\s*\)\s*$/i, // TODO: match only two matching quotes
     ASSIGNMENT		:/^\s*(\S+)\s*\:\s*(.+?)\s*$/,
     SET_TAG_EVAL	:/^\s*set\s+(\S+)\s*=\s*eval\s*\(\s*'(.+?)'\s*\)\s*$/i,
     SET_TAG			:/^\s*set\s+(\S+)\s*=\s*(.+?)\s*$/i,
     SET_TAG_TRUE	:/^\s*set\s+(\S+)\s*$/i,
     EXIT			:/^\s*exit\s*$/i,
-    
+
     oZOOM: 			2,
     oGROUP: 		3,
     oCONDITION: 	4,
     oOBJECT: 		5,
     oDECLARATION: 	6,
     oSUBPART: 		7,
-    
+
     DASH: 	/\-/g,
     COLOR: 	/color$/,
     BOLD: 	/^bold$/i,
@@ -307,9 +307,9 @@ styleparser.RuleSet.prototype = {
     CAPS: 	/^uppercase$/i,
     CENTER: /^center$/i,
     FALSE: 	/^(no|false|0)$/i,
-    
+
     HEX: 	/^#([0-9a-f]+)$/i,
-    
+
     CSSCOLORS: {
         aliceblue:0xf0f8ff,
         antiquewhite:0xfaebd7,
@@ -452,5 +452,5 @@ styleparser.RuleSet.prototype = {
         yellow:0xffff00,
         yellowgreen:0x9acd32
     },
-    
+
 };

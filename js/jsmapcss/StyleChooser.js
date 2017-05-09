@@ -1,6 +1,6 @@
 // styleparser/StyleChooser.js
 
-import styleparser from './eval.pegjs';
+import styleparser from './Style.js';
 
 styleparser.StyleChooser = function() {
     this.ruleChains = [new styleparser.RuleChain()];
@@ -67,7 +67,7 @@ styleparser.StyleChooser.prototype = {
 					}
 					if (r.drawn()) { tags[':drawn']='yes'; }
 					tags._width = sl.maxwidth;
-			
+
 					r.runEvals(tags);
                                         // helper function
 					if (a[c.subpart]) {
