@@ -13,6 +13,8 @@ import 'codemirror/mode/css/css';
 import 'codemirror/lib/util/multiplex';
 import 'codemirror/lib/util/closetag';
 
+import 'html2canvas';
+
 // include the CSS files
 import 'codemirror/lib/codemirror.css';
 import 'leaflet/dist/leaflet.css';
