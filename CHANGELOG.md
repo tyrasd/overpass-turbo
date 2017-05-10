@@ -5,6 +5,7 @@
 * bugfix: make eval statements in MapCSS work again
 * bugfix: fix exporting of map as png image
 * bugfix: load translations before starting to initialize the user interface
+* update translations
 
 2017-05-07
 ----------
