@@ -77,6 +77,11 @@ var i18n = new(function() {
     }
     return lng;
   }
+
+  /**
+   * Determines the language, fetches the language pack and translates the UI
+   * @return <Promise>
+  */
   this.translate = function(lng) {
     lng = i18n.getLanguage(lng);
 
@@ -87,10 +92,11 @@ var i18n = new(function() {
 
     // load language pack
     try {
-      import("../locales/"+lng+".json").then(function(data){
+      return import("../locales/"+lng+".json").then(function(data){
         td = data;
         i18n.translate_ui();
         // todo: nicer implementation
+        return data;
       }, function(e){
         console.log("failed to load language file "+lng, e);
       });

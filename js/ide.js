@@ -133,7 +133,13 @@ var ide = new(function() {
     settings.load();
     // translate ui
     ide.waiter.addInfo("translate ui");
-    i18n.translate();
+    var me = this;
+    i18n.translate().then(function() {
+      initAfterI18n.call(me);
+    });
+  };
+
+  function initAfterI18n() {
     // set up additional libraries
     moment.locale(i18n.getLanguage());
     // parse url string parameters
