@@ -1190,7 +1190,7 @@ var ide = new(function() {
     $("#export-dialog a#export-text")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(query,true);
     var query_raw = ide.getRawQuery();
     $("#export-dialog a#export-text-raw")[0].href = "data:text/plain;charset="+(document.characterSet||document.charset)+";base64,"+Base64.encode(query_raw,true);
-    var query_wiki = "{{OverpassTurboExample|query=\n";
+    var query_wiki = "{{OverpassTurboExample|loc="+L.Util.formatNum(ide.map.getCenter().lat)+';'+L.Util.formatNum(ide.map.getCenter().lng)+';'+ide.map.getZoom()+"|query=\n";
     query_wiki += query_raw
       .replace(/{{/g, "mSAvmrw81O8NgWlX").replace(/{/g, "Z9P563g6zQYzjiLE")
       .replace(/}}/g, "AtUhvGGxAlM1mP5i").replace(/}/g, "Yfxw6RTW5lewTqtg")
