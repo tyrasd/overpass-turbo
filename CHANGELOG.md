@@ -1,3 +1,11 @@
+2017-05-10
+----------
+* add two new "export query as text" options: raw overpass turbo query (#292) and as (escaped) osm wiki template (#288)
+* make exporting as GeoJSON, GPX, KML and raw OSM data faster by getting rid of the textareas that were used as fallbacks for old browsers without file download support
+* bugfix: make eval statements in MapCSS work again
+* bugfix: fix exporting of map as png image
+* bugfix: load translations before starting to initialize the user interface
+
 2017-05-07
 ----------
 * bugfix: make exported GeoJSON return valid Feature objects #295
