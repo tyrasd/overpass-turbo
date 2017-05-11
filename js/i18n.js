@@ -38,6 +38,7 @@ var i18n = new(function() {
     "et":    "Estonian",
     "fr":    "French",
     "hr":    "Croatian",
+    "hu":    "Hungarian",
     "it":    "Italian",
     "ja":    "Japanese",
     "nl":    "Dutch",
