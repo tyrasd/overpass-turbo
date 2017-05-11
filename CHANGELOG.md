@@ -1,3 +1,7 @@
+2017-05-11
+----------
+* activate Hungarian translation
+
 2017-05-10
 ----------
 * add two new "export query as text" options: raw overpass turbo query (#292) and as (escaped) osm wiki template (#288)
