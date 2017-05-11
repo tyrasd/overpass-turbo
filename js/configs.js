@@ -4,12 +4,12 @@ export default {
   suggestedServers: [
     "//overpass-api.de/api/",
     "http://overpass.osm.rambler.ru/cgi/",
-    "http://api.openstreetmap.fr/oapi/",
+    "http://api.openstreetmap.fr/oapi/"
   ],
   defaultTiles: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   tileServerAttribution: "&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>",
   suggestedTiles: [
-    "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
     //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
     //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
@@ -24,5 +24,5 @@ export default {
   short_url_service: "",
   html2canvas_use_proxy: false,
   // api key for osmnames geocoder, go to http://osmnames.org/api/ to get one if you run your own overpass instance
-  osmnamesApiKey: "gtXyh2mBSaN5zWqqqQRh",
-}
+  osmnamesApiKey: "gtXyh2mBSaN5zWqqqQRh"
+};

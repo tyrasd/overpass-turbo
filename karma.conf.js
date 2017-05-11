@@ -1,23 +1,24 @@
 /* eslint-env node */
-const webpackConfig = require('./webpack.config');
+const webpackConfig = require("./webpack.config");
 
 module.exports = function(config) {
-  var tests = 'tests/test.*.js';
+  var tests = "tests/test.*.js";
 
   config.set({
-    frameworks: ['mocha'],
+    frameworks: ["mocha"],
 
-    files: [{
-      pattern: tests,
-    }],
+    files: [
+      {
+        pattern: tests
+      }
+    ],
 
-    browsers: ['PhantomJS'],
+    browsers: ["PhantomJS"],
 
     preprocessors: {
-      [tests]: ['webpack'],
+      [tests]: ["webpack"]
     },
 
-    webpack: webpackConfig,
-
+    webpack: webpackConfig
   });
 };
