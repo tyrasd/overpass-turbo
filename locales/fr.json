@@ -42,7 +42,7 @@
   "settings.tile_server": "Serveur de tuiles",
   "settings.tile_opacity": "Opacité des Tuiles",
   "settings.tile_opacity_expl": "transparence du fonds de carte : 0.0=transparent … 1.0=Opaque",
-  "settings.show_crosshairs": "Affiche une repère au centre de la carte",
+  "settings.show_crosshairs": "Affiche un repère au centre de la carte",
   "settings.disable_poiomatic": "N'affiche pas les petits objets comme points d'intérêts.",
   "settings.show_data_stats": "Affiche des statistiques à propos des données chargées et affichées.",
   "settings.section.sharing": "Partager",

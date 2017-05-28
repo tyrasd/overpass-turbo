@@ -74,7 +74,7 @@
   "export.section.query": "檢索",
   "export.as_text": "輸出為 <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">文字</a> (<abbr title=\"要直接用 Overpass API，有擴充的快速鍵，以及並沒有額外的 overpass turbo 功能如 MapCSS。\">獨立檢索</abbr>)",
   "export.as_text_raw": "輸出為 <a id=\"export-text-raw\" href=\"\" download=\"query-raw.txt\" target=\"_blank\">文字</a> (<abbr title=\"未修正的 overpass turbo 檢索 - 就像程式碼編輯器一樣\">原始檢索</abbr>)",
-  "export.as_text_wiki": "輸出為<a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">文字</a> (<abbr title=\"輸出到 OSM wiki，像是 Overpass Turbo 例子模版\">osm wiki</abbr>)",
+  "export.as_text_wiki": "輸出為<a id=\"export-text-wiki\" href=\"\" download=\"query-wiki.txt\" target=\"_blank\">文字</a> (<abbr title=\"輸出到 OSM wiki，像是 Overpass Turbo 例子模版\">osm wiki</abbr>)",
   "export.to_xml": "轉換為<a id=\"export-convert-xml\" href=\"\" target=\"_blank\" class=\"external\">Overpass-XML</a>格式",
   "export.to_ql": "轉換為 (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">壓縮</a>)的 <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL</a>格式",
   "export.editors": "載入資料到OSM編輯器",
