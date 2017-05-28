@@ -411,21 +411,20 @@ var overpass = new function() {
                       });
                     case "Polygon":
                       if (!labelPolygon) labelPolygon = layer;
-                      // FIXME ide.map is not defined since ide is not imported
-                      latlng = ide.map.unproject(
-                        polylabel(
+                      latlng = L.CRS.EPSG3857.pointToLatLng(
+                        L.point(polylabel(
                           [labelPolygon.getLatLngs()]
                             .concat(labelPolygon._holes)
                             .map(function(ring) {
                               return ring
                                 .map(function(latlng) {
-                                  return ide.map.project(latlng);
+                                  return L.CRS.EPSG3857.latLngToPoint(latlng, 20);
                                 })
                                 .map(function(p) {
                                   return [p.x, p.y];
                                 });
                             })
-                        )
+                        )), 20
                       );
                       break;
                     case "MultiLineString":
