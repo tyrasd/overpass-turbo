@@ -412,19 +412,25 @@ var overpass = new function() {
                     case "Polygon":
                       if (!labelPolygon) labelPolygon = layer;
                       latlng = L.CRS.EPSG3857.pointToLatLng(
-                        L.point(polylabel(
-                          [labelPolygon.getLatLngs()]
-                            .concat(labelPolygon._holes)
-                            .map(function(ring) {
-                              return ring
-                                .map(function(latlng) {
-                                  return L.CRS.EPSG3857.latLngToPoint(latlng, 20);
-                                })
-                                .map(function(p) {
-                                  return [p.x, p.y];
-                                });
-                            })
-                        )), 20
+                        L.point(
+                          polylabel(
+                            [labelPolygon.getLatLngs()]
+                              .concat(labelPolygon._holes)
+                              .map(function(ring) {
+                                return ring
+                                  .map(function(latlng) {
+                                    return L.CRS.EPSG3857.latLngToPoint(
+                                      latlng,
+                                      20
+                                    );
+                                  })
+                                  .map(function(p) {
+                                    return [p.x, p.y];
+                                  });
+                              })
+                          )
+                        ),
+                        20
                       );
                       break;
                     case "MultiLineString":
