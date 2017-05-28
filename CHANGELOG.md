@@ -1,3 +1,9 @@
+2017-05-28
+----------
+* update translations
+* fix regression: mapcss text labels on polyons are now displayed again
+* update osmtogeojson library (bugfixes, added handling for waterway relations)
+
 2017-05-11
 ----------
 * activate Hungarian translation
