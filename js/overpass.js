@@ -719,6 +719,22 @@ var overpass = new function() {
                               '" target="_blank">' +
                               v +
                               "</a>";
+                          // hyperlinks for wikimedia-commons entries
+                          var wikimediacommons_page;
+                          if (
+                            k == "wikimedia_commons" &&
+                            (wikimediacommons_page = v.match(
+                              /^(Category|File):(.*)/
+                            ))
+                          )
+                            v =
+                              '<a href="//commons.wikimedia.org/wiki/' +
+                              wikimediacommons_page[1] +
+                              ":" +
+                              encodeURIComponent(wikimediacommons_page[2]) +
+                              '" target="_blank">' +
+                              v +
+                              "</a>";
                           popup += "<li>" + k + "=" + v + "</li>";
                         });
                         popup += "</ul>";
