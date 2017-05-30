@@ -735,6 +735,21 @@ var overpass = new function() {
                               '" target="_blank">' +
                               v +
                               "</a>";
+                          // hyperlinks for mapillary entries
+                          var mapillary_page;
+                          if (
+                            (k == "mapillary" &&
+                              (mapillary_page = v.match(/^[-a-zA-Z0-9]+$/))) ||
+                            (k.match(/^mapillary:/) &&
+                              (mapillary_page = v.match(/^[-a-zA-Z0-9]+$/)))
+                          )
+                            v =
+                              '<a href="https://www.mapillary.com/app?focus=photo&pKey=' +
+                              mapillary_page[0] +
+                              '" target="_blank">' +
+                              v +
+                              "</a>";
+
                           popup += "<li>" + k + "=" + v + "</li>";
                         });
                         popup += "</ul>";
