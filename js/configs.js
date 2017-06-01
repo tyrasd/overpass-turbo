@@ -24,5 +24,7 @@ export default {
   short_url_service: "",
   html2canvas_use_proxy: false,
   // api key for osmnames geocoder, go to http://osmnames.org/api/ to get one if you run your own overpass instance
-  osmnamesApiKey: "gtXyh2mBSaN5zWqqqQRh"
+  osmnamesApiKey: "gtXyh2mBSaN5zWqqqQRh",
+  // osmAuth configuration object (used for syncing saved queries). expects an osm-auth config object (min. the oauth_consumer_key and oauth_secret must be given), see https://github.com/osmlab/osm-auth#getting-keys
+  osmAuth: null
 };

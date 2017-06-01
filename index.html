@@ -22,6 +22,7 @@
         <div class="group">
           <a class="t button" accesskey="5" data-ide-handler="click:onSaveClick"     title="" data-t="[title]nav.save_tt;nav.save"        >Save</a>
           <a class="t button" accesskey="6" data-ide-handler="click:onLoadClick"     title="" data-t="[title]nav.load_tt;nav.load"        >Load</a>
+          <a class="t button" accesskey="" id="logout" data-ide-handler="click:onLogoutClick" title="" data-t="[title]nav.logout_tt;nav.logout">Logout</a>
         </div>
         <div class="group">
           <a class="t button" accesskey="9" data-ide-handler="click:onSettingsClick" title="" data-t="[title]nav.settings_tt;nav.settings">Settings</a>
@@ -122,7 +123,7 @@
       <ul class="plain">
         <li><span class="t" data-t="help.attr.leaflet"></span> <a href="http://leaflet.cloudmade.com">Leaflet</a></li>
         <li><span class="t" data-t="help.attr.codemirror"></span> <a href="http://codemirror.net/">CodeMirror</a></li>
-        <li><span class="t" data-t="help.attr.other_libs"></span> <a href="https://github.com/tyrasd/osmtogeojson">osmtogeojson</a>, <a href="https://github.com/tyrasd/togpx">togpx</a>, <a href="https://github.com/mapbox/tokml">tokml</a>, <a href="http://lodash.com">lodash</a>, <a href="http://jquery.com/">jQuery</a>, <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="https://github.com/bbecquet/Leaflet.PolylineOffset">leaflet.PolylineOffset</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/nebulon42/osmic/">Osmic</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>, <a href="https://github.com/MapBBCode/mapbbcode">MapBBCode</a>, <a href="http://momentjs.com/">Moment.js</a>, <a href="https://github.com/mapbox/polylabel">polylabel</a></li>
+        <li><span class="t" data-t="help.attr.other_libs"></span> <a href="https://github.com/tyrasd/osmtogeojson">osmtogeojson</a>, <a href="https://github.com/tyrasd/togpx">togpx</a>, <a href="https://github.com/mapbox/tokml">tokml</a>, <a href="http://lodash.com">lodash</a>, <a href="http://jquery.com/">jQuery</a>, <a href="http://jqueryui.com/">jQuery UI</a>, <a href="http://html2canvas.hertzen.com/">html2canvas</a>, <a href="http://code.google.com/p/canvg/">canvg</a>, <a href="https://github.com/kajic/leaflet-locationfilter">leaflet-locationfilter</a>, <a href="https://github.com/bbecquet/Leaflet.PolylineOffset">leaflet.PolylineOffset</a>, <a href="http://mapbox.com/maki/">maki</a>, <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>, <a href="https://github.com/nebulon42/osmic/">Osmic</a>, <a href="https://github.com/eligrey/FileSaver.js">FileSaver.js</a>, <a href="https://github.com/MapBBCode/mapbbcode">MapBBCode</a>, <a href="http://momentjs.com/">Moment.js</a>, <a href="https://github.com/mapbox/polylabel">polylabel</a>, <a href="https://github.com/osmlab/osm-auth">osm-auth</a></li>
       </ul>
     </div>
   </div>
@@ -166,9 +167,13 @@
   </div>
   <!--load-->
   <div title="" id="load-dialog" class="t dialog" data-t="[title]load.title">
-    <h4 class="t" data-t="load.saved_queries"></h4>
+    <h4 class="t" data-t="load.saved_queries-local"></h4>
     <div>
       <ul class="plain saved_query"></ul>
+    </div>
+    <h4 class="t osm" data-t="load.saved_queries-osm"></h4>
+    <div>
+      <ul class="plain osm"></ul>
     </div>
     <h4 class="t" data-t="load.examples"></h4>
     <div>
