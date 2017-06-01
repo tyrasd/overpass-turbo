@@ -66,8 +66,8 @@ function loadQueries(callback) {
         query += res.querySelector('preference[k="'+configs.appname+'_query_'+i+'_'+j+'"]').getAttribute('v');
       }
       result.push({
-        name,
-        query
+        name: name,
+        query: query
       });
     }
 
@@ -87,7 +87,7 @@ function saveQuery(new_query, callback) {
     }
     // insert new query into list of existing ones
     var is_new = true;
-    existing_queries.forEach((q, idx) => {
+    existing_queries.forEach(function(q, idx) {
       if (q.name == new_query.name) {
         q.query = new_query.query;
         is_new = idx;
@@ -103,7 +103,7 @@ function saveQuery(new_query, callback) {
     new_elem.setAttribute('k', configs.appname+'_query-count');
     new_elem.setAttribute('v', existing_queries.length);
     preferences.appendChild(new_elem);
-    existing_queries.forEach((q,i) => {
+    existing_queries.forEach(function(q,i) {
       if (q.name.length > 200) return callback(new Error("query name too long to be saved on osm.org"));
       var numParts = Math.ceil((q.query.length+q.name.length+8)/255);
       if (numParts > 9) return callback(new Error("query too long to be saved on osm.org"));

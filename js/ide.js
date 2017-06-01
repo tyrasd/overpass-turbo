@@ -1425,7 +1425,7 @@ var ide = new function() {
           sync.load(function(err, queries) {
             if (err) return console.error(err);
             $("a#logout").show();
-            queries.forEach(q => {
+            queries.forEach(function(q) {
               $("<li></li>")
               .append(
                 $('<a href="#">' + q.name + "</a>").on(
@@ -1481,8 +1481,8 @@ var ide = new function() {
         var name = $("input[name=save]", this)[0].value;
         var query = ide.compose_share_link(ide.getRawQuery(),true).slice(3);
         sync.save({
-          name,
-          query
+          name: name,
+          query: query
         }, function(err, new_queries) {
           if (err) return console.error(err);
           $("a#logout").show();
