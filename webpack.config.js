@@ -97,6 +97,12 @@ module.exports = {
       template: "./map.html",
       chunks: ["map"],
       inject: "head"
+    }),
+    new HtmlWebpackPlugin({
+      filename: "land.html",
+      template: "./land.html",
+      chunks: [],
+      inject: "head"
     })
   ],
   devtool: productionBuild ? undefined : "eval-source-map"
