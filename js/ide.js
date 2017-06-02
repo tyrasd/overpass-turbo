@@ -10,7 +10,6 @@ import moment from "moment";
 import tokml from "tokml";
 import togpx from "togpx";
 import {saveAs} from "file-saver";
-import copy from "copy-to-clipboard";
 
 import "canvas-toBlob"; // polyfill
 import configs from "./configs";
@@ -23,6 +22,20 @@ import overpass from "./overpass";
 import urlParameters from "./urlParameters";
 import Autorepair from "./autorepair";
 import {Base64, htmlentities, lzw_encode} from "./misc";
+
+// Handler to allow copying in various MIME formats
+// @see https://developer.mozilla.org/en-US/docs/Web/Events/copy
+// @see https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
+var copyData = undefined;
+$(document).on("copy", function(e) {
+  if (copyData) {
+    Object.keys(copyData).forEach(function(format) {
+      e.originalEvent.clipboardData.setData(format, copyData[format]);
+    });
+    e.originalEvent.preventDefault();
+    copyData = undefined;
+  }
+});
 
 var ide = new function() {
   // == private members ==
@@ -1574,7 +1587,10 @@ var ide = new function() {
       }
       function copyHandler(text) {
         return function() {
-          copy(text);
+          copyData = {
+            "text/plain": text
+          };
+          document.execCommand("copy");
           return false;
         };
       }
