@@ -10,6 +10,7 @@ import moment from "moment";
 import tokml from "tokml";
 import togpx from "togpx";
 import {saveAs} from "file-saver";
+import copy from "copy-to-clipboard";
 
 import "canvas-toBlob"; // polyfill
 import configs from "./configs";
@@ -1563,17 +1564,25 @@ var ide = new function() {
           .replace(/!/g, "%21")
           .replace(/\(/g, "%28")
           .replace(/\)/g, "%29");
-      $("#export-dialog a#export-text")[0].href =
-        "data:text/plain;charset=" +
-        (document.characterSet || document.charset) +
-        ";base64," +
-        Base64.encode(query, true);
+      function toDataURL(text) {
+        return (
+          "data:text/plain;charset=" +
+          (document.characterSet || document.charset) +
+          ";base64," +
+          Base64.encode(text, true)
+        );
+      }
+      function copyHandler(text) {
+        return function() {
+          copy(text);
+          return false;
+        };
+      }
+      $("#export-dialog a#export-text").attr("href", toDataURL(query));
+      $("#export-dialog a#copy-text").click(copyHandler(query));
       var query_raw = ide.getRawQuery();
-      $("#export-dialog a#export-text-raw")[0].href =
-        "data:text/plain;charset=" +
-        (document.characterSet || document.charset) +
-        ";base64," +
-        Base64.encode(query_raw, true);
+      $("#export-dialog a#export-text-raw").attr("href", toDataURL(query_raw));
+      $("#export-dialog a#copy-text-raw").click(copyHandler(query_raw));
       var query_wiki =
         "{{OverpassTurboExample|loc=" +
         L.Util.formatNum(ide.map.getCenter().lat) +
@@ -1594,11 +1603,11 @@ var ide = new function() {
         .replace(/\|/g, "{{!}}")
         .replace(/{{!}}{{!}}/g, "{{!!}}");
       query_wiki += "\n}}";
-      $("#export-dialog a#export-text-wiki")[0].href =
-        "data:text/plain;charset=" +
-        (document.characterSet || document.charset) +
-        ";base64," +
-        Base64.encode(query_wiki, true);
+      $("#export-dialog a#export-text-wiki").attr(
+        "href",
+        toDataURL(query_wiki)
+      );
+      $("#export-dialog a#copy-text-wiki").click(copyHandler(query_wiki));
 
       var dialog_buttons = {};
       dialog_buttons[i18n.t("dialog.done")] = function() {
