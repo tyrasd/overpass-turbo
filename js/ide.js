@@ -28,12 +28,15 @@ import {Base64, htmlentities, lzw_encode} from "./misc";
 // @see https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
 var copyData = undefined;
 $(document).on("copy", function(e) {
-  if (copyData) {
+  if (copyData && e.originalEvent && e.originalEvent.clipboardData) {
     Object.keys(copyData).forEach(function(format) {
       e.originalEvent.clipboardData.setData(format, copyData[format]);
     });
     e.originalEvent.preventDefault();
     copyData = undefined;
+  } else if (copyData && copyData["text/plain"]) {
+    prompt(i18n.t("export.copy_to_clipboard"), copyData["text/plain"]);
+    copyData = null;
   }
 });
 

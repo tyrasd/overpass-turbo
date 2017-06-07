@@ -70,6 +70,7 @@
   "load.no_saved_query": "no saved query yet",
 
   "export.title": "Export",
+  "export.copy_to_clipboard": "Copy this text to clipbard",
 
   "export.section.map": "Map",
   "export.as_png": "as <a id=\"export-image\" href=\"\">png image</a>",
