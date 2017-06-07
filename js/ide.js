@@ -1597,11 +1597,26 @@ var ide = new function() {
           return false;
         };
       }
-      $("#export-dialog a#export-text").attr("href", toDataURL(query));
-      $("#export-dialog a#copy-text").click(copyHandler(query));
+      // export query
+      $("#export-text .format").html(i18n.t("export.format_text"));
+      $("#export-text .export").attr({
+        download: "query.txt",
+        target: "_blank",
+        href: toDataURL(query)
+      });
+      $("#export-text .copy").attr("href", "").click(copyHandler(query));
+      // export raw query
       var query_raw = ide.getRawQuery();
-      $("#export-dialog a#export-text-raw").attr("href", toDataURL(query_raw));
-      $("#export-dialog a#copy-text-raw").click(copyHandler(query_raw));
+      $("#export-text_raw .format").html(i18n.t("export.format_text_raw"));
+      $("#export-text_raw .export").attr({
+        download: "query-raw.txt",
+        target: "_blank",
+        href: toDataURL(query_raw)
+      });
+      $("#export-text_raw .copy")
+        .attr("href", "")
+        .click(copyHandler(query_raw));
+      // export wiki query
       var query_wiki =
         "{{OverpassTurboExample|loc=" +
         L.Util.formatNum(ide.map.getCenter().lat) +
@@ -1622,11 +1637,15 @@ var ide = new function() {
         .replace(/\|/g, "{{!}}")
         .replace(/{{!}}{{!}}/g, "{{!!}}");
       query_wiki += "\n}}";
-      $("#export-dialog a#export-text-wiki").attr(
-        "href",
-        toDataURL(query_wiki)
-      );
-      $("#export-dialog a#copy-text-wiki").click(copyHandler(query_wiki));
+      $("#export-text_wiki .format").html(i18n.t("export.format_text_wiki"));
+      $("#export-text_wiki .export").attr({
+        download: "query-wiki.txt",
+        target: "_blank",
+        href: toDataURL(query_wiki)
+      });
+      $("#export-text_wiki .copy")
+        .attr("href", "")
+        .click(copyHandler(query_wiki));
 
       var dialog_buttons = {};
       dialog_buttons[i18n.t("dialog.done")] = function() {
@@ -1757,7 +1776,9 @@ var ide = new function() {
         }
         return geoJSON_str;
       }
-      $("#export-dialog a#export-geoJSON")
+      $("#export-geoJSON .format").text("GeoJSON");
+      $("#export-geoJSON .export")
+        .attr("href", "")
         .unbind("click")
         .on("click", function() {
           var geoJSON_str = constructGeojsonString(overpass.geojson);
@@ -1783,7 +1804,7 @@ var ide = new function() {
           }
           return false;
         });
-      $("#export-dialog a#copy-geoJSON").click(function() {
+      $("#export-geoJSON .copy").attr("href", "").click(function() {
         if (overpass.geojson) {
           var geojson = constructGeojsonString(overpass.geojson);
           copyData = {
@@ -1884,31 +1905,35 @@ var ide = new function() {
         }
         return gpx_str;
       }
-      $("#export-dialog a#export-GPX").unbind("click").on("click", function() {
-        var geojson = overpass.geojson;
-        var gpx_str = constructGpxString(geojson);
-        // make content downloadable as file
-        if (geojson) {
-          var blob = new Blob([gpx_str], {
-            type: "application/xml;charset=utf-8"
-          });
-          saveAs(blob, "export.gpx");
-        } else {
-          var d = $("#export-gpx-dialog");
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-            $(this).dialog("close");
-          };
-          d.dialog({
-            modal: true,
-            width: 500,
-            buttons: dialog_buttons
-          });
-          $(".message", d).text(gpx_str);
-        }
-        return false;
-      });
-      $("#export-dialog a#copy-GPX").click(function() {
+      $("#export-GPX .format").text("GPX");
+      $("#export-GPX .export")
+        .attr("href", "")
+        .unbind("click")
+        .on("click", function() {
+          var geojson = overpass.geojson;
+          var gpx_str = constructGpxString(geojson);
+          // make content downloadable as file
+          if (geojson) {
+            var blob = new Blob([gpx_str], {
+              type: "application/xml;charset=utf-8"
+            });
+            saveAs(blob, "export.gpx");
+          } else {
+            var d = $("#export-gpx-dialog");
+            var dialog_buttons = {};
+            dialog_buttons[i18n.t("dialog.dismiss")] = function() {
+              $(this).dialog("close");
+            };
+            d.dialog({
+              modal: true,
+              width: 500,
+              buttons: dialog_buttons
+            });
+            $(".message", d).text(gpx_str);
+          }
+          return false;
+        });
+      $("#export-GPX .copy").attr("href", "").click(function() {
         if (overpass.geojson) {
           var gpx = constructGpxString(overpass.geojson);
           copyData = {
@@ -1937,31 +1962,35 @@ var ide = new function() {
           });
         }
       }
-      $("#export-dialog a#export-KML").unbind("click").on("click", function() {
-        var geojson = overpass.geojson;
-        var kml_str = constructKmlString(geojson);
-        // make content downloadable as file
-        if (geojson) {
-          var blob = new Blob([kml_str], {
-            type: "application/xml;charset=utf-8"
-          });
-          saveAs(blob, "export.kml");
-        } else {
-          var d = $("#export-kml-dialog");
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-            $(this).dialog("close");
-          };
-          d.dialog({
-            modal: true,
-            width: 500,
-            buttons: dialog_buttons
-          });
-          $(".message", d).text(kml_str);
-        }
-        return false;
-      });
-      $("#export-dialog a#copy-KML").click(function() {
+      $("#export-KML .format").text("KML");
+      $("#export-KML .export")
+        .attr("href", "")
+        .unbind("click")
+        .on("click", function() {
+          var geojson = overpass.geojson;
+          var kml_str = constructKmlString(geojson);
+          // make content downloadable as file
+          if (geojson) {
+            var blob = new Blob([kml_str], {
+              type: "application/xml;charset=utf-8"
+            });
+            saveAs(blob, "export.kml");
+          } else {
+            var d = $("#export-kml-dialog");
+            var dialog_buttons = {};
+            dialog_buttons[i18n.t("dialog.dismiss")] = function() {
+              $(this).dialog("close");
+            };
+            d.dialog({
+              modal: true,
+              width: 500,
+              buttons: dialog_buttons
+            });
+            $(".message", d).text(kml_str);
+          }
+          return false;
+        });
+      $("#export-KML .copy").attr("href", "").click(function() {
         if (overpass.geojson) {
           var kml = constructKmlString(overpass.geojson);
           copyData = {
