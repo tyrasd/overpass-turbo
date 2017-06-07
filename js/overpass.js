@@ -24,8 +24,7 @@ var overpass = new function() {
     var name = arguments[0];
     if (typeof overpass.handlers[name] != "function") return undefined;
     var handler_args = [];
-    for (var i = 1; i < arguments.length; i++)
-      handler_args.push(arguments[i]);
+    for (var i = 1; i < arguments.length; i++) handler_args.push(arguments[i]);
     return overpass.handlers[name].apply({}, handler_args);
   };
 
@@ -398,7 +397,8 @@ var overpass = new function() {
                       latlng = layer.getLatLng();
                       break;
                     case "MultiPolygon":
-                      var labelPolygon, bestVal = -Infinity;
+                      var labelPolygon,
+                        bestVal = -Infinity;
                       layer.getLayers().forEach(function(layer) {
                         var size = layer
                           .getBounds()
@@ -434,7 +434,8 @@ var overpass = new function() {
                       );
                       break;
                     case "MultiLineString":
-                      var labelLayer, bestVal = -Infinity;
+                      var labelLayer,
+                        bestVal = -Infinity;
                       layer.getLayers().forEach(function(layer) {
                         var size = layer
                           .getBounds()
@@ -868,11 +869,8 @@ var overpass = new function() {
                     lines: 0,
                     pois: 0
                   };
-                  for (
-                    var i = 0;
-                    i < geojson.features.length;
-                    i++
-                  ) switch (geojson.features[i].geometry.type) {
+                  for (var i = 0; i < geojson.features.length; i++)
+                    switch (geojson.features[i].geometry.type) {
                       case "Polygon":
                       case "MultiPolygon":
                         stats.geojson.polys++;

@@ -1,6 +1,7 @@
 /* Downloads the latest translations from Transifex */
 
-var request = require("request"), fs = require("fs");
+var request = require("request"),
+  fs = require("fs");
 
 var api = "http://www.transifex.com/api/2/";
 var project = api + "project/overpass-turbo/";
@@ -76,7 +77,9 @@ function getLanguages(resource, callback) {
 }
 
 function asyncMap(inputs, func, callback) {
-  var remaining = inputs.length, results = [], error;
+  var remaining = inputs.length,
+    results = [],
+    error;
 
   inputs.forEach(function(d, i) {
     func(d, function done(err, data) {

@@ -1,6 +1,7 @@
 /* Downloads preset translations from iD editor github repo */
 
-var request = require("request"), fs = require("fs");
+var request = require("request"),
+  fs = require("fs");
 
 var api = "https://github.com/openstreetmap/iD/raw/master/dist/locales/";
 var outdir = "./data/";

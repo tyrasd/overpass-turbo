@@ -250,8 +250,7 @@ var ide = new function() {
         keywords: (function(str) {
           var r = {};
           var a = str.split(" ");
-          for (var i = 0; i < a.length; i++)
-            r[a[i]] = true;
+          for (var i = 0; i < a.length; i++) r[a[i]] = true;
           return r;
         })(
           "out json xml custom popup timeout maxsize bbox" + // initial declarations
@@ -1760,7 +1759,8 @@ var ide = new function() {
               "@id": f.id
             };
             // escapes tags beginning with an @ with another @
-            for (var m in p.tags || {}) f.properties[m.replace(/^@/, "@@")] = p.tags[m];
+            for (var m in p.tags || {})
+              f.properties[m.replace(/^@/, "@@")] = p.tags[m];
             for (var m in p.meta || {}) f.properties["@" + m] = p.meta[m];
             // expose internal properties:
             // * tainted: indicates that the feature's geometry is incomplete
@@ -1951,12 +1951,13 @@ var ide = new function() {
         else {
           return tokml(geojson, {
             documentName: "overpass-turbo.eu export",
-            documentDescription: "Filtered OSM data converted to KML by overpass turbo.\n" +
-              "Copyright: " +
-              overpass.copyright +
-              "\n" +
-              "Timestamp: " +
-              overpass.timestamp,
+            documentDescription:
+              "Filtered OSM data converted to KML by overpass turbo.\n" +
+                "Copyright: " +
+                overpass.copyright +
+                "\n" +
+                "Timestamp: " +
+                overpass.timestamp,
             name: "name",
             description: "description"
           });
@@ -2131,9 +2132,10 @@ var ide = new function() {
                 if (d.protocolversion.major == 1) {
                   $.get(JRC_url + "import", {
                     // JOSM doesn't handle protocol-less links very well
-                    url: server.replace(/^\/\//, location.protocol + "//") +
-                      "interpreter?data=" +
-                      encodeURIComponent(query)
+                    url:
+                      server.replace(/^\/\//, location.protocol + "//") +
+                        "interpreter?data=" +
+                        encodeURIComponent(query)
                   })
                     .error(function(xhr, s, e) {
                       alert("Error: Unexpected JOSM remote control error.");
