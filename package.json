@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "canvas-toBlob": "^1.0.0",
+    "canvg": "https://github.com/canvg/canvg/archive/v1.4.tar.gz",
     "codemirror": "https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz",
     "file-saver": "^1.3.3",
     "html2canvas": "^0.5.0-beta4",

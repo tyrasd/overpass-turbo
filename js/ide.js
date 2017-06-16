@@ -3,6 +3,8 @@ import $ from "jquery";
 import _ from "lodash";
 import jQuery from "jquery";
 import html2canvas from "html2canvas";
+import rgbcolor from "canvg/rgbcolor";
+import canvg from "canvg";
 import "./promise-polyfill";
 import L from "leaflet";
 import CodeMirror from "codemirror/lib/codemirror.js";
