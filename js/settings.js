@@ -81,22 +81,28 @@ function Settings(namespace, version) {
 // examples
 var examples = {
   "Drinking Water": {
-    overpass: "/*\nThis is an example Overpass query.\nTry it out by pressing the Run button above!\nYou can find more examples with the Load tool.\n*/\nnode\n  [amenity=drinking_water]\n  ({{bbox}});\nout;"
+    overpass:
+      "/*\nThis is an example Overpass query.\nTry it out by pressing the Run button above!\nYou can find more examples with the Load tool.\n*/\nnode\n  [amenity=drinking_water]\n  ({{bbox}});\nout;"
   },
   "Cycle Network": {
-    overpass: "/*\nThis shows the cycleway and cycleroute network.\n*/\n\n[out:json];\n\n(\n  // get cycle route relatoins\n  relation[route=bicycle]({{bbox}})->.cr;\n  // get cycleways\n  way[highway=cycleway]({{bbox}});\n  way[highway=path][bicycle=designated]({{bbox}});\n);\n\nout body;\n>;\nout skel qt;"
+    overpass:
+      "/*\nThis shows the cycleway and cycleroute network.\n*/\n\n[out:json];\n\n(\n  // get cycle route relatoins\n  relation[route=bicycle]({{bbox}})->.cr;\n  // get cycleways\n  way[highway=cycleway]({{bbox}});\n  way[highway=path][bicycle=designated]({{bbox}});\n);\n\nout body;\n>;\nout skel qt;"
   },
   "Where am I?": {
-    overpass: "/*\nThis lists all areas which include the map center point.\n*/\n[out:json];\nis_in({{center}});\nout;"
+    overpass:
+      "/*\nThis lists all areas which include the map center point.\n*/\n[out:json];\nis_in({{center}});\nout;"
   },
   "Mountains in Area": {
-    overpass: '/*\nThis shows all mountains (peaks) in the Dolomites.\nYou may want to use the "zoom onto data" button. =>\n*/\n\n[out:json];\n\n// search the area of the Dolmites\narea\n  [place=region]\n  ["region:type"="mountain_area"]\n  ["name:en"="Dolomites"];\nout body;\n\n// get all peaks in the area\nnode\n  [natural=peak]\n  (area);\nout body qt;\n\n// additionally, show the outline of the area\nrelation\n  [place=region]\n  ["region:type"="mountain_area"]\n  ["name:en"="Dolomites"];\nout body;\n>;\nout skel qt;'
+    overpass:
+      '/*\nThis shows all mountains (peaks) in the Dolomites.\nYou may want to use the "zoom onto data" button. =>\n*/\n\n[out:json];\n\n// search the area of the Dolmites\narea\n  [place=region]\n  ["region:type"="mountain_area"]\n  ["name:en"="Dolomites"];\nout body;\n\n// get all peaks in the area\nnode\n  [natural=peak]\n  (area);\nout body qt;\n\n// additionally, show the outline of the area\nrelation\n  [place=region]\n  ["region:type"="mountain_area"]\n  ["name:en"="Dolomites"];\nout body;\n>;\nout skel qt;'
   },
   "Map Call": {
-    overpass: "/*\nThis is a simple map call.\nIt returns all data in the bounding box.\n*/\n[out:xml];\n(\n  node({{bbox}});\n  <;\n);\nout meta;"
+    overpass:
+      "/*\nThis is a simple map call.\nIt returns all data in the bounding box.\n*/\n[out:xml];\n(\n  node({{bbox}});\n  <;\n);\nout meta;"
   },
   "MapCSS styling": {
-    overpass: "/*\nThis example shows how the data can be styled.\nHere, some common amenities are displayed in \ndifferent colors.\n\nRead more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\n*/\n[out:json];\n\n(\n  node[amenity]({{bbox}});\n  way[amenity]({{bbox}});\n  relation[amenity]({{bbox}});\n);\nout body;\n>;\nout skel qt;\n\n{{style: /* this is the MapCSS stylesheet */\nnode, area\n{ color:gray; fill-color:gray; }\n\nnode[amenity=drinking_water],\nnode[amenity=fountain]\n{ color:blue; fill-color:blue; }\n\nnode[amenity=place_of_worship],\narea[amenity=place_of_worship]\n{ color:grey; fill-color:grey; }\n\nnode[amenity=~/(restaurant|hotel|cafe)/],\narea[amenity=~/(restaurant|hotel|cafe)/]\n{ color:red; fill-color:red; }\n\nnode[amenity=parking],\narea[amenity=parking]\n{ color:yellow; fill-color:yellow; }\n\nnode[amenity=bench]\n{ color:brown; fill-color:brown; }\n\nnode[amenity=~/(kindergarten|school|university)/],\narea[amenity=~/(kindergarten|school|university)/]\n{ color:green; fill-color:green; }\n}}"
+    overpass:
+      "/*\nThis example shows how the data can be styled.\nHere, some common amenities are displayed in \ndifferent colors.\n\nRead more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\n*/\n[out:json];\n\n(\n  node[amenity]({{bbox}});\n  way[amenity]({{bbox}});\n  relation[amenity]({{bbox}});\n);\nout body;\n>;\nout skel qt;\n\n{{style: /* this is the MapCSS stylesheet */\nnode, area\n{ color:gray; fill-color:gray; }\n\nnode[amenity=drinking_water],\nnode[amenity=fountain]\n{ color:blue; fill-color:blue; }\n\nnode[amenity=place_of_worship],\narea[amenity=place_of_worship]\n{ color:grey; fill-color:grey; }\n\nnode[amenity=~/(restaurant|hotel|cafe)/],\narea[amenity=~/(restaurant|hotel|cafe)/]\n{ color:red; fill-color:red; }\n\nnode[amenity=parking],\narea[amenity=parking]\n{ color:yellow; fill-color:yellow; }\n\nnode[amenity=bench]\n{ color:brown; fill-color:brown; }\n\nnode[amenity=~/(kindergarten|school|university)/],\narea[amenity=~/(kindergarten|school|university)/]\n{ color:green; fill-color:green; }\n}}"
   }
 };
 var examples_initial_example = "Drinking Water";
@@ -196,22 +202,26 @@ settings.define_upgrade_callback(22, function(s) {
   s.saves["key"] = {
     type: "template",
     parameters: ["key"],
-    overpass: '<!--\nthis query looks for nodes, ways and relations \nwith the given key.\n-->\n{{key=???}}\n<osm-script output="json">\n  <union>\n    <query type="node">\n      <has-kv k="{{key}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type="way">\n      <has-kv k="{{key}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type="relation">\n      <has-kv k="{{key}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n  </union>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
+    overpass:
+      '<!--\nthis query looks for nodes, ways and relations \nwith the given key.\n-->\n{{key=???}}\n<osm-script output="json">\n  <union>\n    <query type="node">\n      <has-kv k="{{key}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type="way">\n      <has-kv k="{{key}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type="relation">\n      <has-kv k="{{key}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n  </union>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
   };
   s.saves["key-type"] = {
     type: "template",
     parameters: ["key", "type"],
-    overpass: '<!--\nthis query looks for nodes, ways or relations \nwith the given key.\n-->\n{{key=???}}\n{{type=???}}\n<osm-script output="json">\n  <query type="{{type}}">\n    <has-kv k="{{key}}"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
+    overpass:
+      '<!--\nthis query looks for nodes, ways or relations \nwith the given key.\n-->\n{{key=???}}\n{{type=???}}\n<osm-script output="json">\n  <query type="{{type}}">\n    <has-kv k="{{key}}"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
   };
   s.saves["key-value"] = {
     type: "template",
     parameters: ["key", "value"],
-    overpass: '<!--\nthis query looks for nodes, ways and relations \nwith the given key/value combination.\n-->\n{{key=???}}\n{{value=???}}\n<osm-script output="json">\n  <union>\n    <query type="node">\n      <has-kv k="{{key}}" v="{{value}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type="way">\n      <has-kv k="{{key}}" v="{{value}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type="relation">\n      <has-kv k="{{key}}" v="{{value}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n  </union>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
+    overpass:
+      '<!--\nthis query looks for nodes, ways and relations \nwith the given key/value combination.\n-->\n{{key=???}}\n{{value=???}}\n<osm-script output="json">\n  <union>\n    <query type="node">\n      <has-kv k="{{key}}" v="{{value}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type="way">\n      <has-kv k="{{key}}" v="{{value}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n    <query type="relation">\n      <has-kv k="{{key}}" v="{{value}}"/>\n      <bbox-query {{bbox}}/>\n    </query>\n  </union>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
   };
   s.saves["key-value-type"] = {
     type: "template",
     parameters: ["key", "value", "type"],
-    overpass: '<!--\nthis query looks for nodes, ways or relations \nwith the given key/value combination.\n-->\n{{key=???}}\n{{value=???}}\n{{type=???}}\n<osm-script output="json">\n  <query type="{{type}}">\n    <has-kv k="{{key}}" v="{{value}}"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
+    overpass:
+      '<!--\nthis query looks for nodes, ways or relations \nwith the given key/value combination.\n-->\n{{key=???}}\n{{value=???}}\n{{type=???}}\n<osm-script output="json">\n  <query type="{{type}}">\n    <has-kv k="{{key}}" v="{{value}}"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
   };
   s.save();
 });
@@ -219,7 +229,8 @@ settings.define_upgrade_callback(23, function(s) {
   s.saves["type-id"] = {
     type: "template",
     parameters: ["type", "id"],
-    overpass: '<!--\nthis query looks for a node, way or relation \nwith the given id.\n-->\n{{type=???}}\n{{id=???}}\n<osm-script output="json">\n  <id-query type="{{type}}" ref="{{id}}"/>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
+    overpass:
+      '<!--\nthis query looks for a node, way or relation \nwith the given id.\n-->\n{{type=???}}\n{{id=???}}\n<osm-script output="json">\n  <id-query type="{{type}}" ref="{{id}}"/>\n  <print mode="body"/>\n  <recurse type="down"/>\n  <print mode="skeleton"/>\n</osm-script>'
   };
   s.save();
 });

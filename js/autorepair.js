@@ -133,7 +133,9 @@ export default function autorepair(q, lng) {
         var print = $("print", $.parseXML(prints[i])),
           mode = print.attr("mode"),
           geometry = print.attr("geometry");
-        var add = "", new_print, repaired = false;
+        var add = "",
+          new_print,
+          repaired = false;
         if (mode !== "meta") {
           print.attr("mode", "meta");
           repaired = true;
@@ -174,7 +176,9 @@ export default function autorepair(q, lng) {
       var prints = q.match(/(\.([^;.]+?)\s+)?(out[^:;"\]]*;)/g) || [];
       for (var i = 0; i < prints.length; i++) {
         var print = prints[i].match(/(\.([^;.]+?)\s+)?(out[^:;"\]]*;)/);
-        var out_statement = print[3], out_set = print[2], print = print[0];
+        var out_statement = print[3],
+          out_set = print[2],
+          print = print[0];
         var new_print = print;
         // non meta output
         if (

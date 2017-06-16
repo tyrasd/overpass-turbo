@@ -10,17 +10,21 @@ describe("ide.autorepair.josm", function() {
       {
         // basic case
         inp: '<osm-script output="json"></osm-script>',
-        outp: '<osm-script output="xml"><!-- fixed by auto repair --></osm-script>'
+        outp:
+          '<osm-script output="xml"><!-- fixed by auto repair --></osm-script>'
       },
       {
         // preserve other osm-script parameters
         inp: '<osm-script output="json" timeout="25"></osm-script>',
-        outp: '<osm-script output="xml" timeout="25"><!-- fixed by auto repair --></osm-script>'
+        outp:
+          '<osm-script output="xml" timeout="25"><!-- fixed by auto repair --></osm-script>'
       },
       {
         // more complex real world example
-        inp: '<osm-script output="json">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/>\n</osm-script>',
-        outp: '<osm-script output="xml"><!-- fixed by auto repair -->\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/>\n</osm-script>'
+        inp:
+          '<osm-script output="json">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/>\n</osm-script>',
+        outp:
+          '<osm-script output="xml"><!-- fixed by auto repair -->\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/>\n</osm-script>'
       }
     ];
     sinon.stub(ide, "getQueryLang").returns("xml");
@@ -56,8 +60,10 @@ describe("ide.autorepair.josm", function() {
       },
       {
         // more complex real world example
-        inp: '/*bla*/\n[out:json];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;',
-        outp: '/*bla*/\n[out:xml];/*fixed by auto repair*/\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;'
+        inp:
+          '/*bla*/\n[out:json];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;',
+        outp:
+          '/*bla*/\n[out:xml];/*fixed by auto repair*/\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;'
       }
     ];
     sinon.stub(ide, "getQueryLang").returns("OverpassQL");
@@ -84,12 +90,15 @@ describe("ide.autorepair.josm", function() {
       {
         // trivial case 2
         inp: '<osm-script output="xml"><print/></osm-script>',
-        outp: '<osm-script output="xml"><print mode="meta"/><!-- fixed by auto repair --></osm-script>'
+        outp:
+          '<osm-script output="xml"><print mode="meta"/><!-- fixed by auto repair --></osm-script>'
       },
       {
         // more complex real world example
-        inp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body" order="quadtile"/>\n</osm-script>',
-        outp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/><!-- fixed by auto repair -->\n</osm-script>'
+        inp:
+          '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body" order="quadtile"/>\n</osm-script>',
+        outp:
+          '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/><!-- fixed by auto repair -->\n</osm-script>'
       }
     ];
     sinon.stub(ide, "getQueryLang").returns("xml");
@@ -121,7 +130,8 @@ describe("ide.autorepair.josm", function() {
       {
         // non meta output mode
         inp: "out skel;out body;out ids;out tags;",
-        outp: "out meta;/*fixed by auto repair*/out meta;/*fixed by auto repair*/out meta;/*fixed by auto repair*/out meta;/*fixed by auto repair*/"
+        outp:
+          "out meta;/*fixed by auto repair*/out meta;/*fixed by auto repair*/out meta;/*fixed by auto repair*/out meta;/*fixed by auto repair*/"
       },
       {
         // combined with other output options
@@ -130,8 +140,10 @@ describe("ide.autorepair.josm", function() {
       },
       {
         // more complex real world example
-        inp: '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out qt;',
-        outp: '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;/*fixed by auto repair*/'
+        inp:
+          '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out qt;',
+        outp:
+          '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;/*fixed by auto repair*/'
       }
     ];
     sinon.stub(ide, "getQueryLang").returns("OverpassQL");
@@ -153,27 +165,32 @@ describe("ide.autorepair.josm", function() {
       {
         // center geometry
         inp: '<print mode="meta" geometry="center"/>',
-        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+        outp:
+          '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
       },
       {
         // bounds geometry
         inp: '<print mode="meta" geometry="bounds"/>',
-        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+        outp:
+          '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
       },
       {
         // full geometry
         inp: '<print mode="meta" geometry="full"/>',
-        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+        outp:
+          '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
       },
       {
         // full geometry with from output mode
         inp: '<print mode="body" geometry="full"/>',
-        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+        outp:
+          '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
       },
       {
         // full geometry with named input set
         inp: '<print from="foo" mode="meta" geometry="full"/>',
-        outp: '<union into="foo"><item set="foo"/><recurse from="foo" type="down"/></union><print from="foo" mode="meta"/><!-- fixed by auto repair -->'
+        outp:
+          '<union into="foo"><item set="foo"/><recurse from="foo" type="down"/></union><print from="foo" mode="meta"/><!-- fixed by auto repair -->'
       }
     ];
     sinon.stub(ide, "getQueryLang").returns("xml");
