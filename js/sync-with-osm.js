@@ -59,7 +59,8 @@ function loadQueries(callback) {
     function(err, res) {
       if (err) return callback(err);
 
-      var pref_count = 0, cnt_elem;
+      var pref_count = 0,
+        cnt_elem;
       if (
         (cnt_elem = res.querySelector(
           'preference[k="' + configs.appname + '_query-count"]'
