@@ -1547,6 +1547,7 @@ var ide = new function() {
   };
   this.onLogoutClick = function() {
     sync.logout();
+    $("#load-dialog ul.osm").html("");
     $("a#logout").hide();
   };
   this.onRunClick = function() {
