@@ -221,6 +221,7 @@
 
   "dialog.delete_query.title": "Delete Query?",
   "dialog.delete_query.expl": "Do you really want to delete the following query",
+  "dialog.delete_query.expl-osm": "Do you really want to delete the following synchronized query",
 
   "error.query.title": "Query Error",
   "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",

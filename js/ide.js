@@ -168,8 +168,7 @@ var ide = new function() {
 
     if (sync.enabled) {
       $("#load-dialog .osm").show();
-      if (sync.authenticated())
-        $("a#logout").show();
+      if (sync.authenticated()) $("a#logout").show();
     }
   };
 
@@ -1367,6 +1366,35 @@ var ide = new function() {
       buttons: dialog_buttons
     });
   };
+  this.removeExampleSync = function(query, self) {
+    var dialog_buttons = {};
+    dialog_buttons[i18n.t("dialog.delete")] = function() {
+      sync.delete(
+        query.name,
+        function(err) {
+          if (err) return console.error(err);
+
+          $(self).parent().remove();
+          $(this).dialog("close");
+        }.bind(this)
+      );
+    };
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {
+      $(this).dialog("close");
+    };
+    $(
+      '<div title="' +
+        i18n.t("dialog.delete_query.title") +
+        '"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
+        i18n.t("dialog.delete_query.expl-osm") +
+        ": &quot;<i>" +
+        query.name +
+        "</i>&quot;?</p></div>"
+    ).dialog({
+      modal: true,
+      buttons: dialog_buttons
+    });
+  };
 
   // Event handlers
   this.onLoadClick = function() {
@@ -1427,45 +1455,39 @@ var ide = new function() {
             $("a#logout").show();
             queries.forEach(function(q) {
               $("<li></li>")
-              .append(
-                $('<a href="#">' + q.name + "</a>").on(
-                  "click",
-                  (function(query) {
-                    return function() {
-                      ide.setQuery(
-                        lzw_decode(Base64.decode(query.query))
-                      )
-                      $(this).parents(".ui-dialog-content").dialog("close");
-                      return false;
-                    };
-                  })(q)
-                ),
-                $(
-                  '<a href="#" title="' +
-                    i18n.t("load.delete_query") +
-                    '" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'
-                ).on(
-                  "click",
-                  (function(query) {
-                    return function() {
-                      sync.delete(query.name, function(err) {
-                        if (err) return console.error(err);
-                        $(self).parent().remove();
-                        $(this).dialog("close");
-                      });
-                      return false;
-                    };
-                  })(q)
+                .append(
+                  $('<a href="#">' + q.name + "</a>").on(
+                    "click",
+                    (function(query) {
+                      return function() {
+                        ide.setQuery(lzw_decode(Base64.decode(query.query)));
+                        $(this).parents(".ui-dialog-content").dialog("close");
+                        return false;
+                      };
+                    })(q)
+                  ),
+                  $(
+                    '<a href="#" title="' +
+                      i18n.t("load.delete_query") +
+                      '" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'
+                  ).on(
+                    "click",
+                    (function(example) {
+                      return function() {
+                        ide.removeExampleSync(example, this);
+                        return false;
+                      };
+                    })(q)
+                  )
                 )
-              )
-              .appendTo("#load-dialog ul.osm");
+                .appendTo("#load-dialog ul.osm");
             });
           });
         }
       }
     });
     $("#load-dialog").accordion({
-      active: sync.authenticated() ? 1 : (has_saved_query ? 0 : 2),
+      active: sync.authenticated() ? 1 : has_saved_query ? 0 : 2
     });
   };
   this.onSaveClick = function() {
@@ -1479,15 +1501,18 @@ var ide = new function() {
       dialog_buttons[i18n.t("dialog.save-osm")] = function() {
         var self = this;
         var name = $("input[name=save]", this)[0].value;
-        var query = ide.compose_share_link(ide.getRawQuery(),true).slice(3);
-        sync.save({
-          name: name,
-          query: query
-        }, function(err, new_queries) {
-          if (err) return console.error(err);
-          $("a#logout").show();
-          $(self).dialog("close");
-        });
+        var query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
+        sync.save(
+          {
+            name: name,
+            query: query
+          },
+          function(err, new_queries) {
+            if (err) return console.error(err);
+            $("a#logout").show();
+            $(self).dialog("close");
+          }
+        );
       };
     }
     dialog_buttons[i18n.t("dialog.save-local")] = function() {
@@ -1510,7 +1535,7 @@ var ide = new function() {
   this.onLogoutClick = function() {
     sync.logout();
     $("a#logout").hide();
-  }
+  };
   this.onRunClick = function() {
     ide.update_map();
   };
