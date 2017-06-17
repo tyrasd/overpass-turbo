@@ -1448,10 +1448,18 @@ var ide = new function() {
     $("#load-dialog").accordion({
       beforeActivate: function(event, ui) {
         if (ui.newHeader.attr("id").slice(-1) == 1) {
-          $("ul", ui.newPanel).html("");
+          $("ul", ui.newPanel).html(
+            "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
+          );
 
           sync.load(function(err, queries) {
-            if (err) return console.error(err);
+            if (err) {
+              $("ul", ui.newPanel).html(
+                "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
+              );
+              return console.error(err);
+            }
+            $("ul", ui.newPanel).html("");
             $("a#logout").show();
             queries.forEach(function(q) {
               $("<li></li>")
@@ -1484,11 +1492,16 @@ var ide = new function() {
             });
           });
         }
-      }
+      },
+      active: 0,
+      animate: false
     });
-    $("#load-dialog").accordion({
-      active: sync.authenticated() ? 1 : has_saved_query ? 0 : 2
-    });
+    $("#load-dialog").accordion(
+      "option",
+      "active",
+      sync.authenticated() ? 1 : has_saved_query ? 0 : 2
+    );
+    $("#load-dialog").accordion("option", "animate", true);
   };
   this.onSaveClick = function() {
     // combobox for existing saves.

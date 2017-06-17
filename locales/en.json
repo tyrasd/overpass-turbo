@@ -70,6 +70,8 @@
   "load.delete_query": "delete this query",
   "load.saved_queries-local": "Saved Queries (local)",
   "load.saved_queries-osm": "Saved Queries (osm.org)",
+  "load.saved_queries-osm-loading": "Loading saved queries from osm.org...",
+  "load.saved_queries-osm-error": "An error occured while loading saved queries from osm.org :(",
   "load.examples": "Examples",
   "load.no_saved_query": "no saved query yet",
 
