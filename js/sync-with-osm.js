@@ -1,7 +1,7 @@
 import osmAuth from "osm-auth";
 import configs from "./configs";
 
-const enabled =
+var enabled =
   configs.osmAuth &&
   configs.osmAuth.oauth_consumer_key &&
   configs.osmAuth.oauth_secret;
