@@ -76,6 +76,7 @@
   "load.no_saved_query": "no saved query yet",
 
   "export.title": "Export",
+  "export.copy_to_clipboard": "Copy this text to clipbard",
 
   "export.section.map": "Map",
   "export.as_png": "as <a id=\"export-image\" href=\"\">png image</a>",
@@ -84,17 +85,15 @@
   "export.map_view_expl": "bbox, center, etc.",
 
   "export.section.data": "Data",
-  "export.as_geoJSON": "as <a id=\"export-geoJSON\" href=\"\">geoJSON</a>",
-  "export.as_GPX": "as <a id=\"export-GPX\" href=\"\">GPX</a>",
-  "export.as_KML": "as <a id=\"export-KML\" href=\"\">KML</a>",
+  "export.generic_download_copy": "<a class=\"export\" title=\"saves the exported data as a file\">download</a>/<a class=\"copy\" title=\"copies export output to clipboard\">copy</a> as <span class=\"format\"></span>",
   "export.raw": "raw <a id=\"export-raw\" href=\"\">data</a>",
   "export.raw_interpreter": "raw data directly from <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
   "export.save_geoJSON_gist": "save GeoJSON to <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
 
   "export.section.query": "Query",
-  "export.as_text": "as <a id=\"export-text\" href=\"\" download=\"query.txt\" target=\"_blank\">text</a> (<abbr title=\"For direct use with the Overpass API, has expanded shortcuts and doesn't include additional overpass turbo features such as MapCSS.\">standalone query</abbr>)",
-  "export.as_text_raw": "as <a id=\"export-text-raw\" href=\"\" download=\"query-raw.txt\" target=\"_blank\">text</a> (<abbr title=\"Unaltered overpass turbo query – just as in the code editor\">raw query</abbr>)",
-  "export.as_text_wiki": "as <a id=\"export-text-wiki\" href=\"\" download=\"query-wiki.txt\" target=\"_blank\">text</a> (<abbr title=\"For usage in the OSM wiki as a OverpassTurboExample-Template\">osm wiki</abbr>)",
+  "export.format_text": "<abbr title=\"For direct use with the Overpass API, has expanded shortcuts and doesn't include additional overpass turbo features such as MapCSS.\">standalone query</abbr>",
+  "export.format_text_raw": "<abbr title=\"Unaltered overpass turbo query – just as in the code editor\">raw query</abbr>",
+  "export.format_text_wiki": "<abbr title=\"For usage in the OSM wiki as a OverpassTurboExample-Template\">osm wiki</abbr>",
   "export.to_xml": "convert to <a id=\"export-convert-xml\" href=\"\" target=\"_blank\" class=\"external\">Overpass-XML</a>",
   "export.to_ql": "convert to (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>) <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL</a>",
   "export.editors": "load data into an OSM editor:",
