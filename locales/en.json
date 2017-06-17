@@ -16,6 +16,9 @@
   "nav.help": "Help",
   "nav.help_tt": "help, about and attributions",
 
+  "nav.logout": "Logout",
+  "nav.logout_tt": "logout from currently synced osm account",
+
   "tabs.map": "Map",
   "tabs.map_tt": "map view",
   "tabs.data": "Data",
@@ -65,7 +68,10 @@
 
   "load.title": "Load",
   "load.delete_query": "delete this query",
-  "load.saved_queries": "Saved Queries",
+  "load.saved_queries-local": "Saved Queries (local)",
+  "load.saved_queries-osm": "Saved Queries (osm.org)",
+  "load.saved_queries-osm-loading": "Loading saved queries from osm.org...",
+  "load.saved_queries-osm-error": "An error occured while loading saved queries from osm.org :(",
   "load.examples": "Examples",
   "load.no_saved_query": "no saved query yet",
 
@@ -203,6 +209,8 @@
   "dialog.dismiss": "dismiss",
   "dialog.cancel": "cancel",
   "dialog.save": "save",
+  "dialog.save-local": "save (local)",
+  "dialog.save-osm": "save on osm.org",
   "dialog.delete": "delete",
   "dialog.close": "close",
   "dialog.done": "done",
@@ -215,6 +223,7 @@
 
   "dialog.delete_query.title": "Delete Query?",
   "dialog.delete_query.expl": "Do you really want to delete the following query",
+  "dialog.delete_query.expl-osm": "Do you really want to delete the following synchronized query",
 
   "error.query.title": "Query Error",
   "error.query.expl": "An error occured during the execution of the overpass query! This is what overpass API returned:",

@@ -12,7 +12,6 @@ import moment from "moment";
 import tokml from "tokml";
 import togpx from "togpx";
 import {saveAs} from "file-saver";
-
 import "canvas-toBlob"; // polyfill
 import configs from "./configs";
 import Query from "./query";
@@ -23,7 +22,8 @@ import settings from "./settings";
 import overpass from "./overpass";
 import urlParameters from "./urlParameters";
 import Autorepair from "./autorepair";
-import {Base64, htmlentities, lzw_encode} from "./misc";
+import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
+import sync from "./sync-with-osm";
 
 var ide = new function() {
   // == private members ==
@@ -167,6 +167,11 @@ var ide = new function() {
     i18n.translate().then(function() {
       initAfterI18n.call(me);
     });
+
+    if (sync.enabled) {
+      $("#load-dialog .osm").show();
+      if (sync.authenticated()) $("a#logout").show();
+    }
   };
 
   function initAfterI18n() {
@@ -1362,10 +1367,39 @@ var ide = new function() {
       buttons: dialog_buttons
     });
   };
+  this.removeExampleSync = function(query, self) {
+    var dialog_buttons = {};
+    dialog_buttons[i18n.t("dialog.delete")] = function() {
+      sync.delete(
+        query.name,
+        function(err) {
+          if (err) return console.error(err);
+
+          $(self).parent().remove();
+          $(this).dialog("close");
+        }.bind(this)
+      );
+    };
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {
+      $(this).dialog("close");
+    };
+    $(
+      '<div title="' +
+        i18n.t("dialog.delete_query.title") +
+        '"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
+        i18n.t("dialog.delete_query.expl-osm") +
+        ": &quot;<i>" +
+        query.name +
+        "</i>&quot;?</p></div>"
+    ).dialog({
+      modal: true,
+      buttons: dialog_buttons
+    });
+  };
 
   // Event handlers
   this.onLoadClick = function() {
-    $("#load-dialog ul").html(""); // reset example lists
+    $("#load-dialog ul.saved_query, #load-dialog ul.example").html(""); // reset example lists
     // load example list
     var has_saved_query = false;
     for (var example in settings.saves) {
@@ -1412,7 +1446,63 @@ var ide = new function() {
       modal: true,
       buttons: dialog_buttons
     });
-    $("#load-dialog").accordion({active: has_saved_query ? 0 : 1});
+    $("#load-dialog").accordion({
+      beforeActivate: function(event, ui) {
+        if (ui.newHeader.attr("id").slice(-1) == 1) {
+          $("ul", ui.newPanel).html(
+            "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
+          );
+
+          sync.load(function(err, queries) {
+            if (err) {
+              $("ul", ui.newPanel).html(
+                "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
+              );
+              return console.error(err);
+            }
+            $("ul", ui.newPanel).html("");
+            $("a#logout").show();
+            queries.forEach(function(q) {
+              $("<li></li>")
+                .append(
+                  $('<a href="#">' + q.name + "</a>").on(
+                    "click",
+                    (function(query) {
+                      return function() {
+                        ide.setQuery(lzw_decode(Base64.decode(query.query)));
+                        $(this).parents(".ui-dialog-content").dialog("close");
+                        return false;
+                      };
+                    })(q)
+                  ),
+                  $(
+                    '<a href="#" title="' +
+                      i18n.t("load.delete_query") +
+                      '" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'
+                  ).on(
+                    "click",
+                    (function(example) {
+                      return function() {
+                        ide.removeExampleSync(example, this);
+                        return false;
+                      };
+                    })(q)
+                  )
+                )
+                .appendTo("#load-dialog ul.osm");
+            });
+          });
+        }
+      },
+      active: 0,
+      animate: false
+    });
+    $("#load-dialog").accordion(
+      "option",
+      "active",
+      sync.authenticated() ? 1 : has_saved_query ? 0 : 2
+    );
+    $("#load-dialog").accordion("option", "animate", true);
   };
   this.onSaveClick = function() {
     // combobox for existing saves.
@@ -1421,7 +1511,25 @@ var ide = new function() {
       if (settings.saves[key].type != "template") saves_names.push(key);
     make_combobox($("#save-dialog input[name=save]"), saves_names);
     var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.save")] = function() {
+    if (sync.enabled) {
+      dialog_buttons[i18n.t("dialog.save-osm")] = function() {
+        var self = this;
+        var name = $("input[name=save]", this)[0].value;
+        var query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
+        sync.save(
+          {
+            name: name,
+            query: query
+          },
+          function(err, new_queries) {
+            if (err) return console.error(err);
+            $("a#logout").show();
+            $(self).dialog("close");
+          }
+        );
+      };
+    }
+    dialog_buttons[i18n.t("dialog.save-local")] = function() {
       var name = $("input[name=save]", this)[0].value;
       settings.saves[htmlentities(name)] = {
         overpass: ide.getRawQuery(),
@@ -1437,6 +1545,11 @@ var ide = new function() {
       modal: true,
       buttons: dialog_buttons
     });
+  };
+  this.onLogoutClick = function() {
+    sync.logout();
+    $("#load-dialog ul.osm").html("");
+    $("a#logout").hide();
   };
   this.onRunClick = function() {
     ide.update_map();
