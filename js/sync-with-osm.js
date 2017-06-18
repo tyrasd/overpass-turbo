@@ -70,12 +70,11 @@ function loadQueries(callback) {
 
       var result = [];
       for (var i = 0; i < pref_count; i++) {
-        var first_chunk = res
-          .querySelector(
-            'preference[k="' + configs.appname + "_query_" + i + '_0"]'
-          )
-          .getAttribute("v")
-          .split("&");
+        var pref_elem = res.querySelector(
+          'preference[k="' + configs.appname + "_query_" + i + '_0"]'
+        );
+        if (!pref_elem) continue;
+        var first_chunk = pref_elem.getAttribute("v").split("&");
         var length = +first_chunk[0].slice(2);
         var name = first_chunk[1].slice(2);
         var query = first_chunk[2].slice(2);
@@ -133,7 +132,8 @@ function saveQuery(new_query, callback) {
     new_elem.setAttribute("k", configs.appname + "_query-count");
     new_elem.setAttribute("v", existing_queries.length);
     preferences.appendChild(new_elem);
-    existing_queries.forEach(function(q, i) {
+    for (var i = 0; i < existing_queries.length; i++) {
+      var q = existing_queries[i];
       if (q.name.length > 200)
         return callback(
           new Error("query name too long to be saved on osm.org")
@@ -153,7 +153,7 @@ function saveQuery(new_query, callback) {
         new_elem.setAttribute("v", queryStr[j]);
         preferences.appendChild(new_elem);
       }
-    });
+    }
     // upload to osm.org
     auth.xhr(
       {
