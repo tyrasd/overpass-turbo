@@ -1,7 +1,8 @@
-2017-06-__
+2017-06-25
 ----------
 * add possibility to sync (save/load) queries on your account on osm.org 😎
 * many export tools now have a possibility to copy the data/content into the clipboard (additionally to saving/downloading as a file), thanks @simon04
+* link to mapillary and wikimedia_commons content in popups
 * fix regression: exporting map as png image now works again
 
 2017-05-28
