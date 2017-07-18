@@ -33,8 +33,8 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
         var bounds = o.obj.getBounds();
         var p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
         var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
-        var d = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-        if (d > this.options.threshold || is_max_zoom) {
+        var d = Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+        if (d > Math.pow(this.options.threshold, 2) || is_max_zoom) {
           delete o.obj.placeholder;
           this.addLayer(o.obj);
           this.removeLayer(o);
@@ -46,8 +46,8 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
       var bounds = o.getBounds();
       var p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
       var p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
-      var d = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
-      if (d > this.options.threshold) return;
+      var d = Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+      if (d > Math.pow(this.options.threshold, 2)) return;
       /*var c = this.options.pointToLayer ? 
                 this.options.pointToLayer(o.feature, bounds.getCenter()) : 
                 new L.Marker(bounds.getCenter());*/
