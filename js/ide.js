@@ -2118,7 +2118,7 @@ var ide = new function() {
         return false;
       });
       // RAW format
-      $("#export-dialog a#export-raw").unbind("click").on("click", function() {
+      function constructRawData(geojson) {
         var raw_str, raw_type;
         var geojson = overpass.geojson;
         if (!geojson) raw_str = i18n.t("export.raw.no_data");
@@ -2138,39 +2138,74 @@ var ide = new function() {
             }
           }
         }
-        // make content downloadable as file
-        if (geojson) {
-          if (raw_type == "osm" || raw_type == "xml") {
-            var blob = new Blob([raw_str], {
-              type: "application/xml;charset=utf-8"
-            });
-            saveAs(blob, "export." + raw_type);
-          } else if (raw_type == "json") {
-            var blob = new Blob([raw_str], {
-              type: "application/json;charset=utf-8"
-            });
-            saveAs(blob, "export.json");
+        return {
+          raw_str: raw_str,
+          raw_type: raw_type
+        };
+      }
+      $("#export-raw .format").text(i18n.t("export.raw_data"));
+      $("#export-raw .export")
+        .attr("href", "")
+        .unbind("click")
+        .on("click", function() {
+          var geojson = overpass.geojson;
+          var raw = constructRawData(geojson);
+          var raw_str = raw.raw_str;
+          var raw_type = raw.raw_type;
+          // make content downloadable as file
+          if (geojson) {
+            if (raw_type == "osm" || raw_type == "xml") {
+              var blob = new Blob([raw_str], {
+                type: "application/xml;charset=utf-8"
+              });
+              saveAs(blob, "export." + raw_type);
+            } else if (raw_type == "json") {
+              var blob = new Blob([raw_str], {
+                type: "application/json;charset=utf-8"
+              });
+              saveAs(blob, "export.json");
+            } else {
+              var blob = new Blob([raw_str], {
+                type: "application/octet-stream;charset=utf-8"
+              });
+              saveAs(blob, "export.dat");
+            }
           } else {
-            var blob = new Blob([raw_str], {
-              type: "application/octet-stream;charset=utf-8"
+            var d = $("#export-raw-dialog");
+            var dialog_buttons = {};
+            dialog_buttons[i18n.t("dialog.dismiss")] = function() {
+              $(this).dialog("close");
+            };
+            d.dialog({
+              modal: true,
+              width: 500,
+              buttons: dialog_buttons
             });
-            saveAs(blob, "export.dat");
+            $(".message", d).text(raw_str);
           }
-        } else {
-          var d = $("#export-raw-dialog");
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-            $(this).dialog("close");
+          return false;
+        });
+      $("#export-raw .copy").attr("href", "").click(function() {
+        var geojson = overpass.geojson;
+        if (geojson) {
+          var raw = constructRawData(geojson);
+          var raw_str = raw.raw_str;
+          var raw_type = raw.raw_type;
+          copyData = {
+            "text/plain": raw_str
           };
-          d.dialog({
-            modal: true,
-            width: 500,
-            buttons: dialog_buttons
-          });
-          $(".message", d).text(raw_str);
+          if (raw_type == "osm" || raw_type == "xml") {
+            copyData["application/xml"] = raw_str;
+          } else if (raw_type == "json") {
+            copyData["application/json"] = raw_str;
+          } else {
+            copyData["application/octet-stream"] = raw_str;
+          }
+          document.execCommand("copy");
         }
         return false;
       });
+
       $("#export-dialog a#export-convert-xml")[0].href =
         server + "convert?data=" + encodeURIComponent(query) + "&target=xml";
       $("#export-dialog a#export-convert-ql")[0].href =
