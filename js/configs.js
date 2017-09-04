@@ -3,7 +3,8 @@ export default {
   defaultServer: "//overpass-api.de/api/",
   suggestedServers: [
     "//overpass-api.de/api/",
-    "http://overpass.osm.rambler.ru/cgi/"
+    "http://overpass.osm.rambler.ru/cgi/",
+    "//overpass.openstreetmap.fr/api/"
   ],
   defaultTiles: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   tileServerAttribution:
