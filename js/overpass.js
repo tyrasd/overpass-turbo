@@ -666,22 +666,25 @@ var overpass = new function() {
                           k = htmlentities(k); // escaping strings!
                           v = htmlentities(v);
                           // hyperlinks for http,https and ftp URLs
-                          var url;
+                          var urls;
                           if (
-                            (url = v.match(
+                            (urls = v.match(
                               /\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi
                             ))
                           ) {
-                            url = url[0];
-                            var href = url.match(/^(https?|ftp):\/\//)
-                              ? url
-                              : "http://" + url;
-                            v =
-                              '<a href="' +
-                              href +
-                              '" target="_blank">' +
-                              url +
-                              "</a>";
+                            urls.forEach(function(url) {
+                              var href = url.match(/^(https?|ftp):\/\//)
+                                ? url
+                                : "http://" + url;
+                              v = v.replace(
+                                url,
+                                '<a href="' +
+                                  href +
+                                  '" target="_blank">' +
+                                  url +
+                                  "</a>"
+                              );
+                            });
                           } else {
                             // hyperlinks for email adresses
                             v = v.replace(
