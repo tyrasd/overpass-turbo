@@ -3,6 +3,7 @@ export default {
   defaultServer: "//overpass-api.de/api/",
   suggestedServers: [
     "//overpass-api.de/api/",
+    "https://overpass.kumi.systems/api/",
     "http://overpass.osm.rambler.ru/cgi/",
     "//overpass.openstreetmap.fr/api/"
   ],
