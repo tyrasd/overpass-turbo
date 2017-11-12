@@ -743,9 +743,9 @@ var overpass = new function() {
                           var mapillary_page;
                           if (
                             (k == "mapillary" &&
-                              (mapillary_page = v.match(/^[-a-zA-Z0-9]+$/))) ||
+                              (mapillary_page = v.match(/^[-a-zA-Z0-9_]+$/))) ||
                             (k.match(/^mapillary:/) &&
-                              (mapillary_page = v.match(/^[-a-zA-Z0-9]+$/)))
+                              (mapillary_page = v.match(/^[-a-zA-Z0-9_]+$/)))
                           )
                             v =
                               '<a href="https://www.mapillary.com/app?focus=photo&pKey=' +
