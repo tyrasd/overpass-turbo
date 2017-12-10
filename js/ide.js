@@ -2,6 +2,11 @@
 import $ from "jquery";
 import _ from "lodash";
 import jQuery from "jquery";
+import "jquery-ui/ui/widgets/autocomplete";
+import "jquery-ui/ui/widgets/accordion";
+import "jquery-ui/ui/widgets/dialog";
+import "jquery-ui/ui/widgets/resizable";
+import "jquery-ui/ui/widgets/tooltip";
 import html2canvas from "html2canvas";
 import rgbcolor from "canvg/rgbcolor";
 import canvg from "canvg";

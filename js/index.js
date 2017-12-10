@@ -19,7 +19,7 @@ import "html2canvas";
 import "codemirror/lib/codemirror.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet.locationfilter/src/locationfilter.css";
-import "jquery-ui/themes/base/jquery-ui.css";
+import "jquery-ui/themes/base/all.css";
 import "../css/default.css";
 import "../css/compact.css";
 
