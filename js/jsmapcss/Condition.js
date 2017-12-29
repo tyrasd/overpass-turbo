@@ -25,7 +25,7 @@ styleparser.Condition.prototype = {
         return tags[p[0]] != p[1];
       case "regex":
         var r = new RegExp(p[1], "i");
-        return r.test(tags[p[0]]);
+        return tags[p[0]] !== undefined && r.test(tags[p[0]]);
       case "true":
         return tags[p[0]] == "true" || tags[p[0]] == "yes" || tags[p[0]] == "1";
       case "false":
