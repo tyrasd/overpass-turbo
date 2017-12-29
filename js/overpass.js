@@ -375,7 +375,17 @@ var overpass = new function() {
                       ? {":tagged": true}
                       : {":untagged": true},
                     highlight ? {":active": true} : {},
-                    feature.properties.tags
+                    (function(tags, meta, id) {
+                      var res = {"@id": id};
+                      for (var key in meta) res["@" + key] = meta[key];
+                      for (var key in tags)
+                        res[key.replace(/^@/, "@@")] = tags[key];
+                      return res;
+                    })(
+                      feature.properties.tags,
+                      feature.properties.meta,
+                      feature.properties.id
+                    )
                   ),
                   18 /*restyle on zoom??*/
                 );
