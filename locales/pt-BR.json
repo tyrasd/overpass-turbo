@@ -72,7 +72,7 @@
   "export.map_view_expl": "bbox, centro, etc.",
   "export.section.data": "Arquivo",
   "export.generic_download_copy": "<a class=\"export\" title=\"saves the exported data as a file\">download</a>/<a class=\"copy\" title=\"copies export output to clipboard\">copy</a> as <span class=\"format\"></span>",
-  "export.raw": "dados <a id=\"export-raw\" href=\"\">brutos</a>",
+  "export.raw_data": "raw OSM data",
   "export.raw_interpreter": "dados brutos diretamente de <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
   "export.save_geoJSON_gist": "salvar dados GeoJSON para um <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
   "export.section.query": "Query",

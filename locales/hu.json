@@ -72,7 +72,7 @@
   "export.map_view_expl": "bbox, középpont, stb.",
   "export.section.data": "Adat",
   "export.generic_download_copy": "<a class=\"export\" title=\"saves the exported data as a file\">download</a>/<a class=\"copy\" title=\"copies export output to clipboard\">copy</a> as <span class=\"format\"></span>",
-  "export.raw": "<a id=\"export-raw\" href=\"\">nyers adat</a>",
+  "export.raw_data": "raw OSM data",
   "export.raw_interpreter": "nyers adat közvetlenül az <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>-ról",
   "export.save_geoJSON_gist": "mentés GeoJSON formátumban <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>-re",
   "export.section.query": "Lekérdezés",

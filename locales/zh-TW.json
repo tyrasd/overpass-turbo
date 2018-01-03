@@ -72,7 +72,7 @@
   "export.map_view_expl": "bbox, 置中, 等",
   "export.section.data": "資料",
   "export.generic_download_copy": "<a class=\"export\" title=\"saves the exported data as a file\">下載</a>/如<span class=\"format\"></span><a class=\"copy\" title=\"copies export output to clipboard\">複製</a>",
-  "export.raw": "原始<a id=\"export-raw\" href=\"\">資料</a>",
+  "export.raw_data": "原始 OSM 資料",
   "export.raw_interpreter": "直接從<a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>輸出原始資料",
   "export.save_geoJSON_gist": "儲存GeoJSON為<a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
   "export.section.query": "檢索",

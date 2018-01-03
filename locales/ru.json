@@ -72,7 +72,7 @@
   "export.map_view_expl": "область, центр и т.п.",
   "export.section.data": "Данные",
   "export.generic_download_copy": "<a class=\"export\" title=\"saves the exported data as a file\">загрузить</a> или <a class=\"copy\" title=\"copies export output to clipboard\">скопировать</a> как <span class=\"format\"></span>",
-  "export.raw": "сырые <a id=\"export-raw\" href=\"\">данные</a>",
+  "export.raw_data": "необработанные данные OSM",
   "export.raw_interpreter": "сырые данные от <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
   "export.save_geoJSON_gist": "сохранить GeoJSON в <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
   "export.section.query": "Запрос",

@@ -72,7 +72,7 @@
   "export.map_view_expl": "hộp bao, trung tâm, v.v.",
   "export.section.data": "Dữ liệu",
   "export.generic_download_copy": "<a class=\"export\" title=\"xuất dữ liệu ra tập tin\">tải về</a>/<a class=\"copy\" title=\"sao chép dữ liệu vào bảng tạm\">sao chép</a> dưới dạng <span class=\"format\"></span>",
-  "export.raw": "<a id=\"export-raw\" href=\"\">dữ liệu</a> thô",
+  "export.raw_data": "dữ liệu OSM thô",
   "export.raw_interpreter": "dữ liệu thô trực tiếp từ <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">API Overpass</a>",
   "export.save_geoJSON_gist": "lưu GeoJSON thành <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
   "export.section.query": "Truy vấn",
