@@ -149,7 +149,10 @@ export var Base64 = {
   },
 
   _convert_to_base64url: function(input) {
-    return input.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+    return input
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=/g, "");
   },
   _convert_to_base64nopad: function(input) {
     return input.replace(/\-/g, "+").replace(/_/g, "/");

@@ -13,9 +13,11 @@ export default function ffs_free(callback) {
   if (loaded) {
     callback(freeFormQuery);
   } else {
-    loadPresets().then(loadPresetTranslations).then(function() {
-      callback(freeFormQuery);
-    });
+    loadPresets()
+      .then(loadPresetTranslations)
+      .then(function() {
+        callback(freeFormQuery);
+      });
   }
 
   // load presets

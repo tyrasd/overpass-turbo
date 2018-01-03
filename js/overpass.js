@@ -80,10 +80,12 @@ var overpass = new function() {
       // kill the query on abort
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
-      $.get(server + "kill_my_queries").success(callback).error(function() {
-        console.log("Warning: failed to kill query.");
-        callback();
-      });
+      $.get(server + "kill_my_queries")
+        .success(callback)
+        .error(function() {
+          console.log("Warning: failed to kill query.");
+          callback();
+        });
     });
     var request_headers = {};
     var additional_get_data = "";
@@ -135,8 +137,9 @@ var overpass = new function() {
               typeof data == "string" &&
               data.substr(0, 5) == "<?xml" &&
               jqXHR.status === 200 &&
-              !(jqXHR.getResponseHeader("content-type") || "")
-                .match(/text\/html/) &&
+              !(jqXHR.getResponseHeader("content-type") || "").match(
+                /text\/html/
+              ) &&
               data.match(/<osm/)
             ) {
               try {
@@ -916,8 +919,9 @@ var overpass = new function() {
                       if (
                         (data_mode == "json" && data.elements.length > 0) ||
                         (data_mode == "xml" &&
-                          $("osm", data).children().not("note,meta,bounds")
-                            .length > 0)
+                          $("osm", data)
+                            .children()
+                            .not("note,meta,bounds").length > 0)
                       ) {
                         // check for "only areas returned"
                         if (
@@ -933,7 +937,9 @@ var overpass = new function() {
                           (data_mode == "json" &&
                             _.some(data.elements, {type: "node"})) ||
                           (data_mode == "xml" &&
-                            $("osm", data).children().filter("node").length > 0)
+                            $("osm", data)
+                              .children()
+                              .filter("node").length > 0)
                         )
                           // check for "ids_only" or "tags" on nodes
                           empty_msg = "no coordinates returned";
@@ -945,8 +951,9 @@ var overpass = new function() {
                               "nodes"
                             )) ||
                           (data_mode == "xml" &&
-                            $("osm", data).children().filter("way").length >
-                              0 &&
+                            $("osm", data)
+                              .children()
+                              .filter("way").length > 0 &&
                             $("osm", data)
                               .children()
                               .filter("way")
@@ -963,8 +970,9 @@ var overpass = new function() {
                               "members"
                             )) ||
                           (data_mode == "xml" &&
-                            $("osm", data).children().filter("relation")
-                              .length > 0 &&
+                            $("osm", data)
+                              .children()
+                              .filter("relation").length > 0 &&
                             $("osm", data)
                               .children()
                               .filter("relation")

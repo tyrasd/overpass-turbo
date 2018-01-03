@@ -238,7 +238,11 @@ autorepair.detect.editors = function(q, lng) {
         if ($(p).attr("mode") !== "meta") err.meta = true;
       });
       $("print", xml).each(function(i, p) {
-        if ($(p).attr("geometry").match(/(center|bounds|full)/))
+        if (
+          $(p)
+            .attr("geometry")
+            .match(/(center|bounds|full)/)
+        )
           err.geometry = true;
       });
     } catch (e) {} // ignore xml syntax errors ?!

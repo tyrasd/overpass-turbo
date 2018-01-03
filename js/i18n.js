@@ -81,7 +81,7 @@ var i18n = new function() {
   /**
    * Determines the language, fetches the language pack and translates the UI
    * @return <Promise>
-  */
+   */
   this.translate = function(lng) {
     lng = i18n.getLanguage(lng);
 

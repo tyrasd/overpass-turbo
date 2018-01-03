@@ -65,7 +65,10 @@ var ide = new function() {
       input.autocomplete("option", {source: options});
       return;
     }
-    var wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
+    var wrapper = input
+      .wrap("<span>")
+      .parent()
+      .addClass("ui-combobox");
     input
       .autocomplete({
         source: options,
@@ -236,10 +239,14 @@ var ide = new function() {
       minWidth: isInitialAspectPortrait ? undefined : "200",
       resize: function(ev) {
         if (!isInitialAspectPortrait) {
-          $(this).next().css("left", $(this).outerWidth() + "px");
+          $(this)
+            .next()
+            .css("left", $(this).outerWidth() + "px");
         } else {
           var top = $(this).offset().top + $(this).outerHeight();
-          $(this).next().css("top", top + "px");
+          $(this)
+            .next()
+            .css("top", top + "px");
         }
         ide.map.invalidateSize(false);
       },
@@ -552,7 +559,9 @@ var ide = new function() {
           "click",
           function(e) {
             if (
-              $(e.target).parent().hasClass("disabled") // check if this button is enabled
+              $(e.target)
+                .parent()
+                .hasClass("disabled") // check if this button is enabled
             )
               return false;
             if (!ide.map.bboxfilter.isEnabled()) {
@@ -656,7 +665,9 @@ var ide = new function() {
           '<span class="ui-icon ui-icon-search" style="position:absolute; right:3px; top:3px; opacity:0.5;"/>'
         )
           .click(function(e) {
-            $(this).prev().autocomplete("search");
+            $(this)
+              .prev()
+              .autocomplete("search");
           })
           .insertAfter(inp);
         inp.id = "search";
@@ -723,10 +734,14 @@ var ide = new function() {
             return false;
           },
           open: function() {
-            $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            $(this)
+              .removeClass("ui-corner-all")
+              .addClass("ui-corner-top");
           },
           close: function() {
-            $(this).addClass("ui-corner-all").removeClass("ui-corner-top");
+            $(this)
+              .addClass("ui-corner-all")
+              .removeClass("ui-corner-top");
           }
         });
         $(inp).autocomplete("option", "delay", 20);
@@ -1279,20 +1294,22 @@ var ide = new function() {
       geocodeBbox: ide.geocodeBbox,
       geocodeCoords: ide.geocodeCoords,
       // legacy
-      nominatimId: queryLang == "xml"
-        ? ide.geocodeId
-        : function(instr, callback) {
-            ide.geocodeId(instr, function(result) {
-              callback(result + ";");
-            });
-          },
-      nominatimArea: queryLang == "xml"
-        ? ide.geocodeArea
-        : function(instr, callback) {
-            ide.geocodeArea(instr, function(result) {
-              callback(result + ";");
-            });
-          },
+      nominatimId:
+        queryLang == "xml"
+          ? ide.geocodeId
+          : function(instr, callback) {
+              ide.geocodeId(instr, function(result) {
+                callback(result + ";");
+              });
+            },
+      nominatimArea:
+        queryLang == "xml"
+          ? ide.geocodeArea
+          : function(instr, callback) {
+              ide.geocodeArea(instr, function(result) {
+                callback(result + ";");
+              });
+            },
       nominatimBbox: ide.geocodeBbox,
       nominatimCoords: ide.geocodeCoords
     };
@@ -1370,7 +1387,9 @@ var ide = new function() {
     dialog_buttons[i18n.t("dialog.delete")] = function() {
       delete settings.saves[ex];
       settings.save();
-      $(self).parent().remove();
+      $(self)
+        .parent()
+        .remove();
       $(this).dialog("close");
     };
     dialog_buttons[i18n.t("dialog.cancel")] = function() {
@@ -1397,7 +1416,9 @@ var ide = new function() {
         function(err) {
           if (err) return console.error(err);
 
-          $(self).parent().remove();
+          $(self)
+            .parent()
+            .remove();
           $(this).dialog("close");
         }.bind(this)
       );
@@ -1434,7 +1455,9 @@ var ide = new function() {
             (function(example) {
               return function() {
                 ide.loadExample(example);
-                $(this).parents(".ui-dialog-content").dialog("close");
+                $(this)
+                  .parents(".ui-dialog-content")
+                  .dialog("close");
                 return false;
               };
             })(example)
@@ -1492,7 +1515,9 @@ var ide = new function() {
                     (function(query) {
                       return function() {
                         ide.setQuery(lzw_decode(Base64.decode(query.query)));
-                        $(this).parents(".ui-dialog-content").dialog("close");
+                        $(this)
+                          .parents(".ui-dialog-content")
+                          .dialog("close");
                         return false;
                       };
                     })(q)
@@ -1676,11 +1701,12 @@ var ide = new function() {
         "//" +
         location.host +
         location.pathname.match(/.*\//)[0];
-      var server = ide.data_source &&
+      var server =
+        ide.data_source &&
         ide.data_source.mode == "overpass" &&
         ide.data_source.options.server
-        ? ide.data_source.options.server
-        : settings.server;
+          ? ide.data_source.options.server
+          : settings.server;
       var queryWithMapCSS = query;
       if (queryParser.hasStatement("style"))
         queryWithMapCSS +=
@@ -1723,7 +1749,9 @@ var ide = new function() {
         target: "_blank",
         href: toDataURL(query)
       });
-      $("#export-text .copy").attr("href", "").click(copyHandler(query));
+      $("#export-text .copy")
+        .attr("href", "")
+        .click(copyHandler(query));
       // export raw query
       var query_raw = ide.getRawQuery();
       $("#export-text_raw .format").html(i18n.t("export.format_text_raw"));
@@ -1813,26 +1841,26 @@ var ide = new function() {
               ")</small></p>" +
               (ide.map.bboxfilter.isEnabled()
                 ? "<h4>" +
-                    i18n.t("export.map_view.bounds_selection") +
-                    "</h4><p>" +
-                    L.Util.formatNum(
-                      ide.map.bboxfilter.getBounds().getSouthWest().lat
-                    ) +
-                    ", " +
-                    L.Util.formatNum(
-                      ide.map.bboxfilter.getBounds().getSouthWest().lng
-                    ) +
-                    ", " +
-                    L.Util.formatNum(
-                      ide.map.bboxfilter.getBounds().getNorthEast().lat
-                    ) +
-                    ", " +
-                    L.Util.formatNum(
-                      ide.map.bboxfilter.getBounds().getNorthEast().lng
-                    ) +
-                    "<br /><small>(" +
-                    i18n.t("export.map_view.bounds_expl") +
-                    ")</small></p>"
+                  i18n.t("export.map_view.bounds_selection") +
+                  "</h4><p>" +
+                  L.Util.formatNum(
+                    ide.map.bboxfilter.getBounds().getSouthWest().lat
+                  ) +
+                  ", " +
+                  L.Util.formatNum(
+                    ide.map.bboxfilter.getBounds().getSouthWest().lng
+                  ) +
+                  ", " +
+                  L.Util.formatNum(
+                    ide.map.bboxfilter.getBounds().getNorthEast().lat
+                  ) +
+                  ", " +
+                  L.Util.formatNum(
+                    ide.map.bboxfilter.getBounds().getNorthEast().lng
+                  ) +
+                  "<br /><small>(" +
+                  i18n.t("export.map_view.bounds_expl") +
+                  ")</small></p>"
                 : "") +
               "<h4>" +
               i18n.t("export.map_view.zoom") +
@@ -1850,7 +1878,9 @@ var ide = new function() {
         .unbind("click")
         .on("click", function() {
           ide.onExportImageClick();
-          $(this).parents(".ui-dialog-content").dialog("close");
+          $(this)
+            .parents(".ui-dialog-content")
+            .dialog("close");
           return false;
         });
       // GeoJSON format
@@ -1924,17 +1954,19 @@ var ide = new function() {
           }
           return false;
         });
-      $("#export-geoJSON .copy").attr("href", "").click(function() {
-        if (overpass.geojson) {
-          var geojson = constructGeojsonString(overpass.geojson);
-          copyData = {
-            "text/plain": geojson,
-            "application/geo+json": geojson
-          };
-          document.execCommand("copy");
-        }
-        return false;
-      });
+      $("#export-geoJSON .copy")
+        .attr("href", "")
+        .click(function() {
+          if (overpass.geojson) {
+            var geojson = constructGeojsonString(overpass.geojson);
+            copyData = {
+              "text/plain": geojson,
+              "application/geo+json": geojson
+            };
+            document.execCommand("copy");
+          }
+          return false;
+        });
       $("#export-dialog a#export-geoJSON-gist")
         .unbind("click")
         .on("click", function() {
@@ -2053,17 +2085,19 @@ var ide = new function() {
           }
           return false;
         });
-      $("#export-GPX .copy").attr("href", "").click(function() {
-        if (overpass.geojson) {
-          var gpx = constructGpxString(overpass.geojson);
-          copyData = {
-            "text/plain": gpx,
-            "application/gpx+xml": gpx
-          };
-          document.execCommand("copy");
-        }
-        return false;
-      });
+      $("#export-GPX .copy")
+        .attr("href", "")
+        .click(function() {
+          if (overpass.geojson) {
+            var gpx = constructGpxString(overpass.geojson);
+            copyData = {
+              "text/plain": gpx,
+              "application/gpx+xml": gpx
+            };
+            document.execCommand("copy");
+          }
+          return false;
+        });
       // KML format
       function constructKmlString(geojson) {
         geojson = geojson && JSON.parse(constructGeojsonString(geojson));
@@ -2073,11 +2107,11 @@ var ide = new function() {
             documentName: "overpass-turbo.eu export",
             documentDescription:
               "Filtered OSM data converted to KML by overpass turbo.\n" +
-                "Copyright: " +
-                overpass.copyright +
-                "\n" +
-                "Timestamp: " +
-                overpass.timestamp,
+              "Copyright: " +
+              overpass.copyright +
+              "\n" +
+              "Timestamp: " +
+              overpass.timestamp,
             name: "name",
             description: "description"
           });
@@ -2111,17 +2145,19 @@ var ide = new function() {
           }
           return false;
         });
-      $("#export-KML .copy").attr("href", "").click(function() {
-        if (overpass.geojson) {
-          var kml = constructKmlString(overpass.geojson);
-          copyData = {
-            "text/plain": kml,
-            "application/vnd.google-earth.kml+xml": kml
-          };
-          document.execCommand("copy");
-        }
-        return false;
-      });
+      $("#export-KML .copy")
+        .attr("href", "")
+        .click(function() {
+          if (overpass.geojson) {
+            var kml = constructKmlString(overpass.geojson);
+            copyData = {
+              "text/plain": kml,
+              "application/vnd.google-earth.kml+xml": kml
+            };
+            document.execCommand("copy");
+          }
+          return false;
+        });
       // RAW format
       function constructRawData(geojson) {
         var raw_str, raw_type;
@@ -2190,26 +2226,28 @@ var ide = new function() {
           }
           return false;
         });
-      $("#export-raw .copy").attr("href", "").click(function() {
-        var geojson = overpass.geojson;
-        if (geojson) {
-          var raw = constructRawData(geojson);
-          var raw_str = raw.raw_str;
-          var raw_type = raw.raw_type;
-          copyData = {
-            "text/plain": raw_str
-          };
-          if (raw_type == "osm" || raw_type == "xml") {
-            copyData["application/xml"] = raw_str;
-          } else if (raw_type == "json") {
-            copyData["application/json"] = raw_str;
-          } else {
-            copyData["application/octet-stream"] = raw_str;
+      $("#export-raw .copy")
+        .attr("href", "")
+        .click(function() {
+          var geojson = overpass.geojson;
+          if (geojson) {
+            var raw = constructRawData(geojson);
+            var raw_str = raw.raw_str;
+            var raw_type = raw.raw_type;
+            copyData = {
+              "text/plain": raw_str
+            };
+            if (raw_type == "osm" || raw_type == "xml") {
+              copyData["application/xml"] = raw_str;
+            } else if (raw_type == "json") {
+              copyData["application/json"] = raw_str;
+            } else {
+              copyData["application/octet-stream"] = raw_str;
+            }
+            document.execCommand("copy");
           }
-          document.execCommand("copy");
-        }
-        return false;
-      });
+          return false;
+        });
 
       $("#export-dialog a#export-convert-xml")[0].href =
         server + "convert?data=" + encodeURIComponent(query) + "&target=xml";
@@ -2277,7 +2315,9 @@ var ide = new function() {
       $("#export-dialog a#export-editors-josm")
         .unbind("click")
         .on("click", function() {
-          var export_dialog = $(this).parents("div.ui-dialog-content").first();
+          var export_dialog = $(this)
+            .parents("div.ui-dialog-content")
+            .first();
           var send_to_josm = function(query) {
             var JRC_url = "http://127.0.0.1:8111/";
             if (location.protocol === "https:")
@@ -2289,8 +2329,8 @@ var ide = new function() {
                     // JOSM doesn't handle protocol-less links very well
                     url:
                       server.replace(/^\/\//, location.protocol + "//") +
-                        "interpreter?data=" +
-                        encodeURIComponent(query)
+                      "interpreter?data=" +
+                      encodeURIComponent(query)
                   })
                     .error(function(xhr, s, e) {
                       alert("Error: Unexpected JOSM remote control error.");
@@ -2508,7 +2548,9 @@ var ide = new function() {
                 .unbind("click")
                 .bind("click", function(e) {
                   $("#ffs-dialog input[type=text]").val(correction);
-                  $(this).parent().hide();
+                  $(this)
+                    .parent()
+                    .hide();
                   e.preventDefault();
                 });
               $("#ffs-dialog #ffs-dialog-typo").effect(
@@ -2776,11 +2818,12 @@ var ide = new function() {
     // run the query via the overpass object
     ide.getQuery(function(query) {
       var query_lang = ide.getQueryLang();
-      var server = ide.data_source &&
+      var server =
+        ide.data_source &&
         ide.data_source.mode == "overpass" &&
         ide.data_source.options.server
-        ? ide.data_source.options.server
-        : settings.server;
+          ? ide.data_source.options.server
+          : settings.server;
       overpass.run_query(
         query,
         query_lang,

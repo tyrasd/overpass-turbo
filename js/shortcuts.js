@@ -153,20 +153,22 @@ export default function shortcuts(nominatim) {
       geocodeBbox: geocodeBbox,
       geocodeCoords: geocodeCoords,
       // legacy
-      nominatimId: queryLang == "xml"
-        ? geocodeId
-        : function(instr, callback) {
-            geocodeId(instr, function(result) {
-              callback(result + ";");
-            });
-          },
-      nominatimArea: queryLang == "xml"
-        ? geocodeArea
-        : function(instr, callback) {
-            geocodeArea(instr, function(result) {
-              callback(result + ";");
-            });
-          },
+      nominatimId:
+        queryLang == "xml"
+          ? geocodeId
+          : function(instr, callback) {
+              geocodeId(instr, function(result) {
+                callback(result + ";");
+              });
+            },
+      nominatimArea:
+        queryLang == "xml"
+          ? geocodeArea
+          : function(instr, callback) {
+              geocodeArea(instr, function(result) {
+                callback(result + ";");
+              });
+            },
       nominatimBbox: geocodeBbox,
       nominatimCoords: geocodeCoords
     };

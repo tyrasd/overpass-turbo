@@ -23,9 +23,10 @@ export default function urlParameters(param_str) {
       for (var i = 0; i < get.length; i++) {
         var kv = get[i].split("=");
         var key = decodeURIComponent(kv.shift().replace(/\+/g, "%20"));
-        var val = kv.length > 0
-          ? decodeURIComponent(kv.join("=").replace(/\+/g, "%20"))
-          : true;
+        var val =
+          kv.length > 0
+            ? decodeURIComponent(kv.join("=").replace(/\+/g, "%20"))
+            : true;
         args[key] = val;
       }
     }
@@ -50,7 +51,7 @@ export default function urlParameters(param_str) {
     var decode_coords = function(str) {
       var coords_cpr = Base64.decodeNum(str);
       var res = {};
-      res.lat = coords_cpr % (180 * 100000) / 100000 - 90;
+      res.lat = (coords_cpr % (180 * 100000)) / 100000 - 90;
       res.lng = Math.floor(coords_cpr / (180 * 100000)) / 100000 - 180;
       return res;
     };
