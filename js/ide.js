@@ -60,7 +60,7 @@ var ide = new function() {
 
   // == helpers ==
 
-  var make_combobox = function(input, options) {
+  var make_combobox = function(input, options, deletables, deleteCallback) {
     if (input[0].is_combobox) {
       input.autocomplete("option", {source: options});
       return;
@@ -74,7 +74,28 @@ var ide = new function() {
         source: options,
         minLength: 0
       })
-      .addClass("ui-widget ui-widget-content ui-corner-left ui-state-default");
+      .addClass("ui-widget ui-widget-content ui-corner-left ui-state-default")
+      .autocomplete("instance")._renderItem = function(ul, item) {
+      return $("<li>")
+        .append(
+          deletables && deletables.indexOf(item.value) !== -1
+            ? '<div title="shift-click to remove from list" style="font-style:italic;">' +
+              item.label +
+              "</div>"
+            : "<div>" + item.label + "</div>"
+        )
+        .on("click", function(event) {
+          if (event.shiftKey && deletables.indexOf(item.value) !== -1) {
+            deleteCallback(item.value);
+            $(this).remove();
+            var options = input.autocomplete("option", "source");
+            options.splice(options.indexOf(item), 1);
+            input.autocomplete("option", "source", options);
+            return false;
+          }
+        })
+        .appendTo(ul);
+    };
     $("<a>")
       .attr("tabIndex", -1)
       .attr("title", "show all items")
@@ -2610,7 +2631,15 @@ var ide = new function() {
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox(
       $("#settings-dialog input[name=server]"),
-      configs.suggestedServers
+      configs.suggestedServers.concat(settings.customServers),
+      settings.customServers,
+      function deleteCallback(server) {
+        settings.customServers.splice(
+          settings.customServers.indexOf(server),
+          1
+        );
+        settings.save();
+      }
     );
     $("#settings-dialog input[name=no_autorepair]")[0].checked =
       settings.no_autorepair;
@@ -2634,7 +2663,15 @@ var ide = new function() {
       settings.tile_server;
     make_combobox(
       $("#settings-dialog input[name=tile_server]"),
-      configs.suggestedTiles
+      configs.suggestedTiles.concat(settings.customTiles),
+      settings.customTiles,
+      function deleteCallback(tileServer) {
+        settings.customTiles.splice(
+          settings.customTiles.indexOf(tileServer),
+          1
+        );
+        settings.save();
+      }
     );
     $("#settings-dialog input[name=background_opacity]")[0].value =
       settings.background_opacity;
@@ -2663,6 +2700,12 @@ var ide = new function() {
       }
       settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;
+      if (
+        configs.suggestedServers.indexOf(settings.server) === -1 &&
+        settings.customServers.indexOf(settings.server) === -1
+      ) {
+        settings.customServers.push(settings.server);
+      }
       settings.no_autorepair = $(
         "#settings-dialog input[name=no_autorepair]"
       )[0].checked;
@@ -2688,6 +2731,12 @@ var ide = new function() {
       settings.tile_server = $(
         "#settings-dialog input[name=tile_server]"
       )[0].value;
+      if (
+        configs.suggestedTiles.indexOf(settings.tile_server) === -1 &&
+        settings.customTiles.indexOf(settings.tile_server) === -1
+      ) {
+        settings.customTiles.push(settings.tile_server);
+      }
       // update tile layer (if changed)
       if (prev_tile_server != settings.tile_server)
         ide.map.tile_layer.setUrl(settings.tile_server);

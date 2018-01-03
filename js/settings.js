@@ -37,10 +37,10 @@ function Settings(namespace, version) {
       value === undefined // use preset if no value is given
     )
       value = settings[name].preset;
-    if (
-      settings[name].type != "String" // stringify all non-string values.
-    )
+    if (settings[name].type != "String") {
+      // stringify all non-string values.
       value = JSON.stringify(value);
+    }
     ls.setItem(prefix + name, value);
   };
   this.get = function(name) {
@@ -48,10 +48,10 @@ function Settings(namespace, version) {
     if (settings[name].version > version) this.set(name, undefined);
     // load the setting
     var value = ls.getItem(prefix + name);
-    if (
-      settings[name].type != "String" // parse all non-string values.
-    )
+    if (settings[name].type != "String") {
+      // parse all non-string values.
       value = JSON.parse(value);
+    }
     return value;
   };
 
@@ -110,7 +110,7 @@ var examples_initial_example = "Drinking Water";
 // global settings object
 var settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
-  34 // settings version number
+  35 // settings version number
 );
 
 export default settings;
@@ -134,12 +134,14 @@ settings.define_setting(
 settings.define_setting("saves", "Object", examples, 1);
 // api server
 settings.define_setting("server", "String", configs.defaultServer, 1);
+settings.define_setting("customServers", "Array", [], 35);
 // sharing options
 settings.define_setting("share_compression", "String", "auto", 1);
 settings.define_setting("share_include_pos", "Boolean", false, 1);
 // code editor & map view
 settings.define_setting("use_rich_editor", "Boolean", true, 1);
 settings.define_setting("tile_server", "String", configs.defaultTiles, 1);
+settings.define_setting("customTiles", "Array", [], 35);
 settings.define_setting("enable_crosshairs", "Boolean", false, 1);
 // export settings
 settings.define_setting("export_image_scale", "Boolean", true, 1);
