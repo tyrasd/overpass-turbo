@@ -389,13 +389,16 @@ ul.plain > li {
 }
 
 .ui-front {
-  z-index:1011;
+  z-index:1011 !important;
+}
+.ui-front.ui-widget-overlay {
+  z-index:1001 !important;
 }
 .ui-autocomplete.ui-front {
-  z-index:1012;
+  z-index:1014 !important;
 }
 .ui-front.huge_data {
-  z-index:1040;
+  z-index:1040 !important;
 }
 body .ui-tooltip {
   opacity:0.8;
