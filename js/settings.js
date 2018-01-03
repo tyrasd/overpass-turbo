@@ -144,8 +144,6 @@ settings.define_setting("enable_crosshairs", "Boolean", false, 1);
 // export settings
 settings.define_setting("export_image_scale", "Boolean", true, 1);
 settings.define_setting("export_image_attribution", "Boolean", true, 1);
-// CORS/ajax/etc. settings
-settings.define_setting("force_simple_cors_request", "Boolean", false, 11);
 // background opacity
 settings.define_setting("background_opacity", "Float", 1.0, 13);
 // autorepair message on "no visible data"

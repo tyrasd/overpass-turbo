@@ -87,13 +87,6 @@ var overpass = new function() {
           callback();
         });
     });
-    var request_headers = {};
-    var additional_get_data = "";
-    if (settings.force_simple_cors_request) {
-      additional_get_data = "?X-Requested-With=" + configs.appname;
-    } else {
-      request_headers["X-Requested-With"] = configs.appname;
-    }
     var onSuccessCb = function(data, textStatus, jqXHR) {
       //textStatus is not needed in the successCallback, don't cache it
       if (cache) cache[query] = [data, undefined, jqXHR];
@@ -1006,51 +999,47 @@ var overpass = new function() {
     if (cache && cache.hasOwnProperty(query)) {
       onSuccessCb.apply(this, cache[query]);
     } else {
-      overpass.ajax_request = $.ajax(
-        server + "interpreter" + additional_get_data,
-        {
-          type: "POST",
-          data: {data: query},
-          headers: request_headers,
-          success: onSuccessCb,
-          error: function(jqXHR, textStatus, errorThrown) {
-            if (textStatus == "abort") return; // ignore aborted queries.
-            fire("onProgress", "error during ajax call");
-            if (
-              jqXHR.status == 400 ||
-              jqXHR.status == 504 ||
-              jqXHR.status == 429
-            ) {
-              // todo: handle those in a separate routine
-              // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
-              this.success(jqXHR.responseText, textStatus, jqXHR);
-              return;
-            }
-            overpass.resultText = jqXHR.resultText;
-            var errmsg = "";
-            if (jqXHR.state() == "rejected")
-              errmsg +=
-                "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";
-            if (textStatus == "parsererror")
-              errmsg += "<p>Error while parsing the data (parsererror).</p>";
-            else if (textStatus != "error" && textStatus != jqXHR.statusText)
-              errmsg += "<p>Error-Code: " + textStatus + "</p>";
-            if (
-              (jqXHR.status != 0 && jqXHR.status != 200) ||
-              jqXHR.statusText != "OK" // note to me: jqXHR.status "should" give http status codes
-            )
-              errmsg +=
-                "<p>Error-Code: " +
-                jqXHR.statusText +
-                " (" +
-                jqXHR.status +
-                ")</p>";
-            fire("onAjaxError", errmsg);
-            // closing wait spinner
-            fire("onDone");
+      overpass.ajax_request = $.ajax(server + "interpreter", {
+        type: "POST",
+        data: {data: query},
+        success: onSuccessCb,
+        error: function(jqXHR, textStatus, errorThrown) {
+          if (textStatus == "abort") return; // ignore aborted queries.
+          fire("onProgress", "error during ajax call");
+          if (
+            jqXHR.status == 400 ||
+            jqXHR.status == 504 ||
+            jqXHR.status == 429
+          ) {
+            // todo: handle those in a separate routine
+            // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
+            this.success(jqXHR.responseText, textStatus, jqXHR);
+            return;
           }
+          overpass.resultText = jqXHR.resultText;
+          var errmsg = "";
+          if (jqXHR.state() == "rejected")
+            errmsg +=
+              "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";
+          if (textStatus == "parsererror")
+            errmsg += "<p>Error while parsing the data (parsererror).</p>";
+          else if (textStatus != "error" && textStatus != jqXHR.statusText)
+            errmsg += "<p>Error-Code: " + textStatus + "</p>";
+          if (
+            (jqXHR.status != 0 && jqXHR.status != 200) ||
+            jqXHR.statusText != "OK" // note to me: jqXHR.status "should" give http status codes
+          )
+            errmsg +=
+              "<p>Error-Code: " +
+              jqXHR.statusText +
+              " (" +
+              jqXHR.status +
+              ")</p>";
+          fire("onAjaxError", errmsg);
+          // closing wait spinner
+          fire("onDone");
         }
-      ); // getJSON
+      }); // getJSON
     }
   };
 

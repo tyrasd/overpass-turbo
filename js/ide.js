@@ -2612,8 +2612,6 @@ var ide = new function() {
       $("#settings-dialog input[name=server]"),
       configs.suggestedServers
     );
-    $("#settings-dialog input[name=force_simple_cors_request]")[0].checked =
-      settings.force_simple_cors_request;
     $("#settings-dialog input[name=no_autorepair]")[0].checked =
       settings.no_autorepair;
     // editor options
@@ -2665,9 +2663,6 @@ var ide = new function() {
       }
       settings.ui_language = new_ui_language;
       settings.server = $("#settings-dialog input[name=server]")[0].value;
-      settings.force_simple_cors_request = $(
-        "#settings-dialog input[name=force_simple_cors_request]"
-      )[0].checked;
       settings.no_autorepair = $(
         "#settings-dialog input[name=no_autorepair]"
       )[0].checked;
