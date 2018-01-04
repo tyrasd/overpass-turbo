@@ -110,7 +110,7 @@ var examples_initial_example = "Drinking Water";
 // global settings object
 var settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
-  35 // settings version number
+  36 // settings version number
 );
 
 export default settings;
@@ -392,4 +392,9 @@ settings.define_upgrade_callback(34, function(s) {
   s.saves["Attic date query"].overpass = s.saves[
     "Attic date query"
   ].overpass.replace('00:00Z"]\n', '00:00Z"];\n');
+});
+
+settings.define_upgrade_callback(36, function(s) {
+  s.saves["Mountains in Area"].overpass = "/*\nThis shows all mountains (peaks) in the Dolomites.\nYou may want to use the \"zoom onto data\" button. =>\n*/\n[out:json];\n// search the relation of the Dolomites\nrel\n  [place=region]\n  [\"region:type\"=\"mountain_area\"]\n  [\"name:en\"=\"Dolomites\"];\n// show the outline\nout geom;\n// turn the relation into an area\nmap_to_area;\n// get all peaks in the area\nnode\n  [natural=peak]\n  (area);\nout body qt;";
+  s.saves["Cycle Network"].overpass = s.saves["Cycle Network"].overpass.replace("->.cr", "");
 });
