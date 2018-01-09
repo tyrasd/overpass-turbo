@@ -1514,7 +1514,7 @@ var ide = new function() {
     });
     $("#load-dialog").accordion({
       beforeActivate: function(event, ui) {
-        if (ui.newHeader.attr("id").slice(-1) == 1) {
+        if (ui.newHeader.index() == 2) {
           $("ul", ui.newPanel).html(
             "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
           );
