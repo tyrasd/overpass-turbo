@@ -39,7 +39,7 @@ export default function query() {
       // remove statement, but preserve number of newlines
       var lc = s_instr.split(/\r?\n|\r/).length;
       query = query.replace(
-        "{{" + s_name + ":" + s_instr + "}}",
+        s[0],
         s_replace + Array(lc).join("\n")
       );
     }
