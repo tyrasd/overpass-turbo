@@ -1162,6 +1162,7 @@ var ide = new function() {
   this.relativeTime = function(instr, callback) {
     var now = Date.now();
     // very basic differential date
+    if (instr == "") instr = "0 seconds";
     instr = instr
       .toLowerCase()
       .match(

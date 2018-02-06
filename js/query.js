@@ -10,11 +10,11 @@ export default function query() {
     // 1. get list of overpass turbo statements
     statements = {};
     if (_found_statements) statements = _found_statements;
-    var statement = /{{([A-Za-z0-9_]+):([\s\S]*?)}}/;
+    var statement = /{{([A-Za-z0-9_]+)(:([\s\S]*?))?}}/;
     var s;
     while ((s = query.match(statement))) {
       var s_name = s[1];
-      var s_instr = s[2];
+      var s_instr = s[3] || "";
       var s_replace = "";
       // save instructions for later
       if (statements[s_name] === undefined) statements[s_name] = "";
@@ -27,7 +27,7 @@ export default function query() {
             var seed = Math.round(Math.random() * Math.pow(2, 22)); // todo: use some kind of checksum of s_instr if possible
             shortcuts["__statement__" + s_name + "__" + seed] = res;
             query = query.replace(
-              "{{" + s_name + ":" + s_instr + "}}",
+              s[0],
               "{{__statement__" + s_name + "__" + seed + ":" + s_instr + "}}"
             );
             // recursively call the parser with updated shortcuts

@@ -38,6 +38,7 @@ export default function shortcuts(nominatim) {
   function relativeTime(instr, callback) {
     var now = Date.now();
     // very basic differential date
+    if (instr == "") instr = "0 seconds";
     instr = instr
       .toLowerCase()
       .match(
