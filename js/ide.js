@@ -1852,7 +1852,7 @@ var ide = new function() {
               }
             })
           })
-            .success(function(data, textStatus, jqXHR) {
+            .done(function(data, textStatus, jqXHR) {
               var dialog_buttons = {};
               dialog_buttons[i18n.t("dialog.done")] = function() {
                 $(this).dialog("close");
@@ -1882,7 +1882,7 @@ var ide = new function() {
               });
               // data.html_url;
             })
-            .error(function(jqXHR, textStatus, errorStr) {
+            .fail(function(jqXHR, textStatus, errorStr) {
               alert(
                 "an error occured during the creation of the overpass gist:\n" +
                   JSON.stringify(jqXHR)
@@ -2191,7 +2191,7 @@ var ide = new function() {
             if (location.protocol === "https:")
               JRC_url = "https://127.0.0.1:8112/";
             $.getJSON(JRC_url + "version")
-              .success(function(d, s, xhr) {
+              .done(function(d, s, xhr) {
                 if (d.protocolversion.major == 1) {
                   $.get(JRC_url + "import", {
                     // JOSM doesn't handle protocol-less links very well
@@ -2200,10 +2200,10 @@ var ide = new function() {
                       "interpreter?data=" +
                       encodeURIComponent(query)
                   })
-                    .error(function(xhr, s, e) {
+                    .fail(function(xhr, s, e) {
                       alert("Error: Unexpected JOSM remote control error.");
                     })
-                    .success(function(d, s, xhr) {
+                    .done(function(d, s, xhr) {
                       console.log("successfully invoked JOSM remote constrol");
                     });
                 } else {
@@ -2228,7 +2228,7 @@ var ide = new function() {
                   });
                 }
               })
-              .error(function(xhr, s, e) {
+              .fail(function(xhr, s, e) {
                 var dialog_buttons = {};
                 dialog_buttons[i18n.t("dialog.dismiss")] = function() {
                   $(this).dialog("close");

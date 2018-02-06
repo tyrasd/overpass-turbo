@@ -81,8 +81,8 @@ var overpass = new function() {
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
       $.get(server + "kill_my_queries")
-        .success(callback)
-        .error(function() {
+        .done(callback)
+        .fail(function() {
           console.log("Warning: failed to kill query.");
           callback();
         });
