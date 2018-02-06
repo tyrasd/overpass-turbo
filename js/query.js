@@ -38,10 +38,7 @@ export default function query() {
       }
       // remove statement, but preserve number of newlines
       var lc = s_instr.split(/\r?\n|\r/).length;
-      query = query.replace(
-        s[0],
-        s_replace + Array(lc).join("\n")
-      );
+      query = query.replace(s[0], s_replace + Array(lc).join("\n"));
     }
     // 2. get user defined constants
     var constants = {};
