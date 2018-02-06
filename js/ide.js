@@ -29,6 +29,7 @@ import urlParameters from "./urlParameters";
 import Autorepair from "./autorepair";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import sync from "./sync-with-osm";
+import shortcuts from "./shortcuts";
 
 // Handler to allow copying in various MIME formats
 // @see https://developer.mozilla.org/en-US/docs/Web/Events/copy
@@ -1136,79 +1137,7 @@ var ide = new function() {
     }
   } // init()
 
-  // returns the current visible bbox as a bbox-query
-  this.map2bbox = function(lang) {
-    var bbox;
-    if (!ide.map.bboxfilter.isEnabled()) bbox = this.map.getBounds();
-    else bbox = ide.map.bboxfilter.getBounds();
-    var lat1 = Math.min(Math.max(bbox.getSouthWest().lat, -90), 90);
-    var lat2 = Math.min(Math.max(bbox.getNorthEast().lat, -90), 90);
-    var lng1 = Math.min(Math.max(bbox.getSouthWest().lng, -180), 180);
-    var lng2 = Math.min(Math.max(bbox.getNorthEast().lng, -180), 180);
-    if (lang == "OverpassQL")
-      return lat1 + "," + lng1 + "," + lat2 + "," + lng2;
-    else if (lang == "xml")
-      return (
-        's="' + lat1 + '" w="' + lng1 + '" n="' + lat2 + '" e="' + lng2 + '"'
-      );
-  };
-  // returns the current visible map center as a coord-query
-  this.map2coord = function(lang) {
-    var center = this.map.getCenter();
-    if (lang == "OverpassQL") return center.lat + "," + center.lng;
-    else if (lang == "xml")
-      return 'lat="' + center.lat + '" lon="' + center.lng + '"';
-  };
-  this.relativeTime = function(instr, callback) {
-    var now = Date.now();
-    // very basic differential date
-    if (instr == "") instr = "0 seconds";
-    instr = instr
-      .toLowerCase()
-      .match(
-        /(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/
-      );
-    if (instr === null) {
-      callback(""); // todo: throw an error. do not silently fail
-      return;
-    }
-    var count = parseInt(instr[1]);
-    var interval;
-    switch (instr[2]) {
-      case "second":
-      case "seconds":
-        interval = 1;
-        break;
-      case "minute":
-      case "minutes":
-        interval = 60;
-        break;
-      case "hour":
-      case "hours":
-        interval = 3600;
-        break;
-      case "day":
-      case "days":
-      default:
-        interval = 86400;
-        break;
-      case "week":
-      case "weeks":
-        interval = 604800;
-        break;
-      case "month":
-      case "months":
-        interval = 2628000;
-        break;
-      case "year":
-      case "years":
-        interval = 31536000;
-        break;
-    }
-    var date = now - count * interval * 1000;
-    callback(new Date(date).toISOString());
-  };
-  function onNominatimError(search, type) {
+  this.onNominatimError = function(search, type) {
     // close waiter
     ide.waiter.close();
     // highlight error lines
@@ -1235,60 +1164,6 @@ var ide = new function() {
       modal: true,
       buttons: dialog_buttons
     }); // dialog
-  }
-  this.geocodeId = function(instr, callback) {
-    var lang = ide.getQueryLang();
-    function filter(n) {
-      return n.osm_type && n.osm_id;
-    }
-    nominatim.getBest(instr, filter, function(err, res) {
-      if (err) return onNominatimError(instr, "Id");
-      if (lang == "OverpassQL") res = res.osm_type + "(" + res.osm_id + ")";
-      else if (lang == "xml")
-        res = 'type="' + res.osm_type + '" ref="' + res.osm_id + '"';
-      callback(res);
-    });
-  };
-  this.geocodeArea = function(instr, callback) {
-    var lang = ide.getQueryLang();
-    function filter(n) {
-      return n.osm_type && n.osm_id && n.osm_type !== "node";
-    }
-    nominatim.getBest(instr, filter, function(err, res) {
-      if (err) return onNominatimError(instr, "Area");
-      var area_ref = 1 * res.osm_id;
-      if (res.osm_type == "way") area_ref += 2400000000;
-      if (res.osm_type == "relation") area_ref += 3600000000;
-      if (lang == "OverpassQL") res = "area(" + area_ref + ")";
-      else if (lang == "xml") res = 'type="area" ref="' + area_ref + '"';
-      callback(res);
-    });
-  };
-  this.geocodeBbox = function(instr, callback) {
-    var lang = ide.getQueryLang();
-    nominatim.getBest(instr, function(err, res) {
-      if (err) return onNominatimError(instr, "Bbox");
-      var lat1 = Math.min(Math.max(res.boundingbox[0], -90), 90);
-      var lat2 = Math.min(Math.max(res.boundingbox[1], -90), 90);
-      var lng1 = Math.min(Math.max(res.boundingbox[2], -180), 180);
-      var lng2 = Math.min(Math.max(res.boundingbox[3], -180), 180);
-      if (lang == "OverpassQL")
-        res = lat1 + "," + lng1 + "," + lat2 + "," + lng2;
-      else if (lang == "xml")
-        res =
-          's="' + lat1 + '" w="' + lng1 + '" n="' + lat2 + '" e="' + lng2 + '"';
-      callback(res);
-    });
-  };
-  this.geocodeCoords = function(instr, callback) {
-    var lang = ide.getQueryLang();
-    nominatim.getBest(instr, function(err, res) {
-      if (err) return onNominatimError(instr, "Coords");
-      if (lang == "OverpassQL") res = res.lat + "," + res.lon;
-      else if (lang == "xml")
-        res = 'lat="' + res.lat + '" lon="' + res.lon + '"';
-      callback(res);
-    });
   };
   /* this returns the current raw query in the editor.
    * shortcuts are not expanded. */
@@ -1306,36 +1181,7 @@ var ide = new function() {
       /(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,
       "$1{{__bbox__global_bbox_xml__ezs4K8__}}$3"
     );
-    var shortcuts = {
-      bbox: ide.map2bbox(queryLang),
-      center: ide.map2coord(queryLang),
-      __bbox__global_bbox_xml__ezs4K8__: ide.map2bbox("OverpassQL"),
-      date: ide.relativeTime,
-      geocodeId: ide.geocodeId,
-      geocodeArea: ide.geocodeArea,
-      geocodeBbox: ide.geocodeBbox,
-      geocodeCoords: ide.geocodeCoords,
-      // legacy
-      nominatimId:
-        queryLang == "xml"
-          ? ide.geocodeId
-          : function(instr, callback) {
-              ide.geocodeId(instr, function(result) {
-                callback(result + ";");
-              });
-            },
-      nominatimArea:
-        queryLang == "xml"
-          ? ide.geocodeArea
-          : function(instr, callback) {
-              ide.geocodeArea(instr, function(result) {
-                callback(result + ";");
-              });
-            },
-      nominatimBbox: ide.geocodeBbox,
-      nominatimCoords: ide.geocodeCoords
-    };
-    queryParser.parse(query, shortcuts, function(query) {
+    queryParser.parse(query, shortcuts(), function(query) {
       // parse mapcss declarations
       var mapcss = "";
       if (queryParser.hasStatement("style"))

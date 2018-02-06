@@ -3,9 +3,9 @@ import $ from "jquery";
 
 import configs from "./configs";
 
-export default function() {
-  var cache = {};
+var cache = {};
 
+export default function() {
   var nominatim = {};
 
   function request(search, callback) {
