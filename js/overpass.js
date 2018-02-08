@@ -187,9 +187,14 @@ var overpass = new function() {
                   );
                 }
                 if (typeof data == "object" && jqXHR.responseXML)
-                  errmsg = "<p>" + $.trim($("remark", data).text()) + "</p>";
+                  errmsg = "<p>" + $.trim($("remark", data).html()) + "</p>";
                 if (typeof data == "object" && data.remark)
-                  errmsg = "<p>" + $.trim(data.remark) + "</p>";
+                  errmsg =
+                    "<p>" +
+                    $("<div/>")
+                      .text($.trim(data.remark))
+                      .html() +
+                    "</p>";
                 console.log("Overpass API error", fullerrmsg || errmsg); // write (full) error message to console for easier debugging
                 fire("onQueryError", errmsg);
                 data_mode = "error";
