@@ -1898,8 +1898,8 @@ var ide = new function() {
           gpx_str = togpx(geojson, {
             creator: configs.appname,
             metadata: {
-              copyright: overpass.copyright,
               desc: "Filtered OSM data converted to GPX by overpass turbo",
+              copyright: {"@author": overpass.copyright},
               time: overpass.timestamp
             },
             featureTitle: function(props) {
