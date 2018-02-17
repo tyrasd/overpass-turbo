@@ -32,8 +32,6 @@
   "settings.section.general": "Üldseaded",
   "settings.ui_lang": "Liidese keel",
   "settings.server": "Server",
-  "settings.force_simple_cors": "Nõutakse lihtsaid CORS-päringuid",
-  "settings.force_simple_cors_expl": "kasuta kui server ei toeta eelteostatud <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> päringuid",
   "settings.disable_autorepair": "Keelatakse hoiatuse/automaatparanduse teade kui Overpass API ei anna tulemuseks nähtavaid andmeid.",
   "settings.section.editor": "Redaktor",
   "settings.enable_rich_editor": "Lubatakse vormindatud teksti redaktor",

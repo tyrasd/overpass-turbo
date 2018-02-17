@@ -32,8 +32,6 @@
   "settings.section.general": "Γενικές ρυθμίσεις",
   "settings.ui_lang": "Γλώσσα διεπαφής",
   "settings.server": "Διακομιστής",
-  "settings.force_simple_cors": "Εξαναγκασμός απλών αιτήσεων CORS",
-  "settings.force_simple_cors_expl": "χρήση όταν ο διακομιστής δεν υποστηρίζει προκαταρκτικές (preflighted) αιτήσεις <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a>",
   "settings.disable_autorepair": "Απενεργοποίηση μηνύματος προειδοποίησης για αυτόματη διόρθωση, όταν το Overpass API δεν επιστρέφει ορατά δεδομένα.",
   "settings.section.editor": "Διορθωτής",
   "settings.enable_rich_editor": "Ενεργοποίηση διορθωτή πλούσιου κώδικα",

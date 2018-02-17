@@ -32,8 +32,6 @@
   "settings.section.general": "Загальні налаштування",
   "settings.ui_lang": "Мова інтерфейсу",
   "settings.server": "Сервер",
-  "settings.force_simple_cors": "Робити прості запити CORS",
-  "settings.force_simple_cors_expl": " включіть, якщо сервер не підтримує <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a>-запити ",
   "settings.disable_autorepair": "Вимкнути повідомлення про помилку та авторемонт, коли Overpass API не повернув відображуваних даних.",
   "settings.section.editor": "Редактор",
   "settings.enable_rich_editor": "Увімкнути розвинений редактор коду",

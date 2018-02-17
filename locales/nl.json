@@ -32,8 +32,6 @@
   "settings.section.general": "Algemene instellingen",
   "settings.ui_lang": "Taal voor gebruikersinterface",
   "settings.server": "Server",
-  "settings.force_simple_cors": "Maak enkel eenvoudige CORS-bevragingen",
-  "settings.force_simple_cors_expl": "use when the server doesn't support preflighted <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> requests",
   "settings.disable_autorepair": "Disable warning/autorepair message when Overpass API returns no visible data.",
   "settings.section.editor": "Bewerkingssoftware",
   "settings.enable_rich_editor": "Uitgebreide codebewerker inschakelen",

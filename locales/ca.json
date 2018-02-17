@@ -32,8 +32,6 @@
   "settings.section.general": "Configuració general",
   "settings.ui_lang": "Llengua de la interfície",
   "settings.server": "Servidor",
-  "settings.force_simple_cors": "Força peticions CORS simples",
-  "settings.force_simple_cors_expl": "useu-ho si el servidor no permet peticions <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> «preflighted»",
   "settings.disable_autorepair": "Desactiva el missatge d'avís o reparació automàtica si l'Overpass API retorna dades no visibles.",
   "settings.section.editor": "Editor",
   "settings.enable_rich_editor": "Habilitat l'editor de codi enriquit",

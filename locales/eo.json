@@ -32,8 +32,6 @@
   "settings.section.general": "Ĝeneralaj agordoj",
   "settings.ui_lang": "Fasada lingvo",
   "settings.server": "Servilo",
-  "settings.force_simple_cors": "Devigi simplajn CORS-informpetojn",
-  "settings.force_simple_cors_expl": "uzu kiam la servilo ne subtenas informpetojn <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> de tipo 'preflighted'",
   "settings.disable_autorepair": "Malaktivigi avertan/mem-riparan mesaĝon kiam overpass API liveras neniujn videblajn datumojn.",
   "settings.section.editor": "Redaktilo",
   "settings.enable_rich_editor": "Aktivigi riĉan kod-redaktilon",

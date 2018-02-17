@@ -32,8 +32,6 @@
   "settings.section.general": "Általános beállítások",
   "settings.ui_lang": "Kezelőfelület nyelve",
   "settings.server": "Szerver",
-  "settings.force_simple_cors": "Egyszerű CORS kérések kényszerítése",
-  "settings.force_simple_cors_expl": "use when the server doesn't support preflighted <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> requests",
   "settings.disable_autorepair": "Figyelmeztető/önjavítás üzenetek letiltása, amikor az Overpass API nem látható adatot ad vissza.",
   "settings.section.editor": "Szerkesztő",
   "settings.enable_rich_editor": "Kódkiemelős szerkesztőfelület engedélyezése",

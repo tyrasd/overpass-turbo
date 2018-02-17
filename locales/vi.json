@@ -32,8 +32,6 @@
   "settings.section.general": "Tùy chọn Chung",
   "settings.ui_lang": "Ngôn ngữ Giao diện",
   "settings.server": "Máy chủ",
-  "settings.force_simple_cors": "Bắt buộc các yêu cầu CORS đơn giản",
-  "settings.force_simple_cors_expl": "sử dụng nếu máy chủ không hỗ trợ các yêu cầu <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> được chuẩn bị",
   "settings.disable_autorepair": "Tắt cảnh báo / thông báo tự động sửa chữa khi Overpass API không cho ra dữ liệu có thể hiển thị trên bản đồ.",
   "settings.section.editor": "Trình soạn thảo",
   "settings.enable_rich_editor": "Bật trình soạn thảo mã nguồn đặc biệt",

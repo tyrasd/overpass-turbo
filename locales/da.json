@@ -32,8 +32,6 @@
   "settings.section.general": "Generelle indstillinger",
   "settings.ui_lang": "UI sprog",
   "settings.server": "Server",
-  "settings.force_simple_cors": "Gennemfør simple CORS forspørgelser",
-  "settings.force_simple_cors_expl": "brug dette når serveren ikke undersøtter forhåndskontrollere <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> forspørgelser",
   "settings.disable_autorepair": "Slå advarsel/autoreparation besked fra når Overpass API ingen geodata sender retur.",
   "settings.section.editor": "Editor",
   "settings.enable_rich_editor": "Aktiver kodeditoren ",

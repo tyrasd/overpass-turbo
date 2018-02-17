@@ -32,8 +32,6 @@
   "settings.section.general": "一般設定",
   "settings.ui_lang": "界面語言",
   "settings.server": "伺服器",
-  "settings.force_simple_cors": "強迫簡單CORS要求",
-  "settings.force_simple_cors_expl": "當伺服器不支援預檢<a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a>請求時使用",
   "settings.disable_autorepair": "當Overpass API回傳不可視資料時，關閉警告/自動修復訊息",
   "settings.section.editor": "編輯器",
   "settings.enable_rich_editor": "啟用程式碼高亮度編輯器",

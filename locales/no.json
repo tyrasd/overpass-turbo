@@ -32,8 +32,6 @@
   "settings.section.general": "Generelle innstillinger",
   "settings.ui_lang": "UI språk",
   "settings.server": "Server",
-  "settings.force_simple_cors": "Bruk enkle CORS spørringer",
-  "settings.force_simple_cors_expl": "brukes når serveren ikke støtter preflighted <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> forespørsler",
   "settings.disable_autorepair": "Deaktiver advarsel/autoreparermelding når Overpass API ikke returnerer data som kan vises.",
   "settings.section.editor": "Editor",
   "settings.enable_rich_editor": "Bruk fargelagt kode",

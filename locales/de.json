@@ -32,8 +32,6 @@
   "settings.section.general": "Allgemeines",
   "settings.ui_lang": "Oberflächen-Sprache",
   "settings.server": "Server",
-  "settings.force_simple_cors": "Einfache CORS-Anfragen erzwingen",
-  "settings.force_simple_cors_expl": "wenn der Server komplexe <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a>-Anfragen nicht unterstützt.",
   "settings.disable_autorepair": "Warnung/Auto-Reparatur-Meldung bei nicht-sichtbaren Daten abschalten.",
   "settings.section.editor": "Editor",
   "settings.enable_rich_editor": "CodeMirror aktivieren.",

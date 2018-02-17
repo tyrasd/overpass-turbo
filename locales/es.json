@@ -32,8 +32,6 @@
   "settings.section.general": "Configuraciones generales",
   "settings.ui_lang": "Idioma de la IU",
   "settings.server": "Servidor",
-  "settings.force_simple_cors": "Forzar simples peticiones CORS",
-  "settings.force_simple_cors_expl": "utilizar cuando el servidor no soporta peticiones <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">CORS</a> al vuelo",
   "settings.disable_autorepair": "Desactivar la advertencia o mensaje de autoreparar cuando Overpass API no devuelva datos visibles",
   "settings.section.editor": "Editor",
   "settings.enable_rich_editor": "Habilitar el editor de código enriquecido",
