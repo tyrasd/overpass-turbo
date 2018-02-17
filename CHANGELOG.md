@@ -1,3 +1,13 @@
+2018-02-17
+----------
+* Remember recently used overpass and background map tile servers in settings dialog
+* Add new public overpass instance to list of available servers
+* mapcss: allow filtering by meta attributes
+* make `{{date}}` shortcut without further parameters return the current date
+* bugfixes
+* update external dependencies
+* update translations
+
 2017-06-25
 ----------
 * add possibility to sync (save/load) queries on your account on osm.org 😎
