@@ -10,7 +10,7 @@ Getting Started
 
 Just point your browser to [overpass-turbo.eu](http://overpass-turbo.eu) and start running your Overpass queries.
 
-More Information about *overpass turbo* is found in the [OSM wiki](http://wiki.openstreetmap.org/wiki/Overpass_turbo).
+More information about *overpass turbo* is found in the [OSM wiki](http://wiki.openstreetmap.org/wiki/Overpass_turbo).
 
 Translating
 -----------
