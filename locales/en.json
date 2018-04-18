@@ -48,7 +48,7 @@
   "settings.section.map": "Map",
   "settings.tile_server": "Tile-Server",
   "settings.tile_opacity": "Tiles Opacity",
-  "settings.tile_opacity_expl": "transparency of background tiles: 0=tansparent … 1=visible",
+  "settings.tile_opacity_expl": "transparency of background tiles: 0=transparent … 1=visible",
   "settings.show_crosshairs": "Show crosshairs at the map center.",
   "settings.disable_poiomatic": "Don't display small features as POIs.",
   "settings.show_data_stats": "Show some stats about loaded and displayed data.",
