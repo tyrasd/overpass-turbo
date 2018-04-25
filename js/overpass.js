@@ -672,7 +672,14 @@ var overpass = new function() {
                         feature.properties.tags &&
                         !$.isEmptyObject(feature.properties.tags)
                       ) {
-                        popup += '<h3>Tags:</h3><ul class="plain">';
+                        popup += "<h3>Tags";
+                        if (typeof Object.keys === "function") {
+                          popup +=
+                            ' <span class="counter">' +
+                            Object.keys(feature.properties.tags).length +
+                            "</span>";
+                        }
+                        popup += '</h3><ul class="plain">';
                         $.each(feature.properties.tags, function(k, v) {
                           k = htmlentities(k); // escaping strings!
                           v = htmlentities(v);
@@ -774,7 +781,14 @@ var overpass = new function() {
                         feature.properties.relations &&
                         !$.isEmptyObject(feature.properties.relations)
                       ) {
-                        popup += '<h3>Relations:</h3><ul class="plain">';
+                        popup += "<h3>Relations";
+                        if (typeof Object.keys === "function") {
+                          popup +=
+                            ' <span class="counter">' +
+                            Object.keys(feature.properties.relations).length +
+                            "</span>";
+                        }
+                        popup += '</h3><ul class="plain">';
                         $.each(feature.properties.relations, function(k, v) {
                           popup +=
                             "<li><a href='//www.openstreetmap.org/relation/" +
@@ -812,7 +826,7 @@ var overpass = new function() {
                         feature.properties.meta &&
                         !$.isEmptyObject(feature.properties.meta)
                       ) {
-                        popup += '<h3>Meta:</h3><ul class="plain">';
+                        popup += '<h3>Meta</h3><ul class="plain">';
                         $.each(feature.properties.meta, function(k, v) {
                           k = htmlentities(k);
                           v = htmlentities(v);
