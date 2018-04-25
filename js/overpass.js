@@ -672,7 +672,11 @@ var overpass = new function() {
                         feature.properties.tags &&
                         !$.isEmptyObject(feature.properties.tags)
                       ) {
-                        popup += '<h3>Tags:</h3><ul class="plain">';
+                        popup += '<h3>Tags';
+                        if(typeof Object.keys === 'function'){
+                          popup += ' (' + Object.keys(feature.properties.tags).length + ')';
+                        }
+                        popup += ':</h3><ul class="plain">';
                         $.each(feature.properties.tags, function(k, v) {
                           k = htmlentities(k); // escaping strings!
                           v = htmlentities(v);
