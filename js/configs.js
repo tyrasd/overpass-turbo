@@ -4,7 +4,7 @@ export default {
   suggestedServers: [
     "//overpass-api.de/api/",
     "https://overpass.kumi.systems/api/",
-    "http://overpass.osm.rambler.ru/cgi/",
+    "http://overpass.openstreetmap.ru/cgi/",
     "//overpass.openstreetmap.fr/api/"
   ],
   defaultTiles: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
