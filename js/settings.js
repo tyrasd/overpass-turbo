@@ -110,7 +110,7 @@ var examples_initial_example = "Drinking Water";
 // global settings object
 var settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
-  36 // settings version number
+  37 // settings version number
 );
 
 export default settings;
@@ -401,4 +401,9 @@ settings.define_upgrade_callback(36, function(s) {
     "->.cr",
     ""
   );
+});
+settings.define_upgrade_callback(37, function(s) {
+  // Update the Rambler API endpoint
+  s.server = s.server.replace(/overpass\.osm\.rambler\.ru/, "overpass.openstreetmap.ru");
+  s.save();
 });
