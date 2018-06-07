@@ -36,7 +36,7 @@
     "pegjs": "^0.10.0",
     "pegjs-loader": "^0.5.1",
     "phantomjs-prebuilt": "^2.1.14",
-    "prettier": "^1.4.2",
+    "prettier": "^1.13.4",
     "request": "^2.67.0",
     "sinon": "^2.0.0-pre.5",
     "sinon-chai": "^2.8.0",

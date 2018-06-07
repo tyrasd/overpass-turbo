@@ -857,8 +857,9 @@ var overpass = new function() {
                         }
                       }
                       var latlng;
+                      // node-ish features (circles, markers, icons, placeholders)
                       if (typeof e.target.getLatLng == "function")
-                        latlng = e.target.getLatLng(); // node-ish features (circles, markers, icons, placeholders)
+                        latlng = e.target.getLatLng();
                       else latlng = e.latlng; // all other (lines, polygons, multipolygons)
                       var p = L.popup({maxHeight: 600}, this)
                         .setLatLng(latlng)
