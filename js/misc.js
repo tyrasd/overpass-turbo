@@ -62,7 +62,7 @@ export var Base64 = {
     input = this._convert_to_base64nopad(input);
     input = input.replace(/[^A-Za-z0-9\+\/]/g, "");
     //reappend the padding
-    input = input + "==".substring(0, (4 - input.length % 4) % 4);
+    input = input + "==".substring(0, (4 - (input.length % 4)) % 4);
 
     if (typeof window.btoa == "function") {
       output = window.atob(input);

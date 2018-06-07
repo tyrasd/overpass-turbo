@@ -52,9 +52,9 @@ styleparser.RuleSet.prototype = {
         }
 
         css = css.replace(this.CLASS, "");
-        sc
-          .currentChain()
-          .addConditionToLast(new styleparser.Condition().init("set", o[1]));
+        sc.currentChain().addConditionToLast(
+          new styleparser.Condition().init("set", o[1])
+        );
         previous = this.oCONDITION;
 
         // Not class - !.motorway, !.builtup, !:hover
@@ -65,9 +65,9 @@ styleparser.RuleSet.prototype = {
         }
 
         css = css.replace(this.NOT_CLASS, "");
-        sc
-          .currentChain()
-          .addConditionToLast(new styleparser.Condition().init("unset", o[1]));
+        sc.currentChain().addConditionToLast(
+          new styleparser.Condition().init("unset", o[1])
+        );
         previous = this.oCONDITION;
 
         // Zoom

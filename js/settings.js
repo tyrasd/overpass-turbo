@@ -404,6 +404,9 @@ settings.define_upgrade_callback(36, function(s) {
 });
 settings.define_upgrade_callback(37, function(s) {
   // Update the Rambler API endpoint
-  s.server = s.server.replace(/overpass\.osm\.rambler\.ru/, "overpass.openstreetmap.ru");
+  s.server = s.server.replace(
+    /overpass\.osm\.rambler\.ru/,
+    "overpass.openstreetmap.ru"
+  );
   s.save();
 });
