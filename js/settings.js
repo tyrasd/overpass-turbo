@@ -86,7 +86,7 @@ var examples = {
   },
   "Cycle Network": {
     overpass:
-      "/*\nThis shows the cycleway and cycleroute network.\n*/\n\n[out:json];\n\n(\n  // get cycle route relatoins\n  relation[route=bicycle]({{bbox}})->.cr;\n  // get cycleways\n  way[highway=cycleway]({{bbox}});\n  way[highway=path][bicycle=designated]({{bbox}});\n);\n\nout body;\n>;\nout skel qt;"
+      "/*\nThis shows the cycleway and cycleroute network.\n*/\n\n[out:json];\n\n(\n  // get cycle route relations\n  relation[route=bicycle]({{bbox}})->.cr;\n  // get cycleways\n  way[highway=cycleway]({{bbox}});\n  way[highway=path][bicycle=designated]({{bbox}});\n);\n\nout body;\n>;\nout skel qt;"
   },
   "Where am I?": {
     overpass:
