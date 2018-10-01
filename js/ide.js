@@ -2127,6 +2127,29 @@ var ide = new function() {
         encodeURIComponent(query) +
         "&target=compact";
 
+      function constructOverpassQLUrl(query) {
+        // remove /* */ comments from query
+        query = query.replace(/\/\*(.|\n)*?\*\//g, "");
+        // replace bbox with south west north east
+        query = query.replace(/{{bbox}}/g, "{south},{west},{north},{east}");
+        // replace //  comments from query
+        query = query.replace(/\/\/.*/g, "");
+        // removes indentation
+        query = query.replace(/\n(\s|\t)+/g, "");
+        query = query.replace(/\n/g, "");
+        return "https:" + server + "interpreter?data=" + query;
+      }
+      $("#export-dialog a#export-convert-compact-placeholder")
+        .attr("href", "")
+        .click(function() {
+          var raw_query = ide.getRawQuery();
+          copyData = {
+            "text/plain": constructOverpassQLUrl(raw_query)
+          };
+          document.execCommand("copy");
+          return false;
+        });
+
       // OSM editors
       // first check for possible mistakes in query.
       var validEditorQuery = Autorepair.detect.editors(
