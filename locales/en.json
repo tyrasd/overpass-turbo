@@ -93,9 +93,11 @@
   "export.format_text_raw": "<abbr title=\"Unaltered overpass turbo query – just as in the code editor\">raw query</abbr>",
   "export.format_text_wiki": "<abbr title=\"For usage in the OSM wiki as a OverpassTurboExample-Template\">osm wiki</abbr>",
   "export.to_xml": "convert to <a id=\"export-convert-xml\" href=\"\" target=\"_blank\" class=\"external\">Overpass-XML</a>",
-  "export.to_ql": "convert to <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL </a> </br> &nbsp; &nbsp;<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>or with placeholders/<a id=\"export-convert-compact-placeholder\" title=\"copies OverpassQL url to clipboard\" href>copy</a>",
-  "export.to_ql_placeholder_title": "Export - OverpassQL with placeholders",
-
+  "export.to_ql": "convert to <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL </a> </br> &nbsp; &nbsp;<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>or with placeholders/<a id=\"export-convert-compact-placeholder\" title=\"copies export output to clipboard\">copy</a>",
+  "export.to_ql_placeholder_query_title": "Export - OverpassQL with placeholders",
+  "export.standalone_query_title": "Export - Standalone Query",
+  "export.osm_wiki_query_title": "Export - Osm Wiki",
+  "export.raw_query_title": "Export - Raw Query",
 
   "export.editors": "load data into an OSM editor:",
 
