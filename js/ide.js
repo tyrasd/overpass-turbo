@@ -2129,14 +2129,13 @@ var ide = new function() {
 
       function constructOverpassQLUrl(query) {
         // remove /* */ comments from query
-        query = query.replace(/\/\*(.|\n)*?\*\//g, "");
+        query = query.replace(/\/\*[\S\s]*?\*\//g, "");
         // replace bbox with south west north east
         query = query.replace(/{{bbox}}/g, "{south},{west},{north},{east}");
         // replace //  comments from query
         query = query.replace(/\/\/.*/g, "");
         // removes indentation
-        query = query.replace(/\n(\s|\t)+/g, "");
-        query = query.replace(/\n/g, "");
+        query = query.replace(/\n\s*/g, "");
         return "https:" + server + "interpreter?data=" + query;
       }
       $("#export-dialog a#export-convert-compact-placeholder")

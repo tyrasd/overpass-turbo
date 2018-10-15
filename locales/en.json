@@ -96,7 +96,6 @@
   "export.to_ql": "convert to <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL </a> </br> &nbsp; &nbsp;<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>or with placeholders/<a id=\"export-convert-compact-placeholder\" title=\"copies OverpassQL url to clipboard\" href>copy</a>",
   "export.to_ql_placeholder_title": "Export - OverpassQL with placeholders",
 
-
   "export.editors": "load data into an OSM editor:",
 
   "export.geoJSON.title": "Export - GeoJSON",
