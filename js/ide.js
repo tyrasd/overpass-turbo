@@ -123,8 +123,9 @@ var ide = new function() {
   // == public sub objects ==
 
   this.waiter = {
-    opened: false,
-    frames: "◴◷◶◵",
+    opened: true,
+    frames: ["◴","◷","◶","◵"],
+    frameDelay: 250,
     open: function(show_info) {
       if (show_info) {
         $(".modal .wait-info h4").text(show_info);
@@ -135,15 +136,21 @@ var ide = new function() {
       $("body").addClass("loading");
       document.title = ide.waiter.frames[0] + " " + ide.waiter._initialTitle;
       var f = 0;
-      ide.waiter.interval = setInterval(function() {
-        document.title =
-          ide.waiter.frames[++f % ide.waiter.frames.length] +
-          " " +
-          ide.waiter._initialTitle;
-      }, 250);
+      ide.waiter.interval = setInterval(
+        function() {
+          document.title =
+            (this.isAlert
+              ? this.alertFrame
+              : this.frames[++f % this.frames.length]) +
+            " " +
+            this._initialTitle;
+        }.bind(ide.waiter),
+        ide.waiter.frameDelay
+      );
       ide.waiter.opened = true;
     },
     close: function() {
+      if (!ide.waiter.opened) return;
       clearInterval(ide.waiter.interval);
       document.title = ide.waiter._initialTitle;
       $("body").removeClass("loading");
@@ -900,15 +907,20 @@ var ide = new function() {
       continueCB
     ) {
       if (amount > 1000000) {
+        ide.waiter.close();
+        var _originalDocumentTitle = document.title;
+        document.title = "❗ " + _originalDocumentTitle;
         // more than ~1MB of data
         // show warning dialog
         var dialog_buttons = {};
         dialog_buttons[i18n.t("dialog.abort")] = function() {
           $(this).dialog("close");
+          document.title = _originalDocumentTitle;
           abortCB();
         };
         dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
           $(this).dialog("close");
+          document.title = _originalDocumentTitle;
           continueCB();
         };
         $(
@@ -932,10 +944,14 @@ var ide = new function() {
       ide.waiter.close();
     };
     overpass.handlers["onAjaxError"] = function(errmsg) {
+      ide.waiter.close();
+      var _originalDocumentTitle = document.title;
+      document.title = "❗ " + _originalDocumentTitle;
       // show error dialog
       var dialog_buttons = {};
       dialog_buttons[i18n.t("dialog.dismiss")] = function() {
         $(this).dialog("close");
+        document.title = _originalDocumentTitle;
       };
       $(
         '<div title="' +
@@ -953,9 +969,13 @@ var ide = new function() {
       if (overpass.resultText) ide.dataViewer.setValue(overpass.resultText);
     };
     overpass.handlers["onQueryError"] = function(errmsg) {
+      ide.waiter.close();
+      var _originalDocumentTitle = document.title;
+      document.title = "❗ " + _originalDocumentTitle;
       var dialog_buttons = {};
       dialog_buttons[i18n.t("dialog.dismiss")] = function() {
         $(this).dialog("close");
+        document.title = _originalDocumentTitle;
       };
       $(
         '<div title="' +
