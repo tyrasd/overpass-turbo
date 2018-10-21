@@ -74,7 +74,10 @@
   "load.no_saved_query": "no saved query yet",
 
   "export.title": "Export",
+  "export.download-error": "Export - Error",
   "export.copy_to_clipboard": "Copy this text to clipbard",
+  "export.copy_to_clipboard_success": "Export - Successfully copied to clipboard",
+  "export.copy_to_clipboard_success-message": "<span class=\"export-copy_to_clipboard-content\"></span> was successfully copied to the clipboard.",
 
   "export.section.map": "Map",
   "export.as_png": "as <a id=\"export-image\" href=\"\">png image</a>",
@@ -92,8 +95,10 @@
   "export.format_text": "<abbr title=\"For direct use with the Overpass API, has expanded shortcuts and doesn't include additional overpass turbo features such as MapCSS.\">standalone query</abbr>",
   "export.format_text_raw": "<abbr title=\"Unaltered overpass turbo query – just as in the code editor\">raw query</abbr>",
   "export.format_text_wiki": "<abbr title=\"For usage in the OSM wiki as a OverpassTurboExample-Template\">osm wiki</abbr>",
+  "export.format_text_umap": "<abbr title=\"For usage with umap.openstreetmap.fr\">umap</abbr> remote data url",
   "export.to_xml": "convert to <a id=\"export-convert-xml\" href=\"\" target=\"_blank\" class=\"external\">Overpass-XML</a>",
-  "export.to_ql": "convert to (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>) <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL</a>",
+  "export.to_ql": "convert to <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL </a> </br> &nbsp; &nbsp;<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compact</a>",
+
   "export.editors": "load data into an OSM editor:",
 
   "export.geoJSON.title": "Export - GeoJSON",
