@@ -1601,11 +1601,10 @@ var ide = new function() {
           Base64.encode(text, true)
         );
       }
-      function copyHandler(text, selector) {
+      function copyHandler(text, successMessage) {
         return function() {
           // selector
-          var d = selector;
-          d = $("#" + d);
+          var d = $("#export-clipboard-success");
           copyData = {
             "text/plain": text
           };
@@ -1619,7 +1618,10 @@ var ide = new function() {
             buttons: dialog_buttons
           });
           document.execCommand("copy");
-          $(".message", d).text("Copied to clipboard.");
+          $(".message", d).html(
+            i18n.t("export.copy_to_clipboard_success-message")
+          );
+          $(".export-copy_to_clipboard-content", d).html(successMessage);
           return false;
         };
       }
@@ -1632,7 +1634,7 @@ var ide = new function() {
       });
       $("#export-text .copy")
         .attr("href", "")
-        .click(copyHandler(query, "export-standalone-query-dialog"));
+        .click(copyHandler(query));
       // export raw query
       var query_raw = ide.getRawQuery();
       $("#export-text_raw .format").html(i18n.t("export.format_text_raw"));
@@ -1643,7 +1645,7 @@ var ide = new function() {
       });
       $("#export-text_raw .copy")
         .attr("href", "")
-        .click(copyHandler(query_raw, "export-raw-query-dialog"));
+        .click(copyHandler(query_raw));
       // export wiki query
       var query_wiki =
         "{{OverpassTurboExample|loc=" +
@@ -1673,7 +1675,37 @@ var ide = new function() {
       });
       $("#export-text_wiki .copy")
         .attr("href", "")
-        .click(copyHandler(query_wiki, "export-osm-wiki-query-dialog"));
+        .click(copyHandler(query_wiki));
+      // export umap query
+      var query_umap = query;
+      // remove /* */ comments from query
+      query_umap = query_umap.replace(/\/\*[\S\s]*?\*\//g, "");
+      // replace //  comments from query
+      query_umap = query_umap.replace(/\/\/.*/g, "");
+      // removes indentation
+      query_umap = query_umap.replace(/\n\s*/g, "");
+      // replace bbox with south west north east
+      query_umap = query_umap.replace(
+        new RegExp(shortcuts().bbox, "g"),
+        "{south},{west},{north},{east}"
+      );
+      $("#export-text_umap .format").html(i18n.t("export.format_text_umap"));
+      $("#export-text_umap .export").attr({
+        download: "query-umap.txt",
+        target: "_blank",
+        href: toDataURL(query_umap)
+      });
+      $("#export-text_umap .copy")
+        .attr("href", "")
+        .click(
+          copyHandler(
+            query_umap,
+            i18n.t("export.section.query") +
+              " (" +
+              i18n.t("export.format_text_umap") +
+              ")"
+          )
+        );
       var dialog_buttons = {};
       dialog_buttons[i18n.t("dialog.done")] = function() {
         $(this).dialog("close");
@@ -1812,7 +1844,7 @@ var ide = new function() {
         .unbind("click")
         .on("click", function() {
           var geoJSON_str = constructGeojsonString(overpass.geojson);
-          var d = $("#export-geojson-dialog");
+          var d = $("#export-download-dialog");
 
           // make content downloadable as file
           if (overpass.geojson) {
@@ -1837,7 +1869,9 @@ var ide = new function() {
       $("#export-geoJSON .copy")
         .attr("href", "")
         .click(function() {
-          var d = $("#export-geojson-dialog");
+          var d = overpass.geojson
+            ? $("#export-clipboard-success")
+            : $("#export-download-dialog");
           var dialog_buttons = {};
           dialog_buttons[i18n.t("dialog.dismiss")] = function() {
             $(this).dialog("close");
@@ -1854,11 +1888,12 @@ var ide = new function() {
               "application/geo+json": geojson
             };
             document.execCommand("copy");
-            $(".message", d).text("Copied to clipboard.");
-          } else {
-            $(".message", d).text(
-              "No GeoJSON data available! Please run a query first."
+            $(".message", d).html(
+              i18n.t("export.copy_to_clipboard_success-message")
             );
+            $(".export-copy_to_clipboard-content", d).text("GeoJSON");
+          } else {
+            $(".message", d).text(i18n.t("export.geoJSON.no_data"));
           }
           return false;
         });
@@ -1966,7 +2001,7 @@ var ide = new function() {
             });
             saveAs(blob, "export.gpx");
           } else {
-            var d = $("#export-gpx-dialog");
+            var d = $("#export-download-dialog");
             var dialog_buttons = {};
             dialog_buttons[i18n.t("dialog.dismiss")] = function() {
               $(this).dialog("close");
@@ -1983,7 +2018,9 @@ var ide = new function() {
       $("#export-GPX .copy")
         .attr("href", "")
         .click(function() {
-          var d = $("#export-gpx-dialog");
+          var d = overpass.geojson
+            ? $("#export-clipboard-success")
+            : $("#export-download-dialog");
           var dialog_buttons = {};
           dialog_buttons[i18n.t("dialog.dismiss")] = function() {
             $(this).dialog("close");
@@ -2000,11 +2037,12 @@ var ide = new function() {
               "application/gpx+xml": gpx
             };
             document.execCommand("copy");
-            $(".message", d).text("Copied to clipboard.");
-          } else {
-            $(".message", d).text(
-              "No GeoJSON data available! Please run a query first."
+            $(".message", d).html(
+              i18n.t("export.copy_to_clipboard_success-message")
             );
+            $(".export-copy_to_clipboard-content", d).text("GPX");
+          } else {
+            $(".message", d).text(i18n.t("export.GPX.no_data"));
           }
           return false;
         });
@@ -2041,7 +2079,7 @@ var ide = new function() {
             });
             saveAs(blob, "export.kml");
           } else {
-            var d = $("#export-kml-dialog");
+            var d = $("#export-download-dialog");
             var dialog_buttons = {};
             dialog_buttons[i18n.t("dialog.dismiss")] = function() {
               $(this).dialog("close");
@@ -2058,7 +2096,9 @@ var ide = new function() {
       $("#export-KML .copy")
         .attr("href", "")
         .click(function() {
-          var d = $("#export-kml-dialog");
+          var d = overpass.geojson
+            ? $("#export-clipboard-success")
+            : $("#export-download-dialog");
           var dialog_buttons = {};
           dialog_buttons[i18n.t("dialog.dismiss")] = function() {
             $(this).dialog("close");
@@ -2075,11 +2115,12 @@ var ide = new function() {
               "application/vnd.google-earth.kml+xml": kml
             };
             document.execCommand("copy");
-            $(".message", d).text("Copied to clipboard.");
-          } else {
-            $(".message", d).text(
-              "No GeoJSON data available! Please run a query first."
+            $(".message", d).html(
+              i18n.t("export.copy_to_clipboard_success-message")
             );
+            $(".export-copy_to_clipboard-content", d).text("KML");
+          } else {
+            $(".message", d).text(i18n.t("export.kml.no_data"));
           }
           return false;
         });
@@ -2137,7 +2178,7 @@ var ide = new function() {
               saveAs(blob, "export.dat");
             }
           } else {
-            var d = $("#export-raw-dialog");
+            var d = $("#export-download-dialog");
             var dialog_buttons = {};
             dialog_buttons[i18n.t("dialog.dismiss")] = function() {
               $(this).dialog("close");
@@ -2154,7 +2195,9 @@ var ide = new function() {
       $("#export-raw .copy")
         .attr("href", "")
         .click(function() {
-          var d = $("#export-raw-dialog");
+          var d = overpass.geojson
+            ? $("#export-clipboard-success")
+            : $("#export-download-dialog");
           var dialog_buttons = {};
           dialog_buttons[i18n.t("dialog.dismiss")] = function() {
             $(this).dialog("close");
@@ -2180,11 +2223,14 @@ var ide = new function() {
               copyData["application/octet-stream"] = raw_str;
             }
             document.execCommand("copy");
-            $(".message", d).text("Copied to clipboard.");
-          } else {
-            $(".message", d).text(
-              "No GeoJSON data available! Please run a query first."
+            $(".message", d).html(
+              i18n.t("export.copy_to_clipboard_success-message")
             );
+            $(".export-copy_to_clipboard-content", d).html(
+              i18n.t("export.raw_data")
+            );
+          } else {
+            $(".message", d).text(i18n.t("export.raw.no_data"));
           }
           return false;
         });
@@ -2199,25 +2245,6 @@ var ide = new function() {
         encodeURIComponent(query) +
         "&target=compact";
 
-      function constructOverpassQLUrl(query) {
-        // remove /* */ comments from query
-        query = query.replace(/\/\*[\S\s]*?\*\//g, "");
-        // replace bbox with south west north east
-        query = query.replace(/{{bbox}}/g, "{south},{west},{north},{east}");
-        // replace //  comments from query
-        query = query.replace(/\/\/.*/g, "");
-        // removes indentation
-        query = query.replace(/\n\s*/g, "");
-        return "https:" + server + "interpreter?data=" + query;
-      }
-      $("#export-dialog a#export-convert-compact-placeholder")
-        .attr("href", "")
-        .click(
-          copyHandler(
-            constructOverpassQLUrl(ide.getRawQuery()),
-            "export-ql-placeholder-dialog"
-          )
-        );
       // OSM editors
       // first check for possible mistakes in query.
       var validEditorQuery = Autorepair.detect.editors(
