@@ -925,7 +925,7 @@ var overpass = new function() {
                         // check for "only areas returned"
                         if (
                           (data_mode == "json" &&
-                            _.all(data.elements, {type: "area"})) ||
+                            _.every(data.elements, {type: "area"})) ||
                           (data_mode == "xml" &&
                             $("osm", data)
                               .children()
