@@ -124,7 +124,7 @@ var ide = new function() {
 
   this.waiter = {
     opened: true,
-    frames: ["◴","◷","◶","◵"],
+    frames: ["◴", "◷", "◶", "◵"],
     frameDelay: 250,
     open: function(show_info) {
       if (show_info) {
