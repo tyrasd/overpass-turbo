@@ -771,6 +771,18 @@ var overpass = new function() {
                               '" target="_blank">' +
                               v +
                               "</a>";
+                          // hyperlinks for World Database of Protected Areas
+                          var wdpa_page;
+                          if (
+                            (k == "ref:WDPA" &&
+                              (wdpa_page = v.match(/^[0-9]+$/)))
+                          )
+                            v =
+                              '<a href="//protectedplanet.net/' +
+                              encodeURIComponent(wdpa_page[0]) +
+                              '" target="_blank">' +
+                              v +
+                              "</a>";
 
                           popup += "<li>" + k + "=" + v + "</li>";
                         });
