@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[overpass-turbo.main]
+file_filter = locales/<lang>.json
+source_file = locales/en.json
+source_lang = en
+type = JSON

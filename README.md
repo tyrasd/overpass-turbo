@@ -19,6 +19,8 @@ Translations are managed using the [Transifex](https://www.transifex.com/project
 
 If your language isn't currently in the list, just drop me a [mail](mailto:tyr.asd@gmail.com) or open an [issue ticket](https://github.com/tyrasd/overpass-turbo/issues/new).
 
+To download the latest translations from Transifex, run `tx pull --all` using the [Transifex client `tx`](https://docs.transifex.com/client/introduction).
+
 Development
 -----------
 
