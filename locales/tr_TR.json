@@ -1,7 +1,7 @@
 {
     "nav.run": "Run",
     "nav.run_tt": "execute this query on Overpass API",
-    "nav.share": "Share",
+    "nav.share": "Paylaş",
     "nav.share_tt": "get a permalink for this query",
     "nav.export": "Export",
     "nav.export_tt": "various export tools",
@@ -118,7 +118,7 @@
     "share.options": "Options",
     "share.incl_map_state": "include current map state",
     "share.run_immediately": "run this query immediately after loading",
-    "help.title": "Help",
+    "help.title": "Yardım",
     "help.section.introduction": "Introduction",
     "help.intro.0": "This is <i>overpass turbo</i>, a web-based data filtering tool for <a href=\"http://www.openstreetmap.org\">OpenStreetMap</a>.",
     "help.intro.1": "With overpass turbo you can run <a href=\"http://wiki.openstreetmap.org/wiki/Overpass_API\">Overpass API</a> queries and analyse the resulting OSM data interactively on a map.",
