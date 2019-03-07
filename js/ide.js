@@ -2326,8 +2326,6 @@ var ide = new function() {
             .first();
           var send_to_josm = function(query) {
             var JRC_url = "http://127.0.0.1:8111/";
-            if (location.protocol === "https:")
-              JRC_url = "https://127.0.0.1:8112/";
             $.getJSON(JRC_url + "version")
               .done(function(d, s, xhr) {
                 if (d.protocolversion.major == 1) {
