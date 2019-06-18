@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test": "npm run test:style && npm run test:karma",
-    "test:style": "prettier --no-bracket-spacing --list-different $(git ls-files '*.js')",
+    "test:style": "prettier --no-bracket-spacing --check $(git ls-files '*.js')",
     "test:karma": "karma start --single-run",
     "test:start": "karma start",
     "fix:style": "prettier --no-bracket-spacing --write $(git ls-files '*.js')",
@@ -36,7 +36,7 @@
     "pegjs": "^0.10.0",
     "pegjs-loader": "^0.5.1",
     "phantomjs-prebuilt": "^2.1.14",
-    "prettier": "^1.13.4",
+    "prettier": "^1.18.2",
     "request": "^2.67.0",
     "sinon": "^2.0.0-pre.5",
     "sinon-chai": "^2.8.0",

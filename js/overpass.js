@@ -13,7 +13,7 @@ import overpass from "./overpass";
 import {htmlentities} from "./misc";
 import styleparser from "./jsmapcss";
 
-var overpass = new function() {
+var overpass = new (function() {
   // == private members ==
   var originalGeom2Layer;
   // == public members ==
@@ -1064,6 +1064,6 @@ var overpass = new function() {
   };
 
   // == initializations ==
-}(); // end create overpass object
+})(); // end create overpass object
 
 export default overpass;

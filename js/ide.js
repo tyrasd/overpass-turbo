@@ -48,7 +48,7 @@ $(document).on("copy", function(e) {
   }
 });
 
-var ide = new function() {
+var ide = new (function() {
   // == private members ==
   var attribControl = null;
   var scaleControl = null;
@@ -81,8 +81,8 @@ var ide = new function() {
         .append(
           deletables && deletables.indexOf(item.value) !== -1
             ? '<div title="shift-click to remove from list" style="font-style:italic;">' +
-              item.label +
-              "</div>"
+                item.label +
+                "</div>"
             : "<div>" + item.label + "</div>"
         )
         .on("click", function(event) {
@@ -2889,6 +2889,6 @@ var ide = new function() {
       }.bind(this)
     );
   };
-}(); // end create ide object
+})(); // end create ide object
 
 export default ide;

@@ -5,7 +5,7 @@ import _ from "lodash";
 import "./promise-polyfill";
 import settings from "./settings";
 
-var i18n = new function() {
+var i18n = new (function() {
   function browser_locale() {
     /* taken from https://github.com/maxogden/browser-locale by Max Ogden, BSD licensed */
     var lang;
@@ -138,6 +138,6 @@ var i18n = new function() {
 
   // translated texts
   var td = {};
-}(); // end create i18n object
+})(); // end create i18n object
 
 export default i18n;

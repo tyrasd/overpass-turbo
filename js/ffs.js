@@ -6,9 +6,9 @@ var ffs = {};
 var freeFormQuery;
 
 /* this converts a random boolean expression into a normalized form:
-   * A∧B∧… ∨ C∧D∧… ∨ …
-   * for example: A∧(B∨C) ⇔ (A∧B)∨(A∧C)
-   */
+ * A∧B∧… ∨ C∧D∧… ∨ …
+ * for example: A∧(B∨C) ⇔ (A∧B)∨(A∧C)
+ */
 function normalize(query) {
   var normalized_query = {
     logical: "or",
