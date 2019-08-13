@@ -64,7 +64,7 @@
     "export.title": "Xuất",
     "export.download-error": "Export - Error",
     "export.copy_to_clipboard": "Sao chép văn bản này vào bảng tạm",
-    "export.copy_to_clipboard_success": "Export - Successfully copied to clipboard",
+    "export.copy_to_clipboard_success": "Xuất - copy vào bộ nhớ tạm thành công",
     "export.copy_to_clipboard_success-message": "<span class=\"export-copy_to_clipboard-content\"></span> was successfully copied to the clipboard.",
     "export.section.map": "Bản đồ",
     "export.as_png": "dưới dạng <a id=\"export-image\" href=\"\">hình PNG</a>",

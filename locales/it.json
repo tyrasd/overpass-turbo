@@ -179,7 +179,7 @@
     "dialog.save": "salva",
     "dialog.save-local": "salva (localmente)",
     "dialog.save-osm": "salva su osm.org",
-    "dialog.delete": "cancella",
+    "dialog.delete": "elimina",
     "dialog.close": "chiudi",
     "dialog.done": "completato",
     "dialog.abort": "annulla",
