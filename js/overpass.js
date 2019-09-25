@@ -715,7 +715,7 @@ var overpass = new (function() {
                           if (
                             ((wiki_lang = k.match(/^wikipedia\:(.*)$/)) &&
                               (wiki_page = v)) ||
-                            (k == "wikipedia" &&
+                            (k.match(/(^|:)wikipedia$/) &&
                               (wiki_lang = v.match(/^([a-zA-Z]+)\:(.*)$/)) &&
                               (wiki_page = wiki_lang[2]))
                           )
@@ -730,10 +730,8 @@ var overpass = new (function() {
                           // hyperlinks for wikidata entries
                           var wikidata_page;
                           if (
-                            (k == "wikidata" &&
-                              (wikidata_page = v.match(/^Q[0-9]+$/))) ||
-                            (k.match(/:wikidata$/) &&
-                              (wikidata_page = v.match(/^Q[0-9]+$/)))
+                            k.match(/(^|:)wikidata$/) &&
+                            (wikidata_page = v.match(/^Q[0-9]+$/))
                           )
                             v =
                               '<a href="//www.wikidata.org/wiki/' +
