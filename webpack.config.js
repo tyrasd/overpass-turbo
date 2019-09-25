@@ -1,6 +1,7 @@
 /* eslint-env node */
 const webpack = require("webpack");
 const path = require("path");
+const child_process = require("child_process");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -61,6 +62,13 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      GIT_VERSION: JSON.stringify(
+        child_process
+          .execSync("git describe --always", {encoding: "utf-8"})
+          .trim()
+      )
+    }),
     new CleanWebpackPlugin([path.resolve(__dirname, "build")]),
     new ExtractTextPlugin({
       filename: "[name].[contenthash].css"

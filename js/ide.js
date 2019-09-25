@@ -194,6 +194,9 @@ var ide = new (function() {
 
   this.init = function() {
     ide.waiter.addInfo("ide starting up");
+    $("#overpass-turbo-version").html(
+      "overpass-turbo <code>" + GIT_VERSION + "</code>" // eslint-disable-line no-undef
+    );
     // (very raw) compatibility check <- TODO: put this into its own function
     if (
       jQuery.support.cors != true ||
