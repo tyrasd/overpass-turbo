@@ -2,6 +2,7 @@
 import $ from "jquery";
 import _ from "lodash";
 import jQuery from "jquery";
+import "jquery-ui/ui/effects/effect-shake";
 import "jquery-ui/ui/widgets/autocomplete";
 import "jquery-ui/ui/widgets/accordion";
 import "jquery-ui/ui/widgets/dialog";
