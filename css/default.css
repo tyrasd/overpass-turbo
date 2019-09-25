@@ -90,6 +90,9 @@ body {
   height: 100%;
   overflow-x: auto;
 }
+.CodeMirror-gutter-text {
+  color: #888;
+}
 .CodeMirror-gutter-text,
 .CodeMirror-lines {
   padding: 12px;
