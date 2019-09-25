@@ -849,12 +849,15 @@ var overpass = new (function() {
                         popup += "</ul>";
                       }
                       if (feature.geometry.type == "Point")
-                        popup +=
+                        popup += L.Util.template(
                           "<h3>Coordinates:</h3><p>" +
-                          feature.geometry.coordinates[1] +
-                          " / " +
-                          feature.geometry.coordinates[0] +
-                          " <small>(lat/lon)</small></p>";
+                            '<a href="geo:{lat},{lon}">{lat} / {lon}</a> ' +
+                            "<small>(lat/lon)</small></p>",
+                          {
+                            lat: feature.geometry.coordinates[1],
+                            lon: feature.geometry.coordinates[0]
+                          }
+                        );
                       if (
                         $.inArray(feature.geometry.type, [
                           "LineString",
