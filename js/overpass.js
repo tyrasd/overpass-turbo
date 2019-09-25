@@ -704,7 +704,7 @@ var overpass = new (function() {
                               );
                             });
                           } else {
-                            // hyperlinks for email adresses
+                            // hyperlinks for email addresses
                             v = v.replace(
                               /(([^\s()<>]+)@([^\s()<>]+[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/g,
                               '<a href="mailto:$1" target="_blank">$1</a>'
@@ -723,7 +723,7 @@ var overpass = new (function() {
                               '<a href="//' +
                               wiki_lang[1] +
                               ".wikipedia.org/wiki/" +
-                              encodeURIComponent(wiki_page) +
+                              wiki_page +
                               '" target="_blank">' +
                               v +
                               "</a>";
@@ -737,7 +737,7 @@ var overpass = new (function() {
                           )
                             v =
                               '<a href="//www.wikidata.org/wiki/' +
-                              encodeURIComponent(wikidata_page[0]) +
+                              wikidata_page[0] +
                               '" target="_blank">' +
                               v +
                               "</a>";
@@ -753,7 +753,7 @@ var overpass = new (function() {
                               '<a href="//commons.wikimedia.org/wiki/' +
                               wikimediacommons_page[1] +
                               ":" +
-                              encodeURIComponent(wikimediacommons_page[2]) +
+                              wikimediacommons_page[2] +
                               '" target="_blank">' +
                               v +
                               "</a>";
@@ -833,14 +833,14 @@ var overpass = new (function() {
                           if (k == "user")
                             v =
                               '<a href="//www.openstreetmap.org/user/' +
-                              encodeURIComponent(v) +
+                              v +
                               '" target="_blank">' +
                               v +
                               "</a>";
                           if (k == "changeset")
                             v =
                               '<a href="//www.openstreetmap.org/changeset/' +
-                              encodeURIComponent(v) +
+                              v +
                               '" target="_blank">' +
                               v +
                               "</a>";
