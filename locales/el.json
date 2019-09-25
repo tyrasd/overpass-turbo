@@ -23,6 +23,7 @@
     "tabs.data_tt": "προβολή δεδομένων",
     "map_controlls.zoom_to_data": "μεγέθυνση στα δεδομένα",
     "map_controlls.localize_user": "εντόπισε με!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "χειροκίνητη επιλογή bbox",
     "map_controlls.select_bbox_disabled": "ανενεργό καθώς το τρέχον ερώτημα δεν απαιτεί bbox",
     "map_controlls.toggle_wide_map": "εναλλαγή ευρύ χάρτη",

@@ -23,6 +23,7 @@
     "tabs.data_tt": "adatnézet",
     "map_controlls.zoom_to_data": "nagyítás az adatokra",
     "map_controlls.localize_user": "keress meg engem!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "határolónégyzet kijelölése kézzel",
     "map_controlls.select_bbox_disabled": "letiltva, mert a jelenlegi lekérdezés nem igényel határolónégyzetet",
     "map_controlls.toggle_wide_map": "széles térképre váltás",

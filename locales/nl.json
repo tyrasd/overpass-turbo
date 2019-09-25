@@ -23,6 +23,7 @@
     "tabs.data_tt": "bekijk gegevens",
     "map_controlls.zoom_to_data": "inzoomen op gegevens",
     "map_controlls.localize_user": "Waar bevind ik me?",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "gebied manueel selecteren",
     "map_controlls.select_bbox_disabled": "uitgeschakeld, aangezien deze bevraging geen bbox (gebiedsbegrenzing) nodig heeft.",
     "map_controlls.toggle_wide_map": "Brede/smalle weergave",

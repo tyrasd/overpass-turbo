@@ -23,6 +23,7 @@
     "tabs.data_tt": "datum-vido",
     "map_controlls.zoom_to_data": "pligrandigi al datumoj",
     "map_controlls.localize_user": "trovi min!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "permane elekti bbox",
     "map_controlls.select_bbox_disabled": "malaktiva, ĉar la nuna informpeto ne postulas bbox",
     "map_controlls.toggle_wide_map": "baskuli larĝan mapon",

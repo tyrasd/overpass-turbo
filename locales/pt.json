@@ -23,6 +23,7 @@
     "tabs.data_tt": "visão de dados",
     "map_controlls.zoom_to_data": "enquadrar nos dados",
     "map_controlls.localize_user": "localiza-me!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "definir manualmente a caixa de limites",
     "map_controlls.select_bbox_disabled": "desativado uma vez que a consulta atual não necessita de uma caixa de limites",
     "map_controlls.toggle_wide_map": "mostrar/ocultar mapa largo",

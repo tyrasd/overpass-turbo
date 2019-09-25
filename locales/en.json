@@ -26,6 +26,7 @@
 
   "map_controlls.zoom_to_data": "zoom to data",
   "map_controlls.localize_user": "locate me!",
+  "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
   "map_controlls.select_bbox": "manually select bbox",
   "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "toggle wide map",

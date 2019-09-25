@@ -23,6 +23,7 @@
     "tabs.data_tt": "andmevaade",
     "map_controlls.zoom_to_data": "suurenda andmete järgi",
     "map_controlls.localize_user": "Leia minu asukoht!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "piirdeala",
     "map_controlls.select_bbox_disabled": "keelatud, sest praegune päring ei nõua piirdeala",
     "map_controlls.toggle_wide_map": "laienda kaardivaadet",

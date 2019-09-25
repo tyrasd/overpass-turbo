@@ -23,6 +23,7 @@
     "tabs.data_tt": "Datenansicht",
     "map_controlls.zoom_to_data": "auf die Daten zoomen",
     "map_controlls.localize_user": "zum Benutzer-Standort gehen",
+    "map_controlls.localize_user_disabled": "Inaktiv, weil overpass turbo nicht via https:// aufgerufen wurde",
     "map_controlls.select_bbox": "Kartenausschnitt manuell auswählen",
     "map_controlls.select_bbox_disabled": "Inaktiv, weil die aktuelle Abfrage keine Bounding-Box benötigt.",
     "map_controlls.toggle_wide_map": "Karte vergrößern/verkleinern",

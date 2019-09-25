@@ -23,6 +23,7 @@
     "tabs.data_tt": "データ表示",
     "map_controlls.zoom_to_data": "データへズーム",
     "map_controlls.localize_user": "表示を現在地へ移動",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "矩形範囲を手動で設定",
     "map_controlls.select_bbox_disabled": "現在のクエリにbbox指定は不要のため、無効化しました",
     "map_controlls.toggle_wide_map": "地図表示変更",

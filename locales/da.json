@@ -23,6 +23,7 @@
     "tabs.data_tt": "geodata oversigt",
     "map_controlls.zoom_to_data": "zoom hen til geodata",
     "map_controlls.localize_user": "lokaliserer mig!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "manuelt valgt geografisk boks",
     "map_controlls.select_bbox_disabled": "slået fra da nuværende søgning ikke kræver en geografisk boks",
     "map_controlls.toggle_wide_map": "skift mellem kortbredde",

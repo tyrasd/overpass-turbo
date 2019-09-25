@@ -23,6 +23,7 @@
     "tabs.data_tt": "資料檢視",
     "map_controlls.zoom_to_data": "縮放至資料範圍",
     "map_controlls.localize_user": "定位我的位置",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "手動選擇bbox範圍",
     "map_controlls.select_bbox_disabled": "bbox功能關閉，目前檢索不需要bbox",
     "map_controlls.toggle_wide_map": "啟動寬地圖檢視模式",

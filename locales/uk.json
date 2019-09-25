@@ -23,6 +23,7 @@
     "tabs.data_tt": "дані",
     "map_controlls.zoom_to_data": "перейти до даних",
     "map_controlls.localize_user": "знайди мене!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "вибрати прямокутник вручну",
     "map_controlls.select_bbox_disabled": "відключено, оскільки поточний запит не вимагає BBOX",
     "map_controlls.toggle_wide_map": "мапа на всю ширину",

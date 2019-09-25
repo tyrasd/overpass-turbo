@@ -23,6 +23,7 @@
     "tabs.data_tt": "نمای داده",
     "map_controlls.zoom_to_data": "برو روی داده‌ها",
     "map_controlls.localize_user": "جای مرا نشان بده!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "کادر محصورکننده (bbox) را دستی انتخاب کنید",
     "map_controlls.select_bbox_disabled": "غیرفعال است زیرا پرس‌وجوی کنونی به کادر محصورکننده نیاز ندارد",
     "map_controlls.toggle_wide_map": "کم/زیاد کردن پهنای نقشه",

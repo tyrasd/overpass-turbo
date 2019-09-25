@@ -23,6 +23,7 @@
     "tabs.data_tt": "datavisning",
     "map_controlls.zoom_to_data": "skaler til datautsnitt",
     "map_controlls.localize_user": "hvor er jeg?",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "velg avgrensning (bbox) manuelt",
     "map_controlls.select_bbox_disabled": "inaktiv fordi gjeldende søk ikke krever avgrensning (bbox)",
     "map_controlls.toggle_wide_map": "bytt mellom kart i full bredde",

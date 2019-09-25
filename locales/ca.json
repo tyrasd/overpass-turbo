@@ -23,6 +23,7 @@
     "tabs.data_tt": "visualització de les dades",
     "map_controlls.zoom_to_data": "ajusta l'escala a les dades",
     "map_controlls.localize_user": "ubica'm!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "requadre seleccionat manualment",
     "map_controlls.select_bbox_disabled": "inhabilitat perquè la consulta actual que no requereix un requadre",
     "map_controlls.toggle_wide_map": "canvia al mapa d'amplada completa",

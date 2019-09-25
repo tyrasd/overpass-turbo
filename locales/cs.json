@@ -23,6 +23,7 @@
     "tabs.data_tt": "zobrazení dat",
     "map_controlls.zoom_to_data": "přiblížit na data",
     "map_controlls.localize_user": "lokalizuj mne!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "ručně vybrat ohraničující rámeček",
     "map_controlls.select_bbox_disabled": "vypnuto, protože aktuální dotaz nevyžaduje ohraničující rámeček",
     "map_controlls.toggle_wide_map": "přepnout širokou mapu",

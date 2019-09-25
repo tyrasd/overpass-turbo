@@ -276,6 +276,10 @@ body.loading .modal {
   display: inline-block;
   vertical-align: middle;
 }
+.leaflet-control-buttons a.disabled span {
+  opacity: 0.5;
+  cursor: default;
+}
 .leaflet-control-buttons-fitdata {
 }
 .leaflet-control-buttons-myloc {

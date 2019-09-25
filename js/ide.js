@@ -377,16 +377,12 @@ var ide = new (function() {
             if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
               if (bbox_filter.hasClass("disabled")) {
                 bbox_filter.removeClass("disabled");
-                $("span", bbox_filter).css("opacity", 1.0);
-                bbox_filter.css("cursor", "");
                 bbox_filter.attr("data-t", "[title]map_controlls.select_bbox");
                 i18n.translate_ui(bbox_filter[0]);
               }
             } else {
               if (!bbox_filter.hasClass("disabled")) {
                 bbox_filter.addClass("disabled");
-                $("span", bbox_filter).css("opacity", 0.5);
-                bbox_filter.css("cursor", "default");
                 bbox_filter.attr(
                   "data-t",
                   "[title]map_controlls.select_bbox_disabled"
@@ -558,6 +554,16 @@ var ide = new (function() {
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.localize_user");
+        if (
+          location.protocol !== "https" &&
+          location.hostname !== "localhost"
+        ) {
+          link.className += " disabled";
+          link.setAttribute(
+            "data-t",
+            "[title]map_controlls.localize_user_disabled"
+          );
+        }
         i18n.translate_ui(link);
         L.DomEvent.addListener(
           link,

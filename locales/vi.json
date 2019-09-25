@@ -23,6 +23,7 @@
     "tabs.data_tt": "dữ liệu",
     "map_controlls.zoom_to_data": "phóng vừa dữ liệu",
     "map_controlls.localize_user": "xác định vị trí của tôi!",
+    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
     "map_controlls.select_bbox": "chọn hộp bao thủ công",
     "map_controlls.select_bbox_disabled": "vô hiệu vì truy vấn hiện tại không cần hộp bao",
     "map_controlls.toggle_wide_map": "bật/tắt bản đồ rộng",
