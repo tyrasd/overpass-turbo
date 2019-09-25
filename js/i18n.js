@@ -30,6 +30,7 @@ var i18n = new (function() {
     // translations found in locale/*.json
     en: "English",
     ca: "Catalan",
+    cs: "Czech",
     da: "Danish",
     eo: "Esperanto",
     de: "German",
@@ -37,10 +38,12 @@ var i18n = new (function() {
     es: "Spanish",
     et: "Estonian",
     fr: "French",
+    gl: "Galician",
     hr: "Croatian",
     hu: "Hungarian",
     it: "Italian",
     ja: "Japanese",
+    lv: "Latvian",
     nl: "Dutch",
     no: "Norwegian",
     pl: "Polish",
@@ -50,6 +53,7 @@ var i18n = new (function() {
     sl: "Slovenian",
     uk: "Ukrainian",
     vi: "Vietnamese",
+    "zh-CN": "Chinese (Simplified)",
     "zh-TW": "Chinese (Taiwan)"
   };
   var supported_lngs = _.keys(languages);
