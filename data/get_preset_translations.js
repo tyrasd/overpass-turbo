@@ -21,7 +21,7 @@ locales.forEach(function(locale) {
     } catch (e) {
       return;
     }
-    data = data.presets.presets;
+    data = data[locale].presets.presets;
     fs.writeFileSync(
       outdir + "iD_presets_" + locale + ".json",
       JSON.stringify(data, null, 2)

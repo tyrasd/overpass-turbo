@@ -4,7 +4,7 @@
 #   * icons - update icon sets))
 
 presets:
-	wget "https://github.com/openstreetmap/iD/raw/master/data/presets/presets.json" -O data/iD_presets.json --no-check-certificate
+	wget "https://github.com/openstreetmap/iD/raw/master/data/presets/presets.json" -O data/iD_presets.json
 	node data/get_preset_translations
 
 icons: icons-maki icons-mapnik icons-osmic

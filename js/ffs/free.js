@@ -24,9 +24,9 @@ export default function ffs_free(callback) {
   function loadPresets() {
     return import("../../data/iD_presets.json")
       .then(function(data) {
-        presets = data;
+        presets = data.presets;
         Object.keys(presets).forEach(function(key) {
-          var preset = data[key];
+          var preset = presets[key];
           preset.nameCased = preset.name;
           preset.name = preset.name.toLowerCase();
           preset.terms = !preset.terms
@@ -36,7 +36,8 @@ export default function ffs_free(callback) {
               });
         });
       })
-      .catch(function() {
+      .catch(function(err) {
+        console.warn("failed to load presets file", err);
         throw new Error("failed to load presets file");
       });
   }
@@ -68,7 +69,11 @@ export default function ffs_free(callback) {
           preset.terms.unshift(oriPresetName);
         });
       })
-      .catch(function() {
+      .catch(function(err) {
+        console.warn(
+          "failed to load preset translations file: " + language,
+          err
+        );
         throw new Error("failed to load preset translations file: " + language);
       });
   }
