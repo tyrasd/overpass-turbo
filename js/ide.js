@@ -554,10 +554,7 @@ var ide = new (function() {
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.localize_user");
-        if (
-          location.protocol !== "https" &&
-          location.hostname !== "localhost"
-        ) {
+        if (!window.isSecureContext) {
           link.className += " disabled";
           link.setAttribute(
             "data-t",
