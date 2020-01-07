@@ -404,6 +404,10 @@ ul.plain {
 ul.plain > li {
   list-style-type: none;
 }
+ul.plain > li:hover {
+  background-color: #eeeeee;
+  transition: all 0.1s;
+}
 .cm-mustache {
   color: #d83;
 }
@@ -438,10 +442,6 @@ body .ui-tooltip {
   border: 0;
   padding-top: 4px;
   padding-bottom: 4px;
-}
-#load-dialog .delete-query {
-  position: absolute;
-  right: 24px;
 }
 
 .warning {

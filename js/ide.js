@@ -1345,31 +1345,37 @@ var ide = new (function() {
       if (type == "template") continue;
       $("<li></li>")
         .append(
-          $('<a href="#">' + example + "</a>").on(
-            "click",
-            (function(example) {
-              return function() {
-                ide.loadExample(example);
-                $(this)
-                  .parents(".ui-dialog-content")
-                  .dialog("close");
-                return false;
-              };
-            })(example)
-          ),
-          $(
-            '<a href="#" title="' +
-              i18n.t("load.delete_query") +
-              '" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'
-          ).on(
-            "click",
-            (function(example) {
-              return function() {
-                ide.removeExample(example, this);
-                return false;
-              };
-            })(example)
-          )
+          $("<a>")
+            .attr("href", "#")
+            .text(example)
+            .on(
+              "click",
+              (function(example) {
+                return function() {
+                  ide.loadExample(example);
+                  $(this)
+                    .parents(".ui-dialog-content")
+                    .dialog("close");
+                  return false;
+                };
+              })(example)
+            ),
+          $("<a>")
+            .attr("href", "#")
+            .attr("title", i18n.t("load.delete_query") + ": " + example)
+            .addClass("delete-query")
+            .css("float", "right")
+            .append($("<span>").addClass("ui-icon ui-icon-close"))
+            .on(
+              "click",
+              (function(example) {
+                return function() {
+                  ide.removeExample(example, this);
+                  return false;
+                };
+              })(example)
+            ),
+          $("<div>").css("clear", "right")
         )
         .appendTo("#load-dialog ul." + type);
       if (type == "saved_query") has_saved_query = true;
@@ -1405,31 +1411,37 @@ var ide = new (function() {
             queries.forEach(function(q) {
               $("<li></li>")
                 .append(
-                  $('<a href="#">' + q.name + "</a>").on(
-                    "click",
-                    (function(query) {
-                      return function() {
-                        ide.setQuery(lzw_decode(Base64.decode(query.query)));
-                        $(this)
-                          .parents(".ui-dialog-content")
-                          .dialog("close");
-                        return false;
-                      };
-                    })(q)
-                  ),
-                  $(
-                    '<a href="#" title="' +
-                      i18n.t("load.delete_query") +
-                      '" class="delete-query"><span class="ui-icon ui-icon-close" style="display:inline-block;"/></a>'
-                  ).on(
-                    "click",
-                    (function(example) {
-                      return function() {
-                        ide.removeExampleSync(example, this);
-                        return false;
-                      };
-                    })(q)
-                  )
+                  $("<a>")
+                    .attr("href", "#")
+                    .text(q.name)
+                    .on(
+                      "click",
+                      (function(query) {
+                        return function() {
+                          ide.setQuery(lzw_decode(Base64.decode(query.query)));
+                          $(this)
+                            .parents(".ui-dialog-content")
+                            .dialog("close");
+                          return false;
+                        };
+                      })(q)
+                    ),
+                  $("<a>")
+                    .attr("href", "#")
+                    .attr("title", i18n.t("load.delete_query") + ": " + q.name)
+                    .addClass("delete-query")
+                    .css("float", "right")
+                    .append($("<span>").addClass("ui-icon ui-icon-close"))
+                    .on(
+                      "click",
+                      (function(example) {
+                        return function() {
+                          ide.removeExampleSync(example, this);
+                          return false;
+                        };
+                      })(q)
+                    ),
+                  $("<div>").css("clear", "right")
                 )
                 .appendTo("#load-dialog ul.osm");
             });
