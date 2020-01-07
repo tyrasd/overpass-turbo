@@ -23,7 +23,7 @@
     "tabs.data_tt": "vista dos datos",
     "map_controlls.zoom_to_data": "achegar ós datos",
     "map_controlls.localize_user": "localízame!",
-    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
+    "map_controlls.localize_user_disabled": "deshabilitado porque o overpass turbo non se cargou a través de https://",
     "map_controlls.select_bbox": "seleccionar de xeito manual o bbox",
     "map_controlls.select_bbox_disabled": "inhabilitado coma a consulta actual que non require un bbox",
     "map_controlls.toggle_wide_map": "alternar achegamento do mapa",

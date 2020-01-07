@@ -147,7 +147,7 @@
     "help.section.key": "Legenda",
     "help.key.example": "various map features",
     "help.key.description": "Ways are shown as bold blue lines, Polygons as yellow areas with a thin blue outline, POIs (nodes with tags) as yellow circles with a thin blue outline. Circles with a red filling stand for polygons or ways that are too small to be displayed normally. Pink lines or outlines mean, that an object is part of at least one (loaded) relation. Dashed lines mean that a way or polygon has incomplete geometry (most likely because some of its nodes have not been loaded).",
-    "help.section.export": "Export",
+    "help.section.export": "Izvoz",
     "help.export": "The <i>Export</i> tool holds a variety of options to do with the query and/or data loaded by the query.<br />Options with this symbol:<span class=\"ui-icon ui-icon-extlink\" style=\"display:inline-block;\"></span> rely on or refer to external (online) tools.",
     "help.export.query_data.title": "Query / Data",
     "help.export.query_data.expl": "This holds some things you can do with the raw query or data, like converting the query between the various query languages or exporting the data as geoJSON. A very usefull option is the possibility to send the query to JOSM.",
