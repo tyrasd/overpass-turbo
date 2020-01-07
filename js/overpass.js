@@ -728,17 +728,16 @@ var overpass = new (function() {
                               v +
                               "</a>";
                           // hyperlinks for wikidata entries
-                          var wikidata_page;
-                          if (
-                            k.match(/(^|:)wikidata$/) &&
-                            (wikidata_page = v.match(/^Q[0-9]+$/))
-                          )
-                            v =
-                              '<a href="//www.wikidata.org/wiki/' +
-                              wikidata_page[0] +
-                              '" target="_blank">' +
-                              v +
-                              "</a>";
+                          if (k.match(/(^|:)wikidata$/))
+                            v = v.replace(/Q[0-9]+/g, function(q) {
+                              return (
+                                '<a href="//www.wikidata.org/wiki/' +
+                                q +
+                                '" target="_blank">' +
+                                q +
+                                "</a>"
+                              );
+                            });
                           // hyperlinks for wikimedia-commons entries
                           var wikimediacommons_page;
                           if (
