@@ -151,10 +151,10 @@ $(document).ready(function() {
   // wait spinner
   $(document).on({
     ajaxStart: function() {
-      $("body").addClass("loading");
+      $("#loading-dialog").addClass("is-active");
     },
     ajaxStop: function() {
-      $("body").removeClass("loading");
+      $("#loading-dialog").removeClass("is-active");
     }
   });
   ide.map.on("layeradd", function(e) {

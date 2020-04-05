@@ -3,9 +3,6 @@
   body {
     height: auto;
   }
-  body {
-    /*font-size: 13px;*/
-  }
   #editor {
     position: relative !important;
     left: auto !important;
@@ -77,9 +74,6 @@
     position: relative;
     height: auto;
   }
-  .nav {
-    white-space: normal;
-  }
   #navs .title {
     display: block;
     position: absolute;
@@ -94,18 +88,10 @@
   .tabs {
     display: none;
   }
-  .button {
-    margin-bottom: 3px;
-  }
   div.ui-dialog {
     max-width: 100%;
     top: 0;
     left: 0;
-  }
-  .modal .wait-info {
-    background-color: rgba(0, 0, 0, 0);
-    padding: 70px 10px 10px 10px;
-    margin-left: -60px;
   }
   .leaflet-control-buttons a.leaflet-control-buttons-fullscreen {
     display: none;
