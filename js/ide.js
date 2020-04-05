@@ -149,22 +149,22 @@ var ide = new (function() {
     // Create modal in body
     var element = $(dialogContent);
     // Handle close event
-    $('.delete', element).click(function() {
+    $(".delete", element).click(function() {
       $(element).remove();
     });
 
     // Add all the buttons
     for (let name in buttons) {
       $(`<button class="button">${name}</button>`)
-          .click(function () {
-            $(element).remove();
-            buttons[name]();
-          })
-          .appendTo($('footer .level-item', element));
+        .click(function() {
+          $(element).remove();
+          buttons[name]();
+        })
+        .appendTo($("footer .level-item", element));
     }
 
     // Add the element to the body
-    element.appendTo('body');
+    element.appendTo("body");
   };
 
   // == public sub objects ==
@@ -260,7 +260,7 @@ var ide = new (function() {
     ) {
       // the currently used browser is not capable of running the IDE. :(
       ide.not_supported = true;
-      $("#warning-unsupported-browser").addClass('is-active');
+      $("#warning-unsupported-browser").addClass("is-active");
     }
     // load settings
     ide.waiter.addInfo("load settings");
@@ -907,13 +907,14 @@ var ide = new (function() {
       // show warning/info if only invisible data is returned
       if (empty_msg == "no visible data") {
         if (!settings.no_autorepair) {
-          var content = '<p>' +
-              i18n.t("warning.incomplete.expl.1") +
-              "</p><p>" +
-              i18n.t("warning.incomplete.expl.2") +
-              '</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;' +
-              i18n.t("warning.incomplete.not_again") +
-              "</p>";
+          var content =
+            "<p>" +
+            i18n.t("warning.incomplete.expl.1") +
+            "</p><p>" +
+            i18n.t("warning.incomplete.expl.2") +
+            '</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;' +
+            i18n.t("warning.incomplete.not_again") +
+            "</p>";
 
           var dialog_buttons = {};
           dialog_buttons[i18n.t("dialog.repair_query")] = function() {
@@ -928,7 +929,11 @@ var ide = new (function() {
             }
             ide.switchTab("Data");
           };
-          showDialog(i18n.t("warning.incomplete.title"), content, dialog_buttons);
+          showDialog(
+            i18n.t("warning.incomplete.title"),
+            content,
+            dialog_buttons
+          );
         }
       }
       // auto tab switching (if only areas are returned)
@@ -968,13 +973,14 @@ var ide = new (function() {
           continueCB();
         };
 
-        var content = '<p>' +
-            i18n
-                .t("warning.huge_data.expl.1")
-                .replace("{{amount_txt}}", amount_txt) +
-            "</p><p>" +
-            i18n.t("warning.huge_data.expl.2") +
-            "</p>";
+        var content =
+          "<p>" +
+          i18n
+            .t("warning.huge_data.expl.1")
+            .replace("{{amount_txt}}", amount_txt) +
+          "</p><p>" +
+          i18n.t("warning.huge_data.expl.2") +
+          "</p>";
         showDialog(i18n.t("warning.huge_data.title"), content, dialog_buttons);
       } else continueCB();
     };
@@ -990,11 +996,9 @@ var ide = new (function() {
       dialog_buttons[i18n.t("dialog.dismiss")] = function() {
         document.title = _originalDocumentTitle;
       };
-      var content = '<p style="color:red;">' +
-          i18n.t("error.ajax.expl") +
-          "</p>" +
-          errmsg;
-      showDialog(i18n.t("error.ajax.title"), content, dialog_buttons)
+      var content =
+        '<p style="color:red;">' + i18n.t("error.ajax.expl") + "</p>" + errmsg;
+      showDialog(i18n.t("error.ajax.title"), content, dialog_buttons);
 
       // print error text, if present
       if (overpass.resultText) ide.dataViewer.setValue(overpass.resultText);
@@ -1007,22 +1011,19 @@ var ide = new (function() {
       dialog_buttons[i18n.t("dialog.dismiss")] = function() {
         document.title = _originalDocumentTitle;
       };
-      var content = '<p style="color:red;">' +
-          i18n.t("error.query.expl") +
-          "</p>" +
-          errmsg;
-      showDialog(i18n.t("error.query.title"), content, dialog_buttons)
+      var content =
+        '<p style="color:red;">' + i18n.t("error.query.expl") + "</p>" + errmsg;
+      showDialog(i18n.t("error.query.title"), content, dialog_buttons);
     };
     overpass.handlers["onStyleError"] = function(errmsg) {
       var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-      };
-      var content = '<p style="color:red;">' +
-          i18n.t("error.mapcss.expl") +
-          "</p>" +
-          errmsg;
-      showDialog(i18n.t("error.mapcss.title"), content, dialog_buttons)
-
+      dialog_buttons[i18n.t("dialog.dismiss")] = function() {};
+      var content =
+        '<p style="color:red;">' +
+        i18n.t("error.mapcss.expl") +
+        "</p>" +
+        errmsg;
+      showDialog(i18n.t("error.mapcss.title"), content, dialog_buttons);
     };
     overpass.handlers["onQueryErrorLine"] = function(linenumber) {
       ide.highlightError(linenumber);
@@ -1184,13 +1185,13 @@ var ide = new (function() {
     });
     // show error message dialog
     var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-    };
-    var content = '<p style="color:red;">' +
-        i18n.t("error.nominatim.expl") +
-        "</p><p><i>" +
-        htmlentities(search) +
-        "</i></p>";
+    dialog_buttons[i18n.t("dialog.dismiss")] = function() {};
+    var content =
+      '<p style="color:red;">' +
+      i18n.t("error.nominatim.expl") +
+      "</p><p><i>" +
+      htmlentities(search) +
+      "</i></p>";
     showDialog(i18n.t("error.nominatim.title"), content, dialog_buttons);
   };
   /* this returns the current raw query in the editor.
@@ -1284,18 +1285,18 @@ var ide = new (function() {
       delete settings.saves[ex];
       settings.save();
       $(self)
-        .parent('li')
+        .parent("li")
         .remove();
     };
-    dialog_buttons[i18n.t("dialog.cancel")] = function() {
-    };
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {};
 
-    var content = '<p>' +
-        '<span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
-        i18n.t("dialog.delete_query.expl") +
-        ": &quot;<i>" +
-        ex +
-        "</i>&quot;?</p>";
+    var content =
+      "<p>" +
+      '<span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
+      i18n.t("dialog.delete_query.expl") +
+      ": &quot;<i>" +
+      ex +
+      "</i>&quot;?</p>";
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   };
   this.removeExampleSync = function(query, self) {
@@ -1312,14 +1313,14 @@ var ide = new (function() {
         }.bind(this)
       );
     };
-    dialog_buttons[i18n.t("dialog.cancel")] = function() {
-    };
+    dialog_buttons[i18n.t("dialog.cancel")] = function() {};
 
-    var content = '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
-        i18n.t("dialog.delete_query.expl-osm") +
-        ": &quot;<i>" +
-        query.name +
-        "</i>&quot;?</p>";
+    var content =
+      '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
+      i18n.t("dialog.delete_query.expl-osm") +
+      ": &quot;<i>" +
+      query.name +
+      "</i>&quot;?</p>";
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   };
 
@@ -1341,7 +1342,7 @@ var ide = new (function() {
               (function(example) {
                 return function() {
                   ide.loadExample(example);
-                  $('#load-dialog').removeClass('is-active');
+                  $("#load-dialog").removeClass("is-active");
                   return false;
                 };
               })(example)
@@ -1370,7 +1371,7 @@ var ide = new (function() {
       $("<li>" + i18n.t("load.no_saved_query") + "</li>").appendTo(
         "#load-dialog ul.saved_query"
       );
-    $("#load-dialog").addClass('is-active');
+    $("#load-dialog").addClass("is-active");
     $("#load-dialog .modal-card-body").accordion({
       beforeActivate: function(event, ui) {
         if (ui.newHeader.index() == 2) {
@@ -1398,7 +1399,7 @@ var ide = new (function() {
                       (function(query) {
                         return function() {
                           ide.setQuery(lzw_decode(Base64.decode(query.query)));
-                          $('#load-dialog').removeClass('is-active');
+                          $("#load-dialog").removeClass("is-active");
                           return false;
                         };
                       })(q)
@@ -1436,7 +1437,7 @@ var ide = new (function() {
     $("#load-dialog .modal-card-body").accordion("option", "animate", true);
   };
   this.onLoadClose = function() {
-    $("#load-dialog").removeClass('is-active');
+    $("#load-dialog").removeClass("is-active");
   };
   this.onSaveClick = function() {
     // combobox for existing saves.
@@ -1458,12 +1459,12 @@ var ide = new (function() {
           function(err, new_queries) {
             if (err) return console.error(err);
             $("a#logout").show();
-            $("#save-dialog").removeClass('is-active');
+            $("#save-dialog").removeClass("is-active");
           }
         );
       };
     }
-    $("#save-dialog").addClass('is-active');
+    $("#save-dialog").addClass("is-active");
   };
   this.onSaveSumbit = function() {
     var name = $("#save-dialog input[name=save]")[0].value;
@@ -1472,10 +1473,10 @@ var ide = new (function() {
       type: "saved_query"
     };
     settings.save();
-    $("#save-dialog").removeClass('is-active');
+    $("#save-dialog").removeClass("is-active");
   };
-  this.onSaveClose = function () {
-    $("#save-dialog").removeClass('is-active');
+  this.onSaveClose = function() {
+    $("#save-dialog").removeClass("is-active");
   };
   this.onLogoutClick = function() {
     sync.logout();
@@ -1568,10 +1569,10 @@ var ide = new (function() {
     $("div#share-dialog input[name=include_coords]")[0].checked =
       settings.share_include_pos;
     ide.updateShareLink();
-    $('#share-dialog').addClass('is-active');
+    $("#share-dialog").addClass("is-active");
   };
-  this.onShareClose = function () {
-    $('#share-dialog').removeClass('is-active');
+  this.onShareClose = function() {
+    $("#share-dialog").removeClass("is-active");
   };
   this.onExportClick = function() {
     // prepare export dialog
@@ -1616,7 +1617,7 @@ var ide = new (function() {
       function copyHandler(text, successMessage) {
         return function() {
           // selector
-          $("#export-clipboard-success").addClass('is-active');
+          $("#export-clipboard-success").addClass("is-active");
           copyData = {
             "text/plain": text
           };
@@ -1710,73 +1711,73 @@ var ide = new (function() {
           )
         );
       var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.done")] = function() {
-      };
+      dialog_buttons[i18n.t("dialog.done")] = function() {};
       $("#export-dialog a#export-map-state")
         .unbind("click")
         .bind("click", function() {
-          var content = "<h4>" +
-              i18n.t("export.map_view.permalink") +
-              "</h4>" +
-              '<p><a href="//www.openstreetmap.org/#map=' +
-              ide.map.getZoom() +
-              "/" +
-              L.Util.formatNum(ide.map.getCenter().lat) +
-              "/" +
-              L.Util.formatNum(ide.map.getCenter().lng) +
-              '" target="_blank">' +
-              i18n.t("export.map_view.permalink_osm") +
-              "</a></p>" +
-              "<h4>" +
-              i18n.t("export.map_view.center") +
-              "</h4><p>" +
-              L.Util.formatNum(ide.map.getCenter().lat) +
-              ", " +
-              L.Util.formatNum(ide.map.getCenter().lng) +
-              " <small>(" +
-              i18n.t("export.map_view.center_expl") +
-              ")</small></p>" +
-              "<h4>" +
-              i18n.t("export.map_view.bounds") +
-              "</h4><p>" +
-              L.Util.formatNum(ide.map.getBounds().getSouthWest().lat) +
-              ", " +
-              L.Util.formatNum(ide.map.getBounds().getSouthWest().lng) +
-              ", " +
-              L.Util.formatNum(ide.map.getBounds().getNorthEast().lat) +
-              ", " +
-              L.Util.formatNum(ide.map.getBounds().getNorthEast().lng) +
-              "<br /><small>(" +
-              i18n.t("export.map_view.bounds_expl") +
-              ")</small></p>" +
-              (ide.map.bboxfilter.isEnabled()
-                  ? "<h4>" +
-                  i18n.t("export.map_view.bounds_selection") +
-                  "</h4><p>" +
-                  L.Util.formatNum(
-                      ide.map.bboxfilter.getBounds().getSouthWest().lat
-                  ) +
-                  ", " +
-                  L.Util.formatNum(
-                      ide.map.bboxfilter.getBounds().getSouthWest().lng
-                  ) +
-                  ", " +
-                  L.Util.formatNum(
-                      ide.map.bboxfilter.getBounds().getNorthEast().lat
-                  ) +
-                  ", " +
-                  L.Util.formatNum(
-                      ide.map.bboxfilter.getBounds().getNorthEast().lng
-                  ) +
-                  "<br /><small>(" +
-                  i18n.t("export.map_view.bounds_expl") +
-                  ")</small></p>"
-                  : "") +
-              "<h4>" +
-              i18n.t("export.map_view.zoom") +
-              "</h4><p>" +
-              ide.map.getZoom() +
-              "</p>";
+          var content =
+            "<h4>" +
+            i18n.t("export.map_view.permalink") +
+            "</h4>" +
+            '<p><a href="//www.openstreetmap.org/#map=' +
+            ide.map.getZoom() +
+            "/" +
+            L.Util.formatNum(ide.map.getCenter().lat) +
+            "/" +
+            L.Util.formatNum(ide.map.getCenter().lng) +
+            '" target="_blank">' +
+            i18n.t("export.map_view.permalink_osm") +
+            "</a></p>" +
+            "<h4>" +
+            i18n.t("export.map_view.center") +
+            "</h4><p>" +
+            L.Util.formatNum(ide.map.getCenter().lat) +
+            ", " +
+            L.Util.formatNum(ide.map.getCenter().lng) +
+            " <small>(" +
+            i18n.t("export.map_view.center_expl") +
+            ")</small></p>" +
+            "<h4>" +
+            i18n.t("export.map_view.bounds") +
+            "</h4><p>" +
+            L.Util.formatNum(ide.map.getBounds().getSouthWest().lat) +
+            ", " +
+            L.Util.formatNum(ide.map.getBounds().getSouthWest().lng) +
+            ", " +
+            L.Util.formatNum(ide.map.getBounds().getNorthEast().lat) +
+            ", " +
+            L.Util.formatNum(ide.map.getBounds().getNorthEast().lng) +
+            "<br /><small>(" +
+            i18n.t("export.map_view.bounds_expl") +
+            ")</small></p>" +
+            (ide.map.bboxfilter.isEnabled()
+              ? "<h4>" +
+                i18n.t("export.map_view.bounds_selection") +
+                "</h4><p>" +
+                L.Util.formatNum(
+                  ide.map.bboxfilter.getBounds().getSouthWest().lat
+                ) +
+                ", " +
+                L.Util.formatNum(
+                  ide.map.bboxfilter.getBounds().getSouthWest().lng
+                ) +
+                ", " +
+                L.Util.formatNum(
+                  ide.map.bboxfilter.getBounds().getNorthEast().lat
+                ) +
+                ", " +
+                L.Util.formatNum(
+                  ide.map.bboxfilter.getBounds().getNorthEast().lng
+                ) +
+                "<br /><small>(" +
+                i18n.t("export.map_view.bounds_expl") +
+                ")</small></p>"
+              : "") +
+            "<h4>" +
+            i18n.t("export.map_view.zoom") +
+            "</h4><p>" +
+            ide.map.getZoom() +
+            "</p>";
           showDialog(i18n.t("export.map_view.title"), content, dialog_buttons);
           return false;
         });
@@ -1784,7 +1785,7 @@ var ide = new (function() {
         .unbind("click")
         .on("click", function() {
           ide.onExportImageClick();
-          $('#export-dialog').removeClass('is-active');
+          $("#export-dialog").removeClass("is-active");
           return false;
         });
       // GeoJSON format
@@ -1845,7 +1846,7 @@ var ide = new (function() {
             });
             saveAs(blob, "export.geojson");
           } else {
-            d.addClass('is-active');
+            d.addClass("is-active");
             $(".message", d).text(geoJSON_str);
           }
           return false;
@@ -1856,7 +1857,7 @@ var ide = new (function() {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
-          d.addClass('is-active');
+          d.addClass("is-active");
           if (overpass.geojson) {
             var geojson = constructGeojsonString(overpass.geojson);
             copyData = {
@@ -1892,23 +1893,27 @@ var ide = new (function() {
           })
             .done(function(data, textStatus, jqXHR) {
               var dialog_buttons = {};
-              dialog_buttons[i18n.t("dialog.done")] = function() {
-              };
-              var content = "<p>" +
-                  i18n.t("export.geoJSON_gist.gist") +
-                  '&nbsp;<a href="' +
-                  data.html_url +
-                  '" target="_blank" class="external">' +
-                  data.id +
-                  "</a></p>" +
-                  "<p>" +
-                  i18n.t("export.geoJSON_gist.geojsonio") +
-                  '&nbsp;<a href="http://geojson.io/#id=gist:anonymous/' +
-                  data.id +
-                  '" target="_blank" class="external">' +
-                  i18n.t("export.geoJSON_gist.geojsonio_link") +
-                  "</a></p>";
-              showDialog(i18n.t("export.geoJSON_gist.title"), content, dialog_buttons);
+              dialog_buttons[i18n.t("dialog.done")] = function() {};
+              var content =
+                "<p>" +
+                i18n.t("export.geoJSON_gist.gist") +
+                '&nbsp;<a href="' +
+                data.html_url +
+                '" target="_blank" class="external">' +
+                data.id +
+                "</a></p>" +
+                "<p>" +
+                i18n.t("export.geoJSON_gist.geojsonio") +
+                '&nbsp;<a href="http://geojson.io/#id=gist:anonymous/' +
+                data.id +
+                '" target="_blank" class="external">' +
+                i18n.t("export.geoJSON_gist.geojsonio_link") +
+                "</a></p>";
+              showDialog(
+                i18n.t("export.geoJSON_gist.title"),
+                content,
+                dialog_buttons
+              );
               // data.html_url;
             })
             .fail(function(jqXHR, textStatus, errorStr) {
@@ -1969,7 +1974,7 @@ var ide = new (function() {
             saveAs(blob, "export.gpx");
           } else {
             var d = $("#export-download-dialog");
-            d.addClass('is-active')
+            d.addClass("is-active");
             $(".message", d).text(gpx_str);
           }
           return false;
@@ -1980,7 +1985,7 @@ var ide = new (function() {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
-          d.addClass('is-active');
+          d.addClass("is-active");
           if (overpass.geojson) {
             var gpx = constructGpxString(overpass.geojson);
             copyData = {
@@ -2030,7 +2035,7 @@ var ide = new (function() {
             });
             saveAs(blob, "export.kml");
           } else {
-            $("#export-download-dialog").addClass('is-active');
+            $("#export-download-dialog").addClass("is-active");
             $("#export-download-dialog .message").text(kml_str);
           }
           return false;
@@ -2041,7 +2046,7 @@ var ide = new (function() {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
-          d.addClass('is-active');
+          d.addClass("is-active");
           if (overpass.geojson) {
             var kml = constructKmlString(overpass.geojson);
             copyData = {
@@ -2113,7 +2118,7 @@ var ide = new (function() {
             }
           } else {
             var d = $("#export-download-dialog");
-            d.addClass('is-active');
+            d.addClass("is-active");
             $(".message", d).text(raw_str);
           }
           return false;
@@ -2124,7 +2129,7 @@ var ide = new (function() {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
-          d.addClass('is-active');
+          d.addClass("is-active");
           var geojson = overpass.geojson;
           if (geojson) {
             var raw = constructRawData(geojson);
@@ -2197,12 +2202,17 @@ var ide = new (function() {
             exportToLevel0.unbind("click");
             exportToLevel0[0].href = constructLevel0Link(query);
           };
-          var content = '<p>' +
-              i18n.t("warning.incomplete.remote.expl.1") +
-              "</p><p>" +
-              i18n.t("warning.incomplete.remote.expl.2") +
-              "</p>";
-          showDialog(i18n.t("warning.incomplete.title"), content, dialog_buttons)
+          var content =
+            "<p>" +
+            i18n.t("warning.incomplete.remote.expl.1") +
+            "</p><p>" +
+            i18n.t("warning.incomplete.remote.expl.2") +
+            "</p>";
+          showDialog(
+            i18n.t("warning.incomplete.title"),
+            content,
+            dialog_buttons
+          );
           return false;
         });
       }
@@ -2210,7 +2220,7 @@ var ide = new (function() {
       $("#export-dialog a#export-editors-josm")
         .unbind("click")
         .on("click", function() {
-          var export_dialog = $('#export-dialog')
+          var export_dialog = $("#export-dialog");
           var send_to_josm = function(query) {
             var JRC_url = "http://127.0.0.1:8111/";
             $.getJSON(JRC_url + "version")
@@ -2231,26 +2241,31 @@ var ide = new (function() {
                     });
                 } else {
                   var dialog_buttons = {};
-                  dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-                  };
-                  var content = '<p>' +
-                      i18n.t("error.remote.incompat") +
-                      ": " +
-                      d.protocolversion.major +
-                      "." +
-                      d.protocolversion.minor +
-                      " :(</p>";
-                  showDialog(i18n.t("error.remote.title"), content, dialog_buttons)
+                  dialog_buttons[i18n.t("dialog.dismiss")] = function() {};
+                  var content =
+                    "<p>" +
+                    i18n.t("error.remote.incompat") +
+                    ": " +
+                    d.protocolversion.major +
+                    "." +
+                    d.protocolversion.minor +
+                    " :(</p>";
+                  showDialog(
+                    i18n.t("error.remote.title"),
+                    content,
+                    dialog_buttons
+                  );
                 }
               })
               .fail(function(xhr, s, e) {
                 var dialog_buttons = {};
-                dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-                };
-                var content = '<p>' +
-                    i18n.t("error.remote.not_found") +
-                    "</p>";
-                showDialog(i18n.t("error.remote.title"), content, dialog_buttons)
+                dialog_buttons[i18n.t("dialog.dismiss")] = function() {};
+                var content = "<p>" + i18n.t("error.remote.not_found") + "</p>";
+                showDialog(
+                  i18n.t("error.remote.title"),
+                  content,
+                  dialog_buttons
+                );
               });
           };
           // first check for possible mistakes in query.
@@ -2268,35 +2283,40 @@ var ide = new (function() {
               ide.repairQuery("xml+metadata");
               ide.getQuery(function(query) {
                 send_to_josm(query);
-                export_dialog.removeClass('is-active');
+                export_dialog.removeClass("is-active");
               });
             };
             dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
               send_to_josm(query);
-              export_dialog.removeClass('is-active');
+              export_dialog.removeClass("is-active");
             };
-            var content = '<p>' +
-                i18n.t("warning.incomplete.remote.expl.1") +
-                "</p><p>" +
-                i18n.t("warning.incomplete.remote.expl.2") +
-                "</p>";
-            showDialog(i18n.t("warning.incomplete.title"), content, dialog_buttons)
+            var content =
+              "<p>" +
+              i18n.t("warning.incomplete.remote.expl.1") +
+              "</p><p>" +
+              i18n.t("warning.incomplete.remote.expl.2") +
+              "</p>";
+            showDialog(
+              i18n.t("warning.incomplete.title"),
+              content,
+              dialog_buttons
+            );
             return false;
           }
         });
       // open the export dialog
-      $('#export-dialog').addClass('is-active');
+      $("#export-dialog").addClass("is-active");
       $("#export-dialog .modal-card-body").accordion();
     });
   };
-  this.onExportDownloadClose = function () {
-    $("#export-download-dialog").removeClass('is-active');
+  this.onExportDownloadClose = function() {
+    $("#export-download-dialog").removeClass("is-active");
   };
-  this.onExportClipboardClose = function () {
-    $("#export-clipboard-success").removeClass('is-active');
+  this.onExportClipboardClose = function() {
+    $("#export-clipboard-success").removeClass("is-active");
   };
-  this.onExportClose = function () {
-    $('#export-dialog').removeClass('is-active');
+  this.onExportClose = function() {
+    $("#export-dialog").removeClass("is-active");
   };
   this.onExportImageClick = function() {
     ide.waiter.open(i18n.t("waiter.export_as_image"));
@@ -2350,21 +2370,21 @@ var ide = new (function() {
           attrib_message =
             '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
         var dialog_buttons = {};
-        dialog_buttons[i18n.t("dialog.done")] = function() {
-        };
+        dialog_buttons[i18n.t("dialog.done")] = function() {};
 
         ide.waiter.close();
-        var content = '<p><img src="' +
-            imgstr +
-            '" alt="' +
-            i18n.t("export.image.alt") +
-            '" width="480px"/><br><!--<a href="' +
-            imgstr +
-            '" download="export.png" target="_blank">' +
-            i18n.t("export.image.download") +
-            "</a>--></p>" +
-            attrib_message;
-        showDialog(i18n.t("export.image.title"), content, dialog_buttons)
+        var content =
+          '<p><img src="' +
+          imgstr +
+          '" alt="' +
+          i18n.t("export.image.alt") +
+          '" width="480px"/><br><!--<a href="' +
+          imgstr +
+          '" download="export.png" target="_blank">' +
+          i18n.t("export.image.download") +
+          "</a>--></p>" +
+          attrib_message;
+        showDialog(i18n.t("export.image.title"), content, dialog_buttons);
         canvas.toBlob(function(blob) {
           saveAs(blob, "export.png");
         });
@@ -2382,64 +2402,62 @@ var ide = new (function() {
           e.preventDefault();
         }
       });
-    $("#ffs-dialog").addClass('is-active');
+    $("#ffs-dialog").addClass("is-active");
   };
-  this.onFfsClose = function () {
-    $("#ffs-dialog").removeClass('is-active');
-  }
-  this.onFfsBuild = function () {
+  this.onFfsClose = function() {
+    $("#ffs-dialog").removeClass("is-active");
+  };
+  this.onFfsBuild = function() {
     ide.onFfsRun(false);
-  }
-  this.onFfsRun = function (autorun) {
-      // build query and run it immediately
-      ide.update_ffs_query(
-        undefined,
-        function(err, ffs_result) {
-          if (!err) {
-            $('#ffs-dialog').removeClass('is-active');
-            if (autorun !== false) ide.onRunClick();
+  };
+  this.onFfsRun = function(autorun) {
+    // build query and run it immediately
+    ide.update_ffs_query(
+      undefined,
+      function(err, ffs_result) {
+        if (!err) {
+          $("#ffs-dialog").removeClass("is-active");
+          if (autorun !== false) ide.onRunClick();
+        } else {
+          if (_.isArray(ffs_result)) {
+            // show parse error message
+            $("#ffs-dialog #ffs-dialog-parse-error").hide();
+            $("#ffs-dialog #ffs-dialog-typo").show();
+            var correction = ffs_result.join("");
+            var correction_html = ffs_result
+              .map(function(ffs_result_part, i) {
+                if (i % 2 === 1) return "<b>" + ffs_result_part + "</b>";
+                else return ffs_result_part;
+              })
+              .join("");
+            $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
+            $("#ffs-dialog #ffs-dialog-typo-correction")
+              .unbind("click")
+              .bind("click", function(e) {
+                $("#ffs-dialog input[type=text]").val(correction);
+                $(this)
+                  .parent()
+                  .hide();
+                e.preventDefault();
+              });
+            $("#ffs-dialog #ffs-dialog-typo").effect(
+              "shake",
+              {direction: "right", distance: 10, times: 2},
+              300
+            );
           } else {
-            if (_.isArray(ffs_result)) {
-              // show parse error message
-              $("#ffs-dialog #ffs-dialog-parse-error").hide();
-              $("#ffs-dialog #ffs-dialog-typo").show();
-              var correction = ffs_result.join("");
-              var correction_html = ffs_result
-                .map(function(ffs_result_part, i) {
-                  if (i % 2 === 1) return "<b>" + ffs_result_part + "</b>";
-                  else return ffs_result_part;
-                })
-                .join("");
-              $("#ffs-dialog #ffs-dialog-typo-correction").html(
-                correction_html
-              );
-              $("#ffs-dialog #ffs-dialog-typo-correction")
-                .unbind("click")
-                .bind("click", function(e) {
-                  $("#ffs-dialog input[type=text]").val(correction);
-                  $(this)
-                    .parent()
-                    .hide();
-                  e.preventDefault();
-                });
-              $("#ffs-dialog #ffs-dialog-typo").effect(
-                "shake",
-                {direction: "right", distance: 10, times: 2},
-                300
-              );
-            } else {
-              // show parse error message
-              $("#ffs-dialog #ffs-dialog-typo").hide();
-              $("#ffs-dialog #ffs-dialog-parse-error").show();
-              $("#ffs-dialog #ffs-dialog-parse-error").effect(
-                "shake",
-                {direction: "right", distance: 10, times: 2},
-                300
-              );
-            }
+            // show parse error message
+            $("#ffs-dialog #ffs-dialog-typo").hide();
+            $("#ffs-dialog #ffs-dialog-parse-error").show();
+            $("#ffs-dialog #ffs-dialog-parse-error").effect(
+              "shake",
+              {direction: "right", distance: 10, times: 2},
+              300
+            );
           }
-        }.bind(this)
-      );
+        }
+      }.bind(this)
+    );
   };
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value =
@@ -2513,101 +2531,101 @@ var ide = new (function() {
     $("#settings-dialog input[name=export_image_attribution]")[0].checked =
       settings.export_image_attribution;
     // open dialog
-    $("#settings-dialog").addClass('is-active');
+    $("#settings-dialog").addClass("is-active");
     $("#settings-dialog .modal-card-body").accordion();
   };
   this.onSettingsSave = function() {
-      // save settings
-      var new_ui_language = $("#settings-dialog input[name=ui_language]")[0]
-        .value;
-      // reload ui if language has been changed
-      if (settings.ui_language != new_ui_language) {
-        i18n.translate(new_ui_language);
-        moment.locale(new_ui_language);
-        ffs.invalidateCache();
-      }
-      settings.ui_language = new_ui_language;
-      settings.server = $("#settings-dialog input[name=server]")[0].value;
-      if (
-        configs.suggestedServers.indexOf(settings.server) === -1 &&
-        settings.customServers.indexOf(settings.server) === -1
-      ) {
-        settings.customServers.push(settings.server);
-      }
-      settings.no_autorepair = $(
-        "#settings-dialog input[name=no_autorepair]"
-      )[0].checked;
-      settings.use_rich_editor = $(
-        "#settings-dialog input[name=use_rich_editor]"
-      )[0].checked;
-      var prev_editor_width = settings.editor_width;
-      settings.editor_width = $(
-        "#settings-dialog input[name=editor_width]"
-      )[0].value;
-      // update editor width (if changed)
-      if (prev_editor_width != settings.editor_width) {
-        $("#editor").css("width", settings.editor_width);
-        $("#dataviewer").css("left", settings.editor_width);
-      }
-      settings.share_include_pos = $(
-        "#settings-dialog input[name=share_include_pos]"
-      )[0].checked;
-      settings.share_compression = $(
-        "#settings-dialog input[name=share_compression]"
-      )[0].value;
-      var prev_tile_server = settings.tile_server;
-      settings.tile_server = $(
-        "#settings-dialog input[name=tile_server]"
-      )[0].value;
-      if (
-        configs.suggestedTiles.indexOf(settings.tile_server) === -1 &&
-        settings.customTiles.indexOf(settings.tile_server) === -1
-      ) {
-        settings.customTiles.push(settings.tile_server);
-      }
-      // update tile layer (if changed)
-      if (prev_tile_server != settings.tile_server)
-        ide.map.tile_layer.setUrl(settings.tile_server);
-      var prev_background_opacity = settings.background_opacity;
-      settings.background_opacity = +$(
-        "#settings-dialog input[name=background_opacity]"
-      )[0].value;
-      // update background opacity layer
-      if (settings.background_opacity != prev_background_opacity)
-        if (settings.background_opacity == 1)
-          ide.map.removeLayer(ide.map.inv_opacity_layer);
-        else
-          ide.map.inv_opacity_layer
-            .setOpacity(1 - settings.background_opacity)
-            .addTo(ide.map);
-      settings.enable_crosshairs = $(
-        "#settings-dialog input[name=enable_crosshairs]"
-      )[0].checked;
-      settings.disable_poiomatic = $(
-        "#settings-dialog input[name=disable_poiomatic]"
-      )[0].checked;
-      settings.show_data_stats = $(
-        "#settings-dialog input[name=show_data_stats]"
-      )[0].checked;
-      $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
-      settings.export_image_scale = $(
-        "#settings-dialog input[name=export_image_scale]"
-      )[0].checked;
-      settings.export_image_attribution = $(
-        "#settings-dialog input[name=export_image_attribution]"
-      )[0].checked;
-      settings.save();
-      $("#settings-dialog").removeClass('is-active');
+    // save settings
+    var new_ui_language = $("#settings-dialog input[name=ui_language]")[0]
+      .value;
+    // reload ui if language has been changed
+    if (settings.ui_language != new_ui_language) {
+      i18n.translate(new_ui_language);
+      moment.locale(new_ui_language);
+      ffs.invalidateCache();
+    }
+    settings.ui_language = new_ui_language;
+    settings.server = $("#settings-dialog input[name=server]")[0].value;
+    if (
+      configs.suggestedServers.indexOf(settings.server) === -1 &&
+      settings.customServers.indexOf(settings.server) === -1
+    ) {
+      settings.customServers.push(settings.server);
+    }
+    settings.no_autorepair = $(
+      "#settings-dialog input[name=no_autorepair]"
+    )[0].checked;
+    settings.use_rich_editor = $(
+      "#settings-dialog input[name=use_rich_editor]"
+    )[0].checked;
+    var prev_editor_width = settings.editor_width;
+    settings.editor_width = $(
+      "#settings-dialog input[name=editor_width]"
+    )[0].value;
+    // update editor width (if changed)
+    if (prev_editor_width != settings.editor_width) {
+      $("#editor").css("width", settings.editor_width);
+      $("#dataviewer").css("left", settings.editor_width);
+    }
+    settings.share_include_pos = $(
+      "#settings-dialog input[name=share_include_pos]"
+    )[0].checked;
+    settings.share_compression = $(
+      "#settings-dialog input[name=share_compression]"
+    )[0].value;
+    var prev_tile_server = settings.tile_server;
+    settings.tile_server = $(
+      "#settings-dialog input[name=tile_server]"
+    )[0].value;
+    if (
+      configs.suggestedTiles.indexOf(settings.tile_server) === -1 &&
+      settings.customTiles.indexOf(settings.tile_server) === -1
+    ) {
+      settings.customTiles.push(settings.tile_server);
+    }
+    // update tile layer (if changed)
+    if (prev_tile_server != settings.tile_server)
+      ide.map.tile_layer.setUrl(settings.tile_server);
+    var prev_background_opacity = settings.background_opacity;
+    settings.background_opacity = +$(
+      "#settings-dialog input[name=background_opacity]"
+    )[0].value;
+    // update background opacity layer
+    if (settings.background_opacity != prev_background_opacity)
+      if (settings.background_opacity == 1)
+        ide.map.removeLayer(ide.map.inv_opacity_layer);
+      else
+        ide.map.inv_opacity_layer
+          .setOpacity(1 - settings.background_opacity)
+          .addTo(ide.map);
+    settings.enable_crosshairs = $(
+      "#settings-dialog input[name=enable_crosshairs]"
+    )[0].checked;
+    settings.disable_poiomatic = $(
+      "#settings-dialog input[name=disable_poiomatic]"
+    )[0].checked;
+    settings.show_data_stats = $(
+      "#settings-dialog input[name=show_data_stats]"
+    )[0].checked;
+    $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
+    settings.export_image_scale = $(
+      "#settings-dialog input[name=export_image_scale]"
+    )[0].checked;
+    settings.export_image_attribution = $(
+      "#settings-dialog input[name=export_image_attribution]"
+    )[0].checked;
+    settings.save();
+    $("#settings-dialog").removeClass("is-active");
   };
   this.onSettingsClose = function() {
-    $("#settings-dialog").removeClass('is-active');
+    $("#settings-dialog").removeClass("is-active");
   };
   this.onHelpClick = function() {
-    $("#help-dialog").addClass('is-active');
+    $("#help-dialog").addClass("is-active");
     $("#help-dialog .modal-card-body").accordion({heightStyle: "content"});
   };
   this.onHelpClose = function() {
-    $("#help-dialog").removeClass('is-active');
+    $("#help-dialog").removeClass("is-active");
   };
   this.onKeyPress = function(event) {
     if (
