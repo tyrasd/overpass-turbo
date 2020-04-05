@@ -123,28 +123,33 @@ var ide = new (function() {
   }; // make_combobox()
 
   var showDialog = function(title, content, buttons) {
-    var dialogContent = `
-      <div class="modal is-active">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">${title}</p>
-            <button class="delete" aria-label="close"></button>
-          </header>
-          <section class="modal-card-body">
-            ${content}
-          </section>
-          <footer class="modal-card-foot">
-            <div class="level">
-              <div class="level-right">
-                <div class="level-item">
-                </div>
-              </div>
-            </div>
-          </footer>
-        </div>
-      </div>
-    `;
+    var dialogContent =
+      '\
+      <div class="modal is-active">\
+        <div class="modal-background"></div>\
+        <div class="modal-card">\
+          <header class="modal-card-head">\
+            <p class="modal-card-title">' +
+      title +
+      '</p>\
+            <button class="delete" aria-label="close"></button>\
+          </header>\
+          <section class="modal-card-body">\
+            ' +
+      content +
+      '\
+          </section>\
+          <footer class="modal-card-foot">\
+            <div class="level">\
+              <div class="level-right">\
+                <div class="level-item">\
+                </div>\
+              </div>\
+            </div>\
+          </footer>\
+        </div>\
+      </div>\
+    ';
 
     // Create modal in body
     var element = $(dialogContent);
@@ -154,12 +159,16 @@ var ide = new (function() {
     });
 
     // Add all the buttons
-    for (let name in buttons) {
-      $(`<button class="button">${name}</button>`)
-        .click(function() {
-          $(element).remove();
-          buttons[name]();
-        })
+    for (var name in buttons) {
+      $('<button class="button">' + name + "</button>")
+        .click(
+          (function(name) {
+            return function() {
+              $(element).remove();
+              buttons[name]();
+            };
+          })(name)
+        )
         .appendTo($("footer .level-item", element));
     }
 
