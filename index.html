@@ -353,12 +353,12 @@
           <h3><a class="t" data-t="settings.section.general"></a></h3>
           <div>
             <p>
-              <label><span class="t" data-t="settings.ui_lang"></span>:</label>
-              <input class="input" type="text" name="ui_language" value="" style="width:60px;" />
+              <label for="ui_language"><span class="t" data-t="settings.ui_lang"></span>:</label>
+              <input class="input" type="text" name="ui_language" value="" id="ui_language" style="width:60px;" />
             </p>
             <p>
-              <label><span class="t" data-t="settings.server"></span>:</label>
-              <input type="text" name="server" value="" style="width:270px;" />
+              <label for="server"><span class="t" data-t="settings.server"></span>:</label>
+              <input type="text" name="server" value="" id="server" style="width:270px;" />
             </p>
             <p>
               <label>
@@ -387,27 +387,28 @@
               </label>
             </p>
             <p>
-              <label><span class="t" data-t="settings.editor_width"></span>:</label>
+              <label for="editor_width"><span class="t" data-t="settings.editor_width"></span>:</label>
               <small>
                 (<span class="t" data-t="settings.editor_width_expl"></span>
                 )
               </small>
 
-              <input type="text" name="editor_width" value="" style="width:80px;" />
+              <input type="text" name="editor_width" value="" id="editor_width" style="width:80px;" />
             </p>
           </div>
           <h3><a class="t" data-t="settings.section.map"></a></h3>
           <div>
             <p>
-              <label><span class="t" data-t="settings.tile_server"></span>:</label>
-              <input type="text" name="tile_server" value="" style="width:240px;" />
+              <label for="tile_server"><span class="t" data-t="settings.tile_server"></span>:</label>
+              <input type="text" name="tile_server" value="" id="tile_server" style="width:240px;" />
             </p>
             <p>
-              <label><span class="t" data-t="settings.tile_opacity"></span>:</label>
+              <label for="background_opacity"><span class="t" data-t="settings.tile_opacity"></span>:</label>
               <input
                 type="text"
                 name="background_opacity"
                 value=""
+                id="background_opacity"
                 style="width:30px;"
               />
               <small>
@@ -509,8 +510,8 @@
           <button class="delete" aria-label="close" data-ide-handler="click:onSaveClose"></button>
         </header>
         <section class="modal-card-body">
-          <p class="t" data-t="save.enter_name"></p>
-          <p><input name="save" type="text" /></p>
+          <p><label for="save_name" class="t" data-t="save.enter_name"></label></p>
+          <p><input name="save" type="text" id="save_name" /></p>
         </section>
         <footer class="modal-card-foot">
           <div class="level">
@@ -713,16 +714,14 @@
           <p>
             <label for="share_link_textarea" class="t" data-t="[html]share.copy_this_link"></label>
           </p>
-          <p>
-            <div class="control">
-              <input
-                  class="input"
-                  type="text"
-                  readonly
-                  id="share_link_textarea"
-              />
-            </div>
-          </p>
+          <div class="control">
+            <input
+                class="input"
+                type="text"
+                readonly
+                id="share_link_textarea"
+            />
+          </div>
           <span id="share_link_warning"></span>
           <h3 class="t is-size-4" data-t="share.options"></h3>
           <p>
