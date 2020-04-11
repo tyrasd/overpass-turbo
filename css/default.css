@@ -49,7 +49,6 @@ body {
 #dataviewer.portrait {
   width: 100%;
   padding: 0;
-  top: 30%;
   top: calc(51px + 25%);
   left: 0;
   border-left: none;
@@ -104,8 +103,7 @@ body {
 }
 .CodeMirror-gutter-text,
 .CodeMirror-lines {
-  padding: 12px;
-  padding-top: 20px;
+  padding: 20px 12px 12px;
 }
 
 a {

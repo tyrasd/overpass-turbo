@@ -64,7 +64,7 @@
     overflow-x: auto;
   }
   #editor textarea {
-    padding: 0px;
+    padding: 0;
     width: 100%;
     border: 0;
     height: auto;
@@ -78,7 +78,6 @@
   .CodeMirror-gutter-text,
   .CodeMirror-lines {
     padding: 0;
-    padding-top: 0;
   }
   .tabs {
     display: none;
