@@ -6,10 +6,10 @@
   "license": "MIT",
   "scripts": {
     "test": "npm run test:style && npm run test:karma",
-    "test:style": "prettier --no-bracket-spacing --print-width 120 --check $(npm run git-ls-files)",
+    "test:style": "prettier --no-bracket-spacing --check $(npm run git-ls-files)",
     "test:karma": "karma start --single-run",
     "test:start": "karma start",
-    "fix:style": "prettier --no-bracket-spacing --print-width 120 --write $(npm run git-ls-files)",
+    "fix:style": "prettier --no-bracket-spacing --write $(npm run git-ls-files)",
     "git-ls-files": "git ls-files '*.js' '*.html' '*.css' '*.md'",
     "start": "webpack-dev-server",
     "build": "webpack -p",
