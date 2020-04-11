@@ -18,31 +18,40 @@
         <div class="navbar-item">
           <div class="buttons has-addons">
             <button
-              class="t button"
+              class="t button is-success"
               accesskey="1"
               data-ide-handler="click:onRunClick"
               title=""
-              data-t="[title]nav.run_tt;nav.run"
+              data-t="[title]nav.run_tt"
             >
-              Run
+              <span class="icon">
+                <span class="fas fa-play"></span>
+              </span>
+              <span class="t" data-t="nav.run">Run</span>
             </button>
             <button
               class="t button"
               accesskey="2"
               data-ide-handler="click:onShareClick"
               title=""
-              data-t="[title]nav.share_tt;nav.share"
+              data-t="[title]nav.share_tt"
             >
-              Share
+              <span class="icon">
+                <span class="fas fa-share-alt"></span>
+              </span>
+              <span class="t" data-t="nav.share">Share</span>
             </button>
             <button
               class="t button"
               accesskey="3"
               data-ide-handler="click:onExportClick"
               title=""
-              data-t="[title]nav.export_tt;nav.export"
+              data-t="[title]nav.export_tt"
             >
-              Export
+              <span class="icon">
+                <span class="fas fa-external-link-alt"></span>
+              </span>
+              <span class="t" data-t="nav.export">Export</span>
             </button>
           </div>
         </div>
@@ -53,9 +62,12 @@
               accesskey="4"
               data-ide-handler="click:onFfsClick"
               title=""
-              data-t="[title]nav.wizard_tt;nav.wizard"
+              data-t="[title]nav.wizard_tt"
             >
-              Wizard
+              <span class="icon">
+                <span class="fas fa-magic"></span>
+              </span>
+              <span class="t" data-t="nav.wizard">Wizard</span>
             </button>
           </div>
         </div>
@@ -66,18 +78,24 @@
               accesskey="5"
               data-ide-handler="click:onSaveClick"
               title=""
-              data-t="[title]nav.save_tt;nav.save"
+              data-t="[title]nav.save_tt"
             >
-              Save
+              <span class="icon">
+                <span class="fas fa-save"></span>
+              </span>
+              <span class="t" data-t="nav.save">Save</span>
             </button>
             <button
               class="t button"
               accesskey="6"
               data-ide-handler="click:onLoadClick"
               title=""
-              data-t="[title]nav.load_tt;nav.load"
+              data-t="[title]nav.load_tt"
             >
-              Load
+              <span class="icon">
+                <span class="fas fa-folder-open"></span>
+              </span>
+              <span class="t" data-t="nav.load">Load</span>
             </button>
             <button
               class="t button"
@@ -85,9 +103,12 @@
               id="logout"
               data-ide-handler="click:onLogoutClick"
               title=""
-              data-t="[title]nav.logout_tt;nav.logout"
+              data-t="[title]nav.logout_tt"
             >
-              Log out
+              <span class="icon">
+                <span class="fas fa-sign-out-alt"></span>
+              </span>
+              <span class="t" data-t="nav.logout">Log out</span>
             </button>
           </div>
         </div>
@@ -98,18 +119,24 @@
               accesskey="9"
               data-ide-handler="click:onSettingsClick"
               title=""
-              data-t="[title]nav.settings_tt;nav.settings"
+              data-t="[title]nav.settings_tt"
             >
-              Settings
+              <span class="icon">
+                <span class="fas fa-cog"></span>
+              </span>
+              <span class="t" data-t="nav.settings">Settings</span>
             </button>
             <button
               class="t button"
               accesskey="0"
               data-ide-handler="click:onHelpClick"
               title=""
-              data-t="[title]nav.help_tt;nav.help"
+              data-t="[title]nav.help_tt"
             >
-              Help
+              <span class="icon">
+                <span class="fas fa-question"></span>
+              </span>
+              <span class="t" data-t="nav.help">Help</span>
             </button>
           </div>
         </div>
@@ -518,12 +545,14 @@
           <div class="level">
             <div class="level-right">
               <div class="level-item">
-                <button class="button is-success" data-ide-handler="click:onSaveSumbit">
-                  Save
+                <button class="t button is-success" data-ide-handler="click:onSaveSumbit"
+                        data-t="dialog.save">
                 </button>
-                <button class="button" data-ide-handler="click:onSaveClose">
-                  Cancel
+                <button class="t button osm is-success" data-ide-handler="click:onSaveOsmSumbit"
+                        data-t="dialog.save-osm" style="display: none">
                 </button>
+                <button class="t button" data-ide-handler="click:onSaveClose"
+                        data-t="dialog.cancel"></button>
               </div>
             </div>
           </div>

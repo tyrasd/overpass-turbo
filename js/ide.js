@@ -283,7 +283,7 @@ var ide = new (function() {
 
     if (sync.enabled) {
       $("#load-dialog .osm").show();
-      if (sync.authenticated()) $("a#logout").show();
+      if (sync.authenticated()) $("#logout").show();
     }
   };
 
@@ -1396,7 +1396,7 @@ var ide = new (function() {
               return console.error(err);
             }
             $("ul", ui.newPanel).html("");
-            $("a#logout").show();
+            $("#logout").show();
             queries.forEach(function(q) {
               $("<li></li>")
                 .append(
@@ -1456,22 +1456,7 @@ var ide = new (function() {
     make_combobox($("#save-dialog input[name=save]"), saves_names);
 
     if (sync.enabled) {
-      // TODO: fix OSM dialog button in dialog!
-      dialog_buttons[i18n.t("dialog.save-osm")] = function() {
-        var name = $("input[name=save]", this)[0].value;
-        var query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
-        sync.save(
-          {
-            name: name,
-            query: query
-          },
-          function(err, new_queries) {
-            if (err) return console.error(err);
-            $("a#logout").show();
-            $("#save-dialog").removeClass("is-active");
-          }
-        );
-      };
+      $("#save-dialog button.osm").show();
     }
     $("#save-dialog").addClass("is-active");
   };
@@ -1484,13 +1469,28 @@ var ide = new (function() {
     settings.save();
     $("#save-dialog").removeClass("is-active");
   };
+  this.onSaveOsmSumbit = function() {
+    var name = $("#save-dialog input[name=save]")[0].value;
+    var query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
+    sync.save(
+        {
+          name: name,
+          query: query
+        },
+        function(err, new_queries) {
+          if (err) return console.error(err);
+          $("#logout").show();
+          $("#save-dialog").removeClass("is-active");
+        }
+    );
+  };
   this.onSaveClose = function() {
     $("#save-dialog").removeClass("is-active");
   };
   this.onLogoutClick = function() {
     sync.logout();
     $("#load-dialog ul.osm").html("");
-    $("a#logout").hide();
+    $("#logout").hide();
   };
   this.onRunClick = function() {
     ide.update_map();
