@@ -257,19 +257,6 @@ a.ui-button:active,
   overflow-x: hidden;
 }
 
-#navs .title {
-  display: inline-block;
-  font-size: 1.8em;
-  color: #7a7a7a;
-  padding-right: 10px;
-  vertical-align: top;
-}
-#navs .title a {
-  text-decoration: none;
-  color: #7a7a7a;
-  font-weight: normal;
-}
-
 .crosshairs {
   position: absolute;
   top: 50%;

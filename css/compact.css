@@ -1,8 +1,17 @@
-@media (max-width: 700px) {
+@media (max-width: 1024px) {
   html,
   body {
     height: auto;
   }
+
+  /* Navigation */
+  .navbar-end {
+    display: none;
+  }
+  .navbar-item {
+    display: inline-block;
+  }
+
   #editor {
     position: relative !important;
     left: auto !important;
@@ -37,6 +46,8 @@
     background-color: white;
     width: 100%;
     height: auto;
+    max-height: 400px;
+    overflow-y: auto;
     position: relative;
     padding-top: 10px;
     padding-bottom: 22px;
@@ -68,22 +79,6 @@
   .CodeMirror-lines {
     padding: 0;
     padding-top: 0;
-  }
-  #navs {
-    width: 100%;
-    position: relative;
-    height: auto;
-  }
-  #navs .title {
-    display: block;
-    position: absolute;
-    top: 5px;
-  }
-  #navs .buttons {
-    display: block;
-    position: relative;
-    top: 25px;
-    margin-bottom: 15px;
   }
   .tabs {
     display: none;
