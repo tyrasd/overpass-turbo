@@ -8,6 +8,9 @@ body {
 }
 
 /* Navigation */
+.navbar {
+  border-bottom: 1px solid #ccc;
+}
 .navbar-brand {
   font-size: 1.5rem;
 }
@@ -16,6 +19,8 @@ body {
   margin-left: 0.5rem;
   padding-top: 3px;
 }
+
+/* Map and Editor */
 
 #editor {
   background-color: #ffffff;
@@ -106,6 +111,7 @@ body {
   padding: 20px 12px 12px;
 }
 
+/* Links */
 a {
   font-weight: bold;
 }
@@ -120,24 +126,8 @@ a.external::after {
 a.external {
   white-space: nowrap;
 }
-.group {
-  margin-right: 0px;
-  display: inline-block;
-}
-.group > .button {
-  border-radius: 0;
-  border-left: 0;
-}
-.group > .button:first-child {
-  border-left: 1px solid #ccc;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-.group > .button:last-child {
-  border-right: 1px solid #ccc;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-}
+
+/* Modals */
 .modal {
   z-index: 1001;
 }
@@ -170,7 +160,7 @@ a.external {
 .leaflet-control-buttons-bboxfilter {
 }
 .leaflet-control-buttons-myloc span {
-  margin-left: -2px;
+  /*margin-left: -2px;*/
 }
 .leaflet-container .leaflet-control-search {
   opacity: 0.8;
@@ -264,10 +254,6 @@ a.ui-button:active,
   opacity: 0.6;
 }
 
-#save-dialog input {
-  min-width: 200px;
-}
-
 .errorline {
   background: #ffe1e1 !important;
 }
@@ -326,6 +312,8 @@ body .ui-tooltip {
   line-height: 1.5;
   background-color: #eee;
   opacity: 0.8;
+  border-top: 1px solid #888;
+  border-left: 1px solid #888;
 }
 .stats {
   font-size: 12px;
@@ -344,10 +332,10 @@ body .ui-tooltip {
 }
 
 /* osm.org query sync */
-button#logout {
+#logout {
   display: none;
 }
-#load-dialog .osm {
+#save-dialog .osm, #load-dialog .osm {
   display: none;
 }
 

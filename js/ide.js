@@ -217,10 +217,13 @@ var ide = new (function() {
     addInfo: function(txt, abortCallback) {
       $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
       $(".wait-info ul li:nth-child(n+1)").css("opacity", 0.5);
-      $(".wait-info ul li span.ui-icon").addClass("ui-icon-check");
+      $(".wait-info ul li span.fas")
+          .removeClass('fa-spinner')
+          .removeClass('fa-spin')
+          .addClass("fa-check");
       $(".wait-info ul li:nth-child(n+4)").hide();
       var li = $(
-        '<li><span class="ui-icon ui-icon-arrowthick-1-e" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>' +
+        '<li><span class="fas fa-spinner fa-spin" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>' +
           txt +
           "</li>"
       );
@@ -581,7 +584,7 @@ var ide = new (function() {
           "leaflet-control-buttons-fitdata leaflet-bar-part leaflet-bar-part-top",
           container
         );
-        $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
+        $('<span class="fas fa-search"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.zoom_to_data");
@@ -605,7 +608,7 @@ var ide = new (function() {
           "leaflet-control-buttons-myloc leaflet-bar-part",
           container
         );
-        $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
+        $('<span class="fas fa-crosshairs"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.localize_user");
@@ -640,7 +643,7 @@ var ide = new (function() {
           "leaflet-control-buttons-bboxfilter leaflet-bar-part",
           container
         );
-        $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
+        $('<span class="fas fa-image"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.select_bbox");
@@ -662,8 +665,8 @@ var ide = new (function() {
               ide.map.bboxfilter.disable();
             }
             $(e.target)
-              .toggleClass("ui-icon-circlesmall-close")
-              .toggleClass("ui-icon-image");
+              .toggleClass("fa-times-circle")
+              .toggleClass("fa-image");
             return false;
           },
           ide.map
@@ -673,7 +676,7 @@ var ide = new (function() {
           "leaflet-control-buttons-fullscreen leaflet-bar-part",
           container
         );
-        $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo(
+        $('<span class="fas fa-step-backward"/>').appendTo(
           $(link)
         );
         link.href = "#";
@@ -687,8 +690,8 @@ var ide = new (function() {
             $("#dataviewer").toggleClass("fullscreen");
             ide.map.invalidateSize();
             $(e.target)
-              .toggleClass("ui-icon-arrowthickstop-1-e")
-              .toggleClass("ui-icon-arrowthickstop-1-w");
+              .toggleClass("fa-step-forward")
+              .toggleClass("fa-step-backward");
             $("#editor").toggleClass("hidden");
             if ($("#editor").resizable("option", "disabled"))
               $("#editor").resizable("enable");
@@ -702,7 +705,7 @@ var ide = new (function() {
           "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom",
           container
         );
-        $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
+        $('<span class="fas fa-ban"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.toggle_data");
@@ -753,7 +756,7 @@ var ide = new (function() {
         container.style.left = "40px";
         var inp = L.DomUtil.create("input", "", container);
         $(
-          '<span class="ui-icon ui-icon-search" style="position:absolute; right:3px; top:3px; opacity:0.5;"/>'
+          '<span class="fas fa-search" style="position:absolute; right:3px; top:3px; opacity:0.5;"/>'
         )
           .click(function(e) {
             $(this)
@@ -842,7 +845,7 @@ var ide = new (function() {
     });
     ide.map.addControl(new SearchBox());
     // add cross hairs to map
-    $('<span class="ui-icon ui-icon-plus" />')
+    $('<span class="fas fa-plus" />')
       .addClass("crosshairs")
       .hide()
       .appendTo("#map");
@@ -1301,7 +1304,7 @@ var ide = new (function() {
 
     var content =
       "<p>" +
-      '<span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
+      '<span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>' +
       i18n.t("dialog.delete_query.expl") +
       ": &quot;<i>" +
       ex +
@@ -1325,7 +1328,7 @@ var ide = new (function() {
     dialog_buttons[i18n.t("dialog.cancel")] = function() {};
 
     var content =
-      '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
+      '<p><span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>' +
       i18n.t("dialog.delete_query.expl-osm") +
       ": &quot;<i>" +
       query.name +
@@ -1361,7 +1364,7 @@ var ide = new (function() {
             .attr("title", i18n.t("load.delete_query") + ": " + example)
             .addClass("delete-query")
             .css("float", "right")
-            .append($("<span>").addClass("ui-icon ui-icon-close"))
+            .append($("<span>").addClass("fas").addClass('fa-times'))
             .on(
               "click",
               (function(example) {
@@ -1418,7 +1421,7 @@ var ide = new (function() {
                     .attr("title", i18n.t("load.delete_query") + ": " + q.name)
                     .addClass("delete-query")
                     .css("float", "right")
-                    .append($("<span>").addClass("ui-icon ui-icon-close"))
+                    .append($("<span>").addClass("fas").addClass('fa-times'))
                     .on(
                       "click",
                       (function(example) {
