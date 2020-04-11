@@ -8,8 +8,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const productionBuild =
-  process.env.npm_lifecycle_script !== "webpack-dev-server";
+const productionBuild = process.env.npm_lifecycle_script !== "webpack-dev-server";
 
 module.exports = {
   entry: {
@@ -63,11 +62,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      GIT_VERSION: JSON.stringify(
-        child_process
-          .execSync("git describe --always", {encoding: "utf-8"})
-          .trim()
-      )
+      GIT_VERSION: JSON.stringify(child_process.execSync("git describe --always", {encoding: "utf-8"}).trim())
     }),
     new CleanWebpackPlugin([path.resolve(__dirname, "build")]),
     new ExtractTextPlugin({
