@@ -185,158 +185,162 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <h3><a class="t" data-t="help.section.introduction"></a></h3>
-          <div>
-            <p class="t" data-t="[html]help.intro.0"></p>
-            <p>
-              <span class="t" data-t="[html]help.intro.1"></span>
-              <span class="t" data-t="[html]help.intro.1b"></span>
-            </p>
-            <p class="t" data-t="[html]help.intro.2"></p>
-          </div>
-          <h3><a class="t" data-t="help.section.queries"></a></h3>
-          <div>
-            <p class="t" data-t="[html]help.queries.expl"></p>
-            <p class="t" data-t="help.intro.shortcuts"></p>
-            <ul>
-              <li>
-                <i>{{bbox}}</i> -
-                <span class="t" data-t="help.intro.shortcuts.bbox"></span>
-              </li>
-              <li>
-                <i>{{center}}</i> -
-                <span class="t" data-t="help.intro.shortcuts.center"></span>
-              </li>
-              <li>
-                <i>{{date:…}}</i> -
-                <span class="t" data-t="help.intro.shortcuts.date"></span>
-              </li>
-              <li>
-                <i>{{style:…}}</i> -
-                <span
-                  class="t"
-                  data-t="[html]help.intro.shortcuts.style"
-                ></span>
-              </li>
-              <li class="t" data-t="[html]help.intro.shortcuts.custom"></li>
-            </ul>
-            <p class="t" data-t="[html]help.intro.shortcuts.more"></p>
-          </div>
-          <h3><a class="t" data-t="help.section.ide"></a></h3>
-          <div>
-            <h4 class="t" data-t="help.ide.share.title"></h4>
-            <p class="t" data-t="[html]help.ide.share.expl"></p>
-            <h4 class="t" data-t="help.ide.save_load.title"></h4>
-            <p class="t" data-t="[html]help.ide.save_load.expl"></p>
-            <h4 class="t" data-t="help.ide.keyboard.title"></h4>
-            <ul>
-              <li>
-                <i>Ctrl+Enter</i> -
-                <span class="t" data-t="help.ide.keyboard.run"></span>
-              </li>
-              <li>
-                <i>Ctrl+I</i> -
-                <span class="t" data-t="help.ide.keyboard.wizard"></span>
-              </li>
-              <li>
-                <i>Ctrl+O / Ctrl+S</i> -
-                <span class="t" data-t="help.ide.keyboard.load_save"></span>
-              </li>
-              <li>
-                <i>Ctrl+H</i> -
-                <span class="t" data-t="help.ide.keyboard.help"></span>
-              </li>
-            </ul>
-          </div>
-          <h3><a class="t" data-t="help.section.key"></a></h3>
-          <div>
-            <img
-              src="map-key.png"
-              alt=""
-              class="t"
-              data-t="[alt]help.key.example"
-            />
-            <p class="t" data-t="help.key.description"></p>
-          </div>
-          <h3><a class="t" data-t="help.section.export"></a></h3>
-          <div>
-            <p class="t" data-t="[html]help.export"></p>
-            <h4 class="t" data-t="help.export.map.title"></h4>
-            <p class="t" data-t="help.export.map.expl"></p>
-            <h4 class="t" data-t="help.export.query_data.title"></h4>
-            <p class="t" data-t="help.export.query_data.expl"></p>
-          </div>
-          <h3><a class="t" data-t="help.section.about"></a></h3>
-          <div>
-            <a href="http://overpass-api.de">
+          <div class="content">
+            <h3 class="t" data-t="help.section.introduction"></h3>
+            <div class="content">
+              <p class="t" data-t="[html]help.intro.0"></p>
+              <p>
+                <span class="t" data-t="[html]help.intro.1"></span>
+                <span class="t" data-t="[html]help.intro.1b"></span>
+              </p>
+              <p class="t" data-t="[html]help.intro.2"></p>
+            </div>
+            <h3 class="t" data-t="help.section.queries"></h3>
+            <div>
+              <p class="t" data-t="[html]help.queries.expl"></p>
+              <p class="t" data-t="help.intro.shortcuts"></p>
+              <ul>
+                <li>
+                  <code>{{bbox}}</code> &mdash;
+                  <span class="t" data-t="help.intro.shortcuts.bbox"></span>
+                </li>
+                <li>
+                  <code>{{center}}</code> &mdash;
+                  <span class="t" data-t="help.intro.shortcuts.center"></span>
+                </li>
+                <li>
+                  <code>{{date:…}}</code> &mdash;
+                  <span class="t" data-t="help.intro.shortcuts.date"></span>
+                </li>
+                <li>
+                  <code>{{style:…}}</code> &mdash;
+                  <span
+                    class="t"
+                    data-t="[html]help.intro.shortcuts.style"
+                  ></span>
+                </li>
+                <li class="t" data-t="[html]help.intro.shortcuts.custom"></li>
+              </ul>
+              <p class="t" data-t="[html]help.intro.shortcuts.more"></p>
+            </div>
+            <h3 class="t" data-t="help.section.ide"></h3>
+            <div>
+              <h4 class="t" data-t="help.ide.share.title"></h4>
+              <p class="t" data-t="[html]help.ide.share.expl"></p>
+              <h4 class="t" data-t="help.ide.save_load.title"></h4>
+              <p class="t" data-t="[html]help.ide.save_load.expl"></p>
+              <h4 class="t" data-t="help.ide.keyboard.title"></h4>
+              <ul>
+                <li>
+                  <kbd>Ctrl</kbd>+<kbd>Enter</kbd> &mdash;
+                  <span class="t" data-t="help.ide.keyboard.run"></span>
+                </li>
+                <li>
+                  <kbd>Ctrl</kbd>+<kbd>I</kbd> &mdash;
+                  <span class="t" data-t="help.ide.keyboard.wizard"></span>
+                </li>
+                <li>
+                  <kbd>Ctrl</kbd>+<kbd>O</kbd> / <kbd>Ctrl</kbd>+<kbd>S</kbd>
+                  &mdash;
+                  <span class="t" data-t="help.ide.keyboard.load_save"></span>
+                </li>
+                <li>
+                  <kbd>Ctrl</kbd>+<kbd>H</kbd> &mdash;
+                  <span class="t" data-t="help.ide.keyboard.help"></span>
+                </li>
+              </ul>
+            </div>
+            <h3 class="t" data-t="help.section.key"></h3>
+            <div>
               <img
-                style="float:right;"
-                src="//wiki.openstreetmap.org/w/images/b/b3/Powered_by_Overpass_API.png"
-                alt="powered by Overpass API"
-            /></a>
-            <p class="t" data-t="[html]help.about.maintained"></p>
-            <h4 class="t" data-t="help.about.feedback.title"></h4>
-            <p class="t" data-t="[html]help.about.feedback"></p>
-            <h4 class="t" data-t="help.about.source.title"></h4>
-            <p class="t" data-t="[html]help.about.source"></p>
-            <p id="overpass-turbo-version"></p>
-          </div>
-          <h3><a class="t" data-t="help.section.attribution"></a></h3>
-          <div>
-            <h4 class="t" data-t="help.attr.data_sources"></h4>
-            <ul class="plain">
-              <li class="t" data-t="[html]help.attr.data"></li>
-              <li>
-                <span class="t" data-t="help.attr.mining"></span>
-                <a href="http://overpass-api.de/">Overpass API</a>
-              </li>
-              <li class="t" data-t="[html]help.attr.tiles"></li>
-              <li>
-                <span class="t" data-t="help.attr.search"></span>
-                <a href="http://wiki.openstreetmap.org/wiki/Nominatim"
-                  >Nominatim</a
-                >
-              </li>
-            </ul>
-            <h4 class="t" data-t="help.attr.software"></h4>
-            <ul class="plain">
-              <li>
-                <span class="t" data-t="help.attr.leaflet"></span>
-                <a href="http://leaflet.cloudmade.com">Leaflet</a>
-              </li>
-              <li>
-                <span class="t" data-t="help.attr.codemirror"></span>
-                <a href="http://codemirror.net/">CodeMirror</a>
-              </li>
-              <li>
-                <span class="t" data-t="help.attr.other_libs"></span>
-                <a href="https://github.com/tyrasd/osmtogeojson">osmtogeojson</a
-                >, <a href="https://github.com/tyrasd/togpx">togpx</a>,
-                <a href="https://github.com/mapbox/tokml">tokml</a>,
-                <a href="http://lodash.com">lodash</a>,
-                <a href="http://jquery.com/">jQuery</a>,
-                <a href="http://jqueryui.com/">jQuery UI</a>,
-                <a href="http://html2canvas.hertzen.com/">html2canvas</a>,
-                <a href="http://code.google.com/p/canvg/">canvg</a>,
-                <a href="https://github.com/kajic/leaflet-locationfilter">
-                  leaflet-locationfilter
-                </a>
-                ,
-                <a href="https://github.com/bbecquet/Leaflet.PolylineOffset">
-                  leaflet.PolylineOffset
-                </a>
-                , <a href="http://mapbox.com/maki/">maki</a>,
-                <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>,
-                <a href="https://github.com/nebulon42/osmic/">Osmic</a>,
-                <a href="https://github.com/eligrey/FileSaver.js"
-                  >FileSaver.js</a
-                >,
-                <a href="https://github.com/MapBBCode/mapbbcode">MapBBCode</a>,
-                <a href="http://momentjs.com/">Moment.js</a>,
-                <a href="https://github.com/mapbox/polylabel">polylabel</a>,
-                <a href="https://github.com/osmlab/osm-auth">osm-auth</a>
-              </li>
-            </ul>
+                src="map-key.png"
+                alt=""
+                class="t"
+                data-t="[alt]help.key.example"
+              />
+              <p class="t" data-t="help.key.description"></p>
+            </div>
+            <h3 class="t" data-t="help.section.export"></h3>
+            <div>
+              <p class="t" data-t="[html]help.export"></p>
+              <h4 class="t" data-t="help.export.map.title"></h4>
+              <p class="t" data-t="help.export.map.expl"></p>
+              <h4 class="t" data-t="help.export.query_data.title"></h4>
+              <p class="t" data-t="help.export.query_data.expl"></p>
+            </div>
+            <h3 class="t" data-t="help.section.about"></h3>
+            <div>
+              <a href="http://overpass-api.de">
+                <img
+                  style="float:right;"
+                  src="//wiki.openstreetmap.org/w/images/b/b3/Powered_by_Overpass_API.png"
+                  alt="powered by Overpass API"
+              /></a>
+              <p class="t" data-t="[html]help.about.maintained"></p>
+              <h4 class="t" data-t="help.about.feedback.title"></h4>
+              <p class="t" data-t="[html]help.about.feedback"></p>
+              <h4 class="t" data-t="help.about.source.title"></h4>
+              <p class="t" data-t="[html]help.about.source"></p>
+              <p id="overpass-turbo-version"></p>
+            </div>
+            <h3 class="t" data-t="help.section.attribution"></h3>
+            <div>
+              <h4 class="t" data-t="help.attr.data_sources"></h4>
+              <ul class="plain">
+                <li class="t" data-t="[html]help.attr.data"></li>
+                <li>
+                  <span class="t" data-t="help.attr.mining"></span>
+                  <a href="http://overpass-api.de/">Overpass API</a>
+                </li>
+                <li class="t" data-t="[html]help.attr.tiles"></li>
+                <li>
+                  <span class="t" data-t="help.attr.search"></span>
+                  <a href="http://wiki.openstreetmap.org/wiki/Nominatim"
+                    >Nominatim</a
+                  >
+                </li>
+              </ul>
+              <h4 class="t" data-t="help.attr.software"></h4>
+              <ul class="plain">
+                <li>
+                  <span class="t" data-t="help.attr.leaflet"></span>
+                  <a href="http://leaflet.cloudmade.com">Leaflet</a>
+                </li>
+                <li>
+                  <span class="t" data-t="help.attr.codemirror"></span>
+                  <a href="http://codemirror.net/">CodeMirror</a>
+                </li>
+                <li>
+                  <span class="t" data-t="help.attr.other_libs"></span>
+                  <a href="https://github.com/tyrasd/osmtogeojson"
+                    >osmtogeojson</a
+                  >, <a href="https://github.com/tyrasd/togpx">togpx</a>,
+                  <a href="https://github.com/mapbox/tokml">tokml</a>,
+                  <a href="http://lodash.com">lodash</a>,
+                  <a href="http://jquery.com/">jQuery</a>,
+                  <a href="http://jqueryui.com/">jQuery UI</a>,
+                  <a href="http://html2canvas.hertzen.com/">html2canvas</a>,
+                  <a href="http://code.google.com/p/canvg/">canvg</a>,
+                  <a href="https://github.com/kajic/leaflet-locationfilter">
+                    leaflet-locationfilter
+                  </a>
+                  ,
+                  <a href="https://github.com/bbecquet/Leaflet.PolylineOffset">
+                    leaflet.PolylineOffset
+                  </a>
+                  , <a href="http://mapbox.com/maki/">maki</a>,
+                  <a href="http://www.sjjb.co.uk/mapicons/">SJJB map icons</a>,
+                  <a href="https://github.com/nebulon42/osmic/">Osmic</a>,
+                  <a href="https://github.com/eligrey/FileSaver.js"
+                    >FileSaver.js</a
+                  >,
+                  <a href="https://github.com/MapBBCode/mapbbcode">MapBBCode</a
+                  >, <a href="http://momentjs.com/">Moment.js</a>,
+                  <a href="https://github.com/mapbox/polylabel">polylabel</a>,
+                  <a href="https://github.com/osmlab/osm-auth">osm-auth</a>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
         <footer class="modal-card-foot">
@@ -366,180 +370,174 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <h3><a class="t" data-t="settings.section.general"></a></h3>
-          <div>
-            <p>
-              <label for="ui_language"
-                ><span class="t" data-t="settings.ui_lang"></span>:</label
-              >
-              <input
-                class="input"
-                type="text"
-                name="ui_language"
-                value=""
-                id="ui_language"
-                style="width:60px;"
-              />
-            </p>
-            <p>
-              <label for="server"
-                ><span class="t" data-t="settings.server"></span>:</label
-              >
-              <input
-                type="text"
-                name="server"
-                value=""
-                id="server"
-                style="width:270px;"
-              />
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" name="no_autorepair" />&nbsp;<span
-                  class="t"
-                  data-t="settings.disable_autorepair"
-                >
-                </span>
+          <div class="box">
+            <h3 class="subtitle t" data-t="settings.section.general"></h3>
+            <div class="field">
+              <label class="label" for="ui_language">
+                <span class="t" data-t="settings.ui_lang"></span>
               </label>
-            </p>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  name="ui_language"
+                  value=""
+                  id="ui_language"
+                />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="server">
+                <span class="t" data-t="settings.server"></span>
+              </label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  name="server"
+                  value=""
+                  id="server"
+                />
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" name="no_autorepair" />
+                  <span class="t" data-t="settings.disable_autorepair"></span>
+                </label>
+              </div>
+            </div>
           </div>
-          <h3><a class="t" data-t="settings.section.editor"></a></h3>
-          <div>
-            <p>
-              <label>
-                <input type="checkbox" name="use_rich_editor" />&nbsp;<span
-                  class="t"
-                  data-t="settings.enable_rich_editor"
-                >
-                </span>
-                <small>
-                  (<span
-                    class="t"
-                    data-t="settings.enable_rich_editor_expl"
-                  ></span>
-                  )
-                </small>
-                .
+          <div class="box">
+            <h3 class="subtitle t" data-t="settings.section.editor"></h3>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" name="use_rich_editor" />
+                  <span class="t" data-t="settings.enable_rich_editor"></span>
+                </label>
+              </div>
+              <p class="help t" data-t="settings.enable_rich_editor_expl"></p>
+            </div>
+            <div class="field">
+              <label class="label" for="editor_width">
+                <span class="t" data-t="settings.editor_width"></span>
               </label>
-            </p>
-            <p>
-              <label for="editor_width"
-                ><span class="t" data-t="settings.editor_width"></span>:</label
-              >
-              <small>
-                (<span class="t" data-t="settings.editor_width_expl"></span>
-                )
-              </small>
-
-              <input
-                type="text"
-                name="editor_width"
-                value=""
-                id="editor_width"
-                style="width:80px;"
-              />
-            </p>
-          </div>
-          <h3><a class="t" data-t="settings.section.map"></a></h3>
-          <div>
-            <p>
-              <label for="tile_server"
-                ><span class="t" data-t="settings.tile_server"></span>:</label
-              >
-              <input
-                type="text"
-                name="tile_server"
-                value=""
-                id="tile_server"
-                style="width:240px;"
-              />
-            </p>
-            <p>
-              <label for="background_opacity"
-                ><span class="t" data-t="settings.tile_opacity"></span>:</label
-              >
-              <input
-                type="text"
-                name="background_opacity"
-                value=""
-                id="background_opacity"
-                style="width:30px;"
-              />
-              <small>
-                (<span class="t" data-t="settings.tile_opacity_expl"></span>
-                )
-              </small>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" name="enable_crosshairs" />&nbsp;<span
-                  class="t"
-                  data-t="settings.show_crosshairs"
-                >
-                </span>
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" name="disable_poiomatic" />&nbsp;<span
-                  class="t"
-                  data-t="settings.disable_poiomatic"
-                >
-                </span>
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="checkbox" name="show_data_stats" />&nbsp;<span
-                  class="t"
-                  data-t="settings.show_data_stats"
-                >
-                </span>
-              </label>
-            </p>
-          </div>
-          <h3><a class="t" data-t="settings.section.sharing"></a></h3>
-          <div>
-            <p>
-              <label>
-                <input type="checkbox" name="share_include_pos" />&nbsp;<span
-                  class="t"
-                  data-t="settings.include_map_state"
-                >
-                </span>
-              </label>
-            </p>
-            <p>
-              <label>
-                <span class="t" data-t="settings.compression"></span>:
+              <div class="control">
                 <input
                   type="text"
-                  name="share_compression"
+                  class="input"
+                  name="editor_width"
                   value=""
-                  style="width:40px;"
-              /></label>
-            </p>
+                  id="editor_width"
+                />
+              </div>
+              <p class="help t" data-t="settings.editor_width_expl"></p>
+            </div>
           </div>
-          <h3><a class="t" data-t="settings.section.export"></a></h3>
-          <div>
-            <p>
-              <label>
-                <input type="checkbox" name="export_image_scale" />&nbsp;<span
-                  class="t"
-                  data-t="settings.export_image_scale"
-                >
-                </span>
+          <div class="box">
+            <h3 class="subtitle t" data-t="settings.section.map"></h3>
+            <div class="field">
+              <label class="label" for="tile_server">
+                <span class="t" data-t="settings.tile_server"></span>
               </label>
-            </p>
-            <p>
-              <label>
+              <div class="control">
                 <input
-                  type="checkbox"
-                  name="export_image_attribution"
-                />&nbsp;<span class="t" data-t="settings.export_image_attr">
-                </span>
+                  class="input"
+                  type="text"
+                  name="tile_server"
+                  value=""
+                  id="tile_server"
+                />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="background_opacity">
+                <span class="t" data-t="settings.tile_opacity"></span>
               </label>
-            </p>
+              <div class="control">
+                <input
+                  class="input"
+                  type="number"
+                  name="background_opacity"
+                  value=""
+                  id="background_opacity"
+                  min="0.0"
+                  max="1.0"
+                  step="0.1"
+                />
+              </div>
+              <p class="help t" data-t="settings.tile_opacity_expl"></p>
+            </div>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" name="enable_crosshairs" />
+                  <span class="t" data-t="settings.show_crosshairs"></span>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" name="disable_poiomatic" />
+                  <span class="t" data-t="settings.disable_poiomatic"></span>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" name="show_data_stats" />
+                  <span class="t" data-t="settings.show_data_stats"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="box">
+            <h3 class="subtitle t" data-t="settings.section.sharing"></h3>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" name="share_include_pos" />
+                  <span class="t" data-t="settings.include_map_state"></span>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="share_compression">
+                <span class="t" data-t="settings.compression"></span>
+              </label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  name="share_compression"
+                  id="share_compression"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div class="box">
+            <h3 class="subtitle t" data-t="settings.section.export"></h3>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" name="export_image_scale" />
+                  <span class="t" data-t="settings.export_image_scale"></span>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" name="export_image_attribution" />
+                  <span class="t" data-t="settings.export_image_attr"></span>
+                </label>
+              </div>
+            </div>
           </div>
         </section>
         <footer class="modal-card-foot">
@@ -575,10 +573,16 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <p>
-            <label for="save_name" class="t" data-t="save.enter_name"></label>
-          </p>
-          <p><input name="save" type="text" id="save_name" /></p>
+          <div class="field">
+            <label
+              class="label t"
+              for="save_name"
+              data-t="save.enter_name"
+            ></label>
+            <div class="control">
+              <input name="save" type="text" id="save_name" class="input" />
+            </div>
+          </div>
         </section>
         <footer class="modal-card-foot">
           <div class="level">
@@ -653,8 +657,8 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <h4 class="t" data-t="export.section.data"></h4>
-          <div>
+          <div class="box">
+            <h4 class="t subtitle" data-t="export.section.data"></h4>
             <p
               class="t"
               data-t="[html]export.generic_download_copy"
@@ -692,8 +696,8 @@
         <p class="t" data-t="[html]export.save_geoJSON_gist"></p>
         -->
           </div>
-          <h4 class="t" data-t="export.section.map"></h4>
-          <div>
+          <div class="box">
+            <h4 class="t subtitle" data-t="export.section.map"></h4>
             <p class="t" data-t="[html]export.as_png"></p>
             <p class="t" data-t="[html]export.as_interactive_map"></p>
             <p>
@@ -703,30 +707,32 @@
               >
             </p>
           </div>
-          <h4 class="t" data-t="export.section.query"></h4>
-          <div>
-            <p
-              class="t"
-              data-t="[html]export.generic_download_copy"
-              id="export-text"
-            ></p>
-            <p
-              class="t"
-              data-t="[html]export.generic_download_copy"
-              id="export-text_raw"
-            ></p>
-            <p
-              class="t"
-              data-t="[html]export.generic_download_copy"
-              id="export-text_wiki"
-            ></p>
-            <p
-              class="t"
-              data-t="[html]export.generic_download_copy"
-              id="export-text_umap"
-            ></p>
-            <p class="t" data-t="[html]export.to_xml"></p>
-            <p class="t" data-t="[html]export.to_ql"></p>
+          <div class="box">
+            <h4 class="t subtitle" data-t="export.section.query"></h4>
+            <div>
+              <p
+                class="t"
+                data-t="[html]export.generic_download_copy"
+                id="export-text"
+              ></p>
+              <p
+                class="t"
+                data-t="[html]export.generic_download_copy"
+                id="export-text_raw"
+              ></p>
+              <p
+                class="t"
+                data-t="[html]export.generic_download_copy"
+                id="export-text_wiki"
+              ></p>
+              <p
+                class="t"
+                data-t="[html]export.generic_download_copy"
+                id="export-text_umap"
+              ></p>
+              <p class="t" data-t="[html]export.to_xml"></p>
+              <p class="t" data-t="[html]export.to_ql"></p>
+            </div>
           </div>
         </section>
         <footer class="modal-card-foot">
@@ -759,7 +765,7 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <p class="message"></p>
+          <p class="message notification is-success is-light"></p>
         </section>
         <footer class="modal-card-foot">
           <div class="level">
@@ -794,7 +800,7 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <p class="message"></p>
+          <p class="message notification is-success is-light"></p>
         </section>
         <footer class="modal-card-foot">
           <div class="level">
@@ -826,42 +832,52 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <h3 class="t is-size-4" data-t="share.header"></h3>
-          <p>
-            <label
-              for="share_link_textarea"
-              class="t"
-              data-t="[html]share.copy_this_link"
-            ></label>
-          </p>
-          <div class="control">
-            <input
-              class="input"
-              type="text"
-              readonly
-              id="share_link_textarea"
-            />
+          <div class="box">
+            <h3 class="t subtitle" data-t="share.header"></h3>
+            <p>
+              <label
+                for="share_link_textarea"
+                class="t"
+                data-t="[html]share.copy_this_link"
+              ></label>
+            </p>
+            <div class="control">
+              <input
+                class="input"
+                type="text"
+                readonly
+                id="share_link_textarea"
+              />
+            </div>
+            <span id="share_link_warning"></span>
           </div>
-          <span id="share_link_warning"></span>
-          <h3 class="t is-size-4" data-t="share.options"></h3>
-          <p>
-            <label class="checkbox">
-              <input
-                type="checkbox"
-                name="include_coords"
-                data-ide-handler="change:updateShareLink"
-              />&nbsp;<span class="t" data-t="share.incl_map_state"> </span>
-            </label>
-          </p>
-          <p>
-            <label class="checkbox">
-              <input
-                type="checkbox"
-                name="run_immediately"
-                data-ide-handler="change:updateShareLink"
-              />&nbsp;<span class="t" data-t="share.run_immediately"> </span>
-            </label>
-          </p>
+          <div class="box">
+            <h3 class="t subtitle" data-t="share.options"></h3>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input
+                    type="checkbox"
+                    name="include_coords"
+                    data-ide-handler="change:updateShareLink"
+                  />
+                  <span class="t" data-t="share.incl_map_state"></span>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input
+                    type="checkbox"
+                    name="run_immediately"
+                    data-ide-handler="change:updateShareLink"
+                  />
+                  <span class="t" data-t="share.run_immediately"></span>
+                </label>
+              </div>
+            </div>
+          </div>
         </section>
         <footer class="modal-card-foot">
           <div class="level">
@@ -890,29 +906,6 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <p>
-            <input
-              type="search"
-              autofocus="autofocus"
-              placeholder=""
-              value=""
-              id="ffs-input"
-              class="t input"
-              data-t="[placeholder]ffs.placeholder"
-              required
-            />
-          </p>
-          <div id="ffs-dialog-parse-error" style="display:none;">
-            <span class="t warning severe" data-t="ffs.parse_error"></span
-            ><br />
-            <small>
-              <span class="t" data-t="[html]ffs.parse_error_expl"></span>
-            </small>
-          </div>
-          <div id="ffs-dialog-typo" style="display:none;">
-            <span class="t warning" data-t="ffs.typo"></span>&nbsp;
-            <a href="" id="ffs-dialog-typo-correction"></a>
-          </div>
           <div class="content">
             <span class="t" data-t="[html]ffs.expl"></span>
             <ul>
@@ -920,6 +913,42 @@
               <li>highway=* and type:way</li>
               <li>tourism=museum in Vienna</li>
             </ul>
+          </div>
+          <div class="field">
+            <div class="control has-icons-left">
+              <input
+                type="search"
+                autofocus="autofocus"
+                placeholder=""
+                value=""
+                id="ffs-input"
+                class="t input is-rounded"
+                data-t="[placeholder]ffs.placeholder"
+                required
+              />
+              <span class="icon is-left">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+          </div>
+          <div
+            id="ffs-dialog-parse-error"
+            style="display:none;"
+            class="notification is-danger is-light"
+          >
+            <span class="t warning severe" data-t="ffs.parse_error"></span
+            ><br />
+            <small>
+              <span class="t" data-t="[html]ffs.parse_error_expl"></span>
+            </small>
+          </div>
+          <div
+            id="ffs-dialog-typo"
+            style="display:none;"
+            class="notification is-danger is-light"
+          >
+            <span class="t warning" data-t="ffs.typo"></span>&nbsp;
+            <a href="" id="ffs-dialog-typo-correction"></a>
           </div>
         </section>
         <footer class="modal-card-foot">

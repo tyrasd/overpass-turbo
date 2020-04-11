@@ -6,10 +6,10 @@
   "license": "MIT",
   "scripts": {
     "test": "npm run test:style && npm run test:karma",
-    "test:style": "prettier --no-bracket-spacing --check $(npm run git-ls-files)",
+    "test:style": "prettier --no-bracket-spacing --print-width 120 --check $(npm run git-ls-files)",
     "test:karma": "karma start --single-run",
     "test:start": "karma start",
-    "fix:style": "prettier --no-bracket-spacing --write  '*.js' '*.html' '*.css' '*.md'",
+    "fix:style": "prettier --no-bracket-spacing --print-width 120 --write $(npm run git-ls-files)",
     "git-ls-files": "git ls-files '*.js' '*.html' '*.css' '*.md'",
     "start": "webpack-dev-server",
     "build": "webpack -p",
@@ -48,6 +48,7 @@
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.0",
     "bulma": "^0.8.1",
     "canvas-toBlob": "^1.0.0",
     "canvg": "tyrasd/canvg#755b433a800a9c79fe15bd8c202b5d988cd6b81a",

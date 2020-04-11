@@ -223,11 +223,11 @@ a.external {
 .ui-combobox {
   position: relative;
   display: inline-block;
+  width: 100%;
 }
 .ui-combobox input.ui-autocomplete-input {
-  margin: 0;
-  padding: 0.3em;
   background: white;
+  width: calc(100% - 30px);
 }
 .ui-widget {
   font-size: 1em;
@@ -287,17 +287,6 @@ a.ui-button:active,
   background: #ffe1e1 !important;
 }
 
-ul.plain {
-  padding: 0;
-  margin: 0;
-}
-ul.plain > li {
-  list-style-type: none;
-}
-ul.plain > li:hover {
-  background-color: #eeeeee;
-  transition: all 0.1s;
-}
 .cm-mustache {
   color: #d83;
 }
@@ -334,18 +323,7 @@ body .ui-tooltip {
   padding-bottom: 4px;
 }
 
-.warning {
-  color: orange;
-}
-.warning.severe {
-  color: red;
-}
-
 /*free form search/query builder*/
-#ffs-dialog input[type="text"] {
-  width: 100%;
-}
-
 #ffs-dialog-typo a {
   font-weight: normal;
 }
@@ -396,4 +374,20 @@ span.counter {
   color: #586069;
   background-color: rgba(27, 31, 35, 0.08);
   border-radius: 20px;
+}
+
+kbd {
+  display: inline-block;
+  margin: 0 0.1em;
+  padding: 0.1em 0.6em;
+  font-family: Arial,"Helvetica Neue", Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #242729;
+  text-shadow: 0 1px 0 #fff;
+  background-color: #e1e3e5;
+  border: 1px solid #adb3b8;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(12,13,14,0.2), 0 0 0 2px #fff inset;
+  white-space: nowrap;
 }

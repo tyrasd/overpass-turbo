@@ -1021,7 +1021,7 @@ var ide = new (function() {
         document.title = _originalDocumentTitle;
       };
       var content =
-        '<p style="color:red;">' + i18n.t("error.query.expl") + "</p>" + errmsg;
+        '<div class="notification is-danger is-light">' + i18n.t("error.query.expl") + "<br>" + errmsg + "</div>";
       showDialog(i18n.t("error.query.title"), content, dialog_buttons);
     };
     overpass.handlers["onStyleError"] = function(errmsg) {
@@ -2315,7 +2315,7 @@ var ide = new (function() {
         });
       // open the export dialog
       $("#export-dialog").addClass("is-active");
-      $("#export-dialog .modal-card-body").accordion();
+      // $("#export-dialog .modal-card-body").accordion();
     });
   };
   this.onExportDownloadClose = function() {
@@ -2403,7 +2403,7 @@ var ide = new (function() {
   this.onFfsClick = function() {
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
     $("#ffs-dialog #ffs-dialog-typo").hide();
-    $("#ffs-dialog input[type=text]")
+    $("#ffs-dialog input[type=search]")
       .unbind("keypress")
       .bind("keypress", function(e) {
         if (e.which == 13 || e.which == 10) {
@@ -2443,7 +2443,7 @@ var ide = new (function() {
             $("#ffs-dialog #ffs-dialog-typo-correction")
               .unbind("click")
               .bind("click", function(e) {
-                $("#ffs-dialog input[type=text]").val(correction);
+                $("#ffs-dialog input[type=search]").val(correction);
                 $(this)
                   .parent()
                   .hide();
@@ -2541,7 +2541,7 @@ var ide = new (function() {
       settings.export_image_attribution;
     // open dialog
     $("#settings-dialog").addClass("is-active");
-    $("#settings-dialog .modal-card-body").accordion();
+    // $("#settings-dialog .modal-card-body").accordion();
   };
   this.onSettingsSave = function() {
     // save settings
@@ -2631,7 +2631,6 @@ var ide = new (function() {
   };
   this.onHelpClick = function() {
     $("#help-dialog").addClass("is-active");
-    $("#help-dialog .modal-card-body").accordion({heightStyle: "content"});
   };
   this.onHelpClose = function() {
     $("#help-dialog").removeClass("is-active");
@@ -2725,7 +2724,7 @@ var ide = new (function() {
     });
   };
   this.update_ffs_query = function(s, callback) {
-    var search = s || $("#ffs-dialog input[type=text]").val();
+    var search = s || $("#ffs-dialog input[type=search]").val();
     ffs.construct_query(
       search,
       undefined,
