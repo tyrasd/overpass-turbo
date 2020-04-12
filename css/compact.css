@@ -11,6 +11,9 @@
   .navbar-item {
     display: inline-block;
   }
+  .icon {
+    display: none;
+  }
 
   #editor {
     position: relative !important;

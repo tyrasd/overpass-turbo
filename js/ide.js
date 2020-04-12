@@ -2,10 +2,7 @@
 import $ from "jquery";
 import _ from "lodash";
 import jQuery from "jquery";
-import "jquery-ui/ui/effects/effect-shake";
 import "jquery-ui/ui/widgets/autocomplete";
-import "jquery-ui/ui/widgets/accordion";
-import "jquery-ui/ui/widgets/dialog";
 import "jquery-ui/ui/widgets/resizable";
 import "jquery-ui/ui/widgets/tooltip";
 import html2canvas from "html2canvas";
@@ -1367,7 +1364,7 @@ var ide = new (function() {
             .addClass("delete-query")
             .css("float", "right")
             .append(
-              $("<span>")
+              $("<span class=\"has-text-danger\">")
                 .addClass("fas")
                 .addClass("fa-times")
             )
@@ -1390,73 +1387,61 @@ var ide = new (function() {
         "#load-dialog ul.saved_query"
       );
     $("#load-dialog").addClass("is-active");
-    $("#load-dialog .modal-card-body").accordion({
-      beforeActivate: function(event, ui) {
-        if (ui.newHeader.index() == 2) {
-          $("ul", ui.newPanel).html(
-            "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
-          );
 
-          sync.load(function(err, queries) {
-            if (err) {
-              $("ul", ui.newPanel).html(
-                "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
-              );
-              return console.error(err);
-            }
-            $("ul", ui.newPanel).html("");
-            $("#logout").show();
-            queries.forEach(function(q) {
-              $("<li></li>")
-                .append(
-                  $("<a>")
+    var ui = $("#load-dialog .osm-queries");
+    $("ul", ui).html(
+        "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
+    );
+
+    sync.load(function(err, queries) {
+      if (err) {
+        $("ul", ui).html(
+            "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
+        );
+        return console.error(err);
+      }
+      $("ul", ui).html("");
+      $("#logout").show();
+      queries.forEach(function(q) {
+        $("<li></li>")
+            .append(
+                $("<a>")
                     .attr("href", "#")
                     .text(q.name)
                     .on(
-                      "click",
-                      (function(query) {
-                        return function() {
-                          ide.setQuery(lzw_decode(Base64.decode(query.query)));
-                          $("#load-dialog").removeClass("is-active");
-                          return false;
-                        };
-                      })(q)
+                        "click",
+                        (function(query) {
+                          return function() {
+                            ide.setQuery(lzw_decode(Base64.decode(query.query)));
+                            $("#load-dialog").removeClass("is-active");
+                            return false;
+                          };
+                        })(q)
                     ),
-                  $("<a>")
+                $("<a>")
                     .attr("href", "#")
                     .attr("title", i18n.t("load.delete_query") + ": " + q.name)
                     .addClass("delete-query")
                     .css("float", "right")
                     .append(
-                      $("<span>")
-                        .addClass("fas")
-                        .addClass("fa-times")
+                        $("<span class=\"has-text-danger\">")
+                            .addClass("fas")
+                            .addClass("fa-times")
                     )
                     .on(
-                      "click",
-                      (function(example) {
-                        return function() {
-                          ide.removeExampleSync(example, this);
-                          return false;
-                        };
-                      })(q)
+                        "click",
+                        (function(example) {
+                          return function() {
+                            ide.removeExampleSync(example, this);
+                            return false;
+                          };
+                        })(q)
                     ),
-                  $("<div>").css("clear", "right")
-                )
-                .appendTo("#load-dialog ul.osm");
-            });
-          });
-        }
-      },
-      active: 0,
-      animate: false
+                $("<div>").css("clear", "right")
+            )
+            .appendTo("#load-dialog ul.osm");
+      });
     });
-    $("#load-dialog .modal-card-body").accordion(
-      "option",
-      "active",
-      sync.authenticated() ? 1 : has_saved_query ? 0 : 2
-    );
-    $("#load-dialog .modal-card-body").accordion("option", "animate", true);
   };
   this.onLoadClose = function() {
     $("#load-dialog").removeClass("is-active");
@@ -2328,7 +2313,6 @@ var ide = new (function() {
         });
       // open the export dialog
       $("#export-dialog").addClass("is-active");
-      // $("#export-dialog .modal-card-body").accordion();
     });
   };
   this.onExportDownloadClose = function() {
@@ -2416,7 +2400,9 @@ var ide = new (function() {
   this.onFfsClick = function() {
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
     $("#ffs-dialog #ffs-dialog-typo").hide();
+    $("#ffs-dialog .loading").hide();
     $("#ffs-dialog input[type=search]")
+      .removeClass('is-danger')
       .unbind("keypress")
       .bind("keypress", function(e) {
         if (e.which == 13 || e.which == 10) {
@@ -2433,10 +2419,17 @@ var ide = new (function() {
     ide.onFfsRun(false);
   };
   this.onFfsRun = function(autorun) {
-    // build query and run it immediately
+    // Show loading spinner and hide all errors
+    $("#ffs-dialog input[type=search]").removeClass('is-danger');
+    $("#ffs-dialog #ffs-dialog-parse-error").hide();
+    $("#ffs-dialog #ffs-dialog-typo").hide();
+    $("#ffs-dialog .loading").show();
+
+    // Build query and run it immediately if autorun is set
     ide.update_ffs_query(
       undefined,
       function(err, ffs_result) {
+        $("#ffs-dialog .loading").hide();
         if (!err) {
           $("#ffs-dialog").removeClass("is-active");
           if (autorun !== false) ide.onRunClick();
@@ -2445,6 +2438,7 @@ var ide = new (function() {
             // show parse error message
             $("#ffs-dialog #ffs-dialog-parse-error").hide();
             $("#ffs-dialog #ffs-dialog-typo").show();
+            $("#ffs-dialog input[type=search]").addClass('is-danger');
             var correction = ffs_result.join("");
             var correction_html = ffs_result
               .map(function(ffs_result_part, i) {
@@ -2462,20 +2456,11 @@ var ide = new (function() {
                   .hide();
                 e.preventDefault();
               });
-            $("#ffs-dialog #ffs-dialog-typo").effect(
-              "shake",
-              {direction: "right", distance: 10, times: 2},
-              300
-            );
           } else {
             // show parse error message
             $("#ffs-dialog #ffs-dialog-typo").hide();
             $("#ffs-dialog #ffs-dialog-parse-error").show();
-            $("#ffs-dialog #ffs-dialog-parse-error").effect(
-              "shake",
-              {direction: "right", distance: 10, times: 2},
-              300
-            );
+            $("#ffs-dialog input[type=search]").addClass('is-danger');
           }
         }
       }.bind(this)
@@ -2554,7 +2539,6 @@ var ide = new (function() {
       settings.export_image_attribution;
     // open dialog
     $("#settings-dialog").addClass("is-active");
-    // $("#settings-dialog .modal-card-body").accordion();
   };
   this.onSettingsSave = function() {
     // save settings

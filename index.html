@@ -648,17 +648,23 @@
           ></button>
         </header>
         <section class="modal-card-body">
-          <h4 class="t" data-t="load.saved_queries-local"></h4>
-          <div>
-            <ul class="plain saved_query"></ul>
+          <div class="box">
+            <h4 class="t subtitle" data-t="load.saved_queries-local"></h4>
+            <div>
+              <ul class="plain saved_query"></ul>
+            </div>
           </div>
-          <h4 class="t osm" data-t="load.saved_queries-osm"></h4>
-          <div>
-            <ul class="plain osm"></ul>
+          <div class="box">
+            <h4 class="t osm subtitle" data-t="load.saved_queries-osm"></h4>
+            <div class="osm-queries">
+              <ul class="plain osm"></ul>
+            </div>
           </div>
-          <h4 class="t" data-t="load.examples"></h4>
-          <div>
-            <ul class="plain example"></ul>
+          <div class="box">
+            <h4 class="t subtitle" data-t="load.examples"></h4>
+            <div>
+              <ul class="plain example"></ul>
+            </div>
           </div>
         </section>
         <footer class="modal-card-foot">
@@ -961,6 +967,9 @@
                 <i class="fas fa-search"></i>
               </span>
             </div>
+          </div>
+          <div class="loading">
+            <progress class="progress is-small is-dark" max="100"></progress>
           </div>
           <div
             id="ffs-dialog-parse-error"
