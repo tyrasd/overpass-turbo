@@ -1364,7 +1364,7 @@ var ide = new (function() {
             .addClass("delete-query")
             .css("float", "right")
             .append(
-              $("<span class=\"has-text-danger\">")
+              $('<span class="has-text-danger">')
                 .addClass("fas")
                 .addClass("fa-times")
             )
@@ -1390,13 +1390,13 @@ var ide = new (function() {
 
     var ui = $("#load-dialog .osm-queries");
     $("ul", ui).html(
-        "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
+      "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
     );
 
     sync.load(function(err, queries) {
       if (err) {
         $("ul", ui).html(
-            "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
+          "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
         );
         return console.error(err);
       }
@@ -1404,42 +1404,42 @@ var ide = new (function() {
       $("#logout").show();
       queries.forEach(function(q) {
         $("<li></li>")
-            .append(
-                $("<a>")
-                    .attr("href", "#")
-                    .text(q.name)
-                    .on(
-                        "click",
-                        (function(query) {
-                          return function() {
-                            ide.setQuery(lzw_decode(Base64.decode(query.query)));
-                            $("#load-dialog").removeClass("is-active");
-                            return false;
-                          };
-                        })(q)
-                    ),
-                $("<a>")
-                    .attr("href", "#")
-                    .attr("title", i18n.t("load.delete_query") + ": " + q.name)
-                    .addClass("delete-query")
-                    .css("float", "right")
-                    .append(
-                        $("<span class=\"has-text-danger\">")
-                            .addClass("fas")
-                            .addClass("fa-times")
-                    )
-                    .on(
-                        "click",
-                        (function(example) {
-                          return function() {
-                            ide.removeExampleSync(example, this);
-                            return false;
-                          };
-                        })(q)
-                    ),
-                $("<div>").css("clear", "right")
-            )
-            .appendTo("#load-dialog ul.osm");
+          .append(
+            $("<a>")
+              .attr("href", "#")
+              .text(q.name)
+              .on(
+                "click",
+                (function(query) {
+                  return function() {
+                    ide.setQuery(lzw_decode(Base64.decode(query.query)));
+                    $("#load-dialog").removeClass("is-active");
+                    return false;
+                  };
+                })(q)
+              ),
+            $("<a>")
+              .attr("href", "#")
+              .attr("title", i18n.t("load.delete_query") + ": " + q.name)
+              .addClass("delete-query")
+              .css("float", "right")
+              .append(
+                $('<span class="has-text-danger">')
+                  .addClass("fas")
+                  .addClass("fa-times")
+              )
+              .on(
+                "click",
+                (function(example) {
+                  return function() {
+                    ide.removeExampleSync(example, this);
+                    return false;
+                  };
+                })(q)
+              ),
+            $("<div>").css("clear", "right")
+          )
+          .appendTo("#load-dialog ul.osm");
       });
     });
   };
@@ -2402,7 +2402,7 @@ var ide = new (function() {
     $("#ffs-dialog #ffs-dialog-typo").hide();
     $("#ffs-dialog .loading").hide();
     $("#ffs-dialog input[type=search]")
-      .removeClass('is-danger')
+      .removeClass("is-danger")
       .unbind("keypress")
       .bind("keypress", function(e) {
         if (e.which == 13 || e.which == 10) {
@@ -2420,7 +2420,7 @@ var ide = new (function() {
   };
   this.onFfsRun = function(autorun) {
     // Show loading spinner and hide all errors
-    $("#ffs-dialog input[type=search]").removeClass('is-danger');
+    $("#ffs-dialog input[type=search]").removeClass("is-danger");
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
     $("#ffs-dialog #ffs-dialog-typo").hide();
     $("#ffs-dialog .loading").show();
@@ -2438,7 +2438,7 @@ var ide = new (function() {
             // show parse error message
             $("#ffs-dialog #ffs-dialog-parse-error").hide();
             $("#ffs-dialog #ffs-dialog-typo").show();
-            $("#ffs-dialog input[type=search]").addClass('is-danger');
+            $("#ffs-dialog input[type=search]").addClass("is-danger");
             var correction = ffs_result.join("");
             var correction_html = ffs_result
               .map(function(ffs_result_part, i) {
@@ -2460,7 +2460,7 @@ var ide = new (function() {
             // show parse error message
             $("#ffs-dialog #ffs-dialog-typo").hide();
             $("#ffs-dialog #ffs-dialog-parse-error").show();
-            $("#ffs-dialog input[type=search]").addClass('is-danger');
+            $("#ffs-dialog input[type=search]").addClass("is-danger");
           }
         }
       }.bind(this)
