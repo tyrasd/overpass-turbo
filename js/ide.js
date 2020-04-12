@@ -218,9 +218,9 @@ var ide = new (function() {
       $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
       $(".wait-info ul li:nth-child(n+1)").css("opacity", 0.5);
       $(".wait-info ul li span.fas")
-          .removeClass('fa-spinner')
-          .removeClass('fa-spin')
-          .addClass("fa-check");
+        .removeClass("fa-spinner")
+        .removeClass("fa-spin")
+        .addClass("fa-check");
       $(".wait-info ul li:nth-child(n+4)").hide();
       var li = $(
         '<li><span class="fas fa-spinner fa-spin" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>' +
@@ -676,9 +676,7 @@ var ide = new (function() {
           "leaflet-control-buttons-fullscreen leaflet-bar-part",
           container
         );
-        $('<span class="fas fa-step-backward"/>').appendTo(
-          $(link)
-        );
+        $('<span class="fas fa-step-backward"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.toggle_wide_map");
@@ -1024,7 +1022,11 @@ var ide = new (function() {
         document.title = _originalDocumentTitle;
       };
       var content =
-        '<div class="notification is-danger is-light">' + i18n.t("error.query.expl") + "<br>" + errmsg + "</div>";
+        '<div class="notification is-danger is-light">' +
+        i18n.t("error.query.expl") +
+        "<br>" +
+        errmsg +
+        "</div>";
       showDialog(i18n.t("error.query.title"), content, dialog_buttons);
     };
     overpass.handlers["onStyleError"] = function(errmsg) {
@@ -1364,7 +1366,11 @@ var ide = new (function() {
             .attr("title", i18n.t("load.delete_query") + ": " + example)
             .addClass("delete-query")
             .css("float", "right")
-            .append($("<span>").addClass("fas").addClass('fa-times'))
+            .append(
+              $("<span>")
+                .addClass("fas")
+                .addClass("fa-times")
+            )
             .on(
               "click",
               (function(example) {
@@ -1421,7 +1427,11 @@ var ide = new (function() {
                     .attr("title", i18n.t("load.delete_query") + ": " + q.name)
                     .addClass("delete-query")
                     .css("float", "right")
-                    .append($("<span>").addClass("fas").addClass('fa-times'))
+                    .append(
+                      $("<span>")
+                        .addClass("fas")
+                        .addClass("fa-times")
+                    )
                     .on(
                       "click",
                       (function(example) {
@@ -1476,15 +1486,15 @@ var ide = new (function() {
     var name = $("#save-dialog input[name=save]")[0].value;
     var query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
     sync.save(
-        {
-          name: name,
-          query: query
-        },
-        function(err, new_queries) {
-          if (err) return console.error(err);
-          $("#logout").show();
-          $("#save-dialog").removeClass("is-active");
-        }
+      {
+        name: name,
+        query: query
+      },
+      function(err, new_queries) {
+        if (err) return console.error(err);
+        $("#logout").show();
+        $("#save-dialog").removeClass("is-active");
+      }
     );
   };
   this.onSaveClose = function() {
