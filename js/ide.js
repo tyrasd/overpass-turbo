@@ -1632,7 +1632,9 @@ var ide = new (function() {
           $("#export-clipboard-success .message").html(
             i18n.t("export.copy_to_clipboard_success-message")
           );
-          // $(".export-copy_to_clipboard-content", d).html(successMessage);
+          $("#export-clipboard-success .export-copy_to_clipboard-content").html(
+            successMessage
+          );
           return false;
         };
       }
