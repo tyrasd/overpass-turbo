@@ -157,15 +157,17 @@ var ide = new (function() {
     });
 
     // Add all the buttons
-    for (var name in buttons) {
-      $('<button class="button">' + name + "</button>")
+    for (var button of buttons) {
+      $('<button class="button">' + button.name + "</button>")
         .click(
-          (function(name) {
+          (function(callback) {
             return function() {
               $(element).remove();
-              buttons[name]();
+              if (callback) {
+                callback();
+              }
             };
-          })(name)
+          })(button.callback)
         )
         .appendTo($("footer .level-item", element));
     }
@@ -735,9 +737,7 @@ var ide = new (function() {
         container.style.position = "absolute";
         container.style.left = "40px";
         var inp = L.DomUtil.create("input", "input is-rounded", container);
-        $(
-          '<span class="icon is-right"><span class="fas fa-search"/></span>'
-        )
+        $('<span class="icon is-right"><span class="fas fa-search"/></span>')
           .click(function(e) {
             $(this)
               .prev()
@@ -955,15 +955,22 @@ var ide = new (function() {
         document.title = "❗ " + _originalDocumentTitle;
         // more than ~1MB of data
         // show warning dialog
-        var dialog_buttons = {};
-        dialog_buttons[i18n.t("dialog.abort")] = function() {
-          document.title = _originalDocumentTitle;
-          abortCB();
-        };
-        dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
-          document.title = _originalDocumentTitle;
-          continueCB();
-        };
+        var dialog_buttons = [
+          {
+            name: i18n.t("dialog.abort"),
+            callback: function() {
+              document.title = _originalDocumentTitle;
+              abortCB();
+            }
+          },
+          {
+            name: i18n.t("dialog.continue_anyway"),
+            callback: function() {
+              document.title = _originalDocumentTitle;
+              continueCB();
+            }
+          }
+        ];
 
         var content =
           "<p>" +
@@ -984,10 +991,15 @@ var ide = new (function() {
       var _originalDocumentTitle = document.title;
       document.title = "❗ " + _originalDocumentTitle;
       // show error dialog
-      var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-        document.title = _originalDocumentTitle;
-      };
+      var dialog_buttons = [
+        {
+          name: i18n.t("dialog.dismiss"),
+          callback: function() {
+            document.title = _originalDocumentTitle;
+          }
+        }
+      ];
+
       var content =
         '<p style="color:red;">' + i18n.t("error.ajax.expl") + "</p>" + errmsg;
       showDialog(i18n.t("error.ajax.title"), content, dialog_buttons);
@@ -999,10 +1011,14 @@ var ide = new (function() {
       ide.waiter.close();
       var _originalDocumentTitle = document.title;
       document.title = "❗ " + _originalDocumentTitle;
-      var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-        document.title = _originalDocumentTitle;
-      };
+      var dialog_buttons = [
+        {
+          name: i18n.t("dialog.dismiss"),
+          callback: function() {
+            document.title = _originalDocumentTitle;
+          }
+        }
+      ];
       var content =
         '<div class="notification is-danger is-light">' +
         i18n.t("error.query.expl") +
@@ -1012,8 +1028,7 @@ var ide = new (function() {
       showDialog(i18n.t("error.query.title"), content, dialog_buttons);
     };
     overpass.handlers["onStyleError"] = function(errmsg) {
-      var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.dismiss")] = function() {};
+      var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
       var content =
         '<p style="color:red;">' +
         i18n.t("error.mapcss.expl") +
@@ -1180,8 +1195,7 @@ var ide = new (function() {
         ide.highlightError(i + 1);
     });
     // show error message dialog
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.dismiss")] = function() {};
+    var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
     var content =
       '<p style="color:red;">' +
       i18n.t("error.nominatim.expl") +
@@ -1276,15 +1290,19 @@ var ide = new (function() {
       ide.setQuery(settings.saves[ex].overpass);
   };
   this.removeExample = function(ex, self) {
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.delete")] = function() {
-      delete settings.saves[ex];
-      settings.save();
-      $(self)
-        .parent("li")
-        .remove();
-    };
-    dialog_buttons[i18n.t("dialog.cancel")] = function() {};
+    var dialog_buttons = [
+      {
+        name: i18n.t("dialog.delete"),
+        callback: function() {
+          delete settings.saves[ex];
+          settings.save();
+          $(self)
+            .parent("li")
+            .remove();
+        }
+      },
+      {name: i18n.t("dialog.cancel")}
+    ];
 
     var content =
       "<p>" +
@@ -1704,8 +1722,7 @@ var ide = new (function() {
               ")"
           )
         );
-      var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.done")] = function() {};
+      var dialog_buttons = [{name: i18n.t("dialog.done")}];
       $("#export-dialog a#export-map-state")
         .unbind("click")
         .bind("click", function() {
@@ -1886,8 +1903,7 @@ var ide = new (function() {
             })
           })
             .done(function(data, textStatus, jqXHR) {
-              var dialog_buttons = {};
-              dialog_buttons[i18n.t("dialog.done")] = function() {};
+              var dialog_buttons = [{name: i18n.t("dialog.done")}];
               var content =
                 "<p>" +
                 i18n.t("export.geoJSON_gist.gist") +
@@ -2184,18 +2200,25 @@ var ide = new (function() {
       } else {
         exportToLevel0[0].href = "";
         exportToLevel0.bind("click", function() {
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.repair_query")] = function() {
-            ide.repairQuery("xml+metadata");
-            ide.getQuery(function(query) {
-              exportToLevel0.unbind("click");
-              exportToLevel0[0].href = constructLevel0Link(query);
-            });
-          };
-          dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
-            exportToLevel0.unbind("click");
-            exportToLevel0[0].href = constructLevel0Link(query);
-          };
+          var dialog_buttons = [
+            {
+              name: i18n.t("dialog.repair_query"),
+              callback: function() {
+                ide.repairQuery("xml+metadata");
+                ide.getQuery(function(query) {
+                  exportToLevel0.unbind("click");
+                  exportToLevel0[0].href = constructLevel0Link(query);
+                });
+              }
+            },
+            {
+              name: i18n.t("dialog.continue_anyway"),
+              callback: function() {
+                exportToLevel0.unbind("click");
+                exportToLevel0[0].href = constructLevel0Link(query);
+              }
+            }
+          ];
           var content =
             "<p>" +
             i18n.t("warning.incomplete.remote.expl.1") +
@@ -2234,8 +2257,7 @@ var ide = new (function() {
                       console.log("successfully invoked JOSM remote constrol");
                     });
                 } else {
-                  var dialog_buttons = {};
-                  dialog_buttons[i18n.t("dialog.dismiss")] = function() {};
+                  var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
                   var content =
                     "<p>" +
                     i18n.t("error.remote.incompat") +
@@ -2252,8 +2274,7 @@ var ide = new (function() {
                 }
               })
               .fail(function(xhr, s, e) {
-                var dialog_buttons = {};
-                dialog_buttons[i18n.t("dialog.dismiss")] = function() {};
+                var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
                 var content = "<p>" + i18n.t("error.remote.not_found") + "</p>";
                 showDialog(
                   i18n.t("error.remote.title"),
@@ -2272,18 +2293,25 @@ var ide = new (function() {
             send_to_josm(query);
             return false;
           } else {
-            var dialog_buttons = {};
-            dialog_buttons[i18n.t("dialog.repair_query")] = function() {
-              ide.repairQuery("xml+metadata");
-              ide.getQuery(function(query) {
-                send_to_josm(query);
-                export_dialog.removeClass("is-active");
-              });
-            };
-            dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
-              send_to_josm(query);
-              export_dialog.removeClass("is-active");
-            };
+            var dialog_buttons = [
+              {
+                name: i18n.t("dialog.repair_query"),
+                callback: function() {
+                  ide.repairQuery("xml+metadata");
+                  ide.getQuery(function(query) {
+                    send_to_josm(query);
+                    export_dialog.removeClass("is-active");
+                  });
+                }
+              },
+              {
+                name: i18n.t("dialog.continue_anyway"),
+                callback: function() {
+                  send_to_josm(query);
+                  export_dialog.removeClass("is-active");
+                }
+              }
+            ];
             var content =
               "<p>" +
               i18n.t("warning.incomplete.remote.expl.1") +
@@ -2362,8 +2390,7 @@ var ide = new (function() {
         if (!settings.export_image_attribution)
           attrib_message =
             '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
-        var dialog_buttons = {};
-        dialog_buttons[i18n.t("dialog.done")] = function() {};
+        var dialog_buttons = [{name: i18n.t("dialog.done")}];
 
         ide.waiter.close();
         var content =
@@ -2676,7 +2703,7 @@ var ide = new (function() {
 
     if (event.which === 27) {
       // Escape
-      $('.modal').removeClass('is-active');
+      $(".modal").removeClass("is-active");
     }
 
     // todo: more shortcuts
