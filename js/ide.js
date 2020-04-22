@@ -5,6 +5,7 @@ import jQuery from "jquery";
 import "jquery-ui/ui/widgets/autocomplete";
 import "jquery-ui/ui/widgets/resizable";
 import "jquery-ui/ui/widgets/tooltip";
+import "jquery-ui/ui/widgets/button";
 import html2canvas from "html2canvas";
 import rgbcolor from "canvg/rgbcolor";
 import canvg from "canvg";
@@ -2672,6 +2673,12 @@ var ide = new (function() {
       ide.onFfsClick();
       event.preventDefault();
     }
+
+    if (event.which === 27) {
+      // Escape
+      $('.modal').removeClass('is-active');
+    }
+
     // todo: more shortcuts
   };
   this.update_map = function() {
