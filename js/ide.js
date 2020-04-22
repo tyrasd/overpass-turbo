@@ -727,17 +727,17 @@ var ide = new (function() {
     // leaflet extension: search box
     var SearchBox = L.Control.extend({
       options: {
-        position: "topleft"
+        position: "topright"
       },
       onAdd: function(map) {
         var container = L.DomUtil.create(
           "div",
-          "leaflet-control-search control has-icons-right"
+          "leaflet-control-search control has-icons-left"
         );
         container.style.position = "absolute";
-        container.style.left = "40px";
+        container.style.right = "0";
         var inp = L.DomUtil.create("input", "input is-rounded", container);
-        $('<span class="icon is-right"><span class="fas fa-search"/></span>')
+        $('<span class="icon is-left"><span class="fas fa-search"/></span>')
           .click(function(e) {
             $(this)
               .prev()
@@ -745,6 +745,7 @@ var ide = new (function() {
           })
           .insertAfter(inp);
         inp.id = "search";
+        inp.type = "search";
         // hack against focus stealing leaflet :/
         inp.onclick = function() {
           this.focus();

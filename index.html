@@ -583,7 +583,10 @@
                   class="button is-success"
                   data-ide-handler="click:onSettingsSave"
                 >
-                  Save
+                  <span class="icon">
+                    <span class="fas fa-save"></span>
+                  </span>
+                  <span>Save</span>
                 </button>
                 <button class="button" data-ide-handler="click:onSettingsClose">
                   Cancel
@@ -629,15 +632,23 @@
             <div class="level-right">
               <div class="level-item">
                 <button
-                  class="t button is-success"
+                  class="button is-success"
                   data-ide-handler="click:onSaveSumbit"
-                  data-t="dialog.save"
-                ></button>
+                >
+                  <span class="icon">
+                    <span class="fas fa-save"></span>
+                  </span>
+                  <span class="t" data-t="dialog.save"></span>
+                </button>
                 <button
-                  class="t button osm is-success"
+                  class="button osm is-success"
                   data-ide-handler="click:onSaveOsmSumbit"
-                  data-t="dialog.save-osm"
-                ></button>
+                >
+                  <span class="icon">
+                    <span class="fas fa-globe-americas"></span>
+                  </span>
+                  <span class="t" data-t="dialog.save-osm"></span>
+                </button>
                 <button
                   class="t button"
                   data-ide-handler="click:onSaveClose"
@@ -1031,15 +1042,23 @@
             <div class="level-right">
               <div class="level-item">
                 <button
-                  class="button t is-success"
+                  class="button is-success"
                   data-ide-handler="click:onFfsRun"
-                  data-t="dialog.wizard_run"
-                ></button>
+                >
+                  <span class="icon">
+                    <span class="fas fa-play"></span>
+                  </span>
+                  <span class="t" data-t="dialog.wizard_run"></span>
+                </button>
                 <button
-                  class="button t is-success"
+                  class="button is-success"
                   data-ide-handler="click:onFfsBuild"
-                  data-t="dialog.wizard_build"
-                ></button>
+                >
+                  <span class="icon">
+                    <span class="fas fa-hammer"></span>
+                  </span>
+                  <span class="t" data-t="dialog.wizard_build"></span>
+                </button>
                 <button class="button" data-ide-handler="click:onFfsClose">
                   Cancel
                 </button>
