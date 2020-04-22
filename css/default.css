@@ -153,25 +153,17 @@ a.external {
   opacity: 0.5;
   cursor: default;
 }
-.leaflet-control-buttons-fitdata {
-}
-.leaflet-control-buttons-myloc {
-}
-.leaflet-control-buttons-bboxfilter {
-}
-.leaflet-control-buttons-myloc span {
-  /*margin-left: -2px;*/
-}
 .leaflet-container .leaflet-control-search {
   opacity: 0.8;
   margin-left: 6px;
+  width: 32rem;
+}
+.leaflet-container .leaflet-control-search .input {
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
 }
 .leaflet-container .leaflet-control-zoom a,
 .leaflet-container .leaflet-control-buttons a {
   opacity: 0.8;
-  width: 22px;
-  height: 22px;
-  line-height: 22px;
 }
 .leaflet-container a:visited {
   color: #4b2f89;

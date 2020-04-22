@@ -546,22 +546,6 @@ var ide = new (function() {
       }
     });
 
-    //// wait spinner
-    //$(document).on({
-    //  ajaxStart: function() {
-    //    if (!ide.waiter.opened) {
-    //      ide.waiter.open();
-    //      ide.waiter.ajaxAutoOpened = true;
-    //    }
-    //  },
-    //  ajaxStop: function() {
-    //    if (ide.waiter.ajaxAutoOpened) {
-    //      ide.waiter.close();
-    //      delete ide.waiter.ajaxAutoOpened;
-    //    }
-    //  },
-    //});
-
     // keyboard event listener
     $(document).keydown(ide.onKeyPress);
 
@@ -745,13 +729,13 @@ var ide = new (function() {
       onAdd: function(map) {
         var container = L.DomUtil.create(
           "div",
-          "leaflet-control-search ui-widget"
+          "leaflet-control-search control has-icons-right"
         );
         container.style.position = "absolute";
         container.style.left = "40px";
-        var inp = L.DomUtil.create("input", "", container);
+        var inp = L.DomUtil.create("input", "input is-rounded", container);
         $(
-          '<span class="fas fa-search" style="position:absolute; right:3px; top:3px; opacity:0.5;"/>'
+          '<span class="icon is-right"><span class="fas fa-search"/></span>'
         )
           .click(function(e) {
             $(this)
