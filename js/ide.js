@@ -157,7 +157,8 @@ var ide = new (function() {
     });
 
     // Add all the buttons
-    for (var button of buttons) {
+    for (var index in buttons) {
+      var button = buttons[index];
       $('<button class="button">' + button.name + "</button>")
         .click(
           (function(callback) {
