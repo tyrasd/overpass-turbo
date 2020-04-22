@@ -159,7 +159,7 @@ a.external {
   width: 32rem;
 }
 .leaflet-container .leaflet-control-search .input {
-  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
 }
 .leaflet-container .leaflet-control-zoom a,
 .leaflet-container .leaflet-control-buttons a {
