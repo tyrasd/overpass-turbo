@@ -263,6 +263,9 @@ a.ui-button:active,
 .leaflet-popup-content {
   word-wrap: break-word;
 }
+.leaflet-popup-content .subtitle.is-5 {
+  margin-bottom: 0.5rem;
+}
 .ui-widget textarea {
   font-family: monospace;
 }
@@ -330,16 +333,6 @@ body .ui-tooltip {
 #save-dialog .osm,
 #load-dialog .osm {
   display: none;
-}
-
-span.counter {
-  display: inline-block;
-  padding: 2px 5px;
-  font-size: 12px;
-  line-height: 1;
-  color: #586069;
-  background-color: rgba(27, 31, 35, 0.08);
-  border-radius: 20px;
 }
 
 kbd {

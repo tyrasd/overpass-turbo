@@ -641,45 +641,45 @@ var overpass = new (function() {
                       var popup = "";
                       if (feature.properties.type == "node")
                         popup +=
-                          "<h2>Node <a href='//www.openstreetmap.org/node/" +
+                          "<h4 class='title is-4'>Node <a href='//www.openstreetmap.org/node/" +
                           feature.properties.id +
                           "' target='_blank'>" +
                           feature.properties.id +
-                          "</a></h2>";
+                          "</a></h4>";
                       else if (feature.properties.type == "way")
                         popup +=
-                          "<h2>Way <a href='//www.openstreetmap.org/way/" +
+                          "<h4 class='title is-4'>Way <a href='//www.openstreetmap.org/way/" +
                           feature.properties.id +
                           "' target='_blank'>" +
                           feature.properties.id +
-                          "</a></h2>";
+                          "</a></h4>";
                       else if (feature.properties.type == "relation")
                         popup +=
-                          "<h2>Relation <a href='//www.openstreetmap.org/relation/" +
+                          "<h4 class='title is-4'>Relation <a href='//www.openstreetmap.org/relation/" +
                           feature.properties.id +
                           "' target='_blank'>" +
                           feature.properties.id +
-                          "</a></h2>";
+                          "</a></h4>";
                       else
                         popup +=
-                          "<h2>" +
+                          "<h5 class='subtitle is-5'>" +
                           feature.properties.type +
                           " #" +
                           feature.properties.id +
-                          "</h2>";
+                          "</h5>";
                       if (
                         feature.properties &&
                         feature.properties.tags &&
                         !$.isEmptyObject(feature.properties.tags)
                       ) {
-                        popup += "<h3>Tags";
+                        popup += "<h5 class='subtitle is-5'>Tags";
                         if (typeof Object.keys === "function") {
                           popup +=
-                            ' <span class="counter">' +
+                            ' <span class="tag is-info is-light">' +
                             Object.keys(feature.properties.tags).length +
                             "</span>";
                         }
-                        popup += '</h3><ul class="plain">';
+                        popup += '</h5><ul>';
                         $.each(feature.properties.tags, function(k, v) {
                           k = htmlentities(k); // escaping strings!
                           v = htmlentities(v);
@@ -769,7 +769,7 @@ var overpass = new (function() {
                               v +
                               "</a>";
 
-                          popup += "<li>" + k + "=" + v + "</li>";
+                          popup += "<li><span class='is-family-monospace'>" + k + " = " + v + "</span></li>";
                         });
                         popup += "</ul>";
                       }
@@ -778,14 +778,14 @@ var overpass = new (function() {
                         feature.properties.relations &&
                         !$.isEmptyObject(feature.properties.relations)
                       ) {
-                        popup += "<h3>Relations";
+                        popup += "<h3 class='title is-4'>Relations";
                         if (typeof Object.keys === "function") {
                           popup +=
-                            ' <span class="counter">' +
+                            ' <span class="tag is-info is-light">' +
                             Object.keys(feature.properties.relations).length +
                             "</span>";
                         }
-                        popup += '</h3><ul class="plain">';
+                        popup += '</h3><ul>';
                         $.each(feature.properties.relations, function(k, v) {
                           popup +=
                             "<li><a href='//www.openstreetmap.org/relation/" +
@@ -823,7 +823,7 @@ var overpass = new (function() {
                         feature.properties.meta &&
                         !$.isEmptyObject(feature.properties.meta)
                       ) {
-                        popup += '<h3>Meta</h3><ul class="plain">';
+                        popup += '<h4 class="subtitle is-5">Meta</h4><ul>';
                         $.each(feature.properties.meta, function(k, v) {
                           k = htmlentities(k);
                           v = htmlentities(v);
@@ -841,13 +841,14 @@ var overpass = new (function() {
                               '" target="_blank">' +
                               v +
                               "</a>";
-                          popup += "<li>" + k + "=" + v + "</li>";
+                          popup += "<li><span class='is-family-monospace'>" + k + " = " + v + "</span></li>";
                         });
                         popup += "</ul>";
                       }
+
                       if (feature.geometry.type == "Point")
                         popup += L.Util.template(
-                          "<h3>Coordinates:</h3><p>" +
+                          "<h3 class='title is-5'>Coordinates:</h3><p>" +
                             '<a href="geo:{lat},{lon}">{lat} / {lon}</a> ' +
                             "<small>(lat/lon)</small></p>",
                           {
@@ -870,6 +871,7 @@ var overpass = new (function() {
                             "<p><strong>Attention: incomplete geometry (e.g. some nodes missing)</strong></p>";
                         }
                       }
+
                       var latlng;
                       // node-ish features (circles, markers, icons, placeholders)
                       if (typeof e.target.getLatLng == "function")
