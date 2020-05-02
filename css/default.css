@@ -403,6 +403,7 @@ ul.plain {
 }
 ul.plain > li {
   list-style-type: none;
+  position: relative;
 }
 ul.plain > li:hover {
   background-color: #eeeeee;
