@@ -116,12 +116,13 @@ a {
   font-weight: bold;
 }
 a.external::after {
-  content: " ";
-  display: inline-block;
-  height: 16px;
-  width: 16px;
-  background-image: url("../node_modules/jquery-ui/themes/base/images/ui-icons_444444_256x240.png");
-  background-position: -32px -80px;
+  content: "\F35D";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #333;
+  margin-left: 0.4em;
+  font-size: 0.8em;
+  line-height: 1em;
 }
 a.external {
   white-space: nowrap;
@@ -338,6 +339,13 @@ body .ui-tooltip {
 #save-dialog .osm,
 #load-dialog .osm {
   display: none;
+}
+
+#export-dialog .format {
+  margin-right: 0.5rem;
+}
+#export-dialog .field-body {
+  flex-grow: 2;
 }
 
 kbd {
