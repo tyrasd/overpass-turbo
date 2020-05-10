@@ -910,19 +910,26 @@ var ide = new (function() {
             i18n.t("warning.incomplete.not_again") +
             "</p>";
 
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.repair_query")] = function() {
-            ide.repairQuery("no visible data");
-          };
-          dialog_buttons[i18n.t("dialog.show_data")] = function() {
-            if (
-              $("input[name=hide_incomplete_data_warning]", this)[0].checked
-            ) {
-              settings.no_autorepair = true;
-              settings.save();
+          var dialog_buttons = [
+            {
+              name: i18n.t("dialog.repair_query"),
+              callback: function() {
+                ide.repairQuery("no visible data");
+              }
+            },
+            {
+              name: i18n.t("dialog.show_data"),
+              callback: function() {
+                if (
+                  $("input[name=hide_incomplete_data_warning]", this)[0].checked
+                ) {
+                  settings.no_autorepair = true;
+                  settings.save();
+                }
+                ide.switchTab("Data");
+              }
             }
-            ide.switchTab("Data");
-          };
+          ];
           showDialog(
             i18n.t("warning.incomplete.title"),
             content,
@@ -1316,20 +1323,26 @@ var ide = new (function() {
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   };
   this.removeExampleSync = function(query, self) {
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.delete")] = function() {
-      sync.delete(
-        query.name,
-        function(err) {
-          if (err) return console.error(err);
+    var dialog_buttons = [
+      {
+        name: i18n.t("dialog.delete"),
+        callback: function() {
+          sync.delete(
+            query.name,
+            function(err) {
+              if (err) return console.error(err);
 
-          $(self)
-            .parent()
-            .remove();
-        }.bind(this)
-      );
-    };
-    dialog_buttons[i18n.t("dialog.cancel")] = function() {};
+              $(self)
+                .parent()
+                .remove();
+            }.bind(this)
+          );
+        }
+      },
+      {
+        name: i18n.t("dialog.cancel")
+      }
+    ];
 
     var content =
       '<p><span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>' +

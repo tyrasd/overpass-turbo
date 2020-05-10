@@ -679,7 +679,7 @@ var overpass = new (function() {
                             Object.keys(feature.properties.tags).length +
                             "</span>";
                         }
-                        popup += '</h5><ul>';
+                        popup += "</h5><ul>";
                         $.each(feature.properties.tags, function(k, v) {
                           k = htmlentities(k); // escaping strings!
                           v = htmlentities(v);
@@ -769,7 +769,12 @@ var overpass = new (function() {
                               v +
                               "</a>";
 
-                          popup += "<li><span class='is-family-monospace'>" + k + " = " + v + "</span></li>";
+                          popup +=
+                            "<li><span class='is-family-monospace'>" +
+                            k +
+                            " = " +
+                            v +
+                            "</span></li>";
                         });
                         popup += "</ul>";
                       }
@@ -785,7 +790,7 @@ var overpass = new (function() {
                             Object.keys(feature.properties.relations).length +
                             "</span>";
                         }
-                        popup += '</h3><ul>';
+                        popup += "</h3><ul>";
                         $.each(feature.properties.relations, function(k, v) {
                           popup +=
                             "<li><a href='//www.openstreetmap.org/relation/" +
@@ -841,14 +846,19 @@ var overpass = new (function() {
                               '" target="_blank">' +
                               v +
                               "</a>";
-                          popup += "<li><span class='is-family-monospace'>" + k + " = " + v + "</span></li>";
+                          popup +=
+                            "<li><span class='is-family-monospace'>" +
+                            k +
+                            " = " +
+                            v +
+                            "</span></li>";
                         });
                         popup += "</ul>";
                       }
 
                       if (feature.geometry.type == "Point")
                         popup += L.Util.template(
-                          "<h3 class='title is-5'>Coordinates:</h3><p>" +
+                          "<h3 class='subtitle is-5'>Coordinates:</h3><p>" +
                             '<a href="geo:{lat},{lon}">{lat} / {lon}</a> ' +
                             "<small>(lat/lon)</small></p>",
                           {

@@ -263,7 +263,12 @@ a.ui-button:active,
 .leaflet-popup-content {
   word-wrap: break-word;
 }
+.leaflet-popup-content p {
+  margin: 0;
+}
+.leaflet-popup-content .title.is-4,
 .leaflet-popup-content .subtitle.is-5 {
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
 .ui-widget textarea {
