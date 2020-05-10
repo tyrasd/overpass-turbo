@@ -1393,7 +1393,7 @@ var ide = new (function() {
       );
     $("#load-dialog").addClass("is-active");
 
-    if (sync.authenticated()) {
+    if (sync.enabled) {
       var ui = $("#load-dialog .osm-queries");
       ui.show();
       $("ul", ui).html(
