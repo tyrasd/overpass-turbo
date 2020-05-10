@@ -73,7 +73,7 @@
     "export.current_map_view": "vista  attuale della <a id=\"export-map-state\" href=\"\">mappa</a>",
     "export.map_view_expl": "margini, centro, ecc.",
     "export.section.data": "Dati",
-    "export.generic_download_copy": "<a class=\"export\" title=\"salva i dati esportati in un file\">scarica</a>/<a class=\"copy\" title=\"copia il risultato esportato negli appunti\">copia</a> come <span class=\"format\"></span>",
+    "export.generic_download_copy": "<div class=\"field-label is-normal\"><span class=\"format\"></span></div><div class=\"field-body\"><span class=\"buttons has-addons\"><a class=\"export button is-small is-link is-outlined\" title=\"salva i dati esportati in un file\">scarica</a><a class=\"copy button is-small is-link is-outlined\" title=\"copia il risultato esportato negli appunti\">copia</a></span></div>",
     "export.raw_data": "dati OSM grezzi",
     "export.raw_interpreter": "dati grezzi direttamente da <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
     "export.save_geoJSON_gist": "salva GeoJSON come <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",

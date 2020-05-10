@@ -73,7 +73,7 @@
     "export.current_map_view": "<a id=\"export-map-state\" href=\"\">bản đồ</a> hiện tại",
     "export.map_view_expl": "hộp bao, trung tâm, v.v.",
     "export.section.data": "Dữ liệu",
-    "export.generic_download_copy": "<a class=\"export\" title=\"xuất dữ liệu ra tập tin\">tải về</a>/<a class=\"copy\" title=\"sao chép dữ liệu vào bảng tạm\">sao chép</a> dưới dạng <span class=\"format\"></span>",
+    "export.generic_download_copy": "<div class=\"field-label is-normal\"><span class=\"format\"></span></div><div class=\"field-body\"><span class=\"buttons has-addons\"><a class=\"export button is-small is-link is-outlined\" title=\"xuất dữ liệu ra tập tin\">tải về</a><a class=\"copy button is-small is-link is-outlined\" title=\"sao chép dữ liệu vào bảng tạm\">sao chép</a></span></div>",
     "export.raw_data": "dữ liệu OSM thô",
     "export.raw_interpreter": "dữ liệu thô trực tiếp từ <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">API Overpass</a>",
     "export.save_geoJSON_gist": "lưu GeoJSON thành <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
