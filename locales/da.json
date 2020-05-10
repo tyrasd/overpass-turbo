@@ -63,7 +63,7 @@
     "load.examples": "Eksempler",
     "load.no_saved_query": "Ingen søgninger gemt endnu",
     "export.title": "Eksporter",
-    "export.download-error": "Eksport - Fel",
+    "export.download-error": "Eksport - Fejl",
     "export.copy_to_clipboard": "Kopier denne tekst til udklipsholder",
     "export.copy_to_clipboard_success": "Eksport - Kopieret til udklip.",
     "export.copy_to_clipboard_success-message": "<span class=\"export-copy_to_clipboard-content\"></span> blev kopieret til udklip.",

@@ -23,7 +23,7 @@
     "tabs.data_tt": "vista sui dati",
     "map_controlls.zoom_to_data": "zoom sui dati",
     "map_controlls.localize_user": "localizzami!",
-    "map_controlls.localize_user_disabled": "disabled because overpass turbo has not been loaded via https://",
+    "map_controlls.localize_user_disabled": "disabilitato perché overpass turbo non è stato caricato con https://",
     "map_controlls.select_bbox": "selezione manuale dell'area",
     "map_controlls.select_bbox_disabled": "disabilitato perché non è necessaria un area",
     "map_controlls.toggle_wide_map": "abilita mappa estesa",
