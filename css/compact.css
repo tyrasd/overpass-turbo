@@ -1,11 +1,20 @@
-@media (max-width: 700px) {
+@media (max-width: 1024px) {
   html,
   body {
     height: auto;
   }
-  body {
-    /*font-size: 13px;*/
+
+  /* Navigation */
+  .navbar-end {
+    display: none;
   }
+  .navbar-item {
+    display: inline-block;
+  }
+  .navbar .icon {
+    display: none;
+  }
+
   #editor {
     position: relative !important;
     left: auto !important;
@@ -40,6 +49,8 @@
     background-color: white;
     width: 100%;
     height: auto;
+    max-height: 400px;
+    overflow-y: auto;
     position: relative;
     padding-top: 10px;
     padding-bottom: 22px;
@@ -56,7 +67,7 @@
     overflow-x: auto;
   }
   #editor textarea {
-    padding: 0px;
+    padding: 0;
     width: 100%;
     border: 0;
     height: auto;
@@ -70,44 +81,19 @@
   .CodeMirror-gutter-text,
   .CodeMirror-lines {
     padding: 0;
-    padding-top: 0;
-  }
-  #navs {
-    width: 100%;
-    position: relative;
-    height: auto;
-  }
-  .nav {
-    white-space: normal;
-  }
-  #navs .title {
-    display: block;
-    position: absolute;
-    top: 5px;
-  }
-  #navs .buttons {
-    display: block;
-    position: relative;
-    top: 25px;
-    margin-bottom: 15px;
   }
   .tabs {
     display: none;
-  }
-  .button {
-    margin-bottom: 3px;
   }
   div.ui-dialog {
     max-width: 100%;
     top: 0;
     left: 0;
   }
-  .modal .wait-info {
-    background-color: rgba(0, 0, 0, 0);
-    padding: 70px 10px 10px 10px;
-    margin-left: -60px;
-  }
   .leaflet-control-buttons a.leaflet-control-buttons-fullscreen {
     display: none;
+  }
+  .leaflet-container .leaflet-control-search {
+    width: 20rem;
   }
 }

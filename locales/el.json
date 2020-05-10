@@ -73,7 +73,7 @@
     "export.current_map_view": "τρέχουσα <a id=\"export-map-state\" href=\"\">προβολή χάρτη</a>",
     "export.map_view_expl": "bbox, center, κλπ.",
     "export.section.data": "Δεδομένα",
-    "export.generic_download_copy": "<a class=\"export\" title=\"saves the exported data as a file\">λήψη</a>/<a class=\"copy\" title=\"copies export output to clipboard\">αντιγραφή</a> ως <span class=\"format\"></span>",
+    "export.generic_download_copy": "<div class=\"field-label is-normal\"><span class=\"format\"></span></div><div class=\"field-body\"><span class=\"buttons has-addons\"><a class=\"export button is-small is-link is-outlined\" title=\"saves the exported data as a file\">λήψη</a><a class=\"copy button is-small is-link is-outlined\" title=\"copies export output to clipboard\">αντιγραφή</a></span></div>",
     "export.raw_data": "ακατέργαστα δεδομένα OSM",
     "export.raw_interpreter": "ακατέργαστα δεδομένα απ' ευθείας από το <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
     "export.save_geoJSON_gist": "αποθήκευση GeoJSON στο <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",

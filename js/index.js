@@ -20,6 +20,8 @@ import "codemirror/lib/codemirror.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet.locationfilter/src/locationfilter.css";
 import "jquery-ui/themes/base/all.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+import "bulma/css/bulma.css";
 import "../css/default.css";
 import "../css/compact.css";
 

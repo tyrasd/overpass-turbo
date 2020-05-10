@@ -48,6 +48,8 @@
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.0",
+    "bulma": "^0.8.1",
     "canvas-toBlob": "^1.0.0",
     "canvg": "tyrasd/canvg#755b433a800a9c79fe15bd8c202b5d988cd6b81a",
     "codemirror": "https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz",

@@ -61,7 +61,7 @@ ffs.construct_query = function(search, comment, callback) {
   try {
     ffs = ffs_parser.parse(search);
   } catch (e) {
-    console.log("ffs parse error");
+    console.warn("ffs parse error", e);
     return callback("ffs parse error");
   }
 

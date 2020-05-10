@@ -73,7 +73,7 @@
     "export.current_map_view": "همین <a id=\"export-map-state\" href=\"\">نمای نقشه</a>",
     "export.map_view_expl": "کادر، مرکز و غیره",
     "export.section.data": "داده",
-    "export.generic_download_copy": "<a class=\"export\" title=\"saves the exported data as a file\">بارگیری</a>/<a class=\"copy\" title=\"copies export output to clipboard\">کپی</a> در قالب <span class=\"format\"></span>",
+    "export.generic_download_copy": "<div class=\"field-label is-normal\"><span class=\"format\"></span></div><div class=\"field-body\"><span class=\"buttons has-addons\"><a class=\"export button is-small is-link is-outlined\" title=\"saves the exported data as a file\">بارگیری</a><a class=\"copy button is-small is-link is-outlined\" title=\"copies export output to clipboard\">کپی</a></span></div>",
     "export.raw_data": "دادهٔ خام OSM",
     "export.raw_interpreter": "دادهٔ خام، بی‌واسطه از <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
     "export.save_geoJSON_gist": "ذخیرهٔ GeoJSON در <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",

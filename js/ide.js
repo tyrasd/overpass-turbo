@@ -2,12 +2,10 @@
 import $ from "jquery";
 import _ from "lodash";
 import jQuery from "jquery";
-import "jquery-ui/ui/effects/effect-shake";
 import "jquery-ui/ui/widgets/autocomplete";
-import "jquery-ui/ui/widgets/accordion";
-import "jquery-ui/ui/widgets/dialog";
 import "jquery-ui/ui/widgets/resizable";
 import "jquery-ui/ui/widgets/tooltip";
+import "jquery-ui/ui/widgets/button";
 import html2canvas from "html2canvas";
 import rgbcolor from "canvg/rgbcolor";
 import canvg from "canvg";
@@ -59,6 +57,7 @@ var ide = new (function() {
   this.codeEditor = null;
   this.dataViewer = null;
   this.map = null;
+  var ide = this;
 
   // == helpers ==
 
@@ -121,6 +120,63 @@ var ide = new (function() {
     input[0].is_combobox = true;
   }; // make_combobox()
 
+  var showDialog = function(title, content, buttons) {
+    var dialogContent =
+      '\
+      <div class="modal is-active">\
+        <div class="modal-background"></div>\
+        <div class="modal-card">\
+          <header class="modal-card-head">\
+            <p class="modal-card-title">' +
+      title +
+      '</p>\
+            <button class="delete" aria-label="close"></button>\
+          </header>\
+          <section class="modal-card-body">\
+            ' +
+      content +
+      '\
+          </section>\
+          <footer class="modal-card-foot">\
+            <div class="level">\
+              <div class="level-right">\
+                <div class="level-item">\
+                </div>\
+              </div>\
+            </div>\
+          </footer>\
+        </div>\
+      </div>\
+    ';
+
+    // Create modal in body
+    var element = $(dialogContent);
+    // Handle close event
+    $(".delete", element).click(function() {
+      $(element).remove();
+    });
+
+    // Add all the buttons
+    for (var index in buttons) {
+      var button = buttons[index];
+      $('<button class="button">' + button.name + "</button>")
+        .click(
+          (function(callback) {
+            return function() {
+              $(element).remove();
+              if (callback) {
+                callback();
+              }
+            };
+          })(button.callback)
+        )
+        .appendTo($("footer .level-item", element));
+    }
+
+    // Add the element to the body
+    element.appendTo("body");
+  };
+
   // == public sub objects ==
 
   this.waiter = {
@@ -134,7 +190,7 @@ var ide = new (function() {
       } else {
         $(".wait-info").hide();
       }
-      $("body").addClass("loading");
+      $("#loading-dialog").addClass("is-active");
       document.title = ide.waiter.frames[0] + " " + ide.waiter._initialTitle;
       var f = 0;
       ide.waiter.interval = setInterval(
@@ -154,7 +210,7 @@ var ide = new (function() {
       if (!ide.waiter.opened) return;
       clearInterval(ide.waiter.interval);
       document.title = ide.waiter._initialTitle;
-      $("body").removeClass("loading");
+      $("#loading-dialog").removeClass("is-active");
       $(".wait-info ul li").remove();
       delete ide.waiter.onAbort;
       ide.waiter.opened = false;
@@ -162,10 +218,13 @@ var ide = new (function() {
     addInfo: function(txt, abortCallback) {
       $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
       $(".wait-info ul li:nth-child(n+1)").css("opacity", 0.5);
-      $(".wait-info ul li span.ui-icon").addClass("ui-icon-check");
+      $(".wait-info ul li span.fas")
+        .removeClass("fa-spinner")
+        .removeClass("fa-spin")
+        .addClass("fa-check");
       $(".wait-info ul li:nth-child(n+4)").hide();
       var li = $(
-        '<li><span class="ui-icon ui-icon-arrowthick-1-e" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>' +
+        '<li><span class="fas fa-spinner fa-spin" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>' +
           txt +
           "</li>"
       );
@@ -214,7 +273,7 @@ var ide = new (function() {
     ) {
       // the currently used browser is not capable of running the IDE. :(
       ide.not_supported = true;
-      $("#warning-unsupported-browser").dialog({modal: true});
+      $("#warning-unsupported-browser").addClass("is-active");
     }
     // load settings
     ide.waiter.addInfo("load settings");
@@ -228,7 +287,7 @@ var ide = new (function() {
 
     if (sync.enabled) {
       $("#load-dialog .osm").show();
-      if (sync.authenticated()) $("a#logout").show();
+      if (sync.authenticated()) $("#logout").show();
     }
   };
 
@@ -481,31 +540,15 @@ var ide = new (function() {
 
     // tabs
     $("#dataviewer > div#data")[0].style.zIndex = -1001;
-    $(".tabs a.button").bind("click", function(e) {
-      if ($(e.target).hasClass("active")) {
+    $(".tabs li").bind("click", function(e) {
+      if ($(e.target).hasClass("is-active")) {
         return;
       } else {
         $("#dataviewer > div#data")[0].style.zIndex =
           -1 * $("#dataviewer > div#data")[0].style.zIndex;
-        $(".tabs a.button").toggleClass("active");
+        $(".tabs li").toggleClass("is-active");
       }
     });
-
-    //// wait spinner
-    //$(document).on({
-    //  ajaxStart: function() {
-    //    if (!ide.waiter.opened) {
-    //      ide.waiter.open();
-    //      ide.waiter.ajaxAutoOpened = true;
-    //    }
-    //  },
-    //  ajaxStop: function() {
-    //    if (ide.waiter.ajaxAutoOpened) {
-    //      ide.waiter.close();
-    //      delete ide.waiter.ajaxAutoOpened;
-    //    }
-    //  },
-    //});
 
     // keyboard event listener
     $(document).keydown(ide.onKeyPress);
@@ -526,7 +569,7 @@ var ide = new (function() {
           "leaflet-control-buttons-fitdata leaflet-bar-part leaflet-bar-part-top",
           container
         );
-        $('<span class="ui-icon ui-icon-search"/>').appendTo($(link));
+        $('<span class="fas fa-search"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.zoom_to_data");
@@ -550,7 +593,7 @@ var ide = new (function() {
           "leaflet-control-buttons-myloc leaflet-bar-part",
           container
         );
-        $('<span class="ui-icon ui-icon-radio-off"/>').appendTo($(link));
+        $('<span class="fas fa-crosshairs"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.localize_user");
@@ -585,7 +628,7 @@ var ide = new (function() {
           "leaflet-control-buttons-bboxfilter leaflet-bar-part",
           container
         );
-        $('<span class="ui-icon ui-icon-image"/>').appendTo($(link));
+        $('<span class="fas fa-image"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.select_bbox");
@@ -607,8 +650,8 @@ var ide = new (function() {
               ide.map.bboxfilter.disable();
             }
             $(e.target)
-              .toggleClass("ui-icon-circlesmall-close")
-              .toggleClass("ui-icon-image");
+              .toggleClass("fa-times-circle")
+              .toggleClass("fa-image");
             return false;
           },
           ide.map
@@ -618,9 +661,7 @@ var ide = new (function() {
           "leaflet-control-buttons-fullscreen leaflet-bar-part",
           container
         );
-        $('<span class="ui-icon ui-icon-arrowthickstop-1-w"/>').appendTo(
-          $(link)
-        );
+        $('<span class="fas fa-step-backward"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.toggle_wide_map");
@@ -632,8 +673,8 @@ var ide = new (function() {
             $("#dataviewer").toggleClass("fullscreen");
             ide.map.invalidateSize();
             $(e.target)
-              .toggleClass("ui-icon-arrowthickstop-1-e")
-              .toggleClass("ui-icon-arrowthickstop-1-w");
+              .toggleClass("fa-step-forward")
+              .toggleClass("fa-step-backward");
             $("#editor").toggleClass("hidden");
             if ($("#editor").resizable("option", "disabled"))
               $("#editor").resizable("enable");
@@ -647,7 +688,7 @@ var ide = new (function() {
           "leaflet-control-buttons-clearoverlay leaflet-bar-part leaflet-bar-part-bottom",
           container
         );
-        $('<span class="ui-icon ui-icon-cancel"/>').appendTo($(link));
+        $('<span class="fas fa-ban"/>').appendTo($(link));
         link.href = "#";
         link.className += " t";
         link.setAttribute("data-t", "[title]map_controlls.toggle_data");
@@ -687,19 +728,17 @@ var ide = new (function() {
     // leaflet extension: search box
     var SearchBox = L.Control.extend({
       options: {
-        position: "topleft"
+        position: "topright"
       },
       onAdd: function(map) {
         var container = L.DomUtil.create(
           "div",
-          "leaflet-control-search ui-widget"
+          "leaflet-control-search control has-icons-left"
         );
         container.style.position = "absolute";
-        container.style.left = "40px";
-        var inp = L.DomUtil.create("input", "", container);
-        $(
-          '<span class="ui-icon ui-icon-search" style="position:absolute; right:3px; top:3px; opacity:0.5;"/>'
-        )
+        container.style.right = "0";
+        var inp = L.DomUtil.create("input", "input is-rounded", container);
+        $('<span class="icon is-left"><span class="fas fa-search"/></span>')
           .click(function(e) {
             $(this)
               .prev()
@@ -707,6 +746,7 @@ var ide = new (function() {
           })
           .insertAfter(inp);
         inp.id = "search";
+        inp.type = "search";
         // hack against focus stealing leaflet :/
         inp.onclick = function() {
           this.focus();
@@ -787,7 +827,7 @@ var ide = new (function() {
     });
     ide.map.addControl(new SearchBox());
     // add cross hairs to map
-    $('<span class="ui-icon ui-icon-plus" />')
+    $('<span class="fas fa-plus" />')
       .addClass("crosshairs")
       .hide()
       .appendTo("#map");
@@ -861,35 +901,40 @@ var ide = new (function() {
       // show warning/info if only invisible data is returned
       if (empty_msg == "no visible data") {
         if (!settings.no_autorepair) {
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.repair_query")] = function() {
-            ide.repairQuery("no visible data");
-            $(this).dialog("close");
-          };
-          dialog_buttons[i18n.t("dialog.show_data")] = function() {
-            if (
-              $("input[name=hide_incomplete_data_warning]", this)[0].checked
-            ) {
-              settings.no_autorepair = true;
-              settings.save();
+          var content =
+            "<p>" +
+            i18n.t("warning.incomplete.expl.1") +
+            "</p><p>" +
+            i18n.t("warning.incomplete.expl.2") +
+            '</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;' +
+            i18n.t("warning.incomplete.not_again") +
+            "</p>";
+
+          var dialog_buttons = [
+            {
+              name: i18n.t("dialog.repair_query"),
+              callback: function() {
+                ide.repairQuery("no visible data");
+              }
+            },
+            {
+              name: i18n.t("dialog.show_data"),
+              callback: function() {
+                if (
+                  $("input[name=hide_incomplete_data_warning]", this)[0].checked
+                ) {
+                  settings.no_autorepair = true;
+                  settings.save();
+                }
+                ide.switchTab("Data");
+              }
             }
-            ide.switchTab("Data");
-            $(this).dialog("close");
-          };
-          $(
-            '<div title="' +
-              i18n.t("warning.incomplete.title") +
-              '"><p>' +
-              i18n.t("warning.incomplete.expl.1") +
-              "</p><p>" +
-              i18n.t("warning.incomplete.expl.2") +
-              '</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;' +
-              i18n.t("warning.incomplete.not_again") +
-              "</p></div>"
-          ).dialog({
-            modal: true,
-            buttons: dialog_buttons
-          });
+          ];
+          showDialog(
+            i18n.t("warning.incomplete.title"),
+            content,
+            dialog_buttons
+          );
         }
       }
       // auto tab switching (if only areas are returned)
@@ -919,32 +964,32 @@ var ide = new (function() {
         document.title = "❗ " + _originalDocumentTitle;
         // more than ~1MB of data
         // show warning dialog
-        var dialog_buttons = {};
-        dialog_buttons[i18n.t("dialog.abort")] = function() {
-          $(this).dialog("close");
-          document.title = _originalDocumentTitle;
-          abortCB();
-        };
-        dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
-          $(this).dialog("close");
-          document.title = _originalDocumentTitle;
-          continueCB();
-        };
-        $(
-          '<div title="' +
-            i18n.t("warning.huge_data.title") +
-            '"><p>' +
-            i18n
-              .t("warning.huge_data.expl.1")
-              .replace("{{amount_txt}}", amount_txt) +
-            "</p><p>" +
-            i18n.t("warning.huge_data.expl.2") +
-            "</p></div>"
-        ).dialog({
-          modal: true,
-          buttons: dialog_buttons,
-          dialogClass: "huge_data"
-        });
+        var dialog_buttons = [
+          {
+            name: i18n.t("dialog.abort"),
+            callback: function() {
+              document.title = _originalDocumentTitle;
+              abortCB();
+            }
+          },
+          {
+            name: i18n.t("dialog.continue_anyway"),
+            callback: function() {
+              document.title = _originalDocumentTitle;
+              continueCB();
+            }
+          }
+        ];
+
+        var content =
+          "<p>" +
+          i18n
+            .t("warning.huge_data.expl.1")
+            .replace("{{amount_txt}}", amount_txt) +
+          "</p><p>" +
+          i18n.t("warning.huge_data.expl.2") +
+          "</p>";
+        showDialog(i18n.t("warning.huge_data.title"), content, dialog_buttons);
       } else continueCB();
     };
     overpass.handlers["onAbort"] = function() {
@@ -955,23 +1000,19 @@ var ide = new (function() {
       var _originalDocumentTitle = document.title;
       document.title = "❗ " + _originalDocumentTitle;
       // show error dialog
-      var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-        $(this).dialog("close");
-        document.title = _originalDocumentTitle;
-      };
-      $(
-        '<div title="' +
-          i18n.t("error.ajax.title") +
-          '"><p style="color:red;">' +
-          i18n.t("error.ajax.expl") +
-          "</p>" +
-          errmsg +
-          "</div>"
-      ).dialog({
-        modal: true,
-        buttons: dialog_buttons
-      }); // dialog
+      var dialog_buttons = [
+        {
+          name: i18n.t("dialog.dismiss"),
+          callback: function() {
+            document.title = _originalDocumentTitle;
+          }
+        }
+      ];
+
+      var content =
+        '<p style="color:red;">' + i18n.t("error.ajax.expl") + "</p>" + errmsg;
+      showDialog(i18n.t("error.ajax.title"), content, dialog_buttons);
+
       // print error text, if present
       if (overpass.resultText) ide.dataViewer.setValue(overpass.resultText);
     };
@@ -979,42 +1020,30 @@ var ide = new (function() {
       ide.waiter.close();
       var _originalDocumentTitle = document.title;
       document.title = "❗ " + _originalDocumentTitle;
-      var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-        $(this).dialog("close");
-        document.title = _originalDocumentTitle;
-      };
-      $(
-        '<div title="' +
-          i18n.t("error.query.title") +
-          '"><p style="color:red;">' +
-          i18n.t("error.query.expl") +
-          "</p>" +
-          errmsg +
-          "</div>"
-      ).dialog({
-        modal: true,
-        maxHeight: 600,
-        buttons: dialog_buttons
-      });
+      var dialog_buttons = [
+        {
+          name: i18n.t("dialog.dismiss"),
+          callback: function() {
+            document.title = _originalDocumentTitle;
+          }
+        }
+      ];
+      var content =
+        '<div class="notification is-danger is-light">' +
+        i18n.t("error.query.expl") +
+        "<br>" +
+        errmsg +
+        "</div>";
+      showDialog(i18n.t("error.query.title"), content, dialog_buttons);
     };
     overpass.handlers["onStyleError"] = function(errmsg) {
-      var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-        $(this).dialog("close");
-      };
-      $(
-        '<div title="' +
-          i18n.t("error.mapcss.title") +
-          '"><p style="color:red;">' +
-          i18n.t("error.mapcss.expl") +
-          "</p>" +
-          errmsg +
-          "</div>"
-      ).dialog({
-        modal: true,
-        buttons: dialog_buttons
-      });
+      var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+      var content =
+        '<p style="color:red;">' +
+        i18n.t("error.mapcss.expl") +
+        "</p>" +
+        errmsg;
+      showDialog(i18n.t("error.mapcss.title"), content, dialog_buttons);
     };
     overpass.handlers["onQueryErrorLine"] = function(linenumber) {
       ide.highlightError(linenumber);
@@ -1175,22 +1204,14 @@ var ide = new (function() {
         ide.highlightError(i + 1);
     });
     // show error message dialog
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-      $(this).dialog("close");
-    };
-    $(
-      '<div title="' +
-        i18n.t("error.nominatim.title") +
-        '"><p style="color:red;">' +
-        i18n.t("error.nominatim.expl") +
-        "</p><p><i>" +
-        htmlentities(search) +
-        "</i></p></div>"
-    ).dialog({
-      modal: true,
-      buttons: dialog_buttons
-    }); // dialog
+    var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+    var content =
+      '<p style="color:red;">' +
+      i18n.t("error.nominatim.expl") +
+      "</p><p><i>" +
+      htmlentities(search) +
+      "</i></p>";
+    showDialog(i18n.t("error.nominatim.title"), content, dialog_buttons);
   };
   /* this returns the current raw query in the editor.
    * shortcuts are not expanded. */
@@ -1270,7 +1291,7 @@ var ide = new (function() {
   };
 
   this.switchTab = function(tab) {
-    $("#navs .tabs a." + tab).click();
+    $(".tabs li." + tab).click();
   };
 
   this.loadExample = function(ex) {
@@ -1278,61 +1299,58 @@ var ide = new (function() {
       ide.setQuery(settings.saves[ex].overpass);
   };
   this.removeExample = function(ex, self) {
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.delete")] = function() {
-      delete settings.saves[ex];
-      settings.save();
-      $(self)
-        .parent()
-        .remove();
-      $(this).dialog("close");
-    };
-    dialog_buttons[i18n.t("dialog.cancel")] = function() {
-      $(this).dialog("close");
-    };
-    $(
-      '<div title="' +
-        i18n.t("dialog.delete_query.title") +
-        '"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
-        i18n.t("dialog.delete_query.expl") +
-        ": &quot;<i>" +
-        ex +
-        "</i>&quot;?</p></div>"
-    ).dialog({
-      modal: true,
-      buttons: dialog_buttons
-    });
+    var dialog_buttons = [
+      {
+        name: i18n.t("dialog.delete"),
+        callback: function() {
+          delete settings.saves[ex];
+          settings.save();
+          $(self)
+            .parent("li")
+            .remove();
+        }
+      },
+      {name: i18n.t("dialog.cancel")}
+    ];
+
+    var content =
+      "<p>" +
+      '<span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>' +
+      i18n.t("dialog.delete_query.expl") +
+      ": &quot;<i>" +
+      ex +
+      "</i>&quot;?</p>";
+    showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   };
   this.removeExampleSync = function(query, self) {
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.delete")] = function() {
-      sync.delete(
-        query.name,
-        function(err) {
-          if (err) return console.error(err);
+    var dialog_buttons = [
+      {
+        name: i18n.t("dialog.delete"),
+        callback: function() {
+          sync.delete(
+            query.name,
+            function(err) {
+              if (err) return console.error(err);
 
-          $(self)
-            .parent()
-            .remove();
-          $(this).dialog("close");
-        }.bind(this)
-      );
-    };
-    dialog_buttons[i18n.t("dialog.cancel")] = function() {
-      $(this).dialog("close");
-    };
-    $(
-      '<div title="' +
-        i18n.t("dialog.delete_query.title") +
-        '"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:1px 7px 20px 0;"></span>' +
-        i18n.t("dialog.delete_query.expl-osm") +
-        ": &quot;<i>" +
-        query.name +
-        "</i>&quot;?</p></div>"
-    ).dialog({
-      modal: true,
-      buttons: dialog_buttons
-    });
+              $(self)
+                .parent()
+                .remove();
+            }.bind(this)
+          );
+        }
+      },
+      {
+        name: i18n.t("dialog.cancel")
+      }
+    ];
+
+    var content =
+      '<p><span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>' +
+      i18n.t("dialog.delete_query.expl-osm") +
+      ": &quot;<i>" +
+      query.name +
+      "</i>&quot;?</p>";
+    showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   };
 
   // Event handlers
@@ -1353,9 +1371,7 @@ var ide = new (function() {
               (function(example) {
                 return function() {
                   ide.loadExample(example);
-                  $(this)
-                    .parents(".ui-dialog-content")
-                    .dialog("close");
+                  $("#load-dialog").removeClass("is-active");
                   return false;
                 };
               })(example)
@@ -1365,7 +1381,11 @@ var ide = new (function() {
             .attr("title", i18n.t("load.delete_query") + ": " + example)
             .addClass("delete-query")
             .css("float", "right")
-            .append($("<span>").addClass("ui-icon ui-icon-close"))
+            .append(
+              $('<span class="has-text-danger">')
+                .addClass("fas")
+                .addClass("fa-times")
+            )
             .on(
               "click",
               (function(example) {
@@ -1384,79 +1404,84 @@ var ide = new (function() {
       $("<li>" + i18n.t("load.no_saved_query") + "</li>").appendTo(
         "#load-dialog ul.saved_query"
       );
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.cancel")] = function() {
-      $(this).dialog("close");
-    };
-    $("#load-dialog").dialog({
-      modal: true,
-      buttons: dialog_buttons
-    });
-    $("#load-dialog").accordion({
-      beforeActivate: function(event, ui) {
-        if (ui.newHeader.index() == 2) {
-          $("ul", ui.newPanel).html(
-            "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
-          );
+    $("#load-dialog").addClass("is-active");
 
-          sync.load(function(err, queries) {
-            if (err) {
-              $("ul", ui.newPanel).html(
-                "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
-              );
-              return console.error(err);
-            }
-            $("ul", ui.newPanel).html("");
-            $("a#logout").show();
-            queries.forEach(function(q) {
-              $("<li></li>")
-                .append(
-                  $("<a>")
-                    .attr("href", "#")
-                    .text(q.name)
-                    .on(
-                      "click",
-                      (function(query) {
-                        return function() {
-                          ide.setQuery(lzw_decode(Base64.decode(query.query)));
-                          $(this)
-                            .parents(".ui-dialog-content")
-                            .dialog("close");
-                          return false;
-                        };
-                      })(q)
-                    ),
-                  $("<a>")
-                    .attr("href", "#")
-                    .attr("title", i18n.t("load.delete_query") + ": " + q.name)
-                    .addClass("delete-query")
-                    .css("float", "right")
-                    .append($("<span>").addClass("ui-icon ui-icon-close"))
-                    .on(
-                      "click",
-                      (function(example) {
-                        return function() {
-                          ide.removeExampleSync(example, this);
-                          return false;
-                        };
-                      })(q)
-                    ),
-                  $("<div>").css("clear", "right")
-                )
-                .appendTo("#load-dialog ul.osm");
-            });
-          });
-        }
-      },
-      active: 0,
-      animate: false
-    });
-    $("#load-dialog").accordion(
-      "option",
-      "active",
-      sync.authenticated() ? 1 : has_saved_query ? 0 : 2
+    if (sync.authenticated()) {
+      ide.loadOsmQueries();
+    } else {
+      var ui = $("#load-dialog .osm-queries");
+      ui.show();
+      var loadButton = $(
+        "<button class='button is-link is-outlined t' title='load.title'>" +
+          i18n.t("load.title") +
+          "</button>"
+      ).click(function() {
+        ide.loadOsmQueries();
+      });
+      $("ul", ui)
+        .html("")
+        .append($("<li></li>").append(loadButton));
+    }
+  };
+  this.loadOsmQueries = function() {
+    var ui = $("#load-dialog .osm-queries");
+    ui.show();
+    $("ul", ui).html(
+      "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
     );
-    $("#load-dialog").accordion("option", "animate", true);
+
+    sync.load(function(err, queries) {
+      if (err) {
+        $("ul", ui).html(
+          "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
+        );
+        return console.error(err);
+      }
+      $("ul", ui).html("");
+      $("#logout").show();
+      queries.forEach(function(q) {
+        $("<li></li>")
+          .append(
+            $("<a>")
+              .attr("href", "#")
+              .text(q.name)
+              .on(
+                "click",
+                (function(query) {
+                  return function() {
+                    ide.setQuery(lzw_decode(Base64.decode(query.query)));
+                    $("#load-dialog").removeClass("is-active");
+                    return false;
+                  };
+                })(q)
+              ),
+            $("<a>")
+              .attr("href", "#")
+              .attr("title", i18n.t("load.delete_query") + ": " + q.name)
+              .addClass("delete-query")
+              .css("float", "right")
+              .append(
+                $('<span class="has-text-danger">')
+                  .addClass("fas")
+                  .addClass("fa-times")
+              )
+              .on(
+                "click",
+                (function(example) {
+                  return function() {
+                    ide.removeExampleSync(example, this);
+                    return false;
+                  };
+                })(q)
+              ),
+            $("<div>").css("clear", "right")
+          )
+          .appendTo("#load-dialog ul.osm");
+      });
+    });
+  };
+  this.onLoadClose = function() {
+    $("#load-dialog").removeClass("is-active");
   };
   this.onSaveClick = function() {
     // combobox for existing saves.
@@ -1464,46 +1489,43 @@ var ide = new (function() {
     for (var key in settings.saves)
       if (settings.saves[key].type != "template") saves_names.push(key);
     make_combobox($("#save-dialog input[name=save]"), saves_names);
-    var dialog_buttons = {};
+
     if (sync.enabled) {
-      dialog_buttons[i18n.t("dialog.save-osm")] = function() {
-        var self = this;
-        var name = $("input[name=save]", this)[0].value;
-        var query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
-        sync.save(
-          {
-            name: name,
-            query: query
-          },
-          function(err, new_queries) {
-            if (err) return console.error(err);
-            $("a#logout").show();
-            $(self).dialog("close");
-          }
-        );
-      };
+      $("#save-dialog button.osm").show();
     }
-    dialog_buttons[i18n.t("dialog.save-local")] = function() {
-      var name = $("input[name=save]", this)[0].value;
-      settings.saves[htmlentities(name)] = {
-        overpass: ide.getRawQuery(),
-        type: "saved_query"
-      };
-      settings.save();
-      $(this).dialog("close");
+    $("#save-dialog").addClass("is-active");
+  };
+  this.onSaveSumbit = function() {
+    var name = $("#save-dialog input[name=save]")[0].value;
+    settings.saves[htmlentities(name)] = {
+      overpass: ide.getRawQuery(),
+      type: "saved_query"
     };
-    dialog_buttons[i18n.t("dialog.cancel")] = function() {
-      $(this).dialog("close");
-    };
-    $("#save-dialog").dialog({
-      modal: true,
-      buttons: dialog_buttons
-    });
+    settings.save();
+    $("#save-dialog").removeClass("is-active");
+  };
+  this.onSaveOsmSumbit = function() {
+    var name = $("#save-dialog input[name=save]")[0].value;
+    var query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
+    sync.save(
+      {
+        name: name,
+        query: query
+      },
+      function(err, new_queries) {
+        if (err) return console.error(err);
+        $("#logout").show();
+        $("#save-dialog").removeClass("is-active");
+      }
+    );
+  };
+  this.onSaveClose = function() {
+    $("#save-dialog").removeClass("is-active");
   };
   this.onLogoutClick = function() {
     sync.logout();
     $("#load-dialog ul.osm").html("");
-    $("a#logout").hide();
+    $("#logout").hide();
   };
   this.onRunClick = function() {
     ide.update_map();
@@ -1591,14 +1613,10 @@ var ide = new (function() {
     $("div#share-dialog input[name=include_coords]")[0].checked =
       settings.share_include_pos;
     ide.updateShareLink();
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.done")] = function() {
-      $(this).dialog("close");
-    };
-    $("div#share-dialog").dialog({
-      modal: true,
-      buttons: dialog_buttons
-    });
+    $("#share-dialog").addClass("is-active");
+  };
+  this.onShareClose = function() {
+    $("#share-dialog").removeClass("is-active");
   };
   this.onExportClick = function() {
     // prepare export dialog
@@ -1643,24 +1661,17 @@ var ide = new (function() {
       function copyHandler(text, successMessage) {
         return function() {
           // selector
-          var d = $("#export-clipboard-success");
+          $("#export-clipboard-success").addClass("is-active");
           copyData = {
             "text/plain": text
           };
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-            $(this).dialog("close");
-          };
-          d.dialog({
-            modal: true,
-            width: 500,
-            buttons: dialog_buttons
-          });
           document.execCommand("copy");
-          $(".message", d).html(
+          $("#export-clipboard-success .message").html(
             i18n.t("export.copy_to_clipboard_success-message")
           );
-          $(".export-copy_to_clipboard-content", d).html(successMessage);
+          $("#export-clipboard-success .export-copy_to_clipboard-content").html(
+            successMessage
+          );
           return false;
         };
       }
@@ -1745,93 +1756,81 @@ var ide = new (function() {
               ")"
           )
         );
-      var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.done")] = function() {
-        $(this).dialog("close");
-      };
+      var dialog_buttons = [{name: i18n.t("dialog.done")}];
       $("#export-dialog a#export-map-state")
         .unbind("click")
         .bind("click", function() {
-          $(
-            '<div title="' +
-              i18n.t("export.map_view.title") +
-              '">' +
-              "<h4>" +
-              i18n.t("export.map_view.permalink") +
-              "</h4>" +
-              '<p><a href="//www.openstreetmap.org/#map=' +
-              ide.map.getZoom() +
-              "/" +
-              L.Util.formatNum(ide.map.getCenter().lat) +
-              "/" +
-              L.Util.formatNum(ide.map.getCenter().lng) +
-              '" target="_blank">' +
-              i18n.t("export.map_view.permalink_osm") +
-              "</a></p>" +
-              "<h4>" +
-              i18n.t("export.map_view.center") +
-              "</h4><p>" +
-              L.Util.formatNum(ide.map.getCenter().lat) +
-              ", " +
-              L.Util.formatNum(ide.map.getCenter().lng) +
-              " <small>(" +
-              i18n.t("export.map_view.center_expl") +
-              ")</small></p>" +
-              "<h4>" +
-              i18n.t("export.map_view.bounds") +
-              "</h4><p>" +
-              L.Util.formatNum(ide.map.getBounds().getSouthWest().lat) +
-              ", " +
-              L.Util.formatNum(ide.map.getBounds().getSouthWest().lng) +
-              ", " +
-              L.Util.formatNum(ide.map.getBounds().getNorthEast().lat) +
-              ", " +
-              L.Util.formatNum(ide.map.getBounds().getNorthEast().lng) +
-              "<br /><small>(" +
-              i18n.t("export.map_view.bounds_expl") +
-              ")</small></p>" +
-              (ide.map.bboxfilter.isEnabled()
-                ? "<h4>" +
-                  i18n.t("export.map_view.bounds_selection") +
-                  "</h4><p>" +
-                  L.Util.formatNum(
-                    ide.map.bboxfilter.getBounds().getSouthWest().lat
-                  ) +
-                  ", " +
-                  L.Util.formatNum(
-                    ide.map.bboxfilter.getBounds().getSouthWest().lng
-                  ) +
-                  ", " +
-                  L.Util.formatNum(
-                    ide.map.bboxfilter.getBounds().getNorthEast().lat
-                  ) +
-                  ", " +
-                  L.Util.formatNum(
-                    ide.map.bboxfilter.getBounds().getNorthEast().lng
-                  ) +
-                  "<br /><small>(" +
-                  i18n.t("export.map_view.bounds_expl") +
-                  ")</small></p>"
-                : "") +
-              "<h4>" +
-              i18n.t("export.map_view.zoom") +
-              "</h4><p>" +
-              ide.map.getZoom() +
-              "</p>" +
-              "</div>"
-          ).dialog({
-            modal: true,
-            buttons: dialog_buttons
-          });
+          var content =
+            "<h4>" +
+            i18n.t("export.map_view.permalink") +
+            "</h4>" +
+            '<p><a href="//www.openstreetmap.org/#map=' +
+            ide.map.getZoom() +
+            "/" +
+            L.Util.formatNum(ide.map.getCenter().lat) +
+            "/" +
+            L.Util.formatNum(ide.map.getCenter().lng) +
+            '" target="_blank">' +
+            i18n.t("export.map_view.permalink_osm") +
+            "</a></p>" +
+            "<h4>" +
+            i18n.t("export.map_view.center") +
+            "</h4><p>" +
+            L.Util.formatNum(ide.map.getCenter().lat) +
+            ", " +
+            L.Util.formatNum(ide.map.getCenter().lng) +
+            " <small>(" +
+            i18n.t("export.map_view.center_expl") +
+            ")</small></p>" +
+            "<h4>" +
+            i18n.t("export.map_view.bounds") +
+            "</h4><p>" +
+            L.Util.formatNum(ide.map.getBounds().getSouthWest().lat) +
+            ", " +
+            L.Util.formatNum(ide.map.getBounds().getSouthWest().lng) +
+            ", " +
+            L.Util.formatNum(ide.map.getBounds().getNorthEast().lat) +
+            ", " +
+            L.Util.formatNum(ide.map.getBounds().getNorthEast().lng) +
+            "<br /><small>(" +
+            i18n.t("export.map_view.bounds_expl") +
+            ")</small></p>" +
+            (ide.map.bboxfilter.isEnabled()
+              ? "<h4>" +
+                i18n.t("export.map_view.bounds_selection") +
+                "</h4><p>" +
+                L.Util.formatNum(
+                  ide.map.bboxfilter.getBounds().getSouthWest().lat
+                ) +
+                ", " +
+                L.Util.formatNum(
+                  ide.map.bboxfilter.getBounds().getSouthWest().lng
+                ) +
+                ", " +
+                L.Util.formatNum(
+                  ide.map.bboxfilter.getBounds().getNorthEast().lat
+                ) +
+                ", " +
+                L.Util.formatNum(
+                  ide.map.bboxfilter.getBounds().getNorthEast().lng
+                ) +
+                "<br /><small>(" +
+                i18n.t("export.map_view.bounds_expl") +
+                ")</small></p>"
+              : "") +
+            "<h4>" +
+            i18n.t("export.map_view.zoom") +
+            "</h4><p>" +
+            ide.map.getZoom() +
+            "</p>";
+          showDialog(i18n.t("export.map_view.title"), content, dialog_buttons);
           return false;
         });
       $("#export-dialog a#export-image")
         .unbind("click")
         .on("click", function() {
           ide.onExportImageClick();
-          $(this)
-            .parents(".ui-dialog-content")
-            .dialog("close");
+          $("#export-dialog").removeClass("is-active");
           return false;
         });
       // GeoJSON format
@@ -1892,15 +1891,7 @@ var ide = new (function() {
             });
             saveAs(blob, "export.geojson");
           } else {
-            var dialog_buttons = {};
-            dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-              $(this).dialog("close");
-            };
-            d.dialog({
-              modal: true,
-              width: 500,
-              buttons: dialog_buttons
-            });
+            d.addClass("is-active");
             $(".message", d).text(geoJSON_str);
           }
           return false;
@@ -1911,15 +1902,7 @@ var ide = new (function() {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-            $(this).dialog("close");
-          };
-          d.dialog({
-            modal: true,
-            width: 500,
-            buttons: dialog_buttons
-          });
+          d.addClass("is-active");
           if (overpass.geojson) {
             var geojson = constructGeojsonString(overpass.geojson);
             copyData = {
@@ -1954,33 +1937,27 @@ var ide = new (function() {
             })
           })
             .done(function(data, textStatus, jqXHR) {
-              var dialog_buttons = {};
-              dialog_buttons[i18n.t("dialog.done")] = function() {
-                $(this).dialog("close");
-              };
-              $(
-                '<div title="' +
-                  i18n.t("export.geoJSON_gist.title") +
-                  '">' +
-                  "<p>" +
-                  i18n.t("export.geoJSON_gist.gist") +
-                  '&nbsp;<a href="' +
-                  data.html_url +
-                  '" target="_blank" class="external">' +
-                  data.id +
-                  "</a></p>" +
-                  "<p>" +
-                  i18n.t("export.geoJSON_gist.geojsonio") +
-                  '&nbsp;<a href="http://geojson.io/#id=gist:anonymous/' +
-                  data.id +
-                  '" target="_blank" class="external">' +
-                  i18n.t("export.geoJSON_gist.geojsonio_link") +
-                  "</a></p>" +
-                  "</div>"
-              ).dialog({
-                modal: true,
-                buttons: dialog_buttons
-              });
+              var dialog_buttons = [{name: i18n.t("dialog.done")}];
+              var content =
+                "<p>" +
+                i18n.t("export.geoJSON_gist.gist") +
+                '&nbsp;<a href="' +
+                data.html_url +
+                '" target="_blank" class="external">' +
+                data.id +
+                "</a></p>" +
+                "<p>" +
+                i18n.t("export.geoJSON_gist.geojsonio") +
+                '&nbsp;<a href="http://geojson.io/#id=gist:anonymous/' +
+                data.id +
+                '" target="_blank" class="external">' +
+                i18n.t("export.geoJSON_gist.geojsonio_link") +
+                "</a></p>";
+              showDialog(
+                i18n.t("export.geoJSON_gist.title"),
+                content,
+                dialog_buttons
+              );
               // data.html_url;
             })
             .fail(function(jqXHR, textStatus, errorStr) {
@@ -2041,15 +2018,7 @@ var ide = new (function() {
             saveAs(blob, "export.gpx");
           } else {
             var d = $("#export-download-dialog");
-            var dialog_buttons = {};
-            dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-              $(this).dialog("close");
-            };
-            d.dialog({
-              modal: true,
-              width: 500,
-              buttons: dialog_buttons
-            });
+            d.addClass("is-active");
             $(".message", d).text(gpx_str);
           }
           return false;
@@ -2060,15 +2029,7 @@ var ide = new (function() {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-            $(this).dialog("close");
-          };
-          d.dialog({
-            modal: true,
-            width: 500,
-            buttons: dialog_buttons
-          });
+          d.addClass("is-active");
           if (overpass.geojson) {
             var gpx = constructGpxString(overpass.geojson);
             copyData = {
@@ -2118,17 +2079,8 @@ var ide = new (function() {
             });
             saveAs(blob, "export.kml");
           } else {
-            var d = $("#export-download-dialog");
-            var dialog_buttons = {};
-            dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-              $(this).dialog("close");
-            };
-            d.dialog({
-              modal: true,
-              width: 500,
-              buttons: dialog_buttons
-            });
-            $(".message", d).text(kml_str);
+            $("#export-download-dialog").addClass("is-active");
+            $("#export-download-dialog .message").text(kml_str);
           }
           return false;
         });
@@ -2138,15 +2090,7 @@ var ide = new (function() {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-            $(this).dialog("close");
-          };
-          d.dialog({
-            modal: true,
-            width: 500,
-            buttons: dialog_buttons
-          });
+          d.addClass("is-active");
           if (overpass.geojson) {
             var kml = constructKmlString(overpass.geojson);
             copyData = {
@@ -2218,15 +2162,7 @@ var ide = new (function() {
             }
           } else {
             var d = $("#export-download-dialog");
-            var dialog_buttons = {};
-            dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-              $(this).dialog("close");
-            };
-            d.dialog({
-              modal: true,
-              width: 500,
-              buttons: dialog_buttons
-            });
+            d.addClass("is-active");
             $(".message", d).text(raw_str);
           }
           return false;
@@ -2237,15 +2173,7 @@ var ide = new (function() {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-            $(this).dialog("close");
-          };
-          d.dialog({
-            modal: true,
-            width: 500,
-            buttons: dialog_buttons
-          });
+          d.addClass("is-active");
           var geojson = overpass.geojson;
           if (geojson) {
             var raw = constructRawData(geojson);
@@ -2306,33 +2234,36 @@ var ide = new (function() {
       } else {
         exportToLevel0[0].href = "";
         exportToLevel0.bind("click", function() {
-          var dialog_buttons = {};
-          dialog_buttons[i18n.t("dialog.repair_query")] = function() {
-            ide.repairQuery("xml+metadata");
-            var message_dialog = $(this);
-            ide.getQuery(function(query) {
-              exportToLevel0.unbind("click");
-              exportToLevel0[0].href = constructLevel0Link(query);
-              message_dialog.dialog("close");
-            });
-          };
-          dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
-            exportToLevel0.unbind("click");
-            exportToLevel0[0].href = constructLevel0Link(query);
-            $(this).dialog("close");
-          };
-          $(
-            '<div title="' +
-              i18n.t("warning.incomplete.title") +
-              '"><p>' +
-              i18n.t("warning.incomplete.remote.expl.1") +
-              "</p><p>" +
-              i18n.t("warning.incomplete.remote.expl.2") +
-              "</p></div>"
-          ).dialog({
-            modal: true,
-            buttons: dialog_buttons
-          });
+          var dialog_buttons = [
+            {
+              name: i18n.t("dialog.repair_query"),
+              callback: function() {
+                ide.repairQuery("xml+metadata");
+                ide.getQuery(function(query) {
+                  exportToLevel0.unbind("click");
+                  exportToLevel0[0].href = constructLevel0Link(query);
+                });
+              }
+            },
+            {
+              name: i18n.t("dialog.continue_anyway"),
+              callback: function() {
+                exportToLevel0.unbind("click");
+                exportToLevel0[0].href = constructLevel0Link(query);
+              }
+            }
+          ];
+          var content =
+            "<p>" +
+            i18n.t("warning.incomplete.remote.expl.1") +
+            "</p><p>" +
+            i18n.t("warning.incomplete.remote.expl.2") +
+            "</p>";
+          showDialog(
+            i18n.t("warning.incomplete.title"),
+            content,
+            dialog_buttons
+          );
           return false;
         });
       }
@@ -2340,9 +2271,7 @@ var ide = new (function() {
       $("#export-dialog a#export-editors-josm")
         .unbind("click")
         .on("click", function() {
-          var export_dialog = $(this)
-            .parents("div.ui-dialog-content")
-            .first();
+          var export_dialog = $("#export-dialog");
           var send_to_josm = function(query) {
             var JRC_url = "http://127.0.0.1:8111/";
             $.getJSON(JRC_url + "version")
@@ -2362,43 +2291,30 @@ var ide = new (function() {
                       console.log("successfully invoked JOSM remote constrol");
                     });
                 } else {
-                  var dialog_buttons = {};
-                  dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-                    $(this).dialog("close");
-                  };
-                  $(
-                    '<div title="' +
-                      i18n.t("error.remote.title") +
-                      '"><p>' +
-                      i18n.t("error.remote.incompat") +
-                      ": " +
-                      d.protocolversion.major +
-                      "." +
-                      d.protocolversion.minor +
-                      " :(</p></div>"
-                  ).dialog({
-                    modal: true,
-                    width: 350,
-                    buttons: dialog_buttons
-                  });
+                  var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+                  var content =
+                    "<p>" +
+                    i18n.t("error.remote.incompat") +
+                    ": " +
+                    d.protocolversion.major +
+                    "." +
+                    d.protocolversion.minor +
+                    " :(</p>";
+                  showDialog(
+                    i18n.t("error.remote.title"),
+                    content,
+                    dialog_buttons
+                  );
                 }
               })
               .fail(function(xhr, s, e) {
-                var dialog_buttons = {};
-                dialog_buttons[i18n.t("dialog.dismiss")] = function() {
-                  $(this).dialog("close");
-                };
-                $(
-                  '<div title="' +
-                    i18n.t("error.remote.title") +
-                    '"><p>' +
-                    i18n.t("error.remote.not_found") +
-                    "</p></div>"
-                ).dialog({
-                  modal: true,
-                  width: 350,
-                  buttons: dialog_buttons
-                });
+                var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+                var content = "<p>" + i18n.t("error.remote.not_found") + "</p>";
+                showDialog(
+                  i18n.t("error.remote.title"),
+                  content,
+                  dialog_buttons
+                );
               });
           };
           // first check for possible mistakes in query.
@@ -2411,48 +2327,51 @@ var ide = new (function() {
             send_to_josm(query);
             return false;
           } else {
-            var dialog_buttons = {};
-            dialog_buttons[i18n.t("dialog.repair_query")] = function() {
-              ide.repairQuery("xml+metadata");
-              var message_dialog = $(this);
-              ide.getQuery(function(query) {
-                send_to_josm(query);
-                message_dialog.dialog("close");
-                export_dialog.dialog("close");
-              });
-            };
-            dialog_buttons[i18n.t("dialog.continue_anyway")] = function() {
-              send_to_josm(query);
-              $(this).dialog("close");
-              export_dialog.dialog("close");
-            };
-            $(
-              '<div title="' +
-                i18n.t("warning.incomplete.title") +
-                '"><p>' +
-                i18n.t("warning.incomplete.remote.expl.1") +
-                "</p><p>" +
-                i18n.t("warning.incomplete.remote.expl.2") +
-                "</p></div>"
-            ).dialog({
-              modal: true,
-              buttons: dialog_buttons
-            });
+            var dialog_buttons = [
+              {
+                name: i18n.t("dialog.repair_query"),
+                callback: function() {
+                  ide.repairQuery("xml+metadata");
+                  ide.getQuery(function(query) {
+                    send_to_josm(query);
+                    export_dialog.removeClass("is-active");
+                  });
+                }
+              },
+              {
+                name: i18n.t("dialog.continue_anyway"),
+                callback: function() {
+                  send_to_josm(query);
+                  export_dialog.removeClass("is-active");
+                }
+              }
+            ];
+            var content =
+              "<p>" +
+              i18n.t("warning.incomplete.remote.expl.1") +
+              "</p><p>" +
+              i18n.t("warning.incomplete.remote.expl.2") +
+              "</p>";
+            showDialog(
+              i18n.t("warning.incomplete.title"),
+              content,
+              dialog_buttons
+            );
             return false;
           }
         });
       // open the export dialog
-      var dialog_buttons = {};
-      dialog_buttons[i18n.t("dialog.done")] = function() {
-        $(this).dialog("close");
-      };
-      $("#export-dialog").dialog({
-        modal: true,
-        width: 350,
-        buttons: dialog_buttons
-      });
-      $("#export-dialog").accordion();
+      $("#export-dialog").addClass("is-active");
     });
+  };
+  this.onExportDownloadClose = function() {
+    $("#export-download-dialog").removeClass("is-active");
+  };
+  this.onExportClipboardClose = function() {
+    $("#export-clipboard-success").removeClass("is-active");
+  };
+  this.onExportClose = function() {
+    $("#export-dialog").removeClass("is-active");
   };
   this.onExportImageClick = function() {
     ide.waiter.open(i18n.t("waiter.export_as_image"));
@@ -2505,36 +2424,21 @@ var ide = new (function() {
         if (!settings.export_image_attribution)
           attrib_message =
             '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
-        var dialog_buttons = {};
-        dialog_buttons[i18n.t("dialog.done")] = function() {
-          $(this).dialog("close");
-          // free dialog from DOM
-          $("#export_image_dialog").remove();
-        };
-        $(
-          '<div title="' +
-            i18n.t("export.image.title") +
-            '" id="export_image_dialog"><p><img src="' +
-            imgstr +
-            '" alt="' +
-            i18n.t("export.image.alt") +
-            '" width="480px"/><br><!--<a href="' +
-            imgstr +
-            '" download="export.png" target="_blank">' +
-            i18n.t("export.image.download") +
-            "</a>--></p>" +
-            attrib_message +
-            "</div>"
-        ).dialog({
-          modal: true,
-          width: 500,
-          position: ["center", 60],
-          open: function() {
-            // close progress indicator
-            ide.waiter.close();
-          },
-          buttons: dialog_buttons
-        });
+        var dialog_buttons = [{name: i18n.t("dialog.done")}];
+
+        ide.waiter.close();
+        var content =
+          '<p><img src="' +
+          imgstr +
+          '" alt="' +
+          i18n.t("export.image.alt") +
+          '" width="480px"/><br><!--<a href="' +
+          imgstr +
+          '" download="export.png" target="_blank">' +
+          i18n.t("export.image.download") +
+          "</a>--></p>" +
+          attrib_message;
+        showDialog(i18n.t("export.image.title"), content, dialog_buttons);
         canvas.toBlob(function(blob) {
           saveAs(blob, "export.png");
         });
@@ -2544,78 +2448,71 @@ var ide = new (function() {
   this.onFfsClick = function() {
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
     $("#ffs-dialog #ffs-dialog-typo").hide();
-    var build_query = function(autorun) {
-      // build query and run it immediately
-      ide.update_ffs_query(
-        undefined,
-        function(err, ffs_result) {
-          if (!err) {
-            $(this).dialog("close");
-            if (autorun !== false) ide.onRunClick();
-          } else {
-            if (_.isArray(ffs_result)) {
-              // show parse error message
-              $("#ffs-dialog #ffs-dialog-parse-error").hide();
-              $("#ffs-dialog #ffs-dialog-typo").show();
-              var correction = ffs_result.join("");
-              var correction_html = ffs_result
-                .map(function(ffs_result_part, i) {
-                  if (i % 2 === 1) return "<b>" + ffs_result_part + "</b>";
-                  else return ffs_result_part;
-                })
-                .join("");
-              $("#ffs-dialog #ffs-dialog-typo-correction").html(
-                correction_html
-              );
-              $("#ffs-dialog #ffs-dialog-typo-correction")
-                .unbind("click")
-                .bind("click", function(e) {
-                  $("#ffs-dialog input[type=text]").val(correction);
-                  $(this)
-                    .parent()
-                    .hide();
-                  e.preventDefault();
-                });
-              $("#ffs-dialog #ffs-dialog-typo").effect(
-                "shake",
-                {direction: "right", distance: 10, times: 2},
-                300
-              );
-            } else {
-              // show parse error message
-              $("#ffs-dialog #ffs-dialog-typo").hide();
-              $("#ffs-dialog #ffs-dialog-parse-error").show();
-              $("#ffs-dialog #ffs-dialog-parse-error").effect(
-                "shake",
-                {direction: "right", distance: 10, times: 2},
-                300
-              );
-            }
-          }
-        }.bind(this)
-      );
-    };
-    $("#ffs-dialog input[type=text]")
+    $("#ffs-dialog .loading").hide();
+    $("#ffs-dialog input[type=search]")
+      .removeClass("is-danger")
       .unbind("keypress")
       .bind("keypress", function(e) {
         if (e.which == 13 || e.which == 10) {
-          build_query.bind(this.parentElement.parentElement)();
+          ide.onFfsRun(true);
           e.preventDefault();
         }
       });
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.wizard_build")] = function() {
-      build_query.bind(this, false)();
-    };
-    dialog_buttons[i18n.t("dialog.wizard_run")] = build_query;
-    dialog_buttons[i18n.t("dialog.cancel")] = function() {
-      $(this).dialog("close");
-    };
-    $("#ffs-dialog").dialog({
-      modal: true,
-      minWidth: 350,
-      buttons: dialog_buttons
-    });
+    $("#ffs-dialog").addClass("is-active");
+  };
+  this.onFfsClose = function() {
+    $("#ffs-dialog").removeClass("is-active");
+  };
+  this.onFfsBuild = function() {
+    ide.onFfsRun(false);
+  };
+  this.onFfsRun = function(autorun) {
+    // Show loading spinner and hide all errors
+    $("#ffs-dialog input[type=search]").removeClass("is-danger");
+    $("#ffs-dialog #ffs-dialog-parse-error").hide();
+    $("#ffs-dialog #ffs-dialog-typo").hide();
+    $("#ffs-dialog .loading").show();
+
+    // Build query and run it immediately if autorun is set
+    ide.update_ffs_query(
+      undefined,
+      function(err, ffs_result) {
+        $("#ffs-dialog .loading").hide();
+        if (!err) {
+          $("#ffs-dialog").removeClass("is-active");
+          if (autorun !== false) ide.onRunClick();
+        } else {
+          if (_.isArray(ffs_result)) {
+            // show parse error message
+            $("#ffs-dialog #ffs-dialog-parse-error").hide();
+            $("#ffs-dialog #ffs-dialog-typo").show();
+            $("#ffs-dialog input[type=search]").addClass("is-danger");
+            var correction = ffs_result.join("");
+            var correction_html = ffs_result
+              .map(function(ffs_result_part, i) {
+                if (i % 2 === 1) return "<b>" + ffs_result_part + "</b>";
+                else return ffs_result_part;
+              })
+              .join("");
+            $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
+            $("#ffs-dialog #ffs-dialog-typo-correction")
+              .unbind("click")
+              .bind("click", function(e) {
+                $("#ffs-dialog input[type=search]").val(correction);
+                $(this)
+                  .parent()
+                  .hide();
+                e.preventDefault();
+              });
+          } else {
+            // show parse error message
+            $("#ffs-dialog #ffs-dialog-typo").hide();
+            $("#ffs-dialog #ffs-dialog-parse-error").show();
+            $("#ffs-dialog input[type=search]").addClass("is-danger");
+          }
+        }
+      }.bind(this)
+    );
   };
   this.onSettingsClick = function() {
     $("#settings-dialog input[name=ui_language]")[0].value =
@@ -2689,108 +2586,99 @@ var ide = new (function() {
     $("#settings-dialog input[name=export_image_attribution]")[0].checked =
       settings.export_image_attribution;
     // open dialog
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.save")] = function() {
-      // save settings
-      var new_ui_language = $("#settings-dialog input[name=ui_language]")[0]
-        .value;
-      // reload ui if language has been changed
-      if (settings.ui_language != new_ui_language) {
-        i18n.translate(new_ui_language);
-        moment.locale(new_ui_language);
-        ffs.invalidateCache();
-      }
-      settings.ui_language = new_ui_language;
-      settings.server = $("#settings-dialog input[name=server]")[0].value;
-      if (
-        configs.suggestedServers.indexOf(settings.server) === -1 &&
-        settings.customServers.indexOf(settings.server) === -1
-      ) {
-        settings.customServers.push(settings.server);
-      }
-      settings.no_autorepair = $(
-        "#settings-dialog input[name=no_autorepair]"
-      )[0].checked;
-      settings.use_rich_editor = $(
-        "#settings-dialog input[name=use_rich_editor]"
-      )[0].checked;
-      var prev_editor_width = settings.editor_width;
-      settings.editor_width = $(
-        "#settings-dialog input[name=editor_width]"
-      )[0].value;
-      // update editor width (if changed)
-      if (prev_editor_width != settings.editor_width) {
-        $("#editor").css("width", settings.editor_width);
-        $("#dataviewer").css("left", settings.editor_width);
-      }
-      settings.share_include_pos = $(
-        "#settings-dialog input[name=share_include_pos]"
-      )[0].checked;
-      settings.share_compression = $(
-        "#settings-dialog input[name=share_compression]"
-      )[0].value;
-      var prev_tile_server = settings.tile_server;
-      settings.tile_server = $(
-        "#settings-dialog input[name=tile_server]"
-      )[0].value;
-      if (
-        configs.suggestedTiles.indexOf(settings.tile_server) === -1 &&
-        settings.customTiles.indexOf(settings.tile_server) === -1
-      ) {
-        settings.customTiles.push(settings.tile_server);
-      }
-      // update tile layer (if changed)
-      if (prev_tile_server != settings.tile_server)
-        ide.map.tile_layer.setUrl(settings.tile_server);
-      var prev_background_opacity = settings.background_opacity;
-      settings.background_opacity = +$(
-        "#settings-dialog input[name=background_opacity]"
-      )[0].value;
-      // update background opacity layer
-      if (settings.background_opacity != prev_background_opacity)
-        if (settings.background_opacity == 1)
-          ide.map.removeLayer(ide.map.inv_opacity_layer);
-        else
-          ide.map.inv_opacity_layer
-            .setOpacity(1 - settings.background_opacity)
-            .addTo(ide.map);
-      settings.enable_crosshairs = $(
-        "#settings-dialog input[name=enable_crosshairs]"
-      )[0].checked;
-      settings.disable_poiomatic = $(
-        "#settings-dialog input[name=disable_poiomatic]"
-      )[0].checked;
-      settings.show_data_stats = $(
-        "#settings-dialog input[name=show_data_stats]"
-      )[0].checked;
-      $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
-      settings.export_image_scale = $(
-        "#settings-dialog input[name=export_image_scale]"
-      )[0].checked;
-      settings.export_image_attribution = $(
-        "#settings-dialog input[name=export_image_attribution]"
-      )[0].checked;
-      settings.save();
-      $(this).dialog("close");
-    };
-    $("#settings-dialog").dialog({
-      modal: true,
-      width: 400,
-      buttons: dialog_buttons
-    });
-    $("#settings-dialog").accordion();
+    $("#settings-dialog").addClass("is-active");
+  };
+  this.onSettingsSave = function() {
+    // save settings
+    var new_ui_language = $("#settings-dialog input[name=ui_language]")[0]
+      .value;
+    // reload ui if language has been changed
+    if (settings.ui_language != new_ui_language) {
+      i18n.translate(new_ui_language);
+      moment.locale(new_ui_language);
+      ffs.invalidateCache();
+    }
+    settings.ui_language = new_ui_language;
+    settings.server = $("#settings-dialog input[name=server]")[0].value;
+    if (
+      configs.suggestedServers.indexOf(settings.server) === -1 &&
+      settings.customServers.indexOf(settings.server) === -1
+    ) {
+      settings.customServers.push(settings.server);
+    }
+    settings.no_autorepair = $(
+      "#settings-dialog input[name=no_autorepair]"
+    )[0].checked;
+    settings.use_rich_editor = $(
+      "#settings-dialog input[name=use_rich_editor]"
+    )[0].checked;
+    var prev_editor_width = settings.editor_width;
+    settings.editor_width = $(
+      "#settings-dialog input[name=editor_width]"
+    )[0].value;
+    // update editor width (if changed)
+    if (prev_editor_width != settings.editor_width) {
+      $("#editor").css("width", settings.editor_width);
+      $("#dataviewer").css("left", settings.editor_width);
+    }
+    settings.share_include_pos = $(
+      "#settings-dialog input[name=share_include_pos]"
+    )[0].checked;
+    settings.share_compression = $(
+      "#settings-dialog input[name=share_compression]"
+    )[0].value;
+    var prev_tile_server = settings.tile_server;
+    settings.tile_server = $(
+      "#settings-dialog input[name=tile_server]"
+    )[0].value;
+    if (
+      configs.suggestedTiles.indexOf(settings.tile_server) === -1 &&
+      settings.customTiles.indexOf(settings.tile_server) === -1
+    ) {
+      settings.customTiles.push(settings.tile_server);
+    }
+    // update tile layer (if changed)
+    if (prev_tile_server != settings.tile_server)
+      ide.map.tile_layer.setUrl(settings.tile_server);
+    var prev_background_opacity = settings.background_opacity;
+    settings.background_opacity = +$(
+      "#settings-dialog input[name=background_opacity]"
+    )[0].value;
+    // update background opacity layer
+    if (settings.background_opacity != prev_background_opacity)
+      if (settings.background_opacity == 1)
+        ide.map.removeLayer(ide.map.inv_opacity_layer);
+      else
+        ide.map.inv_opacity_layer
+          .setOpacity(1 - settings.background_opacity)
+          .addTo(ide.map);
+    settings.enable_crosshairs = $(
+      "#settings-dialog input[name=enable_crosshairs]"
+    )[0].checked;
+    settings.disable_poiomatic = $(
+      "#settings-dialog input[name=disable_poiomatic]"
+    )[0].checked;
+    settings.show_data_stats = $(
+      "#settings-dialog input[name=show_data_stats]"
+    )[0].checked;
+    $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
+    settings.export_image_scale = $(
+      "#settings-dialog input[name=export_image_scale]"
+    )[0].checked;
+    settings.export_image_attribution = $(
+      "#settings-dialog input[name=export_image_attribution]"
+    )[0].checked;
+    settings.save();
+    $("#settings-dialog").removeClass("is-active");
+  };
+  this.onSettingsClose = function() {
+    $("#settings-dialog").removeClass("is-active");
   };
   this.onHelpClick = function() {
-    var dialog_buttons = {};
-    dialog_buttons[i18n.t("dialog.close")] = function() {
-      $(this).dialog("close");
-    };
-    $("#help-dialog").dialog({
-      modal: false,
-      width: 450,
-      buttons: dialog_buttons
-    });
-    $("#help-dialog").accordion({heightStyle: "content"});
+    $("#help-dialog").addClass("is-active");
+  };
+  this.onHelpClose = function() {
+    $("#help-dialog").removeClass("is-active");
   };
   this.onKeyPress = function(event) {
     if (
@@ -2846,6 +2734,12 @@ var ide = new (function() {
       ide.onFfsClick();
       event.preventDefault();
     }
+
+    if (event.which === 27) {
+      // Escape
+      $(".modal").removeClass("is-active");
+    }
+
     // todo: more shortcuts
   };
   this.update_map = function() {
@@ -2881,7 +2775,7 @@ var ide = new (function() {
     });
   };
   this.update_ffs_query = function(s, callback) {
-    var search = s || $("#ffs-dialog input[type=text]").val();
+    var search = s || $("#ffs-dialog input[type=search]").val();
     ffs.construct_query(
       search,
       undefined,

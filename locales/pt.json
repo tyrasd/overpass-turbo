@@ -73,7 +73,7 @@
     "export.current_map_view": "<a id=\"export-map-state\" href=\"\">vista do mapa</a> atual",
     "export.map_view_expl": "caixa de limites, centro, etc.",
     "export.section.data": "Dados",
-    "export.generic_download_copy": "<a class=\"export\" title=\"grava os dados exportados num ficheiro\">descarregar</a>/<a class=\"copy\" title=\"copia a saída de exportação para a área de transferência\">copiar</a> como <span class=\"format\"></span>",
+    "export.generic_download_copy": "<div class=\"field-label is-normal\"><span class=\"format\"></span></div><div class=\"field-body\"><span class=\"buttons has-addons\"><a class=\"export button is-small is-link is-outlined\" title=\"grava os dados exportados num ficheiro\">descarregar</a><a class=\"copy button is-small is-link is-outlined\" title=\"copia a saída de exportação para a área de transferência\">copiar</a></span></div>",
     "export.raw_data": "dados OSM em bruto",
     "export.raw_interpreter": "dados em bruto da <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">API do Overpass</a>",
     "export.save_geoJSON_gist": "gravar GeoJSON para o <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
