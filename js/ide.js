@@ -1406,64 +1406,79 @@ var ide = new (function() {
       );
     $("#load-dialog").addClass("is-active");
 
-    if (sync.enabled) {
+    if (sync.authenticated()) {
+      ide.loadOsmQueries();
+    } else {
       var ui = $("#load-dialog .osm-queries");
       ui.show();
-      $("ul", ui).html(
-        "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
-      );
-
-      sync.load(function(err, queries) {
-        if (err) {
-          $("ul", ui).html(
-            "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
-          );
-          return console.error(err);
-        }
-        $("ul", ui).html("");
-        $("#logout").show();
-        queries.forEach(function(q) {
-          $("<li></li>")
-            .append(
-              $("<a>")
-                .attr("href", "#")
-                .text(q.name)
-                .on(
-                  "click",
-                  (function(query) {
-                    return function() {
-                      ide.setQuery(lzw_decode(Base64.decode(query.query)));
-                      $("#load-dialog").removeClass("is-active");
-                      return false;
-                    };
-                  })(q)
-                ),
-              $("<a>")
-                .attr("href", "#")
-                .attr("title", i18n.t("load.delete_query") + ": " + q.name)
-                .addClass("delete-query")
-                .css("float", "right")
-                .append(
-                  $('<span class="has-text-danger">')
-                    .addClass("fas")
-                    .addClass("fa-times")
-                )
-                .on(
-                  "click",
-                  (function(example) {
-                    return function() {
-                      ide.removeExampleSync(example, this);
-                      return false;
-                    };
-                  })(q)
-                ),
-              $("<div>").css("clear", "right")
-            )
-            .appendTo("#load-dialog ul.osm");
-        });
+      var loadButton = $(
+        "<button class='button is-link is-outlined t' title='load.title'>" +
+          i18n.t("load.title") +
+          "</button>"
+      ).click(function() {
+        ide.loadOsmQueries();
       });
-    } else {
+      $("ul", ui)
+        .html("")
+        .append($("<li></li>").append(loadButton));
     }
+  };
+  this.loadOsmQueries = function() {
+    var ui = $("#load-dialog .osm-queries");
+    ui.show();
+    $("ul", ui).html(
+      "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
+    );
+
+    sync.load(function(err, queries) {
+      if (err) {
+        $("ul", ui).html(
+          "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
+        );
+        return console.error(err);
+      }
+      $("ul", ui).html("");
+      $("#logout").show();
+      queries.forEach(function(q) {
+        $("<li></li>")
+          .append(
+            $("<a>")
+              .attr("href", "#")
+              .text(q.name)
+              .on(
+                "click",
+                (function(query) {
+                  return function() {
+                    ide.setQuery(lzw_decode(Base64.decode(query.query)));
+                    $("#load-dialog").removeClass("is-active");
+                    return false;
+                  };
+                })(q)
+              ),
+            $("<a>")
+              .attr("href", "#")
+              .attr("title", i18n.t("load.delete_query") + ": " + q.name)
+              .addClass("delete-query")
+              .css("float", "right")
+              .append(
+                $('<span class="has-text-danger">')
+                  .addClass("fas")
+                  .addClass("fa-times")
+              )
+              .on(
+                "click",
+                (function(example) {
+                  return function() {
+                    ide.removeExampleSync(example, this);
+                    return false;
+                  };
+                })(q)
+              ),
+            $("<div>").css("clear", "right")
+          )
+          .appendTo("#load-dialog ul.osm");
+      });
+    });
   };
   this.onLoadClose = function() {
     $("#load-dialog").removeClass("is-active");
