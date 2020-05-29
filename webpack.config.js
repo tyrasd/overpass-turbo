@@ -21,6 +21,11 @@ module.exports = {
     filename: "[name].[chunkhash].js",
     sourceMapFilename: "[name].[chunkhash].map"
   },
+  resolve: {
+    alias: {
+      tinyqueue: 'tinyqueue/tinyqueue.js'
+    }
+  },
   module: {
     rules: [
       {
