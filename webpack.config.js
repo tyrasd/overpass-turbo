@@ -23,7 +23,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      tinyqueue: 'tinyqueue/tinyqueue.js'
+      tinyqueue: "tinyqueue/tinyqueue.js"
     }
   },
   module: {
