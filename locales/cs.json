@@ -73,7 +73,7 @@
     "export.current_map_view": "stávající<a id=\"export-map-state\" href=\"\">zobrazení mapy</a>",
     "export.map_view_expl": "ohraničující rámeček, střed, atd.",
     "export.section.data": "Data",
-    "export.generic_download_copy": "<div class=\"field-label is-normal\"><span class=\"format\"></span></div><div class=\"field-body\"><span class=\"buttons has-addons\"><a class=\"export button is-small is-link is-outlined\" title=\"uloží exportovaná data jako soubor\">stáhnout</a><a class=\"copy button is-small is-link is-outlined\" title=\"zkopíruje výstup exportu do schránky\">kopírovat</a></span></div>",
+    "export.generic_download_copy": "<div class=\"field-label is-normal\"><span class=\"format\"></span></div><div class=\"field-body\"><span class=\"buttons has-addons\"><a class=\"export button is-small is-link is-outlined\" title=\"saves the exported data as a file\">stáhnout</a><a class=\"copy button is-small is-link is-outlined\" title=\"copies export output to clipboard\">kopírovat</a></span></div>",
     "export.raw_data": "hrubá OSM data",
     "export.raw_interpreter": "hrubá data přímo z <a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>",
     "export.save_geoJSON_gist": "uložit GeoJSON do <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a>",
