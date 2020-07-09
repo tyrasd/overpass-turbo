@@ -5,7 +5,8 @@ export default {
     "//overpass-api.de/api/",
     "https://overpass.kumi.systems/api/",
     "http://overpass.openstreetmap.ru/cgi/",
-    "//overpass.openstreetmap.fr/api/"
+    "//overpass.openstreetmap.fr/api/",
+    "//overpass-api.openhistoricalmap.org/api/"
   ],
   defaultTiles: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   tileServerAttribution:
