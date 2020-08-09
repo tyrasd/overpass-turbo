@@ -82,7 +82,7 @@ function Settings(namespace, version) {
 var examples = {
   "Drinking Water": {
     overpass:
-      "/*\nThis is an example Overpass query.\nTry it out by pressing the Run button above!\nYou can find more examples with the Load tool.\n*/\nnode\n  [amenity=drinking_water]\n  ({{bbox}});\nout;"
+      "/*\nThis is an example Overpass query.\nTry it out by pressing the Run button above!\nYou can find more examples with the Load tool.\n*/\n(\nnode\n  [amenity=drinking_water]\n  ({{bbox}});\nway\n  [amenity=drinking_water]\n  ({{bbox}});\nrelation\n  [amenity=drinking_water]\n  ({{bbox}});\n);\n\n\nout;"
   },
   "Cycle Network": {
     overpass:
