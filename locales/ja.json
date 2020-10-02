@@ -73,7 +73,7 @@
     "export.current_map_view": "現在の<a id=\"export-map-state\" href=\"\">地図表示</a>",
     "export.map_view_expl": "範囲ボックス、中心点、その他。",
     "export.section.data": "データ",
-    "export.generic_download_copy": "<a class=\"export\" title=\"saves the exported data as a file\">ダウンロード</a>/<span class=\"format\"></span>として<a class=\"copy\" title=\"copies export output to clipboard\">コピー</a>",
+    "export.generic_download_copy": "<div class=\"field-label is-normal\"><span class=\"format\"></span></div><div class=\"field-body\"><span class=\"buttons has-addons\"><a class=\"export button is-small is-link is-outlined\" title=\"saves the exported data as a file\">download</a><a class=\"copy button is-small is-link is-outlined\" title=\"copies export output to clipboard\">copy</a></span></div>",
     "export.raw_data": "OSM生データ",
     "export.raw_interpreter": "<a id=\"export-overpass-api\" href=\"\" target=\"_blank\" class=\"external\">Overpass API</a>から抽出された生データ",
     "export.save_geoJSON_gist": "GeoJSONを <a id=\"export-geoJSON-gist\" href=\"\" class=\"external\">gist</a> として保存",
