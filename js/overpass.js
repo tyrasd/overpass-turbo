@@ -18,6 +18,7 @@ var overpass = new (function() {
   var originalGeom2Layer;
   // == public members ==
   this.handlers = {};
+  this.rerender = function(mapcss) {};
 
   // == private methods ==
   var fire = function() {
@@ -258,11 +259,16 @@ var overpass = new (function() {
             }
 
             //fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
-            setTimeout(function() {
+
+            // show rerender button, if query contains mapcss styles
+            if (user_mapcss) $("#rerender-button").show();
+
+            overpass.rerender = function(userMapCSS) {
+              console.trace();
               // test user supplied mapcss stylesheet
               try {
                 var dummy_mapcss = new styleparser.RuleSet();
-                dummy_mapcss.parseCSS(user_mapcss);
+                dummy_mapcss.parseCSS(userMapCSS);
                 try {
                   dummy_mapcss.getStyles(
                     {
@@ -280,7 +286,7 @@ var overpass = new (function() {
                   throw new Error("MapCSS runtime error.");
                 }
               } catch (e) {
-                user_mapcss = "";
+                userMapCSS = "";
                 fire("onStyleError", "<p>" + e.message + "</p>");
               }
               var mapcss = new styleparser.RuleSet();
@@ -303,7 +309,7 @@ var overpass = new (function() {
                   // highlighted features
                   "node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n" +
                   // user supplied mapcss
-                  user_mapcss
+                  userMapCSS
               );
               var get_feature_style = function(feature, highlight) {
                 function hasInterestingTags(props) {
@@ -1023,7 +1029,8 @@ var overpass = new (function() {
                   }, 1); // end setTimeout
                 });
               }, 1); // end setTimeout
-            }, 1); // end setTimeout
+            }; // end overpass.rerender
+            setTimeout(overpass.rerender, 1, user_mapcss);
           }, 1); // end setTimeout
         }
       );
