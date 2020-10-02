@@ -13,3 +13,9 @@ jobs:
     - run: yarn install --no-progress --frozen-lockfile
     - run: yarn test
     - run: yarn build
+    - name: Deploy to https://tyrasd.github.io/overpass-turbo/
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build
