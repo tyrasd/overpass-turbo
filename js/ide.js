@@ -1530,6 +1530,9 @@ var ide = new (function() {
   this.onRunClick = function() {
     ide.update_map();
   };
+  this.onRerenderClick = function() {
+    ide.rerender_map();
+  };
   this.compose_share_link = function(query, compression, coords, run) {
     var share_link = "";
     if (!compression) {
@@ -2772,6 +2775,13 @@ var ide = new (function() {
         server,
         ide.mapcss
       );
+    });
+  };
+  this.rerender_map = function() {
+    if (typeof overpass.osmLayer != "undefined")
+      ide.map.removeLayer(overpass.osmLayer);
+    ide.getQuery(function() {
+      overpass.rerender(ide.mapcss);
     });
   };
   this.update_ffs_query = function(s, callback) {
