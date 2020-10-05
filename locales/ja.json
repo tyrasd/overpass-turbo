@@ -1,6 +1,7 @@
 {
     "nav.run": "実行",
     "nav.run_tt": "Overpass APIでこのクエリを実行",
+    "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "共有",
     "nav.share_tt": "このクエリ結果のパーマリンクを取得",
     "nav.export": "エクスポート",

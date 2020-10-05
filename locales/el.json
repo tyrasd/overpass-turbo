@@ -1,6 +1,7 @@
 {
     "nav.run": "Εκτέλεση",
     "nav.run_tt": "εκτέλεση αυτού του ερωτήματος στο Overpass API",
+    "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "Μοίρασμα",
     "nav.share_tt": "πάρτε ένα σταθεροδεσμό αυτού του ερωτήματος",
     "nav.export": "Εξαγωγή",

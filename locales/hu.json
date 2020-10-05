@@ -1,6 +1,7 @@
 {
     "nav.run": "Futtatás",
     "nav.run_tt": "a lekérdezés futtatása Overpass API-n",
+    "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "Megosztás",
     "nav.share_tt": "állandó hivatkozás erre a lekérdezésre",
     "nav.export": "Exportálás",

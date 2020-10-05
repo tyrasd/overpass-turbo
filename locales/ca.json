@@ -1,6 +1,7 @@
 {
     "nav.run": "Executa",
     "nav.run_tt": "executa aquesta consulta a l'API de l'Overpass",
+    "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "Comparteix",
     "nav.share_tt": "obté un enllaç permanent per a aquesta consulta",
     "nav.export": "Exporta",

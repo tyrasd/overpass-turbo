@@ -1,6 +1,7 @@
 {
     "nav.run": "Старт",
     "nav.run_tt": "виконати цей запит в Overpass API",
+    "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "Поділитися",
     "nav.share_tt": "отримати постійне посилання на цей запит",
     "nav.export": "Експорт",

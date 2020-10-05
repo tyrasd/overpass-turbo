@@ -1,6 +1,7 @@
 {
     "nav.run": "Uitvoeren",
     "nav.run_tt": "bevraag Overpass API",
+    "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "Delen",
     "nav.share_tt": "Permanent geldige doorverwijziging voor deze bevraging aanmaken",
     "nav.export": "Exporteren",

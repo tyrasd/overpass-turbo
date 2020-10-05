@@ -1,6 +1,7 @@
 {
     "nav.run": "Chạy",
     "nav.run_tt": "chạy truy vấn này trên Overpass API",
+    "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "Chia sẻ",
     "nav.share_tt": "lấy liên kết thường trực đến truy vấn này",
     "nav.export": "Xuất",

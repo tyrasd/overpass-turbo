@@ -1,6 +1,7 @@
 {
     "nav.run": "Søk",
     "nav.run_tt": "kjør denne spørringen mot Overpass API",
+    "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "Del",
     "nav.share_tt": "hent permanent lenke for dette søket",
     "nav.export": "Eksport",
