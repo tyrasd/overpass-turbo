@@ -1,7 +1,7 @@
 {
     "nav.run": "Ruli",
     "nav.run_tt": "plenumi ĉi tiun informpeton per overpass API",
-    "nav.rerender_tt": "parse the MapCSS and rerender the map",
+    "nav.rerender_tt": "analizi MapCSS kaj rebildigi la mapon",
     "nav.share": "Diskonigi",
     "nav.share_tt": "akiri konstantan ligilon al ĉi tiu informpeto",
     "nav.export": "Elporti",
