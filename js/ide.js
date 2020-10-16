@@ -51,6 +51,7 @@ var ide = new (function() {
   // == private members ==
   var attribControl = null;
   var scaleControl = null;
+  var crntPsn=undefined;
   var queryParser = Query();
   var nominatim = Nominatim();
   // == public members ==
@@ -290,6 +291,56 @@ var ide = new (function() {
       if (sync.authenticated()) $("#logout").show();
     }
   };
+
+    function setMarkerOnCrntPsn() {
+
+        var m_marker = null;
+        var circle = null;
+
+        var markerIcon = L.icon({
+            iconUrl: 'icons/markers/Map-Marker-Outside-Pink-icon.png',
+            iconSize: [40, 40] // size of the icon
+            //shadowSize: [50, 65], // size of the shadow
+            //iconAnchor: [32, 100], // point of the icon which will correspond to marker's location
+            //shadowAnchor: [44, 62],  // the same for the shadow
+            //popupAnchor: [-3, -76]
+
+        });
+        ide.map.locate({
+            setView: true,
+            enableHighAccuracy: true
+        }).on('locationfound', function (e) {
+            if (m_marker !== null) {
+                ide.map.removeLayer(m_marker);
+                crntPsn = undefined;
+            }
+            if (circle !== null) {
+                ide.map.removeLayer(circle);
+
+            }
+            m_marker = new L.Marker(e.latlng, {icon: markerIcon});
+            m_marker.addTo(ide.map).bindPopup("<b>you are here.</b><br>");
+            crntPsn = m_marker;
+//============================
+            //now draw a circle around the current position
+
+            var circleCenter = [e.latlng.lat, e.latlng.lng];
+            var circleOptions = {
+                color: 'blue',
+                fillColor: 'blue'
+                //fillOpacity: 0,
+                //weight: 1
+            }
+
+            circle =new  L.circle(circleCenter, 100, circleOptions);
+            circle.addTo(ide.map);
+
+            ide.map.setView(e.latlang, settings.coords_zoom);
+
+        });
+
+
+    }
 
   function initAfterI18n() {
     // set up additional libraries
@@ -610,16 +661,9 @@ var ide = new (function() {
           "click",
           function() {
             // One-shot position request.
-            try {
-              navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = new L.LatLng(
-                  position.coords.latitude,
-                  position.coords.longitude
-                );
-                ide.map.setView(pos, settings.coords_zoom);
-              });
-            } catch (e) {}
-            return false;
+              setMarkerOnCrntPsn();
+
+              return false;
           },
           ide.map
         );
