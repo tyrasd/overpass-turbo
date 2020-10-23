@@ -1,7 +1,7 @@
 {
     "nav.run": "執行",
     "nav.run_tt": "使用Overpass API執行檢索",
-    "nav.rerender_tt": "parse the MapCSS and rerender the map",
+    "nav.rerender_tt": "解析MapCSS並且渲染地圖",
     "nav.share": "分享",
     "nav.share_tt": "取得檢索結果的永久連結",
     "nav.export": "匯出",

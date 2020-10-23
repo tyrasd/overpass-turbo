@@ -199,7 +199,7 @@
     "error.ajax.expl": "Der skete en fejl under udførelsen af Overpass søgningen!",
     "error.mapcss.title": "MapCSS fejl",
     "error.mapcss.expl": "Ugyldigt MapCSS stylesheet:",
-    "error.remote.title": "Remote Kontrol fejl",
+    "error.remote.title": "Remote kontrol fejl",
     "error.remote.incompat": "Fejl: uforenelig med JOSM remote kontrol version",
     "error.remote.not_found": "Remote kontrol blev ikke fundet. :( Vær sikker på at JOSM allerede kører og er konfigureret korrekt.",
     "error.nominatim.title": "Nominatim søgefejl",
@@ -230,8 +230,8 @@
     "data_stats.pois": "POIs",
     "data_stats.lines": "linjer",
     "data_stats.polygons": "polygoner",
-    "data_stats.lag": "aktualitet af geodata",
+    "data_stats.lag": "Aktualitet af geodata",
     "data_stats.lag_areas": "Aktualiteten af områderne",
-    "data_stats.lag.expl": "bag OSM databasen",
+    "data_stats.lag.expl": "bagefter OSM databasen",
     "map.intentionally_blank": "Kortet er forsætligt tomt."
 }
