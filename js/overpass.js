@@ -117,6 +117,7 @@ var overpass = new (function() {
           var data_mode = null;
           var geojson;
           var stats = {};
+          overpass.ajax_request_duration = Date.now() - overpass.ajax_request_start;
           fire("onProgress", "parsing data");
           setTimeout(function() {
             // hacky firefox hack :( (it is not properly detecting json from the content-type header)
@@ -1038,6 +1039,7 @@ var overpass = new (function() {
     if (cache && cache.hasOwnProperty(query)) {
       onSuccessCb.apply(this, cache[query]);
     } else {
+      overpass.ajax_request_start = Date.now();
       overpass.ajax_request = $.ajax(server + "interpreter", {
         type: "POST",
         data: {data: query},

@@ -1124,6 +1124,17 @@ var ide = new (function() {
           tooltipClass: "stats",
           content: function() {
             var str = "<div>";
+            if (overpass.ajax_request_duration) {
+              var duration = overpass.ajax_request_duration;
+              if (duration.toLocaleString) {
+                duration = duration.toLocaleString();
+              }
+              str +=
+                i18n.t("data_stats.request_duration") +
+                ": " +
+                duration +
+                "ms<br>";
+            }
             if (overpass.timestamp) {
               str +=
                 i18n.t("data_stats.lag") +
