@@ -1,5 +1,8 @@
 # overpass turbo
 
+- https://overpass-turbo.eu/ – stable version
+- https://tyrasd.github.io/overpass-turbo/ – latest version
+
 This is a GUI for testing and developing queries for the [Overpass-API](http://www.overpass-api.de/). It can also used for simple analysis of OSM data.
 
 [![](http://wiki.openstreetmap.org/w/images/thumb/9/99/Overpass_turbo_showcase_1.png/600px-Overpass_turbo_showcase_1.png)](http://overpass-turbo.eu)
