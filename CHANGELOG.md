@@ -1,3 +1,23 @@
+## Latest changes live on https://tyrasd.github.io/overpass-turbo/
+
+- Show request duration in stats tooltip
+- Adjust MapCSS without re-running query
+- Rewrite UI to Bulma CSS
+
+## 2020-01-07
+
+- Saved Queries: clarify which query to be deleted
+- Add link to multi values wikidata
+- Disable "locate me" button when loaded via http://
+- Tag table: link \*:wikipedia tags
+- Display Git version in help/about
+- Coordinates in popup: add geo URI
+- Add cs, gl, lv, zh-CN languages
+- Always call JOSM over http
+- Show exclamation mark in document title
+- Display tag (and relation) count in the popup
+- Export query with placeholders
+
 ## 2018-02-17
 
 - Remember recently used overpass and background map tile servers in settings dialog
@@ -18,7 +38,7 @@
 ## 2017-05-28
 
 - update translations
-- fix regression: mapcss text labels on polyons are now displayed again
+- fix regression: mapcss text labels on polygons are now displayed again
 - update osmtogeojson library (bugfixes, added handling for waterway relations)
 
 ## 2017-05-11
