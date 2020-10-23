@@ -117,7 +117,8 @@ var overpass = new (function() {
           var data_mode = null;
           var geojson;
           var stats = {};
-          overpass.ajax_request_duration = Date.now() - overpass.ajax_request_start;
+          overpass.ajax_request_duration =
+            Date.now() - overpass.ajax_request_start;
           fire("onProgress", "parsing data");
           setTimeout(function() {
             // hacky firefox hack :( (it is not properly detecting json from the content-type header)
