@@ -219,6 +219,7 @@
   "dialog.close": "close",
   "dialog.done": "done",
   "dialog.abort": "abort",
+  "dialog.reset": "reset",
   "dialog.repair_query": "repair query",
   "dialog.continue_anyway": "continue anyway",
   "dialog.show_data": "show data",
