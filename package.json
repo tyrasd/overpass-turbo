@@ -12,8 +12,7 @@
     "fix:style": "prettier --no-bracket-spacing --write $(npm run git-ls-files)",
     "git-ls-files": "git ls-files '*.js' '*.html' '*.css' '*.md'",
     "start": "webpack-dev-server",
-    "build": "webpack -p",
-    "deploy": "npm run build && gh-pages -d build"
+    "build": "webpack -p"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -25,7 +24,6 @@
     "extract-text-webpack-plugin": "2.0.0-rc.3",
     "favicons-webpack-plugin": "^0.0.7",
     "file-loader": "^0.10.0",
-    "gh-pages": "^0.12.0",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.28.0",
     "karma": "^1.5.0",
