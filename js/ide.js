@@ -12,7 +12,6 @@ import canvg from "canvg";
 import "./promise-polyfill";
 import L from "leaflet";
 import CodeMirror from "codemirror/lib/codemirror.js";
-import moment from "moment";
 import tokml from "tokml";
 import togpx from "togpx";
 import {saveAs} from "file-saver";
@@ -292,8 +291,6 @@ var ide = new (function() {
   };
 
   function initAfterI18n() {
-    // set up additional libraries
-    moment.locale(i18n.getLanguage());
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
     var args = urlParameters(location.search);
@@ -1102,23 +1099,11 @@ var ide = new (function() {
           '<div id="data_stats" class="stats">' + stats_txt + "</div>"
         ).insertAfter("#map");
         // show more stats as a tooltip
-        var backlogOverpass = function() {
-          return moment(overpass.timestamp, moment.ISO_8601).fromNow(true);
-          //return Math.round((new Date() - new Date(overpass.timestamp))/1000/60*10)/10;
-        };
-        var backlogOverpassAreas = function() {
-          return moment(overpass.timestampAreas, moment.ISO_8601).fromNow(true);
-        };
-        var backlogOverpassExceedsLimit = function() {
-          var now = moment();
-          var ts = moment(overpass.timestamp, moment.ISO_8601);
-          return now.diff(ts, "hours", true) >= 24;
-        };
-        var backlogOverpassAreasExceedsLimit = function() {
-          var now = moment();
-          var ts = moment(overpass.timestampAreas, moment.ISO_8601);
-          return now.diff(ts, "hours", true) >= 96;
-        };
+        var backlogOverpass =
+          overpass.timestamp && Date.now() - Date.parse(overpass.timestamp);
+        var backlogOverpassAreas =
+          overpass.timestampAreas &&
+          Date.now() - Date.parse(overpass.timestampAreas);
         $("#data_stats").tooltip({
           items: "div",
           tooltipClass: "stats",
@@ -1139,7 +1124,8 @@ var ide = new (function() {
               str +=
                 i18n.t("data_stats.lag") +
                 ": " +
-                backlogOverpass() +
+                Math.floor(backlogOverpass / 1000) +
+                "s" +
                 " <small>" +
                 i18n.t("data_stats.lag.expl") +
                 "</small>";
@@ -1149,7 +1135,8 @@ var ide = new (function() {
                 "<br>" +
                 i18n.t("data_stats.lag_areas") +
                 ": " +
-                backlogOverpassAreas() +
+                Math.floor(backlogOverpassAreas / 1000) +
+                "s" +
                 " <small>" +
                 i18n.t("data_stats.lag.expl") +
                 "</small>";
@@ -1167,8 +1154,8 @@ var ide = new (function() {
           }
         });
         if (
-          (overpass.timestamp && backlogOverpassExceedsLimit()) ||
-          (overpass.timestampAreas && backlogOverpassAreasExceedsLimit())
+          backlogOverpass > 24 * 60 * 60 * 1000 ||
+          backlogOverpassAreas > 96 * 60 * 60 * 1000
         ) {
           $("#data_stats").css("background-color", "yellow");
         }
@@ -2609,7 +2596,6 @@ var ide = new (function() {
     // reload ui if language has been changed
     if (settings.ui_language != new_ui_language) {
       i18n.translate(new_ui_language);
-      moment.locale(new_ui_language);
       ffs.invalidateCache();
     }
     settings.ui_language = new_ui_language;

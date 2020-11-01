@@ -62,7 +62,6 @@
     "leaflet.locationfilter": "tyrasd/leaflet-locationfilter#1eed148a41f8e4487e2b4b202a32f28839cbff1a",
     "lodash": ">=4.17.5",
     "mapbbcode": "https://github.com/MapBBCode/mapbbcode/archive/v1.2.0.tar.gz",
-    "moment": ">=2.19.3",
     "osm-auth": "^1.0.1",
     "osmtogeojson": "^3.0.0-beta.3",
     "polylabel": "^1.0.2",
