@@ -3,6 +3,7 @@
 - Show request duration in stats tooltip
 - Adjust MapCSS without re-running query
 - Rewrite UI to Bulma CSS
+- Add button to reset settings
 
 ## 2020-01-07
 

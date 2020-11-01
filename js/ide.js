@@ -2688,6 +2688,11 @@ var ide = new (function() {
   this.onSettingsClose = function() {
     $("#settings-dialog").removeClass("is-active");
   };
+  this.onSettingsReset = function() {
+    if (!window.confirm("Reset?")) return;
+    settings.reset();
+    location.reload();
+  };
   this.onHelpClick = function() {
     $("#help-dialog").addClass("is-active");
   };

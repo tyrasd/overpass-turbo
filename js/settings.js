@@ -12,6 +12,9 @@ function Settings(namespace, version) {
     },
     getItem: function(n) {
       return this[n] !== undefined ? this[n] : null;
+    },
+    removeItem: function(n) {
+      delete this[n];
     }
   };
   try {
@@ -76,6 +79,13 @@ function Settings(namespace, version) {
     for (var name in settings) {
       this.set(name, this[name]);
     }
+  };
+  this.reset = function() {
+    for (var name in settings) {
+      localStorage.removeItem(prefix + name);
+      delete settings[name];
+    }
+    localStorage.removeItem(prefix + "version");
   };
 }
 // examples
