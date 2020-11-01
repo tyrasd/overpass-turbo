@@ -7,13 +7,13 @@ function Settings(namespace, version) {
   // == private members ==
   var prefix = namespace + "_";
   var ls = {
-    setItem: function(n, v) {
+    setItem: function (n, v) {
       this[n] = v;
     },
-    getItem: function(n) {
+    getItem: function (n) {
       return this[n] !== undefined ? this[n] : null;
     },
-    removeItem: function(n) {
+    removeItem: function (n) {
       delete this[n];
     }
   };
@@ -28,14 +28,14 @@ function Settings(namespace, version) {
   var upgrade_callbacks = [];
 
   // == public methods ==
-  this.define_setting = function(name, type, preset, version) {
+  this.define_setting = function (name, type, preset, version) {
     settings[name] = {type: type, preset: preset, version: version};
   };
-  this.define_upgrade_callback = function(version, fun) {
+  this.define_upgrade_callback = function (version, fun) {
     upgrade_callbacks[version] = fun;
   };
 
-  this.set = function(name, value) {
+  this.set = function (name, value) {
     if (
       value === undefined // use preset if no value is given
     )
@@ -46,7 +46,7 @@ function Settings(namespace, version) {
     }
     ls.setItem(prefix + name, value);
   };
-  this.get = function(name) {
+  this.get = function (name) {
     // initialize new settings
     if (settings[name].version > version) this.set(name, undefined);
     // load the setting
@@ -58,7 +58,7 @@ function Settings(namespace, version) {
     return value;
   };
 
-  this.load = function() {
+  this.load = function () {
     // load all settings into the objects namespace
     for (var name in settings) {
       this[name] = this.get(name);
@@ -74,13 +74,13 @@ function Settings(namespace, version) {
       ls.setItem(prefix + "version", version);
     }
   };
-  this.save = function() {
+  this.save = function () {
     // save all settings from the objects namespace
     for (var name in settings) {
       this.set(name, this[name]);
     }
   };
-  this.reset = function() {
+  this.reset = function () {
     for (var name in settings) {
       localStorage.removeItem(prefix + name);
       delete settings[name];
@@ -172,9 +172,9 @@ settings.define_setting("show_data_stats", "boolean", true, 21);
 //settings.define_setting(,,,);
 
 // upgrade callbacks
-settings.define_upgrade_callback(12, function(s) {
+settings.define_upgrade_callback(12, function (s) {
   // migrate code and saved examples to new mustache style syntax
-  var migrate = function(code) {
+  var migrate = function (code) {
     code.overpass = code.overpass.replace(/\(bbox\)/g, "({{bbox}})");
     code.overpass = code.overpass.replace(
       /<bbox-query\/>/g,
@@ -192,17 +192,17 @@ settings.define_upgrade_callback(12, function(s) {
   }
   s.save();
 });
-settings.define_upgrade_callback(18, function(s) {
+settings.define_upgrade_callback(18, function (s) {
   // enable "Include current map state in shared links" by default
   s.share_include_pos = true;
   s.save();
 });
-settings.define_upgrade_callback(20, function(s) {
+settings.define_upgrade_callback(20, function (s) {
   // update "Mountains in Area" example
   s.saves["Mountains in Area"] = examples["Mountains in Area"];
   s.save();
 });
-settings.define_upgrade_callback(22, function(s) {
+settings.define_upgrade_callback(22, function (s) {
   // categorize saved queries
   for (var q in s.saves) {
     if (examples[q]) s.saves[q].type = "example";
@@ -235,7 +235,7 @@ settings.define_upgrade_callback(22, function(s) {
   };
   s.save();
 });
-settings.define_upgrade_callback(23, function(s) {
+settings.define_upgrade_callback(23, function (s) {
   s.saves["type-id"] = {
     type: "template",
     parameters: ["type", "id"],
@@ -244,14 +244,14 @@ settings.define_upgrade_callback(23, function(s) {
   };
   s.save();
 });
-settings.define_upgrade_callback(24, function(s) {
+settings.define_upgrade_callback(24, function (s) {
   // categorize saved queries
   for (var q in s.saves) {
     if (!s.saves[q].type) s.saves[q].type = "saved_query";
   }
   s.save();
 });
-settings.define_upgrade_callback(25, function(s) {
+settings.define_upgrade_callback(25, function (s) {
   // upgrade template description text
   for (var q in s.saves) {
     if (s.saves[q].type == "template") {
@@ -264,7 +264,7 @@ settings.define_upgrade_callback(25, function(s) {
   }
   s.save();
 });
-settings.define_upgrade_callback(27, function(s) {
+settings.define_upgrade_callback(27, function (s) {
   // rename "List Areas" to "Where am I?"
   if (!s.saves["Where am I?"]) {
     s.saves["Where am I?"] = s.saves["List Areas"];
@@ -277,15 +277,15 @@ settings.define_upgrade_callback(27, function(s) {
   };
   s.save();
 });
-settings.define_upgrade_callback(28, function(s) {
+settings.define_upgrade_callback(28, function (s) {
   // generalize URLs to not explicitly use http protocol
   s.server = s.server.replace(/^http:\/\//, "//");
   s.tile_server = s.tile_server.replace(/^http:\/\//, "//");
   s.save();
 });
-settings.define_upgrade_callback(29, function(s) {
+settings.define_upgrade_callback(29, function (s) {
   // convert templates to wizard-syntax
-  _.each(s.saves, function(save, name) {
+  _.each(s.saves, function (save, name) {
     if (save.type !== "template") return;
     switch (name) {
       case "key":
@@ -311,10 +311,10 @@ settings.define_upgrade_callback(29, function(s) {
   s.save();
 });
 
-settings.define_upgrade_callback(30, function(s) {
+settings.define_upgrade_callback(30, function (s) {
   // add comments for templates
   var chooseAndRun = "\nChoose your region and hit the Run button above!";
-  _.each(s.saves, function(save, name) {
+  _.each(s.saves, function (save, name) {
     if (save.type !== "template") return;
     switch (name) {
       case "key":
@@ -350,9 +350,9 @@ settings.define_upgrade_callback(30, function(s) {
   s.save();
 });
 
-settings.define_upgrade_callback(31, function(s) {
+settings.define_upgrade_callback(31, function (s) {
   // rewrite examples in OverpassQL
-  _.each(s.saves, function(save, name) {
+  _.each(s.saves, function (save, name) {
     if (save.type !== "example") return;
     switch (name) {
       case "Drinking Water":
@@ -371,7 +371,7 @@ settings.define_upgrade_callback(31, function(s) {
   s.save();
 });
 
-settings.define_upgrade_callback(32, function(s) {
+settings.define_upgrade_callback(32, function (s) {
   // fix typo in query definition
   s.saves["MapCSS styling"].overpass = s.saves[
     "MapCSS styling"
@@ -379,7 +379,7 @@ settings.define_upgrade_callback(32, function(s) {
   s.save();
 });
 
-settings.define_upgrade_callback(33, function(s) {
+settings.define_upgrade_callback(33, function (s) {
   s.saves["Attic date query"] = {
     type: "example",
     overpass: [
@@ -398,13 +398,13 @@ settings.define_upgrade_callback(33, function(s) {
   s.save();
 });
 
-settings.define_upgrade_callback(34, function(s) {
+settings.define_upgrade_callback(34, function (s) {
   s.saves["Attic date query"].overpass = s.saves[
     "Attic date query"
   ].overpass.replace('00:00Z"]\n', '00:00Z"];\n');
 });
 
-settings.define_upgrade_callback(36, function(s) {
+settings.define_upgrade_callback(36, function (s) {
   s.saves["Mountains in Area"].overpass =
     '/*\nThis shows all mountains (peaks) in the Dolomites.\nYou may want to use the "zoom onto data" button. =>\n*/\n[out:json];\n// search the relation of the Dolomites\nrel\n  [place=region]\n  ["region:type"="mountain_area"]\n  ["name:en"="Dolomites"];\n// show the outline\nout geom;\n// turn the relation into an area\nmap_to_area;\n// get all peaks in the area\nnode\n  [natural=peak]\n  (area);\nout body qt;';
   s.saves["Cycle Network"].overpass = s.saves["Cycle Network"].overpass.replace(
@@ -412,7 +412,7 @@ settings.define_upgrade_callback(36, function(s) {
     ""
   );
 });
-settings.define_upgrade_callback(37, function(s) {
+settings.define_upgrade_callback(37, function (s) {
   // Update the Rambler API endpoint
   s.server = s.server.replace(
     /overpass\.osm\.rambler\.ru/,

@@ -2,7 +2,7 @@ import L from "leaflet";
 import osmtogeojson from "osmtogeojson";
 
 L.OSM4Leaflet = L.Class.extend({
-  initialize: function(data, options) {
+  initialize: function (data, options) {
     this.options = {
       data_mode: "xml",
       baseLayerClass: L.GeoJSON,
@@ -18,35 +18,35 @@ L.OSM4Leaflet = L.Class.extend({
     // if data
     if (data) this.addData(data);
   },
-  addData: function(data, onDone) {
+  addData: function (data, onDone) {
     var obj = this;
-    setTimeout(function() {
+    setTimeout(function () {
       // 1. convert to GeoJSON
       var geojson = osmtogeojson(data, {flatProperties: false});
       obj._resultData = geojson;
       if (obj.options.afterParse) obj.options.afterParse();
-      setTimeout(function() {
+      setTimeout(function () {
         // 2. add to baseLayer
         obj._baseLayer.addData(geojson);
         if (onDone) onDone();
       }, 1); //end setTimeout
     }, 1); //end setTimeout
   },
-  getGeoJSON: function() {
+  getGeoJSON: function () {
     return this._resultData;
   },
-  getBaseLayer: function() {
+  getBaseLayer: function () {
     return this._baseLayer;
   },
-  onAdd: function(map) {
+  onAdd: function (map) {
     this._baseLayer.addTo(map);
   },
-  onRemove: function(map) {
+  onRemove: function (map) {
     map.removeLayer(this._baseLayer);
   }
 });
 
-L.osm4Leaflet = function(data, options) {
+L.osm4Leaflet = function (data, options) {
   return new L.OSM4Leaflet(data, options);
 };
 

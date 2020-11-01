@@ -6,7 +6,7 @@ export default function query() {
 
   var parser = {};
 
-  parser.parse = function(query, shortcuts, callback, _found_statements) {
+  parser.parse = function (query, shortcuts, callback, _found_statements) {
     // 1. get user defined constants
     var constants = {};
     var constant = /{{([A-Za-z0-9_]+)=(.+?)}}/;
@@ -18,7 +18,7 @@ export default function query() {
       // remove constant definitions
       query = query.replace(constant, "");
     }
-    _.extend(shortcuts, constants, function(b, a) {
+    _.extend(shortcuts, constants, function (b, a) {
       return typeof a == "undefined" ? b : a;
     });
     // 2. replace overpass turbo statements, user-constants and shortcuts
@@ -37,7 +37,7 @@ export default function query() {
       if (shortcuts[s_name] !== undefined) {
         // these shortcuts can also be callback functions, like {{date:-1day}}
         if (typeof shortcuts[s_name] === "function") {
-          shortcuts[s_name](s_instr, function(res) {
+          shortcuts[s_name](s_instr, function (res) {
             var seed = Math.round(Math.random() * Math.pow(2, 22)); // todo: use some kind of checksum of s_instr if possible
             shortcuts["__statement__" + s_name + "__" + seed] = res;
             query = query.replace(
@@ -65,11 +65,11 @@ export default function query() {
     callback(query);
   };
 
-  parser.hasStatement = function(statement) {
+  parser.hasStatement = function (statement) {
     return statements.hasOwnProperty(statement);
   };
 
-  parser.getStatement = function(statement) {
+  parser.getStatement = function (statement) {
     return statements[statement];
   };
 

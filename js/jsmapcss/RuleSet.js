@@ -4,12 +4,12 @@
 
 import styleparser from "./Style.js";
 
-styleparser.RuleSet = function() {};
+styleparser.RuleSet = function () {};
 
 styleparser.RuleSet.prototype = {
   choosers: [], // list of StyleChoosers
 
-  getStyles: function(entity, tags, zoom) {
+  getStyles: function (entity, tags, zoom) {
     // summary:		Find the styles for a given entity.
     var sl = new styleparser.StyleList();
     for (var i in this.choosers) {
@@ -27,7 +27,7 @@ styleparser.RuleSet.prototype = {
         });
     },*/
 
-  parseCSS: function(css) {
+  parseCSS: function (css) {
     // summary:		Parse a CSS document into a set of StyleChoosers.
     var previous = 0; // what was the previous CSS word?
     var sc = new styleparser.StyleChooser(); // currently being assembled
@@ -159,11 +159,11 @@ styleparser.RuleSet.prototype = {
     }
   },
 
-  saveChooser: function(sc) {
+  saveChooser: function (sc) {
     this.choosers.push(sc);
   },
 
-  parseDeclaration: function(s) {
+  parseDeclaration: function (s) {
     var styles = [];
     var t = {};
     var o = {};
@@ -280,7 +280,7 @@ styleparser.RuleSet.prototype = {
     return styles;
   },
 
-  parseZoom: function(s) {
+  parseZoom: function (s) {
     var o = {};
     var maxscale = 999; // TODO: hardcoded
     var minscale = -999; // TODO: hardcoded
@@ -296,7 +296,7 @@ styleparser.RuleSet.prototype = {
     return null;
   },
 
-  parseCondition: function(s) {
+  parseCondition: function (s) {
     var o = {};
     if ((o = this.CONDITION_TRUE.exec(s))) {
       return new styleparser.Condition().init("true", o[1]);
@@ -324,7 +324,7 @@ styleparser.RuleSet.prototype = {
     return null;
   },
 
-  parseCSSColor: function(colorStr) {
+  parseCSSColor: function (colorStr) {
     // todo: this should be done at user (=style consumer) side (if necessary).
     // -> move to a more appropriate location
     colorStr = colorStr.toLowerCase();

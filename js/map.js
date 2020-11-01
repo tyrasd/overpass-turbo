@@ -10,13 +10,13 @@ import configs from "./configs";
 import overpass from "./overpass";
 import Query from "./query";
 
-$(document).ready(function() {
+$(document).ready(function () {
   // main map cache
   var cache = {};
 
   window.addEventListener(
     "message",
-    function(evt) {
+    function (evt) {
       var data = typeof evt.data === "string" ? JSON.parse(evt.data) : {};
       switch (data.cmd) {
         case "update_map":
@@ -25,7 +25,7 @@ $(document).ready(function() {
           break;
         case "cache":
           settings.code["overpass"] = data.value[0];
-          ide.getQuery(function(query) {
+          ide.getQuery(function (query) {
             var query_lang = ide.getQueryLang();
             overpass.run_query(
               query,
@@ -43,7 +43,7 @@ $(document).ready(function() {
   );
 
   // some initalizations
-  $.fn.dialog = function() {
+  $.fn.dialog = function () {
     alert("error :( " + $(this).html());
   };
   configs.appname = "overpass-ide-map";
@@ -55,11 +55,11 @@ $(document).ready(function() {
     disable_poiomatic: false
   };
   var ide = {
-    getQuery: function(callback) {
+    getQuery: function (callback) {
       var query = settings.code["overpass"];
       var queryParser = Query();
 
-      queryParser.parse(query, {}, function(query) {
+      queryParser.parse(query, {}, function (query) {
         // parse mapcss declarations
         var mapcss = "";
         if (queryParser.hasStatement("style"))
@@ -90,16 +90,16 @@ $(document).ready(function() {
         callback(query);
       });
     },
-    getQueryLang: function() {
+    getQueryLang: function () {
       return $.trim(settings.code["overpass"]).match(/^</)
         ? "xml"
         : "OverpassQL";
     },
-    update_map: function() {
+    update_map: function () {
       $("#data_stats").remove();
       if (typeof overpass.osmLayer != "undefined")
         ide.map.removeLayer(overpass.osmLayer);
-      ide.getQuery(function(query) {
+      ide.getQuery(function (query) {
         var query_lang = ide.getQueryLang();
         overpass.run_query(
           query,
@@ -150,14 +150,14 @@ $(document).ready(function() {
   scaleControl.addTo(ide.map);
   // wait spinner
   $(document).on({
-    ajaxStart: function() {
+    ajaxStart: function () {
       $("#loading-dialog").addClass("is-active");
     },
-    ajaxStop: function() {
+    ajaxStop: function () {
       $("#loading-dialog").removeClass("is-active");
     }
   });
-  ide.map.on("layeradd", function(e) {
+  ide.map.on("layeradd", function (e) {
     if (!(e.layer instanceof L.GeoJSON)) return;
     ide.map.setView([0, 0], 18, true);
     try {
@@ -165,7 +165,7 @@ $(document).ready(function() {
     } catch (err) {}
   });
   // overpass functionality
-  overpass.handlers["onEmptyMap"] = function(empty_msg, data_mode) {
+  overpass.handlers["onEmptyMap"] = function (empty_msg, data_mode) {
     $(
       '<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>(' +
         empty_msg +
@@ -173,39 +173,39 @@ $(document).ready(function() {
     ).appendTo("#map");
   };
   if (settings.silent) {
-    overpass.handlers["onAjaxError"] = function(errmsg) {
+    overpass.handlers["onAjaxError"] = function (errmsg) {
       parent.postMessage(
         JSON.stringify({handler: "onAjaxError", msg: errmsg}),
         "*"
       );
     };
-    overpass.handlers["onQueryError"] = function(errmsg) {
+    overpass.handlers["onQueryError"] = function (errmsg) {
       parent.postMessage(
         JSON.stringify({handler: "onQueryError", msg: errmsg}),
         "*"
       );
     };
   } else {
-    overpass.handlers["onAjaxError"] = function(errmsg) {
+    overpass.handlers["onAjaxError"] = function (errmsg) {
       alert(
         "An error occured during the execution of the overpass query!\n" +
           errmsg
       );
     };
-    overpass.handlers["onQueryError"] = function(errmsg) {
+    overpass.handlers["onQueryError"] = function (errmsg) {
       alert(
         "An error occured during the execution of the overpass query!\nThis is what overpass API returned:\n" +
           errmsg
       );
     };
   }
-  overpass.handlers["onGeoJsonReady"] = function() {
+  overpass.handlers["onGeoJsonReady"] = function () {
     ide.map.addLayer(overpass.osmLayer);
   };
-  overpass.handlers["onPopupReady"] = function(p) {
+  overpass.handlers["onPopupReady"] = function (p) {
     p.openOn(ide.map);
   };
-  overpass.handlers["onDataRecieved"] = function(
+  overpass.handlers["onDataRecieved"] = function (
     amount,
     txt,
     abortCB,
@@ -213,7 +213,7 @@ $(document).ready(function() {
   ) {
     continueCB();
   };
-  overpass.handlers["onRawDataPresent"] = function() {
+  overpass.handlers["onRawDataPresent"] = function () {
     parent.postMessage(
       JSON.stringify({
         query: settings.code["overpass"],

@@ -5,33 +5,33 @@ import sinonChai from "sinon-chai";
 chai.use(sinonChai);
 import ide from "../js/ide";
 
-describe("ide.query", function() {
+describe("ide.query", function () {
   var orig_codeEditor, orig_map;
-  before(function() {
+  before(function () {
     orig_codeEditor = ide.codeEditor;
     ide.codeEditor = {};
     orig_map = ide.map;
     ide.map = {
       bboxfilter: {
-        isEnabled: function() {
+        isEnabled: function () {
           return false;
         }
       },
-      getBounds: function() {
+      getBounds: function () {
         return L.latLngBounds([1, 2], [3, 4]);
       },
-      getCenter: function() {
+      getCenter: function () {
         return L.latLng([5, 6]);
       }
     };
   });
-  after(function() {
+  after(function () {
     ide.map = orig_map;
     ide.codeEditor = orig_codeEditor;
   });
 
   // expand {{parameters}} in ql query
-  it("expand {{parameters}} in ql query", function() {
+  it("expand {{parameters}} in ql query", function () {
     sinon.stub(ide, "setQuery");
     var examples = [
       {
@@ -52,7 +52,7 @@ describe("ide.query", function() {
     ];
     var callback = sinon.spy();
     for (var i = 0; i < examples.length; i++) {
-      ide.codeEditor.getValue = function() {
+      ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
       ide.getQuery(callback);
@@ -61,7 +61,7 @@ describe("ide.query", function() {
     ide.setQuery.restore();
   });
   // expand {{parameters}} in xml query
-  it("expand {{parameters}} in xml", function() {
+  it("expand {{parameters}} in xml", function () {
     sinon.stub(ide, "setQuery");
     var examples = [
       {
@@ -82,7 +82,7 @@ describe("ide.query", function() {
     ];
     var callback = sinon.spy();
     for (var i = 0; i < examples.length; i++) {
-      ide.codeEditor.getValue = function() {
+      ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
       ide.getQuery(callback);
@@ -91,7 +91,7 @@ describe("ide.query", function() {
     ide.setQuery.restore();
   });
   // expand {{bbox}}
-  it("expand {{bbox}}", function() {
+  it("expand {{bbox}}", function () {
     sinon.stub(ide, "setQuery");
     var examples = [
       {
@@ -112,7 +112,7 @@ describe("ide.query", function() {
     ];
     var callback = sinon.spy();
     for (var i = 0; i < examples.length; i++) {
-      ide.codeEditor.getValue = function() {
+      ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
       ide.getQuery(callback);
@@ -121,7 +121,7 @@ describe("ide.query", function() {
     ide.setQuery.restore();
   });
   // expand {{center}}
-  it("expand {{center}}", function() {
+  it("expand {{center}}", function () {
     sinon.stub(ide, "setQuery");
     var examples = [
       {
@@ -137,7 +137,7 @@ describe("ide.query", function() {
     ];
     var callback = sinon.spy();
     for (var i = 0; i < examples.length; i++) {
-      ide.codeEditor.getValue = function() {
+      ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
       ide.getQuery(callback);

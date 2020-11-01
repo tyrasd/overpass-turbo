@@ -87,7 +87,7 @@ function geocodeId(instr, callback) {
   function filter(n) {
     return n.osm_type && n.osm_id;
   }
-  nominatim.getBest(instr, filter, function(err, res) {
+  nominatim.getBest(instr, filter, function (err, res) {
     if (err) return ide.onNominatimError(instr, "Id");
     if (lang == "OverpassQL") res = res.osm_type + "(" + res.osm_id + ")";
     else if (lang == "xml")
@@ -100,7 +100,7 @@ function geocodeArea(instr, callback) {
   function filter(n) {
     return n.osm_type && n.osm_id && n.osm_type !== "node";
   }
-  nominatim.getBest(instr, filter, function(err, res) {
+  nominatim.getBest(instr, filter, function (err, res) {
     if (err) return ide.onNominatimError(instr, "Area");
     var area_ref = 1 * res.osm_id;
     if (res.osm_type == "way") area_ref += 2400000000;
@@ -112,7 +112,7 @@ function geocodeArea(instr, callback) {
 }
 function geocodeBbox(instr, callback) {
   var lang = ide.getQueryLang();
-  nominatim.getBest(instr, function(err, res) {
+  nominatim.getBest(instr, function (err, res) {
     if (err) return ide.onNominatimError(instr, "Bbox");
     var lat1 = Math.min(Math.max(res.boundingbox[0], -90), 90);
     var lat2 = Math.min(Math.max(res.boundingbox[1], -90), 90);
@@ -127,7 +127,7 @@ function geocodeBbox(instr, callback) {
 }
 function geocodeCoords(instr, callback) {
   var lang = ide.getQueryLang();
-  nominatim.getBest(instr, function(err, res) {
+  nominatim.getBest(instr, function (err, res) {
     if (err) return ide.onNominatimError(instr, "Coords");
     if (lang == "OverpassQL") res = res.lat + "," + res.lon;
     else if (lang == "xml") res = 'lat="' + res.lat + '" lon="' + res.lon + '"';
@@ -151,16 +151,16 @@ export default function shortcuts() {
     nominatimId:
       queryLang == "xml"
         ? geocodeId
-        : function(instr, callback) {
-            geocodeId(instr, function(result) {
+        : function (instr, callback) {
+            geocodeId(instr, function (result) {
               callback(result + ";");
             });
           },
     nominatimArea:
       queryLang == "xml"
         ? geocodeArea
-        : function(instr, callback) {
-            geocodeArea(instr, function(result) {
+        : function (instr, callback) {
+            geocodeArea(instr, function (result) {
               callback(result + ";");
             });
           },

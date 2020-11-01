@@ -2,8 +2,8 @@ import chai from "chai";
 var expect = chai.expect;
 import evalparser from "../js/jsmapcss/eval.pegjs";
 
-describe("mapcss.eval", function() {
-  it("strings", function() {
+describe("mapcss.eval", function () {
+  it("strings", function () {
     var q = '"foo"';
     var p = evalparser.parse(q);
     expect(p).to.equal("foo");
@@ -11,7 +11,7 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("foo");
   });
-  it("num()", function() {
+  it("num()", function () {
     var q = 'num("12.3")';
     var p = evalparser.parse(q);
     expect(p).to.equal("12.3");
@@ -22,17 +22,17 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("-1.23");
   });
-  it("str()", function() {
+  it("str()", function () {
     var q = "str(12.3)";
     var p = evalparser.parse(q);
     expect(p).to.equal("12.3");
   });
-  it("number arithmetic", function() {
+  it("number arithmetic", function () {
     var q = "(1+2*3-4/2-1)*2";
     var p = evalparser.parse(q);
     expect(p).to.equal("8");
   });
-  it("int", function() {
+  it("int", function () {
     var q = "int(3.1)";
     var p = evalparser.parse(q);
     expect(p).to.equal("3");
@@ -46,7 +46,7 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("-3");
   });
-  it("number EIAS", function() {
+  it("number EIAS", function () {
     var q = '"2" + 4';
     var p = evalparser.parse(q);
     expect(p).to.equal("6");
@@ -54,12 +54,12 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("true");
   });
-  it("none", function() {
+  it("none", function () {
     var q = "none";
     var p = evalparser.parse(q);
     expect(p).to.equal("");
   });
-  it("none aithmetic", function() {
+  it("none aithmetic", function () {
     var q = "2 + none";
     var p = evalparser.parse(q);
     expect(p).to.equal("2");
@@ -67,7 +67,7 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("0");
   });
-  it("none EIAS", function() {
+  it("none EIAS", function () {
     var q = '2."" == 2';
     var p = evalparser.parse(q);
     expect(p).to.equal("true");
@@ -78,7 +78,7 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("true");
   });
-  it("boolean", function() {
+  it("boolean", function () {
     var q = "boolean(0)";
     var p = evalparser.parse(q);
     expect(p).to.equal("false");
@@ -104,7 +104,7 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("true");
   });
-  it("boolean arithmetic", function() {
+  it("boolean arithmetic", function () {
     var q = '"true" && "false"';
     var p = evalparser.parse(q);
     expect(p).to.equal("false");
@@ -115,7 +115,7 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("false");
   });
-  it("comparison operators", function() {
+  it("comparison operators", function () {
     var q = "2.3 > 01.2";
     var p = evalparser.parse(q);
     expect(p).to.equal("true");
@@ -156,9 +156,9 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("true");
   });
-  it("general functions", function() {
+  it("general functions", function () {
     var q = 'tag("_")';
-    evalparser.tag = function(_) {
+    evalparser.tag = function (_) {
       return "foo";
     };
     var p = evalparser.parse(q);
@@ -173,7 +173,7 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("foo");
   });
-  it("numeric functions", function() {
+  it("numeric functions", function () {
     var q = "max(1,2,3)";
     var p = evalparser.parse(q);
     expect(p).to.equal("3");
@@ -184,7 +184,7 @@ describe("mapcss.eval", function() {
     var p = evalparser.parse(q);
     expect(p).to.equal("4");
   });
-  it("string functions", function() {
+  it("string functions", function () {
     var q = 'concat("foo","bar","asd","fasd")';
     var p = evalparser.parse(q);
     expect(p).to.equal("foobarasdfasd");

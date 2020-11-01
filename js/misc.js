@@ -15,7 +15,7 @@ export var Base64 = {
   _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
   // public method for encoding
-  encode: function(input, not_base64url) {
+  encode: function (input, not_base64url) {
     var output = "";
     //input = Base64._utf8_encode(input);
     input = unescape(encodeURIComponent(input));
@@ -57,7 +57,7 @@ export var Base64 = {
 
   // public method for decoding
   // this decodes base64url as well as standard base64 with or without padding)
-  decode: function(input, binary) {
+  decode: function (input, binary) {
     var output = "";
     input = this._convert_to_base64nopad(input);
     input = input.replace(/[^A-Za-z0-9\+\/]/g, "");
@@ -113,7 +113,7 @@ export var Base64 = {
     return output;
   },
 
-  encodeNum: function(num, not_base64url) {
+  encodeNum: function (num, not_base64url) {
     var output = "";
     if (num == 0) return this._keyStr.charAt(0);
     var neg = false;
@@ -131,7 +131,7 @@ export var Base64 = {
     else return output;
   },
 
-  decodeNum: function(input) {
+  decodeNum: function (input) {
     input = this._convert_to_base64nopad(input);
     input = input.replace(/[^A-Za-z0-9\+\/.]/g, "");
     var num = 0;
@@ -148,18 +148,15 @@ export var Base64 = {
     return (neg ? -1 : 1) * num;
   },
 
-  _convert_to_base64url: function(input) {
-    return input
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_")
-      .replace(/=/g, "");
+  _convert_to_base64url: function (input) {
+    return input.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
   },
-  _convert_to_base64nopad: function(input) {
+  _convert_to_base64nopad: function (input) {
     return input.replace(/\-/g, "+").replace(/_/g, "/");
   },
 
   // private method for UTF-8 encoding
-  _utf8_encode: function(string) {
+  _utf8_encode: function (string) {
     string = string.replace(/\r\n/g, "\n");
     var utftext = "";
 
@@ -182,7 +179,7 @@ export var Base64 = {
   },
 
   // private method for UTF-8 decoding
-  _utf8_decode: function(utftext) {
+  _utf8_decode: function (utftext) {
     var string = "";
     var i = 0;
     var c = (c1 = c2 = 0);

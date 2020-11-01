@@ -3,9 +3,9 @@ var expect = chai.expect;
 import sinon from "sinon";
 import ide from "../js/ide";
 
-describe("ide.autorepair.josm", function() {
+describe("ide.autorepair.josm", function () {
   // repair non-xml output data format: xml query
-  it("repair non-xml output data format (xml query)", function() {
+  it("repair non-xml output data format (xml query)", function () {
     var examples = [
       {
         // basic case
@@ -41,7 +41,7 @@ describe("ide.autorepair.josm", function() {
   });
 
   // repair non-xml output data format: ql query
-  it("repair non-xml output data format (OverpassQL query)", function() {
+  it("repair non-xml output data format (OverpassQL query)", function () {
     var examples = [
       {
         // basic case
@@ -80,7 +80,7 @@ describe("ide.autorepair.josm", function() {
   });
 
   // repair missing xml+meta infomation: xml query
-  it("repair missing meta information (xml query)", function() {
+  it("repair missing meta information (xml query)", function () {
     var examples = [
       {
         // trivial case
@@ -115,7 +115,7 @@ describe("ide.autorepair.josm", function() {
   });
 
   // repair missing xml+meta infomation: ql query
-  it("repair missing meta information (OverpassQL query)", function() {
+  it("repair missing meta information (OverpassQL query)", function () {
     var examples = [
       {
         // trivial case
@@ -160,7 +160,7 @@ describe("ide.autorepair.josm", function() {
   });
 
   // overpass complex geometries
-  it("repair overpass geometry options (xml query)", function() {
+  it("repair overpass geometry options (xml query)", function () {
     var examples = [
       {
         // center geometry
@@ -207,7 +207,7 @@ describe("ide.autorepair.josm", function() {
   });
 
   // overpass complex geometries
-  it("repair overpass geometry options (OverpassQL query)", function() {
+  it("repair overpass geometry options (OverpassQL query)", function () {
     var examples = [
       {
         // center geometry
@@ -254,7 +254,7 @@ describe("ide.autorepair.josm", function() {
   });
 
   // do not repair statements in comments
-  it("do not repair statements in comments (xml query)", function() {
+  it("do not repair statements in comments (xml query)", function () {
     var examples = [
       {
         // <print> in xml comment
@@ -281,7 +281,7 @@ describe("ide.autorepair.josm", function() {
   });
 
   // do not repair statements in comments
-  it("do not repair statements in comments (overpassQL query)", function() {
+  it("do not repair statements in comments (overpassQL query)", function () {
     var examples = [
       {
         // multiline comment

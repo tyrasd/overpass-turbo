@@ -5,7 +5,7 @@ import configs from "./configs";
 
 var cache = {};
 
-export default function() {
+export default function () {
   var nominatim = {};
 
   function request(search, callback) {
@@ -19,7 +19,7 @@ export default function() {
           format: "json",
           q: search
         },
-        success: function(data) {
+        success: function (data) {
           // hacky firefox hack :( (it is not properly detecting json from the content-type header)
           if (typeof data == "string") {
             // if the data is a string, but looks more like a json object
@@ -30,7 +30,7 @@ export default function() {
           cache[search] = data;
           callback(undefined, data);
         },
-        error: function() {
+        error: function () {
           var err =
             "An error occurred while contacting the osm search server nominatim.openstreetmap.org :(";
           console.log(err);
@@ -40,19 +40,19 @@ export default function() {
     );
   }
 
-  nominatim.get = function(search, callback) {
+  nominatim.get = function (search, callback) {
     if (cache[search] === undefined) request(search, callback);
     else callback(undefined, cache[search]);
     return nominatim;
   };
 
-  nominatim.getBest = function(search, filter, callback) {
+  nominatim.getBest = function (search, filter, callback) {
     // shift parameters if filter is omitted
     if (!callback) {
       callback = filter;
       filter = null;
     }
-    nominatim.get(search, function(err, data) {
+    nominatim.get(search, function (err, data) {
       if (err) {
         callback(err, null);
         return;

@@ -1,7 +1,7 @@
 /* eslint-env node */
 const webpackConfig = require("./webpack.config");
 
-module.exports = function(config) {
+module.exports = function (config) {
   var tests = "tests/test.*.js";
 
   config.set({

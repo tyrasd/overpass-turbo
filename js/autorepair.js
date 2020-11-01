@@ -35,7 +35,7 @@ export default function autorepair(q, lng) {
     }
   })();
 
-  repair.getQuery = function() {
+  repair.getQuery = function () {
     // expand placeholded comments
     for (var placeholder in comments) {
       q = q.replace(placeholder, comments[placeholder]);
@@ -43,7 +43,7 @@ export default function autorepair(q, lng) {
     return q;
   };
 
-  repair.recurse = function() {
+  repair.recurse = function () {
     if (lng == "xml") {
       // do some fancy mixture between regex magic and xml as html parsing :€
       var prints = q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g) || [];
@@ -114,7 +114,7 @@ export default function autorepair(q, lng) {
     return true;
   };
 
-  repair.editors = function() {
+  repair.editors = function () {
     if (lng == "xml") {
       // 1. fix <osm-script output=*
       var src = q.match(/<osm-script([^>]*)>/);
@@ -224,7 +224,7 @@ export default function autorepair(q, lng) {
 }
 
 autorepair.detect = {};
-autorepair.detect.editors = function(q, lng) {
+autorepair.detect.editors = function (q, lng) {
   // todo: test this
   // todo: move into autorepair "module" /// todo. done?
   q = q.replace(/{{.*?}}/g, "");
@@ -234,10 +234,10 @@ autorepair.detect.editors = function(q, lng) {
       var xml = $.parseXML("<x>" + q + "</x>");
       var out = $("osm-script", xml).attr("output");
       if (out !== undefined && out !== "xml") err.output = true;
-      $("print", xml).each(function(i, p) {
+      $("print", xml).each(function (i, p) {
         if ($(p).attr("mode") !== "meta") err.meta = true;
       });
-      $("print", xml).each(function(i, p) {
+      $("print", xml).each(function (i, p) {
         if (
           $(p)
             .attr("geometry")
@@ -253,11 +253,11 @@ autorepair.detect.editors = function(q, lng) {
     var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]/);
     if (out && out[1] != "xml") err.output = true;
     var prints = q.match(/out([^:;]*);/g);
-    $(prints).each(function(i, p) {
+    $(prints).each(function (i, p) {
       if (p.match(/\s(body|skel|ids|tags)/) || !p.match(/meta/))
         err.meta = true;
     });
-    $(prints).each(function(i, p) {
+    $(prints).each(function (i, p) {
       if (p.match(/\s(center|bb|geom)/)) err.geometry = true;
     });
   }

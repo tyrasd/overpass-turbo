@@ -48,7 +48,7 @@ export default function urlParameters(param_str) {
   if (args.c) {
     // map center & zoom (compressed)
     var tmp = args.c.match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
-    var decode_coords = function(str) {
+    var decode_coords = function (str) {
       var coords_cpr = Base64.decodeNum(str);
       var res = {};
       res.lat = (coords_cpr % (180 * 100000)) / 100000 - 90;
@@ -99,7 +99,7 @@ export default function urlParameters(param_str) {
   }
   if (args.w) {
     // construct a query using the wizard
-    ffs.construct_query(args.w, wizard_comment, function(err, query) {
+    ffs.construct_query(args.w, wizard_comment, function (err, query) {
       if (!err) {
         t.query = query;
         t.has_query = true;

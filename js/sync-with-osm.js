@@ -11,9 +11,9 @@ if (enabled) auth = osmAuth(configs.osmAuth);
 
 export default {
   enabled: enabled,
-  load: function(callback) {
+  load: function (callback) {
     if (!auth.authenticated()) {
-      auth.authenticate(function(err) {
+      auth.authenticate(function (err) {
         //check err param exists
         if (err) return callback(err);
         loadQueries(callback);
@@ -22,9 +22,9 @@ export default {
       loadQueries(callback);
     }
   },
-  save: function(query, callback) {
+  save: function (query, callback) {
     if (!auth.authenticated()) {
-      auth.authenticate(function(err) {
+      auth.authenticate(function (err) {
         //check err param exists
         if (err) return callback(err);
         saveQuery(query, callback);
@@ -33,7 +33,7 @@ export default {
       saveQuery(query, callback);
     }
   },
-  delete: function(query, callback) {
+  delete: function (query, callback) {
     if (!auth.authenticated())
       return callback(new Error("must be logged in to delete a synced query"));
     query = {
@@ -42,10 +42,10 @@ export default {
     };
     saveQuery(query, callback);
   },
-  logout: function(callback) {
+  logout: function (callback) {
     if (auth.authenticated()) auth.logout();
   },
-  authenticated: function() {
+  authenticated: function () {
     return enabled && auth.authenticated();
   }
 };
@@ -56,7 +56,7 @@ function loadQueries(callback) {
       method: "GET",
       path: "/api/0.6/user/preferences"
     },
-    function(err, res) {
+    function (err, res) {
       if (err) return callback(err);
 
       var pref_count = 0,
@@ -103,7 +103,7 @@ function loadQueries(callback) {
 }
 
 function saveQuery(new_query, callback) {
-  loadQueries(function(err, existing_queries, dom) {
+  loadQueries(function (err, existing_queries, dom) {
     if (err) return callback(err);
 
     var preferences = dom.querySelector("preferences");
@@ -116,7 +116,7 @@ function saveQuery(new_query, callback) {
     }
     // insert new query into list of existing ones
     var is_new = true;
-    existing_queries.forEach(function(q, idx) {
+    existing_queries.forEach(function (q, idx) {
       if (q.name == new_query.name) {
         q.query = new_query.query;
         is_new = idx;
@@ -162,7 +162,7 @@ function saveQuery(new_query, callback) {
         options: {header: {"Content-Type": "text/xml"}},
         content: dom.firstChild.outerHTML
       },
-      function(err, res) {
+      function (err, res) {
         if (err) return callback(err);
         callback(null, existing_queries);
       }

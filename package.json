@@ -6,11 +6,10 @@
   "license": "MIT",
   "scripts": {
     "test": "npm run test:style && npm run test:karma",
-    "test:style": "prettier --no-bracket-spacing --check $(npm run git-ls-files)",
+    "test:style": "prettier --check .",
     "test:karma": "karma start --single-run",
     "test:start": "karma start",
-    "fix:style": "prettier --no-bracket-spacing --write $(npm run git-ls-files)",
-    "git-ls-files": "git ls-files '*.js' '*.html' '*.css' '*.md'",
+    "fix:style": "prettier --write .",
     "start": "webpack-dev-server",
     "build": "webpack -p"
   },
@@ -26,16 +25,18 @@
     "file-loader": "^0.10.0",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.28.0",
+    "husky": "^4.3.0",
     "karma": "^1.5.0",
     "karma-mocha": "^1.3.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-webpack": "^2.0.2",
+    "lint-staged": "^10.5.1",
     "mocha": "^3.2.0",
     "mocha-phantomjs": "^4.0.2",
     "pegjs": "^0.10.0",
     "pegjs-loader": "^0.5.1",
     "phantomjs-prebuilt": "^2.1.14",
-    "prettier": "^1.18.2",
+    "prettier": "^2.1.2",
     "request": "^2.67.0",
     "sinon": "^2.0.0-pre.5",
     "sinon-chai": "^2.8.0",
@@ -68,5 +69,17 @@
     "stackblur": "^1.0.0",
     "togpx": "^0.5.3",
     "tokml": "^0.4.0"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "trailingComma": "none"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }

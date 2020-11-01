@@ -2,7 +2,7 @@
 
 import styleparser from "./Style.js";
 
-styleparser.StyleChooser = function() {
+styleparser.StyleChooser = function () {
   this.ruleChains = [new styleparser.RuleChain()];
   this.styles = [];
 };
@@ -17,27 +17,27 @@ styleparser.StyleChooser.prototype = {
   rcpos: 0,
   stylepos: 0,
 
-  constructor: function() {
+  constructor: function () {
     // summary:		A combination of the selectors (ruleChains) and declaration (styles).
     //				For example, way[highway=footway] node[barrier=gate] { icon: gate.png; } is one StyleChooser.
   },
 
-  currentChain: function() {
+  currentChain: function () {
     return this.ruleChains[this.ruleChains.length - 1];
   },
 
-  newRuleChain: function() {
+  newRuleChain: function () {
     // summary:		Starts a new ruleChain in this.ruleChains.
     if (this.ruleChains[this.ruleChains.length - 1].length() > 0) {
       this.ruleChains.push(new styleparser.RuleChain());
     }
   },
 
-  addStyles: function(a) {
+  addStyles: function (a) {
     this.styles = this.styles.concat(a);
   },
 
-  updateStyles: function(entity, tags, sl, zoom) {
+  updateStyles: function (entity, tags, sl, zoom) {
     if (this.zoomSpecific) {
       sl.validAt = zoom;
     }

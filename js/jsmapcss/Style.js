@@ -1,7 +1,7 @@
 import evalparser from "./eval.pegjs";
 
 var styleparser = {};
-styleparser.Style = function() {
+styleparser.Style = function () {
   this.__init__();
 };
 
@@ -14,19 +14,19 @@ styleparser.Style.prototype = {
   styleType: "Style",
   evals: null,
 
-  __init__: function() {
+  __init__: function () {
     this.evals = {};
   },
 
-  drawn: function() {
+  drawn: function () {
     return false;
   },
 
-  has: function(k) {
+  has: function (k) {
     return this.properties.indexOf(k) > -1;
   },
 
-  mergeWith: function(additional) {
+  mergeWith: function (additional) {
     for (var prop in this.properties) {
       if (additional[prop]) {
         this[prop] = additional[prop];
@@ -35,7 +35,7 @@ styleparser.Style.prototype = {
     this.merged = true;
   },
 
-  setPropertyFromString: function(k, v, isEval) {
+  setPropertyFromString: function (k, v, isEval) {
     this.edited = true;
     if (isEval) {
       this.evals[k] = v;
@@ -47,7 +47,7 @@ styleparser.Style.prototype = {
     } else if (typeof this[k] == "number") {
       v = Number(v);
     } else if (this[k] && this[k].constructor == Array) {
-      v = v.split(",").map(function(a) {
+      v = v.split(",").map(function (a) {
         return Number(a);
       });
     }
@@ -55,11 +55,11 @@ styleparser.Style.prototype = {
     return true;
   },
 
-  runEvals: function(tags) {
+  runEvals: function (tags) {
     // helper object for eval() properties
     for (var k in this.evals) {
       try {
-        evalparser.tag = function(t) {
+        evalparser.tag = function (t) {
           return tags[t] || "";
         };
         this.setPropertyFromString(k, evalparser.parse(this.evals[k]));
@@ -69,7 +69,7 @@ styleparser.Style.prototype = {
     }
   },
 
-  toString: function() {
+  toString: function () {
     var str = "";
     for (var k in this.properties) {
       if (this.hasOwnProperty(k)) {
@@ -79,7 +79,7 @@ styleparser.Style.prototype = {
     return str;
   }
 };
-styleparser.inherit_from_Style = function(target) {
+styleparser.inherit_from_Style = function (target) {
   for (var p in styleparser.Style.prototype)
     if (target[p] === undefined) target[p] = styleparser.Style.prototype[p];
 };
@@ -87,7 +87,7 @@ styleparser.inherit_from_Style = function(target) {
 // ----------------------------------------------------------------------
 // InstructionStyle class
 
-styleparser.InstructionStyle = function() {
+styleparser.InstructionStyle = function () {
   this.__init__();
 };
 styleparser.InstructionStyle.prototype = {
@@ -95,9 +95,9 @@ styleparser.InstructionStyle.prototype = {
   breaker: false,
   styleType: "InstructionStyle",
 
-  __init__: function() {},
+  __init__: function () {},
 
-  addSetTag: function(k, v) {
+  addSetTag: function (k, v) {
     this.edited = true;
     if (!this.set_tags) this.set_tags = {};
     this.set_tags[k] = v;
@@ -108,7 +108,7 @@ styleparser.inherit_from_Style(styleparser.InstructionStyle.prototype);
 // ----------------------------------------------------------------------
 // PointStyle class
 
-styleparser.PointStyle = function() {
+styleparser.PointStyle = function () {
   this.__init__();
 };
 styleparser.PointStyle.prototype = {
@@ -125,11 +125,11 @@ styleparser.PointStyle.prototype = {
   rotation: NaN,
   styleType: "PointStyle",
 
-  drawn: function() {
+  drawn: function () {
     return this.icon_image !== null;
   },
 
-  maxwidth: function() {
+  maxwidth: function () {
     return this.evals.icon_width ? 0 : this.icon_width;
   }
 };
@@ -138,7 +138,7 @@ styleparser.inherit_from_Style(styleparser.PointStyle.prototype);
 // ----------------------------------------------------------------------
 // ShapeStyle class
 
-styleparser.ShapeStyle = function() {
+styleparser.ShapeStyle = function () {
   this.__init__();
 };
 
@@ -179,7 +179,7 @@ styleparser.ShapeStyle.prototype = {
   layer: NaN, // optional layer override (usually set by OSM tag)
   styleType: "ShapeStyle",
 
-  drawn: function() {
+  drawn: function () {
     return (
       this.fill_image ||
       !isNaN(this.fill_color) ||
@@ -187,14 +187,14 @@ styleparser.ShapeStyle.prototype = {
       this.casing_width
     );
   },
-  maxwidth: function() {
+  maxwidth: function () {
     // If width is set by an eval, then we can't use it to calculate maxwidth, or it'll just grow on each invocation...
     if (this.evals.width || this.evals.casing_width) {
       return 0;
     }
     return this.width + (this.casing_width ? this.casing_width * 2 : 0);
   },
-  strokeStyler: function() {
+  strokeStyler: function () {
     var cap, join;
     switch (this.linecap) {
       case "round":
@@ -229,7 +229,7 @@ styleparser.ShapeStyle.prototype = {
       join: join
     };
   },
-  shapeStrokeStyler: function() {
+  shapeStrokeStyler: function () {
     if (isNaN(this.casing_color)) {
       return {width: 0};
     }
@@ -241,19 +241,19 @@ styleparser.ShapeStyle.prototype = {
       width: this.casing_width ? this.casing_width : 1
     };
   },
-  shapeFillStyler: function() {
+  shapeFillStyler: function () {
     if (isNaN(this.color)) {
       return null;
     }
     return this.dojoColor(this.color, this.opacity ? this.opacity : 1);
   },
-  fillStyler: function() {
+  fillStyler: function () {
     return this.dojoColor(
       this.fill_color,
       this.fill_opacity ? this.fill_opacity : 1
     );
   },
-  casingStyler: function() {
+  casingStyler: function () {
     var cap, join;
     switch (this.linecap) {
       case "round":
@@ -294,7 +294,7 @@ styleparser.inherit_from_Style(styleparser.ShapeStyle.prototype);
 // ----------------------------------------------------------------------
 // TextStyle class
 
-styleparser.TextStyle = function() {
+styleparser.TextStyle = function () {
   this.__init__();
 };
 styleparser.TextStyle.prototype = {
@@ -332,7 +332,7 @@ styleparser.TextStyle.prototype = {
   letter_spacing: 0,
   styleType: "TextStyle",
 
-  fontStyler: function() {
+  fontStyler: function () {
     return {
       family: this.font_family ? this.font_family : "Arial",
       size: this.font_size ? this.font_size * 2 : "10px",
@@ -340,14 +340,14 @@ styleparser.TextStyle.prototype = {
       style: this.font_italic ? "italic" : "normal"
     };
   },
-  textStyler: function(_text) {
+  textStyler: function (_text) {
     return {
       decoration: this.font_underline ? "underline" : "none",
       align: "middle",
       text: _text
     };
   },
-  fillStyler: function() {
+  fillStyler: function () {
     // not implemented yet
     return this.dojoColor(0, 1);
   }
@@ -359,12 +359,12 @@ styleparser.inherit_from_Style(styleparser.TextStyle.prototype);
 // ----------------------------------------------------------------------
 // ShieldStyle class
 
-styleparser.ShieldStyle = function() {
+styleparser.ShieldStyle = function () {
   this.__init__();
 };
 
 styleparser.ShieldStyle.prototype = {
-  has: function(k) {
+  has: function (k) {
     return this.properties.indexOf(k) > -1;
   },
   properties: ["shield_image", "shield_width", "shield_height"],

@@ -3,7 +3,7 @@
 
 import styleparser from "./Style.js";
 
-styleparser.Rule = function() {};
+styleparser.Rule = function () {};
 styleparser.Rule.prototype = {
   conditions: [], // the Conditions to be evaluated for the Rule to be fulfilled
   isAnd: true, // do all Conditions need to be true for the Rule to be fulfilled? (Always =true for MapCSS)
@@ -11,7 +11,7 @@ styleparser.Rule.prototype = {
   maxZoom: 255, // maximum zoom level at which the Rule is fulfilled
   subject: "", // entity type to which the Rule applies: 'way', 'node', 'relation', 'area' (closed way) or 'line' (unclosed way)
 
-  addSubject: function(_subject) {
+  addSubject: function (_subject) {
     // summary:		A MapCSS selector. Contains a list of Conditions; the entity type to which the selector applies;
     //				and the zoom levels at which it is true. way[waterway=river][boat=yes] would be parsed into one Rule.
     //				The selectors and declaration together form a StyleChooser.
@@ -19,12 +19,12 @@ styleparser.Rule.prototype = {
     this.conditions = [];
   },
 
-  addCondition: function(_condition) {
+  addCondition: function (_condition) {
     // summary:		Add a condition to this rule.
     this.conditions.push(_condition);
   },
 
-  test: function(entity, tags, zoom) {
+  test: function (entity, tags, zoom) {
     // summary: Evaluate the Rule on the given entity, tags and zoom level.
     // returns: true if the Rule passes, false if the conditions aren't fulfilled.
     if (this.subject !== "" && !entity.isSubject(this.subject)) {
@@ -37,7 +37,7 @@ styleparser.Rule.prototype = {
     var v = true;
     var i = 0;
     var isAnd = this.isAnd;
-    this.conditions.forEach(function(condition) {
+    this.conditions.forEach(function (condition) {
       var r = condition.test(tags);
       if (i === 0) {
         v = r;
@@ -51,7 +51,7 @@ styleparser.Rule.prototype = {
     return v;
   },
 
-  toString: function() {
+  toString: function () {
     return (
       this.subject +
       " z" +

@@ -3,7 +3,7 @@
 
 import styleparser from "./Style.js";
 
-styleparser.StyleList = function() {
+styleparser.StyleList = function () {
   this.shapeStyles = {};
   this.textStyles = {};
   this.pointStyles = {};
@@ -14,7 +14,7 @@ styleparser.StyleList.prototype = {
   subparts: [], // List of subparts used in this StyleList
   validAt: -1, // Zoom level this is valid at (or -1 at all levels - saves recomputing)
 
-  hasStyles: function() {
+  hasStyles: function () {
     // summary:		Does this StyleList contain any styles?
     return (
       this.hasShapeStyles() ||
@@ -24,7 +24,7 @@ styleparser.StyleList.prototype = {
     );
   },
 
-  hasFills: function() {
+  hasFills: function () {
     // summary:		Does this StyleList contain any styles with a fill?
     for (var s in this.shapeStyles) {
       if (
@@ -36,7 +36,7 @@ styleparser.StyleList.prototype = {
     return false;
   },
 
-  layerOverride: function() {
+  layerOverride: function () {
     // summary:		If this StyleList manually forces an OSM layer, return it, otherwise null.
     for (var s in this.shapeStyles) {
       if (!isNaN(this.shapeStyles[s].layer)) return this.shapeStyles[s].layer;
@@ -44,19 +44,19 @@ styleparser.StyleList.prototype = {
     return NaN;
   },
 
-  addSubpart: function(s) {
+  addSubpart: function (s) {
     // summary:		Record that a subpart is used in this StyleList.
     if (this.subparts.indexOf(s) == -1) {
       this.subparts.push(s);
     }
   },
 
-  isValidAt: function(zoom) {
+  isValidAt: function (zoom) {
     // summary:		Is this StyleList valid at a given zoom?
     return this.validAt == -1 || this.validAt == zoom;
   },
 
-  toString: function() {
+  toString: function () {
     // summary:		Summarise StyleList as String - for debugging
     var str = "";
     var k;
@@ -75,25 +75,25 @@ styleparser.StyleList.prototype = {
     return str;
   },
 
-  hasShapeStyles: function() {
+  hasShapeStyles: function () {
     for (var a in this.shapeStyles) {
       return true;
     }
     return false;
   },
-  hasTextStyles: function() {
+  hasTextStyles: function () {
     for (var a in this.textStyles) {
       return true;
     }
     return false;
   },
-  hasPointStyles: function() {
+  hasPointStyles: function () {
     for (var a in this.pointStyles) {
       return true;
     }
     return false;
   },
-  hasShieldStyles: function() {
+  hasShieldStyles: function () {
     for (var a in this.shieldStyles) {
       return true;
     }

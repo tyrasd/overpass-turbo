@@ -3,19 +3,19 @@
 
 import styleparser from "./Style.js";
 
-styleparser.Condition = function() {};
+styleparser.Condition = function () {};
 styleparser.Condition.prototype = {
   type: "", // eq/ne/regex etc.
   params: [], // what to test against
 
-  init: function(_type) {
+  init: function (_type) {
     // summary:		A condition to evaluate.
     this.type = _type;
     this.params = Array.prototype.slice.call(arguments, 1);
     return this;
   },
 
-  test: function(tags) {
+  test: function (tags) {
     // summary:		Run the condition against the supplied tags.
     var p = this.params;
     switch (this.type) {
@@ -46,7 +46,7 @@ styleparser.Condition.prototype = {
     return false;
   },
 
-  toString: function() {
+  toString: function () {
     return "[" + this.type + ": " + this.params + "]";
   }
 };

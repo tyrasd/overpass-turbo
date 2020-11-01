@@ -13,15 +13,15 @@ import overpass from "./overpass";
 import {htmlentities} from "./misc";
 import styleparser from "./jsmapcss";
 
-var overpass = new (function() {
+var overpass = new (function () {
   // == private members ==
   var originalGeom2Layer;
   // == public members ==
   this.handlers = {};
-  this.rerender = function(mapcss) {};
+  this.rerender = function (mapcss) {};
 
   // == private methods ==
-  var fire = function() {
+  var fire = function () {
     var name = arguments[0];
     if (typeof overpass.handlers[name] != "function") return undefined;
     var handler_args = [];
@@ -31,7 +31,7 @@ var overpass = new (function() {
 
   // == public methods ==
 
-  this.init = function() {
+  this.init = function () {
     // register mapcss extensions
     /* own MapCSS-extension:
      * added symbol-* properties
@@ -59,7 +59,7 @@ var overpass = new (function() {
   };
 
   // updates the map
-  this.run_query = function(
+  this.run_query = function (
     query,
     query_lang,
     cache,
@@ -77,18 +77,18 @@ var overpass = new (function() {
         query = '<?xml version="1.0" encoding="UTF-8"?>' + query;
       }
     }
-    fire("onProgress", "calling Overpass API interpreter", function(callback) {
+    fire("onProgress", "calling Overpass API interpreter", function (callback) {
       // kill the query on abort
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
       $.get(server + "kill_my_queries")
         .done(callback)
-        .fail(function() {
+        .fail(function () {
           console.log("Warning: failed to kill query.");
           callback();
         });
     });
-    var onSuccessCb = function(data, textStatus, jqXHR) {
+    var onSuccessCb = function (data, textStatus, jqXHR) {
       //textStatus is not needed in the successCallback, don't cache it
       if (cache) cache[query] = [data, undefined, jqXHR];
 
@@ -106,12 +106,12 @@ var overpass = new (function() {
         "onDataRecieved",
         data_amount,
         data_txt,
-        function() {
+        function () {
           // abort callback
           fire("onAbort");
           return;
         },
-        function() {
+        function () {
           // continue callback
           // different cases of loaded data: json data, xml data or error message?
           var data_mode = null;
@@ -120,7 +120,7 @@ var overpass = new (function() {
           overpass.ajax_request_duration =
             Date.now() - overpass.ajax_request_start;
           fire("onProgress", "parsing data");
-          setTimeout(function() {
+          setTimeout(function () {
             // hacky firefox hack :( (it is not properly detecting json from the content-type header)
             if (typeof data == "string" && data[0] == "{") {
               // if the data is a string, but looks more like a json object
@@ -158,8 +158,8 @@ var overpass = new (function() {
               is_error =
                 is_error ||
                 (typeof data == "string" && // html coded error messages
-                data.indexOf("Error") != -1 &&
-                data.indexOf("<script") == -1 && // detect output="custom" content
+                  data.indexOf("Error") != -1 &&
+                  data.indexOf("<script") == -1 && // detect output="custom" content
                   data.indexOf("<h2>Public Transport Stops</h2>") == -1); // detect output="popup" content
               is_error =
                 is_error ||
@@ -194,9 +194,7 @@ var overpass = new (function() {
                 if (typeof data == "object" && data.remark)
                   errmsg =
                     "<p>" +
-                    $("<div/>")
-                      .text($.trim(data.remark))
-                      .html() +
+                    $("<div/>").text($.trim(data.remark)).html() +
                     "</p>";
                 console.log("Overpass API error", fullerrmsg || errmsg); // write (full) error message to console for easier debugging
                 fire("onQueryError", errmsg);
@@ -243,16 +241,16 @@ var overpass = new (function() {
               overpass.timestampAreas = data.osm3s.timestamp_areas_base;
               overpass.copyright = data.osm3s.copyright;
               stats.data = {
-                nodes: $.grep(data.elements, function(d) {
+                nodes: $.grep(data.elements, function (d) {
                   return d.type == "node";
                 }).length,
-                ways: $.grep(data.elements, function(d) {
+                ways: $.grep(data.elements, function (d) {
                   return d.type == "way";
                 }).length,
-                relations: $.grep(data.elements, function(d) {
+                relations: $.grep(data.elements, function (d) {
                   return d.type == "relation";
                 }).length,
-                areas: $.grep(data.elements, function(d) {
+                areas: $.grep(data.elements, function (d) {
                   return d.type == "area";
                 }).length
               };
@@ -265,7 +263,7 @@ var overpass = new (function() {
             // show rerender button, if query contains mapcss styles
             if (user_mapcss) $("#rerender-button").show();
 
-            overpass.rerender = function(userMapCSS) {
+            overpass.rerender = function (userMapCSS) {
               console.trace();
               // test user supplied mapcss stylesheet
               try {
@@ -274,10 +272,10 @@ var overpass = new (function() {
                 try {
                   dummy_mapcss.getStyles(
                     {
-                      isSubject: function() {
+                      isSubject: function () {
                         return true;
                       },
-                      getParentObjects: function() {
+                      getParentObjects: function () {
                         return [];
                       }
                     },
@@ -313,13 +311,13 @@ var overpass = new (function() {
                   // user supplied mapcss
                   userMapCSS
               );
-              var get_feature_style = function(feature, highlight) {
+              var get_feature_style = function (feature, highlight) {
                 function hasInterestingTags(props) {
                   // this checks if the node has any tags other than "created_by"
                   return (
                     props &&
                     props.tags &&
-                    (function(o) {
+                    (function (o) {
                       for (var k in o)
                         if (k != "created_by" && k != "source") return true;
                       return false;
@@ -328,7 +326,7 @@ var overpass = new (function() {
                 }
                 var s = mapcss.getStyles(
                   {
-                    isSubject: function(subject) {
+                    isSubject: function (subject) {
                       switch (subject) {
                         case "node":
                           return (
@@ -352,20 +350,20 @@ var overpass = new (function() {
                       }
                       return false;
                     },
-                    getParentObjects: function() {
+                    getParentObjects: function () {
                       if (feature.properties.relations.length == 0) return [];
                       else
-                        return feature.properties.relations.map(function(rel) {
+                        return feature.properties.relations.map(function (rel) {
                           return {
                             tags: rel.reltags,
-                            isSubject: function(subject) {
+                            isSubject: function (subject) {
                               return (
                                 subject == "relation" ||
                                 (subject == "area" &&
                                   rel.reltags.type == "multipolyon")
                               );
                             },
-                            getParentObjects: function() {
+                            getParentObjects: function () {
                               return [];
                             }
                           };
@@ -384,7 +382,7 @@ var overpass = new (function() {
                       ? {":tagged": true}
                       : {":untagged": true},
                     highlight ? {":active": true} : {},
-                    (function(tags, meta, id) {
+                    (function (tags, meta, id) {
                       var res = {"@id": id};
                       for (var key in meta) res["@" + key] = meta[key];
                       for (var key in tags)
@@ -401,7 +399,7 @@ var overpass = new (function() {
                 return s;
               };
 
-              L.GeoJSON.geometryToLayer = function(
+              L.GeoJSON.geometryToLayer = function (
                 feature,
                 pointToLayer /*,…*/
               ) {
@@ -418,7 +416,7 @@ var overpass = new (function() {
                     case "MultiPolygon":
                       var labelPolygon,
                         bestVal = -Infinity;
-                      layer.getLayers().forEach(function(layer) {
+                      layer.getLayers().forEach(function (layer) {
                         var size = layer
                           .getBounds()
                           .getNorthEast()
@@ -435,15 +433,15 @@ var overpass = new (function() {
                           polylabel(
                             [labelPolygon.getLatLngs()]
                               .concat(labelPolygon._holes)
-                              .map(function(ring) {
+                              .map(function (ring) {
                                 return ring
-                                  .map(function(latlng) {
+                                  .map(function (latlng) {
                                     return L.CRS.EPSG3857.latLngToPoint(
                                       latlng,
                                       20
                                     );
                                   })
-                                  .map(function(p) {
+                                  .map(function (p) {
                                     return [p.x, p.y];
                                   });
                               })
@@ -455,7 +453,7 @@ var overpass = new (function() {
                     case "MultiLineString":
                       var labelLayer,
                         bestVal = -Infinity;
-                      layer.getLayers().forEach(function(layer) {
+                      layer.getLayers().forEach(function (layer) {
                         var size = layer
                           .getBounds()
                           .getNorthEast()
@@ -508,7 +506,7 @@ var overpass = new (function() {
               //new L.GeoJSON(null, {
               //new L.GeoJsonNoVanish(null, {
               overpass.osmLayer = new L_OSM4Leaflet(null, {
-                afterParse: function() {
+                afterParse: function () {
                   fire("onProgress", "rendering geoJSON");
                 },
                 baseLayerClass: settings.disable_poiomatic
@@ -516,10 +514,10 @@ var overpass = new (function() {
                   : L_GeoJsonNoVanish,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
-                  compress: function(feature) {
+                  compress: function (feature) {
                     return true;
                   },
-                  style: function(feature, highlight) {
+                  style: function (feature, highlight) {
                     var stl = {};
                     var s = get_feature_style(feature, highlight);
                     // apply mapcss styles
@@ -602,7 +600,7 @@ var overpass = new (function() {
                     // return style object
                     return stl;
                   },
-                  pointToLayer: function(feature, latlng) {
+                  pointToLayer: function (feature, latlng) {
                     // todo: labels!
                     var s = get_feature_style(feature);
                     var stl = s.pointStyles["default"] || {};
@@ -644,8 +642,8 @@ var overpass = new (function() {
                     }
                     return marker;
                   },
-                  onEachFeature: function(feature, layer) {
-                    layer.on("click", function(e) {
+                  onEachFeature: function (feature, layer) {
+                    layer.on("click", function (e) {
                       var popup = "";
                       if (feature.properties.type == "node")
                         popup +=
@@ -688,7 +686,7 @@ var overpass = new (function() {
                             "</span>";
                         }
                         popup += "</h5><ul>";
-                        $.each(feature.properties.tags, function(k, v) {
+                        $.each(feature.properties.tags, function (k, v) {
                           k = htmlentities(k); // escaping strings!
                           v = htmlentities(v);
                           // hyperlinks for http,https and ftp URLs
@@ -698,7 +696,7 @@ var overpass = new (function() {
                               /\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi
                             ))
                           ) {
-                            urls.forEach(function(url) {
+                            urls.forEach(function (url) {
                               var href = url.match(/^(https?|ftp):\/\//)
                                 ? url
                                 : "http://" + url;
@@ -737,7 +735,7 @@ var overpass = new (function() {
                               "</a>";
                           // hyperlinks for wikidata entries
                           if (k.match(/(^|:)wikidata$/))
-                            v = v.replace(/Q[0-9]+/g, function(q) {
+                            v = v.replace(/Q[0-9]+/g, function (q) {
                               return (
                                 '<a href="//www.wikidata.org/wiki/' +
                                 q +
@@ -799,7 +797,7 @@ var overpass = new (function() {
                             "</span>";
                         }
                         popup += "</h3><ul>";
-                        $.each(feature.properties.relations, function(k, v) {
+                        $.each(feature.properties.relations, function (k, v) {
                           popup +=
                             "<li><a href='//www.openstreetmap.org/relation/" +
                             v["rel"] +
@@ -837,7 +835,7 @@ var overpass = new (function() {
                         !$.isEmptyObject(feature.properties.meta)
                       ) {
                         popup += '<h4 class="subtitle is-5">Meta</h4><ul>';
-                        $.each(feature.properties.meta, function(k, v) {
+                        $.each(feature.properties.meta, function (k, v) {
                           k = htmlentities(k);
                           v = htmlentities(v);
                           if (k == "user")
@@ -905,8 +903,8 @@ var overpass = new (function() {
                 }
               });
 
-              setTimeout(function() {
-                overpass.osmLayer.addData(data, function() {
+              setTimeout(function () {
+                overpass.osmLayer.addData(data, function () {
                   // save geojson and raw data
                   geojson = overpass.osmLayer.getGeoJSON();
                   overpass.geojson = geojson;
@@ -939,7 +937,7 @@ var overpass = new (function() {
 
                   // print raw data
                   fire("onProgress", "printing raw data");
-                  setTimeout(function() {
+                  setTimeout(function () {
                     overpass.resultText = jqXHR.responseText;
                     fire("onRawDataPresent");
 
@@ -952,9 +950,8 @@ var overpass = new (function() {
                       if (
                         (data_mode == "json" && data.elements.length > 0) ||
                         (data_mode == "xml" &&
-                          $("osm", data)
-                            .children()
-                            .not("note,meta,bounds").length > 0)
+                          $("osm", data).children().not("note,meta,bounds")
+                            .length > 0)
                       ) {
                         // check for "only areas returned"
                         if (
@@ -970,9 +967,7 @@ var overpass = new (function() {
                           (data_mode == "json" &&
                             _.some(data.elements, {type: "node"})) ||
                           (data_mode == "xml" &&
-                            $("osm", data)
-                              .children()
-                              .filter("node").length > 0)
+                            $("osm", data).children().filter("node").length > 0)
                         )
                           // check for "ids_only" or "tags" on nodes
                           empty_msg = "no coordinates returned";
@@ -984,9 +979,8 @@ var overpass = new (function() {
                               "nodes"
                             )) ||
                           (data_mode == "xml" &&
-                            $("osm", data)
-                              .children()
-                              .filter("way").length > 0 &&
+                            $("osm", data).children().filter("way").length >
+                              0 &&
                             $("osm", data)
                               .children()
                               .filter("way")
@@ -1003,9 +997,8 @@ var overpass = new (function() {
                               "members"
                             )) ||
                           (data_mode == "xml" &&
-                            $("osm", data)
-                              .children()
-                              .filter("relation").length > 0 &&
+                            $("osm", data).children().filter("relation")
+                              .length > 0 &&
                             $("osm", data)
                               .children()
                               .filter("relation")
@@ -1045,7 +1038,7 @@ var overpass = new (function() {
         type: "POST",
         data: {data: query},
         success: onSuccessCb,
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
           if (textStatus == "abort") return; // ignore aborted queries.
           fire("onProgress", "error during ajax call");
           if (

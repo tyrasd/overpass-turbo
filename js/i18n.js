@@ -5,7 +5,7 @@ import _ from "lodash";
 import "./promise-polyfill";
 import settings from "./settings";
 
-var i18n = new (function() {
+var i18n = new (function () {
   function browser_locale() {
     /* taken from https://github.com/maxogden/browser-locale by Max Ogden, BSD licensed */
     var lang;
@@ -57,13 +57,13 @@ var i18n = new (function() {
     "zh-TW": "Chinese (Taiwan)"
   };
   var supported_lngs = _.keys(languages);
-  this.getSupportedLanguages = function() {
+  this.getSupportedLanguages = function () {
     return supported_lngs;
   };
-  this.getSupportedLanguagesDescriptions = function() {
+  this.getSupportedLanguagesDescriptions = function () {
     return languages;
   };
-  this.getLanguage = function(lng) {
+  this.getLanguage = function (lng) {
     lng = lng || settings.ui_language;
     if (lng == "auto") {
       // get user agent's language
@@ -86,7 +86,7 @@ var i18n = new (function() {
    * Determines the language, fetches the language pack and translates the UI
    * @return <Promise>
    */
-  this.translate = function(lng) {
+  this.translate = function (lng) {
     lng = i18n.getLanguage(lng);
 
     if ($.inArray(lng, supported_lngs) == -1) {
@@ -99,13 +99,13 @@ var i18n = new (function() {
     // load language pack
     try {
       return import("../locales/" + lng + ".json").then(
-        function(data) {
+        function (data) {
           td = data;
           i18n.translate_ui();
           // todo: nicer implementation
           return data;
         },
-        function(e) {
+        function (e) {
           console.log("failed to load language file " + lng, e);
         }
       );
@@ -113,10 +113,10 @@ var i18n = new (function() {
       console.log("failed to load language file " + lng, e);
     }
   };
-  this.translate_ui = function(element) {
+  this.translate_ui = function (element) {
     // if a DOM object is provided, only translate that one, otherwise
     // look for all object with the class "t"
-    $(element || ".t").each(function(nr, element) {
+    $(element || ".t").each(function (nr, element) {
       // get translation term(s)
       var terms = $(element).attr("data-t");
       terms = terms.split(";");
@@ -136,7 +136,7 @@ var i18n = new (function() {
       }
     });
   };
-  this.t = function(key) {
+  this.t = function (key) {
     return td[key] || "/missing translation/";
   };
 

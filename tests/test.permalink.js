@@ -2,9 +2,9 @@ import chai from "chai";
 var expect = chai.expect;
 import ide from "../js/ide";
 
-describe("ide.permalink", function() {
+describe("ide.permalink", function () {
   // check share links
-  it("share uncompressed", function() {
+  it("share uncompressed", function () {
     var q =
       '<!--\nThis is an example Overpass query.\nTry it out by pressing the Run button above!\nYou can find more examples with the Load tool.\n-->\n<query type="node">\n  <has-kv k="amenity" v="drinking_water"/>\n  <bbox-query {{bbox}}/><!--this is auto-completed with the\n                   current map view coordinates.-->\n</query>\n<print/>';
     var p = ide.compose_share_link(q, false, false, false);
@@ -16,7 +16,7 @@ describe("ide.permalink", function() {
     expect(p).not.to.have.string("&c=");
     expect(p).not.to.have.string("&R");
   });
-  it("share compressed", function() {
+  it("share compressed", function () {
     var q =
       '<!--\nThis is an example Overpass query.\nTry it out by pressing the Run button above!\nYou can find more examples with the Load tool.\n-->\n<query type="node">\n  <has-kv k="amenity" v="drinking_water"/>\n  <bbox-query {{bbox}}/><!--this is auto-completed with the\n                   current map view coordinates.-->\n</query>\n<print/>';
     var p = ide.compose_share_link(q, true, false, false);
@@ -28,13 +28,13 @@ describe("ide.permalink", function() {
     expect(p).not.to.have.string("&c=");
     expect(p).not.to.have.string("&R");
   });
-  it("share coordinates", function() {
+  it("share coordinates", function () {
     var q = " ";
     ide.map = {
-      getCenter: function() {
+      getCenter: function () {
         return {lat: 12.3456, lng: -65.4321};
       },
-      getZoom: function() {
+      getZoom: function () {
         return 8;
       }
     };
@@ -46,7 +46,7 @@ describe("ide.permalink", function() {
     expect(p).not.to.have.string("&C=");
     expect(p).to.have.string("&c=Au47axyXAI");
   });
-  it("share autorun", function() {
+  it("share autorun", function () {
     var q = " ";
     var p;
     p = ide.compose_share_link(q, false, false, true);

@@ -1,30 +1,30 @@
 import L from "leaflet";
 
 L.GeoJsonNoVanish = L.GeoJSON.extend({
-  initialize: function(geojson, options) {
+  initialize: function (geojson, options) {
     this.options = {
       threshold: 10
     };
     L.GeoJSON.prototype.initialize.call(this, geojson, options);
   },
-  onAdd: function(map) {
+  onAdd: function (map) {
     this._map = map;
     this.eachLayer(map.addLayer, map);
 
     this._map.addEventListener("zoomend", this._onZoomEnd, this);
     this._onZoomEnd();
   },
-  onRemove: function(map) {
+  onRemove: function (map) {
     this._map.removeEventListener("zoomend", this._onZoomEnd, this);
 
     this.eachLayer(map.removeLayer, map);
     this._map = null;
   },
-  _onZoomEnd: function() {
+  _onZoomEnd: function () {
     // todo: name
     // todo: possible optimizations: zoomOut = skip already compressed objects (and vice versa)
     var is_max_zoom = this._map.getZoom() == this._map.getMaxZoom();
-    this.eachLayer(function(o) {
+    this.eachLayer(function (o) {
       if (!o.feature || !o.feature.geometry) return; // skip invalid layers
       if (o.feature.geometry.type == "Point" && !o.obj) return; // skip node features
       var crs = this._map.options.crs;
@@ -64,7 +64,7 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
       this.resetStyle(c);
       c.obj = o;
       //c.addEventListener("click dblclick mousedown mouseover mouseout contextmenu", function(e) {
-      c.on("click", function(e) {
+      c.on("click", function (e) {
         this.obj.fireEvent(e.type, e);
       });
       this.addLayer(c);
@@ -72,7 +72,7 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
     }, this);
   }
 });
-L.geoJsonNoVanish = function(geojson, options) {
+L.geoJsonNoVanish = function (geojson, options) {
   return new L.GeoJsonNoVanish(geojson, options);
 };
 

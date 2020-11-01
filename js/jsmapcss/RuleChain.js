@@ -16,31 +16,31 @@
 
 import styleparser from "./Style.js";
 
-styleparser.RuleChain = function() {
+styleparser.RuleChain = function () {
   this.rules = []; // list of Rules
   this.subpart = "default"; // subpart name, as in way[highway=primary]::centreline
 };
 styleparser.RuleChain.prototype = {
   // Functions to define the RuleChain
-  addRule: function(_subject) {
+  addRule: function (_subject) {
     this.rules.push(new styleparser.Rule());
     this.rules[this.rules.length - 1].addSubject(_subject);
   },
 
-  addConditionToLast: function(_condition) {
+  addConditionToLast: function (_condition) {
     this.rules[this.rules.length - 1].addCondition(_condition);
   },
 
-  addZoomToLast: function(z1, z2) {
+  addZoomToLast: function (z1, z2) {
     this.rules[this.rules.length - 1].minZoom = z1;
     this.rules[this.rules.length - 1].maxZoom = z2;
   },
 
-  length: function() {
+  length: function () {
     return this.rules.length;
   },
 
-  setSubpart: function(subpart) {
+  setSubpart: function (subpart) {
     this.subpart = subpart || "default";
   },
 
@@ -52,7 +52,7 @@ styleparser.RuleChain.prototype = {
   // - if they succeed, and it's the last in the chain, return happily
   // - if they succeed, and there's more in the chain, rerun this for each parent until success
 
-  test: function(pos, entity, tags, zoom) {
+  test: function (pos, entity, tags, zoom) {
     // summary:		Test a rule chain by running all the tests in reverse order.
     if (this.rules.length === 0) {
       return true;

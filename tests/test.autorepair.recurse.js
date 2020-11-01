@@ -3,9 +3,9 @@ var expect = chai.expect;
 import sinon from "sinon";
 import ide from "../js/ide";
 
-describe("ide.autorepair.recurse", function() {
+describe("ide.autorepair.recurse", function () {
   // autocomplete missing recurse statements: xml query
-  it("autocomplete xml query", function() {
+  it("autocomplete xml query", function () {
     var examples = [
       {
         // trivial case
@@ -42,7 +42,7 @@ describe("ide.autorepair.recurse", function() {
   });
 
   // autocomplete missing recurse statements: OverpassQL query
-  it("autocomplete OverpassQL query", function() {
+  it("autocomplete OverpassQL query", function () {
     var examples = [
       {
         // trivial case
@@ -91,7 +91,7 @@ describe("ide.autorepair.recurse", function() {
   });
 
   // do not autocomplete in comments (xml query)
-  it("do not autocomplete in comments (xml query)", function() {
+  it("do not autocomplete in comments (xml query)", function () {
     var examples = [
       {
         inp: "<!--<print/>-->",
@@ -112,7 +112,7 @@ describe("ide.autorepair.recurse", function() {
   });
 
   // do not autocomplete in comments (OverpassQL query)
-  it("do not autocomplete in comments (OverpassQL query)", function() {
+  it("do not autocomplete in comments (OverpassQL query)", function () {
     var examples = [
       {
         // multiline comments
