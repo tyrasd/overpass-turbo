@@ -54,7 +54,7 @@
     "settings.export_image_scale": "Umieść skalę na eksportowanych obrazach.",
     "settings.export_image_attr": "Umieść atrybucję na eksportowanych obrazach.",
     "save.title": "Zapisz",
-    "save.enter_name": "Wprowadź nazwę dla tej kwerendy",
+    "save.enter_name": "Wprowadź nazwę kwerendy",
     "load.title": "Załaduj",
     "load.delete_query": "skasuj tę kwerendę",
     "load.saved_queries-local": "Zapisane kwerendy (lokalne)",
