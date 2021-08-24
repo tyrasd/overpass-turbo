@@ -905,7 +905,7 @@ var ide = new (function () {
               name: i18n.t("dialog.show_data"),
               callback: function () {
                 if (
-                  $("input[name=hide_incomplete_data_warning]", this)[0].checked
+                  $("input[name=hide_incomplete_data_warning]", this).checked
                 ) {
                   settings.no_autorepair = true;
                   settings.save();
