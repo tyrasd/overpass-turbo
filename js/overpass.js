@@ -264,7 +264,6 @@ var overpass = new (function () {
             if (user_mapcss) $("#rerender-button").show();
 
             overpass.rerender = function (userMapCSS) {
-              console.trace();
               // test user supplied mapcss stylesheet
               try {
                 var dummy_mapcss = new styleparser.RuleSet();
