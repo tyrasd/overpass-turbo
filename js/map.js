@@ -205,7 +205,7 @@ $(document).ready(function () {
   overpass.handlers["onPopupReady"] = function (p) {
     p.openOn(ide.map);
   };
-  overpass.handlers["onDataRecieved"] = function (
+  overpass.handlers["onDataReceived"] = function (
     amount,
     txt,
     abortCB,

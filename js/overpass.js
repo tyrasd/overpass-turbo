@@ -103,7 +103,7 @@ var overpass = new (function () {
       else data_txt = data_amount / 1000000 + " MB";
       fire("onProgress", "received about " + data_txt + " of data");
       fire(
-        "onDataRecieved",
+        "onDataReceived",
         data_amount,
         data_txt,
         function () {

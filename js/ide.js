@@ -936,7 +936,7 @@ var ide = new (function () {
           ")</small></div>"
       ).appendTo("#map");
     };
-    overpass.handlers["onDataRecieved"] = function (
+    overpass.handlers["onDataReceived"] = function (
       amount,
       amount_txt,
       abortCB,
