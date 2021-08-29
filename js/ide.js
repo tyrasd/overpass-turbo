@@ -1502,6 +1502,7 @@ var ide = new (function () {
     $("#save-dialog").removeClass("is-active");
   };
   this.onLogoutClick = function () {
+    if (!window.confirm("Logout?")) return;
     sync.logout();
     $("#load-dialog ul.osm").html("");
     $("#logout").hide();
