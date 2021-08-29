@@ -159,10 +159,11 @@ var ide = new (function () {
         .click(
           (function (callback) {
             return function () {
-              $(element).remove();
               if (callback) {
                 callback();
               }
+              // destroy modal dialog after callback, see #528
+              $(element).remove();
             };
           })(button.callback)
         )
