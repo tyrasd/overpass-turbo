@@ -118,5 +118,5 @@ module.exports = {
       inject: "head"
     })
   ],
-  devtool: productionBuild ? undefined : "eval-source-map"
+  devtool: productionBuild ? "source-map" : "eval-cheap-module-source-map"
 };
