@@ -105,9 +105,17 @@ function geocodeArea(instr, callback) {
     var area_ref = 1 * res.osm_id;
     if (res.osm_type == "way") area_ref += 2400000000;
     if (res.osm_type == "relation") area_ref += 3600000000;
-    if (lang == "OverpassQL") res = "area(" + area_ref + ")";
-    else if (lang == "xml") res = 'type="area" ref="' + area_ref + '"';
-    callback(res);
+    if (lang == "OverpassQL") {
+      // Do not +2400000000 for ways since version 0.7.57,
+      // for backward compatibility query both IDs, see
+      // https://github.com/tyrasd/overpass-turbo/issues/537
+      if (res.osm_type === "way") area_ref += "," + res.osm_id;
+      return callback("area(id:" + area_ref + ")");
+    } else if (lang == "xml") {
+      // https://github.com/tyrasd/overpass-turbo/issues/537
+      if (res.osm_type === "way") area_ref += '" ref_1="' + res.osm_id;
+      return callback('type="area" ref="' + area_ref + '"');
+    }
   });
 }
 function geocodeBbox(instr, callback) {
