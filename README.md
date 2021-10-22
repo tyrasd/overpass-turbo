@@ -23,8 +23,6 @@ To download the latest translations from Transifex, run `tx pull --all` using th
 
 ## Development
 
-[![Build Status](https://secure.travis-ci.org/tyrasd/overpass-turbo.png)](https://travis-ci.org/tyrasd/overpass-turbo)
-
 ### URL parameters
 
 _overpass turbo_ can be linked from other applications by using [URL parameters](http://wiki.openstreetmap.org/wiki/Overpass_turbo/Development#URL_Parameters).
