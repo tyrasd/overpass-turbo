@@ -333,6 +333,10 @@ ffs.construct_query = function (search, comment, callback) {
 
       // construct query
       query_parts.push("  // query part for: “" + clauses_str + "”");
+      if (types.length === 3) {
+        types = ["nwr"];
+        query_parts.push("  // nwr is short for node/way/relation");
+      }
       for (var t = 0; t < types.length; t++) {
         var buffer = "  " + types[t];
         for (var c = 0; c < clauses.length; c++) buffer += clauses[c];
