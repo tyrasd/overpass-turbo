@@ -26,12 +26,7 @@ describe("ide.ffs", function () {
       var search = "foo=*";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"](bbox);' +
-            'way["foo"](bbox);' +
-            'relation["foo"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"](bbox);' + ");" + out_str
         );
       });
     });
@@ -40,12 +35,7 @@ describe("ide.ffs", function () {
       var search = "foo!=*";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"!~".*"](bbox);' +
-            'way["foo"!~".*"](bbox);' +
-            'relation["foo"!~".*"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"!~".*"](bbox);' + ");" + out_str
         );
       });
     });
@@ -54,12 +44,7 @@ describe("ide.ffs", function () {
       var search = "foo=bar";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"="bar"](bbox);' +
-            'way["foo"="bar"](bbox);' +
-            'relation["foo"="bar"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"="bar"](bbox);' + ");" + out_str
         );
       });
     });
@@ -68,12 +53,7 @@ describe("ide.ffs", function () {
       var search = "foo!=bar";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"!="bar"](bbox);' +
-            'way["foo"!="bar"](bbox);' +
-            'relation["foo"!="bar"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"!="bar"](bbox);' + ");" + out_str
         );
       });
     });
@@ -82,12 +62,7 @@ describe("ide.ffs", function () {
       var search = "foo~bar";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"~"bar"](bbox);' +
-            'way["foo"~"bar"](bbox);' +
-            'relation["foo"~"bar"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"~"bar"](bbox);' + ");" + out_str
         );
       });
     });
@@ -96,12 +71,7 @@ describe("ide.ffs", function () {
       var search = "~foo~bar";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node[~"foo"~"bar"](bbox);' +
-            'way[~"foo"~"bar"](bbox);' +
-            'relation[~"foo"~"bar"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr[~"foo"~"bar"](bbox);' + ");" + out_str
         );
       });
     });
@@ -110,12 +80,7 @@ describe("ide.ffs", function () {
       var search = "foo!~bar";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"!~"bar"](bbox);' +
-            'way["foo"!~"bar"](bbox);' +
-            'relation["foo"!~"bar"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"!~"bar"](bbox);' + ");" + out_str
         );
       });
     });
@@ -125,24 +90,14 @@ describe("ide.ffs", function () {
       var search = "foo:bar";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"~"bar"](bbox);' +
-            'way["foo"~"bar"](bbox);' +
-            'relation["foo"~"bar"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"~"bar"](bbox);' + ");" + out_str
         );
       });
       // but also escape special characters
       search = "foo:'*'";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"~"\\\\*"](bbox);' +
-            'way["foo"~"\\\\*"](bbox);' +
-            'relation["foo"~"\\\\*"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"~"\\\\*"](bbox);' + ");" + out_str
         );
       });
     });
@@ -158,12 +113,7 @@ describe("ide.ffs", function () {
         search = '"a key"="a value"';
         ffs.construct_query(search, undefined, function (err, result) {
           expect(compact(result)).to.equal(
-            "(" +
-              'node["a key"="a value"](bbox);' +
-              'way["a key"="a value"](bbox);' +
-              'relation["a key"="a value"](bbox);' +
-              ");" +
-              out_str
+            "(" + 'nwr["a key"="a value"](bbox);' + ");" + out_str
           );
         });
       });
@@ -173,12 +123,7 @@ describe("ide.ffs", function () {
         search = "'foo bar'='asd fasd'";
         ffs.construct_query(search, undefined, function (err, result) {
           expect(compact(result)).to.equal(
-            "(" +
-              'node["foo bar"="asd fasd"](bbox);' +
-              'way["foo bar"="asd fasd"](bbox);' +
-              'relation["foo bar"="asd fasd"](bbox);' +
-              ");" +
-              out_str
+            "(" + 'nwr["foo bar"="asd fasd"](bbox);' + ");" + out_str
           );
         });
       });
@@ -186,12 +131,7 @@ describe("ide.ffs", function () {
         var search = "name='بیجنگ'";
         ffs.construct_query(search, undefined, function (err, result) {
           expect(compact(result)).to.equal(
-            "(" +
-              'node["name"="بیجنگ"](bbox);' +
-              'way["name"="بیجنگ"](bbox);' +
-              'relation["name"="بیجنگ"](bbox);' +
-              ");" +
-              out_str
+            "(" + 'nwr["name"="بیجنگ"](bbox);' + ");" + out_str
           );
         });
       });
@@ -199,12 +139,7 @@ describe("ide.ffs", function () {
         var search = "name=Béziers";
         ffs.construct_query(search, undefined, function (err, result) {
           expect(compact(result)).to.equal(
-            "(" +
-              'node["name"="Béziers"](bbox);' +
-              'way["name"="Béziers"](bbox);' +
-              'relation["name"="Béziers"](bbox);' +
-              ");" +
-              out_str
+            "(" + 'nwr["name"="Béziers"](bbox);' + ");" + out_str
           );
         });
       });
@@ -216,24 +151,14 @@ describe("ide.ffs", function () {
       search = "foo~/bar/";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"~"bar"](bbox);' +
-            'way["foo"~"bar"](bbox);' +
-            'relation["foo"~"bar"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"~"bar"](bbox);' + ");" + out_str
         );
       });
       // simple regex with modifier
       search = "foo~/bar/i";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"~"bar",i](bbox);' +
-            'way["foo"~"bar",i](bbox);' +
-            'relation["foo"~"bar",i](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"~"bar",i](bbox);' + ");" + out_str
         );
       });
     });
@@ -246,12 +171,7 @@ describe("ide.ffs", function () {
       var search = "foo=bar and asd=fasd";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"="bar"]["asd"="fasd"](bbox);' +
-            'way["foo"="bar"]["asd"="fasd"](bbox);' +
-            'relation["foo"="bar"]["asd"="fasd"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"="bar"]["asd"="fasd"](bbox);' + ");" + out_str
         );
       });
     });
@@ -259,12 +179,7 @@ describe("ide.ffs", function () {
       var search = "foo=bar & asd=fasd";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"="bar"]["asd"="fasd"](bbox);' +
-            'way["foo"="bar"]["asd"="fasd"](bbox);' +
-            'relation["foo"="bar"]["asd"="fasd"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"="bar"]["asd"="fasd"](bbox);' + ");" + out_str
         );
       });
     });
@@ -272,12 +187,7 @@ describe("ide.ffs", function () {
       var search = "foo=bar && asd=fasd";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            'node["foo"="bar"]["asd"="fasd"](bbox);' +
-            'way["foo"="bar"]["asd"="fasd"](bbox);' +
-            'relation["foo"="bar"]["asd"="fasd"](bbox);' +
-            ");" +
-            out_str
+          "(" + 'nwr["foo"="bar"]["asd"="fasd"](bbox);' + ");" + out_str
         );
       });
     });
@@ -287,12 +197,8 @@ describe("ide.ffs", function () {
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
           "(" +
-            'node["foo"="bar"](bbox);' +
-            'way["foo"="bar"](bbox);' +
-            'relation["foo"="bar"](bbox);' +
-            'node["asd"="fasd"](bbox);' +
-            'way["asd"="fasd"](bbox);' +
-            'relation["asd"="fasd"](bbox);' +
+            'nwr["foo"="bar"](bbox);' +
+            'nwr["asd"="fasd"](bbox);' +
             ");" +
             out_str
         );
@@ -303,12 +209,8 @@ describe("ide.ffs", function () {
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
           "(" +
-            'node["foo"="bar"](bbox);' +
-            'way["foo"="bar"](bbox);' +
-            'relation["foo"="bar"](bbox);' +
-            'node["asd"="fasd"](bbox);' +
-            'way["asd"="fasd"](bbox);' +
-            'relation["asd"="fasd"](bbox);' +
+            'nwr["foo"="bar"](bbox);' +
+            'nwr["asd"="fasd"](bbox);' +
             ");" +
             out_str
         );
@@ -319,12 +221,8 @@ describe("ide.ffs", function () {
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
           "(" +
-            'node["foo"="bar"](bbox);' +
-            'way["foo"="bar"](bbox);' +
-            'relation["foo"="bar"](bbox);' +
-            'node["asd"="fasd"](bbox);' +
-            'way["asd"="fasd"](bbox);' +
-            'relation["asd"="fasd"](bbox);' +
+            'nwr["foo"="bar"](bbox);' +
+            'nwr["asd"="fasd"](bbox);' +
             ");" +
             out_str
         );
@@ -336,18 +234,10 @@ describe("ide.ffs", function () {
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
           "(" +
-            'node["foo"]["asd"](bbox);' +
-            'way["foo"]["asd"](bbox);' +
-            'relation["foo"]["asd"](bbox);' +
-            'node["foo"]["fasd"](bbox);' +
-            'way["foo"]["fasd"](bbox);' +
-            'relation["foo"]["fasd"](bbox);' +
-            'node["bar"]["asd"](bbox);' +
-            'way["bar"]["asd"](bbox);' +
-            'relation["bar"]["asd"](bbox);' +
-            'node["bar"]["fasd"](bbox);' +
-            'way["bar"]["fasd"](bbox);' +
-            'relation["bar"]["fasd"](bbox);' +
+            'nwr["foo"]["asd"](bbox);' +
+            'nwr["foo"]["fasd"](bbox);' +
+            'nwr["bar"]["asd"](bbox);' +
+            'nwr["bar"]["fasd"](bbox);' +
             ");" +
             out_str
         );
@@ -430,12 +320,7 @@ describe("ide.ffs", function () {
       search = "id:123";
       ffs.construct_query(search, undefined, function (err, result) {
         expect(compact(result)).to.equal(
-          "(" +
-            "node(123)(bbox);" +
-            "way(123)(bbox);" +
-            "relation(123)(bbox);" +
-            ");" +
-            out_str
+          "(" + "nwr(123)(bbox);" + ");" + out_str
         );
       });
     });
