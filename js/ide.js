@@ -362,7 +362,7 @@ var ide = new (function () {
           "out json xml custom popup timeout maxsize bbox" + // initial declarations
             " date diff adiff" + //attic declarations
             " foreach" + // block statements
-            " relation rel way node is_in area around user uid newer changed poly pivot nwr derived" + // queries
+            " relation rel way node is_in area around user uid newer changed poly pivot nwr nw nr wr derived" + // queries
             " out meta body skel tags ids count qt asc" + // actions
             " center bb geom" // geometry types
           //+"r w n br bw" // recursors
