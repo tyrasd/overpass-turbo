@@ -145,7 +145,7 @@
     "help.ide.keyboard.wizard": "Start de bevragings assistent",
     "help.ide.keyboard.load_save": "Laden (open) / een bevraging opslaan",
     "help.ide.keyboard.help": "Hulp weergeven",
-    "help.section.key": "Legende",
+    "help.section.key": "Legenda",
     "help.key.example": "Allerlei kaart elementen",
     "help.key.description": "Ways are shown as bold blue lines, Polygons as yellow areas with a thin blue outline, POIs (nodes with tags) as yellow circles with a thin blue outline. Circles with a red filling stand for polygons or ways that are too small to be displayed normally. Pink lines or outlines mean, that an object is part of at least one (loaded) relation. Dashed lines mean that a way or polygon has incomplete geometry (most likely because some of its nodes have not been loaded).",
     "help.section.export": "Exporteren",
