@@ -891,6 +891,9 @@ var overpass = new (function () {
                       // node-ish features (circles, markers, icons, placeholders)
                       if (typeof e.target.getLatLng == "function")
                         latlng = e.target.getLatLng();
+                      // if there is a placeholder on a line, polygon or multipolygon
+                      // then get the center instead of the position of the click
+                      else if(e.target.placeholder) latlng = e.target.getBounds().getCenter();
                       else latlng = e.latlng; // all other (lines, polygons, multipolygons)
                       var p = L.popup({maxHeight: 600}, this)
                         .setLatLng(latlng)
