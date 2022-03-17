@@ -1,17 +1,17 @@
 export default {
   appname: "overpass-turbo",
-  defaultServer: "//overpass-api.de/api/",
+  defaultServer: "https://overpass-api.de/api/",
   suggestedServers: [
-    "//overpass-api.de/api/",
+    "https://overpass-api.de/api/",
     "https://overpass.kumi.systems/api/",
-    "http://overpass.openstreetmap.ru/cgi/",
-    "//overpass.openstreetmap.fr/api/"
+    "https://overpass.openstreetmap.ru/cgi/",
+    "https://overpass.openstreetmap.fr/api/"
   ],
   defaultTiles: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   tileServerAttribution:
     "&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>",
   suggestedTiles: [
-    "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
     //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
     //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
     //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
