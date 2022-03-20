@@ -6,7 +6,7 @@ export default {
     "https://overpass.kumi.systems/api/",
     "https://overpass.openstreetmap.ru/cgi/"
   ],
-  defaultTiles: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  defaultTiles: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
   tileServerAttribution:
     "&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>",
   suggestedTiles: [
