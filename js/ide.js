@@ -2270,7 +2270,7 @@ var ide = new (function () {
                       alert("Error: Unexpected JOSM remote control error.");
                     })
                     .done(function (d, s, xhr) {
-                      console.log("successfully invoked JOSM remote constrol");
+                      console.log("successfully invoked JOSM remote control");
                     });
                 } else {
                   var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
