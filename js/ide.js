@@ -1662,7 +1662,7 @@ var ide = new (function () {
       // export query
       $("#export-text .format").html(i18n.t("export.format_text"));
       $("#export-text .export").attr({
-        download: "query.txt",
+        download: "query.overpassql",
         target: "_blank",
         href: toDataURL(query)
       });
@@ -1671,7 +1671,7 @@ var ide = new (function () {
       var query_raw = ide.getRawQuery();
       $("#export-text_raw .format").html(i18n.t("export.format_text_raw"));
       $("#export-text_raw .export").attr({
-        download: "query-raw.txt",
+        download: "query-raw.overpassql",
         target: "_blank",
         href: toDataURL(query_raw)
       });
@@ -1701,7 +1701,7 @@ var ide = new (function () {
       query_wiki += "\n}}";
       $("#export-text_wiki .format").html(i18n.t("export.format_text_wiki"));
       $("#export-text_wiki .export").attr({
-        download: "query-wiki.txt",
+        download: "query-wiki.mediawiki",
         target: "_blank",
         href: toDataURL(query_wiki)
       });
@@ -1723,7 +1723,7 @@ var ide = new (function () {
       );
       $("#export-text_umap .format").html(i18n.t("export.format_text_umap"));
       $("#export-text_umap .export").attr({
-        download: "query-umap.txt",
+        download: "query-umap.overpassql",
         target: "_blank",
         href: toDataURL(query_umap)
       });
