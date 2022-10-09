@@ -45,7 +45,7 @@ export default function ffs_free(callback) {
   function loadPresetTranslations() {
     var language = i18n.getLanguage();
     if (language == "en") return;
-    import("../../data/iD_presets_" + language + ".json")
+    import(`../../data/iD_presets_${language}.json`)
       .then(function (data) {
         // load translated names and terms into presets object
         Object.keys(data).forEach(function (preset) {
