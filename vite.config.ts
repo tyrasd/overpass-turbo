@@ -14,6 +14,7 @@ const GIT_VERSION = JSON.stringify(
 // https://vitejs.dev/config/
 export default defineConfig(() => {
   return {
+    base: ".",
     build: {
       rollupOptions: {
         input: {
