@@ -1,9 +1,10 @@
-import chai from "chai";
-var expect = chai.expect;
-import sinon from "sinon";
+import {afterEach, describe, expect, it, vi} from "vitest";
 import ide from "../js/ide";
 
 describe("ide.autorepair.josm", function () {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   // repair non-xml output data format: xml query
   it("repair non-xml output data format (xml query)", function () {
     var examples = [
@@ -27,17 +28,13 @@ describe("ide.autorepair.josm", function () {
           '<osm-script output="xml"><!-- fixed by auto repair -->\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/>\n</osm-script>'
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("xml");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("xml+metadata");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // repair non-xml output data format: ql query
@@ -66,17 +63,13 @@ describe("ide.autorepair.josm", function () {
           '/*bla*/\n[out:xml];/*fixed by auto repair*/\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;'
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("OverpassQL");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("xml+metadata");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // repair missing xml+meta infomation: xml query
@@ -85,33 +78,29 @@ describe("ide.autorepair.josm", function () {
       {
         // trivial case
         inp: "<print/>",
-        outp: '<print mode="meta"/><!-- fixed by auto repair -->'
+        outp: '<print mode="meta"></print><!-- fixed by auto repair -->'
       },
       {
         // trivial case 2
         inp: '<osm-script output="xml"><print/></osm-script>',
         outp:
-          '<osm-script output="xml"><print mode="meta"/><!-- fixed by auto repair --></osm-script>'
+          '<osm-script output="xml"><print mode="meta"></print><!-- fixed by auto repair --></osm-script>'
       },
       {
         // more complex real world example
         inp:
           '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body" order="quadtile"/>\n</osm-script>',
         outp:
-          '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"/><!-- fixed by auto repair -->\n</osm-script>'
+          '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"></print><!-- fixed by auto repair -->\n</osm-script>'
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("xml");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("xml+metadata");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // repair missing xml+meta infomation: ql query
@@ -146,17 +135,13 @@ describe("ide.autorepair.josm", function () {
           '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;/*fixed by auto repair*/'
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("OverpassQL");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("xml+metadata");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // overpass complex geometries
@@ -166,44 +151,40 @@ describe("ide.autorepair.josm", function () {
         // center geometry
         inp: '<print mode="meta" geometry="center"/>',
         outp:
-          '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+          '<union><item/><recurse type="down"/></union><print mode="meta"></print><!-- fixed by auto repair -->'
       },
       {
         // bounds geometry
         inp: '<print mode="meta" geometry="bounds"/>',
         outp:
-          '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+          '<union><item/><recurse type="down"/></union><print mode="meta"></print><!-- fixed by auto repair -->'
       },
       {
         // full geometry
         inp: '<print mode="meta" geometry="full"/>',
         outp:
-          '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+          '<union><item/><recurse type="down"/></union><print mode="meta"></print><!-- fixed by auto repair -->'
       },
       {
         // full geometry with from output mode
         inp: '<print mode="body" geometry="full"/>',
         outp:
-          '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
+          '<union><item/><recurse type="down"/></union><print mode="meta"></print><!-- fixed by auto repair -->'
       },
       {
         // full geometry with named input set
         inp: '<print from="foo" mode="meta" geometry="full"/>',
         outp:
-          '<union into="foo"><item set="foo"/><recurse from="foo" type="down"/></union><print from="foo" mode="meta"/><!-- fixed by auto repair -->'
+          '<union into="foo"><item set="foo"/><recurse from="foo" type="down"/></union><print from="foo" mode="meta"></print><!-- fixed by auto repair -->'
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("xml");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("xml+metadata");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // overpass complex geometries
@@ -240,17 +221,13 @@ describe("ide.autorepair.josm", function () {
         outp: "//asd fasd;\n(._;>;); out meta;/*fixed by auto repair*/"
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("OverpassQL");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("xml+metadata");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // do not repair statements in comments
@@ -267,17 +244,13 @@ describe("ide.autorepair.josm", function () {
         outp: "<!--<osm-script>-->"
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("xml");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("xml+metadata");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // do not repair statements in comments
@@ -294,16 +267,12 @@ describe("ide.autorepair.josm", function () {
         outp: "//out;\n"
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("OverpassQL");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("xml+metadata");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 });

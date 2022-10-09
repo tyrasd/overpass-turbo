@@ -98,12 +98,12 @@ var i18n = new (function () {
 
     // load language pack
     try {
-      return import("../locales/" + lng + ".json").then(
+      return import(`../locales/${lng}.json`).then(
         function (data) {
-          td = data;
+          td = data.default;
           i18n.translate_ui();
           // todo: nicer implementation
-          return data;
+          return data.default;
         },
         function (e) {
           console.log("failed to load language file " + lng, e);

@@ -1,5 +1,4 @@
-import chai from "chai";
-var expect = chai.expect;
+import {describe, expect, it} from "vitest";
 import evalparser from "../js/jsmapcss/eval.pegjs";
 
 describe("mapcss.eval", function () {
@@ -158,7 +157,7 @@ describe("mapcss.eval", function () {
   });
   it("general functions", function () {
     var q = 'tag("_")';
-    evalparser.tag = function (_) {
+    window.osm_tag = function (_) {
       return "foo";
     };
     var p = evalparser.parse(q);

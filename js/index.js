@@ -1,5 +1,4 @@
 import $ from "jquery";
-import "jquery-ui";
 
 import "leaflet";
 import "leaflet-polylineoffset";

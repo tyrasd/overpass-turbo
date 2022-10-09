@@ -1,13 +1,9 @@
-import chai from "chai";
-var expect = chai.expect;
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
-chai.use(sinonChai);
+import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 import ide from "../js/ide";
 
 describe("ide.query", function () {
   var orig_codeEditor, orig_map;
-  before(function () {
+  beforeEach(function () {
     orig_codeEditor = ide.codeEditor;
     ide.codeEditor = {};
     orig_map = ide.map;
@@ -25,14 +21,15 @@ describe("ide.query", function () {
       }
     };
   });
-  after(function () {
+  afterEach(function () {
     ide.map = orig_map;
     ide.codeEditor = orig_codeEditor;
+    vi.restoreAllMocks();
   });
 
   // expand {{parameters}} in ql query
   it("expand {{parameters}} in ql query", function () {
-    sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "setQuery").mockImplementation(() => {});
     var examples = [
       {
         // simple expansion
@@ -50,19 +47,19 @@ describe("ide.query", function () {
         outp: ";foofoo"
       }
     ];
-    var callback = sinon.spy();
+    var callback = vi.fn(() => 0);
     for (var i = 0; i < examples.length; i++) {
       ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
       ide.getQuery(callback);
-      expect(callback).to.have.been.calledWith(examples[i].outp);
+      expect(callback).toHaveBeenCalledWith(examples[i].outp);
     }
     ide.setQuery.restore();
   });
   // expand {{parameters}} in xml query
   it("expand {{parameters}} in xml", function () {
-    sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "setQuery").mockImplementation(() => {});
     var examples = [
       {
         // simple expansion
@@ -80,19 +77,19 @@ describe("ide.query", function () {
         outp: "<xml>foofoo</xml>"
       }
     ];
-    var callback = sinon.spy();
+    var callback = vi.fn(() => 0);
     for (var i = 0; i < examples.length; i++) {
       ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
       ide.getQuery(callback);
-      expect(callback).to.have.been.calledWith(examples[i].outp);
+      expect(callback).toHaveBeenCalledWith(examples[i].outp);
     }
     ide.setQuery.restore();
   });
   // expand {{bbox}}
   it("expand {{bbox}}", function () {
-    sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "setQuery").mockImplementation(() => {});
     var examples = [
       {
         // ql query
@@ -110,19 +107,19 @@ describe("ide.query", function () {
         outp: '<osm-script bbox="1,2,3,4"/>'
       }
     ];
-    var callback = sinon.spy();
+    var callback = vi.fn(() => 0);
     for (var i = 0; i < examples.length; i++) {
       ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
       ide.getQuery(callback);
-      expect(callback).to.have.been.calledWith(examples[i].outp);
+      expect(callback).toHaveBeenCalledWith(examples[i].outp);
     }
     ide.setQuery.restore();
   });
   // expand {{center}}
   it("expand {{center}}", function () {
-    sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "setQuery").mockImplementation(() => {});
     var examples = [
       {
         // ql query
@@ -135,13 +132,13 @@ describe("ide.query", function () {
         outp: '<around lat="5" lon="6"/>'
       }
     ];
-    var callback = sinon.spy();
+    var callback = vi.fn(() => 0);
     for (var i = 0; i < examples.length; i++) {
       ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
       ide.getQuery(callback);
-      expect(callback).to.have.been.calledWith(examples[i].outp);
+      expect(callback).toHaveBeenCalledWith(examples[i].outp);
     }
     ide.setQuery.restore();
   });
