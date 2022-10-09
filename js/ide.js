@@ -5,7 +5,6 @@ import jQuery from "jquery";
 import html2canvas from "html2canvas";
 import "canvg/rgbcolor";
 import "canvg";
-import "./promise-polyfill";
 import L from "leaflet";
 import "codemirror/lib/codemirror.js";
 import tokml from "tokml";
