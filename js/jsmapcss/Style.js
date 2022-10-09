@@ -59,7 +59,7 @@ styleparser.Style.prototype = {
     // helper object for eval() properties
     for (var k in this.evals) {
       try {
-        evalparser.tag = function (t) {
+        window.osm_tag = function (t) {
           return tags[t] || "";
         };
         this.setPropertyFromString(k, evalparser.parse(this.evals[k]));

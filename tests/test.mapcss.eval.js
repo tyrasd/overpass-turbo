@@ -157,7 +157,7 @@ describe("mapcss.eval", function () {
   });
   it("general functions", function () {
     var q = 'tag("_")';
-    evalparser.tag = function (_) {
+    window.osm_tag = function (_) {
       return "foo";
     };
     var p = evalparser.parse(q);
