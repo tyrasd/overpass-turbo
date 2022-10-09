@@ -1,7 +1,4 @@
-import chai from "chai";
-var expect = chai.expect;
-import sinon from "sinon";
-import turbo from "../js/ide";
+import {describe, expect, it} from "vitest";
 import settings from "../js/settings";
 import urlParameters from "../js/urlParameters";
 

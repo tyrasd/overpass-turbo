@@ -1,5 +1,4 @@
-import chai from "chai";
-var expect = chai.expect;
+import {describe, expect, it} from "vitest";
 import evalparser from "../js/jsmapcss/eval.pegjs";
 
 describe("mapcss.eval", function () {

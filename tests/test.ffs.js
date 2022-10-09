@@ -1,7 +1,5 @@
-import chai from "chai";
+import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 import $ from "jquery";
-var expect = chai.expect;
-import sinon from "sinon";
 import ffs from "../js/ffs";
 
 describe("ide.ffs", function () {
@@ -376,7 +374,7 @@ describe("ide.ffs", function () {
 
   // free form
   describe("free form", function () {
-    before(function () {
+    beforeEach(function () {
       var fake_ajax = {
         success: function (cb) {
           cb({
@@ -403,10 +401,10 @@ describe("ide.ffs", function () {
         },
         error: function (cb) {}
       };
-      sinon.stub($, "ajax").returns(fake_ajax);
+      vi.spyOn($, "ajax").mockImplementation(fake_ajax);
     });
-    after(function () {
-      $.ajax.restore();
+    afterEach(function () {
+      vi.restoreAllMocks();
     });
 
     it("preset", function () {

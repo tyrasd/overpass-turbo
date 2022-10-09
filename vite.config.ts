@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import {defineConfig} from "vite";
 import commonjs from "@rollup/plugin-commonjs";
 import inject from "@rollup/plugin-inject";
@@ -33,6 +34,11 @@ export default defineConfig(() => {
         jQuery: "jquery"
       }),
       pegjs()
-    ]
+    ],
+    // https://vitest.dev/config/
+    test: {
+      environment: "happy-dom",
+      include: "tests/test*.js"
+    }
   };
 });

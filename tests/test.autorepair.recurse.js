@@ -1,9 +1,10 @@
-import chai from "chai";
-var expect = chai.expect;
-import sinon from "sinon";
+import {afterEach, describe, expect, it, vi} from "vitest";
 import ide from "../js/ide";
 
 describe("ide.autorepair.recurse", function () {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   // autocomplete missing recurse statements: xml query
   it("autocomplete xml query", function () {
     var examples = [
@@ -28,17 +29,13 @@ describe("ide.autorepair.recurse", function () {
           '<query type="way" into="foo">\n  <has-kv k="amenity"/>\n  <bbox-query {{bbox}}/>\n</query>\n<query type="way" into="bar">\n  <has-kv k="building"/>\n  <bbox-query {{bbox}}/>\n</query>\n<!-- added by auto repair -->\n<union into="foo">\n  <item set="foo"/>\n  <recurse from="foo" type="down"/>\n</union>\n<!-- end of auto repair -->\n<print from="foo"/>\n<!-- added by auto repair -->\n<union into="bar">\n  <item set="bar"/>\n  <recurse from="bar" type="down"/>\n</union>\n<!-- end of auto repair -->\n<print from="bar" mode="meta"/>'
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("xml");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("no visible data");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // autocomplete missing recurse statements: OverpassQL query
@@ -77,17 +74,13 @@ describe("ide.autorepair.recurse", function () {
           'way({{bbox}})[junction=roundabout][name!="out"];/*added by auto repair*/(._;>;);/*end of auto repair*/out;'
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("OverpassQL");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("no visible data");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // do not autocomplete in comments (xml query)
@@ -98,17 +91,13 @@ describe("ide.autorepair.recurse", function () {
         outp: "<!--<print/>-->"
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("xml");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("no visible data");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 
   // do not autocomplete in comments (OverpassQL query)
@@ -125,16 +114,12 @@ describe("ide.autorepair.recurse", function () {
         outp: "//out;\n"
       }
     ];
-    sinon.stub(ide, "getQueryLang").returns("xml");
-    var setQuery = sinon.stub(ide, "setQuery");
+    vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
     for (var i = 0; i < examples.length; i++) {
-      sinon.stub(ide, "getRawQuery").returns(examples[i].inp);
+      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("no visible data");
-      var repaired_query = setQuery.getCall(i).args[0];
-      expect(repaired_query).to.be.eql(examples[i].outp);
-      ide.getRawQuery.restore();
+      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
     }
-    ide.getQueryLang.restore();
-    ide.setQuery.restore();
   });
 });

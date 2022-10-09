@@ -1,5 +1,4 @@
-import chai from "chai";
-var expect = chai.expect;
+import {describe, expect, it} from "vitest";
 import ide from "../js/ide";
 
 describe("ide.permalink", function () {
