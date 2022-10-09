@@ -7,10 +7,23 @@ import {levenshteinDistance} from "../misc";
 
 var freeFormQuery = {};
 var presets = {};
-var loaded = false;
+
+export function setPresets(newPresets) {
+  presets = newPresets;
+  Object.keys(presets).forEach(function (key) {
+    var preset = presets[key];
+    preset.nameCased = preset.name;
+    preset.name = preset.name.toLowerCase();
+    preset.terms = !preset.terms
+      ? []
+      : preset.terms.map(function (term) {
+          return term.toLowerCase();
+        });
+  });
+}
 
 export default function ffs_free(callback) {
-  if (loaded) {
+  if (Object.keys(presets).length > 0) {
     callback(freeFormQuery);
   } else {
     loadPresets()
@@ -24,17 +37,7 @@ export default function ffs_free(callback) {
   function loadPresets() {
     return import("../../data/iD_presets.json")
       .then(function (data) {
-        presets = data.presets;
-        Object.keys(presets).forEach(function (key) {
-          var preset = presets[key];
-          preset.nameCased = preset.name;
-          preset.name = preset.name.toLowerCase();
-          preset.terms = !preset.terms
-            ? []
-            : preset.terms.map(function (term) {
-                return term.toLowerCase();
-              });
-        });
+        setPresets(data.presets);
       })
       .catch(function (err) {
         console.warn("failed to load presets file", err);
