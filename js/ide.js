@@ -9,7 +9,6 @@ import "codemirror/lib/codemirror.js";
 import tokml from "tokml";
 import togpx from "togpx";
 import {saveAs} from "file-saver";
-import "canvas-toBlob"; // polyfill
 import configs from "./configs";
 import Query from "./query";
 import Nominatim from "./nominatim";

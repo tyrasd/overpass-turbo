@@ -29,7 +29,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
     "bulma": "^0.8.1",
-    "canvas-toBlob": "^1.0.0",
     "canvg": "4.0.1",
     "codemirror": "https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz",
     "file-saver": "^1.3.3",
