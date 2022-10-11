@@ -2404,10 +2404,9 @@ to-utf8@0.0.1:
   resolved "https://registry.yarnpkg.com/to-utf8/-/to-utf8-0.0.1.tgz#d17aea72ff2fba39b9e43601be7b3ff72e089852"
   integrity sha1-0Xrqcv8vujm55DYBvns/9y4ImFI=
 
-togpx@^0.5.3:
+togpx@tyrasd/togpx#4396a386fd179be6876f7443438909d524651eed:
   version "0.5.4"
-  resolved "https://registry.yarnpkg.com/togpx/-/togpx-0.5.4.tgz#b33dbb0541df04bd6ba4f50b86da953424bb7773"
-  integrity sha1-sz27BUHfBL1rpPULhtqVNCS7d3M=
+  resolved "https://codeload.github.com/tyrasd/togpx/tar.gz/4396a386fd179be6876f7443438909d524651eed"
   dependencies:
     concat-stream "~1.0.1"
     jxon "~2.0.0-beta.5"

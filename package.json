@@ -45,7 +45,7 @@
     "polylabel": "^1.0.2",
     "rgbcolor": "^1.0.1",
     "stackblur": "^1.0.0",
-    "togpx": "^0.5.3",
+    "togpx": "tyrasd/togpx#4396a386fd179be6876f7443438909d524651eed",
     "tokml": "^0.4.0"
   },
   "prettier": {
