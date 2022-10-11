@@ -1329,31 +1329,30 @@ var ide = new (function () {
 
   // Event handlers
   this.onLoadClick = function () {
-    $("#load-dialog ul.saved_query, #load-dialog ul.example").html(""); // reset example lists
+    $("#load-dialog .panel.saved_query .panel-block").remove();
+    $("#load-dialog .panel.example .panel-block").remove();
     // load example list
     var has_saved_query = false;
     for (var example in settings.saves) {
       var type = settings.saves[example].type;
       if (type == "template") continue;
-      $("<li></li>")
+      $('<a class="panel-block">')
+        .attr("href", "#")
+        .text(example)
+        .on(
+          "click",
+          (function (example) {
+            return function () {
+              ide.loadExample(example);
+              $("#load-dialog").removeClass("is-active");
+              return false;
+            };
+          })(example)
+        )
         .append(
-          $("<a>")
-            .attr("href", "#")
-            .text(example)
-            .on(
-              "click",
-              (function (example) {
-                return function () {
-                  ide.loadExample(example);
-                  $("#load-dialog").removeClass("is-active");
-                  return false;
-                };
-              })(example)
-            ),
-          $("<button>")
+          $('<button class="ml-auto">')
             .attr("title", i18n.t("load.delete_query") + ": " + example)
             .addClass("delete")
-            .css("float", "right")
             .on(
               "click",
               (function (example) {
@@ -1362,69 +1361,72 @@ var ide = new (function () {
                   return false;
                 };
               })(example)
-            ),
-          $("<div>").css("clear", "right")
+            )
         )
-        .appendTo("#load-dialog ul." + type);
+        .appendTo("#load-dialog .panel." + type);
       if (type == "saved_query") has_saved_query = true;
     }
     if (!has_saved_query)
-      $("<li>" + i18n.t("load.no_saved_query") + "</li>").appendTo(
-        "#load-dialog ul.saved_query"
-      );
+      $('<div class="panel-block">')
+        .text(i18n.t("load.no_saved_query"))
+        .appendTo("#load-dialog .panel.saved_query");
     $("#load-dialog").addClass("is-active");
 
     if (sync.authenticated()) {
       ide.loadOsmQueries();
     } else {
-      var ui = $("#load-dialog .osm-queries");
+      var ui = $("#load-dialog .panel.osm-queries");
       ui.show();
-      var loadButton = $(
-        "<button class='button is-link is-outlined t' title='load.title'>" +
-          i18n.t("load.title") +
-          "</button>"
-      ).click(function () {
-        ide.loadOsmQueries();
-      });
-      $("ul", ui).html("").append($("<li></li>").append(loadButton));
+      ui.find(".panel-block").remove();
+      $('<div class="panel-block">')
+        .append(
+          $(
+            "<button class='button is-link is-outlined t' title='load.title'>" +
+              i18n.t("load.title") +
+              "</button>"
+          ).on("click", function () {
+            ide.loadOsmQueries();
+          })
+        )
+        .appendTo(ui);
     }
   };
   this.loadOsmQueries = function () {
-    var ui = $("#load-dialog .osm-queries");
+    var ui = $("#load-dialog .panel.osm-queries");
     ui.show();
-    $("ul", ui).html(
-      "<li><i>" + i18n.t("load.saved_queries-osm-loading") + "</i></li>"
-    );
+    ui.find(".panel-block").remove();
+    $('<div class="panel-block">')
+      .text(i18n.t("load.saved_queries-osm-loading"))
+      .appendTo(ui);
 
     sync.load(function (err, queries) {
       if (err) {
-        $("ul", ui).html(
-          "<li><i>" + i18n.t("load.saved_queries-osm-error") + "</i></li>"
-        );
+        ui.find(".panel-block").remove();
+        $('<div class="panel-block">')
+          .text(i18n.t("load.saved_queries-osm-error"))
+          .appendTo(ui);
         return console.error(err);
       }
-      $("ul", ui).html("");
+      ui.find(".panel-block").remove();
       $("#logout").show();
       queries.forEach(function (q) {
-        $("<li></li>")
+        $('<a class="panel-block">')
+          .attr("href", "#")
+          .text(q.name)
+          .on(
+            "click",
+            (function (query) {
+              return function () {
+                ide.setQuery(lzw_decode(Base64.decode(query.query)));
+                $("#load-dialog").removeClass("is-active");
+                return false;
+              };
+            })(q)
+          )
           .append(
-            $("<a>")
-              .attr("href", "#")
-              .text(q.name)
-              .on(
-                "click",
-                (function (query) {
-                  return function () {
-                    ide.setQuery(lzw_decode(Base64.decode(query.query)));
-                    $("#load-dialog").removeClass("is-active");
-                    return false;
-                  };
-                })(q)
-              ),
-            $("<button/>")
+            $('<button class="ml-auto">')
               .attr("title", i18n.t("load.delete_query") + ": " + q.name)
               .addClass("delete")
-              .css("float", "right")
               .on(
                 "click",
                 (function (example) {
@@ -1433,10 +1435,9 @@ var ide = new (function () {
                     return false;
                   };
                 })(q)
-              ),
-            $("<div>").css("clear", "right")
+              )
           )
-          .appendTo("#load-dialog ul.osm");
+          .appendTo(ui);
       });
     });
   };
@@ -1485,7 +1486,7 @@ var ide = new (function () {
   this.onLogoutClick = function () {
     if (!window.confirm("Logout?")) return;
     sync.logout();
-    $("#load-dialog ul.osm").html("");
+    $("#load-dialog .panel.osm-queries .panel-block").remove();
     $("#logout").hide();
   };
   this.onRunClick = function () {
