@@ -3,7 +3,7 @@ import ffs from "./ffs";
 import settings from "./settings";
 import {Base64, lzw_decode} from "./misc";
 
-export default function urlParameters(param_str) {
+export default function urlParameters(param_str, callback) {
   // defaults
   var t = {
     has_query: false,
@@ -103,8 +103,10 @@ export default function urlParameters(param_str) {
       if (!err) {
         t.query = query;
         t.has_query = true;
+        if (typeof callback === "function") callback(null, t);
       } else {
         console.log("invalid wizard syntax:\n  " + args.w);
+        if (typeof callback === "function") callback(err, t);
       }
     });
   }
