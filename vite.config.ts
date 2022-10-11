@@ -16,10 +16,11 @@ export default defineConfig(() => {
     base: "./",
     build: {
       rollupOptions: {
-        input: {
-          main: resolve(__dirname, "index.html"),
-          nested: resolve(__dirname, "map.html")
-        }
+        input: [
+          resolve(__dirname, "index.html"),
+          resolve(__dirname, "land.html"),
+          resolve(__dirname, "map.html")
+        ]
       }
     },
     define: {
