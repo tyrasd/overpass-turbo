@@ -120,7 +120,7 @@ var examples_initial_example = "Drinking Water";
 // global settings object
 var settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
-  37 // settings version number
+  38 // settings version number
 );
 
 export default settings;
@@ -419,4 +419,11 @@ settings.define_upgrade_callback(37, function (s) {
     "overpass.openstreetmap.ru"
   );
   s.save();
+});
+
+settings.define_upgrade_callback(38, function (s) {
+  s.tile_server = s.tile_server.replace(
+    /\{s\}\.tile\.openstreetmap\.org/,
+    "tile.openstreetmap.org"
+  );
 });

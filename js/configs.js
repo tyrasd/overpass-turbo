@@ -7,11 +7,11 @@ export default {
     "http://overpass.openstreetmap.ru/cgi/",
     "//overpass.openstreetmap.fr/api/"
   ],
-  defaultTiles: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  defaultTiles: "//tile.openstreetmap.org/{z}/{x}/{y}.png",
   tileServerAttribution:
     "&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>",
   suggestedTiles: [
-    "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    "//tile.openstreetmap.org/{z}/{x}/{y}.png"
     //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
     //"http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png",
     //"http://{s}.tile3.opencyclemap.org/landscape/{z}/{x}/{y}.png",
