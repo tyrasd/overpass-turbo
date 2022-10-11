@@ -1,6 +1,5 @@
 /// <reference types="vitest" />
 import {defineConfig} from "vite";
-import commonjs from "@rollup/plugin-commonjs";
 import inject from "@rollup/plugin-inject";
 import pegjs from "rollup-plugin-pegjs";
 
@@ -27,9 +26,6 @@ export default defineConfig(() => {
       GIT_VERSION
     },
     plugins: [
-      commonjs({
-        include: /canvg/
-      }),
       inject({
         $: "jquery",
         jQuery: "jquery"
