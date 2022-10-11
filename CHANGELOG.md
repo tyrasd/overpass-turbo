@@ -1,9 +1,17 @@
 ## Latest changes live on https://tyrasd.github.io/overpass-turbo/
 
+- Implement nwr shorthand
+- Display Git commit date in help/about
+- Use modern build tools: vite, vitest
+
+## 2022-01-09
+
 - Show request duration in stats tooltip
 - Adjust MapCSS without re-running query
 - Rewrite UI to Bulma CSS
 - Add button to reset settings
+- Add confirmation for logout
+- Add syntax highlighting for nw/nr/wr
 
 ## 2020-01-07
 
