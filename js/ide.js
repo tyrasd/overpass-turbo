@@ -3,8 +3,7 @@ import $ from "jquery";
 import _ from "lodash";
 import jQuery from "jquery";
 import html2canvas from "html2canvas";
-import "canvg/rgbcolor";
-import "canvg";
+import {Canvg} from "canvg";
 import L from "leaflet";
 import "codemirror/lib/codemirror.js";
 import tokml from "tokml";
@@ -2350,7 +2349,7 @@ var ide = new (function () {
   this.onExportClose = function () {
     $("#export-dialog").removeClass("is-active");
   };
-  this.onExportImageClick = function () {
+  this.onExportImageClick = async function () {
     ide.waiter.open(i18n.t("waiter.export_as_image"));
     // 1. render canvas from map tiles
     // hide map controlls in this step :/
@@ -2363,63 +2362,66 @@ var ide = new (function () {
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     ide.waiter.addInfo("rendering map tiles");
     $("#map .leaflet-overlay-pane").hide();
-    html2canvas(document.getElementById("map"), {
+    var canvas = await html2canvas(document.getElementById("map"), {
       useCORS: true,
       allowTaint: false,
-      proxy: configs.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined, // use own proxy if necessary and available
-      onrendered: function (canvas) {
-        $("#map .leaflet-overlay-pane").show();
-        if (settings.export_image_attribution)
-          attribControl.removeFrom(ide.map);
-        if (!settings.export_image_scale) scaleControl.addTo(ide.map);
-        if (settings.show_data_stats) $("#data_stats").show();
-        $("#map .leaflet-control-container .leaflet-top").show();
-        ide.waiter.addInfo("rendering map data");
-        // 2. render overlay data onto canvas
-        canvas.id = "render_canvas";
-        var ctx = canvas.getContext("2d");
-        // get geometry for svg rendering
-        var height = $("#map .leaflet-overlay-pane svg").height();
-        var width = $("#map .leaflet-overlay-pane svg").width();
-        var tmp = $("#map .leaflet-map-pane")[0].style.cssText.match(
-          /.*?(-?\d+)px.*?(-?\d+)px.*/
-        );
-        var offx = +tmp[1];
-        var offy = +tmp[2];
-        if ($("#map .leaflet-overlay-pane").html().length > 0)
-          ctx.drawSvg(
-            $("#map .leaflet-overlay-pane").html(),
-            offx,
-            offy,
-            width,
-            height
-          );
-        ide.waiter.addInfo("converting to png image");
-        // 3. export canvas as html image
-        var imgstr = canvas.toDataURL("image/png");
-        var attrib_message = "";
-        if (!settings.export_image_attribution)
-          attrib_message =
-            '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
-        var dialog_buttons = [{name: i18n.t("dialog.done")}];
+      proxy: configs.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined // use own proxy if necessary and available
+    });
+    $("#map .leaflet-overlay-pane").show();
+    if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
+    if (!settings.export_image_scale) scaleControl.addTo(ide.map);
+    if (settings.show_data_stats) $("#data_stats").show();
+    $("#map .leaflet-control-container .leaflet-top").show();
+    ide.waiter.addInfo("rendering map data");
+    // 2. render overlay data onto canvas
+    canvas.id = "render_canvas";
+    var ctx = canvas.getContext("2d");
+    // get geometry for svg rendering
+    var height = $("#map .leaflet-overlay-pane svg").height();
+    var width = $("#map .leaflet-overlay-pane svg").width();
+    var tmp = $("#map .leaflet-map-pane")[0].style.cssText.match(
+      /.*?(-?\d+)px.*?(-?\d+)px.*/
+    );
+    var offsetX = +tmp[1];
+    var offsetY = +tmp[2];
+    var svg = $("#map .leaflet-overlay-pane").html();
+    if (svg.length > 0) {
+      var v = await Canvg.from(ctx, svg, {
+        ignoreAnimation: true,
+        ignoreClear: true,
+        ignoreDimensions: true,
+        ignoreMouse: true,
+        offsetX,
+        offsetY,
+        scaleHeight: height,
+        scaleWidth: width
+      });
+      v.render();
+    }
+    ide.waiter.addInfo("converting to png image");
+    // 3. export canvas as html image
+    var imgstr = canvas.toDataURL("image/png");
+    var attrib_message = "";
+    if (!settings.export_image_attribution)
+      attrib_message =
+        '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
+    var dialog_buttons = [{name: i18n.t("dialog.done")}];
 
-        ide.waiter.close();
-        var content =
-          '<p><img src="' +
-          imgstr +
-          '" alt="' +
-          i18n.t("export.image.alt") +
-          '" width="480px"/><br><!--<a href="' +
-          imgstr +
-          '" download="export.png" target="_blank">' +
-          i18n.t("export.image.download") +
-          "</a>--></p>" +
-          attrib_message;
-        showDialog(i18n.t("export.image.title"), content, dialog_buttons);
-        canvas.toBlob(function (blob) {
-          saveAs(blob, "export.png");
-        });
-      }
+    ide.waiter.close();
+    var content =
+      '<p><img src="' +
+      imgstr +
+      '" alt="' +
+      i18n.t("export.image.alt") +
+      '" width="480px"/><br><!--<a href="' +
+      imgstr +
+      '" download="export.png" target="_blank">' +
+      i18n.t("export.image.download") +
+      "</a>--></p>" +
+      attrib_message;
+    showDialog(i18n.t("export.image.title"), content, dialog_buttons);
+    canvas.toBlob(function (blob) {
+      saveAs(blob, "export.png");
     });
   };
   this.onFfsClick = function () {
