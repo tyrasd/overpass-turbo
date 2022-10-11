@@ -1350,16 +1350,10 @@ var ide = new (function () {
                 };
               })(example)
             ),
-          $("<a>")
-            .attr("href", "#")
+          $("<button>")
             .attr("title", i18n.t("load.delete_query") + ": " + example)
-            .addClass("delete-query")
+            .addClass("delete")
             .css("float", "right")
-            .append(
-              $('<span class="has-text-danger">')
-                .addClass("fas")
-                .addClass("fa-times")
-            )
             .on(
               "click",
               (function (example) {
@@ -1427,16 +1421,10 @@ var ide = new (function () {
                   };
                 })(q)
               ),
-            $("<a>")
-              .attr("href", "#")
+            $("<button/>")
               .attr("title", i18n.t("load.delete_query") + ": " + q.name)
-              .addClass("delete-query")
+              .addClass("delete")
               .css("float", "right")
-              .append(
-                $('<span class="has-text-danger">')
-                  .addClass("fas")
-                  .addClass("fa-times")
-              )
               .on(
                 "click",
                 (function (example) {
