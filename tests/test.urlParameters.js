@@ -6,78 +6,92 @@ describe("urlParameters", function () {
   // no parameters
   it("defaults", function () {
     var args = urlParameters("");
-    expect(args.has_query).to.be.equal(false);
-    expect(args.has_coords).to.be.equal(false);
-    expect(args.has_zoom).to.be.equal(false);
-    expect(args.run_query).to.be.equal(false);
+    expect(args).toMatchObject({
+      has_query: false,
+      has_coords: false,
+      has_zoom: false,
+      run_query: false
+    });
     var args = urlParameters("?");
-    expect(args.has_query).to.be.equal(false);
-    expect(args.has_coords).to.be.equal(false);
-    expect(args.has_zoom).to.be.equal(false);
-    expect(args.run_query).to.be.equal(false);
+    expect(args).toMatchObject({
+      has_query: false,
+      has_coords: false,
+      has_zoom: false,
+      run_query: false
+    });
   });
   // query (uncompressed)
   it("query", function () {
     var args = urlParameters("?Q=foo");
-    expect(args.has_query).to.be.equal(true);
-    expect(args.query).to.be.equal("foo");
-    expect(args.has_coords).to.be.equal(false);
-    expect(args.has_zoom).to.be.equal(false);
+    expect(args).toMatchObject({
+      has_query: true,
+      query: "foo",
+      has_coords: false,
+      has_zoom: false
+    });
   });
   // query (compressed)
   it("query (compressed)", function () {
     var args = urlParameters("?q=Zm9v");
-    expect(args.has_query).to.be.equal(true);
-    expect(args.query).to.be.equal("foo");
-    expect(args.has_coords).to.be.equal(false);
-    expect(args.has_zoom).to.be.equal(false);
+    expect(args).toMatchObject({
+      has_query: true,
+      query: "foo",
+      has_coords: false,
+      has_zoom: false
+    });
   });
   // coords (uncompressed)
   it("coords", function () {
     var args = urlParameters("?C=0;180;1");
-    expect(args.has_query).to.be.equal(false);
-    expect(args.has_coords).to.be.equal(true);
-    expect(args.coords.lat).to.be.equal(0.0);
-    expect(args.coords.lng).to.be.equal(180.0);
-    expect(args.has_zoom).to.be.equal(true);
-    expect(args.zoom).to.be.equal(1);
+    expect(args).toMatchObject({
+      has_query: false,
+      has_coords: true,
+      coords: {lat: 0.0, lng: 180.0},
+      has_zoom: true,
+      zoom: 1
+    });
   });
   // coords (uncompressed, lat/lon/zoom)
   it("coords (lat/lon/zoom)", function () {
     var args = urlParameters("?lat=0&lon=180.0&zoom=1");
-    expect(args.has_query).to.be.equal(false);
-    expect(args.has_coords).to.be.equal(true);
-    expect(args.coords.lat).to.be.equal(0.0);
-    expect(args.coords.lng).to.be.equal(180.0);
-    expect(args.has_zoom).to.be.equal(true);
-    expect(args.zoom).to.be.equal(1);
+    expect(args).toMatchObject({
+      has_query: false,
+      has_coords: true,
+      coords: {lat: 0.0, lng: 180.0},
+      has_zoom: true,
+      zoom: 1
+    });
     var args = urlParameters("?lat=0&lon=180.0");
-    expect(args.has_query).to.be.equal(false);
-    expect(args.has_coords).to.be.equal(true);
-    expect(args.coords.lat).to.be.equal(0.0);
-    expect(args.coords.lng).to.be.equal(180.0);
-    expect(args.has_zoom).to.be.equal(false);
+    expect(args).toMatchObject({
+      has_query: false,
+      has_coords: true,
+      coords: {lat: 0.0, lng: 180.0},
+      has_zoom: false
+    });
     var args = urlParameters("?zoom=1");
-    expect(args.has_query).to.be.equal(false);
-    expect(args.has_coords).to.be.equal(false);
-    expect(args.has_zoom).to.be.equal(true);
-    expect(args.zoom).to.be.equal(1);
+    expect(args).toMatchObject({
+      has_query: false,
+      has_coords: false,
+      has_zoom: true,
+      zoom: 1
+    });
   });
   // coords (compressed)
   it("coords (compressed)", function () {
     var args = urlParameters("?c=CTVpCWdRAB");
-    expect(args.has_coords).to.be.equal(true);
-    expect(args.coords.lat).to.be.equal(0.0);
-    expect(args.coords.lng).to.be.equal(180.0);
-    expect(args.has_zoom).to.be.equal(true);
-    expect(args.zoom).to.be.equal(1);
+    expect(args).toMatchObject({
+      has_coords: true,
+      coords: {lat: 0.0, lng: 180.0},
+      has_zoom: true,
+      zoom: 1
+    });
   });
   // RUN flag
   it("RUN flag", function () {
     var args = urlParameters("?Q=foo&R");
-    expect(args.run_query).to.be.equal(true);
+    expect(args).toMatchObject({run_query: true});
     var args = urlParameters("?Q=foo&R=true");
-    expect(args.run_query).to.be.equal(true);
+    expect(args).toMatchObject({run_query: true});
   });
   // template
   it("template", async function () {
