@@ -8,7 +8,6 @@ import L from "leaflet";
 import "codemirror/lib/codemirror.js";
 import tokml from "tokml";
 import togpx from "togpx";
-import {saveAs} from "file-saver";
 import configs from "./configs";
 import Query from "./query";
 import Nominatim from "./nominatim";
@@ -1627,13 +1626,21 @@ var ide = new (function () {
           .replace(/!/g, "%21")
           .replace(/\(/g, "%28")
           .replace(/\)/g, "%29");
-      function toDataURL(text) {
+      function toDataURL(text, mediatype) {
         return (
-          "data:text/plain;charset=" +
+          "data:" +
+          (mediatype || "text/plain") +
+          ";charset=" +
           (document.characterSet || document.charset) +
           ";base64," +
           Base64.encode(text, true)
         );
+      }
+      function saveAs(text, mediatype, filename) {
+        var save_link = document.createElement("a");
+        save_link.href = toDataURL(text, mediatype);
+        save_link.download = filename;
+        save_link.dispatchEvent(new MouseEvent("click"));
       }
       function copyHandler(text, successMessage) {
         return function () {
@@ -1861,10 +1868,7 @@ var ide = new (function () {
 
           // make content downloadable as file
           if (overpass.geojson) {
-            var blob = new Blob([geoJSON_str], {
-              type: "application/json;charset=utf-8"
-            });
-            saveAs(blob, "export.geojson");
+            saveAs(geoJSON_str, "application/geo+json", "export.geojson");
           } else {
             d.addClass("is-active");
             $(".message", d).text(geoJSON_str);
@@ -1987,10 +1991,7 @@ var ide = new (function () {
           var gpx_str = constructGpxString(geojson);
           // make content downloadable as file
           if (geojson) {
-            var blob = new Blob([gpx_str], {
-              type: "application/xml;charset=utf-8"
-            });
-            saveAs(blob, "export.gpx");
+            saveAs(gpx_str, "application/gpx+xml", "export.gpx");
           } else {
             var d = $("#export-download-dialog");
             d.addClass("is-active");
@@ -2049,10 +2050,11 @@ var ide = new (function () {
           var kml_str = constructKmlString(geojson);
           // make content downloadable as file
           if (geojson) {
-            var blob = new Blob([kml_str], {
-              type: "application/xml;charset=utf-8"
-            });
-            saveAs(blob, "export.kml");
+            saveAs(
+              kml_str,
+              "application/vnd.google-earth.kml+xml",
+              "export.kml"
+            );
           } else {
             $("#export-download-dialog").addClass("is-active");
             $("#export-download-dialog .message").text(kml_str);
@@ -2120,20 +2122,11 @@ var ide = new (function () {
           // make content downloadable as file
           if (geojson) {
             if (raw_type == "osm" || raw_type == "xml") {
-              var blob = new Blob([raw_str], {
-                type: "application/xml;charset=utf-8"
-              });
-              saveAs(blob, "export." + raw_type);
+              saveAs(raw_str, "application/xml", "export." + raw_type);
             } else if (raw_type == "json") {
-              var blob = new Blob([raw_str], {
-                type: "application/json;charset=utf-8"
-              });
-              saveAs(blob, "export.json");
+              saveAs(raw_str, "application/json", "export.json");
             } else {
-              var blob = new Blob([raw_str], {
-                type: "application/octet-stream;charset=utf-8"
-              });
-              saveAs(blob, "export.dat");
+              saveAs(raw_str, "application/octet-stream", "export.dat");
             }
           } else {
             var d = $("#export-download-dialog");
@@ -2419,9 +2412,10 @@ var ide = new (function () {
       "</a>--></p>" +
       attrib_message;
     showDialog(i18n.t("export.image.title"), content, dialog_buttons);
-    canvas.toBlob(function (blob) {
-      saveAs(blob, "export.png");
-    });
+    var save_link = document.createElement("a");
+    save_link.href = imgstr;
+    save_link.download = "export.png";
+    save_link.dispatchEvent(new MouseEvent("click"));
   };
   this.onFfsClick = function () {
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
