@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
-    "bulma": "^0.8.1",
+    "bulma": "^0.9.4",
     "canvg": "4.0.1",
     "codemirror": "https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz",
     "html2canvas": "^1.4.1",
