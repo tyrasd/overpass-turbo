@@ -41,7 +41,7 @@
     "lodash": ">=4.17.5",
     "mapbbcode": "https://github.com/MapBBCode/mapbbcode/archive/v1.2.0.tar.gz",
     "osm-auth": "^1.0.1",
-    "osmtogeojson": "^3.0.0-beta.3",
+    "osmtogeojson": "^3.0.0-beta.5",
     "polylabel": "^1.0.2",
     "rgbcolor": "^1.0.1",
     "stackblur": "^1.0.0",
