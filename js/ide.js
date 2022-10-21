@@ -1499,23 +1499,22 @@ var ide = new (function () {
     ide.rerender_map();
   };
   this.compose_share_link = function (query, compression, coords, run) {
-    var share_link = "";
+    var share_link = new URLSearchParams();
     if (!compression) {
       // compose uncompressed share link
-      share_link += "?Q=" + encodeURIComponent(query);
+      share_link.append("Q", query);
       if (coords)
-        share_link +=
-          "&C=" +
+        share_link.append(
+          "C",
           L.Util.formatNum(ide.map.getCenter().lat) +
-          ";" +
-          L.Util.formatNum(ide.map.getCenter().lng) +
-          ";" +
-          ide.map.getZoom();
-      if (run) share_link += "&R";
+            ";" +
+            L.Util.formatNum(ide.map.getCenter().lng) +
+            ";" +
+            ide.map.getZoom()
+        );
     } else {
       // compose compressed share link
-      share_link +=
-        "?q=" + encodeURIComponent(Base64.encode(lzw_encode(query)));
+      share_link.append("q", Base64.encode(lzw_encode(query)));
       if (coords) {
         var encode_coords = function (lat, lng) {
           var coords_cpr = Base64.encodeNum(
@@ -1524,14 +1523,15 @@ var ide = new (function () {
           );
           return "AAAAAAAA".substring(0, 9 - coords_cpr.length) + coords_cpr;
         };
-        share_link +=
-          "&c=" +
+        share_link.append(
+          "c",
           encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng) +
-          Base64.encodeNum(ide.map.getZoom());
+            Base64.encodeNum(ide.map.getZoom())
+        );
       }
-      if (run) share_link += "&R";
     }
-    return share_link;
+    if (run) share_link.append("R", "");
+    return "?" + share_link;
   };
   this.updateShareLink = function () {
     var baseurl = location.protocol + "//" + location.host + location.pathname;
@@ -1609,7 +1609,7 @@ var ide = new (function () {
       else if (settings.server !== configs.defaultServer)
         queryWithMapCSS += "{{data:overpass,server=" + settings.server + "}}";
       $("#export-dialog a#export-interactive-map")[0].href =
-        baseurl + "map.html?Q=" + encodeURIComponent(queryWithMapCSS);
+        baseurl + "map.html?" + new URLSearchParams({Q: queryWithMapCSS});
       // encoding exclamation marks for better command line usability (bash)
       $("#export-dialog a#export-overpass-api")[0].href =
         server +
@@ -2163,14 +2163,15 @@ var ide = new (function () {
         });
 
       $("#export-dialog a#export-convert-xml")[0].href =
-        server + "convert?data=" + encodeURIComponent(query) + "&target=xml";
+        server + "convert?" + new URLSearchParams({data: query, target: "xml"});
       $("#export-dialog a#export-convert-ql")[0].href =
-        server + "convert?data=" + encodeURIComponent(query) + "&target=mapql";
+        server +
+        "convert?" +
+        new URLSearchParams({data: query, target: "mapql"});
       $("#export-dialog a#export-convert-compact")[0].href =
         server +
-        "convert?data=" +
-        encodeURIComponent(query) +
-        "&target=compact";
+        "convert?" +
+        new URLSearchParams({data: query, target: "compact"});
 
       // OSM editors
       // first check for possible mistakes in query.
@@ -2183,10 +2184,10 @@ var ide = new (function () {
       exportToLevel0.unbind("click");
       function constructLevel0Link(query) {
         return (
-          "http://level0.osmz.ru/?url=" +
-          encodeURIComponent(
-            server + "interpreter?data=" + encodeURIComponent(query)
-          )
+          "http://level0.osmz.ru/?" +
+          new URLSearchParams({
+            url: server + "interpreter?" + new URLSearchParams({data: query})
+          })
         );
       }
       if (validEditorQuery) {
