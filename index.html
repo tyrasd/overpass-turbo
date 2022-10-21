@@ -1022,11 +1022,16 @@
         <section class="modal-card-body">
           <div class="content">
             <span class="t" data-t="[html]ffs.expl"></span>
-            <ul>
-              <li>Drinking Water</li>
-              <li>highway=* and type:way</li>
-              <li>tourism=museum in Vienna</li>
-            </ul>
+          </div>
+          <div class="panel">
+            <div class="panel-heading t" data-t="load.examples"></div>
+            <div class="panel-block">Drinking Water</div>
+            <div class="panel-block">amenity=drinking_water and type:node</div>
+            <div class="panel-block">
+              (highway=primary or highway=secondary) and type:way
+            </div>
+            <div class="panel-block">tourism=hotel</div>
+            <div class="panel-block">tourism=museum in Vienna</div>
           </div>
           <div class="field">
             <div class="control has-icons-left">
@@ -1036,7 +1041,7 @@
                 placeholder=""
                 value=""
                 id="ffs-input"
-                class="t input is-rounded"
+                class="t input"
                 data-t="[placeholder]ffs.placeholder"
                 required
               />
