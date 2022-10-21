@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Editor levert av",
     "help.attr.other_libs": "Øvrige funksjonsbibliotek:",
     "ffs.title": "Søkeuttrykkveileder",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "søk",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Søkeveilederen</a> hjelper deg å skape Overpass søk. Her er noen eksempler på bruk:",
     "ffs.parse_error": "Beklager, dette søket kan ikke utføres.",

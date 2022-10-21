@@ -171,6 +171,7 @@
     "help.attr.codemirror": "編輯器驅動：",
     "help.attr.other_libs": "其他函式庫",
     "ffs.title": "檢索精靈",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "搜尋",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">精靈</a>可以協助您生成 Overpass 檢索. 以下是使用範例:",
     "ffs.parse_error": "抱歉，無法理解這次搜尋字串",

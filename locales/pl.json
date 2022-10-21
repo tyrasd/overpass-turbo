@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Edytor:",
     "help.attr.other_libs": "Pozostałe biblioteki:",
     "ffs.title": "Kreator kwerend",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "szukaj",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Kreator</a> pomaga tworzyć kwerendy Overpass. Oto kilka przykładów użycia:",
     "ffs.parse_error": "To wyrażenie wyszukiwania jest niezrozumiałe.",

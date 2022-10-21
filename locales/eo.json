@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Redaktilo funkciigata de",
     "help.attr.other_libs": "Aliaj bibliotekoj:",
     "ffs.title": "Informpeta asistilo",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "serĉi",
     "ffs.expl": "La <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">asistilo</a> helpas al vi krei overpass informpetojn. Jen kelkaj ekzemploj de uzado:",
     "ffs.parse_error": "Bedaŭrinde ĉi tiu informpeto estas nekomprenebla.",

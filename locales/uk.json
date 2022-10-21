@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Сирці редактора – ",
     "help.attr.other_libs": "Інші бібліотеки: ",
     "ffs.title": "Помічник по складанню запитів",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "пошук",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Помічник</a> допоможе Вам створювати Overpass-запити. Ось кілька прикладів: ",
     "ffs.parse_error": "На жаль цей запит не розпізнано.",

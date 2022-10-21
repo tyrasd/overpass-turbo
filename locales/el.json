@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Διορθωτής με την ισχύ του",
     "help.attr.other_libs": "Άλλες βιβλιοθήκες:",
     "ffs.title": "Οδηγός ερωτήματος",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "αναζήτηση",
     "ffs.expl": "Ο <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">οδηγός</a> σας βοηθά στην δημιουργία ερωτημάτων Overpass. Εδώ βρίσκονται μερικά παραδείγματα χρήσης:",
     "ffs.parse_error": "Λυπάμαι, αυτή η αναζήτηση δεν έγινε κατανοητή.",

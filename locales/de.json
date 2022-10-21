@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Editor unterstützt durch",
     "help.attr.other_libs": "Weitere Bibliotheken:",
     "ffs.title": "Abfrage-Assistent",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "Suchbegriff",
     "ffs.expl": "Dieser <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Wizard</a> hilft dabei selbst Overpass Abfragen zu erstellen. Hier sind einige Nutzungsbeispiele:",
     "ffs.parse_error": "Leider konnte das nicht verstanden werden.",

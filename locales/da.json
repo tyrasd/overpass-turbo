@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Editor er drevet af",
     "help.attr.other_libs": "Andre biblioteker:",
     "ffs.title": "Søgeguide",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "Søg",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Guiden</a> hjælper dig med at lave Overpass søgninger. Her er nogle eksempler:",
     "ffs.parse_error": "Beklager, denne søgnings syntaks er forkert.",

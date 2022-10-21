@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Editor běží na",
     "help.attr.other_libs": "Ostatní knihovny: ",
     "ffs.title": "Průvodce databázovými dotazy",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "hledání",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Průvodce</a> vám pomůže s vytvářením databázových dotazů Overpass. Zde je několik příkladů použití:",
     "ffs.parse_error": "Litujeme, toto hledání nelze pochopit.",

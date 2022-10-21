@@ -171,6 +171,7 @@
     "help.attr.codemirror": "编辑器提供方",
     "help.attr.other_libs": "其他库",
     "ffs.title": "查询助手",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "搜索",
     "ffs.expl": "这个<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">助手精灵</a>可以帮助您生成Overpass查询，如下是一些使用样例：",
     "ffs.parse_error": "抱歉，我无法理解您的搜索意图",

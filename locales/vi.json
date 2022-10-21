@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Trình soạn thảo hoạt động do",
     "help.attr.other_libs": "Thư viện khác:",
     "ffs.title": "Trình thuật sĩ Truy vấn",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "tìm kiếm",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Trình thuật sĩ</a> giúp bạn soạn thảo các truy vấn Overpass. Một vài ví dụ sử dụng:",
     "ffs.parse_error": "Rất tiếc, không hiểu truy vấn này.",

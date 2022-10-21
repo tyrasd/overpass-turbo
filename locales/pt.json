@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Editor fornecido por",
     "help.attr.other_libs": "Outras bibliotecas:",
     "ffs.title": "Assistente de Consulta",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "pesquisar",
     "ffs.expl": "O <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">assistente</a> ajuda-o a criar consultas. Aqui estão alguns exemplos:",
     "ffs.parse_error": "Desculpe, a pesquisa não foi compreendida.",

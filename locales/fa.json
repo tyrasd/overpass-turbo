@@ -171,6 +171,7 @@
     "help.attr.codemirror": "ویرایشگر کد بر پایهٔ",
     "help.attr.other_libs": "سایر کتابخانه‌ها:",
     "ffs.title": "دستیار پرس‌وجو",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "جست‌وجو",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">دستیار</a> برای ساخت پرس‌وجوهای Overpass کمکتان می‌کند. چند نمونهٔ کاربردی:",
     "ffs.parse_error": "متأسفانه این جست‌وجو را نمی‌فهمم.",

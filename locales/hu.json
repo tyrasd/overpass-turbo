@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Szerkesztő:",
     "help.attr.other_libs": "További könyvtárak:",
     "ffs.title": "Lekérdezésvarázsló",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "keresés",
     "ffs.expl": "A <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">varázsló</a> segít Overpass lekérdezéseket létrehozni. Pár példa a használatára:",
     "ffs.parse_error": "Sajnálom, ez a keresés nem érthető.",

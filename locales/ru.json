@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Редактор на движке",
     "help.attr.other_libs": "Другие библиотеки:",
     "ffs.title": "Помощник по составлению запросов",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "поиск",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Помощник</a> поможет вам с созданием запросов Overpass. Вот несколько примеров:",
     "ffs.parse_error": "К сожалению этот запрос не распознан.",

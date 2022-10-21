@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Editor potenziato da",
     "help.attr.other_libs": "Altre librerie:",
     "ffs.title": "Query Wizard",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "cerca",
     "ffs.expl": "Il <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">compositore</a> può assisterti nel creare query Overpass. Qui alcuni esempi di utilizzo:",
     "ffs.parse_error": "Questa ricerca non è stata riconosciuta.",

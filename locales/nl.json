@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Editor powered by",
     "help.attr.other_libs": "Andere bibliotheken:",
     "ffs.title": "Bevragings-assistent",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "Zoek",
     "ffs.expl": "The <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">wizard</a> assists you with creating Overpass queries. Here are some usage examples:",
     "ffs.parse_error": "Sorry, this search cannot be understood.",

@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Editor powered by",
     "help.attr.other_libs": "Other libraries:",
     "ffs.title": "クエリウィザード",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "検索",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">ウィザード</a>を使うことで、Overpassクエリの作成をより簡単に行うことができます。クエリのサンプルは以下のとおりです:",
     "ffs.parse_error": "すみません、検索内容を見なおしてみてください。",

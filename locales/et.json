@@ -171,6 +171,7 @@
     "help.attr.codemirror": "Redaktori mootor",
     "help.attr.other_libs": "Teised teegid:",
     "ffs.title": "Päringunõustaja",
+    "ffs.comments": "add query comments",
     "ffs.placeholder": "otsing",
     "ffs.expl": "<a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Nõustaja</a> aitab sul koostada Overpass päringuid. Siin on näha mõned kasulikud näited:",
     "ffs.parse_error": "Vabandust, see otsing on arusaamatu.",
