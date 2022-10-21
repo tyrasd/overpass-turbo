@@ -99,6 +99,9 @@ body {
   width: 100%;
   font-family: monospace;
 }
+.monospace {
+  font-family: monospace;
+}
 #data .CodeMirror-scroll {
   height: 100%;
   overflow-x: auto;
