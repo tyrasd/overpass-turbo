@@ -125,20 +125,11 @@ $(document).ready(function () {
     ).dialog({modal: true});
   }
   // check for any get-parameters
-  var get = location.search.substring(1).split("&");
-  for (var i = 0; i < get.length; i++) {
-    var kv = get[i].split("=");
-    if (
-      kv[0] == "Q" // uncompressed query set in url
-    )
-      settings.code["overpass"] = decodeURIComponent(
-        kv[1].replace(/\+/g, "%20")
-      );
-    if (
-      kv[0] == "silent" // don't alert on overpass errors, but send messages to parent window
-    )
-      settings.silent = true;
-  }
+  var params = new URLSearchParams(location.search.substring(1));
+  // uncompressed query set in url
+  settings.code["overpass"] = params.get("Q");
+  // don't alert on overpass errors, but send messages to parent window
+  settings.silent = params.has("silent");
   // init leaflet
   ide.map = new L.Map("map");
   var tilesUrl = settings.tileServer;
