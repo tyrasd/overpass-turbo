@@ -125,6 +125,8 @@ var i18n = new (function () {
         var what = tmp[2];
         var key = tmp[3];
         var val = i18n.t(key);
+        var shortcut = $(element).attr("data-shortcut");
+        if (shortcut) val += " [" + shortcut + "]";
         if (what === "html") {
           $(element).html(val);
         } else if (what !== undefined) {

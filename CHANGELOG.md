@@ -3,6 +3,7 @@
 - Implement nwr shorthand
 - Display Git commit date in help/about
 - Use modern build tools: vite, vitest
+- Show shortcuts in tooltip
 
 ## 2022-01-09
 

@@ -2654,6 +2654,16 @@ var ide = new (function () {
       event.preventDefault();
     }
     if (
+      String.fromCharCode(event.which).toLowerCase() == "e" &&
+      (event.ctrlKey || event.metaKey) &&
+      !event.shiftKey &&
+      !event.altKey
+    ) {
+      // Ctrl+E
+      ide.onExportClick();
+      event.preventDefault();
+    }
+    if (
       String.fromCharCode(event.which).toLowerCase() == "s" &&
       (event.ctrlKey || event.metaKey) &&
       !event.shiftKey &&
