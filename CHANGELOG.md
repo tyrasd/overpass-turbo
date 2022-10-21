@@ -4,6 +4,7 @@
 - Display Git commit date in help/about
 - Use modern build tools: vite, vitest
 - Show shortcuts in tooltip
+- Wizard: checkbox to include/exclude query comments
 
 ## 2022-01-09
 
