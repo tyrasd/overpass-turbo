@@ -2759,9 +2759,10 @@ var ide = new (function () {
   };
   this.update_ffs_query = function (s, callback) {
     var search = s || $("#ffs-dialog input[type=search]").val();
+    var comment = $("#ffs-dialog input[name='ffs.comments']")[0].checked;
     ffs.construct_query(
       search,
-      undefined,
+      comment,
       function (err, query) {
         if (err) {
           ffs.repair_search(
