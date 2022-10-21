@@ -245,6 +245,9 @@ var ide = new (function () {
     $("#overpass-turbo-version").html(
       "overpass-turbo <code>" + GIT_VERSION + "</code>" // eslint-disable-line no-undef
     );
+    $("#overpass-turbo-dependencies").html(
+      APP_DEPENDENCIES // eslint-disable-line no-undef
+    );
     // (very raw) compatibility check <- TODO: put this into its own function
     if (
       jQuery.support.cors != true ||
