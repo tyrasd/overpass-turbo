@@ -5,7 +5,7 @@
 
 This is a GUI for testing and developing queries for the [Overpass-API](http://www.overpass-api.de/). It can also used for simple analysis of OSM data.
 
-[![](http://wiki.openstreetmap.org/w/images/thumb/9/99/Overpass_turbo_showcase_1.png/600px-Overpass_turbo_showcase_1.png)](http://overpass-turbo.eu)
+[![](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Overpass_turbo_screenshot_2022.png/1280px-Overpass_turbo_screenshot_2022.png)](https://overpass-turbo.eu)
 
 ## Getting Started
 
