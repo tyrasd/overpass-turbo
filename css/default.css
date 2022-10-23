@@ -138,6 +138,12 @@ a.external {
 .modal-card-foot {
   justify-content: flex-end;
 }
+@media screen and (min-width: 1023px) {
+  .modal-content,
+  .modal-card {
+    width: 894px;
+  }
+}
 
 .leaflet-control-buttons a:hover {
   background-color: #ffffff;
