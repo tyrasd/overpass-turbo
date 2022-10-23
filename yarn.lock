@@ -46,6 +46,11 @@
     get-stream "^6.0.1"
     minimist "^1.2.6"
 
+"@openstreetmap/id-tagging-schema@^3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@openstreetmap/id-tagging-schema/-/id-tagging-schema-3.5.1.tgz#4980ceb65e98fde44c980e41a7bc580898e24e06"
+  integrity sha512-CyTV9CpDzbEjHGLlBb9fQvWHN/yCNAk3ijkvxO4NTaUi+0p37wXZuUm4Da53fa1bcaRQ3usIn2TygeHTRB/9Fg==
+
 "@rollup/plugin-inject@^4.0.4":
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-inject/-/plugin-inject-4.0.4.tgz#fbeee66e9a700782c4f65c8b0edbafe58678fbc2"
