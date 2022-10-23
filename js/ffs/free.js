@@ -30,7 +30,7 @@ export default function ffs_free(callback) {
   // load presets
   async function loadPresets() {
     try {
-      const data = await import("../../data/iD_presets.json");
+      const {default: data} = await import("../../data/iD_presets.json");
       setPresets(data.presets);
     } catch (err) {
       console.warn("failed to load presets file", err);
@@ -42,7 +42,9 @@ export default function ffs_free(callback) {
     var language = i18n.getLanguage();
     if (!language || language === "en") return;
     try {
-      const data = await import(`../../data/iD_presets_${language}.json`);
+      const {default: data} = await import(
+        `../../data/iD_presets_${language}.json`
+      );
       // load translated names and terms into presets object
       Object.entries(data).forEach(([preset, translation]) => {
         preset = presets[preset];
