@@ -1,12 +1,8 @@
 // query parser module
 import _ from "lodash";
 
-export default function query() {
-  var statements = {};
-
-  var parser = {};
-
-  parser.parse = function (query, shortcuts, callback, _found_statements) {
+export default class parser {
+  parse(query, shortcuts, callback, _found_statements) {
     // 1. get user defined constants
     var constants = {};
     var constant = /{{([A-Za-z0-9_]+)=(.+?)}}/;
@@ -21,9 +17,9 @@ export default function query() {
     _.extend(shortcuts, constants, function (b, a) {
       return typeof a == "undefined" ? b : a;
     });
-    // 2. replace overpass turbo statements, user-constants and shortcuts
-    statements = {};
-    if (_found_statements) statements = _found_statements;
+    // 2. replace overpass turbo this.statements, user-constants and shortcuts
+    this.statements = {};
+    if (_found_statements) this.statements = _found_statements;
     var statement = /{{([A-Za-z0-9_]+)(:([\s\S]*?))?}}/;
     var s;
     while ((s = query.match(statement))) {
@@ -31,8 +27,8 @@ export default function query() {
       var s_instr = s[3] || "";
       var s_replace = "";
       // save instructions for later
-      if (statements[s_name] === undefined) statements[s_name] = "";
-      statements[s_name] += s_instr;
+      if (this.statements[s_name] === undefined) this.statements[s_name] = "";
+      this.statements[s_name] += s_instr;
       // if the statement is a shortcut, replace its content
       if (shortcuts[s_name] !== undefined) {
         // these shortcuts can also be callback functions, like {{date:-1day}}
@@ -45,7 +41,7 @@ export default function query() {
               "{{__statement__" + s_name + "__" + seed + ":" + s_instr + "}}"
             );
             // recursively call the parser with updated shortcuts
-            parser.parse(query, shortcuts, callback, statements);
+            this.parse(query, shortcuts, callback, this.statements);
           });
           return;
         } else s_replace = shortcuts[s_name];
@@ -63,15 +59,11 @@ export default function query() {
     }
     // return the query
     callback(query);
-  };
-
-  parser.hasStatement = function (statement) {
-    return statements.hasOwnProperty(statement);
-  };
-
-  parser.getStatement = function (statement) {
-    return statements[statement];
-  };
-
-  return parser;
+  }
+  hasStatement(statement) {
+    return this.statements.hasOwnProperty(statement);
+  }
+  getStatement(statement) {
+    return this.statements[statement];
+  }
 }
