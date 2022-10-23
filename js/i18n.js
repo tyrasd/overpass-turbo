@@ -4,65 +4,66 @@ import _ from "lodash";
 
 import settings from "./settings";
 
-var i18n = new (function () {
-  function browser_locale() {
-    /* taken from https://github.com/maxogden/browser-locale by Max Ogden, BSD licensed */
-    var lang;
+function browser_locale() {
+  /* taken from https://github.com/maxogden/browser-locale by Max Ogden, BSD licensed */
+  var lang;
 
-    if (navigator.languages) {
-      // chrome does not currently set navigator.language correctly https://code.google.com/p/chromium/issues/detail?id=101138
-      // but it does set the first element of navigator.languages correctly
-      lang = navigator.languages[0];
-    } else if (navigator.userLanguage) {
-      // IE only
-      lang = navigator.userLanguage;
-    } else {
-      // as of this writing the latest version of firefox + safari set this correctly
-      lang = navigator.language;
-    }
-
-    return lang;
+  if (navigator.languages) {
+    // chrome does not currently set navigator.language correctly https://code.google.com/p/chromium/issues/detail?id=101138
+    // but it does set the first element of navigator.languages correctly
+    lang = navigator.languages[0];
+  } else if (navigator.userLanguage) {
+    // IE only
+    lang = navigator.userLanguage;
+  } else {
+    // as of this writing the latest version of firefox + safari set this correctly
+    lang = navigator.language;
   }
 
-  var default_lng = "en";
-  var languages = {
-    // translations found in locale/*.json
-    en: "English",
-    ca: "Catalan",
-    cs: "Czech",
-    da: "Danish",
-    eo: "Esperanto",
-    de: "German",
-    el: "Greek",
-    es: "Spanish",
-    et: "Estonian",
-    fr: "French",
-    gl: "Galician",
-    hr: "Croatian",
-    hu: "Hungarian",
-    it: "Italian",
-    ja: "Japanese",
-    lv: "Latvian",
-    nl: "Dutch",
-    no: "Norwegian",
-    pl: "Polish",
-    pt: "Portuguese",
-    "pt-BR": "Portuguese (Brazil)",
-    ru: "Russian",
-    sl: "Slovenian",
-    uk: "Ukrainian",
-    vi: "Vietnamese",
-    "zh-CN": "Chinese (Simplified)",
-    "zh-TW": "Chinese (Taiwan)"
-  };
-  var supported_lngs = _.keys(languages);
-  this.getSupportedLanguages = function () {
+  return lang;
+}
+
+var default_lng = "en";
+var languages = {
+  // translations found in locale/*.json
+  en: "English",
+  ca: "Catalan",
+  cs: "Czech",
+  da: "Danish",
+  eo: "Esperanto",
+  de: "German",
+  el: "Greek",
+  es: "Spanish",
+  et: "Estonian",
+  fr: "French",
+  gl: "Galician",
+  hr: "Croatian",
+  hu: "Hungarian",
+  it: "Italian",
+  ja: "Japanese",
+  lv: "Latvian",
+  nl: "Dutch",
+  no: "Norwegian",
+  pl: "Polish",
+  pt: "Portuguese",
+  "pt-BR": "Portuguese (Brazil)",
+  ru: "Russian",
+  sl: "Slovenian",
+  uk: "Ukrainian",
+  vi: "Vietnamese",
+  "zh-CN": "Chinese (Simplified)",
+  "zh-TW": "Chinese (Taiwan)"
+};
+var supported_lngs = _.keys(languages);
+
+export default class i18n {
+  static getSupportedLanguages() {
     return supported_lngs;
-  };
-  this.getSupportedLanguagesDescriptions = function () {
+  }
+  static getSupportedLanguagesDescriptions() {
     return languages;
-  };
-  this.getLanguage = function (lng) {
+  }
+  static getLanguage(lng) {
     lng = lng || settings.ui_language;
     if (lng == "auto") {
       // get user agent's language
@@ -79,14 +80,13 @@ var i18n = new (function () {
       if ($.inArray(lng, supported_lngs) == -1) lng = lng.replace(/-.*/, "");
     }
     return lng;
-  };
-
+  }
   /**
    * Determines the language, fetches the language pack and translates the UI
    * @return <Promise>
    */
-  this.translate = function (lng) {
-    lng = i18n.getLanguage(lng);
+  static translate(lng) {
+    lng = this.getLanguage(lng);
 
     if ($.inArray(lng, supported_lngs) == -1) {
       console.log(
@@ -98,24 +98,24 @@ var i18n = new (function () {
     // load language pack
     try {
       return import(`../locales/${lng}.json`).then(
-        function (data) {
+        (data) => {
           td = data.default;
-          i18n.translate_ui();
+          this.translate_ui();
           // todo: nicer implementation
           return data.default;
         },
-        function (e) {
+        (e) => {
           console.log("failed to load language file " + lng, e);
         }
       );
     } catch (e) {
       console.log("failed to load language file " + lng, e);
     }
-  };
-  this.translate_ui = function (element) {
+  }
+  static translate_ui(element) {
     // if a DOM object is provided, only translate that one, otherwise
     // look for all object with the class "t"
-    $(element || ".t").each(function (nr, element) {
+    $(element || ".t").each((nr, element) => {
       // get translation term(s)
       var terms = $(element).attr("data-t");
       terms = terms.split(";");
@@ -124,7 +124,7 @@ var i18n = new (function () {
         var tmp = term.match(/^(\[(.*)\])?(.*)$/);
         var what = tmp[2];
         var key = tmp[3];
-        var val = i18n.t(key);
+        var val = this.t(key);
         var shortcut = $(element).attr("data-shortcut");
         if (shortcut) val += " [" + shortcut + "]";
         if (what === "html") {
@@ -136,13 +136,11 @@ var i18n = new (function () {
         }
       }
     });
-  };
-  this.t = function (key) {
+  }
+  static t(key) {
     return td[key] || "/missing translation/";
-  };
+  }
+}
 
-  // translated texts
-  var td = {};
-})(); // end create i18n object
-
-export default i18n;
+// translated texts
+var td = {};
