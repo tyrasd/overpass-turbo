@@ -9,15 +9,12 @@ var presets = {};
 
 export function setPresets(newPresets) {
   presets = newPresets;
-  Object.keys(presets).forEach(function (key) {
-    var preset = presets[key];
+  Object.values(presets).forEach((preset) => {
     preset.nameCased = preset.name;
     preset.name = preset.name.toLowerCase();
     preset.terms = !preset.terms
       ? []
-      : preset.terms.map(function (term) {
-          return term.toLowerCase();
-        });
+      : preset.terms.map((term) => term.toLowerCase());
   });
 }
 
@@ -27,18 +24,16 @@ export default function ffs_free(callback) {
   } else {
     loadPresets()
       .then(loadPresetTranslations)
-      .then(function () {
-        callback(freeFormQuery);
-      });
+      .then(() => callback(freeFormQuery));
   }
 
   // load presets
   function loadPresets() {
     return import("../../data/iD_presets.json")
-      .then(function (data) {
+      .then((data) => {
         setPresets(data.presets);
       })
-      .catch(function (err) {
+      .catch((err) => {
         console.warn("failed to load presets file", err);
         throw new Error("failed to load presets file");
       });
@@ -48,10 +43,9 @@ export default function ffs_free(callback) {
     var language = i18n.getLanguage();
     if (!language || language === "en") return;
     import(`../../data/iD_presets_${language}.json`)
-      .then(function (data) {
+      .then((data) => {
         // load translated names and terms into presets object
-        Object.keys(data).forEach(function (preset) {
-          var translation = data[preset];
+        Object.entries(data).forEach(([preset, translation]) => {
           preset = presets[preset];
           preset.translated = true;
           // save original preset name under alternative terms
@@ -63,15 +57,13 @@ export default function ffs_free(callback) {
           if (translation.terms)
             preset.terms = translation.terms
               .split(",")
-              .map(function (term) {
-                return term.trim().toLowerCase();
-              })
+              .map((term) => term.trim().toLowerCase())
               .concat(preset.terms);
           // add this to the front to allow exact (english) preset names to match before terms
           preset.terms.unshift(oriPresetName);
         });
       })
-      .catch(function (err) {
+      .catch((err) => {
         console.warn(
           "failed to load preset translations file: " + language,
           err
@@ -84,19 +76,15 @@ export default function ffs_free(callback) {
 freeFormQuery.get_query_clause = function (condition) {
   // search presets for ffs term
   var search = condition.free.toLowerCase();
-  var candidates = Object.keys(presets)
-    .map(function (key) {
-      return presets[key];
-    })
-    .filter(function (preset) {
-      if (preset.searchable === false) return false;
-      if (preset.name === search) return true;
-      preset._termsIndex = preset.terms.indexOf(search);
-      return preset._termsIndex != -1;
-    });
+  var candidates = Object.values(presets).filter((preset) => {
+    if (preset.searchable === false) return false;
+    if (preset.name === search) return true;
+    preset._termsIndex = preset.terms.indexOf(search);
+    return preset._termsIndex != -1;
+  });
   if (candidates.length === 0) return false;
   // sort candidates
-  candidates.sort(function (a, b) {
+  candidates.sort((a, b) => {
     // prefer exact name matches
     if (a.name === search) return -1;
     if (b.name === search) return 1;
@@ -104,7 +92,7 @@ freeFormQuery.get_query_clause = function (condition) {
   });
   var preset = candidates[0];
   var types = [];
-  preset.geometry.forEach(function (g) {
+  preset.geometry.forEach((g) => {
     switch (g) {
       case "point":
       case "vertex":
@@ -129,14 +117,11 @@ freeFormQuery.get_query_clause = function (condition) {
   }
   return {
     types: types.filter(onlyUnique),
-    conditions: Object.keys(preset.tags).map(function (k) {
-      var v = preset.tags[k];
-      return {
-        query: v === "*" ? "key" : "eq",
-        key: k,
-        val: v
-      };
-    })
+    conditions: Object.entries(preset.tags).map(([k, v]) => ({
+      query: v === "*" ? "key" : "eq",
+      key: k,
+      val: v
+    }))
   };
 };
 
@@ -148,30 +133,20 @@ freeFormQuery.fuzzy_search = function (condition) {
   function fuzzyMatch(term) {
     return levenshteinDistance(term, search) <= fuzzyness;
   }
-  var candidates = Object.keys(presets)
-    .map(function (key) {
-      return presets[key];
-    })
-    .filter(function (preset) {
-      if (preset.searchable === false) return false;
-      if (fuzzyMatch(preset.name)) return true;
-      return preset.terms.some(fuzzyMatch);
-    });
+  var candidates = Object.values(presets).filter((preset) => {
+    if (preset.searchable === false) return false;
+    if (fuzzyMatch(preset.name)) return true;
+    return preset.terms.some(fuzzyMatch);
+  });
   if (candidates.length === 0) return false;
   // sort candidates
   function preset_weight(preset) {
     return [preset.name]
       .concat(preset.terms)
-      .map(function (term, index) {
-        return levenshteinDistance(term, search);
-      })
-      .reduce(function min(a, b) {
-        return a <= b ? a : b;
-      });
+      .map((term) => levenshteinDistance(term, search))
+      .reduce((a, b) => (a <= b ? a : b));
   }
-  candidates.sort(function (a, b) {
-    return preset_weight(a) - preset_weight(b);
-  });
+  candidates.sort((a, b) => preset_weight(a) - preset_weight(b));
   var preset = candidates[0];
   return preset.nameCased;
 };
