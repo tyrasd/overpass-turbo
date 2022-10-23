@@ -1,9 +1,7 @@
 // shortcuts module
 // see http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries
 import ide from "./ide";
-import nominatim_ from "./nominatim";
-
-const nominatim = nominatim_();
+import nominatim from "./nominatim";
 
 // returns the current visible bbox as a bbox-query
 function map2bbox(lang) {

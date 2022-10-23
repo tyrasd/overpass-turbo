@@ -5,10 +5,8 @@ import configs from "./configs";
 
 const cache = {};
 
-export default function () {
-  const nominatim = {};
-
-  function request(search, callback) {
+export default class nominatim {
+  static request(search, callback) {
     // ajax (GET) request to nominatim
     $.ajax(
       `https://nominatim.openstreetmap.org/search` +
@@ -39,19 +37,19 @@ export default function () {
     );
   }
 
-  nominatim.get = function (search, callback) {
-    if (cache[search] === undefined) request(search, callback);
+  static get(search, callback) {
+    if (cache[search] === undefined) this.request(search, callback);
     else callback(undefined, cache[search]);
-    return nominatim;
-  };
+    return this;
+  }
 
-  nominatim.getBest = function (search, filter, callback) {
+  static getBest(search, filter, callback) {
     // shift parameters if filter is omitted
     if (!callback) {
       callback = filter;
       filter = null;
     }
-    nominatim.get(search, (err, data) => {
+    this.get(search, (err, data) => {
       if (err) {
         callback(err, null);
         return;
@@ -60,8 +58,6 @@ export default function () {
       if (data.length === 0) callback("No result found", null);
       else callback(err, data[0]);
     });
-    return nominatim;
-  };
-
-  return nominatim;
+    return this;
+  }
 }
