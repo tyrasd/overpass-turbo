@@ -28,48 +28,43 @@ export default function ffs_free(callback) {
   }
 
   // load presets
-  function loadPresets() {
-    return import("../../data/iD_presets.json")
-      .then((data) => {
-        setPresets(data.presets);
-      })
-      .catch((err) => {
-        console.warn("failed to load presets file", err);
-        throw new Error("failed to load presets file");
-      });
+  async function loadPresets() {
+    try {
+      const data = await import("../../data/iD_presets.json");
+      setPresets(data.presets);
+    } catch (err) {
+      console.warn("failed to load presets file", err);
+      throw new Error("failed to load presets file");
+    }
   }
   // load preset translations
-  function loadPresetTranslations() {
+  async function loadPresetTranslations() {
     var language = i18n.getLanguage();
     if (!language || language === "en") return;
-    import(`../../data/iD_presets_${language}.json`)
-      .then((data) => {
-        // load translated names and terms into presets object
-        Object.entries(data).forEach(([preset, translation]) => {
-          preset = presets[preset];
-          preset.translated = true;
-          // save original preset name under alternative terms
-          var oriPresetName = preset.name;
-          // save translated preset name
-          preset.nameCased = translation.name;
-          preset.name = translation.name.toLowerCase();
-          // add new terms
-          if (translation.terms)
-            preset.terms = translation.terms
-              .split(",")
-              .map((term) => term.trim().toLowerCase())
-              .concat(preset.terms);
-          // add this to the front to allow exact (english) preset names to match before terms
-          preset.terms.unshift(oriPresetName);
-        });
-      })
-      .catch((err) => {
-        console.warn(
-          "failed to load preset translations file: " + language,
-          err
-        );
-        throw new Error("failed to load preset translations file: " + language);
+    try {
+      const data = await import(`../../data/iD_presets_${language}.json`);
+      // load translated names and terms into presets object
+      Object.entries(data).forEach(([preset, translation]) => {
+        preset = presets[preset];
+        preset.translated = true;
+        // save original preset name under alternative terms
+        var oriPresetName = preset.name;
+        // save translated preset name
+        preset.nameCased = translation.name;
+        preset.name = translation.name.toLowerCase();
+        // add new terms
+        if (translation.terms)
+          preset.terms = translation.terms
+            .split(",")
+            .map((term) => term.trim().toLowerCase())
+            .concat(preset.terms);
+        // add this to the front to allow exact (english) preset names to match before terms
+        preset.terms.unshift(oriPresetName);
       });
+    } catch (err) {
+      console.warn("failed to load preset translations file: " + language, err);
+      throw new Error("failed to load preset translations file: " + language);
+    }
   }
 }
 
