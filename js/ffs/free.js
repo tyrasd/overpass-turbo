@@ -11,7 +11,7 @@ export function setPresets(newPresets) {
   presets = newPresets;
   Object.values(presets).forEach((preset) => {
     preset.nameCased = preset.name;
-    preset.name = preset.name.toLowerCase();
+    if (preset.name) preset.name = preset.name.toLowerCase();
     preset.terms = !preset.terms
       ? []
       : preset.terms.map((term) => term.toLowerCase());
@@ -30,8 +30,10 @@ export default function ffs_free(callback) {
   // load presets
   async function loadPresets() {
     try {
-      const {default: data} = await import("../../data/iD_presets.json");
-      setPresets(data.presets);
+      const {default: data} = await import(
+        "../../node_modules/@openstreetmap/id-tagging-schema/dist/presets.json"
+      );
+      setPresets(data);
     } catch (err) {
       console.warn("failed to load presets file", err);
       throw new Error("failed to load presets file");
@@ -40,11 +42,12 @@ export default function ffs_free(callback) {
   // load preset translations
   async function loadPresetTranslations() {
     var language = i18n.getLanguage();
-    if (!language || language === "en") return;
+    if (!language) return;
     try {
-      const {default: data} = await import(
-        `../../data/iD_presets_${language}.json`
+      let {default: data} = await import(
+        `../../node_modules/@openstreetmap/id-tagging-schema/dist/translations/${language}.json`
       );
+      data = data[language].presets.presets;
       // load translated names and terms into presets object
       Object.entries(data).forEach(([preset, translation]) => {
         preset = presets[preset];
@@ -61,7 +64,7 @@ export default function ffs_free(callback) {
             .map((term) => term.trim().toLowerCase())
             .concat(preset.terms);
         // add this to the front to allow exact (english) preset names to match before terms
-        preset.terms.unshift(oriPresetName);
+        if (oriPresetName) preset.terms.unshift(oriPresetName);
       });
     } catch (err) {
       console.warn("failed to load preset translations file: " + language, err);
