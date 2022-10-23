@@ -60,7 +60,7 @@ $(document).ready(() => {
     mapcss: "",
     getQuery: function (callback) {
       const query = settings.code["overpass"];
-      const queryParser = Query();
+      const queryParser = new Query();
 
       queryParser.parse(query, {}, (query) => {
         // parse mapcss declarations

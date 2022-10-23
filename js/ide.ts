@@ -41,7 +41,7 @@ const ide = new (function () {
   // == private members ==
   let attribControl = null;
   let scaleControl = null;
-  const queryParser = Query();
+  const queryParser = new Query();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
