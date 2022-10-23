@@ -10,7 +10,6 @@ import tokml from "tokml";
 import togpx from "togpx";
 import configs from "./configs";
 import Query from "./query";
-import Nominatim from "./nominatim";
 import ffs from "./ffs";
 import i18n from "./i18n";
 import settings from "./settings";
@@ -43,7 +42,6 @@ var ide = new (function () {
   var attribControl = null;
   var scaleControl = null;
   var queryParser = Query();
-  var nominatim = Nominatim();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
