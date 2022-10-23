@@ -1,0 +1,1 @@
+const e={presets:{fields:{address:{placeholders:{city:"\u0A38\u0A3C\u0A39\u0A3F\u0A30"}},cuisine:{options:{indian:"\u0A2D\u0A3E\u0A30\u0A24\u0A40"}},name:{label:"\u0A28\u0A3E\u0A2E"}},presets:{"amenity/place_of_worship/muslim":{name:"\u0A2E\u0A38\u0A1C\u0A3F\u0A26",aliases:"\u0A2E\u0A38\u0A40\u0A24"}}}},s={pa:e};export{s as default,e as pa};
