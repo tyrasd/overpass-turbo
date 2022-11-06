@@ -2184,7 +2184,7 @@ var ide = new (function () {
       exportToLevel0.unbind("click");
       function constructLevel0Link(query) {
         return (
-          "http://level0.osmz.ru/?" +
+          "https://level0.osmz.ru/?" +
           new URLSearchParams({
             url: server + "interpreter?" + new URLSearchParams({data: query})
           })
