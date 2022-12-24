@@ -18,9 +18,7 @@ export default function query() {
       // remove constant definitions
       query = query.replace(constant, "");
     }
-    _.extend(shortcuts, constants, (b, a) => {
-      return typeof a == "undefined" ? b : a;
-    });
+    _.extend(shortcuts, constants, (b, a) => (typeof a == "undefined" ? b : a));
     // 2. replace overpass turbo statements, user-constants and shortcuts
     statements = {};
     if (_found_statements) statements = _found_statements;

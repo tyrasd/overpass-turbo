@@ -154,19 +154,13 @@ export default function shortcuts() {
     nominatimId:
       queryLang == "xml"
         ? geocodeId
-        : function (instr, callback) {
-            geocodeId(instr, (result) => {
-              callback(`${result};`);
-            });
-          },
+        : (instr, callback) =>
+            geocodeId(instr, (result) => callback(`${result};`)),
     nominatimArea:
       queryLang == "xml"
         ? geocodeArea
-        : function (instr, callback) {
-            geocodeArea(instr, (result) => {
-              callback(`${result};`);
-            });
-          },
+        : (instr, callback) =>
+            geocodeArea(instr, (result) => callback(`${result};`)),
     nominatimBbox: geocodeBbox,
     nominatimCoords: geocodeCoords
   };

@@ -131,9 +131,7 @@ const ide = new (function () {
     // Create modal in body
     const element = $(dialogContent);
     // Handle close event
-    $(".delete", element).click(() => {
-      $(element).remove();
-    });
+    $(".delete", element).click(() => $(element).remove());
 
     // Add all the buttons
     for (const index in buttons) {
@@ -261,9 +259,7 @@ const ide = new (function () {
     // translate ui
     ide.waiter.addInfo("translate ui");
     const me = this;
-    i18n.translate().then(() => {
-      initAfterI18n.call(me);
-    });
+    i18n.translate().then(() => initAfterI18n.call(me));
 
     if (sync.enabled) {
       $("#load-dialog .osm").show();
@@ -351,8 +347,8 @@ const ide = new (function () {
         )
       });
       CodeMirror.defineMIME("text/x-overpassXML", "xml");
-      CodeMirror.defineMode("xml+mustache", (config) => {
-        return CodeMirror.multiplexingMode(
+      CodeMirror.defineMode("xml+mustache", (config) =>
+        CodeMirror.multiplexingMode(
           CodeMirror.multiplexingMode(CodeMirror.getMode(config, "xml"), {
             open: "{{",
             close: "}}",
@@ -365,10 +361,10 @@ const ide = new (function () {
             mode: CodeMirror.getMode(config, "text/css"),
             delimStyle: "mustache"
           }
-        );
-      });
-      CodeMirror.defineMode("ql+mustache", (config) => {
-        return CodeMirror.multiplexingMode(
+        )
+      );
+      CodeMirror.defineMode("ql+mustache", (config) =>
+        CodeMirror.multiplexingMode(
           CodeMirror.multiplexingMode(
             CodeMirror.getMode(config, "text/x-overpassQL"),
             {
@@ -384,8 +380,8 @@ const ide = new (function () {
             mode: CodeMirror.getMode(config, "text/css"),
             delimStyle: "mustache"
           }
-        );
-      });
+        )
+      );
       ide.codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
         //value: settings.code["overpass"],
         lineNumbers: true,
@@ -683,9 +679,9 @@ const ide = new (function () {
     });
     ide.map.addControl(new MapButtons());
     // prevent propagation of doubleclicks on map controls
-    $(".leaflet-control-buttons > a").bind("dblclick", (e) => {
-      e.stopPropagation();
-    });
+    $(".leaflet-control-buttons > a").bind("dblclick", (e) =>
+      e.stopPropagation()
+    );
     // add tooltips to map controls
     $(".leaflet-control-buttons > a").tooltip({
       items: "a[title]",
@@ -744,15 +740,13 @@ const ide = new (function () {
                     } catch (e) {}
                   }
                   response(
-                    $.map(data.results.slice(0, 10), (item) => {
-                      return {
-                        label: item.display_name,
-                        value: item.display_name,
-                        lat: item.lat,
-                        lon: item.lon,
-                        boundingbox: item.boundingbox
-                      };
-                    })
+                    $.map(data.results.slice(0, 10), (item) => ({
+                      label: item.display_name,
+                      value: item.display_name,
+                      lat: item.lat,
+                      lon: item.lon,
+                      boundingbox: item.boundingbox
+                    }))
                   );
                 },
                 error: function () {
@@ -1721,13 +1715,11 @@ const ide = new (function () {
             generator: configs.appname,
             copyright: overpass.copyright,
             timestamp: overpass.timestamp,
-            features: geojson.features.map((feature) => {
-              return {
-                type: "Feature",
-                properties: feature.properties,
-                geometry: feature.geometry
-              };
-            }) // makes deep copy
+            features: geojson.features.map((feature) => ({
+              type: "Feature",
+              properties: feature.properties,
+              geometry: feature.geometry
+            })) // makes deep copy
           };
           gJ.features.forEach((f) => {
             const p = f.properties;
@@ -2360,12 +2352,10 @@ const ide = new (function () {
     const lngDescs = i18n.getSupportedLanguagesDescriptions();
     make_combobox(
       $("#settings-dialog input[name=ui_language]"),
-      ["auto"].concat(i18n.getSupportedLanguages()).map((lng) => {
-        return {
-          value: lng,
-          label: lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`
-        };
-      })
+      ["auto"].concat(i18n.getSupportedLanguages()).map((lng) => ({
+        value: lng,
+        label: lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`
+      }))
     );
     $("#settings-dialog input[name=server]")[0].value = settings.server;
     make_combobox(

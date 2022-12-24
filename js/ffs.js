@@ -298,15 +298,13 @@ ffs.construct_query = function (search, comment, callback) {
           const ffs_clause = freeFormQuery.get_query_clause(cond_query);
           if (ffs_clause === false) return callback("unknown ffs string");
           // restrict possible data types
-          types = types.filter((t) => {
-            return ffs_clause.types.indexOf(t) != -1;
-          });
+          types = types.filter((t) => ffs_clause.types.indexOf(t) != -1);
           // add clauses
           clauses_str.push(get_query_clause_str(cond_query));
           clauses = clauses.concat(
-            ffs_clause.conditions.map((condition) => {
-              return get_query_clause(condition);
-            })
+            ffs_clause.conditions.map((condition) =>
+              get_query_clause(condition)
+            )
           );
         } else if (cond_query.query === "type") {
           // restrict possible data types

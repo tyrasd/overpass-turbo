@@ -104,9 +104,7 @@ const i18n = new (function () {
           // todo: nicer implementation
           return data.default;
         },
-        (e) => {
-          console.log(`failed to load language file ${lng}`, e);
-        }
+        (e) => console.log(`failed to load language file ${lng}`, e)
       );
     } catch (e) {
       console.log(`failed to load language file ${lng}`, e);

@@ -239,18 +239,11 @@ const overpass = new (function () {
               overpass.timestampAreas = data.osm3s.timestamp_areas_base;
               overpass.copyright = data.osm3s.copyright;
               stats.data = {
-                nodes: $.grep(data.elements, (d) => {
-                  return d.type == "node";
-                }).length,
-                ways: $.grep(data.elements, (d) => {
-                  return d.type == "way";
-                }).length,
-                relations: $.grep(data.elements, (d) => {
-                  return d.type == "relation";
-                }).length,
-                areas: $.grep(data.elements, (d) => {
-                  return d.type == "area";
-                }).length
+                nodes: $.grep(data.elements, (d) => d.type == "node").length,
+                ways: $.grep(data.elements, (d) => d.type == "way").length,
+                relations: $.grep(data.elements, (d) => d.type == "relation")
+                  .length,
+                areas: $.grep(data.elements, (d) => d.type == "area").length
               };
               //// convert to geoJSON
               //geojson = overpass.overpassJSON2geoJSON(data);
@@ -351,21 +344,19 @@ const overpass = new (function () {
                     getParentObjects: function () {
                       if (feature.properties.relations.length == 0) return [];
                       else
-                        return feature.properties.relations.map((rel) => {
-                          return {
-                            tags: rel.reltags,
-                            isSubject: function (subject) {
-                              return (
-                                subject == "relation" ||
-                                (subject == "area" &&
-                                  rel.reltags.type == "multipolyon")
-                              );
-                            },
-                            getParentObjects: function () {
-                              return [];
-                            }
-                          };
-                        });
+                        return feature.properties.relations.map((rel) => ({
+                          tags: rel.reltags,
+                          isSubject: function (subject) {
+                            return (
+                              subject == "relation" ||
+                              (subject == "area" &&
+                                rel.reltags.type == "multipolyon")
+                            );
+                          },
+                          getParentObjects: function () {
+                            return [];
+                          }
+                        }));
                     }
                   },
                   $.extend(
@@ -434,18 +425,13 @@ const overpass = new (function () {
                           polylabel(
                             [labelPolygon.getLatLngs()]
                               .concat(labelPolygon._holes)
-                              .map((ring) => {
-                                return ring
-                                  .map((latlng) => {
-                                    return L.CRS.EPSG3857.latLngToPoint(
-                                      latlng,
-                                      20
-                                    );
-                                  })
-                                  .map((p) => {
-                                    return [p.x, p.y];
-                                  });
-                              })
+                              .map((ring) =>
+                                ring
+                                  .map((latlng) =>
+                                    L.CRS.EPSG3857.latLngToPoint(latlng, 20)
+                                  )
+                                  .map((p) => [p.x, p.y])
+                              )
                           )
                         ),
                         20
@@ -700,9 +686,11 @@ const overpass = new (function () {
                             v = `<a href="//${wiki_lang[1]}.wikipedia.org/wiki/${wiki_page}" target="_blank">${v}</a>`;
                           // hyperlinks for wikidata entries
                           if (k.match(/(^|:)wikidata$/))
-                            v = v.replace(/Q[0-9]+/g, (q) => {
-                              return `<a href="//www.wikidata.org/wiki/${q}" target="_blank">${q}</a>`;
-                            });
+                            v = v.replace(
+                              /Q[0-9]+/g,
+                              (q) =>
+                                `<a href="//www.wikidata.org/wiki/${q}" target="_blank">${q}</a>`
+                            );
                           // hyperlinks for wikimedia-commons entries
                           let wikimediacommons_page;
                           if (

@@ -13,6 +13,7 @@
     "sourceType": "module"
   },
   "rules": {
+    "arrow-body-style": ["warn", "as-needed"],
     "no-empty": "off",
     "no-var": "warn",
     "prefer-const": "warn",
