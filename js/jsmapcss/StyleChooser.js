@@ -43,15 +43,15 @@ styleparser.StyleChooser.prototype = {
     }
 
     // Are any of the ruleChains fulfilled?
-    var w;
-    for (var i in this.ruleChains) {
-      var c = this.ruleChains[i];
+    let w;
+    for (let i in this.ruleChains) {
+      let c = this.ruleChains[i];
       if (c.test(-1, entity, tags, zoom)) {
         sl.addSubpart(c.subpart);
 
         // Update StyleList
-        for (var j in this.styles) {
-          var r = this.styles[j];
+        for (let j in this.styles) {
+          let r = this.styles[j];
           var a;
           switch (r.styleType) {
             case "ShapeStyle":
@@ -72,7 +72,7 @@ styleparser.StyleChooser.prototype = {
               if (r.breaker) {
                 return;
               }
-              for (var k in r.set_tags) {
+              for (let k in r.set_tags) {
                 tags[k] = r.set_tags[k];
               }
               a = {}; // "dev/null" stylechooser reciever
@@ -101,7 +101,7 @@ styleparser.StyleChooser.prototype = {
 };
 
 function extend(destination, source) {
-  for (var property in source) {
+  for (let property in source) {
     if (source.hasOwnProperty(property)) {
       destination[property] = source[property];
     }

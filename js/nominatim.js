@@ -3,10 +3,10 @@ import $ from "jquery";
 
 import configs from "./configs";
 
-var cache = {};
+let cache = {};
 
 export default function () {
-  var nominatim = {};
+  let nominatim = {};
 
   function request(search, callback) {
     // ajax (GET) request to nominatim
@@ -31,7 +31,7 @@ export default function () {
           callback(undefined, data);
         },
         error: function () {
-          var err =
+          let err =
             "An error occurred while contacting the osm search server nominatim.openstreetmap.org :(";
           console.log(err);
           callback(err, null);

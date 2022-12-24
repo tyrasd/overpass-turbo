@@ -14,17 +14,17 @@ import styleparser from "./jsmapcss";
 
 var overpass = new (function () {
   // == private members ==
-  var originalGeom2Layer;
+  let originalGeom2Layer;
   // == public members ==
   this.handlers = {};
   this.rerender = function (mapcss) {};
 
   // == private methods ==
-  var fire = function () {
-    var name = arguments[0];
+  let fire = function () {
+    let name = arguments[0];
     if (typeof overpass.handlers[name] != "function") return undefined;
-    var handler_args = [];
-    for (var i = 1; i < arguments.length; i++) handler_args.push(arguments[i]);
+    let handler_args = [];
+    for (let i = 1; i < arguments.length; i++) handler_args.push(arguments[i]);
     return overpass.handlers[name].apply({}, handler_args);
   };
 
@@ -87,14 +87,14 @@ var overpass = new (function () {
           callback();
         });
     });
-    var onSuccessCb = function (data, textStatus, jqXHR) {
+    let onSuccessCb = function (data, textStatus, jqXHR) {
       //textStatus is not needed in the successCallback, don't cache it
       if (cache) cache[query] = [data, undefined, jqXHR];
 
-      var data_amount = jqXHR.responseText.length;
-      var data_txt;
+      let data_amount = jqXHR.responseText.length;
+      let data_txt;
       // round amount of data
-      var scale = Math.floor(Math.log(data_amount) / Math.log(10));
+      let scale = Math.floor(Math.log(data_amount) / Math.log(10));
       data_amount =
         Math.round(data_amount / Math.pow(10, scale)) * Math.pow(10, scale);
       if (data_amount < 1000) data_txt = data_amount + " bytes";
@@ -113,9 +113,9 @@ var overpass = new (function () {
         () => {
           // continue callback
           // different cases of loaded data: json data, xml data or error message?
-          var data_mode = null;
-          var geojson;
-          var stats = {};
+          let data_mode = null;
+          let geojson;
+          let stats = {};
           overpass.ajax_request_duration =
             Date.now() - overpass.ajax_request_start;
           fire("onProgress", "parsing data");
@@ -153,7 +153,7 @@ var overpass = new (function () {
             ) {
               // maybe an error message
               data_mode = "unknown";
-              var is_error = false;
+              let is_error = false;
               is_error =
                 is_error ||
                 (typeof data == "string" && // html coded error messages
@@ -172,7 +172,7 @@ var overpass = new (function () {
                   data.remark.length > 0);
               if (is_error) {
                 // this really looks like an error message, so lets open an additional modal error message
-                var errmsg = "?";
+                let errmsg = "?";
                 if (typeof data == "string") {
                   errmsg = data
                     .replace(/([\S\s]*<body>)/, "")
@@ -199,8 +199,8 @@ var overpass = new (function () {
                 fire("onQueryError", errmsg);
                 data_mode = "error";
                 // parse errors and highlight error lines
-                var errlines = errmsg.match(/line \d+:/g) || [];
-                for (var i = 0; i < errlines.length; i++) {
+                let errlines = errmsg.match(/line \d+:/g) || [];
+                for (let i = 0; i < errlines.length; i++) {
                   fire("onQueryErrorLine", 1 * errlines[i].match(/\d+/)[0]);
                 }
               }
@@ -265,7 +265,7 @@ var overpass = new (function () {
             overpass.rerender = function (userMapCSS) {
               // test user supplied mapcss stylesheet
               try {
-                var dummy_mapcss = new styleparser.RuleSet();
+                let dummy_mapcss = new styleparser.RuleSet();
                 dummy_mapcss.parseCSS(userMapCSS);
                 try {
                   dummy_mapcss.getStyles(
@@ -287,7 +287,7 @@ var overpass = new (function () {
                 userMapCSS = "";
                 fire("onStyleError", "<p>" + e.message + "</p>");
               }
-              var mapcss = new styleparser.RuleSet();
+              let mapcss = new styleparser.RuleSet();
               mapcss.parseCSS(
                 "" +
                   "node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n" +
@@ -309,20 +309,20 @@ var overpass = new (function () {
                   // user supplied mapcss
                   userMapCSS
               );
-              var get_feature_style = function (feature, highlight) {
+              let get_feature_style = function (feature, highlight) {
                 function hasInterestingTags(props) {
                   // this checks if the node has any tags other than "created_by"
                   return (
                     props &&
                     props.tags &&
                     (function (o) {
-                      for (var k in o)
+                      for (let k in o)
                         if (k != "created_by" && k != "source") return true;
                       return false;
                     })(props.tags)
                   );
                 }
-                var s = mapcss.getStyles(
+                let s = mapcss.getStyles(
                   {
                     isSubject: function (subject) {
                       switch (subject) {
@@ -381,7 +381,7 @@ var overpass = new (function () {
                       : {":untagged": true},
                     highlight ? {":active": true} : {},
                     (function (tags, meta, id) {
-                      var res = {"@id": id};
+                      let res = {"@id": id};
                       for (var key in meta) res["@" + key] = meta[key];
                       for (var key in tags)
                         res[key.replace(/^@/, "@@")] = tags[key];
@@ -401,12 +401,12 @@ var overpass = new (function () {
                 feature,
                 pointToLayer /*,…*/
               ) {
-                var s = get_feature_style(feature);
-                var stl = s.textStyles["default"] || {};
-                var layer = originalGeom2Layer.apply(this, arguments);
+                let s = get_feature_style(feature);
+                let stl = s.textStyles["default"] || {};
+                let layer = originalGeom2Layer.apply(this, arguments);
 
                 function getFeatureLabelPosition(feature) {
-                  var latlng;
+                  let latlng;
                   switch (feature.geometry.type) {
                     case "Point":
                       latlng = layer.getLatLng();
@@ -415,7 +415,7 @@ var overpass = new (function () {
                       var labelPolygon,
                         bestVal = -Infinity;
                       layer.getLayers().forEach((layer) => {
-                        var size = layer
+                        let size = layer
                           .getBounds()
                           .getNorthEast()
                           .distanceTo(layer.getBounds().getSouthWest());
@@ -452,7 +452,7 @@ var overpass = new (function () {
                       var labelLayer,
                         bestVal = -Infinity;
                       layer.getLayers().forEach((layer) => {
-                        var size = layer
+                        let size = layer
                           .getBounds()
                           .getNorthEast()
                           .distanceTo(layer.getBounds().getSouthWest());
@@ -467,7 +467,7 @@ var overpass = new (function () {
                       if (latlngs.length % 2 == 1)
                         latlng = latlngs[Math.floor(latlngs.length / 2)];
                       else {
-                        var latlng1 = latlngs[Math.floor(latlngs.length / 2)],
+                        let latlng1 = latlngs[Math.floor(latlngs.length / 2)],
                           latlng2 = latlngs[Math.floor(latlngs.length / 2 - 1)];
                         latlng = L.latLng([
                           (latlng1.lat + latlng2.lat) / 2,
@@ -484,15 +484,15 @@ var overpass = new (function () {
                   }
                   return latlng;
                 }
-                var text;
+                let text;
                 if (
                   (stl["text"] && stl.evals["text"] && (text = stl["text"])) ||
                   (stl["text"] && (text = feature.properties.tags[stl["text"]]))
                 ) {
-                  var textIcon = new L.PopupIcon(htmlentities(text), {
+                  let textIcon = new L.PopupIcon(htmlentities(text), {
                     color: "rgba(255,255,255,0.8)"
                   });
-                  var textmarker = new L.Marker(
+                  let textmarker = new L.Marker(
                     getFeatureLabelPosition(feature),
                     {icon: textIcon}
                   );
@@ -516,11 +516,11 @@ var overpass = new (function () {
                     return true;
                   },
                   style: function (feature, highlight) {
-                    var stl = {};
-                    var s = get_feature_style(feature, highlight);
+                    let stl = {};
+                    let s = get_feature_style(feature, highlight);
                     // apply mapcss styles
                     function get_property(styles, properties) {
-                      for (var i = properties.length - 1; i >= 0; i--)
+                      for (let i = properties.length - 1; i >= 0; i--)
                         if (styles[properties[i]] !== undefined)
                           return styles[properties[i]];
                       return undefined;
@@ -600,21 +600,21 @@ var overpass = new (function () {
                   },
                   pointToLayer: function (feature, latlng) {
                     // todo: labels!
-                    var s = get_feature_style(feature);
-                    var stl = s.pointStyles["default"] || {};
-                    var text;
-                    var marker;
+                    let s = get_feature_style(feature);
+                    let stl = s.pointStyles["default"] || {};
+                    let text;
+                    let marker;
                     if (stl["icon_image"]) {
                       // return image marker
-                      var iconUrl = stl["icon_image"].match(
+                      let iconUrl = stl["icon_image"].match(
                         /^url\(['"](.*)['"]\)$/
                       )[1];
-                      var iconSize;
+                      let iconSize;
                       if (stl["icon_width"])
                         iconSize = [stl["icon_width"], stl["icon_width"]];
                       if (stl["icon_height"] && iconSize)
                         iconSize[1] = stl["icon_height"];
-                      var icon = new L.Icon({
+                      let icon = new L.Icon({
                         iconUrl: iconUrl,
                         iconSize: iconSize
                         // todo: anchor, shadow?, ...
@@ -633,7 +633,7 @@ var overpass = new (function () {
                       true /*if nothing else is specified*/
                     ) {
                       // return circle marker
-                      var r = stl["symbol_size"] || 9;
+                      let r = stl["symbol_size"] || 9;
                       marker = new L.CircleMarker(latlng, {
                         radius: r
                       });
@@ -642,7 +642,7 @@ var overpass = new (function () {
                   },
                   onEachFeature: function (feature, layer) {
                     layer.on("click", function (e) {
-                      var popup = "";
+                      let popup = "";
                       if (feature.properties.type == "node")
                         popup +=
                           "<h4 class='title is-4'>Node <a href='//www.openstreetmap.org/node/" +
@@ -688,14 +688,14 @@ var overpass = new (function () {
                           k = htmlentities(k); // escaping strings!
                           v = htmlentities(v);
                           // hyperlinks for http,https and ftp URLs
-                          var urls;
+                          let urls;
                           if (
                             (urls = v.match(
                               /\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi
                             ))
                           ) {
                             urls.forEach((url) => {
-                              var href = url.match(/^(https?|ftp):\/\//)
+                              let href = url.match(/^(https?|ftp):\/\//)
                                 ? url
                                 : "http://" + url;
                               v = v.replace(
@@ -715,7 +715,7 @@ var overpass = new (function () {
                             );
                           }
                           // hyperlinks for wikipedia entries
-                          var wiki_lang, wiki_page;
+                          let wiki_lang, wiki_page;
                           if (
                             ((wiki_lang = k.match(/^wikipedia\:(.*)$/)) &&
                               (wiki_page = v)) ||
@@ -743,7 +743,7 @@ var overpass = new (function () {
                               );
                             });
                           // hyperlinks for wikimedia-commons entries
-                          var wikimediacommons_page;
+                          let wikimediacommons_page;
                           if (
                             k == "wikimedia_commons" &&
                             (wikimediacommons_page = v.match(
@@ -759,7 +759,7 @@ var overpass = new (function () {
                               v +
                               "</a>";
                           // hyperlinks for mapillary entries
-                          var mapillary_page;
+                          let mapillary_page;
                           if (
                             (k == "mapillary" &&
                               (mapillary_page = v.match(/^[-a-zA-Z0-9_]+$/))) ||
@@ -886,12 +886,12 @@ var overpass = new (function () {
                         }
                       }
 
-                      var latlng;
+                      let latlng;
                       // node-ish features (circles, markers, icons, placeholders)
                       if (typeof e.target.getLatLng == "function")
                         latlng = e.target.getLatLng();
                       else latlng = e.latlng; // all other (lines, polygons, multipolygons)
-                      var p = L.popup({maxHeight: 600}, this)
+                      let p = L.popup({maxHeight: 600}, this)
                         .setLatLng(latlng)
                         .setContent(popup);
                       p.layer = layer;
@@ -914,7 +914,7 @@ var overpass = new (function () {
                     lines: 0,
                     pois: 0
                   };
-                  for (var i = 0; i < geojson.features.length; i++)
+                  for (let i = 0; i < geojson.features.length; i++)
                     switch (geojson.features[i].geometry.type) {
                       case "Polygon":
                       case "MultiPolygon":
@@ -944,7 +944,7 @@ var overpass = new (function () {
                     if (geojson.features.length === 0) {
                       // no visible data
                       // switch only if there is some unplottable data in the returned json/xml.
-                      var empty_msg;
+                      let empty_msg;
                       if (
                         (data_mode == "json" && data.elements.length > 0) ||
                         (data_mode == "xml" &&
@@ -1050,7 +1050,7 @@ var overpass = new (function () {
             return;
           }
           overpass.resultText = jqXHR.resultText;
-          var errmsg = "";
+          let errmsg = "";
           if (jqXHR.state() == "rejected")
             errmsg +=
               "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";

@@ -61,7 +61,7 @@ styleparser.RuleChain.prototype = {
       pos = this.rules.length - 1;
     }
 
-    var r = this.rules[pos];
+    let r = this.rules[pos];
     if (!r.test(entity, tags, zoom)) {
       return false;
     }
@@ -69,9 +69,9 @@ styleparser.RuleChain.prototype = {
       return true;
     }
 
-    var o = entity.getParentObjects(); //TODO//entity.entity.parentObjects();
-    for (var i = 0; i < o.length; i++) {
-      var p = o[i];
+    let o = entity.getParentObjects(); //TODO//entity.entity.parentObjects();
+    for (let i = 0; i < o.length; i++) {
+      let p = o[i];
       if (this.test(pos - 1, p, p.tags, zoom)) {
         return true;
       }

@@ -34,11 +34,11 @@ styleparser.Rule.prototype = {
       return false;
     }
 
-    var v = true;
-    var i = 0;
-    var isAnd = this.isAnd;
+    let v = true;
+    let i = 0;
+    let isAnd = this.isAnd;
     this.conditions.forEach((condition) => {
-      var r = condition.test(tags);
+      let r = condition.test(tags);
       if (i === 0) {
         v = r;
       } else if (isAnd) {

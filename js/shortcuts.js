@@ -3,18 +3,18 @@
 import ide from "./ide";
 import nominatim_ from "./nominatim";
 
-var nominatim = nominatim_();
+let nominatim = nominatim_();
 
 // returns the current visible bbox as a bbox-query
 function map2bbox(lang) {
-  var bbox;
+  let bbox;
   if (!(ide.map.bboxfilter && ide.map.bboxfilter.isEnabled()))
     bbox = ide.map.getBounds();
   else bbox = ide.map.bboxfilter.getBounds();
-  var lat1 = Math.min(Math.max(bbox.getSouthWest().lat, -90), 90);
-  var lat2 = Math.min(Math.max(bbox.getNorthEast().lat, -90), 90);
-  var lng1 = Math.min(Math.max(bbox.getSouthWest().lng, -180), 180);
-  var lng2 = Math.min(Math.max(bbox.getNorthEast().lng, -180), 180);
+  let lat1 = Math.min(Math.max(bbox.getSouthWest().lat, -90), 90);
+  let lat2 = Math.min(Math.max(bbox.getNorthEast().lat, -90), 90);
+  let lng1 = Math.min(Math.max(bbox.getSouthWest().lng, -180), 180);
+  let lng2 = Math.min(Math.max(bbox.getNorthEast().lng, -180), 180);
   if (lang == "OverpassQL") return lat1 + "," + lng1 + "," + lat2 + "," + lng2;
   else if (lang == "xml")
     return (
@@ -24,7 +24,7 @@ function map2bbox(lang) {
 
 // returns the current visible map center as a coord-query
 function map2coord(lang) {
-  var center = ide.map.getCenter();
+  let center = ide.map.getCenter();
   if (lang == "OverpassQL") return center.lat + "," + center.lng;
   else if (lang == "xml")
     return 'lat="' + center.lat + '" lon="' + center.lng + '"';
@@ -32,7 +32,7 @@ function map2coord(lang) {
 
 // converts relative time to ISO time string
 function relativeTime(instr, callback) {
-  var now = Date.now();
+  let now = Date.now();
   // very basic differential date
   if (instr == "") instr = "0 seconds";
   instr = instr
@@ -44,8 +44,8 @@ function relativeTime(instr, callback) {
     callback(""); // todo: throw an error. do not silently fail
     return;
   }
-  var count = parseInt(instr[1]);
-  var interval;
+  let count = parseInt(instr[1]);
+  let interval;
   switch (instr[2]) {
     case "second":
     case "seconds":
@@ -77,13 +77,13 @@ function relativeTime(instr, callback) {
       interval = 31536000;
       break;
   }
-  var date = now - count * interval * 1000;
+  let date = now - count * interval * 1000;
   callback(new Date(date).toISOString());
 }
 
 // geocoded values (object/area ids, coords, bbox)
 function geocodeId(instr, callback) {
-  var lang = ide.getQueryLang();
+  let lang = ide.getQueryLang();
   function filter(n) {
     return n.osm_type && n.osm_id;
   }
@@ -96,13 +96,13 @@ function geocodeId(instr, callback) {
   });
 }
 function geocodeArea(instr, callback) {
-  var lang = ide.getQueryLang();
+  let lang = ide.getQueryLang();
   function filter(n) {
     return n.osm_type && n.osm_id && n.osm_type !== "node";
   }
   nominatim.getBest(instr, filter, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Area");
-    var area_ref = 1 * res.osm_id;
+    let area_ref = 1 * res.osm_id;
     if (res.osm_type == "way") area_ref += 2400000000;
     if (res.osm_type == "relation") area_ref += 3600000000;
     if (lang == "OverpassQL") {
@@ -119,13 +119,13 @@ function geocodeArea(instr, callback) {
   });
 }
 function geocodeBbox(instr, callback) {
-  var lang = ide.getQueryLang();
+  let lang = ide.getQueryLang();
   nominatim.getBest(instr, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Bbox");
-    var lat1 = Math.min(Math.max(res.boundingbox[0], -90), 90);
-    var lat2 = Math.min(Math.max(res.boundingbox[1], -90), 90);
-    var lng1 = Math.min(Math.max(res.boundingbox[2], -180), 180);
-    var lng2 = Math.min(Math.max(res.boundingbox[3], -180), 180);
+    let lat1 = Math.min(Math.max(res.boundingbox[0], -90), 90);
+    let lat2 = Math.min(Math.max(res.boundingbox[1], -90), 90);
+    let lng1 = Math.min(Math.max(res.boundingbox[2], -180), 180);
+    let lng2 = Math.min(Math.max(res.boundingbox[3], -180), 180);
     if (lang == "OverpassQL") res = lat1 + "," + lng1 + "," + lat2 + "," + lng2;
     else if (lang == "xml")
       res =
@@ -134,7 +134,7 @@ function geocodeBbox(instr, callback) {
   });
 }
 function geocodeCoords(instr, callback) {
-  var lang = ide.getQueryLang();
+  let lang = ide.getQueryLang();
   nominatim.getBest(instr, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Coords");
     if (lang == "OverpassQL") res = res.lat + "," + res.lon;
@@ -144,7 +144,7 @@ function geocodeCoords(instr, callback) {
 }
 
 export default function shortcuts() {
-  var queryLang = ide.getQueryLang();
+  let queryLang = ide.getQueryLang();
   return {
     bbox: map2bbox(queryLang),
     center: map2coord(queryLang),

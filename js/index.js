@@ -31,10 +31,10 @@ $(document).ready(initClickHandler);
 
 function initClickHandler() {
   $("*[data-ide-handler]").each(function () {
-    var handlerDefinition = $(this).attr("data-ide-handler").split(/:/);
-    var event = handlerDefinition[0];
-    var handlerName = handlerDefinition[1];
-    var handler = ide[handlerName];
+    let handlerDefinition = $(this).attr("data-ide-handler").split(/:/);
+    let event = handlerDefinition[0];
+    let handlerName = handlerDefinition[1];
+    let handler = ide[handlerName];
     $(this).on(event, handler);
   });
 }

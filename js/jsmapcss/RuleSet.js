@@ -11,8 +11,8 @@ styleparser.RuleSet.prototype = {
 
   getStyles: function (entity, tags, zoom) {
     // summary:		Find the styles for a given entity.
-    var sl = new styleparser.StyleList();
-    for (var i in this.choosers) {
+    let sl = new styleparser.StyleList();
+    for (let i in this.choosers) {
       this.choosers[i].updateStyles(entity, tags, sl, zoom);
     }
     return sl; // styleparser.StyleList
@@ -29,12 +29,12 @@ styleparser.RuleSet.prototype = {
 
   parseCSS: function (css) {
     // summary:		Parse a CSS document into a set of StyleChoosers.
-    var previous = 0; // what was the previous CSS word?
-    var sc = new styleparser.StyleChooser(); // currently being assembled
+    let previous = 0; // what was the previous CSS word?
+    let sc = new styleparser.StyleChooser(); // currently being assembled
     this.choosers = [];
     css = css.replace(/[\r\n]/g, ""); // strip linebreaks because JavaScript doesn't have the /s modifier
 
-    var o = {};
+    let o = {};
     while (css.length > 0) {
       // CSS comment
       if ((o = this.COMMENT.exec(css))) {
@@ -77,7 +77,7 @@ styleparser.RuleSet.prototype = {
         }
 
         css = css.replace(this.ZOOM, "");
-        var z = this.parseZoom(o[1]);
+        let z = this.parseZoom(o[1]);
         sc.currentChain().addZoomToLast(z[0], z[1]);
         sc.zoomSpecific = true;
         previous = this.oZOOM;
@@ -164,21 +164,21 @@ styleparser.RuleSet.prototype = {
   },
 
   parseDeclaration: function (s) {
-    var styles = [];
-    var t = {};
-    var o = {};
-    var k, v;
+    let styles = [];
+    let t = {};
+    let o = {};
+    let k, v;
 
     // Create styles
-    var ss = new styleparser.ShapeStyle();
-    var ps = new styleparser.PointStyle();
-    var ts = new styleparser.TextStyle();
-    var hs = new styleparser.ShieldStyle();
-    var xs = new styleparser.InstructionStyle();
+    let ss = new styleparser.ShapeStyle();
+    let ps = new styleparser.PointStyle();
+    let ts = new styleparser.TextStyle();
+    let hs = new styleparser.ShieldStyle();
+    let xs = new styleparser.InstructionStyle();
 
-    var r = s.split(";");
-    var isEval = {};
-    for (var i in r) {
+    let r = s.split(";");
+    let isEval = {};
+    for (let i in r) {
       var a = r[i];
       if ((o = this.ASSIGNMENT_EVAL.exec(a))) {
         k = o[1].replace(this.DASH, "_");
@@ -281,9 +281,9 @@ styleparser.RuleSet.prototype = {
   },
 
   parseZoom: function (s) {
-    var o = {};
-    var maxscale = 999; // TODO: hardcoded
-    var minscale = -999; // TODO: hardcoded
+    let o = {};
+    let maxscale = 999; // TODO: hardcoded
+    let minscale = -999; // TODO: hardcoded
     if ((o = this.ZOOM_MINMAX.exec(s))) {
       return [o[1], o[2]];
     } else if ((o = this.ZOOM_MIN.exec(s))) {
@@ -297,7 +297,7 @@ styleparser.RuleSet.prototype = {
   },
 
   parseCondition: function (s) {
-    var o = {};
+    let o = {};
     if ((o = this.CONDITION_TRUE.exec(s))) {
       return new styleparser.Condition().init("true", o[1]);
     } else if ((o = this.CONDITION_FALSE.exec(s))) {
@@ -331,7 +331,7 @@ styleparser.RuleSet.prototype = {
     if (this.CSSCOLORS[colorStr]) {
       return this.CSSCOLORS[colorStr];
     } else {
-      var match = this.HEX.exec(colorStr);
+      let match = this.HEX.exec(colorStr);
       if (match) {
         if (match[1].length == 3) {
           // repeat digits. #abc => 0xaabbcc

@@ -5,7 +5,7 @@ import {Base64, lzw_decode} from "./misc";
 
 export default function urlParameters(param_str, callback) {
   // defaults
-  var t = {
+  let t = {
     has_query: false,
     query: undefined,
     has_coords: false,
@@ -16,7 +16,7 @@ export default function urlParameters(param_str, callback) {
   };
 
   // split parameter string
-  var args = new URLSearchParams(param_str.substring(1));
+  let args = new URLSearchParams(param_str.substring(1));
 
   // interpret arguments
   if (args.has("q")) {
@@ -32,9 +32,9 @@ export default function urlParameters(param_str, callback) {
   if (args.has("c")) {
     // map center & zoom (compressed)
     var tmp = args.get("c").match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
-    var decode_coords = function (str) {
-      var coords_cpr = Base64.decodeNum(str);
-      var res = {};
+    let decode_coords = function (str) {
+      let coords_cpr = Base64.decodeNum(str);
+      let res = {};
       res.lat = (coords_cpr % (180 * 100000)) / 100000 - 90;
       res.lng = Math.floor(coords_cpr / (180 * 100000)) / 100000 - 180;
       return res;
@@ -64,14 +64,14 @@ export default function urlParameters(param_str, callback) {
   }
   if (args.has("template")) {
     // load a template
-    var template = settings.saves[args.get("template")];
+    let template = settings.saves[args.get("template")];
     if (template && template.type == "template") {
       // build query
-      var q = template.wizard;
-      var params = template.parameters;
-      for (var i = 0; i < params.length; i++) {
-        var param = params[i];
-        var value = args.get(param);
+      let q = template.wizard;
+      let params = template.parameters;
+      for (let i = 0; i < params.length; i++) {
+        let param = params[i];
+        let value = args.get(param);
         if (typeof value !== "string") value = "???";
         q = q.replace("{{" + param + "}}", quotes(value));
       }

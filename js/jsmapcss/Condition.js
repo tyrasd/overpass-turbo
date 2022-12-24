@@ -17,7 +17,7 @@ styleparser.Condition.prototype = {
 
   test: function (tags) {
     // summary:		Run the condition against the supplied tags.
-    var p = this.params;
+    let p = this.params;
     switch (this.type) {
       case "eq":
         return tags[p[0]] == p[1];
