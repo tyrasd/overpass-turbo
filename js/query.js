@@ -2,18 +2,18 @@
 import _ from "lodash";
 
 export default function query() {
-  var statements = {};
+  let statements = {};
 
-  var parser = {};
+  let parser = {};
 
   parser.parse = function (query, shortcuts, callback, _found_statements) {
     // 1. get user defined constants
-    var constants = {};
-    var constant = /{{([A-Za-z0-9_]+)=(.+?)}}/;
-    var c;
+    let constants = {};
+    let constant = /{{([A-Za-z0-9_]+)=(.+?)}}/;
+    let c;
     while ((c = query.match(constant))) {
-      var c_name = c[1];
-      var c_val = c[2];
+      let c_name = c[1];
+      let c_val = c[2];
       constants[c_name] = c_val;
       // remove constant definitions
       query = query.replace(constant, "");
@@ -24,12 +24,12 @@ export default function query() {
     // 2. replace overpass turbo statements, user-constants and shortcuts
     statements = {};
     if (_found_statements) statements = _found_statements;
-    var statement = /{{([A-Za-z0-9_]+)(:([\s\S]*?))?}}/;
-    var s;
+    let statement = /{{([A-Za-z0-9_]+)(:([\s\S]*?))?}}/;
+    let s;
     while ((s = query.match(statement))) {
       var s_name = s[1];
       var s_instr = s[3] || "";
-      var s_replace = "";
+      let s_replace = "";
       // save instructions for later
       if (statements[s_name] === undefined) statements[s_name] = "";
       statements[s_name] += s_instr;
@@ -38,7 +38,7 @@ export default function query() {
         // these shortcuts can also be callback functions, like {{date:-1day}}
         if (typeof shortcuts[s_name] === "function") {
           shortcuts[s_name](s_instr, (res) => {
-            var seed = Math.round(Math.random() * Math.pow(2, 22)); // todo: use some kind of checksum of s_instr if possible
+            let seed = Math.round(Math.random() * Math.pow(2, 22)); // todo: use some kind of checksum of s_instr if possible
             shortcuts["__statement__" + s_name + "__" + seed] = res;
             query = query.replace(
               s[0],
@@ -55,7 +55,7 @@ export default function query() {
       query = query.replace(s[0], s_replace + Array(lc).join("\n"));
     }
     // 3. remove remaining (e.g. unknown) mustache templates:
-    var m;
+    let m;
     while ((m = query.match(/{{[\S\s]*?}}/gm))) {
       // count lines in template and replace mustache with same number of newlines
       var lc = m[0].split(/\r?\n|\r/).length;

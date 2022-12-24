@@ -16,15 +16,15 @@ export var Base64 = {
 
   // public method for encoding
   encode: function (input, not_base64url) {
-    var output = "";
+    let output = "";
     //input = Base64._utf8_encode(input);
     input = unescape(encodeURIComponent(input));
 
     if (typeof window.btoa == "function") {
       output = window.btoa(input);
     } else {
-      var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-      var i = 0;
+      let chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+      let i = 0;
 
       while (i < input.length) {
         chr1 = input.charCodeAt(i++);
@@ -58,7 +58,7 @@ export var Base64 = {
   // public method for decoding
   // this decodes base64url as well as standard base64 with or without padding)
   decode: function (input, binary) {
-    var output = "";
+    let output = "";
     input = this._convert_to_base64nopad(input);
     input = input.replace(/[^A-Za-z0-9\+\/]/g, "");
     //reappend the padding
@@ -67,9 +67,9 @@ export var Base64 = {
     if (typeof window.btoa == "function") {
       output = window.atob(input);
     } else {
-      var chr1, chr2, chr3;
-      var enc1, enc2, enc3, enc4;
-      var i = 0;
+      let chr1, chr2, chr3;
+      let enc1, enc2, enc3, enc4;
+      let i = 0;
 
       while (i < input.length) {
         enc1 = this._keyStr.indexOf(input.charAt(i++));
@@ -93,9 +93,9 @@ export var Base64 = {
     }
 
     function str2ab(str) {
-      var buf = new ArrayBuffer(str.length); // 1 byte for each char
-      var bufView = new Uint8Array(buf);
-      for (var i = 0, strLen = str.length; i < strLen; i++) {
+      let buf = new ArrayBuffer(str.length); // 1 byte for each char
+      let bufView = new Uint8Array(buf);
+      for (let i = 0, strLen = str.length; i < strLen; i++) {
         bufView[i] = str.charCodeAt(i);
       }
       return buf;
@@ -114,9 +114,9 @@ export var Base64 = {
   },
 
   encodeNum: function (num, not_base64url) {
-    var output = "";
+    let output = "";
     if (num == 0) return this._keyStr.charAt(0);
-    var neg = false;
+    let neg = false;
     if (num < 0) {
       neg = true;
       num = Math.abs(num);
@@ -134,13 +134,13 @@ export var Base64 = {
   decodeNum: function (input) {
     input = this._convert_to_base64nopad(input);
     input = input.replace(/[^A-Za-z0-9\+\/.]/g, "");
-    var num = 0;
-    var neg = false;
+    let num = 0;
+    let neg = false;
     if (input.charAt(0) == ".") {
       neg = true;
       input = input.substr(1);
     }
-    for (var i = 0; i < input.length; i++) {
+    for (let i = 0; i < input.length; i++) {
       num +=
         this._keyStr.indexOf(input.charAt(input.length - 1 - i)) *
         Math.pow(64, i);
@@ -158,10 +158,10 @@ export var Base64 = {
   // private method for UTF-8 encoding
   _utf8_encode: function (string) {
     string = string.replace(/\r\n/g, "\n");
-    var utftext = "";
+    let utftext = "";
 
-    for (var n = 0; n < string.length; n++) {
-      var c = string.charCodeAt(n);
+    for (let n = 0; n < string.length; n++) {
+      let c = string.charCodeAt(n);
 
       if (c < 128) {
         utftext += String.fromCharCode(c);
@@ -180,9 +180,9 @@ export var Base64 = {
 
   // private method for UTF-8 decoding
   _utf8_decode: function (utftext) {
-    var string = "";
-    var i = 0;
-    var c = (c1 = c2 = 0);
+    let string = "";
+    let i = 0;
+    let c = (c1 = c2 = 0);
 
     while (i < utftext.length) {
       c = utftext.charCodeAt(i);
@@ -212,12 +212,12 @@ export var Base64 = {
 export function lzw_encode(s) {
   //s = Base64._utf8_encode(s);
   s = unescape(encodeURIComponent(s));
-  var dict = {};
-  var data = (s + "").split("");
-  var out = [];
-  var currChar;
-  var phrase = data[0];
-  var code = 256;
+  let dict = {};
+  let data = (s + "").split("");
+  let out = [];
+  let currChar;
+  let phrase = data[0];
+  let code = 256;
   for (var i = 1; i < data.length; i++) {
     currChar = data[i];
     if (dict[phrase + currChar] != null) {
@@ -238,15 +238,15 @@ export function lzw_encode(s) {
 
 // Decompress an LZW-encoded string
 export function lzw_decode(s) {
-  var dict = {};
-  var data = (s + "").split("");
-  var currChar = data[0];
-  var oldPhrase = currChar;
-  var out = [currChar];
-  var code = 256;
-  var phrase;
-  for (var i = 1; i < data.length; i++) {
-    var currCode = data[i].charCodeAt(0);
+  let dict = {};
+  let data = (s + "").split("");
+  let currChar = data[0];
+  let oldPhrase = currChar;
+  let out = [currChar];
+  let code = 256;
+  let phrase;
+  for (let i = 1; i < data.length; i++) {
+    let currCode = data[i].charCodeAt(0);
     if (currCode < 256) {
       phrase = data[i];
     } else {
@@ -276,7 +276,7 @@ export function htmlentities(str) {
 export function levenshteinDistance(a, b) {
   if (a.length === 0) return b.length;
   if (b.length === 0) return a.length;
-  var matrix = [];
+  let matrix = [];
   for (var i = 0; i <= b.length; i++) {
     matrix[i] = [i];
   }

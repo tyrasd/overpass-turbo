@@ -1,6 +1,6 @@
 import evalparser from "./eval.pegjs";
 
-var styleparser = {};
+let styleparser = {};
 styleparser.Style = function () {
   this.__init__();
 };
@@ -27,7 +27,7 @@ styleparser.Style.prototype = {
   },
 
   mergeWith: function (additional) {
-    for (var prop in this.properties) {
+    for (let prop in this.properties) {
       if (additional[prop]) {
         this[prop] = additional[prop];
       }
@@ -57,7 +57,7 @@ styleparser.Style.prototype = {
 
   runEvals: function (tags) {
     // helper object for eval() properties
-    for (var k in this.evals) {
+    for (let k in this.evals) {
       try {
         window.osm_tag = function (t) {
           return tags[t] || "";
@@ -70,8 +70,8 @@ styleparser.Style.prototype = {
   },
 
   toString: function () {
-    var str = "";
-    for (var k in this.properties) {
+    let str = "";
+    for (let k in this.properties) {
       if (this.hasOwnProperty(k)) {
         str += k + "=" + this[k] + "; ";
       }
@@ -80,7 +80,7 @@ styleparser.Style.prototype = {
   }
 };
 styleparser.inherit_from_Style = function (target) {
-  for (var p in styleparser.Style.prototype)
+  for (let p in styleparser.Style.prototype)
     if (target[p] === undefined) target[p] = styleparser.Style.prototype[p];
 };
 
@@ -195,7 +195,7 @@ styleparser.ShapeStyle.prototype = {
     return this.width + (this.casing_width ? this.casing_width * 2 : 0);
   },
   strokeStyler: function () {
-    var cap, join;
+    let cap, join;
     switch (this.linecap) {
       case "round":
         cap = "round";
@@ -254,7 +254,7 @@ styleparser.ShapeStyle.prototype = {
     );
   },
   casingStyler: function () {
-    var cap, join;
+    let cap, join;
     switch (this.linecap) {
       case "round":
         cap = "round";

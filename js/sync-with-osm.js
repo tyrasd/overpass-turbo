@@ -1,12 +1,12 @@
 import osmAuth from "osm-auth";
 import configs from "./configs";
 
-var enabled =
+let enabled =
   configs.osmAuth &&
   configs.osmAuth.oauth_consumer_key &&
   configs.osmAuth.oauth_secret;
 
-var auth;
+let auth;
 if (enabled) auth = osmAuth(configs.osmAuth);
 
 export default {
@@ -59,7 +59,7 @@ function loadQueries(callback) {
     (err, res) => {
       if (err) return callback(err);
 
-      var pref_count = 0,
+      let pref_count = 0,
         cnt_elem;
       if (
         (cnt_elem = res.querySelector(
@@ -68,17 +68,17 @@ function loadQueries(callback) {
       )
         pref_count = +cnt_elem.getAttribute("v");
 
-      var result = [];
-      for (var i = 0; i < pref_count; i++) {
-        var pref_elem = res.querySelector(
+      let result = [];
+      for (let i = 0; i < pref_count; i++) {
+        let pref_elem = res.querySelector(
           'preference[k="' + configs.appname + "_query_" + i + '_0"]'
         );
         if (!pref_elem) continue;
-        var first_chunk = pref_elem.getAttribute("v").split("&");
-        var length = +first_chunk[0].slice(2);
-        var name = first_chunk[1].slice(2);
-        var query = first_chunk[2].slice(2);
-        for (var j = 1; j < length; j++) {
+        let first_chunk = pref_elem.getAttribute("v").split("&");
+        let length = +first_chunk[0].slice(2);
+        let name = first_chunk[1].slice(2);
+        let query = first_chunk[2].slice(2);
+        for (let j = 1; j < length; j++) {
           query += res
             .querySelector(
               'preference[k="' +
@@ -106,16 +106,16 @@ function saveQuery(new_query, callback) {
   loadQueries((err, existing_queries, dom) => {
     if (err) return callback(err);
 
-    var preferences = dom.querySelector("preferences");
+    let preferences = dom.querySelector("preferences");
     // clean up existing data
-    var existing = preferences.querySelectorAll(
+    let existing = preferences.querySelectorAll(
       'preference[k^="' + configs.appname + '_query"]'
     );
     for (var i = 0; i < existing.length; i++) {
       preferences.removeChild(existing[i]);
     }
     // insert new query into list of existing ones
-    var is_new = true;
+    let is_new = true;
     existing_queries.forEach((q, idx) => {
       if (q.name == new_query.name) {
         q.query = new_query.query;
@@ -133,21 +133,21 @@ function saveQuery(new_query, callback) {
     new_elem.setAttribute("v", existing_queries.length);
     preferences.appendChild(new_elem);
     for (var i = 0; i < existing_queries.length; i++) {
-      var q = existing_queries[i];
+      let q = existing_queries[i];
       if (q.name.length > 200)
         return callback(
           new Error("query name too long to be saved on osm.org")
         );
-      var numParts = Math.ceil((q.query.length + q.name.length + 8) / 255);
+      let numParts = Math.ceil((q.query.length + q.name.length + 8) / 255);
       if (numParts > 9)
         return callback(new Error("query too long to be saved on osm.org"));
-      var queryStr = "p=" + numParts;
+      let queryStr = "p=" + numParts;
       queryStr += "&n=" + q.name;
       queryStr += "&q=" + q.query;
       // split into chunks of max 255 characters length
       queryStr = queryStr.match(/.{1,255}/g);
 
-      for (var j = 0; j < numParts; j++) {
+      for (let j = 0; j < numParts; j++) {
         var new_elem = dom.createElement("preference");
         new_elem.setAttribute("k", configs.appname + "_query_" + i + "_" + j);
         new_elem.setAttribute("v", queryStr[j]);

@@ -23,11 +23,11 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
   _onZoomEnd: function () {
     // todo: name
     // todo: possible optimizations: zoomOut = skip already compressed objects (and vice versa)
-    var is_max_zoom = this._map.getZoom() == this._map.getMaxZoom();
+    let is_max_zoom = this._map.getZoom() == this._map.getMaxZoom();
     this.eachLayer(function (o) {
       if (!o.feature || !o.feature.geometry) return; // skip invalid layers
       if (o.feature.geometry.type == "Point" && !o.obj) return; // skip node features
-      var crs = this._map.options.crs;
+      let crs = this._map.options.crs;
       if (o.obj) {
         // already compressed feature
         var bounds = o.obj.getBounds();
@@ -51,14 +51,14 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
       /*var c = this.options.pointToLayer ? 
                 this.options.pointToLayer(o.feature, bounds.getCenter()) : 
                 new L.Marker(bounds.getCenter());*/
-      var center = bounds.getCenter();
-      var f = L.extend({}, o.feature);
+      let center = bounds.getCenter();
+      let f = L.extend({}, o.feature);
       f.is_placeholder = true;
       f.geometry = {
         type: "Point",
         coordinates: [center.lng, center.lat]
       };
-      var c = L.GeoJSON.geometryToLayer(f, this.options.pointToLayer);
+      let c = L.GeoJSON.geometryToLayer(f, this.options.pointToLayer);
       o.placeholder = c;
       c.feature = f;
       this.resetStyle(c);

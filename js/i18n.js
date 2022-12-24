@@ -7,7 +7,7 @@ import settings from "./settings";
 var i18n = new (function () {
   function browser_locale() {
     /* taken from https://github.com/maxogden/browser-locale by Max Ogden, BSD licensed */
-    var lang;
+    let lang;
 
     if (navigator.languages) {
       // chrome does not currently set navigator.language correctly https://code.google.com/p/chromium/issues/detail?id=101138
@@ -24,8 +24,8 @@ var i18n = new (function () {
     return lang;
   }
 
-  var default_lng = "en";
-  var languages = {
+  let default_lng = "en";
+  let languages = {
     // translations found in locale/*.json
     en: "English",
     ca: "Catalan",
@@ -55,7 +55,7 @@ var i18n = new (function () {
     "zh-CN": "Chinese (Simplified)",
     "zh-TW": "Chinese (Taiwan)"
   };
-  var supported_lngs = _.keys(languages);
+  let supported_lngs = _.keys(languages);
   this.getSupportedLanguages = function () {
     return supported_lngs;
   };
@@ -72,7 +72,7 @@ var i18n = new (function () {
       // hardcode some language fallbacks
       if (lng === "nb") lng = "no"; // Norwegian Bokmål
       // sanitize inconsistent use of lower and upper case spelling
-      var parts;
+      let parts;
       if ((parts = lng.match(/(.*)-(.*)/)))
         lng = parts[1] + "-" + parts[2].toUpperCase();
       // fall back to generic language file if no country-specific i18n is found
@@ -117,15 +117,15 @@ var i18n = new (function () {
     // look for all object with the class "t"
     $(element || ".t").each((nr, element) => {
       // get translation term(s)
-      var terms = $(element).attr("data-t");
+      let terms = $(element).attr("data-t");
       terms = terms.split(";");
-      for (var i = 0; i < terms.length; i++) {
-        var term = terms[i];
-        var tmp = term.match(/^(\[(.*)\])?(.*)$/);
-        var what = tmp[2];
-        var key = tmp[3];
-        var val = i18n.t(key);
-        var shortcut = $(element).attr("data-shortcut");
+      for (let i = 0; i < terms.length; i++) {
+        let term = terms[i];
+        let tmp = term.match(/^(\[(.*)\])?(.*)$/);
+        let what = tmp[2];
+        let key = tmp[3];
+        let val = i18n.t(key);
+        let shortcut = $(element).attr("data-shortcut");
         if (shortcut) val += " [" + shortcut + "]";
         if (what === "html") {
           $(element).html(val);

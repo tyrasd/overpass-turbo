@@ -12,5 +12,8 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "rules": {}
+  "rules": {
+    "no-var": "warn",
+    "prefer-arrow-callback": "warn"
+  }
 }

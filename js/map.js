@@ -12,12 +12,12 @@ import Query from "./query";
 
 $(document).ready(() => {
   // main map cache
-  var cache = {};
+  let cache = {};
 
   window.addEventListener(
     "message",
     (evt) => {
-      var data = typeof evt.data === "string" ? JSON.parse(evt.data) : {};
+      let data = typeof evt.data === "string" ? JSON.parse(evt.data) : {};
       switch (data.cmd) {
         case "update_map":
           settings.code["overpass"] = data.value[0];
@@ -26,7 +26,7 @@ $(document).ready(() => {
         case "cache":
           settings.code["overpass"] = data.value[0];
           ide.getQuery((query) => {
-            var query_lang = ide.getQueryLang();
+            let query_lang = ide.getQueryLang();
             overpass.run_query(
               query,
               query_lang,
@@ -56,25 +56,25 @@ $(document).ready(() => {
   };
   var ide = {
     getQuery: function (callback) {
-      var query = settings.code["overpass"];
-      var queryParser = Query();
+      let query = settings.code["overpass"];
+      let queryParser = Query();
 
       queryParser.parse(query, {}, (query) => {
         // parse mapcss declarations
-        var mapcss = "";
+        let mapcss = "";
         if (queryParser.hasStatement("style"))
           mapcss = queryParser.getStatement("style");
         ide.mapcss = mapcss;
         // parse data-source statements
-        var data_source = null;
+        let data_source = null;
         if (queryParser.hasStatement("data")) {
           data_source = queryParser.getStatement("data");
           data_source = data_source.split(",");
-          var data_mode = data_source[0].toLowerCase();
+          let data_mode = data_source[0].toLowerCase();
           data_source = data_source.slice(1);
-          var options = {};
-          for (var i = 0; i < data_source.length; i++) {
-            var tmp = data_source[i].split("=");
+          let options = {};
+          for (let i = 0; i < data_source.length; i++) {
+            let tmp = data_source[i].split("=");
             options[tmp[0]] = tmp[1];
           }
           data_source = {
@@ -100,7 +100,7 @@ $(document).ready(() => {
       if (typeof overpass.osmLayer != "undefined")
         ide.map.removeLayer(overpass.osmLayer);
       ide.getQuery((query) => {
-        var query_lang = ide.getQueryLang();
+        let query_lang = ide.getQueryLang();
         overpass.run_query(
           query,
           query_lang,
@@ -125,19 +125,19 @@ $(document).ready(() => {
     ).dialog({modal: true});
   }
   // check for any get-parameters
-  var params = new URLSearchParams(location.search.substring(1));
+  let params = new URLSearchParams(location.search.substring(1));
   // uncompressed query set in url
   settings.code["overpass"] = params.get("Q");
   // don't alert on overpass errors, but send messages to parent window
   settings.silent = params.has("silent");
   // init leaflet
   ide.map = new L.Map("map");
-  var tilesUrl = settings.tileServer;
-  var tilesAttrib =
+  let tilesUrl = settings.tileServer;
+  let tilesAttrib =
     '&copy; <a href="www.openstreetmap.org/copyright">OpenStreetMap</a> contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
-  var tiles = new L.TileLayer(tilesUrl, {attribution: tilesAttrib});
+  let tiles = new L.TileLayer(tilesUrl, {attribution: tilesAttrib});
   ide.map.setView([0, 0], 1).addLayer(tiles);
-  var scaleControl = new L.Control.Scale({metric: true, imperial: false});
+  let scaleControl = new L.Control.Scale({metric: true, imperial: false});
   scaleControl.addTo(ide.map);
   // wait spinner
   $(document).on({
