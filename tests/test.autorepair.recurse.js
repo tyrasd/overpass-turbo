@@ -1,13 +1,13 @@
 import {afterEach, describe, expect, it, vi} from "vitest";
 import ide from "../js/ide";
 
-describe("ide.autorepair.recurse", function () {
+describe("ide.autorepair.recurse", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
   // autocomplete missing recurse statements: xml query
-  it("autocomplete xml query", function () {
-    var examples = [
+  it("autocomplete xml query", () => {
+    const examples = [
       {
         // trivial case
         inp: "<print/>",
@@ -30,8 +30,8 @@ describe("ide.autorepair.recurse", function () {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
-    for (var i = 0; i < examples.length; i++) {
-      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+    for (let i = 0; i < examples.length; i++) {
+      const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
       vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("no visible data");
       expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
@@ -39,8 +39,8 @@ describe("ide.autorepair.recurse", function () {
   });
 
   // autocomplete missing recurse statements: OverpassQL query
-  it("autocomplete OverpassQL query", function () {
-    var examples = [
+  it("autocomplete OverpassQL query", () => {
+    const examples = [
       {
         // trivial case
         inp: "out;",
@@ -75,8 +75,8 @@ describe("ide.autorepair.recurse", function () {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
-    for (var i = 0; i < examples.length; i++) {
-      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+    for (let i = 0; i < examples.length; i++) {
+      const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
       vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("no visible data");
       expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
@@ -84,16 +84,16 @@ describe("ide.autorepair.recurse", function () {
   });
 
   // do not autocomplete in comments (xml query)
-  it("do not autocomplete in comments (xml query)", function () {
-    var examples = [
+  it("do not autocomplete in comments (xml query)", () => {
+    const examples = [
       {
         inp: "<!--<print/>-->",
         outp: "<!--<print/>-->"
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
-    for (var i = 0; i < examples.length; i++) {
-      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+    for (let i = 0; i < examples.length; i++) {
+      const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
       vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("no visible data");
       expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
@@ -101,8 +101,8 @@ describe("ide.autorepair.recurse", function () {
   });
 
   // do not autocomplete in comments (OverpassQL query)
-  it("do not autocomplete in comments (OverpassQL query)", function () {
-    var examples = [
+  it("do not autocomplete in comments (OverpassQL query)", () => {
+    const examples = [
       {
         // multiline comments
         inp: "/*out;*/",
@@ -115,8 +115,8 @@ describe("ide.autorepair.recurse", function () {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
-    for (var i = 0; i < examples.length; i++) {
-      var setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+    for (let i = 0; i < examples.length; i++) {
+      const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
       vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
       ide.repairQuery("no visible data");
       expect(setQuery).toHaveBeenCalledWith(examples[i].outp);

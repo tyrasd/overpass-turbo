@@ -2,17 +2,17 @@ import {describe, expect, it} from "vitest";
 import settings from "../js/settings";
 import urlParameters from "../js/urlParameters";
 
-describe("urlParameters", function () {
+describe("urlParameters", () => {
   // no parameters
-  it("defaults", function () {
-    var args = urlParameters("");
+  it("defaults", () => {
+    let args = urlParameters("");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: false,
       has_zoom: false,
       run_query: false
     });
-    var args = urlParameters("?");
+    args = urlParameters("?");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: false,
@@ -21,8 +21,8 @@ describe("urlParameters", function () {
     });
   });
   // query (uncompressed)
-  it("query", function () {
-    var args = urlParameters("?Q=foo");
+  it("query", () => {
+    const args = urlParameters("?Q=foo");
     expect(args).toMatchObject({
       has_query: true,
       query: "foo",
@@ -31,8 +31,8 @@ describe("urlParameters", function () {
     });
   });
   // query (compressed)
-  it("query (compressed)", function () {
-    var args = urlParameters("?q=Zm9v");
+  it("query (compressed)", () => {
+    const args = urlParameters("?q=Zm9v");
     expect(args).toMatchObject({
       has_query: true,
       query: "foo",
@@ -41,8 +41,8 @@ describe("urlParameters", function () {
     });
   });
   // coords (uncompressed)
-  it("coords", function () {
-    var args = urlParameters("?C=0;180;1");
+  it("coords", () => {
+    const args = urlParameters("?C=0;180;1");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: true,
@@ -52,8 +52,8 @@ describe("urlParameters", function () {
     });
   });
   // coords (uncompressed, lat/lon/zoom)
-  it("coords (lat/lon/zoom)", function () {
-    var args = urlParameters("?lat=0&lon=180.0&zoom=1");
+  it("coords (lat/lon/zoom)", () => {
+    let args = urlParameters("?lat=0&lon=180.0&zoom=1");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: true,
@@ -61,14 +61,14 @@ describe("urlParameters", function () {
       has_zoom: true,
       zoom: 1
     });
-    var args = urlParameters("?lat=0&lon=180.0");
+    args = urlParameters("?lat=0&lon=180.0");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: true,
       coords: {lat: 0.0, lng: 180.0},
       has_zoom: false
     });
-    var args = urlParameters("?zoom=1");
+    args = urlParameters("?zoom=1");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: false,
@@ -77,8 +77,8 @@ describe("urlParameters", function () {
     });
   });
   // coords (compressed)
-  it("coords (compressed)", function () {
-    var args = urlParameters("?c=CTVpCWdRAB");
+  it("coords (compressed)", () => {
+    const args = urlParameters("?c=CTVpCWdRAB");
     expect(args).toMatchObject({
       has_coords: true,
       coords: {lat: 0.0, lng: 180.0},
@@ -87,19 +87,19 @@ describe("urlParameters", function () {
     });
   });
   // RUN flag
-  it("RUN flag", function () {
-    var args = urlParameters("?Q=foo&R");
+  it("RUN flag", () => {
+    let args = urlParameters("?Q=foo&R");
     expect(args).toMatchObject({run_query: true});
-    var args = urlParameters("?Q=foo&R=true");
+    args = urlParameters("?Q=foo&R=true");
     expect(args).toMatchObject({run_query: true});
   });
   // template
-  it("template", async function () {
-    var orig_ss = settings.saves;
+  it("template", async () => {
+    const orig_ss = settings.saves;
     settings.saves = {
       T: {type: "template", parameters: ["p"], wizard: "name={{p}}"}
     };
-    var args = new Promise((resolve, reject) =>
+    const args = new Promise((resolve, reject) =>
       urlParameters(
         "?template=T&p=foo",
         (err, result) => (err && reject(err)) || resolve(result)
@@ -117,7 +117,7 @@ The original search was:
 (
   // query part for: “name=foo”
   // nwr is short for node/way/relation
-  nwr[\"name\"=\"foo\"]({{bbox}});
+  nwr["name"="foo"]({{bbox}});
 );
 // print results
 out body;

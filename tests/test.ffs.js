@@ -2,10 +2,10 @@ import {beforeEach, describe, expect, it} from "vitest";
 import ffs from "../js/ffs";
 import {setPresets} from "../js/ffs/free";
 
-describe("ide.ffs", function () {
+describe("ide.ffs", () => {
   function construct_query(search) {
     return new Promise((resolve, reject) => {
-      ffs.construct_query(search, undefined, function (err, result) {
+      ffs.construct_query(search, undefined, (err, result) => {
         if (err) {
           reject(err);
         } else if (typeof result === "string") {
@@ -22,70 +22,70 @@ describe("ide.ffs", function () {
     q = q.replace(/\/\/.*/g, "");
     q = q.replace(/\[out:json\]\[timeout:.*?\];/, "");
     q = q.replace(/\(\{\{bbox\}\}\)/g, "(bbox)");
-    q = q.replace(/\{\{geocodeArea:([^\}]*)\}\}/g, "area($1)");
-    q = q.replace(/\{\{geocodeCoords:([^\}]*)\}\}/g, "coords:$1");
-    q = q.replace(/\{\{date:([^\}]*)\}\}/g, "date:$1");
+    q = q.replace(/\{\{geocodeArea:([^}]*)\}\}/g, "area($1)");
+    q = q.replace(/\{\{geocodeCoords:([^}]*)\}\}/g, "coords:$1");
+    q = q.replace(/\{\{date:([^}]*)\}\}/g, "date:$1");
     q = q.replace(/\{\{[\s\S]*?\}\}/g, "");
     q = q.replace(/ *\n */g, "");
     return q;
   }
-  var out_str = "out body;>;out skel qt;";
+  const out_str = "out body;>;out skel qt;";
 
   // basic conditions
-  describe("basic conditions", function () {
+  describe("basic conditions", () => {
     // key
-    it("key=*", async function () {
-      var search = "foo=*";
+    it("key=*", async () => {
+      const search = "foo=*";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"](bbox);' + ");" + out_str
       );
     });
     // not key
-    it("key!=*", async function () {
-      var search = "foo!=*";
+    it("key!=*", async () => {
+      const search = "foo!=*";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"!~".*"](bbox);' + ");" + out_str
       );
     });
     // key-value
-    it("key=value", async function () {
-      var search = "foo=bar";
+    it("key=value", async () => {
+      const search = "foo=bar";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"="bar"](bbox);' + ");" + out_str
       );
     });
     // not key-value
-    it("key!=value", async function () {
-      var search = "foo!=bar";
+    it("key!=value", async () => {
+      const search = "foo!=bar";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"!="bar"](bbox);' + ");" + out_str
       );
     });
     // regex key-value
-    it("key~value", async function () {
-      var search = "foo~bar";
+    it("key~value", async () => {
+      const search = "foo~bar";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"~"bar"](bbox);' + ");" + out_str
       );
     });
     // regex key
-    it("~key~value", async function () {
-      var search = "~foo~bar";
+    it("~key~value", async () => {
+      const search = "~foo~bar";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr[~"foo"~"bar"](bbox);' + ");" + out_str
       );
     });
     // not regex key-value
-    it("key!~value", async function () {
-      var search = "foo!~bar";
+    it("key!~value", async () => {
+      const search = "foo!~bar";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"!~"bar"](bbox);' + ");" + out_str
       );
     });
     // susbtring key-value
-    it("key:value", async function () {
+    it("key:value", async () => {
       // normal case: just do a regex search
-      var search = "foo:bar";
+      let search = "foo:bar";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"~"bar"](bbox);' + ");" + out_str
       );
@@ -98,43 +98,40 @@ describe("ide.ffs", function () {
   });
 
   // data types
-  describe("data types", function () {
-    describe("strings", function () {
+  describe("data types", () => {
+    describe("strings", () => {
       // strings
-      it("double quoted strings", async function () {
-        var search, result;
+      it("double quoted strings", async () => {
         // double-quoted string
-        search = '"a key"="a value"';
+        const search = '"a key"="a value"';
         await expect(construct_query(search)).resolves.to.equal(
           "(" + 'nwr["a key"="a value"](bbox);' + ");" + out_str
         );
       });
-      it("single-quoted string", async function () {
-        var search, result;
+      it("single-quoted string", async () => {
         // single-quoted string
-        search = "'foo bar'='asd fasd'";
+        const search = "'foo bar'='asd fasd'";
         await expect(construct_query(search)).resolves.to.equal(
           "(" + 'nwr["foo bar"="asd fasd"](bbox);' + ");" + out_str
         );
       });
-      it("quoted unicode string", async function () {
-        var search = "name='بیجنگ'";
+      it("quoted unicode string", async () => {
+        const search = "name='بیجنگ'";
         await expect(construct_query(search)).resolves.to.equal(
           "(" + 'nwr["name"="بیجنگ"](bbox);' + ");" + out_str
         );
       });
-      it("unicode string", async function () {
-        var search = "name=Béziers";
+      it("unicode string", async () => {
+        const search = "name=Béziers";
         await expect(construct_query(search)).resolves.to.equal(
           "(" + 'nwr["name"="Béziers"](bbox);' + ");" + out_str
         );
       });
     });
     // regexes
-    it("regex", async function () {
-      var search, result;
+    it("regex", async () => {
       // simple regex
-      search = "foo~/bar/";
+      let search = "foo~/bar/";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"~"bar"](bbox);' + ");" + out_str
       );
@@ -147,29 +144,29 @@ describe("ide.ffs", function () {
   });
 
   // boolean logic
-  describe("boolean logic", function () {
+  describe("boolean logic", () => {
     // logical and
-    it("logical and", async function () {
-      var search = "foo=bar and asd=fasd";
+    it("logical and", async () => {
+      const search = "foo=bar and asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"="bar"]["asd"="fasd"](bbox);' + ");" + out_str
       );
     });
-    it("logical and (& operator)", async function () {
-      var search = "foo=bar & asd=fasd";
+    it("logical and (& operator)", async () => {
+      const search = "foo=bar & asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"="bar"]["asd"="fasd"](bbox);' + ");" + out_str
       );
     });
-    it("logical and (&& operator)", async function () {
-      var search = "foo=bar && asd=fasd";
+    it("logical and (&& operator)", async () => {
+      const search = "foo=bar && asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["foo"="bar"]["asd"="fasd"](bbox);' + ");" + out_str
       );
     });
     // logical or
-    it("logical or", async function () {
-      var search = "foo=bar or asd=fasd";
+    it("logical or", async () => {
+      const search = "foo=bar or asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
         "(" +
           'nwr["foo"="bar"](bbox);' +
@@ -178,8 +175,8 @@ describe("ide.ffs", function () {
           out_str
       );
     });
-    it("logical or (| operator)", async function () {
-      var search = "foo=bar | asd=fasd";
+    it("logical or (| operator)", async () => {
+      const search = "foo=bar | asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
         "(" +
           'nwr["foo"="bar"](bbox);' +
@@ -188,8 +185,8 @@ describe("ide.ffs", function () {
           out_str
       );
     });
-    it("logical or (|| operator)", async function () {
-      var search = "foo=bar || asd=fasd";
+    it("logical or (|| operator)", async () => {
+      const search = "foo=bar || asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
         "(" +
           'nwr["foo"="bar"](bbox);' +
@@ -199,8 +196,8 @@ describe("ide.ffs", function () {
       );
     });
     // boolean expression
-    it("boolean expression", async function () {
-      var search = "(foo=* or bar=*) and (asd=* or fasd=*)";
+    it("boolean expression", async () => {
+      const search = "(foo=* or bar=*) and (asd=* or fasd=*)";
       await expect(construct_query(search)).resolves.to.equal(
         "(" +
           'nwr["foo"]["asd"](bbox);' +
@@ -214,11 +211,11 @@ describe("ide.ffs", function () {
   });
 
   // meta conditions
-  describe("meta conditions", function () {
+  describe("meta conditions", () => {
     // type
-    it("type", async function () {
+    it("type", async () => {
       // simple
-      var search = "foo=bar and type:node";
+      let search = "foo=bar and type:node";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'node["foo"="bar"](bbox);' + ");" + out_str
       );
@@ -238,9 +235,9 @@ describe("ide.ffs", function () {
       );
     });
     // newer
-    it("newer", async function () {
+    it("newer", async () => {
       // regular
-      var search = 'newer:"2000-01-01T01:01:01Z" and type:node';
+      let search = 'newer:"2000-01-01T01:01:01Z" and type:node';
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'node(newer:"2000-01-01T01:01:01Z")(bbox);' + ");" + out_str
       );
@@ -251,9 +248,9 @@ describe("ide.ffs", function () {
       );
     });
     // user
-    it("user", async function () {
+    it("user", async () => {
       // user name
-      var search = "user:foo and type:node";
+      let search = "user:foo and type:node";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'node(user:"foo")(bbox);' + ");" + out_str
       );
@@ -264,9 +261,9 @@ describe("ide.ffs", function () {
       );
     });
     // id
-    it("id", async function () {
+    it("id", async () => {
       // with type
-      var search = "id:123 and type:node";
+      let search = "id:123 and type:node";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + "node(123)(bbox);" + ");" + out_str
       );
@@ -279,18 +276,18 @@ describe("ide.ffs", function () {
   });
 
   // search-regions
-  describe("regions", function () {
+  describe("regions", () => {
     // global
-    it("global", async function () {
-      var search = "foo=bar and type:node global";
+    it("global", async () => {
+      const search = "foo=bar and type:node global";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'node["foo"="bar"];' + ");" + out_str
       );
     });
     // bbox
-    it("in bbox", async function () {
+    it("in bbox", async () => {
       // implicit
-      var search = "type:node";
+      let search = "type:node";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + "node(bbox);" + ");" + out_str
       );
@@ -301,8 +298,8 @@ describe("ide.ffs", function () {
       );
     });
     // area
-    it("in area", async function () {
-      var search = "type:node in foobar";
+    it("in area", async () => {
+      const search = "type:node in foobar";
       await expect(construct_query(search)).resolves.to.equal(
         "area(foobar)->.searchArea;" +
           "(" +
@@ -312,8 +309,8 @@ describe("ide.ffs", function () {
       );
     });
     // around
-    it("around", async function () {
-      var search = "type:node around foobar";
+    it("around", async () => {
+      const search = "type:node around foobar";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + "node(around:,coords:foobar);" + ");" + out_str
       );
@@ -321,8 +318,8 @@ describe("ide.ffs", function () {
   });
 
   // free form
-  describe("free form", function () {
-    beforeEach(function () {
+  describe("free form", () => {
+    beforeEach(() => {
       setPresets({
         "amenity/hospital": {
           name: "Hospital",
@@ -345,26 +342,26 @@ describe("ide.ffs", function () {
       });
     });
 
-    it("preset not found", async function () {
-      var search = "foo";
+    it("preset not found", async () => {
+      const search = "foo";
       await expect(construct_query(search)).rejects.to.throw(
         "unknown ffs string"
       );
     });
-    it("preset (points, key-value)", async function () {
-      var search = "Shelter";
+    it("preset (points, key-value)", async () => {
+      const search = "Shelter";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'node["amenity"="shelter"](bbox);' + ");" + out_str
       );
     });
-    it("preset (points, areas, key-value)", async function () {
-      var search = "Hospital";
+    it("preset (points, areas, key-value)", async () => {
+      const search = "Hospital";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'nwr["amenity"="hospital"](bbox);' + ");" + out_str
       );
     });
-    it("preset (lines, key=*)", async function () {
-      var search = "Highway";
+    it("preset (lines, key=*)", async () => {
+      const search = "Highway";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'way["highway"](bbox);' + ");" + out_str
       );
@@ -372,17 +369,17 @@ describe("ide.ffs", function () {
   });
 
   // sanity conversions for special conditions
-  describe("special cases", function () {
+  describe("special cases", () => {
     // empty value
-    it("empty value", async function () {
-      var search = "foo='' and type:way";
+    it("empty value", async () => {
+      const search = "foo='' and type:way";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'way["foo"~"^$"](bbox);' + ");" + out_str
       );
     });
     // empty key
-    it("empty key", async function () {
-      var search = "''=bar and type:way";
+    it("empty key", async () => {
+      let search = "''=bar and type:way";
       await expect(construct_query(search)).resolves.to.equal(
         "(" + 'way[~"^$"~"^bar$"](bbox);' + ");" + out_str
       );
@@ -402,8 +399,8 @@ describe("ide.ffs", function () {
       );
     });
     // newlines, tabs
-    it("newlines, tabs", async function () {
-      var search = "(foo='\t' or foo='\n' or asd='\\t') and type:way";
+    it("newlines, tabs", async () => {
+      const search = "(foo='\t' or foo='\n' or asd='\\t') and type:way";
       await expect(construct_query(search)).resolves.to.equal(
         "(" +
           'way["foo"="\\t"](bbox);' +
