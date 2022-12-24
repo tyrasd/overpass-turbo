@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Fontes de dados",
     "help.attr.data": "Dados e cópia;<a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contribuidores, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">Termos</a>)</span>",
     "help.attr.mining": "Dados produzidos por",
-    "help.attr.tiles": "Blocos do mapa e cópia; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contribuidores, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">CC-BY-SA</a>",
+    "help.attr.tiles": "Blocos do mapa e cópia; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contribuidores",
     "help.attr.search": "Busca oferecida por",
     "help.attr.software": "Software & Bibliotecas",
     "help.attr.leaflet": "Mapa desenvolvido por",

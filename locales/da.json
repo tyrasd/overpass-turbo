@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Geodata kilder",
     "help.attr.data": "Geodata &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> bidragsydere, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">Betingelser</a>)</span>",
     "help.attr.mining": "Geodata mining af",
-    "help.attr.tiles": "Kort tern &copy;  <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> bidragsydere, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">CC-BY-SA</a>",
+    "help.attr.tiles": "Kort tern &copy;  <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> bidragsydere",
     "help.attr.search": "Søgning er leveret af",
     "help.attr.software": "Software & Biblioteker",
     "help.attr.leaflet": "Kort drevet af",

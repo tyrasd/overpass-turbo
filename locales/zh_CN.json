@@ -164,7 +164,7 @@
     "help.attr.data_sources": "数据来源",
     "help.attr.data": "数据与版权；<a href=\"http://openstreetmap.org/\">OpenStreetMap</a>贡献者，<span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a>（<a href=\"http://www.openstreetmap.org/copyright\">条款</a>）</span>",
     "help.attr.mining": "数据挖掘",
-    "help.attr.tiles": "地图瓦片与版权；<a href=\"http://openstreetmap.org/\">OpenStreetMap</a>贡献者，<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">CC-BY-SA</a>",
+    "help.attr.tiles": "地图瓦片与版权；<a href=\"http://openstreetmap.org/\">OpenStreetMap</a>贡献者",
     "help.attr.search": "搜索引擎提供方",
     "help.attr.software": "软件与库",
     "help.attr.leaflet": "地图提供方",

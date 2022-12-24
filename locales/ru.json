@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Источники данных",
     "help.attr.data": "Данные &copy; участники <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">условия</a>)</span>",
     "help.attr.mining": "Обработка данных",
-    "help.attr.tiles": "Тайлы карты &copy; участники <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">CC-BY-SA</a>",
+    "help.attr.tiles": "Тайлы карты &copy; участники <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>",
     "help.attr.search": "Поиск предоставлен",
     "help.attr.software": "Программы и библиотеки",
     "help.attr.leaflet": "Карта предоставлена",

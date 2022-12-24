@@ -133,8 +133,7 @@ $(document).ready(() => {
   // init leaflet
   ide.map = new L.Map("map");
   const tilesUrl = settings.tileServer;
-  const tilesAttrib =
-    '&copy; <a href="www.openstreetmap.org/copyright">OpenStreetMap</a> contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>';
+  const tilesAttrib = configs.tileServerAttribution;
   const tiles = new L.TileLayer(tilesUrl, {attribution: tilesAttrib});
   ide.map.setView([0, 0], 1).addLayer(tiles);
   const scaleControl = new L.Control.Scale({metric: true, imperial: false});

@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Πηγές δεδομένων",
     "help.attr.data": "Δεδομένα &copy; συνεισφέροντες του <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">Όροι</a>)</span>",
     "help.attr.mining": "Εξόρυξη δεδομένων από",
-    "help.attr.tiles": "Πλακίδια χάρτη &copy; συνεισφέροντες <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">CC-BY-SA</a>",
+    "help.attr.tiles": "Πλακίδια χάρτη &copy; συνεισφέροντες <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>",
     "help.attr.search": "Παροχή αναζήτησης από ",
     "help.attr.software": "Λογισμικό και βιβλιοθήκες",
     "help.attr.leaflet": "Χάρτης με την ισχύ του",

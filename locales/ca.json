@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Origen de les dades",
     "help.attr.data": "Dades &copy; col·laboradors de l'<a href=\"http://openstreetmap.org/\">OpenStreetMap</a> , <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">termes</a>)</span>",
     "help.attr.mining": "Mineria de dades per",
-    "help.attr.tiles": "Les tessel·les del mapa són copyright dels col·laboradors de l'<a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">CC-BY-SA</a>",
+    "help.attr.tiles": "Les tessel·les del mapa són copyright dels col·laboradors de l'<a href=\"http://openstreetmap.org/\">OpenStreetMap</a>",
     "help.attr.search": "Cerca proporcionada per",
     "help.attr.software": "Programari i biblioteques",
     "help.attr.leaflet": "Mapa amb la tecnologia de",

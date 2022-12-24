@@ -158,7 +158,7 @@
   "help.attr.data_sources": "資料來源",
   "help.attr.data": "資料和版權；<a href=\"http://openstreetmap.org/\">OpenStreetMap</a> 貢獻者, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">條款</a>)</span>",
   "help.attr.mining": "資料探勘：",
-  "help.attr.tiles": "地圖圖磚和版權; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> 貢獻者, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">CC-BY-SA</a>",
+  "help.attr.tiles": "地圖圖磚和版權; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> 貢獻者",
   "help.attr.search": "搜尋提供：",
   "help.attr.software": "軟體和函式庫",
   "help.attr.leaflet": "地圖提供：",

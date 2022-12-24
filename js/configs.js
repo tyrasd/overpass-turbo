@@ -8,8 +8,12 @@ export default {
     "//overpass.openstreetmap.fr/api/"
   ],
   defaultTiles: "//tile.openstreetmap.org/{z}/{x}/{y}.png",
-  tileServerAttribution:
-    "&copy; OpenStreetMap.org contributors&ensp;<small>Data:ODbL, Map:cc-by-sa</small>",
+  // https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+  // > Attribution must be to "OpenStreetMap".
+  // > Attribution must also make it clear that the data is available under the Open Database License.
+  // > This may be done by making the text "OpenStreetMap" a link to openstreetmap.org/copyright, which has information about OpenStreetMap’s data sources (which OpenStreetMap needs to credit) as well as the ODbL.
+  // https://www.openstreetmap.org/copyright
+  tileServerAttribution: `<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>`,
   suggestedTiles: [
     "//tile.openstreetmap.org/{z}/{x}/{y}.png"
     //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",

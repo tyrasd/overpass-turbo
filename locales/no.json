@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Datakilder",
     "help.attr.data": "Kartdata &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>-bidragsytere, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">Vilkår</a>)</span>",
     "help.attr.mining": "Datagraving ved",
-    "help.attr.tiles": "Kartfliser &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>-bidragsytere, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">CC-BY-SA</a>",
+    "help.attr.tiles": "Kartfliser &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>-bidragsytere",
     "help.attr.search": "Søk levert av",
     "help.attr.software": "Programvare og funksjonsbibliotek",
     "help.attr.leaflet": "Kartet er drevet av",
