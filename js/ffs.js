@@ -303,7 +303,7 @@ ffs.construct_query = function (search, comment, callback) {
     ? ffs_free
     : function (x) {
         x(null);
-      })(function (freeFormQuery) {
+      })((freeFormQuery) => {
     add_comment("// gather results");
     query_parts.push("(");
     for (var i = 0; i < ffs.query.queries.length; i++) {
@@ -319,13 +319,13 @@ ffs.construct_query = function (search, comment, callback) {
           var ffs_clause = freeFormQuery.get_query_clause(cond_query);
           if (ffs_clause === false) return callback("unknown ffs string");
           // restrict possible data types
-          types = types.filter(function (t) {
+          types = types.filter((t) => {
             return ffs_clause.types.indexOf(t) != -1;
           });
           // add clauses
           clauses_str.push(get_query_clause_str(cond_query));
           clauses = clauses.concat(
-            ffs_clause.conditions.map(function (condition) {
+            ffs_clause.conditions.map((condition) => {
               return get_query_clause(condition);
             })
           );
@@ -384,9 +384,9 @@ ffs.repair_search = function (search, callback) {
   var search_parts = [];
   var repaired = false;
 
-  ffs_free(function (freeFormQuery) {
+  ffs_free((freeFormQuery) => {
     ffs.query = normalize(ffs.query);
-    ffs.query.queries.forEach(function (q) {
+    ffs.query.queries.forEach((q) => {
       q.queries.forEach(validateQuery);
     });
     function validateQuery(cond_query) {

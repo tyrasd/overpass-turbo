@@ -47,7 +47,7 @@ styleparser.Style.prototype = {
     } else if (typeof this[k] == "number") {
       v = Number(v);
     } else if (this[k] && this[k].constructor == Array) {
-      v = v.split(",").map(function (a) {
+      v = v.split(",").map((a) => {
         return Number(a);
       });
     }

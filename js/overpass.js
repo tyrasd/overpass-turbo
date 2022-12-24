@@ -76,13 +76,13 @@ var overpass = new (function () {
         query = '<?xml version="1.0" encoding="UTF-8"?>' + query;
       }
     }
-    fire("onProgress", "calling Overpass API interpreter", function (callback) {
+    fire("onProgress", "calling Overpass API interpreter", (callback) => {
       // kill the query on abort
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
       $.get(server + "kill_my_queries")
         .done(callback)
-        .fail(function () {
+        .fail(() => {
           console.log("Warning: failed to kill query.");
           callback();
         });
@@ -105,12 +105,12 @@ var overpass = new (function () {
         "onDataReceived",
         data_amount,
         data_txt,
-        function () {
+        () => {
           // abort callback
           fire("onAbort");
           return;
         },
-        function () {
+        () => {
           // continue callback
           // different cases of loaded data: json data, xml data or error message?
           var data_mode = null;
@@ -119,7 +119,7 @@ var overpass = new (function () {
           overpass.ajax_request_duration =
             Date.now() - overpass.ajax_request_start;
           fire("onProgress", "parsing data");
-          setTimeout(function () {
+          setTimeout(() => {
             // hacky firefox hack :( (it is not properly detecting json from the content-type header)
             if (typeof data == "string" && data[0] == "{") {
               // if the data is a string, but looks more like a json object
@@ -240,16 +240,16 @@ var overpass = new (function () {
               overpass.timestampAreas = data.osm3s.timestamp_areas_base;
               overpass.copyright = data.osm3s.copyright;
               stats.data = {
-                nodes: $.grep(data.elements, function (d) {
+                nodes: $.grep(data.elements, (d) => {
                   return d.type == "node";
                 }).length,
-                ways: $.grep(data.elements, function (d) {
+                ways: $.grep(data.elements, (d) => {
                   return d.type == "way";
                 }).length,
-                relations: $.grep(data.elements, function (d) {
+                relations: $.grep(data.elements, (d) => {
                   return d.type == "relation";
                 }).length,
-                areas: $.grep(data.elements, function (d) {
+                areas: $.grep(data.elements, (d) => {
                   return d.type == "area";
                 }).length
               };
@@ -351,7 +351,7 @@ var overpass = new (function () {
                     getParentObjects: function () {
                       if (feature.properties.relations.length == 0) return [];
                       else
-                        return feature.properties.relations.map(function (rel) {
+                        return feature.properties.relations.map((rel) => {
                           return {
                             tags: rel.reltags,
                             isSubject: function (subject) {
@@ -414,7 +414,7 @@ var overpass = new (function () {
                     case "MultiPolygon":
                       var labelPolygon,
                         bestVal = -Infinity;
-                      layer.getLayers().forEach(function (layer) {
+                      layer.getLayers().forEach((layer) => {
                         var size = layer
                           .getBounds()
                           .getNorthEast()
@@ -431,15 +431,15 @@ var overpass = new (function () {
                           polylabel(
                             [labelPolygon.getLatLngs()]
                               .concat(labelPolygon._holes)
-                              .map(function (ring) {
+                              .map((ring) => {
                                 return ring
-                                  .map(function (latlng) {
+                                  .map((latlng) => {
                                     return L.CRS.EPSG3857.latLngToPoint(
                                       latlng,
                                       20
                                     );
                                   })
-                                  .map(function (p) {
+                                  .map((p) => {
                                     return [p.x, p.y];
                                   });
                               })
@@ -451,7 +451,7 @@ var overpass = new (function () {
                     case "MultiLineString":
                       var labelLayer,
                         bestVal = -Infinity;
-                      layer.getLayers().forEach(function (layer) {
+                      layer.getLayers().forEach((layer) => {
                         var size = layer
                           .getBounds()
                           .getNorthEast()
@@ -684,7 +684,7 @@ var overpass = new (function () {
                             "</span>";
                         }
                         popup += "</h5><ul>";
-                        $.each(feature.properties.tags, function (k, v) {
+                        $.each(feature.properties.tags, (k, v) => {
                           k = htmlentities(k); // escaping strings!
                           v = htmlentities(v);
                           // hyperlinks for http,https and ftp URLs
@@ -694,7 +694,7 @@ var overpass = new (function () {
                               /\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi
                             ))
                           ) {
-                            urls.forEach(function (url) {
+                            urls.forEach((url) => {
                               var href = url.match(/^(https?|ftp):\/\//)
                                 ? url
                                 : "http://" + url;
@@ -733,7 +733,7 @@ var overpass = new (function () {
                               "</a>";
                           // hyperlinks for wikidata entries
                           if (k.match(/(^|:)wikidata$/))
-                            v = v.replace(/Q[0-9]+/g, function (q) {
+                            v = v.replace(/Q[0-9]+/g, (q) => {
                               return (
                                 '<a href="//www.wikidata.org/wiki/' +
                                 q +
@@ -795,7 +795,7 @@ var overpass = new (function () {
                             "</span>";
                         }
                         popup += "</h3><ul>";
-                        $.each(feature.properties.relations, function (k, v) {
+                        $.each(feature.properties.relations, (k, v) => {
                           popup +=
                             "<li><a href='//www.openstreetmap.org/relation/" +
                             v["rel"] +
@@ -833,7 +833,7 @@ var overpass = new (function () {
                         !$.isEmptyObject(feature.properties.meta)
                       ) {
                         popup += '<h4 class="subtitle is-5">Meta</h4><ul>';
-                        $.each(feature.properties.meta, function (k, v) {
+                        $.each(feature.properties.meta, (k, v) => {
                           k = htmlentities(k);
                           v = htmlentities(v);
                           if (k == "user")
@@ -901,8 +901,8 @@ var overpass = new (function () {
                 }
               });
 
-              setTimeout(function () {
-                overpass.osmLayer.addData(data, function () {
+              setTimeout(() => {
+                overpass.osmLayer.addData(data, () => {
                   // save geojson and raw data
                   geojson = overpass.osmLayer.getGeoJSON();
                   overpass.geojson = geojson;
@@ -935,7 +935,7 @@ var overpass = new (function () {
 
                   // print raw data
                   fire("onProgress", "printing raw data");
-                  setTimeout(function () {
+                  setTimeout(() => {
                     overpass.resultText = jqXHR.responseText;
                     fire("onRawDataPresent");
 

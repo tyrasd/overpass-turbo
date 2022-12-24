@@ -10,13 +10,13 @@ import configs from "./configs";
 import overpass from "./overpass";
 import Query from "./query";
 
-$(document).ready(function () {
+$(document).ready(() => {
   // main map cache
   var cache = {};
 
   window.addEventListener(
     "message",
-    function (evt) {
+    (evt) => {
       var data = typeof evt.data === "string" ? JSON.parse(evt.data) : {};
       switch (data.cmd) {
         case "update_map":
@@ -25,7 +25,7 @@ $(document).ready(function () {
           break;
         case "cache":
           settings.code["overpass"] = data.value[0];
-          ide.getQuery(function (query) {
+          ide.getQuery((query) => {
             var query_lang = ide.getQueryLang();
             overpass.run_query(
               query,
@@ -59,7 +59,7 @@ $(document).ready(function () {
       var query = settings.code["overpass"];
       var queryParser = Query();
 
-      queryParser.parse(query, {}, function (query) {
+      queryParser.parse(query, {}, (query) => {
         // parse mapcss declarations
         var mapcss = "";
         if (queryParser.hasStatement("style"))
@@ -99,7 +99,7 @@ $(document).ready(function () {
       $("#data_stats").remove();
       if (typeof overpass.osmLayer != "undefined")
         ide.map.removeLayer(overpass.osmLayer);
-      ide.getQuery(function (query) {
+      ide.getQuery((query) => {
         var query_lang = ide.getQueryLang();
         overpass.run_query(
           query,
@@ -148,7 +148,7 @@ $(document).ready(function () {
       $("#loading-dialog").removeClass("is-active");
     }
   });
-  ide.map.on("layeradd", function (e) {
+  ide.map.on("layeradd", (e) => {
     if (!(e.layer instanceof L.GeoJSON)) return;
     ide.map.setView([0, 0], 18, true);
     try {

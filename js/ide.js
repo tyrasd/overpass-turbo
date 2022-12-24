@@ -25,9 +25,9 @@ import shortcuts from "./shortcuts";
 // @see https://developer.mozilla.org/en-US/docs/Web/Events/copy
 // @see https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
 var copyData = undefined;
-$(document).on("copy", function (e) {
+$(document).on("copy", (e) => {
   if (copyData && e.originalEvent && e.originalEvent.clipboardData) {
-    Object.keys(copyData).forEach(function (format) {
+    Object.keys(copyData).forEach((format) => {
       e.originalEvent.clipboardData.setData(format, copyData[format]);
     });
     e.originalEvent.preventDefault();
@@ -95,7 +95,7 @@ var ide = new (function () {
       })
       .removeClass("ui-corner-all")
       .addClass("ui-corner-right ui-combobox-toggle")
-      .click(function () {
+      .click(() => {
         // close if already visible
         if (input.autocomplete("widget").is(":visible")) {
           input.autocomplete("close");
@@ -140,7 +140,7 @@ var ide = new (function () {
     // Create modal in body
     var element = $(dialogContent);
     // Handle close event
-    $(".delete", element).click(function () {
+    $(".delete", element).click(() => {
       $(element).remove();
     });
 
@@ -221,7 +221,7 @@ var ide = new (function () {
         ide.waiter.onAbort = abortCallback;
         var aborter = $(
           '<span id="aborter">&nbsp;(<a href="#">abort</a>)</span>'
-        ).on("click", function () {
+        ).on("click", () => {
           ide.waiter.abort();
           return false;
         });
@@ -273,7 +273,7 @@ var ide = new (function () {
     // translate ui
     ide.waiter.addInfo("translate ui");
     var me = this;
-    i18n.translate().then(function () {
+    i18n.translate().then(() => {
       initAfterI18n.call(me);
     });
 
@@ -364,7 +364,7 @@ var ide = new (function () {
         )
       });
       CodeMirror.defineMIME("text/x-overpassXML", "xml");
-      CodeMirror.defineMode("xml+mustache", function (config) {
+      CodeMirror.defineMode("xml+mustache", (config) => {
         return CodeMirror.multiplexingMode(
           CodeMirror.multiplexingMode(CodeMirror.getMode(config, "xml"), {
             open: "{{",
@@ -380,7 +380,7 @@ var ide = new (function () {
           }
         );
       });
-      CodeMirror.defineMode("ql+mustache", function (config) {
+      CodeMirror.defineMode("ql+mustache", (config) => {
         return CodeMirror.multiplexingMode(
           CodeMirror.multiplexingMode(
             CodeMirror.getMode(config, "text/x-overpassQL"),
@@ -406,7 +406,7 @@ var ide = new (function () {
         mode: "text/plain",
         onChange: function (e) {
           clearTimeout(pending);
-          pending = setTimeout(function () {
+          pending = setTimeout(() => {
             // update syntax highlighting mode
             if (ide.getQueryLang() == "xml") {
               if (e.getOption("mode") != "xml+mustache") {
@@ -475,7 +475,7 @@ var ide = new (function () {
         return this.value.split(/\r\n|\r|\n/).length;
       };
       ide.codeEditor.setLineClass = function () {};
-      $("#editor textarea").bind("input change", function (e) {
+      $("#editor textarea").bind("input change", (e) => {
         settings.code["overpass"] = e.target.getValue();
         settings.save();
       });
@@ -521,7 +521,7 @@ var ide = new (function () {
       ide.map.inv_opacity_layer.addTo(ide.map);
     scaleControl = new L.Control.Scale({metric: true, imperial: false});
     scaleControl.addTo(ide.map);
-    ide.map.on("moveend", function () {
+    ide.map.on("moveend", () => {
       settings.coords_lat = ide.map.getCenter().lat;
       settings.coords_lon = ide.map.getCenter().lng;
       settings.coords_zoom = ide.map.getZoom();
@@ -530,7 +530,7 @@ var ide = new (function () {
 
     // tabs
     $("#dataviewer > div#data")[0].style.zIndex = -1001;
-    $(".tabs li").bind("click", function (e) {
+    $(".tabs li").bind("click", (e) => {
       if ($(e.target).hasClass("is-active")) {
         return;
       } else {
@@ -567,7 +567,7 @@ var ide = new (function () {
         L.DomEvent.addListener(
           link,
           "click",
-          function () {
+          () => {
             // hardcoded maxZoom of 18, should be ok for most real-world use-cases
             try {
               ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {
@@ -598,10 +598,10 @@ var ide = new (function () {
         L.DomEvent.addListener(
           link,
           "click",
-          function () {
+          () => {
             // One-shot position request.
             try {
-              navigator.geolocation.getCurrentPosition(function (position) {
+              navigator.geolocation.getCurrentPosition((position) => {
                 var pos = new L.LatLng(
                   position.coords.latitude,
                   position.coords.longitude
@@ -626,7 +626,7 @@ var ide = new (function () {
         L.DomEvent.addListener(
           link,
           "click",
-          function (e) {
+          (e) => {
             if (
               $(e.target).parent().hasClass("disabled") // check if this button is enabled
             )
@@ -655,7 +655,7 @@ var ide = new (function () {
         L.DomEvent.addListener(
           link,
           "click",
-          function (e) {
+          (e) => {
             $("#dataviewer").toggleClass("fullscreen");
             ide.map.invalidateSize();
             $(e.target)
@@ -682,7 +682,7 @@ var ide = new (function () {
         L.DomEvent.addListener(
           link,
           "click",
-          function (e) {
+          (e) => {
             e.preventDefault();
             if (ide.map.hasLayer(overpass.osmLayer))
               ide.map.removeLayer(overpass.osmLayer);
@@ -696,7 +696,7 @@ var ide = new (function () {
     });
     ide.map.addControl(new MapButtons());
     // prevent propagation of doubleclicks on map controls
-    $(".leaflet-control-buttons > a").bind("dblclick", function (e) {
+    $(".leaflet-control-buttons > a").bind("dblclick", (e) => {
       e.stopPropagation();
     });
     // add tooltips to map controls
@@ -758,7 +758,7 @@ var ide = new (function () {
                     } catch (e) {}
                   }
                   response(
-                    $.map(data.results.slice(0, 10), function (item) {
+                    $.map(data.results.slice(0, 10), (item) => {
                       return {
                         label: item.display_name,
                         value: item.display_name,
@@ -819,7 +819,7 @@ var ide = new (function () {
       enableButton: false
     }).addTo(ide.map);
 
-    ide.map.on("popupopen popupclose", function (e) {
+    ide.map.on("popupopen popupclose", (e) => {
       if (typeof e.popup.layer != "undefined") {
         var layer = e.popup.layer.placeholder || e.popup.layer;
         // re-call style handler to eventually modify the style of the clicked feature
@@ -830,7 +830,7 @@ var ide = new (function () {
         if (typeof layer.eachLayer != "function") {
           if (typeof layer.setStyle == "function") layer.setStyle(stl); // other objects (pois, ways)
         } else
-          layer.eachLayer(function (layer) {
+          layer.eachLayer((layer) => {
             if (typeof layer.setStyle == "function") layer.setStyle(stl);
           }); // for multipolygons!
       }
@@ -863,7 +863,7 @@ var ide = new (function () {
           effect: "fadeOut",
           duration: 1000
         });
-        setTimeout(function () {
+        setTimeout(() => {
           $(".leaflet-control-buttons-fitdata").tooltip(
             "option",
             "content",
@@ -1180,7 +1180,7 @@ var ide = new (function () {
     // highlight error lines
     var query = ide.getRawQuery();
     query = query.split("\n");
-    query.forEach(function (line, i) {
+    query.forEach((line, i) => {
       if (line.indexOf("{{geocode" + type + ":" + search + "}}") !== -1)
         ide.highlightError(i + 1);
     });
@@ -1210,7 +1210,7 @@ var ide = new (function () {
       /(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,
       "$1{{__bbox__global_bbox_xml__ezs4K8__}}$3"
     );
-    queryParser.parse(query, shortcuts(), function (query) {
+    queryParser.parse(query, shortcuts(), (query) => {
       // parse mapcss declarations
       var mapcss = "";
       if (queryParser.hasStatement("style"))
@@ -1306,14 +1306,11 @@ var ide = new (function () {
       {
         name: i18n.t("dialog.delete"),
         callback: function () {
-          sync.delete(
-            query.name,
-            function (err) {
-              if (err) return console.error(err);
+          sync.delete(query.name, (err) => {
+            if (err) return console.error(err);
 
-              $(self).parent().remove();
-            }.bind(this)
-          );
+            $(self).parent().remove();
+          });
         }
       },
       {
@@ -1387,7 +1384,7 @@ var ide = new (function () {
             "<button class='button is-link is-outlined t' title='load.title'>" +
               i18n.t("load.title") +
               "</button>"
-          ).on("click", function () {
+          ).on("click", () => {
             ide.loadOsmQueries();
           })
         )
@@ -1402,7 +1399,7 @@ var ide = new (function () {
       .text(i18n.t("load.saved_queries-osm-loading"))
       .appendTo(ui);
 
-    sync.load(function (err, queries) {
+    sync.load((err, queries) => {
       if (err) {
         ui.find(".panel-block").remove();
         $('<div class="panel-block">')
@@ -1412,7 +1409,7 @@ var ide = new (function () {
       }
       ui.find(".panel-block").remove();
       $("#logout").show();
-      queries.forEach(function (q) {
+      queries.forEach((q) => {
         $('<a class="panel-block">')
           .attr("href", "#")
           .text(q.name)
@@ -1449,7 +1446,7 @@ var ide = new (function () {
   };
   this.onSaveClick = function () {
     // combobox for existing saves.
-    var saves_names = new Array();
+    var saves_names = [];
     for (var key in settings.saves)
       if (settings.saves[key].type != "template") saves_names.push(key);
     make_combobox($("#save-dialog input[name=save]"), saves_names);
@@ -1476,7 +1473,7 @@ var ide = new (function () {
         name: name,
         query: query
       },
-      function (err, new_queries) {
+      (err, new_queries) => {
         if (err) return console.error(err);
         $("#logout").show();
         $("#save-dialog").removeClass("is-active");
@@ -1570,7 +1567,7 @@ var ide = new (function () {
     if (configs.short_url_service != "") {
       $.get(
         configs.short_url_service + encodeURIComponent(share_link),
-        function (data) {
+        (data) => {
           $("div#share-dialog #share_link_a")[0].href = data;
           $("div#share-dialog #share_link_textarea")[0].value = data;
         }
@@ -1588,7 +1585,7 @@ var ide = new (function () {
   };
   this.onExportClick = function () {
     // prepare export dialog
-    ide.getQuery(function (query) {
+    ide.getQuery((query) => {
       var baseurl =
         location.protocol +
         "//" +
@@ -1733,7 +1730,7 @@ var ide = new (function () {
       var dialog_buttons = [{name: i18n.t("dialog.done")}];
       $("#export-dialog a#export-map-state")
         .unbind("click")
-        .bind("click", function () {
+        .bind("click", () => {
           var content =
             "<h4>" +
             i18n.t("export.map_view.permalink") +
@@ -1802,7 +1799,7 @@ var ide = new (function () {
         });
       $("#export-dialog a#export-image")
         .unbind("click")
-        .on("click", function () {
+        .on("click", () => {
           ide.onExportImageClick();
           $("#export-dialog").removeClass("is-active");
           return false;
@@ -1818,7 +1815,7 @@ var ide = new (function () {
             generator: configs.appname,
             copyright: overpass.copyright,
             timestamp: overpass.timestamp,
-            features: geojson.features.map(function (feature) {
+            features: geojson.features.map((feature) => {
               return {
                 type: "Feature",
                 properties: feature.properties,
@@ -1826,7 +1823,7 @@ var ide = new (function () {
               };
             }) // makes deep copy
           };
-          gJ.features.forEach(function (f) {
+          gJ.features.forEach((f) => {
             var p = f.properties;
             f.id = p.type + "/" + p.id;
             f.properties = {
@@ -1854,7 +1851,7 @@ var ide = new (function () {
       $("#export-geoJSON .export")
         .attr("href", "")
         .unbind("click")
-        .on("click", function () {
+        .on("click", () => {
           var geoJSON_str = constructGeojsonString(overpass.geojson);
           var d = $("#export-download-dialog");
 
@@ -1869,7 +1866,7 @@ var ide = new (function () {
         });
       $("#export-geoJSON .copy")
         .attr("href", "")
-        .click(function () {
+        .click(() => {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
@@ -1892,7 +1889,7 @@ var ide = new (function () {
         });
       $("#export-dialog a#export-geoJSON-gist")
         .unbind("click")
-        .on("click", function () {
+        .on("click", () => {
           var geoJSON_str = constructGeojsonString(overpass.geojson);
           $.ajax("https://api.github.com/gists", {
             method: "POST",
@@ -1907,7 +1904,7 @@ var ide = new (function () {
               }
             })
           })
-            .done(function (data, textStatus, jqXHR) {
+            .done((data, textStatus, jqXHR) => {
               var dialog_buttons = [{name: i18n.t("dialog.done")}];
               var content =
                 "<p>" +
@@ -1931,7 +1928,7 @@ var ide = new (function () {
               );
               // data.html_url;
             })
-            .fail(function (jqXHR, textStatus, errorStr) {
+            .fail((jqXHR, textStatus, errorStr) => {
               alert(
                 "an error occured during the creation of the overpass gist:\n" +
                   JSON.stringify(jqXHR)
@@ -1978,7 +1975,7 @@ var ide = new (function () {
       $("#export-GPX .export")
         .attr("href", "")
         .unbind("click")
-        .on("click", function () {
+        .on("click", () => {
           var geojson = overpass.geojson;
           var gpx_str = constructGpxString(geojson);
           // make content downloadable as file
@@ -1993,7 +1990,7 @@ var ide = new (function () {
         });
       $("#export-GPX .copy")
         .attr("href", "")
-        .click(function () {
+        .click(() => {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
@@ -2037,7 +2034,7 @@ var ide = new (function () {
       $("#export-KML .export")
         .attr("href", "")
         .unbind("click")
-        .on("click", function () {
+        .on("click", () => {
           var geojson = overpass.geojson;
           var kml_str = constructKmlString(geojson);
           // make content downloadable as file
@@ -2055,7 +2052,7 @@ var ide = new (function () {
         });
       $("#export-KML .copy")
         .attr("href", "")
-        .click(function () {
+        .click(() => {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
@@ -2106,7 +2103,7 @@ var ide = new (function () {
       $("#export-raw .export")
         .attr("href", "")
         .unbind("click")
-        .on("click", function () {
+        .on("click", () => {
           var geojson = overpass.geojson;
           var raw = constructRawData(geojson);
           var raw_str = raw.raw_str;
@@ -2129,7 +2126,7 @@ var ide = new (function () {
         });
       $("#export-raw .copy")
         .attr("href", "")
-        .click(function () {
+        .click(() => {
           var d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
@@ -2194,13 +2191,13 @@ var ide = new (function () {
         exportToLevel0[0].href = constructLevel0Link(query);
       } else {
         exportToLevel0[0].href = "";
-        exportToLevel0.bind("click", function () {
+        exportToLevel0.bind("click", () => {
           var dialog_buttons = [
             {
               name: i18n.t("dialog.repair_query"),
               callback: function () {
                 ide.repairQuery("xml+metadata");
-                ide.getQuery(function (query) {
+                ide.getQuery((query) => {
                   exportToLevel0.unbind("click");
                   exportToLevel0[0].href = constructLevel0Link(query);
                 });
@@ -2231,12 +2228,12 @@ var ide = new (function () {
       // * JOSM
       $("#export-dialog a#export-editors-josm")
         .unbind("click")
-        .on("click", function () {
+        .on("click", () => {
           var export_dialog = $("#export-dialog");
           var send_to_josm = function (query) {
             var JRC_url = "http://127.0.0.1:8111/";
             $.getJSON(JRC_url + "version")
-              .done(function (d, s, xhr) {
+              .done((d, s, xhr) => {
                 if (d.protocolversion.major == 1) {
                   $.get(JRC_url + "import", {
                     // JOSM doesn't handle protocol-less links very well
@@ -2245,10 +2242,10 @@ var ide = new (function () {
                       "interpreter?data=" +
                       encodeURIComponent(query)
                   })
-                    .fail(function (xhr, s, e) {
+                    .fail((xhr, s, e) => {
                       alert("Error: Unexpected JOSM remote control error.");
                     })
-                    .done(function (d, s, xhr) {
+                    .done((d, s, xhr) => {
                       console.log("successfully invoked JOSM remote control");
                     });
                 } else {
@@ -2268,7 +2265,7 @@ var ide = new (function () {
                   );
                 }
               })
-              .fail(function (xhr, s, e) {
+              .fail((xhr, s, e) => {
                 var dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
                 var content = "<p>" + i18n.t("error.remote.not_found") + "</p>";
                 showDialog(
@@ -2293,7 +2290,7 @@ var ide = new (function () {
                 name: i18n.t("dialog.repair_query"),
                 callback: function () {
                   ide.repairQuery("xml+metadata");
-                  ide.getQuery(function (query) {
+                  ide.getQuery((query) => {
                     send_to_josm(query);
                     export_dialog.removeClass("is-active");
                   });
@@ -2417,7 +2414,7 @@ var ide = new (function () {
     $("#ffs-dialog input[type=search]")
       .removeClass("is-danger")
       .unbind("keypress")
-      .bind("keypress", function (e) {
+      .bind("keypress", (e) => {
         if (e.which == 13 || e.which == 10) {
           ide.onFfsRun(true);
           e.preventDefault();
@@ -2439,43 +2436,40 @@ var ide = new (function () {
     $("#ffs-dialog .loading").show();
 
     // Build query and run it immediately if autorun is set
-    ide.update_ffs_query(
-      undefined,
-      function (err, ffs_result) {
-        $("#ffs-dialog .loading").hide();
-        if (!err) {
-          $("#ffs-dialog").removeClass("is-active");
-          if (autorun !== false) ide.onRunClick();
+    ide.update_ffs_query(undefined, (err, ffs_result) => {
+      $("#ffs-dialog .loading").hide();
+      if (!err) {
+        $("#ffs-dialog").removeClass("is-active");
+        if (autorun !== false) ide.onRunClick();
+      } else {
+        if (_.isArray(ffs_result)) {
+          // show parse error message
+          $("#ffs-dialog #ffs-dialog-parse-error").hide();
+          $("#ffs-dialog #ffs-dialog-typo").show();
+          $("#ffs-dialog input[type=search]").addClass("is-danger");
+          var correction = ffs_result.join("");
+          var correction_html = ffs_result
+            .map((ffs_result_part, i) => {
+              if (i % 2 === 1) return "<b>" + ffs_result_part + "</b>";
+              else return ffs_result_part;
+            })
+            .join("");
+          $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
+          $("#ffs-dialog #ffs-dialog-typo-correction")
+            .unbind("click")
+            .bind("click", function (e) {
+              $("#ffs-dialog input[type=search]").val(correction);
+              $(this).parent().hide();
+              e.preventDefault();
+            });
         } else {
-          if (_.isArray(ffs_result)) {
-            // show parse error message
-            $("#ffs-dialog #ffs-dialog-parse-error").hide();
-            $("#ffs-dialog #ffs-dialog-typo").show();
-            $("#ffs-dialog input[type=search]").addClass("is-danger");
-            var correction = ffs_result.join("");
-            var correction_html = ffs_result
-              .map(function (ffs_result_part, i) {
-                if (i % 2 === 1) return "<b>" + ffs_result_part + "</b>";
-                else return ffs_result_part;
-              })
-              .join("");
-            $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
-            $("#ffs-dialog #ffs-dialog-typo-correction")
-              .unbind("click")
-              .bind("click", function (e) {
-                $("#ffs-dialog input[type=search]").val(correction);
-                $(this).parent().hide();
-                e.preventDefault();
-              });
-          } else {
-            // show parse error message
-            $("#ffs-dialog #ffs-dialog-typo").hide();
-            $("#ffs-dialog #ffs-dialog-parse-error").show();
-            $("#ffs-dialog input[type=search]").addClass("is-danger");
-          }
+          // show parse error message
+          $("#ffs-dialog #ffs-dialog-typo").hide();
+          $("#ffs-dialog #ffs-dialog-parse-error").show();
+          $("#ffs-dialog input[type=search]").addClass("is-danger");
         }
-      }.bind(this)
-    );
+      }
+    });
   };
   this.onSettingsClick = function () {
     $("#settings-dialog input[name=ui_language]")[0].value =
@@ -2483,7 +2477,7 @@ var ide = new (function () {
     var lngDescs = i18n.getSupportedLanguagesDescriptions();
     make_combobox(
       $("#settings-dialog input[name=ui_language]"),
-      ["auto"].concat(i18n.getSupportedLanguages()).map(function (lng) {
+      ["auto"].concat(i18n.getSupportedLanguages()).map((lng) => {
         return {
           value: lng,
           label: lng == "auto" ? "auto" : lng + " - " + lngDescs[lng]
@@ -2495,7 +2489,7 @@ var ide = new (function () {
       $("#settings-dialog input[name=server]"),
       configs.suggestedServers.concat(settings.customServers),
       settings.customServers,
-      function deleteCallback(server) {
+      (server) => {
         settings.customServers.splice(
           settings.customServers.indexOf(server),
           1
@@ -2527,7 +2521,7 @@ var ide = new (function () {
       $("#settings-dialog input[name=tile_server]"),
       configs.suggestedTiles.concat(settings.customTiles),
       settings.customTiles,
-      function deleteCallback(tileServer) {
+      (tileServer) => {
         settings.customTiles.splice(
           settings.customTiles.indexOf(tileServer),
           1
@@ -2733,7 +2727,7 @@ var ide = new (function () {
 
     ide.waiter.addInfo("building query");
     // run the query via the overpass object
-    ide.getQuery(function (query) {
+    ide.getQuery((query) => {
       var query_lang = ide.getQueryLang();
       var server =
         ide.data_source &&
@@ -2754,36 +2748,29 @@ var ide = new (function () {
   this.rerender_map = function () {
     if (typeof overpass.osmLayer != "undefined")
       ide.map.removeLayer(overpass.osmLayer);
-    ide.getQuery(function () {
+    ide.getQuery(() => {
       overpass.rerender(ide.mapcss);
     });
   };
   this.update_ffs_query = function (s, callback) {
     var search = s || $("#ffs-dialog input[type=search]").val();
     var comment = $("#ffs-dialog input[name='ffs.comments']")[0].checked;
-    ffs.construct_query(
-      search,
-      comment,
-      function (err, query) {
-        if (err) {
-          ffs.repair_search(
-            search,
-            function (repaired) {
-              if (repaired) {
-                callback("repairable query", repaired);
-              } else {
-                if (s) return callback(true);
-                // try to parse as generic ffs search
-                this.update_ffs_query('"' + search + '"', callback);
-              }
-            }.bind(this)
-          );
-        } else {
-          ide.setQuery(query);
-          callback(null);
-        }
-      }.bind(this)
-    );
+    ffs.construct_query(search, comment, (err, query) => {
+      if (err) {
+        ffs.repair_search(search, (repaired) => {
+          if (repaired) {
+            callback("repairable query", repaired);
+          } else {
+            if (s) return callback(true);
+            // try to parse as generic ffs search
+            this.update_ffs_query('"' + search + '"', callback);
+          }
+        });
+      } else {
+        ide.setQuery(query);
+        callback(null);
+      }
+    });
   };
 })(); // end create ide object
 

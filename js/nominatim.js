@@ -52,7 +52,7 @@ export default function () {
       callback = filter;
       filter = null;
     }
-    nominatim.get(search, function (err, data) {
+    nominatim.get(search, (err, data) => {
       if (err) {
         callback(err, null);
         return;

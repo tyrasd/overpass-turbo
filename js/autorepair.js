@@ -234,10 +234,10 @@ autorepair.detect.editors = function (q, lng) {
       var xml = $.parseXML("<x>" + q + "</x>");
       var out = $("osm-script", xml).attr("output");
       if (out !== undefined && out !== "xml") err.output = true;
-      $("print", xml).each(function (i, p) {
+      $("print", xml).each((i, p) => {
         if ($(p).attr("mode") !== "meta") err.meta = true;
       });
-      $("print", xml).each(function (i, p) {
+      $("print", xml).each((i, p) => {
         if (
           $(p)
             .attr("geometry")
@@ -253,11 +253,11 @@ autorepair.detect.editors = function (q, lng) {
     var out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]/);
     if (out && out[1] != "xml") err.output = true;
     var prints = q.match(/out([^:;]*);/g);
-    $(prints).each(function (i, p) {
+    $(prints).each((i, p) => {
       if (p.match(/\s(body|skel|ids|tags)/) || !p.match(/meta/))
         err.meta = true;
     });
-    $(prints).each(function (i, p) {
+    $(prints).each((i, p) => {
       if (p.match(/\s(center|bb|geom)/)) err.geometry = true;
     });
   }
