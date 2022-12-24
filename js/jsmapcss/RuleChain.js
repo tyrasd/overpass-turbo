@@ -61,7 +61,7 @@ styleparser.RuleChain.prototype = {
       pos = this.rules.length - 1;
     }
 
-    let r = this.rules[pos];
+    const r = this.rules[pos];
     if (!r.test(entity, tags, zoom)) {
       return false;
     }
@@ -69,9 +69,9 @@ styleparser.RuleChain.prototype = {
       return true;
     }
 
-    let o = entity.getParentObjects(); //TODO//entity.entity.parentObjects();
+    const o = entity.getParentObjects(); //TODO//entity.entity.parentObjects();
     for (let i = 0; i < o.length; i++) {
-      let p = o[i];
+      const p = o[i];
       if (this.test(pos - 1, p, p.tags, zoom)) {
         return true;
       }

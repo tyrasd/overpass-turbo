@@ -4,7 +4,7 @@ import $ from "jquery";
 import i18n from "../i18n";
 import {levenshteinDistance} from "../misc";
 
-let freeFormQuery = {};
+const freeFormQuery = {};
 let presets = {};
 
 export function setPresets(newPresets) {
@@ -41,7 +41,7 @@ export default function ffs_free(callback) {
   }
   // load preset translations
   async function loadPresetTranslations() {
-    let language = i18n.getLanguage();
+    const language = i18n.getLanguage();
     if (!language) return;
     try {
       let {default: data} = await import(
@@ -53,7 +53,7 @@ export default function ffs_free(callback) {
         preset = presets[preset];
         preset.translated = true;
         // save original preset name under alternative terms
-        let oriPresetName = preset.name;
+        const oriPresetName = preset.name;
         // save translated preset name
         preset.nameCased = translation.name;
         preset.name = translation.name.toLowerCase();
@@ -75,8 +75,8 @@ export default function ffs_free(callback) {
 
 freeFormQuery.get_query_clause = function (condition) {
   // search presets for ffs term
-  let search = condition.free.toLowerCase();
-  let candidates = Object.values(presets).filter((preset) => {
+  const search = condition.free.toLowerCase();
+  const candidates = Object.values(presets).filter((preset) => {
     if (preset.searchable === false) return false;
     if (preset.name === search) return true;
     preset._termsIndex = preset.terms.indexOf(search);
@@ -90,8 +90,8 @@ freeFormQuery.get_query_clause = function (condition) {
     if (b.name === search) return 1;
     return a._termsIndex - b._termsIndex;
   });
-  let preset = candidates[0];
-  let types = [];
+  const preset = candidates[0];
+  const types = [];
   preset.geometry.forEach((g) => {
     switch (g) {
       case "point":
@@ -127,13 +127,13 @@ freeFormQuery.get_query_clause = function (condition) {
 
 freeFormQuery.fuzzy_search = function (condition) {
   // search presets for ffs term
-  let search = condition.free.toLowerCase();
+  const search = condition.free.toLowerCase();
   // fuzzyness: max lev.dist allowed to still match
-  let fuzzyness = 2 + Math.floor(search.length / 7);
+  const fuzzyness = 2 + Math.floor(search.length / 7);
   function fuzzyMatch(term) {
     return levenshteinDistance(term, search) <= fuzzyness;
   }
-  let candidates = Object.values(presets).filter((preset) => {
+  const candidates = Object.values(presets).filter((preset) => {
     if (preset.searchable === false) return false;
     if (fuzzyMatch(preset.name)) return true;
     return preset.terms.some(fuzzyMatch);
@@ -147,6 +147,6 @@ freeFormQuery.fuzzy_search = function (condition) {
       .reduce((a, b) => (a <= b ? a : b));
   }
   candidates.sort((a, b) => preset_weight(a) - preset_weight(b));
-  let preset = candidates[0];
+  const preset = candidates[0];
   return preset.nameCased;
 };

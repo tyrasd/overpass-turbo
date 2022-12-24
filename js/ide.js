@@ -38,26 +38,26 @@ $(document).on("copy", (e) => {
   }
 });
 
-let ide = new (function () {
+const ide = new (function () {
   // == private members ==
   let attribControl = null;
   let scaleControl = null;
-  let queryParser = Query();
-  let nominatim = Nominatim();
+  const queryParser = Query();
+  const nominatim = Nominatim();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
   this.map = null;
-  let ide = this;
+  const ide = this;
 
   // == helpers ==
 
-  let make_combobox = function (input, options, deletables, deleteCallback) {
+  const make_combobox = function (input, options, deletables, deleteCallback) {
     if (input[0].is_combobox) {
       input.autocomplete("option", {source: options});
       return;
     }
-    let wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
+    const wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
     input
       .autocomplete({
         source: options,
@@ -77,7 +77,7 @@ let ide = new (function () {
           if (event.shiftKey && deletables.indexOf(item.value) !== -1) {
             deleteCallback(item.value);
             $(this).remove();
-            let options = input.autocomplete("option", "source");
+            const options = input.autocomplete("option", "source");
             options.splice(options.indexOf(item), 1);
             input.autocomplete("option", "source", options);
             return false;
@@ -108,8 +108,8 @@ let ide = new (function () {
     input[0].is_combobox = true;
   }; // make_combobox()
 
-  let showDialog = function (title, content, buttons) {
-    let dialogContent =
+  const showDialog = function (title, content, buttons) {
+    const dialogContent =
       '\
       <div class="modal is-active">\
         <div class="modal-background"></div>\
@@ -138,15 +138,15 @@ let ide = new (function () {
     ';
 
     // Create modal in body
-    let element = $(dialogContent);
+    const element = $(dialogContent);
     // Handle close event
     $(".delete", element).click(() => {
       $(element).remove();
     });
 
     // Add all the buttons
-    for (let index in buttons) {
-      let button = buttons[index];
+    for (const index in buttons) {
+      const button = buttons[index];
       $('<button class="button">' + button.name + "</button>")
         .click(
           (function (callback) {
@@ -212,14 +212,14 @@ let ide = new (function () {
         .removeClass("fa-spin")
         .addClass("fa-check");
       $(".wait-info ul li:nth-child(n+4)").hide();
-      let li = $(
+      const li = $(
         '<li><span class="fas fa-spinner fa-spin" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>' +
           txt +
           "</li>"
       );
       if (typeof abortCallback == "function") {
         ide.waiter.onAbort = abortCallback;
-        let aborter = $(
+        const aborter = $(
           '<span id="aborter">&nbsp;(<a href="#">abort</a>)</span>'
         ).on("click", () => {
           ide.waiter.abort();
@@ -272,7 +272,7 @@ let ide = new (function () {
     settings.load();
     // translate ui
     ide.waiter.addInfo("translate ui");
-    let me = this;
+    const me = this;
     i18n.translate().then(() => {
       initAfterI18n.call(me);
     });
@@ -286,7 +286,7 @@ let ide = new (function () {
   function initAfterI18n() {
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
-    let args = urlParameters(location.search);
+    const args = urlParameters(location.search);
     // set appropriate settings
     if (args.has_coords) {
       // map center coords set via url
@@ -307,7 +307,8 @@ let ide = new (function () {
 
     ide.waiter.addInfo("initialize page");
     // init page layout
-    let isInitialAspectPortrait = $(window).width() / $(window).height() < 0.8;
+    const isInitialAspectPortrait =
+      $(window).width() / $(window).height() < 0.8;
     if (settings.editor_width != "" && !isInitialAspectPortrait) {
       $("#editor").css("width", settings.editor_width);
       $("#dataviewer").css("left", settings.editor_width);
@@ -325,7 +326,7 @@ let ide = new (function () {
             .next()
             .css("left", $(this).outerWidth() + "px");
         } else {
-          let top = $(this).offset().top + $(this).outerHeight();
+          const top = $(this).offset().top + $(this).outerHeight();
           $(this)
             .next()
             .css("top", top + "px");
@@ -349,8 +350,8 @@ let ide = new (function () {
       CodeMirror.defineMIME("text/x-overpassQL", {
         name: "clike",
         keywords: (function (str) {
-          let r = {};
-          let a = str.split(" ");
+          const r = {};
+          const a = str.split(" ");
           for (let i = 0; i < a.length; i++) r[a[i]] = true;
           return r;
         })(
@@ -422,7 +423,7 @@ let ide = new (function () {
               }
             }
             // check for inactive ui elements
-            let bbox_filter = $(".leaflet-control-buttons-bboxfilter");
+            const bbox_filter = $(".leaflet-control-buttons-bboxfilter");
             if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
               if (bbox_filter.hasClass("disabled")) {
                 bbox_filter.removeClass("disabled");
@@ -500,9 +501,9 @@ let ide = new (function () {
       maxZoom: configs.maxMapZoom,
       worldCopyJump: false
     });
-    let tilesUrl = settings.tile_server;
-    let tilesAttrib = configs.tileServerAttribution;
-    let tiles = new L.TileLayer(tilesUrl, {
+    const tilesUrl = settings.tile_server;
+    const tilesAttrib = configs.tileServerAttribution;
+    const tiles = new L.TileLayer(tilesUrl, {
       attribution: tilesAttrib,
       noWrap: true,
       maxNativeZoom: 19,
@@ -510,7 +511,7 @@ let ide = new (function () {
     });
     attribControl = new L.Control.Attribution({prefix: ""});
     attribControl.addAttribution(tilesAttrib);
-    let pos = new L.LatLng(settings.coords_lat, settings.coords_lon);
+    const pos = new L.LatLng(settings.coords_lat, settings.coords_lon);
     ide.map.setView(pos, settings.coords_zoom).addLayer(tiles);
     ide.map.tile_layer = tiles;
     // inverse opacity layer
@@ -544,13 +545,13 @@ let ide = new (function () {
     $(document).keydown(ide.onKeyPress);
 
     // leaflet extension: more map controls
-    let MapButtons = L.Control.extend({
+    const MapButtons = L.Control.extend({
       options: {
         position: "topleft"
       },
       onAdd: function (map) {
         // create the control container with a particular class name
-        let container = L.DomUtil.create(
+        const container = L.DomUtil.create(
           "div",
           "leaflet-control-buttons leaflet-bar"
         );
@@ -602,7 +603,7 @@ let ide = new (function () {
             // One-shot position request.
             try {
               navigator.geolocation.getCurrentPosition((position) => {
-                let pos = new L.LatLng(
+                const pos = new L.LatLng(
                   position.coords.latitude,
                   position.coords.longitude
                 );
@@ -712,18 +713,18 @@ let ide = new (function () {
       }
     });
     // leaflet extension: search box
-    let SearchBox = L.Control.extend({
+    const SearchBox = L.Control.extend({
       options: {
         position: "topright"
       },
       onAdd: function (map) {
-        let container = L.DomUtil.create(
+        const container = L.DomUtil.create(
           "div",
           "leaflet-control-search control has-icons-left"
         );
         container.style.position = "absolute";
         container.style.right = "0";
-        let inp = L.DomUtil.create("input", "input is-rounded", container);
+        const inp = L.DomUtil.create("input", "input is-rounded", container);
         $('<span class="icon is-left"><span class="fas fa-search"/></span>')
           .click(function (e) {
             $(this).prev().autocomplete("search");
@@ -821,9 +822,9 @@ let ide = new (function () {
 
     ide.map.on("popupopen popupclose", (e) => {
       if (typeof e.popup.layer != "undefined") {
-        let layer = e.popup.layer.placeholder || e.popup.layer;
+        const layer = e.popup.layer.placeholder || e.popup.layer;
         // re-call style handler to eventually modify the style of the clicked feature
-        let stl = overpass.osmLayer._baseLayer.options.style(
+        const stl = overpass.osmLayer._baseLayer.options.style(
           layer.feature,
           e.type == "popupopen"
         );
@@ -845,11 +846,11 @@ let ide = new (function () {
     };
     overpass.handlers["onDone"] = function () {
       ide.waiter.close();
-      let map_bounds = ide.map.getBounds();
-      let data_bounds = overpass.osmLayer.getBaseLayer().getBounds();
+      const map_bounds = ide.map.getBounds();
+      const data_bounds = overpass.osmLayer.getBaseLayer().getBounds();
       if (data_bounds.isValid() && !map_bounds.intersects(data_bounds)) {
         // show tooltip for button "zoom to data"
-        let prev_content = $(".leaflet-control-buttons-fitdata").tooltip(
+        const prev_content = $(".leaflet-control-buttons-fitdata").tooltip(
           "option",
           "content"
         );
@@ -881,7 +882,7 @@ let ide = new (function () {
       // show warning/info if only invisible data is returned
       if (empty_msg == "no visible data") {
         if (!settings.no_autorepair) {
-          let content =
+          const content =
             "<p>" +
             i18n.t("warning.incomplete.expl.1") +
             "</p><p>" +
@@ -890,7 +891,7 @@ let ide = new (function () {
             i18n.t("warning.incomplete.not_again") +
             "</p>";
 
-          let dialog_buttons = [
+          const dialog_buttons = [
             {
               name: i18n.t("dialog.repair_query"),
               callback: function () {
@@ -940,11 +941,11 @@ let ide = new (function () {
     ) {
       if (amount > 1000000) {
         ide.waiter.close();
-        let _originalDocumentTitle = document.title;
+        const _originalDocumentTitle = document.title;
         document.title = "❗ " + _originalDocumentTitle;
         // more than ~1MB of data
         // show warning dialog
-        let dialog_buttons = [
+        const dialog_buttons = [
           {
             name: i18n.t("dialog.abort"),
             callback: function () {
@@ -961,7 +962,7 @@ let ide = new (function () {
           }
         ];
 
-        let content =
+        const content =
           "<p>" +
           i18n
             .t("warning.huge_data.expl.1")
@@ -977,10 +978,10 @@ let ide = new (function () {
     };
     overpass.handlers["onAjaxError"] = function (errmsg) {
       ide.waiter.close();
-      let _originalDocumentTitle = document.title;
+      const _originalDocumentTitle = document.title;
       document.title = "❗ " + _originalDocumentTitle;
       // show error dialog
-      let dialog_buttons = [
+      const dialog_buttons = [
         {
           name: i18n.t("dialog.dismiss"),
           callback: function () {
@@ -989,7 +990,7 @@ let ide = new (function () {
         }
       ];
 
-      let content =
+      const content =
         '<p style="color:red;">' + i18n.t("error.ajax.expl") + "</p>" + errmsg;
       showDialog(i18n.t("error.ajax.title"), content, dialog_buttons);
 
@@ -998,9 +999,9 @@ let ide = new (function () {
     };
     overpass.handlers["onQueryError"] = function (errmsg) {
       ide.waiter.close();
-      let _originalDocumentTitle = document.title;
+      const _originalDocumentTitle = document.title;
       document.title = "❗ " + _originalDocumentTitle;
-      let dialog_buttons = [
+      const dialog_buttons = [
         {
           name: i18n.t("dialog.dismiss"),
           callback: function () {
@@ -1008,7 +1009,7 @@ let ide = new (function () {
           }
         }
       ];
-      let content =
+      const content =
         '<div class="notification is-danger is-light">' +
         i18n.t("error.query.expl") +
         "<br>" +
@@ -1017,8 +1018,8 @@ let ide = new (function () {
       showDialog(i18n.t("error.query.title"), content, dialog_buttons);
     };
     overpass.handlers["onStyleError"] = function (errmsg) {
-      let dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-      let content =
+      const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+      const content =
         '<p style="color:red;">' +
         i18n.t("error.mapcss.expl") +
         "</p>" +
@@ -1041,8 +1042,8 @@ let ide = new (function () {
       }
       // display stats
       if (settings.show_data_stats) {
-        let stats = overpass.stats;
-        let stats_txt =
+        const stats = overpass.stats;
+        const stats_txt =
           "<small>" +
           i18n.t("data_stats.loaded") +
           "</small>&nbsp;&ndash;&nbsp;" +
@@ -1082,9 +1083,9 @@ let ide = new (function () {
           '<div id="data_stats" class="stats">' + stats_txt + "</div>"
         ).insertAfter("#map");
         // show more stats as a tooltip
-        let backlogOverpass =
+        const backlogOverpass =
           overpass.timestamp && Date.now() - Date.parse(overpass.timestamp);
-        let backlogOverpassAreas =
+        const backlogOverpassAreas =
           overpass.timestampAreas &&
           Date.now() - Date.parse(overpass.timestampAreas);
         $("#data_stats").tooltip({
@@ -1185,8 +1186,8 @@ let ide = new (function () {
         ide.highlightError(i + 1);
     });
     // show error message dialog
-    let dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-    let content =
+    const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+    const content =
       '<p style="color:red;">' +
       i18n.t("error.nominatim.expl") +
       "</p><p><i>" +
@@ -1203,7 +1204,7 @@ let ide = new (function () {
    * shortcuts are expanded. */
   this.getQuery = function (callback) {
     let query = ide.getRawQuery();
-    let queryLang = ide.getQueryLang();
+    const queryLang = ide.getQueryLang();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
     query = query.replace(
@@ -1221,11 +1222,11 @@ let ide = new (function () {
       if (queryParser.hasStatement("data")) {
         data_source = queryParser.getStatement("data");
         data_source = data_source.split(",");
-        let data_mode = data_source[0].toLowerCase();
+        const data_mode = data_source[0].toLowerCase();
         data_source = data_source.slice(1);
-        let options = {};
+        const options = {};
         for (let i = 0; i < data_source.length; i++) {
-          let tmp = data_source[i].split("=");
+          const tmp = data_source[i].split("=");
           options[tmp[0]] = tmp[1];
         }
         data_source = {
@@ -1249,9 +1250,9 @@ let ide = new (function () {
   /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
   this.repairQuery = function (repair) {
     // - preparations -
-    let q = ide.getRawQuery(), // get original query
+    const q = ide.getRawQuery(), // get original query
       lng = ide.getQueryLang();
-    let autorepair = Autorepair(q, lng);
+    const autorepair = Autorepair(q, lng);
     // - repairs -
     if (repair == "no visible data") {
       // repair missing recurse statements
@@ -1280,7 +1281,7 @@ let ide = new (function () {
       ide.setQuery(settings.saves[ex].overpass);
   };
   this.removeExample = function (ex, self) {
-    let dialog_buttons = [
+    const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
         callback: function () {
@@ -1292,7 +1293,7 @@ let ide = new (function () {
       {name: i18n.t("dialog.cancel")}
     ];
 
-    let content =
+    const content =
       "<p>" +
       '<span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>' +
       i18n.t("dialog.delete_query.expl") +
@@ -1302,7 +1303,7 @@ let ide = new (function () {
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   };
   this.removeExampleSync = function (query, self) {
-    let dialog_buttons = [
+    const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
         callback: function () {
@@ -1318,7 +1319,7 @@ let ide = new (function () {
       }
     ];
 
-    let content =
+    const content =
       '<p><span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>' +
       i18n.t("dialog.delete_query.expl-osm") +
       ": &quot;<i>" +
@@ -1333,8 +1334,8 @@ let ide = new (function () {
     $("#load-dialog .panel.example .panel-block").remove();
     // load example list
     let has_saved_query = false;
-    for (let example in settings.saves) {
-      let type = settings.saves[example].type;
+    for (const example in settings.saves) {
+      const type = settings.saves[example].type;
       if (type == "template") continue;
       $('<a class="panel-block">')
         .attr("href", "#")
@@ -1375,7 +1376,7 @@ let ide = new (function () {
     if (sync.authenticated()) {
       ide.loadOsmQueries();
     } else {
-      let ui = $("#load-dialog .panel.osm-queries");
+      const ui = $("#load-dialog .panel.osm-queries");
       ui.show();
       ui.find(".panel-block").remove();
       $('<div class="panel-block">')
@@ -1392,7 +1393,7 @@ let ide = new (function () {
     }
   };
   this.loadOsmQueries = function () {
-    let ui = $("#load-dialog .panel.osm-queries");
+    const ui = $("#load-dialog .panel.osm-queries");
     ui.show();
     ui.find(".panel-block").remove();
     $('<div class="panel-block">')
@@ -1446,8 +1447,8 @@ let ide = new (function () {
   };
   this.onSaveClick = function () {
     // combobox for existing saves.
-    let saves_names = [];
-    for (let key in settings.saves)
+    const saves_names = [];
+    for (const key in settings.saves)
       if (settings.saves[key].type != "template") saves_names.push(key);
     make_combobox($("#save-dialog input[name=save]"), saves_names);
 
@@ -1457,7 +1458,7 @@ let ide = new (function () {
     $("#save-dialog").addClass("is-active");
   };
   this.onSaveSumbit = function () {
-    let name = $("#save-dialog input[name=save]")[0].value;
+    const name = $("#save-dialog input[name=save]")[0].value;
     settings.saves[htmlentities(name)] = {
       overpass: ide.getRawQuery(),
       type: "saved_query"
@@ -1466,8 +1467,8 @@ let ide = new (function () {
     $("#save-dialog").removeClass("is-active");
   };
   this.onSaveOsmSumbit = function () {
-    let name = $("#save-dialog input[name=save]")[0].value;
-    let query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
+    const name = $("#save-dialog input[name=save]")[0].value;
+    const query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
     sync.save(
       {
         name: name,
@@ -1496,7 +1497,7 @@ let ide = new (function () {
     ide.rerender_map();
   };
   this.compose_share_link = function (query, compression, coords, run) {
-    let share_link = new URLSearchParams();
+    const share_link = new URLSearchParams();
     if (!compression) {
       // compose uncompressed share link
       share_link.append("Q", query);
@@ -1513,8 +1514,8 @@ let ide = new (function () {
       // compose compressed share link
       share_link.append("q", Base64.encode(lzw_encode(query)));
       if (coords) {
-        let encode_coords = function (lat, lng) {
-          let coords_cpr = Base64.encodeNum(
+        const encode_coords = function (lat, lng) {
+          const coords_cpr = Base64.encodeNum(
             Math.round((lat + 90) * 100000) +
               Math.round((lng + 180) * 100000) * 180 * 100000
           );
@@ -1531,23 +1532,24 @@ let ide = new (function () {
     return "?" + share_link;
   };
   this.updateShareLink = function () {
-    let baseurl = location.protocol + "//" + location.host + location.pathname;
-    let query = ide.getRawQuery();
-    let compress =
+    const baseurl =
+      location.protocol + "//" + location.host + location.pathname;
+    const query = ide.getRawQuery();
+    const compress =
       (settings.share_compression == "auto" && query.length > 300) ||
       settings.share_compression == "on";
-    let inc_coords = $("div#share-dialog input[name=include_coords]")[0]
+    const inc_coords = $("div#share-dialog input[name=include_coords]")[0]
       .checked;
-    let run_immediately = $("div#share-dialog input[name=run_immediately]")[0]
+    const run_immediately = $("div#share-dialog input[name=run_immediately]")[0]
       .checked;
 
-    let shared_query = ide.compose_share_link(
+    const shared_query = ide.compose_share_link(
       query,
       compress,
       inc_coords,
       run_immediately
     );
-    let share_link = baseurl + shared_query;
+    const share_link = baseurl + shared_query;
 
     let warning = "";
     if (share_link.length >= 2000)
@@ -1586,12 +1588,12 @@ let ide = new (function () {
   this.onExportClick = function () {
     // prepare export dialog
     ide.getQuery((query) => {
-      let baseurl =
+      const baseurl =
         location.protocol +
         "//" +
         location.host +
         location.pathname.match(/.*\//)[0];
-      let server =
+      const server =
         ide.data_source &&
         ide.data_source.mode == "overpass" &&
         ide.data_source.options.server
@@ -1626,7 +1628,7 @@ let ide = new (function () {
         );
       }
       function saveAs(text, mediatype, filename) {
-        let save_link = document.createElement("a");
+        const save_link = document.createElement("a");
         save_link.href = toDataURL(text, mediatype);
         save_link.download = filename;
         save_link.dispatchEvent(new MouseEvent("click"));
@@ -1657,7 +1659,7 @@ let ide = new (function () {
       });
       $("#export-text .copy").attr("href", "").click(copyHandler(query));
       // export raw query
-      let query_raw = ide.getRawQuery();
+      const query_raw = ide.getRawQuery();
       $("#export-text_raw .format").html(i18n.t("export.format_text_raw"));
       $("#export-text_raw .export").attr({
         download: "query-raw.overpassql",
@@ -1727,11 +1729,11 @@ let ide = new (function () {
               ")"
           )
         );
-      let dialog_buttons = [{name: i18n.t("dialog.done")}];
+      const dialog_buttons = [{name: i18n.t("dialog.done")}];
       $("#export-dialog a#export-map-state")
         .unbind("click")
         .bind("click", () => {
-          let content =
+          const content =
             "<h4>" +
             i18n.t("export.map_view.permalink") +
             "</h4>" +
@@ -1810,7 +1812,7 @@ let ide = new (function () {
         if (!geojson) geoJSON_str = i18n.t("export.geoJSON.no_data");
         else {
           console.log(new Date());
-          let gJ = {
+          const gJ = {
             type: "FeatureCollection",
             generator: configs.appname,
             copyright: overpass.copyright,
@@ -1824,7 +1826,7 @@ let ide = new (function () {
             }) // makes deep copy
           };
           gJ.features.forEach((f) => {
-            let p = f.properties;
+            const p = f.properties;
             f.id = p.type + "/" + p.id;
             f.properties = {
               "@id": f.id
@@ -1852,8 +1854,8 @@ let ide = new (function () {
         .attr("href", "")
         .unbind("click")
         .on("click", () => {
-          let geoJSON_str = constructGeojsonString(overpass.geojson);
-          let d = $("#export-download-dialog");
+          const geoJSON_str = constructGeojsonString(overpass.geojson);
+          const d = $("#export-download-dialog");
 
           // make content downloadable as file
           if (overpass.geojson) {
@@ -1867,12 +1869,12 @@ let ide = new (function () {
       $("#export-geoJSON .copy")
         .attr("href", "")
         .click(() => {
-          let d = overpass.geojson
+          const d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
           d.addClass("is-active");
           if (overpass.geojson) {
-            let geojson = constructGeojsonString(overpass.geojson);
+            const geojson = constructGeojsonString(overpass.geojson);
             copyData = {
               "text/plain": geojson,
               "application/geo+json": geojson
@@ -1890,7 +1892,7 @@ let ide = new (function () {
       $("#export-dialog a#export-geoJSON-gist")
         .unbind("click")
         .on("click", () => {
-          let geoJSON_str = constructGeojsonString(overpass.geojson);
+          const geoJSON_str = constructGeojsonString(overpass.geojson);
           $.ajax("https://api.github.com/gists", {
             method: "POST",
             data: JSON.stringify({
@@ -1905,8 +1907,8 @@ let ide = new (function () {
             })
           })
             .done((data, textStatus, jqXHR) => {
-              let dialog_buttons = [{name: i18n.t("dialog.done")}];
-              let content =
+              const dialog_buttons = [{name: i18n.t("dialog.done")}];
+              const content =
                 "<p>" +
                 i18n.t("export.geoJSON_gist.gist") +
                 '&nbsp;<a href="' +
@@ -1976,13 +1978,13 @@ let ide = new (function () {
         .attr("href", "")
         .unbind("click")
         .on("click", () => {
-          let geojson = overpass.geojson;
-          let gpx_str = constructGpxString(geojson);
+          const geojson = overpass.geojson;
+          const gpx_str = constructGpxString(geojson);
           // make content downloadable as file
           if (geojson) {
             saveAs(gpx_str, "application/gpx+xml", "export.gpx");
           } else {
-            let d = $("#export-download-dialog");
+            const d = $("#export-download-dialog");
             d.addClass("is-active");
             $(".message", d).text(gpx_str);
           }
@@ -1991,12 +1993,12 @@ let ide = new (function () {
       $("#export-GPX .copy")
         .attr("href", "")
         .click(() => {
-          let d = overpass.geojson
+          const d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
           d.addClass("is-active");
           if (overpass.geojson) {
-            let gpx = constructGpxString(overpass.geojson);
+            const gpx = constructGpxString(overpass.geojson);
             copyData = {
               "text/plain": gpx,
               "application/gpx+xml": gpx
@@ -2035,8 +2037,8 @@ let ide = new (function () {
         .attr("href", "")
         .unbind("click")
         .on("click", () => {
-          let geojson = overpass.geojson;
-          let kml_str = constructKmlString(geojson);
+          const geojson = overpass.geojson;
+          const kml_str = constructKmlString(geojson);
           // make content downloadable as file
           if (geojson) {
             saveAs(
@@ -2053,12 +2055,12 @@ let ide = new (function () {
       $("#export-KML .copy")
         .attr("href", "")
         .click(() => {
-          let d = overpass.geojson
+          const d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
           d.addClass("is-active");
           if (overpass.geojson) {
-            let kml = constructKmlString(overpass.geojson);
+            const kml = constructKmlString(overpass.geojson);
             copyData = {
               "text/plain": kml,
               "application/vnd.google-earth.kml+xml": kml
@@ -2079,7 +2081,7 @@ let ide = new (function () {
         var geojson = overpass.geojson;
         if (!geojson) raw_str = i18n.t("export.raw.no_data");
         else {
-          let data = overpass.data;
+          const data = overpass.data;
           if (data instanceof XMLDocument) {
             raw_str = new XMLSerializer().serializeToString(data);
             raw_type = raw_str.match(/<osm/) ? "osm" : "xml";
@@ -2104,10 +2106,10 @@ let ide = new (function () {
         .attr("href", "")
         .unbind("click")
         .on("click", () => {
-          let geojson = overpass.geojson;
-          let raw = constructRawData(geojson);
-          let raw_str = raw.raw_str;
-          let raw_type = raw.raw_type;
+          const geojson = overpass.geojson;
+          const raw = constructRawData(geojson);
+          const raw_str = raw.raw_str;
+          const raw_type = raw.raw_type;
           // make content downloadable as file
           if (geojson) {
             if (raw_type == "osm" || raw_type == "xml") {
@@ -2118,7 +2120,7 @@ let ide = new (function () {
               saveAs(raw_str, "application/octet-stream", "export.dat");
             }
           } else {
-            let d = $("#export-download-dialog");
+            const d = $("#export-download-dialog");
             d.addClass("is-active");
             $(".message", d).text(raw_str);
           }
@@ -2127,15 +2129,15 @@ let ide = new (function () {
       $("#export-raw .copy")
         .attr("href", "")
         .click(() => {
-          let d = overpass.geojson
+          const d = overpass.geojson
             ? $("#export-clipboard-success")
             : $("#export-download-dialog");
           d.addClass("is-active");
-          let geojson = overpass.geojson;
+          const geojson = overpass.geojson;
           if (geojson) {
-            let raw = constructRawData(geojson);
-            let raw_str = raw.raw_str;
-            let raw_type = raw.raw_type;
+            const raw = constructRawData(geojson);
+            const raw_str = raw.raw_str;
+            const raw_type = raw.raw_type;
             copyData = {
               "text/plain": raw_str
             };
@@ -2172,12 +2174,12 @@ let ide = new (function () {
 
       // OSM editors
       // first check for possible mistakes in query.
-      let validEditorQuery = Autorepair.detect.editors(
+      const validEditorQuery = Autorepair.detect.editors(
         ide.getRawQuery(),
         ide.getQueryLang()
       );
       // * Level0
-      let exportToLevel0 = $("#export-dialog a#export-editors-level0");
+      const exportToLevel0 = $("#export-dialog a#export-editors-level0");
       exportToLevel0.unbind("click");
       function constructLevel0Link(query) {
         return (
@@ -2192,7 +2194,7 @@ let ide = new (function () {
       } else {
         exportToLevel0[0].href = "";
         exportToLevel0.bind("click", () => {
-          let dialog_buttons = [
+          const dialog_buttons = [
             {
               name: i18n.t("dialog.repair_query"),
               callback: function () {
@@ -2211,7 +2213,7 @@ let ide = new (function () {
               }
             }
           ];
-          let content =
+          const content =
             "<p>" +
             i18n.t("warning.incomplete.remote.expl.1") +
             "</p><p>" +
@@ -2229,9 +2231,9 @@ let ide = new (function () {
       $("#export-dialog a#export-editors-josm")
         .unbind("click")
         .on("click", () => {
-          let export_dialog = $("#export-dialog");
-          let send_to_josm = function (query) {
-            let JRC_url = "http://127.0.0.1:8111/";
+          const export_dialog = $("#export-dialog");
+          const send_to_josm = function (query) {
+            const JRC_url = "http://127.0.0.1:8111/";
             $.getJSON(JRC_url + "version")
               .done((d, s, xhr) => {
                 if (d.protocolversion.major == 1) {
@@ -2249,8 +2251,8 @@ let ide = new (function () {
                       console.log("successfully invoked JOSM remote control");
                     });
                 } else {
-                  let dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-                  let content =
+                  const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+                  const content =
                     "<p>" +
                     i18n.t("error.remote.incompat") +
                     ": " +
@@ -2266,8 +2268,9 @@ let ide = new (function () {
                 }
               })
               .fail((xhr, s, e) => {
-                let dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-                let content = "<p>" + i18n.t("error.remote.not_found") + "</p>";
+                const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+                const content =
+                  "<p>" + i18n.t("error.remote.not_found") + "</p>";
                 showDialog(
                   i18n.t("error.remote.title"),
                   content,
@@ -2276,7 +2279,7 @@ let ide = new (function () {
               });
           };
           // first check for possible mistakes in query.
-          let valid = Autorepair.detect.editors(
+          const valid = Autorepair.detect.editors(
             ide.getRawQuery(),
             ide.getQueryLang()
           );
@@ -2285,7 +2288,7 @@ let ide = new (function () {
             send_to_josm(query);
             return false;
           } else {
-            let dialog_buttons = [
+            const dialog_buttons = [
               {
                 name: i18n.t("dialog.repair_query"),
                 callback: function () {
@@ -2304,7 +2307,7 @@ let ide = new (function () {
                 }
               }
             ];
-            let content =
+            const content =
               "<p>" +
               i18n.t("warning.incomplete.remote.expl.1") +
               "</p><p>" +
@@ -2344,7 +2347,7 @@ let ide = new (function () {
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     ide.waiter.addInfo("rendering map tiles");
     $("#map .leaflet-overlay-pane").hide();
-    let canvas = await html2canvas(document.getElementById("map"), {
+    const canvas = await html2canvas(document.getElementById("map"), {
       useCORS: true,
       allowTaint: false,
       proxy: configs.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined // use own proxy if necessary and available
@@ -2357,18 +2360,18 @@ let ide = new (function () {
     ide.waiter.addInfo("rendering map data");
     // 2. render overlay data onto canvas
     canvas.id = "render_canvas";
-    let ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
     // get geometry for svg rendering
-    let height = $("#map .leaflet-overlay-pane svg").height();
-    let width = $("#map .leaflet-overlay-pane svg").width();
-    let tmp = $("#map .leaflet-map-pane")[0].style.cssText.match(
+    const height = $("#map .leaflet-overlay-pane svg").height();
+    const width = $("#map .leaflet-overlay-pane svg").width();
+    const tmp = $("#map .leaflet-map-pane")[0].style.cssText.match(
       /.*?(-?\d+)px.*?(-?\d+)px.*/
     );
-    let offsetX = +tmp[1];
-    let offsetY = +tmp[2];
-    let svg = $("#map .leaflet-overlay-pane").html();
+    const offsetX = +tmp[1];
+    const offsetY = +tmp[2];
+    const svg = $("#map .leaflet-overlay-pane").html();
     if (svg.length > 0) {
-      let v = await Canvg.from(ctx, svg, {
+      const v = await Canvg.from(ctx, svg, {
         ignoreAnimation: true,
         ignoreClear: true,
         ignoreDimensions: true,
@@ -2382,15 +2385,15 @@ let ide = new (function () {
     }
     ide.waiter.addInfo("converting to png image");
     // 3. export canvas as html image
-    let imgstr = canvas.toDataURL("image/png");
+    const imgstr = canvas.toDataURL("image/png");
     let attrib_message = "";
     if (!settings.export_image_attribution)
       attrib_message =
         '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
-    let dialog_buttons = [{name: i18n.t("dialog.done")}];
+    const dialog_buttons = [{name: i18n.t("dialog.done")}];
 
     ide.waiter.close();
-    let content =
+    const content =
       '<p><img src="' +
       imgstr +
       '" alt="' +
@@ -2402,7 +2405,7 @@ let ide = new (function () {
       "</a>--></p>" +
       attrib_message;
     showDialog(i18n.t("export.image.title"), content, dialog_buttons);
-    let save_link = document.createElement("a");
+    const save_link = document.createElement("a");
     save_link.href = imgstr;
     save_link.download = "export.png";
     save_link.dispatchEvent(new MouseEvent("click"));
@@ -2447,8 +2450,8 @@ let ide = new (function () {
           $("#ffs-dialog #ffs-dialog-parse-error").hide();
           $("#ffs-dialog #ffs-dialog-typo").show();
           $("#ffs-dialog input[type=search]").addClass("is-danger");
-          let correction = ffs_result.join("");
-          let correction_html = ffs_result
+          const correction = ffs_result.join("");
+          const correction_html = ffs_result
             .map((ffs_result_part, i) => {
               if (i % 2 === 1) return "<b>" + ffs_result_part + "</b>";
               else return ffs_result_part;
@@ -2474,7 +2477,7 @@ let ide = new (function () {
   this.onSettingsClick = function () {
     $("#settings-dialog input[name=ui_language]")[0].value =
       settings.ui_language;
-    let lngDescs = i18n.getSupportedLanguagesDescriptions();
+    const lngDescs = i18n.getSupportedLanguagesDescriptions();
     make_combobox(
       $("#settings-dialog input[name=ui_language]"),
       ["auto"].concat(i18n.getSupportedLanguages()).map((lng) => {
@@ -2547,7 +2550,7 @@ let ide = new (function () {
   };
   this.onSettingsSave = function () {
     // save settings
-    let new_ui_language = $("#settings-dialog input[name=ui_language]")[0]
+    const new_ui_language = $("#settings-dialog input[name=ui_language]")[0]
       .value;
     // reload ui if language has been changed
     if (settings.ui_language != new_ui_language) {
@@ -2568,7 +2571,7 @@ let ide = new (function () {
     settings.use_rich_editor = $(
       "#settings-dialog input[name=use_rich_editor]"
     )[0].checked;
-    let prev_editor_width = settings.editor_width;
+    const prev_editor_width = settings.editor_width;
     settings.editor_width = $(
       "#settings-dialog input[name=editor_width]"
     )[0].value;
@@ -2583,7 +2586,7 @@ let ide = new (function () {
     settings.share_compression = $(
       "#settings-dialog input[name=share_compression]"
     )[0].value;
-    let prev_tile_server = settings.tile_server;
+    const prev_tile_server = settings.tile_server;
     settings.tile_server = $(
       "#settings-dialog input[name=tile_server]"
     )[0].value;
@@ -2596,7 +2599,7 @@ let ide = new (function () {
     // update tile layer (if changed)
     if (prev_tile_server != settings.tile_server)
       ide.map.tile_layer.setUrl(settings.tile_server);
-    let prev_background_opacity = settings.background_opacity;
+    const prev_background_opacity = settings.background_opacity;
     settings.background_opacity = +$(
       "#settings-dialog input[name=background_opacity]"
     )[0].value;
@@ -2728,8 +2731,8 @@ let ide = new (function () {
     ide.waiter.addInfo("building query");
     // run the query via the overpass object
     ide.getQuery((query) => {
-      let query_lang = ide.getQueryLang();
-      let server =
+      const query_lang = ide.getQueryLang();
+      const server =
         ide.data_source &&
         ide.data_source.mode == "overpass" &&
         ide.data_source.options.server
@@ -2753,8 +2756,8 @@ let ide = new (function () {
     });
   };
   this.update_ffs_query = function (s, callback) {
-    let search = s || $("#ffs-dialog input[type=search]").val();
-    let comment = $("#ffs-dialog input[name='ffs.comments']")[0].checked;
+    const search = s || $("#ffs-dialog input[type=search]").val();
+    const comment = $("#ffs-dialog input[name='ffs.comments']")[0].checked;
     ffs.construct_query(search, comment, (err, query) => {
       if (err) {
         ffs.repair_search(search, (repaired) => {

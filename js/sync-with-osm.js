@@ -1,7 +1,7 @@
 import osmAuth from "osm-auth";
 import configs from "./configs";
 
-let enabled =
+const enabled =
   configs.osmAuth &&
   configs.osmAuth.oauth_consumer_key &&
   configs.osmAuth.oauth_secret;
@@ -68,15 +68,15 @@ function loadQueries(callback) {
       )
         pref_count = +cnt_elem.getAttribute("v");
 
-      let result = [];
+      const result = [];
       for (let i = 0; i < pref_count; i++) {
-        let pref_elem = res.querySelector(
+        const pref_elem = res.querySelector(
           'preference[k="' + configs.appname + "_query_" + i + '_0"]'
         );
         if (!pref_elem) continue;
-        let first_chunk = pref_elem.getAttribute("v").split("&");
-        let length = +first_chunk[0].slice(2);
-        let name = first_chunk[1].slice(2);
+        const first_chunk = pref_elem.getAttribute("v").split("&");
+        const length = +first_chunk[0].slice(2);
+        const name = first_chunk[1].slice(2);
         let query = first_chunk[2].slice(2);
         for (let j = 1; j < length; j++) {
           query += res
@@ -106,9 +106,9 @@ function saveQuery(new_query, callback) {
   loadQueries((err, existing_queries, dom) => {
     if (err) return callback(err);
 
-    let preferences = dom.querySelector("preferences");
+    const preferences = dom.querySelector("preferences");
     // clean up existing data
-    let existing = preferences.querySelectorAll(
+    const existing = preferences.querySelectorAll(
       'preference[k^="' + configs.appname + '_query"]'
     );
     for (var i = 0; i < existing.length; i++) {
@@ -133,12 +133,12 @@ function saveQuery(new_query, callback) {
     new_elem.setAttribute("v", existing_queries.length);
     preferences.appendChild(new_elem);
     for (var i = 0; i < existing_queries.length; i++) {
-      let q = existing_queries[i];
+      const q = existing_queries[i];
       if (q.name.length > 200)
         return callback(
           new Error("query name too long to be saved on osm.org")
         );
-      let numParts = Math.ceil((q.query.length + q.name.length + 8) / 255);
+      const numParts = Math.ceil((q.query.length + q.name.length + 8) / 255);
       if (numParts > 9)
         return callback(new Error("query too long to be saved on osm.org"));
       let queryStr = "p=" + numParts;
