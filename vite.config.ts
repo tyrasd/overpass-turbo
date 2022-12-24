@@ -51,6 +51,7 @@ export default defineConfig(() => {
     },
     plugins: [
       inject({
+        exclude: /(css|pegjs)$/,
         $: "jquery",
         jQuery: "jquery"
       }),
