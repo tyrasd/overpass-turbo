@@ -5,7 +5,8 @@
   "repository": "git+https://github.com/tyrasd/overpass-turbo.git",
   "license": "MIT",
   "scripts": {
-    "test": "npm run test:style && npm run test:vitest",
+    "test": "npm run test:eslint && npm run test:style && npm run test:vitest",
+    "test:eslint": "eslint .",
     "test:style": "prettier --check .",
     "test:vitest": "vitest",
     "fix:style": "prettier --write .",

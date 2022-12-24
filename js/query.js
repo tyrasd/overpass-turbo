@@ -66,6 +66,7 @@ export default function query() {
   };
 
   parser.hasStatement = function (statement) {
+    // eslint-disable-next-line no-prototype-builtins
     return statements.hasOwnProperty(statement);
   };
 

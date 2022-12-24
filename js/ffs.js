@@ -3,6 +3,7 @@ import ffs_free from "./ffs/free";
 import ffs_parser from "./ffs/ffs.pegjs";
 
 let ffs = {};
+// eslint-disable-next-line no-unused-vars
 let freeFormQuery;
 
 /* this converts a random boolean expression into a normalized form:
@@ -110,7 +111,6 @@ ffs.construct_query = function (search, comment, callback) {
     default:
       alert("unknown bounds condition: " + ffs.bounds);
       return false;
-      break;
   }
 
   function get_query_clause(condition) {
