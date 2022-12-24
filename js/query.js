@@ -18,7 +18,7 @@ export default function query() {
       // remove constant definitions
       query = query.replace(constant, "");
     }
-    _.extend(shortcuts, constants, function (b, a) {
+    _.extend(shortcuts, constants, (b, a) => {
       return typeof a == "undefined" ? b : a;
     });
     // 2. replace overpass turbo statements, user-constants and shortcuts
@@ -37,7 +37,7 @@ export default function query() {
       if (shortcuts[s_name] !== undefined) {
         // these shortcuts can also be callback functions, like {{date:-1day}}
         if (typeof shortcuts[s_name] === "function") {
-          shortcuts[s_name](s_instr, function (res) {
+          shortcuts[s_name](s_instr, (res) => {
             var seed = Math.round(Math.random() * Math.pow(2, 22)); // todo: use some kind of checksum of s_instr if possible
             shortcuts["__statement__" + s_name + "__" + seed] = res;
             query = query.replace(

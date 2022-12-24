@@ -37,7 +37,7 @@ styleparser.Rule.prototype = {
     var v = true;
     var i = 0;
     var isAnd = this.isAnd;
-    this.conditions.forEach(function (condition) {
+    this.conditions.forEach((condition) => {
       var r = condition.test(tags);
       if (i === 0) {
         v = r;

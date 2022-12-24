@@ -13,7 +13,7 @@ export default {
   enabled: enabled,
   load: function (callback) {
     if (!auth.authenticated()) {
-      auth.authenticate(function (err) {
+      auth.authenticate((err) => {
         //check err param exists
         if (err) return callback(err);
         loadQueries(callback);
@@ -24,7 +24,7 @@ export default {
   },
   save: function (query, callback) {
     if (!auth.authenticated()) {
-      auth.authenticate(function (err) {
+      auth.authenticate((err) => {
         //check err param exists
         if (err) return callback(err);
         saveQuery(query, callback);
@@ -56,7 +56,7 @@ function loadQueries(callback) {
       method: "GET",
       path: "/api/0.6/user/preferences"
     },
-    function (err, res) {
+    (err, res) => {
       if (err) return callback(err);
 
       var pref_count = 0,
@@ -103,7 +103,7 @@ function loadQueries(callback) {
 }
 
 function saveQuery(new_query, callback) {
-  loadQueries(function (err, existing_queries, dom) {
+  loadQueries((err, existing_queries, dom) => {
     if (err) return callback(err);
 
     var preferences = dom.querySelector("preferences");
@@ -116,7 +116,7 @@ function saveQuery(new_query, callback) {
     }
     // insert new query into list of existing ones
     var is_new = true;
-    existing_queries.forEach(function (q, idx) {
+    existing_queries.forEach((q, idx) => {
       if (q.name == new_query.name) {
         q.query = new_query.query;
         is_new = idx;
@@ -162,7 +162,7 @@ function saveQuery(new_query, callback) {
         options: {header: {"Content-Type": "text/xml"}},
         content: dom.firstChild.outerHTML
       },
-      function (err, res) {
+      (err, res) => {
         if (err) return callback(err);
         callback(null, existing_queries);
       }

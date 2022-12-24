@@ -20,12 +20,12 @@ L.OSM4Leaflet = L.Class.extend({
   },
   addData: function (data, onDone) {
     var obj = this;
-    setTimeout(function () {
+    setTimeout(() => {
       // 1. convert to GeoJSON
       var geojson = osmtogeojson(data, {flatProperties: false});
       obj._resultData = geojson;
       if (obj.options.afterParse) obj.options.afterParse();
-      setTimeout(function () {
+      setTimeout(() => {
         // 2. add to baseLayer
         obj._baseLayer.addData(geojson);
         if (onDone) onDone();
