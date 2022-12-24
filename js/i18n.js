@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import settings from "./settings";
 
-var i18n = new (function () {
+const i18n = new (function () {
   function browser_locale() {
     /* taken from https://github.com/maxogden/browser-locale by Max Ogden, BSD licensed */
     let lang;
@@ -99,7 +99,7 @@ var i18n = new (function () {
     try {
       return import(`../locales/${lng}.json`).then(
         (data) => {
-          td = data.default;
+          Object.assign(td, data.default);
           i18n.translate_ui();
           // todo: nicer implementation
           return data.default;
@@ -142,7 +142,7 @@ var i18n = new (function () {
   };
 
   // translated texts
-  var td = {};
+  const td = {};
 })(); // end create i18n object
 
 export default i18n;

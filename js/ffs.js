@@ -23,8 +23,8 @@ function normalize(query) {
         }
       ];
     } else if (rem_query.logical === "and") {
-      var c1 = normalize_recursive(rem_query.queries[0]);
-      var c2 = normalize_recursive(rem_query.queries[1]);
+      const c1 = normalize_recursive(rem_query.queries[0]);
+      const c2 = normalize_recursive(rem_query.queries[1]);
       // return cross product of c1 and c2
       const c = [];
       for (let i = 0; i < c1.length; i++)
@@ -36,8 +36,8 @@ function normalize(query) {
         }
       return c;
     } else if (rem_query.logical === "or") {
-      var c1 = normalize_recursive(rem_query.queries[0]);
-      var c2 = normalize_recursive(rem_query.queries[1]);
+      const c1 = normalize_recursive(rem_query.queries[0]);
+      const c2 = normalize_recursive(rem_query.queries[1]);
       return [].concat(c1, c2);
     } else {
       alert("unsupported boolean operator: " + rem_query.logical);
@@ -219,6 +219,7 @@ ffs.construct_query = function (search, comment, callback) {
         }
       case "free form":
       // own module, special cased below
+      // falls through
       default:
         console.log("unknown query type: " + condition.query);
         return false;
@@ -299,11 +300,7 @@ ffs.construct_query = function (search, comment, callback) {
   }
 
   // if we have a "free form" query part, need to load it before first use:
-  (freeForm
-    ? ffs_free
-    : function (x) {
-        x(null);
-      })((freeFormQuery) => {
+  (freeForm ? ffs_free : (x) => x(null))((freeFormQuery) => {
     add_comment("// gather results");
     query_parts.push("(");
     for (let i = 0; i < ffs.query.queries.length; i++) {
@@ -316,7 +313,7 @@ ffs.construct_query = function (search, comment, callback) {
         const cond_query = and_query.queries[j];
         // todo: looks like some code duplication here could be reduced by refactoring
         if (cond_query.query === "free form") {
-          var ffs_clause = freeFormQuery.get_query_clause(cond_query);
+          const ffs_clause = freeFormQuery.get_query_clause(cond_query);
           if (ffs_clause === false) return callback("unknown ffs string");
           // restrict possible data types
           types = types.filter((t) => {

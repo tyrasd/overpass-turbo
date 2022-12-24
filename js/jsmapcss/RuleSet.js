@@ -147,7 +147,6 @@ styleparser.RuleSet.prototype = {
       } else {
         // console.log("choked on "+css);
         throw new Error("MapCSS parsing choked on " + css);
-        return;
       }
     }
     if (previous == this.oDECLARATION) {
@@ -179,7 +178,7 @@ styleparser.RuleSet.prototype = {
     const r = s.split(";");
     const isEval = {};
     for (const i in r) {
-      var a = r[i];
+      const a = r[i];
       if ((o = this.ASSIGNMENT_EVAL.exec(a))) {
         k = o[1].replace(this.DASH, "_");
         t[k] = o[2];
@@ -243,7 +242,7 @@ styleparser.RuleSet.prototype = {
     }
 
     // Assign each property to the appropriate style
-    for (a in t) {
+    for (const a in t) {
       // Parse properties
       v = t[a];
 
@@ -358,9 +357,9 @@ styleparser.RuleSet.prototype = {
 
   WHITESPACE: /^\s+/,
   COMMENT: /\/\*.+?\*\/\s*/,
-  CLASS: /^([\.:]\w+)\s*/,
-  NOT_CLASS: /^!([\.:]\w+)\s*/,
-  ZOOM: /^\|\s*z([\d\-]+)\s*/i,
+  CLASS: /^([.:]\w+)\s*/,
+  NOT_CLASS: /^!([.:]\w+)\s*/,
+  ZOOM: /^\|\s*z([\d-]+)\s*/i,
   GROUP: /^,\s*/i,
   CONDITION: /^\[(.+?)\]\s*/,
   OBJECT: /^(\w+)\s*/, // TODO: match also "*" (and handle the wildcard appropriately)
@@ -368,9 +367,9 @@ styleparser.RuleSet.prototype = {
   SUBPART: /^::(\w+)\s*/,
   UNKNOWN: /^(\S+)\s*/,
 
-  ZOOM_MINMAX: /^(\d+)\-(\d+)$/,
-  ZOOM_MIN: /^(\d+)\-$/,
-  ZOOM_MAX: /^\-(\d+)$/,
+  ZOOM_MINMAX: /^(\d+)-(\d+)$/,
+  ZOOM_MIN: /^(\d+)-$/,
+  ZOOM_MAX: /^-(\d+)$/,
   ZOOM_SINGLE: /^(\d+)$/,
 
   CONDITION_TRUE: /^\s*([:@\w]+)\s*=\s*yes\s*$/i,
@@ -385,8 +384,8 @@ styleparser.RuleSet.prototype = {
   CONDITION_LE: /^\s*([:@\w]+)\s*<=\s*(.+)\s*$/,
   CONDITION_REGEX: /^\s*([:@\w]+)\s*=~\/\s*(.+)\/\s*$/,
 
-  ASSIGNMENT_EVAL: /^\s*(\S+)\s*\:\s*eval\s*\(\s*['"](.+?)['"]\s*\)\s*$/i, // TODO: match only two matching quotes
-  ASSIGNMENT: /^\s*(\S+)\s*\:\s*(.+?)\s*$/,
+  ASSIGNMENT_EVAL: /^\s*(\S+)\s*:\s*eval\s*\(\s*['"](.+?)['"]\s*\)\s*$/i, // TODO: match only two matching quotes
+  ASSIGNMENT: /^\s*(\S+)\s*:\s*(.+?)\s*$/,
   SET_TAG_EVAL: /^\s*set\s+(\S+)\s*=\s*eval\s*\(\s*'(.+?)'\s*\)\s*$/i,
   SET_TAG: /^\s*set\s+(\S+)\s*=\s*(.+?)\s*$/i,
   SET_TAG_TRUE: /^\s*set\s+(\S+)\s*$/i,
@@ -399,7 +398,7 @@ styleparser.RuleSet.prototype = {
   oDECLARATION: 6,
   oSUBPART: 7,
 
-  DASH: /\-/g,
+  DASH: /-/g,
   COLOR: /color$/,
   BOLD: /^bold$/i,
   ITALIC: /^italic|oblique$/i,

@@ -2,7 +2,6 @@
 import $ from "jquery";
 import _ from "lodash";
 import L from "leaflet";
-import L_PopupIcon from "mapbbcode/src/controls/PopupIcon.js";
 import L_OSM4Leaflet from "./OSM4Leaflet";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
 import polylabel from "polylabel";
@@ -12,12 +11,12 @@ import settings from "./settings";
 import {htmlentities} from "./misc";
 import styleparser from "./jsmapcss";
 
-var overpass = new (function () {
+const overpass = new (function () {
   // == private members ==
   let originalGeom2Layer;
   // == public members ==
   this.handlers = {};
-  this.rerender = function (mapcss) {};
+  this.rerender = function () {};
 
   // == private methods ==
   const fire = function () {
@@ -173,6 +172,7 @@ var overpass = new (function () {
               if (is_error) {
                 // this really looks like an error message, so lets open an additional modal error message
                 let errmsg = "?";
+                let fullerrmsg;
                 if (typeof data == "string") {
                   errmsg = data
                     .replace(/([\S\s]*<body>)/, "")
@@ -182,7 +182,7 @@ var overpass = new (function () {
                     /<p>The data included in this document is from .*?<\/p>/,
                     ""
                   );
-                  var fullerrmsg = errmsg;
+                  fullerrmsg = errmsg;
                   errmsg = errmsg.replace(
                     /open64: 0 Success \/osm3s_v\d+\.\d+\.\d+_osm_base (\w+::)*\w+\./,
                     "[…]"
@@ -382,8 +382,8 @@ var overpass = new (function () {
                     highlight ? {":active": true} : {},
                     (function (tags, meta, id) {
                       const res = {"@id": id};
-                      for (var key in meta) res["@" + key] = meta[key];
-                      for (var key in tags)
+                      for (const key in meta) res["@" + key] = meta[key];
+                      for (const key in tags)
                         res[key.replace(/^@/, "@@")] = tags[key];
                       return res;
                     })(
@@ -397,23 +397,25 @@ var overpass = new (function () {
                 return s;
               };
 
-              L.GeoJSON.geometryToLayer = function (
-                feature,
-                pointToLayer /*,…*/
-              ) {
+              L.GeoJSON.geometryToLayer = function (feature) {
                 const s = get_feature_style(feature);
                 const stl = s.textStyles["default"] || {};
                 const layer = originalGeom2Layer.apply(this, arguments);
 
                 function getFeatureLabelPosition(feature) {
+                  let bestVal;
+                  let labelLayer;
+                  let labelPolygon;
                   let latlng;
+                  let latlng1;
+                  let latlng2;
+                  let latlngs;
                   switch (feature.geometry.type) {
                     case "Point":
                       latlng = layer.getLatLng();
                       break;
                     case "MultiPolygon":
-                      var labelPolygon,
-                        bestVal = -Infinity;
+                      bestVal = -Infinity;
                       layer.getLayers().forEach((layer) => {
                         const size = layer
                           .getBounds()
@@ -424,6 +426,7 @@ var overpass = new (function () {
                           bestVal = size;
                         }
                       });
+                    // falls through
                     case "Polygon":
                       if (!labelPolygon) labelPolygon = layer;
                       latlng = L.CRS.EPSG3857.pointToLatLng(
@@ -449,8 +452,7 @@ var overpass = new (function () {
                       );
                       break;
                     case "MultiLineString":
-                      var labelLayer,
-                        bestVal = -Infinity;
+                      bestVal = -Infinity;
                       layer.getLayers().forEach((layer) => {
                         const size = layer
                           .getBounds()
@@ -461,14 +463,16 @@ var overpass = new (function () {
                           bestVal = size;
                         }
                       });
+                    // falls through
                     case "LineString":
                       if (!labelLayer) labelLayer = layer;
-                      var latlngs = labelLayer.getLatLngs();
+                      latlngs = labelLayer.getLatLngs();
                       if (latlngs.length % 2 == 1)
                         latlng = latlngs[Math.floor(latlngs.length / 2)];
                       else {
-                        const latlng1 = latlngs[Math.floor(latlngs.length / 2)],
-                          latlng2 = latlngs[Math.floor(latlngs.length / 2 - 1)];
+                        (latlng1 = latlngs[Math.floor(latlngs.length / 2)]),
+                          (latlng2 =
+                            latlngs[Math.floor(latlngs.length / 2 - 1)]);
                         latlng = L.latLng([
                           (latlng1.lat + latlng2.lat) / 2,
                           (latlng1.lng + latlng2.lng) / 2
@@ -512,7 +516,7 @@ var overpass = new (function () {
                   : L_GeoJsonNoVanish,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
-                  compress: function (feature) {
+                  compress: function () {
                     return true;
                   },
                   style: function (feature, highlight) {
@@ -525,72 +529,71 @@ var overpass = new (function () {
                           return styles[properties[i]];
                       return undefined;
                     }
+                    let p;
+                    let styles;
                     switch (feature.geometry.type) {
                       case "Point":
-                        var styles = $.extend(
+                        styles = $.extend(
                           {},
                           s.shapeStyles["default"],
                           s.pointStyles["default"]
                         );
-                        var p = get_property(styles, [
+                        p = get_property(styles, [
                           "color",
                           "symbol_stroke_color"
                         ]);
                         if (p !== undefined) stl.color = p;
-                        var p = get_property(styles, [
+                        p = get_property(styles, [
                           "opacity",
                           "symbol_stroke_opacity"
                         ]);
                         if (p !== undefined) stl.opacity = p;
-                        var p = get_property(styles, [
+                        p = get_property(styles, [
                           "width",
                           "symbol_stroke_width"
                         ]);
                         if (p !== undefined) stl.weight = p;
-                        var p = get_property(styles, [
+                        p = get_property(styles, [
                           "fill_color",
                           "symbol_fill_color"
                         ]);
                         if (p !== undefined) stl.fillColor = p;
-                        var p = get_property(styles, [
+                        p = get_property(styles, [
                           "fill_opacity",
                           "symbol_fill_opacity"
                         ]);
                         if (p !== undefined) stl.fillOpacity = p;
-                        var p = get_property(styles, ["dashes"]);
+                        p = get_property(styles, ["dashes"]);
                         if (p !== undefined) stl.dashArray = p.join(",");
                         break;
                       case "LineString":
                       case "MultiLineString":
-                        var styles = s.shapeStyles["default"];
-                        var p = get_property(styles, ["color"]);
+                        styles = s.shapeStyles["default"];
+                        p = get_property(styles, ["color"]);
                         if (p !== undefined) stl.color = p;
-                        var p = get_property(styles, ["opacity"]);
+                        p = get_property(styles, ["opacity"]);
                         if (p !== undefined) stl.opacity = p;
-                        var p = get_property(styles, ["width"]);
+                        p = get_property(styles, ["width"]);
                         if (p !== undefined) stl.weight = p;
-                        var p = get_property(styles, ["offset"]);
+                        p = get_property(styles, ["offset"]);
                         if (p !== undefined) stl.offset = -p; // MapCSS and PolylineOffset definitions use different signs
-                        var p = get_property(styles, ["dashes"]);
+                        p = get_property(styles, ["dashes"]);
                         if (p !== undefined) stl.dashArray = p.join(",");
                         break;
                       case "Polygon":
                       case "MultiPolygon":
-                        var styles = s.shapeStyles["default"];
-                        var p = get_property(styles, ["color", "casing_color"]);
+                        styles = s.shapeStyles["default"];
+                        p = get_property(styles, ["color", "casing_color"]);
                         if (p !== undefined) stl.color = p;
-                        var p = get_property(styles, [
-                          "opacity",
-                          "casing_opacity"
-                        ]);
+                        p = get_property(styles, ["opacity", "casing_opacity"]);
                         if (p !== undefined) stl.opacity = p;
-                        var p = get_property(styles, ["width", "casing_width"]);
+                        p = get_property(styles, ["width", "casing_width"]);
                         if (p !== undefined) stl.weight = p;
-                        var p = get_property(styles, ["fill_color"]);
+                        p = get_property(styles, ["fill_color"]);
                         if (p !== undefined) stl.fillColor = p;
-                        var p = get_property(styles, ["fill_opacity"]);
+                        p = get_property(styles, ["fill_opacity"]);
                         if (p !== undefined) stl.fillOpacity = p;
-                        var p = get_property(styles, ["dashes"]);
+                        p = get_property(styles, ["dashes"]);
                         if (p !== undefined) stl.dashArray = p.join(",");
                         break;
                     }
@@ -602,7 +605,6 @@ var overpass = new (function () {
                     // todo: labels!
                     const s = get_feature_style(feature);
                     const stl = s.pointStyles["default"] || {};
-                    let text;
                     let marker;
                     if (stl["icon_image"]) {
                       // return image marker
@@ -628,10 +630,7 @@ var overpass = new (function () {
                           className: "leaflet-dummy-none-marker"
                         })
                       });
-                    } else if (
-                      stl["symbol_shape"] == "circle" ||
-                      true /*if nothing else is specified*/
-                    ) {
+                    } else {
                       // return circle marker
                       const r = stl["symbol_size"] || 9;
                       marker = new L.CircleMarker(latlng, {
@@ -691,7 +690,7 @@ var overpass = new (function () {
                           let urls;
                           if (
                             (urls = v.match(
-                              /\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi
+                              /\b((?:(https?|ftp):\/\/|www\d{0,3}[.]|[a-z0-9.-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()[\]{};:'".,<>?«»“”‘’]))/gi
                             ))
                           ) {
                             urls.forEach((url) => {
@@ -710,17 +709,17 @@ var overpass = new (function () {
                           } else {
                             // hyperlinks for email addresses
                             v = v.replace(
-                              /(([^\s()<>]+)@([^\s()<>]+[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/g,
+                              /(([^\s()<>]+)@([^\s()<>]+[^\s`!()[\]{};:'".,<>?«»“”‘’]))/g,
                               '<a href="mailto:$1" target="_blank">$1</a>'
                             );
                           }
                           // hyperlinks for wikipedia entries
                           let wiki_lang, wiki_page;
                           if (
-                            ((wiki_lang = k.match(/^wikipedia\:(.*)$/)) &&
+                            ((wiki_lang = k.match(/^wikipedia:(.*)$/)) &&
                               (wiki_page = v)) ||
                             (k.match(/(^|:)wikipedia$/) &&
-                              (wiki_lang = v.match(/^([a-zA-Z]+)\:(.*)$/)) &&
+                              (wiki_lang = v.match(/^([a-zA-Z]+):(.*)$/)) &&
                               (wiki_page = wiki_lang[2]))
                           )
                             v =
@@ -1036,7 +1035,7 @@ var overpass = new (function () {
         type: "POST",
         data: {data: query},
         success: onSuccessCb,
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus) {
           if (textStatus == "abort") return; // ignore aborted queries.
           fire("onProgress", "error during ajax call");
           if (

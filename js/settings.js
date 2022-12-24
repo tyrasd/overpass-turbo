@@ -21,9 +21,11 @@ function Settings(namespace, version) {
     localStorage.setItem(prefix + "test", 123);
     localStorage.removeItem(prefix + "test");
     ls = localStorage;
-  } catch (e) {}
+  } catch (e) {
+    console.trace(e);
+  }
   const settings_version = version;
-  var version = +ls.getItem(prefix + "version");
+  version = +ls.getItem(prefix + "version");
   const settings = {};
   const upgrade_callbacks = [];
 

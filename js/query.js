@@ -27,8 +27,8 @@ export default function query() {
     const statement = /{{([A-Za-z0-9_]+)(:([\s\S]*?))?}}/;
     let s;
     while ((s = query.match(statement))) {
-      var s_name = s[1];
-      var s_instr = s[3] || "";
+      const s_name = s[1];
+      const s_instr = s[3] || "";
       let s_replace = "";
       // save instructions for later
       if (statements[s_name] === undefined) statements[s_name] = "";
@@ -51,14 +51,14 @@ export default function query() {
         } else s_replace = shortcuts[s_name];
       }
       // remove statement, but preserve number of newlines
-      var lc = s_instr.split(/\r?\n|\r/).length;
+      const lc = s_instr.split(/\r?\n|\r/).length;
       query = query.replace(s[0], s_replace + Array(lc).join("\n"));
     }
     // 3. remove remaining (e.g. unknown) mustache templates:
     let m;
     while ((m = query.match(/{{[\S\s]*?}}/gm))) {
       // count lines in template and replace mustache with same number of newlines
-      var lc = m[0].split(/\r?\n|\r/).length;
+      const lc = m[0].split(/\r?\n|\r/).length;
       query = query.replace(m[0], Array(lc).join("\n"));
     }
     // return the query

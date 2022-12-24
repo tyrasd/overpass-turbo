@@ -10,7 +10,6 @@ import tokml from "tokml";
 import togpx from "togpx";
 import configs from "./configs";
 import Query from "./query";
-import Nominatim from "./nominatim";
 import ffs from "./ffs";
 import i18n from "./i18n";
 import settings from "./settings";
@@ -43,7 +42,6 @@ const ide = new (function () {
   let attribControl = null;
   let scaleControl = null;
   const queryParser = Query();
-  const nominatim = Nominatim();
   // == public members ==
   this.codeEditor = null;
   this.dataViewer = null;
@@ -320,7 +318,7 @@ const ide = new (function () {
     $("#editor").resizable({
       handles: isInitialAspectPortrait ? "s" : "e",
       minWidth: isInitialAspectPortrait ? undefined : "200",
-      resize: function (ev) {
+      resize: function () {
         if (!isInitialAspectPortrait) {
           $(this)
             .next()
@@ -549,7 +547,7 @@ const ide = new (function () {
       options: {
         position: "topleft"
       },
-      onAdd: function (map) {
+      onAdd: function () {
         // create the control container with a particular class name
         const container = L.DomUtil.create(
           "div",
@@ -717,7 +715,7 @@ const ide = new (function () {
       options: {
         position: "topright"
       },
-      onAdd: function (map) {
+      onAdd: function () {
         const container = L.DomUtil.create(
           "div",
           "leaflet-control-search control has-icons-left"
@@ -726,7 +724,7 @@ const ide = new (function () {
         container.style.right = "0";
         const inp = L.DomUtil.create("input", "input is-rounded", container);
         $('<span class="icon is-left"><span class="fas fa-search"/></span>')
-          .click(function (e) {
+          .click(function () {
             $(this).prev().autocomplete("search");
           })
           .insertAfter(inp);
@@ -1204,11 +1202,10 @@ const ide = new (function () {
    * shortcuts are expanded. */
   this.getQuery = function (callback) {
     let query = ide.getRawQuery();
-    const queryLang = ide.getQueryLang();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
     query = query.replace(
-      /(\<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,
+      /(<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,
       "$1{{__bbox__global_bbox_xml__ezs4K8__}}$3"
     );
     queryParser.parse(query, shortcuts(), (query) => {
@@ -1474,7 +1471,7 @@ const ide = new (function () {
         name: name,
         query: query
       },
-      (err, new_queries) => {
+      (err) => {
         if (err) return console.error(err);
         $("#logout").show();
         $("#save-dialog").removeClass("is-active");
@@ -1832,9 +1829,9 @@ const ide = new (function () {
               "@id": f.id
             };
             // escapes tags beginning with an @ with another @
-            for (var m in p.tags || {})
+            for (const m in p.tags || {})
               f.properties[m.replace(/^@/, "@@")] = p.tags[m];
-            for (var m in p.meta || {}) f.properties["@" + m] = p.meta[m];
+            for (const m in p.meta || {}) f.properties["@" + m] = p.meta[m];
             // expose internal properties:
             // * tainted: indicates that the feature's geometry is incomplete
             if (p.tainted) f.properties["@tainted"] = p.tainted;
@@ -1906,7 +1903,7 @@ const ide = new (function () {
               }
             })
           })
-            .done((data, textStatus, jqXHR) => {
+            .done((data) => {
               const dialog_buttons = [{name: i18n.t("dialog.done")}];
               const content =
                 "<p>" +
@@ -1930,7 +1927,7 @@ const ide = new (function () {
               );
               // data.html_url;
             })
-            .fail((jqXHR, textStatus, errorStr) => {
+            .fail((jqXHR) => {
               alert(
                 "an error occured during the creation of the overpass gist:\n" +
                   JSON.stringify(jqXHR)
@@ -2078,7 +2075,6 @@ const ide = new (function () {
       // RAW format
       function constructRawData(geojson) {
         let raw_str, raw_type;
-        var geojson = overpass.geojson;
         if (!geojson) raw_str = i18n.t("export.raw.no_data");
         else {
           const data = overpass.data;
@@ -2235,7 +2231,7 @@ const ide = new (function () {
           const send_to_josm = function (query) {
             const JRC_url = "http://127.0.0.1:8111/";
             $.getJSON(JRC_url + "version")
-              .done((d, s, xhr) => {
+              .done((d) => {
                 if (d.protocolversion.major == 1) {
                   $.get(JRC_url + "import", {
                     // JOSM doesn't handle protocol-less links very well
@@ -2244,10 +2240,10 @@ const ide = new (function () {
                       "interpreter?data=" +
                       encodeURIComponent(query)
                   })
-                    .fail((xhr, s, e) => {
+                    .fail(() => {
                       alert("Error: Unexpected JOSM remote control error.");
                     })
-                    .done((d, s, xhr) => {
+                    .done(() => {
                       console.log("successfully invoked JOSM remote control");
                     });
                 } else {
@@ -2267,7 +2263,7 @@ const ide = new (function () {
                   );
                 }
               })
-              .fail((xhr, s, e) => {
+              .fail(() => {
                 const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
                 const content =
                   "<p>" + i18n.t("error.remote.not_found") + "</p>";
