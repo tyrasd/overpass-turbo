@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 // StyleList class
 
-import styleparser from "./Style.js";
+import styleparser from "./Style";
 
 styleparser.StyleList = function () {
   this.shapeStyles = {};

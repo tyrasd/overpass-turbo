@@ -8,9 +8,9 @@ import {resolve} from "path";
 import {execSync} from "child_process";
 
 const GIT_VERSION = JSON.stringify(
-  execSync("git log -1 --format=%cd --date=short", {encoding: "utf-8"}).trim() +
-    "/" +
-    execSync("git describe --always", {encoding: "utf-8"}).trim()
+  `${execSync("git log -1 --format=%cd --date=short", {
+    encoding: "utf-8"
+  }).trim()}/${execSync("git describe --always", {encoding: "utf-8"}).trim()}`
 );
 
 const dependencies = JSON.parse(
@@ -33,34 +33,32 @@ const APP_DEPENDENCIES = JSON.stringify(
 );
 
 // https://vitejs.dev/config/
-export default defineConfig(() => {
-  return {
-    base: "./",
-    build: {
-      rollupOptions: {
-        input: [
-          resolve(__dirname, "index.html"),
-          resolve(__dirname, "land.html"),
-          resolve(__dirname, "map.html")
-        ]
-      }
-    },
-    define: {
-      APP_DEPENDENCIES,
-      GIT_VERSION
-    },
-    plugins: [
-      inject({
-        exclude: /(css|pegjs)$/,
-        $: "jquery",
-        jQuery: "jquery"
-      }),
-      pegjs()
-    ],
-    // https://vitest.dev/config/
-    test: {
-      environment: "happy-dom",
-      include: "tests/test*.js"
+export default defineConfig(() => ({
+  base: "./",
+  build: {
+    rollupOptions: {
+      input: [
+        resolve(__dirname, "index.html"),
+        resolve(__dirname, "land.html"),
+        resolve(__dirname, "map.html")
+      ]
     }
-  };
-});
+  },
+  define: {
+    APP_DEPENDENCIES,
+    GIT_VERSION
+  },
+  plugins: [
+    inject({
+      exclude: /(css|pegjs)$/,
+      $: "jquery",
+      jQuery: "jquery"
+    }),
+    pegjs()
+  ],
+  // https://vitest.dev/config/
+  test: {
+    environment: "happy-dom",
+    include: "tests/test*.ts"
+  }
+}));

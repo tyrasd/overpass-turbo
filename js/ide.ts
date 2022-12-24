@@ -46,6 +46,7 @@ const ide = new (function () {
   this.codeEditor = null;
   this.dataViewer = null;
   this.map = null;
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
   const ide = this;
 
   // == helpers ==
@@ -258,8 +259,7 @@ const ide = new (function () {
     settings.load();
     // translate ui
     ide.waiter.addInfo("translate ui");
-    const me = this;
-    i18n.translate().then(() => initAfterI18n.call(me));
+    i18n.translate().then(() => initAfterI18n.call(this));
 
     if (sync.enabled) {
       $("#load-dialog .osm").show();

@@ -1,17 +1,17 @@
 // ----------------------------------------------------------------------
 // Condition base class
 
-import styleparser from "./Style.js";
+import styleparser from "./Style";
 
 styleparser.Condition = function () {};
 styleparser.Condition.prototype = {
   type: "", // eq/ne/regex etc.
   params: [], // what to test against
 
-  init: function (_type) {
+  init: function (_type, ..._params) {
     // summary:		A condition to evaluate.
     this.type = _type;
-    this.params = Array.prototype.slice.call(arguments, 1);
+    this.params = _params;
     return this;
   },
 

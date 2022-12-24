@@ -51,10 +51,13 @@ $(document).ready(() => {
     code: {},
     server: configs.defaultServer,
     tileServer: configs.defaultTiles,
+    silent: false,
     force_simple_cors_request: true,
     disable_poiomatic: false
   };
   const ide = {
+    map: (undefined as unknown) as L.Map,
+    mapcss: "",
     getQuery: function (callback) {
       const query = settings.code["overpass"];
       const queryParser = Query();

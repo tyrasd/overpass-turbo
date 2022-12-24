@@ -19,11 +19,8 @@ const overpass = new (function () {
   this.rerender = function () {};
 
   // == private methods ==
-  const fire = function () {
-    const name = arguments[0];
+  const fire = function (name, ...handler_args) {
     if (typeof overpass.handlers[name] != "function") return undefined;
-    const handler_args = [];
-    for (let i = 1; i < arguments.length; i++) handler_args.push(arguments[i]);
     return overpass.handlers[name].apply({}, handler_args);
   };
 
@@ -388,10 +385,10 @@ const overpass = new (function () {
                 return s;
               };
 
-              L.GeoJSON.geometryToLayer = function (feature) {
+              L.GeoJSON.geometryToLayer = function (feature, options) {
                 const s = get_feature_style(feature);
                 const stl = s.textStyles["default"] || {};
-                const layer = originalGeom2Layer.apply(this, arguments);
+                const layer = originalGeom2Layer.call(this, feature, options);
 
                 function getFeatureLabelPosition(feature) {
                   let bestVal;

@@ -14,7 +14,7 @@
 
 */
 
-import styleparser from "./Style.js";
+import styleparser from "./Style";
 
 styleparser.RuleChain = function () {
   this.rules = []; // list of Rules

@@ -1,6 +1,6 @@
 // styleparser/StyleChooser.js
 
-import styleparser from "./Style.js";
+import styleparser from "./Style";
 
 styleparser.StyleChooser = function () {
   this.ruleChains = [new styleparser.RuleChain()];

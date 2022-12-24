@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------
 // Rule class
 
-import styleparser from "./Style.js";
+import styleparser from "./Style";
 
 styleparser.Rule = function () {};
 styleparser.Rule.prototype = {

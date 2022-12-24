@@ -3,7 +3,7 @@ import ffs_free from "./ffs/free";
 import ffs_parser from "./ffs/ffs.pegjs";
 
 let ffs = {};
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 let freeFormQuery;
 
 /* this converts a random boolean expression into a normalized form:

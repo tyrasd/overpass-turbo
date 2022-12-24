@@ -2,7 +2,7 @@
 // needs to cope with nested CSS files
 // doesn't do untagged nodes optimisation
 
-import styleparser from "./Style.js";
+import styleparser from "./Style";
 
 styleparser.RuleSet = function () {};
 
