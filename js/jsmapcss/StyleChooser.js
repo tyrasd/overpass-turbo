@@ -101,6 +101,7 @@ styleparser.StyleChooser.prototype = {
 
 function extend(destination, source) {
   for (const property in source) {
+    // eslint-disable-next-line no-prototype-builtins
     if (source.hasOwnProperty(property)) {
       destination[property] = source[property];
     }

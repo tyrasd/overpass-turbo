@@ -72,6 +72,7 @@ styleparser.Style.prototype = {
   toString: function () {
     let str = "";
     for (const k in this.properties) {
+      // eslint-disable-next-line no-prototype-builtins
       if (this.hasOwnProperty(k)) {
         str += k + "=" + this[k] + "; ";
       }

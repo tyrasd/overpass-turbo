@@ -1027,6 +1027,7 @@ const overpass = new (function () {
         }
       );
     };
+    // eslint-disable-next-line no-prototype-builtins
     if (cache && cache.hasOwnProperty(query)) {
       onSuccessCb.apply(this, cache[query]);
     } else {
