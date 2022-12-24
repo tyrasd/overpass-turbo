@@ -16,6 +16,7 @@
   "devDependencies": {
     "@rollup/plugin-inject": "^4.0.4",
     "@types/jquery": "^3.5.14",
+    "eslint": "^8.30.0",
     "happy-dom": "^7.4.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.5.1",
