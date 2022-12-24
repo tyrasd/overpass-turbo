@@ -1,5 +1,4 @@
 // ffs/wizard module
-import $ from "jquery";
 
 import i18n from "../i18n";
 import {levenshteinDistance} from "../misc";

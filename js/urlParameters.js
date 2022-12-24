@@ -31,7 +31,7 @@ export default function urlParameters(param_str, callback) {
   }
   if (args.has("c")) {
     // map center & zoom (compressed)
-    var tmp = args.get("c").match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
+    const tmp = args.get("c").match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
     const decode_coords = function (str) {
       const coords_cpr = Base64.decodeNum(str);
       const res = {};
@@ -46,7 +46,7 @@ export default function urlParameters(param_str, callback) {
   }
   if (args.has("C")) {
     // map center & zoom (uncompressed)
-    var tmp = args.get("C").match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
+    const tmp = args.get("C").match(/(-?[\d.]+);(-?[\d.]+);(\d+)/);
     t.coords = {lat: +tmp[1], lng: +tmp[2]};
     t.has_coords = true;
     t.zoom = +tmp[3];
@@ -62,6 +62,7 @@ export default function urlParameters(param_str, callback) {
     t.zoom = +args.get("zoom");
     t.has_zoom = true;
   }
+  let wizard_comment = "";
   if (args.has("template")) {
     // load a template
     const template = settings.saves[args.get("template")];
@@ -76,7 +77,7 @@ export default function urlParameters(param_str, callback) {
         q = q.replace("{{" + param + "}}", quotes(value));
       }
       args.append("w", q); // let the wizard do the work
-      var wizard_comment = template.comment;
+      wizard_comment = template.comment;
     } else {
       console.log("template not found: " + args.get("template"));
     }

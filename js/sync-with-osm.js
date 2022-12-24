@@ -42,7 +42,7 @@ export default {
     };
     saveQuery(query, callback);
   },
-  logout: function (callback) {
+  logout: function () {
     if (auth.authenticated()) auth.logout();
   },
   authenticated: function () {
@@ -111,7 +111,7 @@ function saveQuery(new_query, callback) {
     const existing = preferences.querySelectorAll(
       'preference[k^="' + configs.appname + '_query"]'
     );
-    for (var i = 0; i < existing.length; i++) {
+    for (let i = 0; i < existing.length; i++) {
       preferences.removeChild(existing[i]);
     }
     // insert new query into list of existing ones
@@ -128,11 +128,11 @@ function saveQuery(new_query, callback) {
       existing_queries.splice(is_new, 1);
     }
     // construct new preferences xml
-    var new_elem = dom.createElement("preference");
+    const new_elem = dom.createElement("preference");
     new_elem.setAttribute("k", configs.appname + "_query-count");
     new_elem.setAttribute("v", existing_queries.length);
     preferences.appendChild(new_elem);
-    for (var i = 0; i < existing_queries.length; i++) {
+    for (let i = 0; i < existing_queries.length; i++) {
       const q = existing_queries[i];
       if (q.name.length > 200)
         return callback(
@@ -148,7 +148,7 @@ function saveQuery(new_query, callback) {
       queryStr = queryStr.match(/.{1,255}/g);
 
       for (let j = 0; j < numParts; j++) {
-        var new_elem = dom.createElement("preference");
+        const new_elem = dom.createElement("preference");
         new_elem.setAttribute("k", configs.appname + "_query_" + i + "_" + j);
         new_elem.setAttribute("v", queryStr[j]);
         preferences.appendChild(new_elem);
@@ -162,7 +162,7 @@ function saveQuery(new_query, callback) {
         options: {header: {"Content-Type": "text/xml"}},
         content: dom.firstChild.outerHTML
       },
-      (err, res) => {
+      (err) => {
         if (err) return callback(err);
         callback(null, existing_queries);
       }

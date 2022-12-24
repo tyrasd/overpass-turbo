@@ -43,7 +43,6 @@ styleparser.StyleChooser.prototype = {
     }
 
     // Are any of the ruleChains fulfilled?
-    let w;
     for (const i in this.ruleChains) {
       const c = this.ruleChains[i];
       if (c.test(-1, entity, tags, zoom)) {
@@ -52,7 +51,7 @@ styleparser.StyleChooser.prototype = {
         // Update StyleList
         for (const j in this.styles) {
           const r = this.styles[j];
-          var a;
+          let a;
           switch (r.styleType) {
             case "ShapeStyle":
               sl.maxwidth = Math.max(sl.maxwidth, r.maxwidth());

@@ -47,14 +47,14 @@ $(document).ready(() => {
     alert("error :( " + $(this).html());
   };
   configs.appname = "overpass-ide-map";
-  var settings = {
+  const settings = {
     code: {},
     server: configs.defaultServer,
     tileServer: configs.defaultTiles,
     force_simple_cors_request: true,
     disable_poiomatic: false
   };
-  var ide = {
+  const ide = {
     getQuery: function (callback) {
       const query = settings.code["overpass"];
       const queryParser = Query();
@@ -156,7 +156,7 @@ $(document).ready(() => {
     } catch (err) {}
   });
   // overpass functionality
-  overpass.handlers["onEmptyMap"] = function (empty_msg, data_mode) {
+  overpass.handlers["onEmptyMap"] = function (empty_msg) {
     $(
       '<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>(' +
         empty_msg +

@@ -10,7 +10,7 @@
  * ---
  * Levenshtein Distance from iD editor project, WTFPL
  */
-export var Base64 = {
+export const Base64 = {
   // private property
   _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
@@ -60,7 +60,7 @@ export var Base64 = {
   decode: function (input, binary) {
     let output = "";
     input = this._convert_to_base64nopad(input);
-    input = input.replace(/[^A-Za-z0-9\+\/]/g, "");
+    input = input.replace(/[^A-Za-z0-9+/]/g, "");
     //reappend the padding
     input = input + "==".substring(0, (4 - (input.length % 4)) % 4);
 
@@ -133,7 +133,7 @@ export var Base64 = {
 
   decodeNum: function (input) {
     input = this._convert_to_base64nopad(input);
-    input = input.replace(/[^A-Za-z0-9\+\/.]/g, "");
+    input = input.replace(/[^A-Za-z0-9+/.]/g, "");
     let num = 0;
     let neg = false;
     if (input.charAt(0) == ".") {
@@ -152,7 +152,7 @@ export var Base64 = {
     return input.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
   },
   _convert_to_base64nopad: function (input) {
-    return input.replace(/\-/g, "+").replace(/_/g, "/");
+    return input.replace(/-/g, "+").replace(/_/g, "/");
   },
 
   // private method for UTF-8 encoding
@@ -182,21 +182,20 @@ export var Base64 = {
   _utf8_decode: function (utftext) {
     let string = "";
     let i = 0;
-    let c = (c1 = c2 = 0);
 
     while (i < utftext.length) {
-      c = utftext.charCodeAt(i);
+      const c = utftext.charCodeAt(i);
 
       if (c < 128) {
         string += String.fromCharCode(c);
         i++;
       } else if (c > 191 && c < 224) {
-        c2 = utftext.charCodeAt(i + 1);
+        const c2 = utftext.charCodeAt(i + 1);
         string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
         i += 2;
       } else {
-        c2 = utftext.charCodeAt(i + 1);
-        c3 = utftext.charCodeAt(i + 2);
+        const c2 = utftext.charCodeAt(i + 1);
+        const c3 = utftext.charCodeAt(i + 2);
         string += String.fromCharCode(
           ((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63)
         );
@@ -218,7 +217,7 @@ export function lzw_encode(s) {
   let currChar;
   let phrase = data[0];
   let code = 256;
-  for (var i = 1; i < data.length; i++) {
+  for (let i = 1; i < data.length; i++) {
     currChar = data[i];
     if (dict[phrase + currChar] != null) {
       phrase += currChar;
@@ -230,7 +229,7 @@ export function lzw_encode(s) {
     }
   }
   out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
-  for (var i = 0; i < out.length; i++) {
+  for (let i = 0; i < out.length; i++) {
     out[i] = String.fromCharCode(out[i]);
   }
   return out.join("");
@@ -277,14 +276,14 @@ export function levenshteinDistance(a, b) {
   if (a.length === 0) return b.length;
   if (b.length === 0) return a.length;
   const matrix = [];
-  for (var i = 0; i <= b.length; i++) {
+  for (let i = 0; i <= b.length; i++) {
     matrix[i] = [i];
   }
-  for (var j = 0; j <= a.length; j++) {
+  for (let j = 0; j <= a.length; j++) {
     matrix[0][j] = j;
   }
-  for (i = 1; i <= b.length; i++) {
-    for (j = 1; j <= a.length; j++) {
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
       if (b.charAt(i - 1) === a.charAt(j - 1)) {
         matrix[i][j] = matrix[i - 1][j - 1];
       } else {
