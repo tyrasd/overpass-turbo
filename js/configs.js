@@ -1,11 +1,13 @@
 export default {
   appname: "overpass-turbo",
   defaultServer: "//overpass-api.de/api/",
+  // https://wiki.openstreetmap.org/wiki/Overpass_API#Public_Overpass_API_instances
   suggestedServers: [
     "//overpass-api.de/api/",
-    "https://overpass.kumi.systems/api/",
-    "http://overpass.openstreetmap.ru/cgi/",
-    "//overpass.openstreetmap.fr/api/"
+    "https://overpass-api.de/api/",
+    "https://maps.mail.ru/osm/tools/overpass/api/",
+    "https://overpass.openstreetmap.ru/api/",
+    "https://overpass.kumi.systems/api/"
   ],
   defaultTiles: "//tile.openstreetmap.org/{z}/{x}/{y}.png",
   // https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
