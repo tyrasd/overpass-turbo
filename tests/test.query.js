@@ -1,9 +1,10 @@
 import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
+import L from "leaflet";
 import ide from "../js/ide";
 
-describe("ide.query", function () {
-  var orig_codeEditor, orig_map;
-  beforeEach(function () {
+describe("ide.query", () => {
+  let orig_codeEditor, orig_map;
+  beforeEach(() => {
     orig_codeEditor = ide.codeEditor;
     ide.codeEditor = {};
     orig_map = ide.map;
@@ -21,16 +22,16 @@ describe("ide.query", function () {
       }
     };
   });
-  afterEach(function () {
+  afterEach(() => {
     ide.map = orig_map;
     ide.codeEditor = orig_codeEditor;
     vi.restoreAllMocks();
   });
 
   // expand {{parameters}} in ql query
-  it("expand {{parameters}} in ql query", function () {
+  it("expand {{parameters}} in ql query", () => {
     vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-    var examples = [
+    const examples = [
       {
         // simple expansion
         inp: "{{parameter=foo}};{{parameter}}",
@@ -47,8 +48,8 @@ describe("ide.query", function () {
         outp: ";foofoo"
       }
     ];
-    var callback = vi.fn(() => 0);
-    for (var i = 0; i < examples.length; i++) {
+    const callback = vi.fn(() => 0);
+    for (let i = 0; i < examples.length; i++) {
       ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
@@ -58,9 +59,9 @@ describe("ide.query", function () {
     ide.setQuery.restore();
   });
   // expand {{parameters}} in xml query
-  it("expand {{parameters}} in xml", function () {
+  it("expand {{parameters}} in xml", () => {
     vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-    var examples = [
+    const examples = [
       {
         // simple expansion
         inp: "{{parameter=foo}}<xml>{{parameter}}</xml>",
@@ -77,8 +78,8 @@ describe("ide.query", function () {
         outp: "<xml>foofoo</xml>"
       }
     ];
-    var callback = vi.fn(() => 0);
-    for (var i = 0; i < examples.length; i++) {
+    const callback = vi.fn(() => 0);
+    for (let i = 0; i < examples.length; i++) {
       ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
@@ -88,9 +89,9 @@ describe("ide.query", function () {
     ide.setQuery.restore();
   });
   // expand {{bbox}}
-  it("expand {{bbox}}", function () {
+  it("expand {{bbox}}", () => {
     vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-    var examples = [
+    const examples = [
       {
         // ql query
         inp: "({{bbox}})",
@@ -107,8 +108,8 @@ describe("ide.query", function () {
         outp: '<osm-script bbox="1,2,3,4"/>'
       }
     ];
-    var callback = vi.fn(() => 0);
-    for (var i = 0; i < examples.length; i++) {
+    const callback = vi.fn(() => 0);
+    for (let i = 0; i < examples.length; i++) {
       ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
@@ -118,9 +119,9 @@ describe("ide.query", function () {
     ide.setQuery.restore();
   });
   // expand {{center}}
-  it("expand {{center}}", function () {
+  it("expand {{center}}", () => {
     vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-    var examples = [
+    const examples = [
       {
         // ql query
         inp: "({{center}})",
@@ -132,8 +133,8 @@ describe("ide.query", function () {
         outp: '<around lat="5" lon="6"/>'
       }
     ];
-    var callback = vi.fn(() => 0);
-    for (var i = 0; i < examples.length; i++) {
+    const callback = vi.fn(() => 0);
+    for (let i = 0; i < examples.length; i++) {
       ide.codeEditor.getValue = function () {
         return examples[i].inp;
       };
