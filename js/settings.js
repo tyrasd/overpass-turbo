@@ -5,7 +5,7 @@ import configs from "./configs";
 
 function Settings(namespace, version) {
   // == private members ==
-  let prefix = namespace + "_";
+  const prefix = namespace + "_";
   let ls = {
     setItem: function (n, v) {
       this[n] = v;
@@ -22,10 +22,10 @@ function Settings(namespace, version) {
     localStorage.removeItem(prefix + "test");
     ls = localStorage;
   } catch (e) {}
-  let settings_version = version;
+  const settings_version = version;
   var version = +ls.getItem(prefix + "version");
-  let settings = {};
-  let upgrade_callbacks = [];
+  const settings = {};
+  const upgrade_callbacks = [];
 
   // == public methods ==
   this.define_setting = function (name, type, preset, version) {
@@ -60,7 +60,7 @@ function Settings(namespace, version) {
 
   this.load = function () {
     // load all settings into the objects namespace
-    for (let name in settings) {
+    for (const name in settings) {
       this[name] = this.get(name);
     }
     // version upgrade
@@ -76,12 +76,12 @@ function Settings(namespace, version) {
   };
   this.save = function () {
     // save all settings from the objects namespace
-    for (let name in settings) {
+    for (const name in settings) {
       this.set(name, this[name]);
     }
   };
   this.reset = function () {
-    for (let name in settings) {
+    for (const name in settings) {
       localStorage.removeItem(prefix + name);
       delete settings[name];
     }
@@ -89,7 +89,7 @@ function Settings(namespace, version) {
   };
 }
 // examples
-let examples = {
+const examples = {
   "Drinking Water": {
     overpass:
       "/*\nThis is an example Overpass query.\nTry it out by pressing the Run button above!\nYou can find more examples with the Load tool.\n*/\nnode\n  [amenity=drinking_water]\n  ({{bbox}});\nout;"
@@ -115,10 +115,10 @@ let examples = {
       "/*\nThis example shows how the data can be styled.\nHere, some common amenities are displayed in \ndifferent colors.\n\nRead more: http://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\n*/\n[out:json];\n\n(\n  node[amenity]({{bbox}});\n  way[amenity]({{bbox}});\n  relation[amenity]({{bbox}});\n);\nout body;\n>;\nout skel qt;\n\n{{style: /* this is the MapCSS stylesheet */\nnode, area\n{ color:gray; fill-color:gray; }\n\nnode[amenity=drinking_water],\nnode[amenity=fountain]\n{ color:blue; fill-color:blue; }\n\nnode[amenity=place_of_worship],\narea[amenity=place_of_worship]\n{ color:grey; fill-color:grey; }\n\nnode[amenity=~/(restaurant|hotel|cafe)/],\narea[amenity=~/(restaurant|hotel|cafe)/]\n{ color:red; fill-color:red; }\n\nnode[amenity=parking],\narea[amenity=parking]\n{ color:yellow; fill-color:yellow; }\n\nnode[amenity=bench]\n{ color:brown; fill-color:brown; }\n\nnode[amenity=~/(kindergarten|school|university)/],\narea[amenity=~/(kindergarten|school|university)/]\n{ color:green; fill-color:green; }\n}}"
   }
 };
-let examples_initial_example = "Drinking Water";
+const examples_initial_example = "Drinking Water";
 
 // global settings object
-let settings = new Settings(
+const settings = new Settings(
   configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
   38 // settings version number
 );
@@ -174,7 +174,7 @@ settings.define_setting("show_data_stats", "boolean", true, 21);
 // upgrade callbacks
 settings.define_upgrade_callback(12, (s) => {
   // migrate code and saved examples to new mustache style syntax
-  let migrate = function (code) {
+  const migrate = function (code) {
     code.overpass = code.overpass.replace(/\(bbox\)/g, "({{bbox}})");
     code.overpass = code.overpass.replace(
       /<bbox-query\/>/g,
@@ -187,7 +187,7 @@ settings.define_upgrade_callback(12, (s) => {
     return code;
   };
   s.code = migrate(s.code);
-  for (let ex in s.saves) {
+  for (const ex in s.saves) {
     s.saves[ex] = migrate(s.saves[ex]);
   }
   s.save();
@@ -204,7 +204,7 @@ settings.define_upgrade_callback(20, (s) => {
 });
 settings.define_upgrade_callback(22, (s) => {
   // categorize saved queries
-  for (let q in s.saves) {
+  for (const q in s.saves) {
     if (examples[q]) s.saves[q].type = "example";
     else s.saves[q].type = "saved_query";
   }
@@ -246,14 +246,14 @@ settings.define_upgrade_callback(23, (s) => {
 });
 settings.define_upgrade_callback(24, (s) => {
   // categorize saved queries
-  for (let q in s.saves) {
+  for (const q in s.saves) {
     if (!s.saves[q].type) s.saves[q].type = "saved_query";
   }
   s.save();
 });
 settings.define_upgrade_callback(25, (s) => {
   // upgrade template description text
-  for (let q in s.saves) {
+  for (const q in s.saves) {
     if (s.saves[q].type == "template") {
       s.saves[q].overpass = s.saves[q].overpass.replace("<!--\nt", "<!--\nT");
       s.saves[q].overpass = s.saves[q].overpass.replace(
@@ -313,7 +313,7 @@ settings.define_upgrade_callback(29, (s) => {
 
 settings.define_upgrade_callback(30, (s) => {
   // add comments for templates
-  let chooseAndRun = "\nChoose your region and hit the Run button above!";
+  const chooseAndRun = "\nChoose your region and hit the Run button above!";
   _.each(s.saves, (save, name) => {
     if (save.type !== "template") return;
     switch (name) {

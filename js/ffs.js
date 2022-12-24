@@ -10,7 +10,7 @@ let freeFormQuery;
  * for example: A∧(B∨C) ⇔ (A∧B)∨(A∧C)
  */
 function normalize(query) {
-  let normalized_query = {
+  const normalized_query = {
     logical: "or",
     queries: []
   };
@@ -26,7 +26,7 @@ function normalize(query) {
       var c1 = normalize_recursive(rem_query.queries[0]);
       var c2 = normalize_recursive(rem_query.queries[1]);
       // return cross product of c1 and c2
-      let c = [];
+      const c = [];
       for (let i = 0; i < c1.length; i++)
         for (let j = 0; j < c2.length; j++) {
           c.push({
@@ -70,7 +70,7 @@ ffs.construct_query = function (search, comment, callback) {
     return callback("ffs parse error");
   }
 
-  let query_parts = [];
+  const query_parts = [];
   let bounds_part;
 
   function add_comment(string) {
@@ -124,7 +124,7 @@ ffs.construct_query = function (search, comment, callback) {
         .replace(/\n/g, "\\n"); // also escape newlines an tabs for better readability of the query
     }
     let key = esc(condition.key);
-    let val = esc(condition.val);
+    const val = esc(condition.val);
     // convert substring searches into matching regexp ones
     if (condition.query === "substr") {
       condition.query = "like";
@@ -288,9 +288,9 @@ ffs.construct_query = function (search, comment, callback) {
 
   let freeForm = false;
   for (let i = 0; i < ffs.query.queries.length; i++) {
-    let and_query = ffs.query.queries[i];
+    const and_query = ffs.query.queries[i];
     for (let j = 0; j < and_query.queries.length; j++) {
-      let cond_query = and_query.queries[j];
+      const cond_query = and_query.queries[j];
       if (cond_query.query === "free form") {
         freeForm = true;
         break;
@@ -307,13 +307,13 @@ ffs.construct_query = function (search, comment, callback) {
     add_comment("// gather results");
     query_parts.push("(");
     for (let i = 0; i < ffs.query.queries.length; i++) {
-      let and_query = ffs.query.queries[i];
+      const and_query = ffs.query.queries[i];
 
       let types = ["node", "way", "relation"];
       let clauses = [];
       let clauses_str = [];
       for (let j = 0; j < and_query.queries.length; j++) {
-        let cond_query = and_query.queries[j];
+        const cond_query = and_query.queries[j];
         // todo: looks like some code duplication here could be reduced by refactoring
         if (cond_query.query === "free form") {
           var ffs_clause = freeFormQuery.get_query_clause(cond_query);
@@ -335,7 +335,7 @@ ffs.construct_query = function (search, comment, callback) {
         } else {
           // add another query clause
           clauses_str.push(get_query_clause_str(cond_query));
-          let clause = get_query_clause(cond_query);
+          const clause = get_query_clause(cond_query);
           if (clause === false) return false;
           clauses.push(clause);
         }
@@ -391,10 +391,10 @@ ffs.repair_search = function (search, callback) {
     });
     function validateQuery(cond_query) {
       if (cond_query.query === "free form") {
-        let ffs_clause = freeFormQuery.get_query_clause(cond_query);
+        const ffs_clause = freeFormQuery.get_query_clause(cond_query);
         if (ffs_clause === false) {
           // try to find suggestions for occasional typos
-          let fuzzy = freeFormQuery.fuzzy_search(cond_query);
+          const fuzzy = freeFormQuery.fuzzy_search(cond_query);
           let free_regex = null;
           try {
             free_regex = new RegExp(
@@ -404,7 +404,7 @@ ffs.repair_search = function (search, callback) {
           if (fuzzy && search.match(free_regex)) {
             search_parts = search_parts.concat(search.split(free_regex));
             search = search_parts.pop();
-            let replacement = quotes(fuzzy);
+            const replacement = quotes(fuzzy);
             search_parts.push(replacement);
             repaired = true;
           }

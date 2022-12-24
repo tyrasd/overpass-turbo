@@ -93,8 +93,8 @@ export var Base64 = {
     }
 
     function str2ab(str) {
-      let buf = new ArrayBuffer(str.length); // 1 byte for each char
-      let bufView = new Uint8Array(buf);
+      const buf = new ArrayBuffer(str.length); // 1 byte for each char
+      const bufView = new Uint8Array(buf);
       for (let i = 0, strLen = str.length; i < strLen; i++) {
         bufView[i] = str.charCodeAt(i);
       }
@@ -161,7 +161,7 @@ export var Base64 = {
     let utftext = "";
 
     for (let n = 0; n < string.length; n++) {
-      let c = string.charCodeAt(n);
+      const c = string.charCodeAt(n);
 
       if (c < 128) {
         utftext += String.fromCharCode(c);
@@ -212,9 +212,9 @@ export var Base64 = {
 export function lzw_encode(s) {
   //s = Base64._utf8_encode(s);
   s = unescape(encodeURIComponent(s));
-  let dict = {};
-  let data = (s + "").split("");
-  let out = [];
+  const dict = {};
+  const data = (s + "").split("");
+  const out = [];
   let currChar;
   let phrase = data[0];
   let code = 256;
@@ -238,15 +238,15 @@ export function lzw_encode(s) {
 
 // Decompress an LZW-encoded string
 export function lzw_decode(s) {
-  let dict = {};
-  let data = (s + "").split("");
+  const dict = {};
+  const data = (s + "").split("");
   let currChar = data[0];
   let oldPhrase = currChar;
-  let out = [currChar];
+  const out = [currChar];
   let code = 256;
   let phrase;
   for (let i = 1; i < data.length; i++) {
-    let currCode = data[i].charCodeAt(0);
+    const currCode = data[i].charCodeAt(0);
     if (currCode < 256) {
       phrase = data[i];
     } else {
@@ -276,7 +276,7 @@ export function htmlentities(str) {
 export function levenshteinDistance(a, b) {
   if (a.length === 0) return b.length;
   if (b.length === 0) return a.length;
-  let matrix = [];
+  const matrix = [];
   for (var i = 0; i <= b.length; i++) {
     matrix[i] = [i];
   }

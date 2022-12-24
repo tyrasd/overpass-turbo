@@ -24,8 +24,8 @@ var i18n = new (function () {
     return lang;
   }
 
-  let default_lng = "en";
-  let languages = {
+  const default_lng = "en";
+  const languages = {
     // translations found in locale/*.json
     en: "English",
     ca: "Catalan",
@@ -55,7 +55,7 @@ var i18n = new (function () {
     "zh-CN": "Chinese (Simplified)",
     "zh-TW": "Chinese (Taiwan)"
   };
-  let supported_lngs = _.keys(languages);
+  const supported_lngs = _.keys(languages);
   this.getSupportedLanguages = function () {
     return supported_lngs;
   };
@@ -120,12 +120,12 @@ var i18n = new (function () {
       let terms = $(element).attr("data-t");
       terms = terms.split(";");
       for (let i = 0; i < terms.length; i++) {
-        let term = terms[i];
-        let tmp = term.match(/^(\[(.*)\])?(.*)$/);
-        let what = tmp[2];
-        let key = tmp[3];
+        const term = terms[i];
+        const tmp = term.match(/^(\[(.*)\])?(.*)$/);
+        const what = tmp[2];
+        const key = tmp[3];
         let val = i18n.t(key);
-        let shortcut = $(element).attr("data-shortcut");
+        const shortcut = $(element).attr("data-shortcut");
         if (shortcut) val += " [" + shortcut + "]";
         if (what === "html") {
           $(element).html(val);

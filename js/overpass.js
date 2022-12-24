@@ -20,10 +20,10 @@ var overpass = new (function () {
   this.rerender = function (mapcss) {};
 
   // == private methods ==
-  let fire = function () {
-    let name = arguments[0];
+  const fire = function () {
+    const name = arguments[0];
     if (typeof overpass.handlers[name] != "function") return undefined;
-    let handler_args = [];
+    const handler_args = [];
     for (let i = 1; i < arguments.length; i++) handler_args.push(arguments[i]);
     return overpass.handlers[name].apply({}, handler_args);
   };
@@ -87,14 +87,14 @@ var overpass = new (function () {
           callback();
         });
     });
-    let onSuccessCb = function (data, textStatus, jqXHR) {
+    const onSuccessCb = function (data, textStatus, jqXHR) {
       //textStatus is not needed in the successCallback, don't cache it
       if (cache) cache[query] = [data, undefined, jqXHR];
 
       let data_amount = jqXHR.responseText.length;
       let data_txt;
       // round amount of data
-      let scale = Math.floor(Math.log(data_amount) / Math.log(10));
+      const scale = Math.floor(Math.log(data_amount) / Math.log(10));
       data_amount =
         Math.round(data_amount / Math.pow(10, scale)) * Math.pow(10, scale);
       if (data_amount < 1000) data_txt = data_amount + " bytes";
@@ -115,7 +115,7 @@ var overpass = new (function () {
           // different cases of loaded data: json data, xml data or error message?
           let data_mode = null;
           let geojson;
-          let stats = {};
+          const stats = {};
           overpass.ajax_request_duration =
             Date.now() - overpass.ajax_request_start;
           fire("onProgress", "parsing data");
@@ -199,7 +199,7 @@ var overpass = new (function () {
                 fire("onQueryError", errmsg);
                 data_mode = "error";
                 // parse errors and highlight error lines
-                let errlines = errmsg.match(/line \d+:/g) || [];
+                const errlines = errmsg.match(/line \d+:/g) || [];
                 for (let i = 0; i < errlines.length; i++) {
                   fire("onQueryErrorLine", 1 * errlines[i].match(/\d+/)[0]);
                 }
@@ -265,7 +265,7 @@ var overpass = new (function () {
             overpass.rerender = function (userMapCSS) {
               // test user supplied mapcss stylesheet
               try {
-                let dummy_mapcss = new styleparser.RuleSet();
+                const dummy_mapcss = new styleparser.RuleSet();
                 dummy_mapcss.parseCSS(userMapCSS);
                 try {
                   dummy_mapcss.getStyles(
@@ -287,7 +287,7 @@ var overpass = new (function () {
                 userMapCSS = "";
                 fire("onStyleError", "<p>" + e.message + "</p>");
               }
-              let mapcss = new styleparser.RuleSet();
+              const mapcss = new styleparser.RuleSet();
               mapcss.parseCSS(
                 "" +
                   "node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n" +
@@ -309,20 +309,20 @@ var overpass = new (function () {
                   // user supplied mapcss
                   userMapCSS
               );
-              let get_feature_style = function (feature, highlight) {
+              const get_feature_style = function (feature, highlight) {
                 function hasInterestingTags(props) {
                   // this checks if the node has any tags other than "created_by"
                   return (
                     props &&
                     props.tags &&
                     (function (o) {
-                      for (let k in o)
+                      for (const k in o)
                         if (k != "created_by" && k != "source") return true;
                       return false;
                     })(props.tags)
                   );
                 }
-                let s = mapcss.getStyles(
+                const s = mapcss.getStyles(
                   {
                     isSubject: function (subject) {
                       switch (subject) {
@@ -381,7 +381,7 @@ var overpass = new (function () {
                       : {":untagged": true},
                     highlight ? {":active": true} : {},
                     (function (tags, meta, id) {
-                      let res = {"@id": id};
+                      const res = {"@id": id};
                       for (var key in meta) res["@" + key] = meta[key];
                       for (var key in tags)
                         res[key.replace(/^@/, "@@")] = tags[key];
@@ -401,9 +401,9 @@ var overpass = new (function () {
                 feature,
                 pointToLayer /*,…*/
               ) {
-                let s = get_feature_style(feature);
-                let stl = s.textStyles["default"] || {};
-                let layer = originalGeom2Layer.apply(this, arguments);
+                const s = get_feature_style(feature);
+                const stl = s.textStyles["default"] || {};
+                const layer = originalGeom2Layer.apply(this, arguments);
 
                 function getFeatureLabelPosition(feature) {
                   let latlng;
@@ -415,7 +415,7 @@ var overpass = new (function () {
                       var labelPolygon,
                         bestVal = -Infinity;
                       layer.getLayers().forEach((layer) => {
-                        let size = layer
+                        const size = layer
                           .getBounds()
                           .getNorthEast()
                           .distanceTo(layer.getBounds().getSouthWest());
@@ -452,7 +452,7 @@ var overpass = new (function () {
                       var labelLayer,
                         bestVal = -Infinity;
                       layer.getLayers().forEach((layer) => {
-                        let size = layer
+                        const size = layer
                           .getBounds()
                           .getNorthEast()
                           .distanceTo(layer.getBounds().getSouthWest());
@@ -467,7 +467,7 @@ var overpass = new (function () {
                       if (latlngs.length % 2 == 1)
                         latlng = latlngs[Math.floor(latlngs.length / 2)];
                       else {
-                        let latlng1 = latlngs[Math.floor(latlngs.length / 2)],
+                        const latlng1 = latlngs[Math.floor(latlngs.length / 2)],
                           latlng2 = latlngs[Math.floor(latlngs.length / 2 - 1)];
                         latlng = L.latLng([
                           (latlng1.lat + latlng2.lat) / 2,
@@ -489,10 +489,10 @@ var overpass = new (function () {
                   (stl["text"] && stl.evals["text"] && (text = stl["text"])) ||
                   (stl["text"] && (text = feature.properties.tags[stl["text"]]))
                 ) {
-                  let textIcon = new L.PopupIcon(htmlentities(text), {
+                  const textIcon = new L.PopupIcon(htmlentities(text), {
                     color: "rgba(255,255,255,0.8)"
                   });
-                  let textmarker = new L.Marker(
+                  const textmarker = new L.Marker(
                     getFeatureLabelPosition(feature),
                     {icon: textIcon}
                   );
@@ -516,8 +516,8 @@ var overpass = new (function () {
                     return true;
                   },
                   style: function (feature, highlight) {
-                    let stl = {};
-                    let s = get_feature_style(feature, highlight);
+                    const stl = {};
+                    const s = get_feature_style(feature, highlight);
                     // apply mapcss styles
                     function get_property(styles, properties) {
                       for (let i = properties.length - 1; i >= 0; i--)
@@ -600,13 +600,13 @@ var overpass = new (function () {
                   },
                   pointToLayer: function (feature, latlng) {
                     // todo: labels!
-                    let s = get_feature_style(feature);
-                    let stl = s.pointStyles["default"] || {};
+                    const s = get_feature_style(feature);
+                    const stl = s.pointStyles["default"] || {};
                     let text;
                     let marker;
                     if (stl["icon_image"]) {
                       // return image marker
-                      let iconUrl = stl["icon_image"].match(
+                      const iconUrl = stl["icon_image"].match(
                         /^url\(['"](.*)['"]\)$/
                       )[1];
                       let iconSize;
@@ -614,7 +614,7 @@ var overpass = new (function () {
                         iconSize = [stl["icon_width"], stl["icon_width"]];
                       if (stl["icon_height"] && iconSize)
                         iconSize[1] = stl["icon_height"];
-                      let icon = new L.Icon({
+                      const icon = new L.Icon({
                         iconUrl: iconUrl,
                         iconSize: iconSize
                         // todo: anchor, shadow?, ...
@@ -633,7 +633,7 @@ var overpass = new (function () {
                       true /*if nothing else is specified*/
                     ) {
                       // return circle marker
-                      let r = stl["symbol_size"] || 9;
+                      const r = stl["symbol_size"] || 9;
                       marker = new L.CircleMarker(latlng, {
                         radius: r
                       });
@@ -695,7 +695,7 @@ var overpass = new (function () {
                             ))
                           ) {
                             urls.forEach((url) => {
-                              let href = url.match(/^(https?|ftp):\/\//)
+                              const href = url.match(/^(https?|ftp):\/\//)
                                 ? url
                                 : "http://" + url;
                               v = v.replace(
@@ -891,7 +891,7 @@ var overpass = new (function () {
                       if (typeof e.target.getLatLng == "function")
                         latlng = e.target.getLatLng();
                       else latlng = e.latlng; // all other (lines, polygons, multipolygons)
-                      let p = L.popup({maxHeight: 600}, this)
+                      const p = L.popup({maxHeight: 600}, this)
                         .setLatLng(latlng)
                         .setContent(popup);
                       p.layer = layer;
