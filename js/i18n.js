@@ -74,7 +74,7 @@ const i18n = new (function () {
       // sanitize inconsistent use of lower and upper case spelling
       let parts;
       if ((parts = lng.match(/(.*)-(.*)/)))
-        lng = parts[1] + "-" + parts[2].toUpperCase();
+        lng = `${parts[1]}-${parts[2].toUpperCase()}`;
       // fall back to generic language file if no country-specific i18n is found
       if ($.inArray(lng, supported_lngs) == -1) lng = lng.replace(/-.*/, "");
     }
@@ -90,7 +90,7 @@ const i18n = new (function () {
 
     if ($.inArray(lng, supported_lngs) == -1) {
       console.log(
-        "unsupported language: " + lng + " switching back to: " + default_lng
+        `unsupported language: ${lng} switching back to: ${default_lng}`
       );
       lng = default_lng;
     }
@@ -105,11 +105,11 @@ const i18n = new (function () {
           return data.default;
         },
         (e) => {
-          console.log("failed to load language file " + lng, e);
+          console.log(`failed to load language file ${lng}`, e);
         }
       );
     } catch (e) {
-      console.log("failed to load language file " + lng, e);
+      console.log(`failed to load language file ${lng}`, e);
     }
   };
   this.translate_ui = function (element) {
@@ -126,7 +126,7 @@ const i18n = new (function () {
         const key = tmp[3];
         let val = i18n.t(key);
         const shortcut = $(element).attr("data-shortcut");
-        if (shortcut) val += " [" + shortcut + "]";
+        if (shortcut) val += ` [${shortcut}]`;
         if (what === "html") {
           $(element).html(val);
         } else if (what !== undefined) {

@@ -15,20 +15,20 @@ export default function autorepair(q, lng) {
     if (lng == "xml") {
       cs = q.match(/<!--[\s\S]*?-->/g) || [];
       for (let i = 0; i < cs.length; i++) {
-        placeholder = "<!--" + Base64.encode(Math.random().toString()) + "-->"; //todo: use some kind of checksum or hash maybe?
+        placeholder = `<!--${Base64.encode(Math.random().toString())}-->`; //todo: use some kind of checksum or hash maybe?
         q = q.replace(cs[i], placeholder);
         comments[placeholder] = cs[i];
       }
     } else {
       cs = q.match(/\/\*[\s\S]*?\*\//g) || []; // multiline comments: /*...*/
       for (let i = 0; i < cs.length; i++) {
-        placeholder = "/*" + Base64.encode(Math.random().toString()) + "*/"; //todo: use some kind of checksum or hash maybe?
+        placeholder = `/*${Base64.encode(Math.random().toString())}*/`; //todo: use some kind of checksum or hash maybe?
         q = q.replace(cs[i], placeholder);
         comments[placeholder] = cs[i];
       }
       cs = q.match(/\/\/[^\n]*/g) || []; // single line comments: //...
       for (let i = 0; i < cs.length; i++) {
-        placeholder = "/*" + Base64.encode(Math.random().toString()) + "*/"; //todo: use some kind of checksum or hash maybe?
+        placeholder = `/*${Base64.encode(Math.random().toString())}*/`; //todo: use some kind of checksum or hash maybe?
         q = q.replace(cs[i], placeholder);
         comments[placeholder] = cs[i];
       }
@@ -53,9 +53,9 @@ export default function autorepair(q, lng) {
         const from = $("print", $.parseXML(prints[i])).attr("from");
         let add1, add2, add3;
         if (from) {
-          add1 = ' into="' + from + '"';
-          add2 = ' set="' + from + '"';
-          add3 = ' from="' + from + '"';
+          add1 = ` into="${from}"`;
+          add2 = ` set="${from}"`;
+          add3 = ` from="${from}"`;
         } else {
           add1 = "";
           add2 = "";
@@ -63,54 +63,26 @@ export default function autorepair(q, lng) {
         }
         q = q.replace(
           prints[i],
-          "\n" +
-            ws +
-            "<!-- added by auto repair -->\n" +
-            ws +
-            "<union" +
-            add1 +
-            ">\n" +
-            ws +
-            "  <item" +
-            add2 +
-            "/>\n" +
-            ws +
-            "  <recurse" +
-            add3 +
-            ' type="down"/>\n' +
-            ws +
-            "</union>\n" +
-            ws +
-            "<!-- end of auto repair --><autorepair>" +
-            i +
-            "</autorepair>"
+          `\n${ws}<!-- added by auto repair -->\n${ws}<union${add1}>\n${ws}  <item${add2}/>\n${ws}  <recurse${add3} type="down"/>\n${ws}</union>\n${ws}<!-- end of auto repair --><autorepair>${i}</autorepair>`
         );
       }
       for (let i = 0; i < prints.length; i++)
-        q = q.replace("<autorepair>" + i + "</autorepair>", prints[i]);
+        q = q.replace(`<autorepair>${i}</autorepair>`, prints[i]);
     } else {
       const outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g) || [];
       for (let i = 0; i < outs.length; i++) {
         const ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
         const from = outs[i].match(/\.([^;.]+?)\s+out/);
         let add;
-        if (from)
-          add = "(." + from[1] + ";." + from[1] + " >;)->." + from[1] + ";";
+        if (from) add = `(.${from[1]};.${from[1]} >;)->.${from[1]};`;
         else add = "(._;>;);";
         q = q.replace(
           outs[i],
-          ws +
-            "/*added by auto repair*/" +
-            ws +
-            add +
-            ws +
-            "/*end of auto repair*/<autorepair>" +
-            i +
-            "</autorepair>"
+          `${ws}/*added by auto repair*/${ws}${add}${ws}/*end of auto repair*/<autorepair>${i}</autorepair>`
         );
       }
       for (let i = 0; i < outs.length; i++)
-        q = q.replace("<autorepair>" + i + "</autorepair>", outs[i]);
+        q = q.replace(`<autorepair>${i}</autorepair>`, outs[i]);
     }
     return true;
   };
@@ -122,11 +94,11 @@ export default function autorepair(q, lng) {
       if (src) {
         const output = $(
           "osm-script",
-          $.parseXML(src[0] + "</osm-script>")
+          $.parseXML(`${src[0]}</osm-script>`)
         ).attr("output");
         if (output && output != "xml") {
           const new_src = src[0].replace(output, "xml");
-          q = q.replace(src[0], new_src + "<!-- fixed by auto repair -->");
+          q = q.replace(src[0], `${new_src}<!-- fixed by auto repair -->`);
         }
       }
       // 2. fix <print mode=*
@@ -148,14 +120,7 @@ export default function autorepair(q, lng) {
           if (!out_set) {
             add = '<union><item/><recurse type="down"/></union>';
           } else {
-            add =
-              '<union into="' +
-              out_set +
-              '"><item set="' +
-              out_set +
-              '"/><recurse from="' +
-              out_set +
-              '" type="down"/></union>';
+            add = `<union into="${out_set}"><item set="${out_set}"/><recurse from="${out_set}" type="down"/></union>`;
           }
           repaired = true;
         }
@@ -200,21 +165,13 @@ export default function autorepair(q, lng) {
           new_print = new_print.replace(out_statement, new_out_statement);
           out_statement = new_out_statement;
           if (out_set) {
-            new_print =
-              "(." +
-              out_set +
-              ";." +
-              out_set +
-              " >;)->." +
-              out_set +
-              "; " +
-              new_print;
+            new_print = `(.${out_set};.${out_set} >;)->.${out_set}; ${new_print}`;
           } else {
-            new_print = "(._;>;); " + new_print;
+            new_print = `(._;>;); ${new_print}`;
           }
         }
         if (new_print != print)
-          q = q.replace(print, new_print + "/*fixed by auto repair*/");
+          q = q.replace(print, `${new_print}/*fixed by auto repair*/`);
       }
     }
     return true;
@@ -231,7 +188,7 @@ autorepair.detect.editors = function (q, lng) {
   const err = {};
   if (lng == "xml") {
     try {
-      const xml = $.parseXML("<x>" + q + "</x>");
+      const xml = $.parseXML(`<x>${q}</x>`);
       const out = $("osm-script", xml).attr("output");
       if (out !== undefined && out !== "xml") err.output = true;
       $("print", xml).each((i, p) => {

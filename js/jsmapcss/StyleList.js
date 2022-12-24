@@ -61,16 +61,16 @@ styleparser.StyleList.prototype = {
     let str = "";
     let k;
     for (k in this.shapeStyles) {
-      str += "- SS " + k + "=" + this.shapeStyles[k] + "\n";
+      str += `- SS ${k}=${this.shapeStyles[k]}\n`;
     }
     for (k in this.textStyles) {
-      str += "- TS " + k + "=" + this.textStyles[k] + "\n";
+      str += `- TS ${k}=${this.textStyles[k]}\n`;
     }
     for (k in this.pointStyles) {
-      str += "- PS " + k + "=" + this.pointStyles[k] + "\n";
+      str += `- PS ${k}=${this.pointStyles[k]}\n`;
     }
     for (k in this.shieldStyles) {
-      str += "- sS " + k + "=" + this.shieldStyles[k] + "\n";
+      str += `- sS ${k}=${this.shieldStyles[k]}\n`;
     }
     return str;
   },

@@ -16,6 +16,7 @@
     "no-empty": "off",
     "no-var": "warn",
     "prefer-const": "warn",
+    "prefer-template": "warn",
     "prefer-arrow-callback": "warn"
   }
 }

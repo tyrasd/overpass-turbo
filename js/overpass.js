@@ -71,15 +71,15 @@ const overpass = new (function () {
       // beautify not well formed xml queries (workaround for non matching error lines)
       if (!query.match(/^<\?xml/)) {
         if (!query.match(/<osm-script/))
-          query = "<osm-script>" + query + "</osm-script>";
-        query = '<?xml version="1.0" encoding="UTF-8"?>' + query;
+          query = `<osm-script>${query}</osm-script>`;
+        query = `<?xml version="1.0" encoding="UTF-8"?>${query}`;
       }
     }
     fire("onProgress", "calling Overpass API interpreter", (callback) => {
       // kill the query on abort
       overpass.ajax_request.abort();
       // try to abort queries via kill_my_queries
-      $.get(server + "kill_my_queries")
+      $.get(`${server}kill_my_queries`)
         .done(callback)
         .fail(() => {
           console.log("Warning: failed to kill query.");
@@ -96,10 +96,10 @@ const overpass = new (function () {
       const scale = Math.floor(Math.log(data_amount) / Math.log(10));
       data_amount =
         Math.round(data_amount / Math.pow(10, scale)) * Math.pow(10, scale);
-      if (data_amount < 1000) data_txt = data_amount + " bytes";
-      else if (data_amount < 1000000) data_txt = data_amount / 1000 + " kB";
-      else data_txt = data_amount / 1000000 + " MB";
-      fire("onProgress", "received about " + data_txt + " of data");
+      if (data_amount < 1000) data_txt = `${data_amount} bytes`;
+      else if (data_amount < 1000000) data_txt = `${data_amount / 1000} kB`;
+      else data_txt = `${data_amount / 1000000} MB`;
+      fire("onProgress", `received about ${data_txt} of data`);
       fire(
         "onDataReceived",
         data_amount,
@@ -189,12 +189,11 @@ const overpass = new (function () {
                   );
                 }
                 if (typeof data == "object" && jqXHR.responseXML)
-                  errmsg = "<p>" + $.trim($("remark", data).html()) + "</p>";
+                  errmsg = `<p>${$.trim($("remark", data).html())}</p>`;
                 if (typeof data == "object" && data.remark)
-                  errmsg =
-                    "<p>" +
-                    $("<div/>").text($.trim(data.remark)).html() +
-                    "</p>";
+                  errmsg = `<p>${$("<div/>")
+                    .text($.trim(data.remark))
+                    .html()}</p>`;
                 console.log("Overpass API error", fullerrmsg || errmsg); // write (full) error message to console for easier debugging
                 fire("onQueryError", errmsg);
                 data_mode = "error";
@@ -285,29 +284,30 @@ const overpass = new (function () {
                 }
               } catch (e) {
                 userMapCSS = "";
-                fire("onStyleError", "<p>" + e.message + "</p>");
+                fire("onStyleError", `<p>${e.message}</p>`);
               }
               const mapcss = new styleparser.RuleSet();
               mapcss.parseCSS(
-                "" +
-                  "node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n" +
+                `` +
+                  `node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n` +
                   // point features
-                  "node {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n" +
+                  `node {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n` +
                   // line features
-                  "line {color:#03f; width:5; opacity:0.6;} \n" +
+                  `line {color:#03f; width:5; opacity:0.6;} \n` +
                   // polygon features
-                  "area {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n" +
+                  `area {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n` +
                   // style modifications
                   // objects in relations
-                  "relation node, relation way, relation {color:#d0f;} \n" +
+                  `relation node, relation way, relation {color:#d0f;} \n` +
                   // tainted objects
-                  "way:tainted, relation:tainted {dashes:5,8;} \n" +
+                  `way:tainted, relation:tainted {dashes:5,8;} \n` +
                   // placeholder points
-                  "way:placeholder, relation:placeholder {fill-color:#f22;} \n" +
+                  `way:placeholder, relation:placeholder {fill-color:#f22;} \n` +
                   // highlighted features
-                  "node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n" +
-                  // user supplied mapcss
-                  userMapCSS
+                  `node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n${
+                    // user supplied mapcss
+                    userMapCSS
+                  }`
               );
               const get_feature_style = function (feature, highlight) {
                 function hasInterestingTags(props) {
@@ -382,7 +382,7 @@ const overpass = new (function () {
                     highlight ? {":active": true} : {},
                     (function (tags, meta, id) {
                       const res = {"@id": id};
-                      for (const key in meta) res["@" + key] = meta[key];
+                      for (const key in meta) res[`@${key}`] = meta[key];
                       for (const key in tags)
                         res[key.replace(/^@/, "@@")] = tags[key];
                       return res;
@@ -643,33 +643,13 @@ const overpass = new (function () {
                     layer.on("click", function (e) {
                       let popup = "";
                       if (feature.properties.type == "node")
-                        popup +=
-                          "<h4 class='title is-4'>Node <a href='//www.openstreetmap.org/node/" +
-                          feature.properties.id +
-                          "' target='_blank'>" +
-                          feature.properties.id +
-                          "</a></h4>";
+                        popup += `<h4 class='title is-4'>Node <a href='//www.openstreetmap.org/node/${feature.properties.id}' target='_blank'>${feature.properties.id}</a></h4>`;
                       else if (feature.properties.type == "way")
-                        popup +=
-                          "<h4 class='title is-4'>Way <a href='//www.openstreetmap.org/way/" +
-                          feature.properties.id +
-                          "' target='_blank'>" +
-                          feature.properties.id +
-                          "</a></h4>";
+                        popup += `<h4 class='title is-4'>Way <a href='//www.openstreetmap.org/way/${feature.properties.id}' target='_blank'>${feature.properties.id}</a></h4>`;
                       else if (feature.properties.type == "relation")
-                        popup +=
-                          "<h4 class='title is-4'>Relation <a href='//www.openstreetmap.org/relation/" +
-                          feature.properties.id +
-                          "' target='_blank'>" +
-                          feature.properties.id +
-                          "</a></h4>";
+                        popup += `<h4 class='title is-4'>Relation <a href='//www.openstreetmap.org/relation/${feature.properties.id}' target='_blank'>${feature.properties.id}</a></h4>`;
                       else
-                        popup +=
-                          "<h5 class='subtitle is-5'>" +
-                          feature.properties.type +
-                          " #" +
-                          feature.properties.id +
-                          "</h5>";
+                        popup += `<h5 class='subtitle is-5'>${feature.properties.type} #${feature.properties.id}</h5>`;
                       if (
                         feature.properties &&
                         feature.properties.tags &&
@@ -677,10 +657,9 @@ const overpass = new (function () {
                       ) {
                         popup += "<h5 class='subtitle is-5'>Tags";
                         if (typeof Object.keys === "function") {
-                          popup +=
-                            ' <span class="tag is-info is-light">' +
-                            Object.keys(feature.properties.tags).length +
-                            "</span>";
+                          popup += ` <span class="tag is-info is-light">${
+                            Object.keys(feature.properties.tags).length
+                          }</span>`;
                         }
                         popup += "</h5><ul>";
                         $.each(feature.properties.tags, (k, v) => {
@@ -696,14 +675,10 @@ const overpass = new (function () {
                             urls.forEach((url) => {
                               const href = url.match(/^(https?|ftp):\/\//)
                                 ? url
-                                : "http://" + url;
+                                : `http://${url}`;
                               v = v.replace(
                                 url,
-                                '<a href="' +
-                                  href +
-                                  '" target="_blank">' +
-                                  url +
-                                  "</a>"
+                                `<a href="${href}" target="_blank">${url}</a>`
                               );
                             });
                           } else {
@@ -722,24 +697,11 @@ const overpass = new (function () {
                               (wiki_lang = v.match(/^([a-zA-Z]+):(.*)$/)) &&
                               (wiki_page = wiki_lang[2]))
                           )
-                            v =
-                              '<a href="//' +
-                              wiki_lang[1] +
-                              ".wikipedia.org/wiki/" +
-                              wiki_page +
-                              '" target="_blank">' +
-                              v +
-                              "</a>";
+                            v = `<a href="//${wiki_lang[1]}.wikipedia.org/wiki/${wiki_page}" target="_blank">${v}</a>`;
                           // hyperlinks for wikidata entries
                           if (k.match(/(^|:)wikidata$/))
                             v = v.replace(/Q[0-9]+/g, (q) => {
-                              return (
-                                '<a href="//www.wikidata.org/wiki/' +
-                                q +
-                                '" target="_blank">' +
-                                q +
-                                "</a>"
-                              );
+                              return `<a href="//www.wikidata.org/wiki/${q}" target="_blank">${q}</a>`;
                             });
                           // hyperlinks for wikimedia-commons entries
                           let wikimediacommons_page;
@@ -749,14 +711,7 @@ const overpass = new (function () {
                               /^(Category|File):(.*)/
                             ))
                           )
-                            v =
-                              '<a href="//commons.wikimedia.org/wiki/' +
-                              wikimediacommons_page[1] +
-                              ":" +
-                              wikimediacommons_page[2] +
-                              '" target="_blank">' +
-                              v +
-                              "</a>";
+                            v = `<a href="//commons.wikimedia.org/wiki/${wikimediacommons_page[1]}:${wikimediacommons_page[2]}" target="_blank">${v}</a>`;
                           // hyperlinks for mapillary entries
                           let mapillary_page;
                           if (
@@ -765,19 +720,9 @@ const overpass = new (function () {
                             (k.match(/^mapillary:/) &&
                               (mapillary_page = v.match(/^[-a-zA-Z0-9_]+$/)))
                           )
-                            v =
-                              '<a href="https://www.mapillary.com/app?focus=photo&pKey=' +
-                              mapillary_page[0] +
-                              '" target="_blank">' +
-                              v +
-                              "</a>";
+                            v = `<a href="https://www.mapillary.com/app?focus=photo&pKey=${mapillary_page[0]}" target="_blank">${v}</a>`;
 
-                          popup +=
-                            "<li><span class='is-family-monospace'>" +
-                            k +
-                            " = " +
-                            v +
-                            "</span></li>";
+                          popup += `<li><span class='is-family-monospace'>${k} = ${v}</span></li>`;
                         });
                         popup += "</ul>";
                       }
@@ -788,40 +733,30 @@ const overpass = new (function () {
                       ) {
                         popup += "<h3 class='title is-4'>Relations";
                         if (typeof Object.keys === "function") {
-                          popup +=
-                            ' <span class="tag is-info is-light">' +
-                            Object.keys(feature.properties.relations).length +
-                            "</span>";
+                          popup += ` <span class="tag is-info is-light">${
+                            Object.keys(feature.properties.relations).length
+                          }</span>`;
                         }
                         popup += "</h3><ul>";
                         $.each(feature.properties.relations, (k, v) => {
-                          popup +=
-                            "<li><a href='//www.openstreetmap.org/relation/" +
-                            v["rel"] +
-                            "' target='_blank'>" +
-                            v["rel"] +
-                            "</a>";
+                          popup += `<li><a href='//www.openstreetmap.org/relation/${v["rel"]}' target='_blank'>${v["rel"]}</a>`;
                           if (
                             v.reltags &&
                             (v.reltags.name || v.reltags.ref || v.reltags.type)
                           )
-                            popup +=
-                              " <i>" +
-                              $.trim(
-                                (v.reltags.type
-                                  ? htmlentities(v.reltags.type) + " "
+                            popup += ` <i>${$.trim(
+                              (v.reltags.type
+                                ? `${htmlentities(v.reltags.type)} `
+                                : "") +
+                                (v.reltags.ref
+                                  ? `${htmlentities(v.reltags.ref)} `
                                   : "") +
-                                  (v.reltags.ref
-                                    ? htmlentities(v.reltags.ref) + " "
-                                    : "") +
-                                  (v.reltags.name
-                                    ? htmlentities(v.reltags.name) + " "
-                                    : "")
-                              ) +
-                              "</i>";
+                                (v.reltags.name
+                                  ? `${htmlentities(v.reltags.name)} `
+                                  : "")
+                            )}</i>`;
                           if (v["role"])
-                            popup +=
-                              " as <i>" + htmlentities(v["role"]) + "</i>";
+                            popup += ` as <i>${htmlentities(v["role"])}</i>`;
                           popup += "</li>";
                         });
                         popup += "</ul>";
@@ -836,25 +771,10 @@ const overpass = new (function () {
                           k = htmlentities(k);
                           v = htmlentities(v);
                           if (k == "user")
-                            v =
-                              '<a href="//www.openstreetmap.org/user/' +
-                              v +
-                              '" target="_blank">' +
-                              v +
-                              "</a>";
+                            v = `<a href="//www.openstreetmap.org/user/${v}" target="_blank">${v}</a>`;
                           if (k == "changeset")
-                            v =
-                              '<a href="//www.openstreetmap.org/changeset/' +
-                              v +
-                              '" target="_blank">' +
-                              v +
-                              "</a>";
-                          popup +=
-                            "<li><span class='is-family-monospace'>" +
-                            k +
-                            " = " +
-                            v +
-                            "</span></li>";
+                            v = `<a href="//www.openstreetmap.org/changeset/${v}" target="_blank">${v}</a>`;
+                          popup += `<li><span class='is-family-monospace'>${k} = ${v}</span></li>`;
                         });
                         popup += "</ul>";
                       }
@@ -1032,7 +952,7 @@ const overpass = new (function () {
       onSuccessCb.apply(this, cache[query]);
     } else {
       overpass.ajax_request_start = Date.now();
-      overpass.ajax_request = $.ajax(server + "interpreter", {
+      overpass.ajax_request = $.ajax(`${server}interpreter`, {
         type: "POST",
         data: {data: query},
         success: onSuccessCb,
@@ -1057,17 +977,12 @@ const overpass = new (function () {
           if (textStatus == "parsererror")
             errmsg += "<p>Error while parsing the data (parsererror).</p>";
           else if (textStatus != "error" && textStatus != jqXHR.statusText)
-            errmsg += "<p>Error-Code: " + textStatus + "</p>";
+            errmsg += `<p>Error-Code: ${textStatus}</p>`;
           if (
             (jqXHR.status != 0 && jqXHR.status != 200) ||
             jqXHR.statusText != "OK" // note to me: jqXHR.status "should" give http status codes
           )
-            errmsg +=
-              "<p>Error-Code: " +
-              jqXHR.statusText +
-              " (" +
-              jqXHR.status +
-              ")</p>";
+            errmsg += `<p>Error-Code: ${jqXHR.statusText} (${jqXHR.status})</p>`;
           fire("onAjaxError", errmsg);
           // closing wait spinner
           fire("onDone");

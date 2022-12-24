@@ -48,6 +48,6 @@ styleparser.Condition.prototype = {
   },
 
   toString: function () {
-    return "[" + this.type + ": " + this.params + "]";
+    return `[${this.type}: ${this.params}]`;
   }
 };

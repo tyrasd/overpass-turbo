@@ -138,15 +138,14 @@ styleparser.RuleSet.prototype = {
         css = css.replace(this.UNKNOWN, "");
         // TODO: own error class
         throw new Error(
-          'Error while parsing MapCSS at "' +
-            o[1] +
-            (css.length > 38 ? css.substr(0, 36) + "..." : css) +
-            '"'
+          `Error while parsing MapCSS at "${o[1]}${
+            css.length > 38 ? `${css.substr(0, 36)}...` : css
+          }"`
         );
         // console.log("unknown: "+o[1]);
       } else {
         // console.log("choked on "+css);
-        throw new Error("MapCSS parsing choked on " + css);
+        throw new Error(`MapCSS parsing choked on ${css}`);
       }
     }
     if (previous == this.oDECLARATION) {
@@ -335,16 +334,12 @@ styleparser.RuleSet.prototype = {
         if (match[1].length == 3) {
           // repeat digits. #abc => 0xaabbcc
           return Number(
-            "0x" +
-              match[1].charAt(0) +
-              match[1].charAt(0) +
-              match[1].charAt(1) +
-              match[1].charAt(1) +
-              match[1].charAt(2) +
-              match[1].charAt(2)
+            `0x${match[1].charAt(0)}${match[1].charAt(0)}${match[1].charAt(
+              1
+            )}${match[1].charAt(1)}${match[1].charAt(2)}${match[1].charAt(2)}`
           );
         } else if (match[1].length == 6) {
-          return Number("0x" + match[1]);
+          return Number(`0x${match[1]}`);
         } else {
           return Number("0x000000"); //as good as any
         }

@@ -52,14 +52,6 @@ styleparser.Rule.prototype = {
   },
 
   toString: function () {
-    return (
-      this.subject +
-      " z" +
-      this.minZoom +
-      "-" +
-      this.maxZoom +
-      ": " +
-      this.conditions
-    );
+    return `${this.subject} z${this.minZoom}-${this.maxZoom}: ${this.conditions}`;
   }
 };

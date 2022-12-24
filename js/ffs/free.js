@@ -66,8 +66,8 @@ export default function ffs_free(callback) {
         if (oriPresetName) preset.terms.unshift(oriPresetName);
       });
     } catch (err) {
-      console.warn("failed to load preset translations file: " + language, err);
-      throw new Error("failed to load preset translations file: " + language);
+      console.warn(`failed to load preset translations file: ${language}`, err);
+      throw new Error(`failed to load preset translations file: ${language}`);
     }
   }
 }
@@ -108,7 +108,7 @@ freeFormQuery.get_query_clause = function (condition) {
         types.push("relation");
         break;
       default:
-        console.log("unknown geometry type " + g + " of preset " + preset.name);
+        console.log(`unknown geometry type ${g} of preset ${preset.name}`);
     }
   });
   function onlyUnique(value, index, self) {

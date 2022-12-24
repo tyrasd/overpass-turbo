@@ -37,49 +37,49 @@ describe("ide.ffs", () => {
     it("key=*", async () => {
       const search = "foo=*";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"](bbox);` + `);${out_str}`
       );
     });
     // not key
     it("key!=*", async () => {
       const search = "foo!=*";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"!~".*"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"!~".*"](bbox);` + `);${out_str}`
       );
     });
     // key-value
     it("key=value", async () => {
       const search = "foo=bar";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"="bar"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"="bar"](bbox);` + `);${out_str}`
       );
     });
     // not key-value
     it("key!=value", async () => {
       const search = "foo!=bar";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"!="bar"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"!="bar"](bbox);` + `);${out_str}`
       );
     });
     // regex key-value
     it("key~value", async () => {
       const search = "foo~bar";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"~"bar"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"~"bar"](bbox);` + `);${out_str}`
       );
     });
     // regex key
     it("~key~value", async () => {
       const search = "~foo~bar";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr[~"foo"~"bar"](bbox);' + ");" + out_str
+        `(` + `nwr[~"foo"~"bar"](bbox);` + `);${out_str}`
       );
     });
     // not regex key-value
     it("key!~value", async () => {
       const search = "foo!~bar";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"!~"bar"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"!~"bar"](bbox);` + `);${out_str}`
       );
     });
     // susbtring key-value
@@ -87,12 +87,12 @@ describe("ide.ffs", () => {
       // normal case: just do a regex search
       let search = "foo:bar";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"~"bar"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"~"bar"](bbox);` + `);${out_str}`
       );
       // but also escape special characters
       search = "foo:'*'";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"~"\\\\*"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"~"\\\\*"](bbox);` + `);${out_str}`
       );
     });
   });
@@ -105,26 +105,26 @@ describe("ide.ffs", () => {
         // double-quoted string
         const search = '"a key"="a value"';
         await expect(construct_query(search)).resolves.to.equal(
-          "(" + 'nwr["a key"="a value"](bbox);' + ");" + out_str
+          `(` + `nwr["a key"="a value"](bbox);` + `);${out_str}`
         );
       });
       it("single-quoted string", async () => {
         // single-quoted string
         const search = "'foo bar'='asd fasd'";
         await expect(construct_query(search)).resolves.to.equal(
-          "(" + 'nwr["foo bar"="asd fasd"](bbox);' + ");" + out_str
+          `(` + `nwr["foo bar"="asd fasd"](bbox);` + `);${out_str}`
         );
       });
       it("quoted unicode string", async () => {
         const search = "name='بیجنگ'";
         await expect(construct_query(search)).resolves.to.equal(
-          "(" + 'nwr["name"="بیجنگ"](bbox);' + ");" + out_str
+          `(` + `nwr["name"="بیجنگ"](bbox);` + `);${out_str}`
         );
       });
       it("unicode string", async () => {
         const search = "name=Béziers";
         await expect(construct_query(search)).resolves.to.equal(
-          "(" + 'nwr["name"="Béziers"](bbox);' + ");" + out_str
+          `(` + `nwr["name"="Béziers"](bbox);` + `);${out_str}`
         );
       });
     });
@@ -133,12 +133,12 @@ describe("ide.ffs", () => {
       // simple regex
       let search = "foo~/bar/";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"~"bar"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"~"bar"](bbox);` + `);${out_str}`
       );
       // simple regex with modifier
       search = "foo~/bar/i";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"~"bar",i](bbox);' + ");" + out_str
+        `(` + `nwr["foo"~"bar",i](bbox);` + `);${out_str}`
       );
     });
   });
@@ -149,63 +149,59 @@ describe("ide.ffs", () => {
     it("logical and", async () => {
       const search = "foo=bar and asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"="bar"]["asd"="fasd"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"="bar"]["asd"="fasd"](bbox);` + `);${out_str}`
       );
     });
     it("logical and (& operator)", async () => {
       const search = "foo=bar & asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"="bar"]["asd"="fasd"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"="bar"]["asd"="fasd"](bbox);` + `);${out_str}`
       );
     });
     it("logical and (&& operator)", async () => {
       const search = "foo=bar && asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["foo"="bar"]["asd"="fasd"](bbox);' + ");" + out_str
+        `(` + `nwr["foo"="bar"]["asd"="fasd"](bbox);` + `);${out_str}`
       );
     });
     // logical or
     it("logical or", async () => {
       const search = "foo=bar or asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" +
-          'nwr["foo"="bar"](bbox);' +
-          'nwr["asd"="fasd"](bbox);' +
-          ");" +
-          out_str
+        `(` +
+          `nwr["foo"="bar"](bbox);` +
+          `nwr["asd"="fasd"](bbox);` +
+          `);${out_str}`
       );
     });
     it("logical or (| operator)", async () => {
       const search = "foo=bar | asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" +
-          'nwr["foo"="bar"](bbox);' +
-          'nwr["asd"="fasd"](bbox);' +
-          ");" +
-          out_str
+        `(` +
+          `nwr["foo"="bar"](bbox);` +
+          `nwr["asd"="fasd"](bbox);` +
+          `);${out_str}`
       );
     });
     it("logical or (|| operator)", async () => {
       const search = "foo=bar || asd=fasd";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" +
-          'nwr["foo"="bar"](bbox);' +
-          'nwr["asd"="fasd"](bbox);' +
-          ");" +
-          out_str
+        `(` +
+          `nwr["foo"="bar"](bbox);` +
+          `nwr["asd"="fasd"](bbox);` +
+          `);${out_str}`
       );
     });
     // boolean expression
     it("boolean expression", async () => {
       const search = "(foo=* or bar=*) and (asd=* or fasd=*)";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" +
-          'nwr["foo"]["asd"](bbox);' +
-          'nwr["foo"]["fasd"](bbox);' +
-          'nwr["bar"]["asd"](bbox);' +
-          'nwr["bar"]["fasd"](bbox);' +
-          ");" +
-          out_str
+        `(` +
+          `nwr["foo"]["asd"](bbox);` +
+          `nwr["foo"]["fasd"](bbox);` +
+          `nwr["bar"]["asd"](bbox);` +
+          `nwr["bar"]["fasd"](bbox);` +
+          `);${out_str}`
       );
     });
   });
@@ -217,21 +213,20 @@ describe("ide.ffs", () => {
       // simple
       let search = "foo=bar and type:node";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'node["foo"="bar"](bbox);' + ");" + out_str
+        `(` + `node["foo"="bar"](bbox);` + `);${out_str}`
       );
       // multiple types
       search = "foo=bar and (type:node or type:way)";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" +
-          'node["foo"="bar"](bbox);' +
-          'way["foo"="bar"](bbox);' +
-          ");" +
-          out_str
+        `(` +
+          `node["foo"="bar"](bbox);` +
+          `way["foo"="bar"](bbox);` +
+          `);${out_str}`
       );
       // excluding types
       search = "foo=bar and type:node and type:way";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + ");" + out_str
+        `(` + `);${out_str}`
       );
     });
     // newer
@@ -239,12 +234,12 @@ describe("ide.ffs", () => {
       // regular
       let search = 'newer:"2000-01-01T01:01:01Z" and type:node';
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'node(newer:"2000-01-01T01:01:01Z")(bbox);' + ");" + out_str
+        `(` + `node(newer:"2000-01-01T01:01:01Z")(bbox);` + `);${out_str}`
       );
       // relative
       search = "newer:1day and type:node";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'node(newer:"date:1day")(bbox);' + ");" + out_str
+        `(` + `node(newer:"date:1day")(bbox);` + `);${out_str}`
       );
     });
     // user
@@ -252,12 +247,12 @@ describe("ide.ffs", () => {
       // user name
       let search = "user:foo and type:node";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'node(user:"foo")(bbox);' + ");" + out_str
+        `(` + `node(user:"foo")(bbox);` + `);${out_str}`
       );
       // uid
       search = "uid:123 and type:node";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + "node(uid:123)(bbox);" + ");" + out_str
+        `(` + `node(uid:123)(bbox);` + `);${out_str}`
       );
     });
     // id
@@ -265,12 +260,12 @@ describe("ide.ffs", () => {
       // with type
       let search = "id:123 and type:node";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + "node(123)(bbox);" + ");" + out_str
+        `(` + `node(123)(bbox);` + `);${out_str}`
       );
       // without type
       search = "id:123";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + "nwr(123)(bbox);" + ");" + out_str
+        `(` + `nwr(123)(bbox);` + `);${out_str}`
       );
     });
   });
@@ -281,7 +276,7 @@ describe("ide.ffs", () => {
     it("global", async () => {
       const search = "foo=bar and type:node global";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'node["foo"="bar"];' + ");" + out_str
+        `(` + `node["foo"="bar"];` + `);${out_str}`
       );
     });
     // bbox
@@ -289,30 +284,29 @@ describe("ide.ffs", () => {
       // implicit
       let search = "type:node";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + "node(bbox);" + ");" + out_str
+        `(` + `node(bbox);` + `);${out_str}`
       );
       // explicit
       search = "type:node in bbox";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + "node(bbox);" + ");" + out_str
+        `(` + `node(bbox);` + `);${out_str}`
       );
     });
     // area
     it("in area", async () => {
       const search = "type:node in foobar";
       await expect(construct_query(search)).resolves.to.equal(
-        "area(foobar)->.searchArea;" +
-          "(" +
-          "node(area.searchArea);" +
-          ");" +
-          out_str
+        `area(foobar)->.searchArea;` +
+          `(` +
+          `node(area.searchArea);` +
+          `);${out_str}`
       );
     });
     // around
     it("around", async () => {
       const search = "type:node around foobar";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + "node(around:,coords:foobar);" + ");" + out_str
+        `(` + `node(around:,coords:foobar);` + `);${out_str}`
       );
     });
   });
@@ -351,19 +345,19 @@ describe("ide.ffs", () => {
     it("preset (points, key-value)", async () => {
       const search = "Shelter";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'node["amenity"="shelter"](bbox);' + ");" + out_str
+        `(` + `node["amenity"="shelter"](bbox);` + `);${out_str}`
       );
     });
     it("preset (points, areas, key-value)", async () => {
       const search = "Hospital";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'nwr["amenity"="hospital"](bbox);' + ");" + out_str
+        `(` + `nwr["amenity"="hospital"](bbox);` + `);${out_str}`
       );
     });
     it("preset (lines, key=*)", async () => {
       const search = "Highway";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'way["highway"](bbox);' + ");" + out_str
+        `(` + `way["highway"](bbox);` + `);${out_str}`
       );
     });
   });
@@ -374,40 +368,38 @@ describe("ide.ffs", () => {
     it("empty value", async () => {
       const search = "foo='' and type:way";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'way["foo"~"^$"](bbox);' + ");" + out_str
+        `(` + `way["foo"~"^$"](bbox);` + `);${out_str}`
       );
     });
     // empty key
     it("empty key", async () => {
       let search = "''=bar and type:way";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'way[~"^$"~"^bar$"](bbox);' + ");" + out_str
+        `(` + `way[~"^$"~"^bar$"](bbox);` + `);${out_str}`
       );
       // make sure stuff in the value section gets escaped properly
       search = "''='*' and type:way";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" + 'way[~"^$"~"^\\\\*$"](bbox);' + ");" + out_str
+        `(` + `way[~"^$"~"^\\\\*$"](bbox);` + `);${out_str}`
       );
       // does also work for =*, ~ and : searches
       search = "(''=* or ''~/.../) and type:way";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" +
-          'way[~"^$"~".*"](bbox);' +
-          'way[~"^$"~"..."](bbox);' +
-          ");" +
-          out_str
+        `(` +
+          `way[~"^$"~".*"](bbox);` +
+          `way[~"^$"~"..."](bbox);` +
+          `);${out_str}`
       );
     });
     // newlines, tabs
     it("newlines, tabs", async () => {
       const search = "(foo='\t' or foo='\n' or asd='\\t') and type:way";
       await expect(construct_query(search)).resolves.to.equal(
-        "(" +
-          'way["foo"="\\t"](bbox);' +
-          'way["foo"="\\n"](bbox);' +
-          'way["asd"="\\t"](bbox);' +
-          ");" +
-          out_str
+        `(` +
+          `way["foo"="\\t"](bbox);` +
+          `way["foo"="\\n"](bbox);` +
+          `way["asd"="\\t"](bbox);` +
+          `);${out_str}`
       );
     });
   });

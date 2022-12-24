@@ -11,9 +11,8 @@ export default function () {
   function request(search, callback) {
     // ajax (GET) request to nominatim
     $.ajax(
-      "https://nominatim.openstreetmap.org/search" +
-        "?X-Requested-With=" +
-        configs.appname,
+      `https://nominatim.openstreetmap.org/search` +
+        `?X-Requested-With=${configs.appname}`,
       {
         data: {
           format: "json",

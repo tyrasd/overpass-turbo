@@ -39,10 +39,10 @@ export default function query() {
         if (typeof shortcuts[s_name] === "function") {
           shortcuts[s_name](s_instr, (res) => {
             const seed = Math.round(Math.random() * Math.pow(2, 22)); // todo: use some kind of checksum of s_instr if possible
-            shortcuts["__statement__" + s_name + "__" + seed] = res;
+            shortcuts[`__statement__${s_name}__${seed}`] = res;
             query = query.replace(
               s[0],
-              "{{__statement__" + s_name + "__" + seed + ":" + s_instr + "}}"
+              `{{__statement__${s_name}__${seed}:${s_instr}}}`
             );
             // recursively call the parser with updated shortcuts
             parser.parse(query, shortcuts, callback, statements);

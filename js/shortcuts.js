@@ -15,19 +15,16 @@ function map2bbox(lang) {
   const lat2 = Math.min(Math.max(bbox.getNorthEast().lat, -90), 90);
   const lng1 = Math.min(Math.max(bbox.getSouthWest().lng, -180), 180);
   const lng2 = Math.min(Math.max(bbox.getNorthEast().lng, -180), 180);
-  if (lang == "OverpassQL") return lat1 + "," + lng1 + "," + lat2 + "," + lng2;
+  if (lang == "OverpassQL") return `${lat1},${lng1},${lat2},${lng2}`;
   else if (lang == "xml")
-    return (
-      's="' + lat1 + '" w="' + lng1 + '" n="' + lat2 + '" e="' + lng2 + '"'
-    );
+    return `s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`;
 }
 
 // returns the current visible map center as a coord-query
 function map2coord(lang) {
   const center = ide.map.getCenter();
-  if (lang == "OverpassQL") return center.lat + "," + center.lng;
-  else if (lang == "xml")
-    return 'lat="' + center.lat + '" lon="' + center.lng + '"';
+  if (lang == "OverpassQL") return `${center.lat},${center.lng}`;
+  else if (lang == "xml") return `lat="${center.lat}" lon="${center.lng}"`;
 }
 
 // converts relative time to ISO time string
@@ -89,9 +86,8 @@ function geocodeId(instr, callback) {
   }
   nominatim.getBest(instr, filter, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Id");
-    if (lang == "OverpassQL") res = res.osm_type + "(" + res.osm_id + ")";
-    else if (lang == "xml")
-      res = 'type="' + res.osm_type + '" ref="' + res.osm_id + '"';
+    if (lang == "OverpassQL") res = `${res.osm_type}(${res.osm_id})`;
+    else if (lang == "xml") res = `type="${res.osm_type}" ref="${res.osm_id}"`;
     callback(res);
   });
 }
@@ -109,12 +105,12 @@ function geocodeArea(instr, callback) {
       // Do not +2400000000 for ways since version 0.7.57,
       // for backward compatibility query both IDs, see
       // https://github.com/tyrasd/overpass-turbo/issues/537
-      if (res.osm_type === "way") area_ref += "," + res.osm_id;
-      return callback("area(id:" + area_ref + ")");
+      if (res.osm_type === "way") area_ref += `,${res.osm_id}`;
+      return callback(`area(id:${area_ref})`);
     } else if (lang == "xml") {
       // https://github.com/tyrasd/overpass-turbo/issues/537
-      if (res.osm_type === "way") area_ref += '" ref_1="' + res.osm_id;
-      return callback('type="area" ref="' + area_ref + '"');
+      if (res.osm_type === "way") area_ref += `" ref_1="${res.osm_id}`;
+      return callback(`type="area" ref="${area_ref}"`);
     }
   });
 }
@@ -126,10 +122,9 @@ function geocodeBbox(instr, callback) {
     const lat2 = Math.min(Math.max(res.boundingbox[1], -90), 90);
     const lng1 = Math.min(Math.max(res.boundingbox[2], -180), 180);
     const lng2 = Math.min(Math.max(res.boundingbox[3], -180), 180);
-    if (lang == "OverpassQL") res = lat1 + "," + lng1 + "," + lat2 + "," + lng2;
+    if (lang == "OverpassQL") res = `${lat1},${lng1},${lat2},${lng2}`;
     else if (lang == "xml")
-      res =
-        's="' + lat1 + '" w="' + lng1 + '" n="' + lat2 + '" e="' + lng2 + '"';
+      res = `s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`;
     callback(res);
   });
 }
@@ -137,8 +132,8 @@ function geocodeCoords(instr, callback) {
   const lang = ide.getQueryLang();
   nominatim.getBest(instr, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Coords");
-    if (lang == "OverpassQL") res = res.lat + "," + res.lon;
-    else if (lang == "xml") res = 'lat="' + res.lat + '" lon="' + res.lon + '"';
+    if (lang == "OverpassQL") res = `${res.lat},${res.lon}`;
+    else if (lang == "xml") res = `lat="${res.lat}" lon="${res.lon}"`;
     callback(res);
   });
 }
@@ -161,7 +156,7 @@ export default function shortcuts() {
         ? geocodeId
         : function (instr, callback) {
             geocodeId(instr, (result) => {
-              callback(result + ";");
+              callback(`${result};`);
             });
           },
     nominatimArea:
@@ -169,7 +164,7 @@ export default function shortcuts() {
         ? geocodeArea
         : function (instr, callback) {
             geocodeArea(instr, (result) => {
-              callback(result + ";");
+              callback(`${result};`);
             });
           },
     nominatimBbox: geocodeBbox,

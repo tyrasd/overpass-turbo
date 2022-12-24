@@ -5,7 +5,7 @@ import configs from "./configs";
 
 function Settings(namespace, version) {
   // == private members ==
-  const prefix = namespace + "_";
+  const prefix = `${namespace}_`;
   let ls = {
     setItem: function (n, v) {
       this[n] = v;
@@ -18,14 +18,14 @@ function Settings(namespace, version) {
     }
   };
   try {
-    localStorage.setItem(prefix + "test", 123);
-    localStorage.removeItem(prefix + "test");
+    localStorage.setItem(`${prefix}test`, 123);
+    localStorage.removeItem(`${prefix}test`);
     ls = localStorage;
   } catch (e) {
     console.trace(e);
   }
   const settings_version = version;
-  version = +ls.getItem(prefix + "version");
+  version = +ls.getItem(`${prefix}version`);
   const settings = {};
   const upgrade_callbacks = [];
 
@@ -73,7 +73,7 @@ function Settings(namespace, version) {
           upgrade_callbacks[v](this);
       }
       version = settings_version;
-      ls.setItem(prefix + "version", version);
+      ls.setItem(`${prefix}version`, version);
     }
   };
   this.save = function () {
@@ -87,7 +87,7 @@ function Settings(namespace, version) {
       localStorage.removeItem(prefix + name);
       delete settings[name];
     }
-    localStorage.removeItem(prefix + "version");
+    localStorage.removeItem(`${prefix}version`);
   };
 }
 // examples

@@ -44,7 +44,7 @@ $(document).ready(() => {
 
   // some initalizations
   $.fn.dialog = function () {
-    alert("error :( " + $(this).html());
+    alert(`error :( ${$(this).html()}`);
   };
   configs.appname = "overpass-ide-map";
   const settings = {
@@ -158,9 +158,7 @@ $(document).ready(() => {
   // overpass functionality
   overpass.handlers["onEmptyMap"] = function (empty_msg) {
     $(
-      '<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>(' +
-        empty_msg +
-        ")</small></div>"
+      `<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>(${empty_msg})</small></div>`
     ).appendTo("#map");
   };
   if (settings.silent) {
@@ -179,14 +177,12 @@ $(document).ready(() => {
   } else {
     overpass.handlers["onAjaxError"] = function (errmsg) {
       alert(
-        "An error occured during the execution of the overpass query!\n" +
-          errmsg
+        `An error occured during the execution of the overpass query!\n${errmsg}`
       );
     };
     overpass.handlers["onQueryError"] = function (errmsg) {
       alert(
-        "An error occured during the execution of the overpass query!\nThis is what overpass API returned:\n" +
-          errmsg
+        `An error occured during the execution of the overpass query!\nThis is what overpass API returned:\n${errmsg}`
       );
     };
   }

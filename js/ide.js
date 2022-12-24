@@ -66,10 +66,8 @@ const ide = new (function () {
       return $("<li>")
         .append(
           deletables && deletables.indexOf(item.value) !== -1
-            ? '<div title="shift-click to remove from list" style="font-style:italic;">' +
-                item.label +
-                "</div>"
-            : "<div>" + item.label + "</div>"
+            ? `<div title="shift-click to remove from list" style="font-style:italic;">${item.label}</div>`
+            : `<div>${item.label}</div>`
         )
         .on("click", function (event) {
           if (event.shiftKey && deletables.indexOf(item.value) !== -1) {
@@ -107,21 +105,16 @@ const ide = new (function () {
   }; // make_combobox()
 
   const showDialog = function (title, content, buttons) {
-    const dialogContent =
-      '\
+    const dialogContent = `\
       <div class="modal is-active">\
         <div class="modal-background"></div>\
         <div class="modal-card">\
           <header class="modal-card-head">\
-            <p class="modal-card-title">' +
-      title +
-      '</p>\
+            <p class="modal-card-title">${title}</p>\
             <button class="delete" aria-label="close"></button>\
           </header>\
           <section class="modal-card-body">\
-            ' +
-      content +
-      '\
+            ${content}\
           </section>\
           <footer class="modal-card-foot">\
             <div class="level">\
@@ -133,7 +126,7 @@ const ide = new (function () {
           </footer>\
         </div>\
       </div>\
-    ';
+    `;
 
     // Create modal in body
     const element = $(dialogContent);
@@ -145,7 +138,7 @@ const ide = new (function () {
     // Add all the buttons
     for (const index in buttons) {
       const button = buttons[index];
-      $('<button class="button">' + button.name + "</button>")
+      $(`<button class="button">${button.name}</button>`)
         .click(
           (function (callback) {
             return function () {
@@ -178,16 +171,15 @@ const ide = new (function () {
         $(".wait-info").hide();
       }
       $("#loading-dialog").addClass("is-active");
-      document.title = ide.waiter.frames[0] + " " + ide.waiter._initialTitle;
+      document.title = `${ide.waiter.frames[0]} ${ide.waiter._initialTitle}`;
       let f = 0;
       ide.waiter.interval = setInterval(
         function () {
-          document.title =
-            (this.isAlert
+          document.title = `${
+            this.isAlert
               ? this.alertFrame
-              : this.frames[++f % this.frames.length]) +
-            " " +
-            this._initialTitle;
+              : this.frames[++f % this.frames.length]
+          } ${this._initialTitle}`;
         }.bind(ide.waiter),
         ide.waiter.frameDelay
       );
@@ -211,9 +203,7 @@ const ide = new (function () {
         .addClass("fa-check");
       $(".wait-info ul li:nth-child(n+4)").hide();
       const li = $(
-        '<li><span class="fas fa-spinner fa-spin" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>' +
-          txt +
-          "</li>"
+        `<li><span class="fas fa-spinner fa-spin" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>${txt}</li>`
       );
       if (typeof abortCallback == "function") {
         ide.waiter.onAbort = abortCallback;
@@ -241,7 +231,7 @@ const ide = new (function () {
   this.init = function () {
     ide.waiter.addInfo("ide starting up");
     $("#overpass-turbo-version").html(
-      "overpass-turbo <code>" + GIT_VERSION + "</code>" // eslint-disable-line no-undef
+      `overpass-turbo <code>${GIT_VERSION}</code>` // eslint-disable-line no-undef
     );
     $("#overpass-turbo-dependencies").html(
       APP_DEPENDENCIES // eslint-disable-line no-undef
@@ -322,12 +312,10 @@ const ide = new (function () {
         if (!isInitialAspectPortrait) {
           $(this)
             .next()
-            .css("left", $(this).outerWidth() + "px");
+            .css("left", `${$(this).outerWidth()}px`);
         } else {
           const top = $(this).offset().top + $(this).outerHeight();
-          $(this)
-            .next()
-            .css("top", top + "px");
+          $(this).next().css("top", `${top}px`);
         }
         ide.map.invalidateSize(false);
       },
@@ -743,10 +731,9 @@ const ide = new (function () {
           source: function (request, response) {
             // ajax (GET) request to nominatim
             $.ajax(
-              "https://search.osmnames.org/q/" +
-                encodeURIComponent(request.term) +
-                ".js?key=" +
-                configs.osmnamesApiKey,
+              `https://search.osmnames.org/q/${encodeURIComponent(
+                request.term
+              )}.js?key=${configs.osmnamesApiKey}`,
               {
                 success: function (data) {
                   // hacky firefox hack :( (it is not properly detecting json from the content-type header)
@@ -855,7 +842,7 @@ const ide = new (function () {
         $(".leaflet-control-buttons-fitdata").tooltip(
           "option",
           "content",
-          "← " + i18n.t("map_controlls.suggest_zoom_to_data")
+          `← ${i18n.t("map_controlls.suggest_zoom_to_data")}`
         );
         $(".leaflet-control-buttons-fitdata").tooltip("open");
         $(".leaflet-control-buttons-fitdata").tooltip("option", "hide", {
@@ -880,14 +867,13 @@ const ide = new (function () {
       // show warning/info if only invisible data is returned
       if (empty_msg == "no visible data") {
         if (!settings.no_autorepair) {
-          const content =
-            "<p>" +
-            i18n.t("warning.incomplete.expl.1") +
-            "</p><p>" +
-            i18n.t("warning.incomplete.expl.2") +
-            '</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;' +
-            i18n.t("warning.incomplete.not_again") +
-            "</p>";
+          const content = `<p>${i18n.t(
+            "warning.incomplete.expl.1"
+          )}</p><p>${i18n.t(
+            "warning.incomplete.expl.2"
+          )}</p><p><input type="checkbox" name="hide_incomplete_data_warning"/>&nbsp;${i18n.t(
+            "warning.incomplete.not_again"
+          )}</p>`;
 
           const dialog_buttons = [
             {
@@ -924,11 +910,9 @@ const ide = new (function () {
       if (data_mode == "unknown") ide.switchTab("Data");
       // display empty map badge
       $(
-        '<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">' +
-          i18n.t("map.intentionally_blank") +
-          " <small>(" +
-          empty_msg +
-          ")</small></div>"
+        `<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">${i18n.t(
+          "map.intentionally_blank"
+        )} <small>(${empty_msg})</small></div>`
       ).appendTo("#map");
     };
     overpass.handlers["onDataReceived"] = function (
@@ -940,7 +924,7 @@ const ide = new (function () {
       if (amount > 1000000) {
         ide.waiter.close();
         const _originalDocumentTitle = document.title;
-        document.title = "❗ " + _originalDocumentTitle;
+        document.title = `❗ ${_originalDocumentTitle}`;
         // more than ~1MB of data
         // show warning dialog
         const dialog_buttons = [
@@ -960,14 +944,11 @@ const ide = new (function () {
           }
         ];
 
-        const content =
-          "<p>" +
-          i18n
-            .t("warning.huge_data.expl.1")
-            .replace("{{amount_txt}}", amount_txt) +
-          "</p><p>" +
-          i18n.t("warning.huge_data.expl.2") +
-          "</p>";
+        const content = `<p>${i18n
+          .t("warning.huge_data.expl.1")
+          .replace("{{amount_txt}}", amount_txt)}</p><p>${i18n.t(
+          "warning.huge_data.expl.2"
+        )}</p>`;
         showDialog(i18n.t("warning.huge_data.title"), content, dialog_buttons);
       } else continueCB();
     };
@@ -977,7 +958,7 @@ const ide = new (function () {
     overpass.handlers["onAjaxError"] = function (errmsg) {
       ide.waiter.close();
       const _originalDocumentTitle = document.title;
-      document.title = "❗ " + _originalDocumentTitle;
+      document.title = `❗ ${_originalDocumentTitle}`;
       // show error dialog
       const dialog_buttons = [
         {
@@ -988,8 +969,9 @@ const ide = new (function () {
         }
       ];
 
-      const content =
-        '<p style="color:red;">' + i18n.t("error.ajax.expl") + "</p>" + errmsg;
+      const content = `<p style="color:red;">${i18n.t(
+        "error.ajax.expl"
+      )}</p>${errmsg}`;
       showDialog(i18n.t("error.ajax.title"), content, dialog_buttons);
 
       // print error text, if present
@@ -998,7 +980,7 @@ const ide = new (function () {
     overpass.handlers["onQueryError"] = function (errmsg) {
       ide.waiter.close();
       const _originalDocumentTitle = document.title;
-      document.title = "❗ " + _originalDocumentTitle;
+      document.title = `❗ ${_originalDocumentTitle}`;
       const dialog_buttons = [
         {
           name: i18n.t("dialog.dismiss"),
@@ -1007,21 +989,16 @@ const ide = new (function () {
           }
         }
       ];
-      const content =
-        '<div class="notification is-danger is-light">' +
-        i18n.t("error.query.expl") +
-        "<br>" +
-        errmsg +
-        "</div>";
+      const content = `<div class="notification is-danger is-light">${i18n.t(
+        "error.query.expl"
+      )}<br>${errmsg}</div>`;
       showDialog(i18n.t("error.query.title"), content, dialog_buttons);
     };
     overpass.handlers["onStyleError"] = function (errmsg) {
       const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-      const content =
-        '<p style="color:red;">' +
-        i18n.t("error.mapcss.expl") +
-        "</p>" +
-        errmsg;
+      const content = `<p style="color:red;">${i18n.t(
+        "error.mapcss.expl"
+      )}</p>${errmsg}`;
       showDialog(i18n.t("error.mapcss.title"), content, dialog_buttons);
     };
     overpass.handlers["onQueryErrorLine"] = function (linenumber) {
@@ -1042,44 +1019,27 @@ const ide = new (function () {
       if (settings.show_data_stats) {
         const stats = overpass.stats;
         const stats_txt =
-          "<small>" +
-          i18n.t("data_stats.loaded") +
-          "</small>&nbsp;&ndash;&nbsp;" +
-          "" +
-          i18n.t("data_stats.nodes") +
-          ":&nbsp;" +
-          stats.data.nodes +
-          ", " +
-          i18n.t("data_stats.ways") +
-          ":&nbsp;" +
-          stats.data.ways +
-          ", " +
-          i18n.t("data_stats.relations") +
-          ":&nbsp;" +
-          stats.data.relations +
-          (stats.data.areas > 0
-            ? ", " + i18n.t("data_stats.areas") + ":&nbsp;" + stats.data.areas
-            : "") +
-          "<br/>" +
-          "<small>" +
-          i18n.t("data_stats.displayed") +
-          "</small>&nbsp;&ndash;&nbsp;" +
-          "" +
-          i18n.t("data_stats.pois") +
-          ":&nbsp;" +
-          stats.geojson.pois +
-          ", " +
-          i18n.t("data_stats.lines") +
-          ":&nbsp;" +
-          stats.geojson.lines +
-          ", " +
-          i18n.t("data_stats.polygons") +
-          ":&nbsp;" +
-          stats.geojson.polys +
-          "</small>";
-        $(
-          '<div id="data_stats" class="stats">' + stats_txt + "</div>"
-        ).insertAfter("#map");
+          `<small>${i18n.t("data_stats.loaded")}</small>&nbsp;&ndash;&nbsp;` +
+          `${i18n.t("data_stats.nodes")}:&nbsp;${stats.data.nodes}, ${i18n.t(
+            "data_stats.ways"
+          )}:&nbsp;${stats.data.ways}, ${i18n.t(
+            "data_stats.relations"
+          )}:&nbsp;${stats.data.relations}${
+            stats.data.areas > 0
+              ? `, ${i18n.t("data_stats.areas")}:&nbsp;${stats.data.areas}`
+              : ""
+          }<br/>` +
+          `<small>${i18n.t(
+            "data_stats.displayed"
+          )}</small>&nbsp;&ndash;&nbsp;` +
+          `${i18n.t("data_stats.pois")}:&nbsp;${stats.geojson.pois}, ${i18n.t(
+            "data_stats.lines"
+          )}:&nbsp;${stats.geojson.lines}, ${i18n.t(
+            "data_stats.polygons"
+          )}:&nbsp;${stats.geojson.polys}</small>`;
+        $(`<div id="data_stats" class="stats">${stats_txt}</div>`).insertAfter(
+          "#map"
+        );
         // show more stats as a tooltip
         const backlogOverpass =
           overpass.timestamp && Date.now() - Date.parse(overpass.timestamp);
@@ -1096,32 +1056,21 @@ const ide = new (function () {
               if (duration.toLocaleString) {
                 duration = duration.toLocaleString();
               }
-              str +=
-                i18n.t("data_stats.request_duration") +
-                ": " +
-                duration +
-                "ms<br>";
+              str += `${i18n.t(
+                "data_stats.request_duration"
+              )}: ${duration}ms<br>`;
             }
             if (overpass.timestamp) {
               str +=
-                i18n.t("data_stats.lag") +
-                ": " +
-                Math.floor(backlogOverpass / 1000) +
-                "s" +
-                " <small>" +
-                i18n.t("data_stats.lag.expl") +
-                "</small>";
+                `${i18n.t("data_stats.lag")}: ${Math.floor(
+                  backlogOverpass / 1000
+                )}s` + ` <small>${i18n.t("data_stats.lag.expl")}</small>`;
             }
             if (overpass.timestampAreas) {
               str +=
-                "<br>" +
-                i18n.t("data_stats.lag_areas") +
-                ": " +
-                Math.floor(backlogOverpassAreas / 1000) +
-                "s" +
-                " <small>" +
-                i18n.t("data_stats.lag.expl") +
-                "</small>";
+                `<br>${i18n.t("data_stats.lag_areas")}: ${Math.floor(
+                  backlogOverpassAreas / 1000
+                )}s` + ` <small>${i18n.t("data_stats.lag.expl")}</small>`;
             }
             str += "</div>";
             return str;
@@ -1180,17 +1129,14 @@ const ide = new (function () {
     let query = ide.getRawQuery();
     query = query.split("\n");
     query.forEach((line, i) => {
-      if (line.indexOf("{{geocode" + type + ":" + search + "}}") !== -1)
+      if (line.indexOf(`{{geocode${type}:${search}}}`) !== -1)
         ide.highlightError(i + 1);
     });
     // show error message dialog
     const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-    const content =
-      '<p style="color:red;">' +
-      i18n.t("error.nominatim.expl") +
-      "</p><p><i>" +
-      htmlentities(search) +
-      "</i></p>";
+    const content = `<p style="color:red;">${i18n.t(
+      "error.nominatim.expl"
+    )}</p><p><i>${htmlentities(search)}</i></p>`;
     showDialog(i18n.t("error.nominatim.title"), content, dialog_buttons);
   };
   /* this returns the current raw query in the editor.
@@ -1270,7 +1216,7 @@ const ide = new (function () {
   };
 
   this.switchTab = function (tab) {
-    $(".tabs li." + tab).click();
+    $(`.tabs li.${tab}`).click();
   };
 
   this.loadExample = function (ex) {
@@ -1291,12 +1237,10 @@ const ide = new (function () {
     ];
 
     const content =
-      "<p>" +
-      '<span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>' +
-      i18n.t("dialog.delete_query.expl") +
-      ": &quot;<i>" +
-      ex +
-      "</i>&quot;?</p>";
+      `<p>` +
+      `<span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>${i18n.t(
+        "dialog.delete_query.expl"
+      )}: &quot;<i>${ex}</i>&quot;?</p>`;
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   };
   this.removeExampleSync = function (query, self) {
@@ -1316,12 +1260,9 @@ const ide = new (function () {
       }
     ];
 
-    const content =
-      '<p><span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>' +
-      i18n.t("dialog.delete_query.expl-osm") +
-      ": &quot;<i>" +
-      query.name +
-      "</i>&quot;?</p>";
+    const content = `<p><span class="fas fa-exclamation-triangle" style="float:left; margin:1px 7px 20px 0;"></span>${i18n.t(
+      "dialog.delete_query.expl-osm"
+    )}: &quot;<i>${query.name}</i>&quot;?</p>`;
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   };
 
@@ -1349,7 +1290,7 @@ const ide = new (function () {
         )
         .append(
           $('<button class="ml-auto">')
-            .attr("title", i18n.t("load.delete_query") + ": " + example)
+            .attr("title", `${i18n.t("load.delete_query")}: ${example}`)
             .addClass("delete")
             .on(
               "click",
@@ -1361,7 +1302,7 @@ const ide = new (function () {
               })(example)
             )
         )
-        .appendTo("#load-dialog .panel." + type);
+        .appendTo(`#load-dialog .panel.${type}`);
       if (type == "saved_query") has_saved_query = true;
     }
     if (!has_saved_query)
@@ -1379,9 +1320,9 @@ const ide = new (function () {
       $('<div class="panel-block">')
         .append(
           $(
-            "<button class='button is-link is-outlined t' title='load.title'>" +
-              i18n.t("load.title") +
-              "</button>"
+            `<button class='button is-link is-outlined t' title='load.title'>${i18n.t(
+              "load.title"
+            )}</button>`
           ).on("click", () => {
             ide.loadOsmQueries();
           })
@@ -1423,7 +1364,7 @@ const ide = new (function () {
           )
           .append(
             $('<button class="ml-auto">')
-              .attr("title", i18n.t("load.delete_query") + ": " + q.name)
+              .attr("title", `${i18n.t("load.delete_query")}: ${q.name}`)
               .addClass("delete")
               .on(
                 "click",
@@ -1501,11 +1442,9 @@ const ide = new (function () {
       if (coords)
         share_link.append(
           "C",
-          L.Util.formatNum(ide.map.getCenter().lat) +
-            ";" +
-            L.Util.formatNum(ide.map.getCenter().lng) +
-            ";" +
-            ide.map.getZoom()
+          `${L.Util.formatNum(ide.map.getCenter().lat)};${L.Util.formatNum(
+            ide.map.getCenter().lng
+          )};${ide.map.getZoom()}`
         );
     } else {
       // compose compressed share link
@@ -1526,11 +1465,10 @@ const ide = new (function () {
       }
     }
     if (run) share_link.append("R", "");
-    return "?" + share_link;
+    return `?${share_link}`;
   };
   this.updateShareLink = function () {
-    const baseurl =
-      location.protocol + "//" + location.host + location.pathname;
+    const baseurl = `${location.protocol}//${location.host}${location.pathname}`;
     const query = ide.getRawQuery();
     const compress =
       (settings.share_compression == "auto" && query.length > 300) ||
@@ -1550,12 +1488,11 @@ const ide = new (function () {
 
     let warning = "";
     if (share_link.length >= 2000)
-      warning = '<p class="warning">' + i18n.t("warning.share.long") + "</p>";
+      warning = `<p class="warning">${i18n.t("warning.share.long")}</p>`;
     if (share_link.length >= 4000)
-      warning =
-        '<p class="warning severe">' +
-        i18n.t("warning.share.very_long") +
-        "</p>";
+      warning = `<p class="warning severe">${i18n.t(
+        "warning.share.very_long"
+      )}</p>`;
 
     $("div#share-dialog #share_link_warning").html(warning);
 
@@ -1585,11 +1522,9 @@ const ide = new (function () {
   this.onExportClick = function () {
     // prepare export dialog
     ide.getQuery((query) => {
-      const baseurl =
-        location.protocol +
-        "//" +
-        location.host +
-        location.pathname.match(/.*\//)[0];
+      const baseurl = `${location.protocol}//${location.host}${
+        location.pathname.match(/.*\//)[0]
+      }`;
       const server =
         ide.data_source &&
         ide.data_source.mode == "overpass" &&
@@ -1598,31 +1533,27 @@ const ide = new (function () {
           : settings.server;
       let queryWithMapCSS = query;
       if (queryParser.hasStatement("style"))
-        queryWithMapCSS +=
-          "{{style: " + queryParser.getStatement("style") + " }}";
+        queryWithMapCSS += `{{style: ${queryParser.getStatement("style")} }}`;
       if (queryParser.hasStatement("data"))
-        queryWithMapCSS += "{{data:" + queryParser.getStatement("data") + "}}";
+        queryWithMapCSS += `{{data:${queryParser.getStatement("data")}}}`;
       else if (settings.server !== configs.defaultServer)
-        queryWithMapCSS += "{{data:overpass,server=" + settings.server + "}}";
-      $("#export-dialog a#export-interactive-map")[0].href =
-        baseurl + "map.html?" + new URLSearchParams({Q: queryWithMapCSS});
+        queryWithMapCSS += `{{data:overpass,server=${settings.server}}}`;
+      $(
+        "#export-dialog a#export-interactive-map"
+      )[0].href = `${baseurl}map.html?${new URLSearchParams({
+        Q: queryWithMapCSS
+      })}`;
       // encoding exclamation marks for better command line usability (bash)
-      $("#export-dialog a#export-overpass-api")[0].href =
-        server +
-        "interpreter?data=" +
-        encodeURIComponent(query)
-          .replace(/!/g, "%21")
-          .replace(/\(/g, "%28")
-          .replace(/\)/g, "%29");
+      $(
+        "#export-dialog a#export-overpass-api"
+      )[0].href = `${server}interpreter?data=${encodeURIComponent(query)
+        .replace(/!/g, "%21")
+        .replace(/\(/g, "%28")
+        .replace(/\)/g, "%29")}`;
       function toDataURL(text, mediatype) {
-        return (
-          "data:" +
-          (mediatype || "text/plain") +
-          ";charset=" +
-          (document.characterSet || document.charset) +
-          ";base64," +
-          Base64.encode(text, true)
-        );
+        return `data:${mediatype || "text/plain"};charset=${
+          document.characterSet || document.charset
+        };base64,${Base64.encode(text, true)}`;
       }
       function saveAs(text, mediatype, filename) {
         const save_link = document.createElement("a");
@@ -1667,14 +1598,11 @@ const ide = new (function () {
         .attr("href", "")
         .click(copyHandler(query_raw));
       // export wiki query
-      let query_wiki =
-        "{{OverpassTurboExample|loc=" +
-        L.Util.formatNum(ide.map.getCenter().lat) +
-        ";" +
-        L.Util.formatNum(ide.map.getCenter().lng) +
-        ";" +
-        ide.map.getZoom() +
-        "|query=\n";
+      let query_wiki = `{{OverpassTurboExample|loc=${L.Util.formatNum(
+        ide.map.getCenter().lat
+      )};${L.Util.formatNum(
+        ide.map.getCenter().lng
+      )};${ide.map.getZoom()}|query=\n`;
       query_wiki += query_raw
         .replace(/{{/g, "mSAvmrw81O8NgWlX")
         .replace(/{/g, "Z9P563g6zQYzjiLE")
@@ -1720,10 +1648,9 @@ const ide = new (function () {
         .click(
           copyHandler(
             query_umap,
-            i18n.t("export.section.query") +
-              " (" +
-              i18n.t("export.format_text_umap") +
-              ")"
+            `${i18n.t("export.section.query")} (${i18n.t(
+              "export.format_text_umap"
+            )})`
           )
         );
       const dialog_buttons = [{name: i18n.t("dialog.done")}];
@@ -1731,68 +1658,48 @@ const ide = new (function () {
         .unbind("click")
         .bind("click", () => {
           const content =
-            "<h4>" +
-            i18n.t("export.map_view.permalink") +
-            "</h4>" +
-            '<p><a href="//www.openstreetmap.org/#map=' +
-            ide.map.getZoom() +
-            "/" +
-            L.Util.formatNum(ide.map.getCenter().lat) +
-            "/" +
-            L.Util.formatNum(ide.map.getCenter().lng) +
-            '" target="_blank">' +
-            i18n.t("export.map_view.permalink_osm") +
-            "</a></p>" +
-            "<h4>" +
-            i18n.t("export.map_view.center") +
-            "</h4><p>" +
-            L.Util.formatNum(ide.map.getCenter().lat) +
-            ", " +
-            L.Util.formatNum(ide.map.getCenter().lng) +
-            " <small>(" +
-            i18n.t("export.map_view.center_expl") +
-            ")</small></p>" +
-            "<h4>" +
-            i18n.t("export.map_view.bounds") +
-            "</h4><p>" +
-            L.Util.formatNum(ide.map.getBounds().getSouthWest().lat) +
-            ", " +
-            L.Util.formatNum(ide.map.getBounds().getSouthWest().lng) +
-            ", " +
-            L.Util.formatNum(ide.map.getBounds().getNorthEast().lat) +
-            ", " +
-            L.Util.formatNum(ide.map.getBounds().getNorthEast().lng) +
-            "<br /><small>(" +
-            i18n.t("export.map_view.bounds_expl") +
-            ")</small></p>" +
-            (ide.map.bboxfilter.isEnabled()
-              ? "<h4>" +
-                i18n.t("export.map_view.bounds_selection") +
-                "</h4><p>" +
-                L.Util.formatNum(
-                  ide.map.bboxfilter.getBounds().getSouthWest().lat
-                ) +
-                ", " +
-                L.Util.formatNum(
-                  ide.map.bboxfilter.getBounds().getSouthWest().lng
-                ) +
-                ", " +
-                L.Util.formatNum(
-                  ide.map.bboxfilter.getBounds().getNorthEast().lat
-                ) +
-                ", " +
-                L.Util.formatNum(
-                  ide.map.bboxfilter.getBounds().getNorthEast().lng
-                ) +
-                "<br /><small>(" +
-                i18n.t("export.map_view.bounds_expl") +
-                ")</small></p>"
-              : "") +
-            "<h4>" +
-            i18n.t("export.map_view.zoom") +
-            "</h4><p>" +
-            ide.map.getZoom() +
-            "</p>";
+            `<h4>${i18n.t("export.map_view.permalink")}</h4>` +
+            `<p><a href="//www.openstreetmap.org/#map=${ide.map.getZoom()}/${L.Util.formatNum(
+              ide.map.getCenter().lat
+            )}/${L.Util.formatNum(
+              ide.map.getCenter().lng
+            )}" target="_blank">${i18n.t(
+              "export.map_view.permalink_osm"
+            )}</a></p>` +
+            `<h4>${i18n.t("export.map_view.center")}</h4><p>${L.Util.formatNum(
+              ide.map.getCenter().lat
+            )}, ${L.Util.formatNum(ide.map.getCenter().lng)} <small>(${i18n.t(
+              "export.map_view.center_expl"
+            )})</small></p>` +
+            `<h4>${i18n.t("export.map_view.bounds")}</h4><p>${L.Util.formatNum(
+              ide.map.getBounds().getSouthWest().lat
+            )}, ${L.Util.formatNum(
+              ide.map.getBounds().getSouthWest().lng
+            )}, ${L.Util.formatNum(
+              ide.map.getBounds().getNorthEast().lat
+            )}, ${L.Util.formatNum(
+              ide.map.getBounds().getNorthEast().lng
+            )}<br /><small>(${i18n.t(
+              "export.map_view.bounds_expl"
+            )})</small></p>${
+              ide.map.bboxfilter.isEnabled()
+                ? `<h4>${i18n.t(
+                    "export.map_view.bounds_selection"
+                  )}</h4><p>${L.Util.formatNum(
+                    ide.map.bboxfilter.getBounds().getSouthWest().lat
+                  )}, ${L.Util.formatNum(
+                    ide.map.bboxfilter.getBounds().getSouthWest().lng
+                  )}, ${L.Util.formatNum(
+                    ide.map.bboxfilter.getBounds().getNorthEast().lat
+                  )}, ${L.Util.formatNum(
+                    ide.map.bboxfilter.getBounds().getNorthEast().lng
+                  )}<br /><small>(${i18n.t(
+                    "export.map_view.bounds_expl"
+                  )})</small></p>`
+                : ""
+            }<h4>${i18n.t(
+              "export.map_view.zoom"
+            )}</h4><p>${ide.map.getZoom()}</p>`;
           showDialog(i18n.t("export.map_view.title"), content, dialog_buttons);
           return false;
         });
@@ -1824,14 +1731,14 @@ const ide = new (function () {
           };
           gJ.features.forEach((f) => {
             const p = f.properties;
-            f.id = p.type + "/" + p.id;
+            f.id = `${p.type}/${p.id}`;
             f.properties = {
               "@id": f.id
             };
             // escapes tags beginning with an @ with another @
             for (const m in p.tags || {})
               f.properties[m.replace(/^@/, "@@")] = p.tags[m];
-            for (const m in p.meta || {}) f.properties["@" + m] = p.meta[m];
+            for (const m in p.meta || {}) f.properties[`@${m}`] = p.meta[m];
             // expose internal properties:
             // * tainted: indicates that the feature's geometry is incomplete
             if (p.tainted) f.properties["@tainted"] = p.tainted;
@@ -1906,20 +1813,16 @@ const ide = new (function () {
             .done((data) => {
               const dialog_buttons = [{name: i18n.t("dialog.done")}];
               const content =
-                "<p>" +
-                i18n.t("export.geoJSON_gist.gist") +
-                '&nbsp;<a href="' +
-                data.html_url +
-                '" target="_blank" class="external">' +
-                data.id +
-                "</a></p>" +
-                "<p>" +
-                i18n.t("export.geoJSON_gist.geojsonio") +
-                '&nbsp;<a href="http://geojson.io/#id=gist:anonymous/' +
-                data.id +
-                '" target="_blank" class="external">' +
-                i18n.t("export.geoJSON_gist.geojsonio_link") +
-                "</a></p>";
+                `<p>${i18n.t("export.geoJSON_gist.gist")}&nbsp;<a href="${
+                  data.html_url
+                }" target="_blank" class="external">${data.id}</a></p>` +
+                `<p>${i18n.t(
+                  "export.geoJSON_gist.geojsonio"
+                )}&nbsp;<a href="http://geojson.io/#id=gist:anonymous/${
+                  data.id
+                }" target="_blank" class="external">${i18n.t(
+                  "export.geoJSON_gist.geojsonio_link"
+                )}</a></p>`;
               showDialog(
                 i18n.t("export.geoJSON_gist.title"),
                 content,
@@ -1929,8 +1832,9 @@ const ide = new (function () {
             })
             .fail((jqXHR) => {
               alert(
-                "an error occured during the creation of the overpass gist:\n" +
-                  JSON.stringify(jqXHR)
+                `an error occured during the creation of the overpass gist:\n${JSON.stringify(
+                  jqXHR
+                )}`
               );
             });
           return false;
@@ -1952,21 +1856,17 @@ const ide = new (function () {
                 if (props.tags.name) return props.tags.name;
                 if (props.tags.ref) return props.tags.ref;
                 if (props.tags["addr:housenumber"] && props.tags["addr:street"])
-                  return (
-                    props.tags["addr:street"] +
-                    " " +
-                    props.tags["addr:housenumber"]
-                  );
+                  return `${props.tags["addr:street"]} ${props.tags["addr:housenumber"]}`;
               }
-              return props.type + "/" + props.id;
+              return `${props.type}/${props.id}`;
             },
             //featureDescription: function(props) {},
             featureLink: function (props) {
-              return "http://osm.org/browse/" + props.type + "/" + props.id;
+              return `http://osm.org/browse/${props.type}/${props.id}`;
             }
           });
           if (gpx_str[1] !== "?")
-            gpx_str = '<?xml version="1.0" encoding="UTF-8"?>\n' + gpx_str;
+            gpx_str = `<?xml version="1.0" encoding="UTF-8"?>\n${gpx_str}`;
         }
         return gpx_str;
       }
@@ -2018,12 +1918,9 @@ const ide = new (function () {
           return tokml(geojson, {
             documentName: "overpass-turbo.eu export",
             documentDescription:
-              "Filtered OSM data converted to KML by overpass turbo.\n" +
-              "Copyright: " +
-              overpass.copyright +
-              "\n" +
-              "Timestamp: " +
-              overpass.timestamp,
+              `Filtered OSM data converted to KML by overpass turbo.\n` +
+              `Copyright: ${overpass.copyright}\n` +
+              `Timestamp: ${overpass.timestamp}`,
             name: "name",
             description: "description"
           });
@@ -2109,7 +2006,7 @@ const ide = new (function () {
           // make content downloadable as file
           if (geojson) {
             if (raw_type == "osm" || raw_type == "xml") {
-              saveAs(raw_str, "application/xml", "export." + raw_type);
+              saveAs(raw_str, "application/xml", `export.${raw_type}`);
             } else if (raw_type == "json") {
               saveAs(raw_str, "application/json", "export.json");
             } else {
@@ -2157,16 +2054,24 @@ const ide = new (function () {
           return false;
         });
 
-      $("#export-dialog a#export-convert-xml")[0].href =
-        server + "convert?" + new URLSearchParams({data: query, target: "xml"});
-      $("#export-dialog a#export-convert-ql")[0].href =
-        server +
-        "convert?" +
-        new URLSearchParams({data: query, target: "mapql"});
-      $("#export-dialog a#export-convert-compact")[0].href =
-        server +
-        "convert?" +
-        new URLSearchParams({data: query, target: "compact"});
+      $(
+        "#export-dialog a#export-convert-xml"
+      )[0].href = `${server}convert?${new URLSearchParams({
+        data: query,
+        target: "xml"
+      })}`;
+      $(
+        "#export-dialog a#export-convert-ql"
+      )[0].href = `${server}convert?${new URLSearchParams({
+        data: query,
+        target: "mapql"
+      })}`;
+      $(
+        "#export-dialog a#export-convert-compact"
+      )[0].href = `${server}convert?${new URLSearchParams({
+        data: query,
+        target: "compact"
+      })}`;
 
       // OSM editors
       // first check for possible mistakes in query.
@@ -2178,12 +2083,9 @@ const ide = new (function () {
       const exportToLevel0 = $("#export-dialog a#export-editors-level0");
       exportToLevel0.unbind("click");
       function constructLevel0Link(query) {
-        return (
-          "https://level0.osmz.ru/?" +
-          new URLSearchParams({
-            url: server + "interpreter?" + new URLSearchParams({data: query})
-          })
-        );
+        return `https://level0.osmz.ru/?${new URLSearchParams({
+          url: `${server}interpreter?${new URLSearchParams({data: query})}`
+        })}`;
       }
       if (validEditorQuery) {
         exportToLevel0[0].href = constructLevel0Link(query);
@@ -2209,12 +2111,9 @@ const ide = new (function () {
               }
             }
           ];
-          const content =
-            "<p>" +
-            i18n.t("warning.incomplete.remote.expl.1") +
-            "</p><p>" +
-            i18n.t("warning.incomplete.remote.expl.2") +
-            "</p>";
+          const content = `<p>${i18n.t(
+            "warning.incomplete.remote.expl.1"
+          )}</p><p>${i18n.t("warning.incomplete.remote.expl.2")}</p>`;
           showDialog(
             i18n.t("warning.incomplete.title"),
             content,
@@ -2230,15 +2129,15 @@ const ide = new (function () {
           const export_dialog = $("#export-dialog");
           const send_to_josm = function (query) {
             const JRC_url = "http://127.0.0.1:8111/";
-            $.getJSON(JRC_url + "version")
+            $.getJSON(`${JRC_url}version`)
               .done((d) => {
                 if (d.protocolversion.major == 1) {
-                  $.get(JRC_url + "import", {
+                  $.get(`${JRC_url}import`, {
                     // JOSM doesn't handle protocol-less links very well
-                    url:
-                      server.replace(/^\/\//, location.protocol + "//") +
-                      "interpreter?data=" +
-                      encodeURIComponent(query)
+                    url: `${server.replace(
+                      /^\/\//,
+                      `${location.protocol}//`
+                    )}interpreter?data=${encodeURIComponent(query)}`
                   })
                     .fail(() => {
                       alert("Error: Unexpected JOSM remote control error.");
@@ -2248,14 +2147,9 @@ const ide = new (function () {
                     });
                 } else {
                   const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-                  const content =
-                    "<p>" +
-                    i18n.t("error.remote.incompat") +
-                    ": " +
-                    d.protocolversion.major +
-                    "." +
-                    d.protocolversion.minor +
-                    " :(</p>";
+                  const content = `<p>${i18n.t("error.remote.incompat")}: ${
+                    d.protocolversion.major
+                  }.${d.protocolversion.minor} :(</p>`;
                   showDialog(
                     i18n.t("error.remote.title"),
                     content,
@@ -2265,8 +2159,7 @@ const ide = new (function () {
               })
               .fail(() => {
                 const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-                const content =
-                  "<p>" + i18n.t("error.remote.not_found") + "</p>";
+                const content = `<p>${i18n.t("error.remote.not_found")}</p>`;
                 showDialog(
                   i18n.t("error.remote.title"),
                   content,
@@ -2303,12 +2196,9 @@ const ide = new (function () {
                 }
               }
             ];
-            const content =
-              "<p>" +
-              i18n.t("warning.incomplete.remote.expl.1") +
-              "</p><p>" +
-              i18n.t("warning.incomplete.remote.expl.2") +
-              "</p>";
+            const content = `<p>${i18n.t(
+              "warning.incomplete.remote.expl.1"
+            )}</p><p>${i18n.t("warning.incomplete.remote.expl.2")}</p>`;
             showDialog(
               i18n.t("warning.incomplete.title"),
               content,
@@ -2389,17 +2279,11 @@ const ide = new (function () {
     const dialog_buttons = [{name: i18n.t("dialog.done")}];
 
     ide.waiter.close();
-    const content =
-      '<p><img src="' +
-      imgstr +
-      '" alt="' +
-      i18n.t("export.image.alt") +
-      '" width="480px"/><br><!--<a href="' +
-      imgstr +
-      '" download="export.png" target="_blank">' +
-      i18n.t("export.image.download") +
-      "</a>--></p>" +
-      attrib_message;
+    const content = `<p><img src="${imgstr}" alt="${i18n.t(
+      "export.image.alt"
+    )}" width="480px"/><br><!--<a href="${imgstr}" download="export.png" target="_blank">${i18n.t(
+      "export.image.download"
+    )}</a>--></p>${attrib_message}`;
     showDialog(i18n.t("export.image.title"), content, dialog_buttons);
     const save_link = document.createElement("a");
     save_link.href = imgstr;
@@ -2449,7 +2333,7 @@ const ide = new (function () {
           const correction = ffs_result.join("");
           const correction_html = ffs_result
             .map((ffs_result_part, i) => {
-              if (i % 2 === 1) return "<b>" + ffs_result_part + "</b>";
+              if (i % 2 === 1) return `<b>${ffs_result_part}</b>`;
               else return ffs_result_part;
             })
             .join("");
@@ -2479,7 +2363,7 @@ const ide = new (function () {
       ["auto"].concat(i18n.getSupportedLanguages()).map((lng) => {
         return {
           value: lng,
-          label: lng == "auto" ? "auto" : lng + " - " + lngDescs[lng]
+          label: lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`
         };
       })
     );
@@ -2762,7 +2646,7 @@ const ide = new (function () {
           } else {
             if (s) return callback(true);
             // try to parse as generic ffs search
-            this.update_ffs_query('"' + search + '"', callback);
+            this.update_ffs_query(`"${search}"`, callback);
           }
         });
       } else {

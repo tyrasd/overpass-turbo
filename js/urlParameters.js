@@ -74,12 +74,12 @@ export default function urlParameters(param_str, callback) {
         const param = params[i];
         let value = args.get(param);
         if (typeof value !== "string") value = "???";
-        q = q.replace("{{" + param + "}}", quotes(value));
+        q = q.replace(`{{${param}}}`, quotes(value));
       }
       args.append("w", q); // let the wizard do the work
       wizard_comment = template.comment;
     } else {
-      console.log("template not found: " + args.get("template"));
+      console.log(`template not found: ${args.get("template")}`);
     }
   }
   if (args.has("w")) {
@@ -90,7 +90,7 @@ export default function urlParameters(param_str, callback) {
         t.has_query = true;
         if (typeof callback === "function") callback(null, t);
       } else {
-        console.log("invalid wizard syntax:\n  " + args.w);
+        console.log(`invalid wizard syntax:\n  ${args.w}`);
         if (typeof callback === "function") callback(err, t);
       }
     });
@@ -107,7 +107,6 @@ export default function urlParameters(param_str, callback) {
 }
 
 function quotes(s) {
-  if (s.match(/^[a-zA-Z0-9_]+$/) === null)
-    return '"' + s.replace(/"/g, '\\"') + '"';
+  if (s.match(/^[a-zA-Z0-9_]+$/) === null) return `"${s.replace(/"/g, '\\"')}"`;
   return s;
 }

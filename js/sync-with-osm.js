@@ -63,7 +63,7 @@ function loadQueries(callback) {
         cnt_elem;
       if (
         (cnt_elem = res.querySelector(
-          'preference[k="' + configs.appname + '_query-count"]'
+          `preference[k="${configs.appname}_query-count"]`
         ))
       )
         pref_count = +cnt_elem.getAttribute("v");
@@ -71,7 +71,7 @@ function loadQueries(callback) {
       const result = [];
       for (let i = 0; i < pref_count; i++) {
         const pref_elem = res.querySelector(
-          'preference[k="' + configs.appname + "_query_" + i + '_0"]'
+          `preference[k="${configs.appname}_query_${i}_0"]`
         );
         if (!pref_elem) continue;
         const first_chunk = pref_elem.getAttribute("v").split("&");
@@ -80,15 +80,7 @@ function loadQueries(callback) {
         let query = first_chunk[2].slice(2);
         for (let j = 1; j < length; j++) {
           query += res
-            .querySelector(
-              'preference[k="' +
-                configs.appname +
-                "_query_" +
-                i +
-                "_" +
-                j +
-                '"]'
-            )
+            .querySelector(`preference[k="${configs.appname}_query_${i}_${j}"]`)
             .getAttribute("v");
         }
         result.push({
@@ -109,7 +101,7 @@ function saveQuery(new_query, callback) {
     const preferences = dom.querySelector("preferences");
     // clean up existing data
     const existing = preferences.querySelectorAll(
-      'preference[k^="' + configs.appname + '_query"]'
+      `preference[k^="${configs.appname}_query"]`
     );
     for (let i = 0; i < existing.length; i++) {
       preferences.removeChild(existing[i]);
@@ -129,7 +121,7 @@ function saveQuery(new_query, callback) {
     }
     // construct new preferences xml
     const new_elem = dom.createElement("preference");
-    new_elem.setAttribute("k", configs.appname + "_query-count");
+    new_elem.setAttribute("k", `${configs.appname}_query-count`);
     new_elem.setAttribute("v", existing_queries.length);
     preferences.appendChild(new_elem);
     for (let i = 0; i < existing_queries.length; i++) {
@@ -141,15 +133,15 @@ function saveQuery(new_query, callback) {
       const numParts = Math.ceil((q.query.length + q.name.length + 8) / 255);
       if (numParts > 9)
         return callback(new Error("query too long to be saved on osm.org"));
-      let queryStr = "p=" + numParts;
-      queryStr += "&n=" + q.name;
-      queryStr += "&q=" + q.query;
+      let queryStr = `p=${numParts}`;
+      queryStr += `&n=${q.name}`;
+      queryStr += `&q=${q.query}`;
       // split into chunks of max 255 characters length
       queryStr = queryStr.match(/.{1,255}/g);
 
       for (let j = 0; j < numParts; j++) {
         const new_elem = dom.createElement("preference");
-        new_elem.setAttribute("k", configs.appname + "_query_" + i + "_" + j);
+        new_elem.setAttribute("k", `${configs.appname}_query_${i}_${j}`);
         new_elem.setAttribute("v", queryStr[j]);
         preferences.appendChild(new_elem);
       }

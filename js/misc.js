@@ -126,7 +126,7 @@ export const Base64 = {
       num -= num % 64;
       num /= 64;
     }
-    if (neg) output = "~" + output;
+    if (neg) output = `~${output}`;
     if (!not_base64url) return this._convert_to_base64url(output);
     else return output;
   },
@@ -212,7 +212,7 @@ export function lzw_encode(s) {
   //s = Base64._utf8_encode(s);
   s = unescape(encodeURIComponent(s));
   const dict = {};
-  const data = (s + "").split("");
+  const data = `${s}`.split("");
   const out = [];
   let currChar;
   let phrase = data[0];
@@ -238,7 +238,7 @@ export function lzw_encode(s) {
 // Decompress an LZW-encoded string
 export function lzw_decode(s) {
   const dict = {};
-  const data = (s + "").split("");
+  const data = `${s}`.split("");
   let currChar = data[0];
   let oldPhrase = currChar;
   const out = [currChar];
