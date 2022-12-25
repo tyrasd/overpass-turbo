@@ -126,9 +126,8 @@ export default class i18n {
       $(element || ".t").each((nr, element) => {
         // get translation term(s)
         const terms = $(element).attr("data-t")?.split(";") || [];
-        for (let i = 0; i < terms.length; i++) {
-          const term = terms[i];
-          const [, , what, key] = term.match(/^(\[(.*)\])?(.*)$/)!;
+        for (const term of terms) {
+          const [, , what, key] = term.match(/^(\[(.*)\])?(.*)$/);
           let val = this.t(key);
           const shortcut = $(element).attr("data-shortcut");
           if (shortcut) val += ` [${shortcut}]`;

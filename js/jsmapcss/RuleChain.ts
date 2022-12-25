@@ -70,8 +70,7 @@ styleparser.RuleChain.prototype = {
     }
 
     const o = entity.getParentObjects(); //TODO//entity.entity.parentObjects();
-    for (let i = 0; i < o.length; i++) {
-      const p = o[i];
+    for (const p of o) {
       if (this.test(pos - 1, p, p.tags, zoom)) {
         return true;
       }

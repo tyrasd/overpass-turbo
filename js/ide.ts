@@ -334,7 +334,7 @@ const ide = new (function () {
         keywords: (function (str) {
           const r = {};
           const a = str.split(" ");
-          for (let i = 0; i < a.length; i++) r[a[i]] = true;
+          for (const ai of a) r[ai] = true;
           return r;
         })(
           "out json xml custom popup timeout maxsize bbox" + // initial declarations
@@ -1162,8 +1162,8 @@ const ide = new (function () {
         const data_mode = data_source[0].toLowerCase();
         data_source = data_source.slice(1);
         const options = {};
-        for (let i = 0; i < data_source.length; i++) {
-          const tmp = data_source[i].split("=");
+        for (const src of data_source) {
+          const tmp = src.split("=");
           options[tmp[0]] = tmp[1];
         }
         data_source = {

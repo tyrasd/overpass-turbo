@@ -6,16 +6,17 @@ let ffs = {};
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 let freeFormQuery;
 
+type Query = {
+  logical: "or" | "xor" | "minus" | "and";
+  queries: Query[];
+};
+
 /* this converts a random boolean expression into a normalized form:
  * A∧B∧… ∨ C∧D∧… ∨ …
  * for example: A∧(B∨C) ⇔ (A∧B)∨(A∧C)
  */
-function normalize(query) {
-  const normalized_query = {
-    logical: "or",
-    queries: []
-  };
-  function normalize_recursive(rem_query) {
+function normalize(query: Query): Query {
+  function normalize_recursive(rem_query: Query): Query[] {
     if (!rem_query.logical) {
       return [
         {
@@ -27,15 +28,12 @@ function normalize(query) {
       const c1 = normalize_recursive(rem_query.queries[0]);
       const c2 = normalize_recursive(rem_query.queries[1]);
       // return cross product of c1 and c2
-      const c = [];
-      for (let i = 0; i < c1.length; i++)
-        for (let j = 0; j < c2.length; j++) {
-          c.push({
-            logical: "and",
-            queries: c1[i].queries.concat(c2[j].queries)
-          });
-        }
-      return c;
+      return c1.flatMap((c1i) =>
+        c2.map((c2j) => ({
+          logical: "and",
+          queries: c1i.queries.concat(c2j.queries)
+        }))
+      );
     } else if (rem_query.logical === "or") {
       const c1 = normalize_recursive(rem_query.queries[0]);
       const c2 = normalize_recursive(rem_query.queries[1]);
@@ -44,8 +42,10 @@ function normalize(query) {
       alert(`unsupported boolean operator: ${rem_query.logical}`);
     }
   }
-  normalized_query.queries = normalize_recursive(query);
-  return normalized_query;
+  return {
+    logical: "or",
+    queries: normalize_recursive(query)
+  };
 }
 
 function escRegexp(str) {
@@ -270,10 +270,8 @@ ffs.construct_query = function (search, comment, callback) {
   ffs.query = normalize(ffs.query);
 
   let freeForm = false;
-  for (let i = 0; i < ffs.query.queries.length; i++) {
-    const and_query = ffs.query.queries[i];
-    for (let j = 0; j < and_query.queries.length; j++) {
-      const cond_query = and_query.queries[j];
+  for (const and_query of ffs.query.queries) {
+    for (const cond_query of and_query.queries) {
       if (cond_query.query === "free form") {
         freeForm = true;
         break;
@@ -285,14 +283,11 @@ ffs.construct_query = function (search, comment, callback) {
   (freeForm ? ffs_free : (x) => x(null))((freeFormQuery) => {
     add_comment("// gather results");
     query_parts.push("(");
-    for (let i = 0; i < ffs.query.queries.length; i++) {
-      const and_query = ffs.query.queries[i];
-
+    for (const and_query of ffs.query.queries) {
       let types = ["node", "way", "relation"];
       let clauses = [];
       let clauses_str = [];
-      for (let j = 0; j < and_query.queries.length; j++) {
-        const cond_query = and_query.queries[j];
+      for (const cond_query of and_query.queries) {
         // todo: looks like some code duplication here could be reduced by refactoring
         if (cond_query.query === "free form") {
           const ffs_clause = freeFormQuery.get_query_clause(cond_query);
@@ -325,9 +320,9 @@ ffs.construct_query = function (search, comment, callback) {
         types = ["nwr"];
         add_comment("  // nwr is short for node/way/relation");
       }
-      for (let t = 0; t < types.length; t++) {
-        let buffer = `  ${types[t]}`;
-        for (let c = 0; c < clauses.length; c++) buffer += clauses[c];
+      for (const t of types) {
+        let buffer = `  ${t}`;
+        for (const c of clauses) buffer += c;
         if (bounds_part) buffer += bounds_part;
         buffer += ";";
         query_parts.push(buffer);

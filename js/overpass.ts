@@ -196,8 +196,8 @@ const overpass = new (function () {
                 data_mode = "error";
                 // parse errors and highlight error lines
                 const errlines = errmsg.match(/line \d+:/g) || [];
-                for (let i = 0; i < errlines.length; i++) {
-                  fire("onQueryErrorLine", 1 * errlines[i].match(/\d+/)[0]);
+                for (const errline of errlines) {
+                  fire("onQueryErrorLine", 1 * errline.match(/\d+/)[0]);
                 }
               }
               // the html error message returned by overpass API looks goods also in xml mode ^^
@@ -818,8 +818,8 @@ const overpass = new (function () {
                     lines: 0,
                     pois: 0
                   };
-                  for (let i = 0; i < geojson.features.length; i++)
-                    switch (geojson.features[i].geometry.type) {
+                  for (const feature of geojson.features)
+                    switch (feature.geometry.type) {
                       case "Polygon":
                       case "MultiPolygon":
                         stats.geojson.polys++;

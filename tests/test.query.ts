@@ -49,12 +49,12 @@ describe("ide.query", () => {
       }
     ];
     const callback = vi.fn(() => 0);
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       ide.codeEditor.getValue = function () {
-        return examples[i].inp;
+        return example.inp;
       };
       ide.getQuery(callback);
-      expect(callback).toHaveBeenCalledWith(examples[i].outp);
+      expect(callback).toHaveBeenCalledWith(example.outp);
     }
     ide.setQuery.restore();
   });
@@ -79,12 +79,12 @@ describe("ide.query", () => {
       }
     ];
     const callback = vi.fn(() => 0);
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       ide.codeEditor.getValue = function () {
-        return examples[i].inp;
+        return example.inp;
       };
       ide.getQuery(callback);
-      expect(callback).toHaveBeenCalledWith(examples[i].outp);
+      expect(callback).toHaveBeenCalledWith(example.outp);
     }
     ide.setQuery.restore();
   });
@@ -109,12 +109,12 @@ describe("ide.query", () => {
       }
     ];
     const callback = vi.fn(() => 0);
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       ide.codeEditor.getValue = function () {
-        return examples[i].inp;
+        return example.inp;
       };
       ide.getQuery(callback);
-      expect(callback).toHaveBeenCalledWith(examples[i].outp);
+      expect(callback).toHaveBeenCalledWith(example.outp);
     }
     ide.setQuery.restore();
   });
@@ -134,12 +134,12 @@ describe("ide.query", () => {
       }
     ];
     const callback = vi.fn(() => 0);
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       ide.codeEditor.getValue = function () {
-        return examples[i].inp;
+        return example.inp;
       };
       ide.getQuery(callback);
-      expect(callback).toHaveBeenCalledWith(examples[i].outp);
+      expect(callback).toHaveBeenCalledWith(example.outp);
     }
     ide.setQuery.restore();
   });

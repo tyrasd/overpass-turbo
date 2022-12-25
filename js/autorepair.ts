@@ -14,23 +14,23 @@ export default function autorepair(q, lng) {
     let cs, placeholder;
     if (lng == "xml") {
       cs = q.match(/<!--[\s\S]*?-->/g) || [];
-      for (let i = 0; i < cs.length; i++) {
+      for (const csi of cs) {
         placeholder = `<!--${Base64.encode(Math.random().toString())}-->`; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i], placeholder);
-        comments[placeholder] = cs[i];
+        q = q.replace(csi, placeholder);
+        comments[placeholder] = csi;
       }
     } else {
       cs = q.match(/\/\*[\s\S]*?\*\//g) || []; // multiline comments: /*...*/
-      for (let i = 0; i < cs.length; i++) {
+      for (const csi of cs) {
         placeholder = `/*${Base64.encode(Math.random().toString())}*/`; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i], placeholder);
-        comments[placeholder] = cs[i];
+        q = q.replace(csi, placeholder);
+        comments[placeholder] = csi;
       }
       cs = q.match(/\/\/[^\n]*/g) || []; // single line comments: //...
-      for (let i = 0; i < cs.length; i++) {
+      for (const csi of cs) {
         placeholder = `/*${Base64.encode(Math.random().toString())}*/`; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(cs[i], placeholder);
-        comments[placeholder] = cs[i];
+        q = q.replace(csi, placeholder);
+        comments[placeholder] = csi;
       }
     }
   })();
@@ -103,8 +103,8 @@ export default function autorepair(q, lng) {
       }
       // 2. fix <print mode=*
       const prints = q.match(/(<print[\s\S]*?(\/>|<\/print>))/g) || [];
-      for (let i = 0; i < prints.length; i++) {
-        const print = $("print", $.parseXML(prints[i])),
+      for (const print_i of prints) {
+        const print = $("print", $.parseXML(print_i)),
           mode = print.attr("mode"),
           geometry = print.attr("geometry");
         let add = "";
@@ -127,7 +127,7 @@ export default function autorepair(q, lng) {
         if (repaired) {
           new_print = add + new XMLSerializer().serializeToString(print[0]);
           new_print += "<!-- fixed by auto repair -->";
-          q = q.replace(prints[i], new_print);
+          q = q.replace(print_i, new_print);
         }
       }
     } else {
@@ -141,9 +141,9 @@ export default function autorepair(q, lng) {
         );
       // 2. fix print statements: non meta output, overpass geometries
       const prints = q.match(/(\.([^;.]+?)\s+)?(out[^:;"\]]*;)/g) || [];
-      for (let i = 0; i < prints.length; i++) {
+      for (const print_i of prints) {
         // eslint-disable-next-line prefer-const
-        let [print, , out_set, out_statement] = prints[i].match(
+        let [print, , out_set, out_statement] = print_i.match(
           /(\.([^;.]+?)\s+)?(out[^:;"\]]*;)/
         );
         let new_print = print;

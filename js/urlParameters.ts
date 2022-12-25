@@ -70,8 +70,7 @@ export default function urlParameters(param_str, callback) {
       // build query
       let q = template.wizard;
       const params = template.parameters;
-      for (let i = 0; i < params.length; i++) {
-        const param = params[i];
+      for (const param of params) {
         let value = args.get(param);
         if (typeof value !== "string") value = "???";
         q = q.replace(`{{${param}}}`, quotes(value));

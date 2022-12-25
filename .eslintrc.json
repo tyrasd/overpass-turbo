@@ -18,6 +18,7 @@
     "arrow-body-style": ["warn", "as-needed"],
     "no-empty": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/prefer-for-of": "warn",
     "no-var": "warn",
     "prefer-const": "warn",
     "prefer-template": "warn",

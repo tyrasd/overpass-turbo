@@ -95,7 +95,7 @@ function loadQueries(callback) {
 }
 
 function saveQuery(new_query, callback) {
-  loadQueries((err, existing_queries, dom) => {
+  loadQueries((err, existing_queries, dom: Document) => {
     if (err) return callback(err);
 
     const preferences = dom.querySelector("preferences");
@@ -103,8 +103,8 @@ function saveQuery(new_query, callback) {
     const existing = preferences.querySelectorAll(
       `preference[k^="${configs.appname}_query"]`
     );
-    for (let i = 0; i < existing.length; i++) {
-      preferences.removeChild(existing[i]);
+    for (const e of existing) {
+      preferences.removeChild(e);
     }
     // insert new query into list of existing ones
     let is_new = true;

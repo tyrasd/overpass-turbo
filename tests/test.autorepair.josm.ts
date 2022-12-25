@@ -29,11 +29,11 @@ describe("ide.autorepair.josm", () => {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => example.inp);
       ide.repairQuery("xml+metadata");
-      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
+      expect(setQuery).toHaveBeenCalledWith(example.outp);
     }
   });
 
@@ -64,11 +64,11 @@ describe("ide.autorepair.josm", () => {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => example.inp);
       ide.repairQuery("xml+metadata");
-      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
+      expect(setQuery).toHaveBeenCalledWith(example.outp);
     }
   });
 
@@ -95,11 +95,11 @@ describe("ide.autorepair.josm", () => {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => example.inp);
       ide.repairQuery("xml+metadata");
-      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
+      expect(setQuery).toHaveBeenCalledWith(example.outp);
     }
   });
 
@@ -136,11 +136,11 @@ describe("ide.autorepair.josm", () => {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => example.inp);
       ide.repairQuery("xml+metadata");
-      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
+      expect(setQuery).toHaveBeenCalledWith(example.outp);
     }
   });
 
@@ -179,11 +179,11 @@ describe("ide.autorepair.josm", () => {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => example.inp);
       ide.repairQuery("xml+metadata");
-      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
+      expect(setQuery).toHaveBeenCalledWith(example.outp);
     }
   });
 
@@ -222,11 +222,11 @@ describe("ide.autorepair.josm", () => {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => example.inp);
       ide.repairQuery("xml+metadata");
-      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
+      expect(setQuery).toHaveBeenCalledWith(example.outp);
     }
   });
 
@@ -245,11 +245,11 @@ describe("ide.autorepair.josm", () => {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => example.inp);
       ide.repairQuery("xml+metadata");
-      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
+      expect(setQuery).toHaveBeenCalledWith(example.outp);
     }
   });
 
@@ -268,11 +268,11 @@ describe("ide.autorepair.josm", () => {
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
-    for (let i = 0; i < examples.length; i++) {
+    for (const example of examples) {
       const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
-      vi.spyOn(ide, "getRawQuery").mockImplementation(() => examples[i].inp);
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => example.inp);
       ide.repairQuery("xml+metadata");
-      expect(setQuery).toHaveBeenCalledWith(examples[i].outp);
+      expect(setQuery).toHaveBeenCalledWith(example.outp);
     }
   });
 });

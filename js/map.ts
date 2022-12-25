@@ -76,8 +76,8 @@ $(document).ready(() => {
           const data_mode = data_source[0].toLowerCase();
           data_source = data_source.slice(1);
           const options = {};
-          for (let i = 0; i < data_source.length; i++) {
-            const tmp = data_source[i].split("=");
+          for (const src of data_source) {
+            const tmp = src.split("=");
             options[tmp[0]] = tmp[1];
           }
           data_source = {
