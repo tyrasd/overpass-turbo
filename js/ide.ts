@@ -160,10 +160,14 @@ class IDE {
 
   // == public sub objects ==
 
-  waiter = {
-    opened: true,
-    frames: ["◴", "◷", "◶", "◵"],
-    frameDelay: 250,
+  waiter = new (class Waiter {
+    opened = true;
+    frames = ["◴", "◷", "◶", "◵"];
+    frameDelay = 250;
+    onAbort = undefined;
+    interval = 0;
+    _initialTitle = document.title;
+
     open(show_info) {
       if (show_info) {
         $(".modal .wait-info h4").text(show_info);
@@ -180,7 +184,7 @@ class IDE {
         } ${this._initialTitle}`;
       }, this.frameDelay);
       this.opened = true;
-    },
+    }
     close() {
       if (!this.opened) return;
       clearInterval(this.interval);
@@ -189,7 +193,7 @@ class IDE {
       $(".wait-info ul li").remove();
       delete this.onAbort;
       this.opened = false;
-    },
+    }
     addInfo(txt, abortCallback) {
       $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
       $(".wait-info ul li:nth-child(n+1)").css("opacity", 0.5);
@@ -212,15 +216,14 @@ class IDE {
         li.append(aborter);
       }
       $(".wait-info ul").prepend(li);
-    },
+    }
     abort() {
       if (typeof this.onAbort == "function") {
         this.addInfo("aborting");
         this.onAbort(this.close);
       }
-    },
-    _initialTitle: document.title
-  };
+    }
+  })();
 
   // == public methods ==
 
