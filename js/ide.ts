@@ -179,16 +179,17 @@ class IDE {
       document.title = `${this.frames[0]} ${this._initialTitle}`;
       let f = 0;
       this.interval = setInterval(() => {
-        document.title = `${
-          this.isAlert ? this.alertFrame : this.frames[++f % this.frames.length]
-        } ${this._initialTitle}`;
+        const title = this.isAlert
+          ? this.alertFrame
+          : this.frames[++f % this.frames.length];
+        document.title = `${title} ${this._initialTitle}`;
       }, this.frameDelay);
       this.opened = true;
     }
-    close() {
+    close(title_prefix = "") {
       if (!this.opened) return;
       clearInterval(this.interval);
-      document.title = this._initialTitle;
+      document.title = `${title_prefix}${this._initialTitle}`;
       $("#loading-dialog").removeClass("is-active");
       $(".wait-info ul li").remove();
       delete this.onAbort;
@@ -824,7 +825,10 @@ class IDE {
       ide.waiter.addInfo(msg, abortcallback);
     };
     overpass.handlers["onDone"] = function () {
-      ide.waiter.close();
+      const name_match = ide.getRawQuery().match(/@name ([^\n]+)/);
+      // parse document title from @name in query
+      const title_prefix = name_match ? `${name_match[1]} | ` : "";
+      ide.waiter.close(title_prefix);
       const map_bounds = ide.map.getBounds();
       const data_bounds = overpass.osmLayer.getBaseLayer().getBounds();
       if (data_bounds.isValid() && !map_bounds.intersects(data_bounds)) {
@@ -1214,9 +1218,14 @@ class IDE {
     $(`.tabs li.${tab}`).click();
   }
 
-  loadExample(ex) {
-    if (typeof settings.saves[ex] != "undefined")
-      this.setQuery(settings.saves[ex].overpass);
+  loadExample(ex: string) {
+    if (typeof settings.saves[ex] != "undefined") {
+      let query = settings.saves[ex].overpass;
+      if (!/@name/.test(query)) {
+        query = `// @name ${ex}\n\n${query}`;
+      }
+      this.setQuery(query);
+    }
   }
   removeExample(ex) {
     const dialog_buttons = [
