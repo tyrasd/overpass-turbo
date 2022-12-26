@@ -3,15 +3,15 @@ import ffs from "./ffs";
 import settings from "./settings";
 import {Base64, lzw_decode} from "./misc";
 
-export default function urlParameters(param_str, callback) {
+export default function urlParameters(param_str: string, callback) {
   // defaults
   const t = {
     has_query: false,
-    query: undefined,
+    query: null as string | null,
     has_coords: false,
-    coords: undefined,
+    coords: undefined as {lat: number; lng: number} | undefined,
     has_zoom: false,
-    zoom: undefined,
+    zoom: null as number | null,
     run_query: false
   };
 
@@ -32,14 +32,11 @@ export default function urlParameters(param_str, callback) {
   if (args.has("c")) {
     // map center & zoom (compressed)
     const tmp = args.get("c").match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
-    const decode_coords = function (str) {
-      const coords_cpr = Base64.decodeNum(str);
-      const res = {};
-      res.lat = (coords_cpr % (180 * 100000)) / 100000 - 90;
-      res.lng = Math.floor(coords_cpr / (180 * 100000)) / 100000 - 180;
-      return res;
+    const coords_cpr = Base64.decodeNum(str);
+    t.coords = {
+      lat: (coords_cpr % (180 * 100000)) / 100000 - 90,
+      lng: Math.floor(coords_cpr / (180 * 100000)) / 100000 - 180
     };
-    t.coords = decode_coords(tmp[1]);
     t.has_coords = true;
     t.zoom = Base64.decodeNum(tmp[2]);
     t.has_zoom = true;
