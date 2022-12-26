@@ -16,27 +16,23 @@ $(document).ready(() => {
 
   window.addEventListener(
     "message",
-    (evt) => {
+    async (evt) => {
       const data = typeof evt.data === "string" ? JSON.parse(evt.data) : {};
-      switch (data.cmd) {
-        case "update_map":
-          settings.code["overpass"] = data.value[0];
-          ide.update_map();
-          break;
-        case "cache":
-          settings.code["overpass"] = data.value[0];
-          ide.getQuery((query) => {
-            const query_lang = ide.getQueryLang();
-            overpass.run_query(
-              query,
-              query_lang,
-              cache,
-              true,
-              undefined,
-              ide.mapcss
-            );
-          });
-          break;
+      if (data.cmd === "update_map") {
+        settings.code["overpass"] = data.value[0];
+        ide.update_map();
+      } else if (data.cmd === "cache") {
+        settings.code["overpass"] = data.value[0];
+        const query = await ide.getQuery();
+        const query_lang = ide.getQueryLang();
+        overpass.run_query(
+          query,
+          query_lang,
+          cache,
+          true,
+          undefined,
+          ide.mapcss
+        );
       }
     },
     false
@@ -58,61 +54,57 @@ $(document).ready(() => {
   const ide = {
     map: (undefined as unknown) as L.Map,
     mapcss: "",
-    getQuery(callback) {
-      const query = settings.code["overpass"];
+    async getQuery(): Promise<string> {
+      let query = settings.code["overpass"];
       const queryParser = new Query();
-
-      queryParser.parse(query, {}, (query) => {
-        // parse mapcss declarations
-        let mapcss = "";
-        if (queryParser.hasStatement("style"))
-          mapcss = queryParser.getStatement("style");
-        ide.mapcss = mapcss;
-        // parse data-source statements
-        let data_source = null;
-        if (queryParser.hasStatement("data")) {
-          data_source = queryParser.getStatement("data");
-          data_source = data_source.split(",");
-          const data_mode = data_source[0].toLowerCase();
-          data_source = data_source.slice(1);
-          const options = {};
-          for (const src of data_source) {
-            const tmp = src.split("=");
-            options[tmp[0]] = tmp[1];
-          }
-          data_source = {
-            mode: data_mode,
-            options: options
-          };
+      query = await queryParser.parse(query, {});
+      // parse mapcss declarations
+      let mapcss = "";
+      if (queryParser.hasStatement("style"))
+        mapcss = queryParser.getStatement("style");
+      ide.mapcss = mapcss;
+      // parse data-source statements
+      let data_source = null;
+      if (queryParser.hasStatement("data")) {
+        data_source = queryParser.getStatement("data");
+        data_source = data_source.split(",");
+        const data_mode = data_source[0].toLowerCase();
+        data_source = data_source.slice(1);
+        const options = {};
+        for (const src of data_source) {
+          const tmp = src.split("=");
+          options[tmp[0]] = tmp[1];
         }
-        ide.data_source = data_source;
-        // remove newlines
-        query = query.trim();
+        data_source = {
+          mode: data_mode,
+          options: options
+        };
+      }
+      ide.data_source = data_source;
+      // remove newlines
+      query = query.trim();
 
-        // call result callback
-        callback(query);
-      });
+      return query;
     },
     getQueryLang() {
       return $.trim(settings.code["overpass"]).match(/^</)
         ? "xml"
         : "OverpassQL";
     },
-    update_map() {
+    async update_map() {
       $("#data_stats").remove();
       if (typeof overpass.osmLayer != "undefined")
         ide.map.removeLayer(overpass.osmLayer);
-      ide.getQuery((query) => {
-        const query_lang = ide.getQueryLang();
-        overpass.run_query(
-          query,
-          query_lang,
-          cache,
-          false,
-          undefined,
-          ide.mapcss
-        );
-      });
+      const query = await ide.getQuery();
+      const query_lang = ide.getQueryLang();
+      overpass.run_query(
+        query,
+        query_lang,
+        cache,
+        false,
+        undefined,
+        ide.mapcss
+      );
       $("#map_blank").remove();
     }
   };

@@ -1,9 +1,14 @@
 // query parser module
 import _ from "lodash";
+import type {Shortcut} from "./shortcuts";
 
 export default class parser {
   statements: Record<string, string>;
-  parse(query, shortcuts, callback, _found_statements) {
+  async parse(
+    query: string,
+    shortcuts: Record<string, Shortcut>,
+    _found_statements?: Record<string, string>
+  ): Promise<string> {
     // 1. get user defined constants
     const constants = {};
     const constant = /{{([A-Za-z0-9_]+)=(.+?)}}/;
@@ -29,21 +34,22 @@ export default class parser {
       if (this.statements[s_name] === undefined) this.statements[s_name] = "";
       this.statements[s_name] += s_instr;
       // if the statement is a shortcut, replace its content
-      if (shortcuts[s_name] !== undefined) {
+      const shortcut = shortcuts[s_name];
+      if (shortcut !== undefined) {
         // these shortcuts can also be callback functions, like {{date:-1day}}
-        if (typeof shortcuts[s_name] === "function") {
-          shortcuts[s_name](s_instr, (res) => {
-            const seed = Math.round(Math.random() * Math.pow(2, 22)); // todo: use some kind of checksum of s_instr if possible
-            shortcuts[`__statement__${s_name}__${seed}`] = res;
-            query = query.replace(
-              s[0],
-              `{{__statement__${s_name}__${seed}:${s_instr}}}`
-            );
-            // recursively call the parser with updated shortcuts
-            this.parse(query, shortcuts, callback, this.statements);
-          });
-          return;
-        } else s_replace = shortcuts[s_name];
+        if (typeof shortcut === "function") {
+          const res = await new Promise<string>((resolve) =>
+            shortcut(s_instr, (s) => resolve(s))
+          );
+          const seed = Math.round(Math.random() * Math.pow(2, 22)); // todo: use some kind of checksum of s_instr if possible
+          shortcuts[`__statement__${s_name}__${seed}`] = res;
+          query = query.replace(
+            s[0],
+            `{{__statement__${s_name}__${seed}:${s_instr}}}`
+          );
+          // recursively call the parser with updated shortcuts
+          return this.parse(query, shortcuts, this.statements);
+        } else s_replace = shortcut;
       }
       // remove statement, but preserve number of newlines
       const lc = s_instr.split(/\r?\n|\r/).length;
@@ -57,7 +63,7 @@ export default class parser {
       query = query.replace(m[0], Array(lc).join("\n"));
     }
     // return the query
-    callback(query);
+    return query;
   }
   hasStatement(statement) {
     // eslint-disable-next-line no-prototype-builtins

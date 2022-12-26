@@ -136,7 +136,11 @@ function geocodeCoords(instr, callback) {
   });
 }
 
-export default function shortcuts() {
+export type Shortcut =
+  | string
+  | ((instr: string, callback: (s: string) => void) => void);
+
+export default function shortcuts(): Record<string, Shortcut> {
   const queryLang = ide.getQueryLang();
   return {
     bbox: map2bbox(queryLang),

@@ -1144,7 +1144,7 @@ class IDE {
 
   /* this returns the current query in the editor.
    * shortcuts are expanded. */
-  getQuery(callback) {
+  async getQuery(): Promise<string> {
     let query = this.getRawQuery();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
@@ -1152,33 +1152,31 @@ class IDE {
       /(<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,
       "$1{{__bbox__global_bbox_xml__ezs4K8__}}$3"
     );
-    this.queryParser.parse(query, shortcuts(), (query) => {
-      // parse mapcss declarations
-      let mapcss = "";
-      if (this.queryParser.hasStatement("style"))
-        mapcss = this.queryParser.getStatement("style");
-      this.mapcss = mapcss;
-      // parse data-source statements
-      let data_source = null;
-      if (this.queryParser.hasStatement("data")) {
-        data_source = this.queryParser.getStatement("data");
-        data_source = data_source.split(",");
-        const data_mode = data_source[0].toLowerCase();
-        data_source = data_source.slice(1);
-        const options = {};
-        for (const src of data_source) {
-          const tmp = src.split("=");
-          options[tmp[0]] = tmp[1];
-        }
-        data_source = {
-          mode: data_mode,
-          options: options
-        };
+    query = await this.queryParser.parse(query, shortcuts());
+    // parse mapcss declarations
+    let mapcss = "";
+    if (this.queryParser.hasStatement("style"))
+      mapcss = this.queryParser.getStatement("style");
+    this.mapcss = mapcss;
+    // parse data-source statements
+    let data_source = null;
+    if (this.queryParser.hasStatement("data")) {
+      data_source = this.queryParser.getStatement("data");
+      data_source = data_source.split(",");
+      const data_mode = data_source[0].toLowerCase();
+      data_source = data_source.slice(1);
+      const options = {};
+      for (const src of data_source) {
+        const tmp = src.split("=");
+        options[tmp[0]] = tmp[1];
       }
-      this.data_source = data_source;
-      // call result callback
-      callback(query);
-    });
+      data_source = {
+        mode: data_mode,
+        options: options
+      };
+    }
+    this.data_source = data_source;
+    return query;
   }
 
   setQuery(query) {
@@ -1522,595 +1520,666 @@ class IDE {
   onShareClose() {
     $("#share-dialog").removeClass("is-active");
   }
-  onExportClick() {
+  async onExportClick() {
     // prepare export dialog
-    this.getQuery((query) => {
-      const baseurl = `${location.protocol}//${location.host}${
-        location.pathname.match(/.*\//)[0]
-      }`;
-      const server =
-        this.data_source &&
-        this.data_source.mode == "overpass" &&
-        this.data_source.options.server
-          ? this.data_source.options.server
-          : settings.server;
-      let queryWithMapCSS = query;
-      if (this.queryParser.hasStatement("style"))
-        queryWithMapCSS += `{{style: ${this.queryParser.getStatement(
-          "style"
-        )} }}`;
-      if (this.queryParser.hasStatement("data"))
-        queryWithMapCSS += `{{data:${this.queryParser.getStatement("data")}}}`;
-      else if (settings.server !== configs.defaultServer)
-        queryWithMapCSS += `{{data:overpass,server=${settings.server}}}`;
-      $(
-        "#export-dialog a#export-interactive-map"
-      )[0].href = `${baseurl}map.html?${new URLSearchParams({
-        Q: queryWithMapCSS
-      })}`;
-      // encoding exclamation marks for better command line usability (bash)
-      $(
-        "#export-dialog a#export-overpass-api"
-      )[0].href = `${server}interpreter?data=${encodeURIComponent(query)
-        .replace(/!/g, "%21")
-        .replace(/\(/g, "%28")
-        .replace(/\)/g, "%29")}`;
-      function toDataURL(text, mediatype) {
-        return `data:${mediatype || "text/plain"};charset=${
-          document.characterSet || document.charset
-        };base64,${Base64.encode(text, true)}`;
+    const query = await this.getQuery();
+    const baseurl = `${location.protocol}//${location.host}${
+      location.pathname.match(/.*\//)[0]
+    }`;
+    const server =
+      this.data_source &&
+      this.data_source.mode == "overpass" &&
+      this.data_source.options.server
+        ? this.data_source.options.server
+        : settings.server;
+    let queryWithMapCSS = query;
+    if (this.queryParser.hasStatement("style"))
+      queryWithMapCSS += `{{style: ${this.queryParser.getStatement(
+        "style"
+      )} }}`;
+    if (this.queryParser.hasStatement("data"))
+      queryWithMapCSS += `{{data:${this.queryParser.getStatement("data")}}}`;
+    else if (settings.server !== configs.defaultServer)
+      queryWithMapCSS += `{{data:overpass,server=${settings.server}}}`;
+    $(
+      "#export-dialog a#export-interactive-map"
+    )[0].href = `${baseurl}map.html?${new URLSearchParams({
+      Q: queryWithMapCSS
+    })}`;
+    // encoding exclamation marks for better command line usability (bash)
+    $(
+      "#export-dialog a#export-overpass-api"
+    )[0].href = `${server}interpreter?data=${encodeURIComponent(query)
+      .replace(/!/g, "%21")
+      .replace(/\(/g, "%28")
+      .replace(/\)/g, "%29")}`;
+    function toDataURL(text, mediatype) {
+      return `data:${mediatype || "text/plain"};charset=${
+        document.characterSet || document.charset
+      };base64,${Base64.encode(text, true)}`;
+    }
+    function saveAs(text, mediatype, filename) {
+      const save_link = document.createElement("a");
+      save_link.href = toDataURL(text, mediatype);
+      save_link.download = filename;
+      save_link.dispatchEvent(new MouseEvent("click"));
+    }
+    function copyHandler(text, successMessage) {
+      return function () {
+        // selector
+        $("#export-clipboard-success").addClass("is-active");
+        copyData = {
+          "text/plain": text
+        };
+        document.execCommand("copy");
+        $("#export-clipboard-success .message").html(
+          i18n.t("export.copy_to_clipboard_success-message")
+        );
+        $("#export-clipboard-success .export-copy_to_clipboard-content").html(
+          successMessage
+        );
+        return false;
+      };
+    }
+    // export query
+    $("#export-text .format").html(i18n.t("export.format_text"));
+    $("#export-text .export").attr({
+      download: "query.overpassql",
+      target: "_blank",
+      href: toDataURL(query)
+    });
+    $("#export-text .copy").attr("href", "").click(copyHandler(query));
+    // export raw query
+    const query_raw = this.getRawQuery();
+    $("#export-text_raw .format").html(i18n.t("export.format_text_raw"));
+    $("#export-text_raw .export").attr({
+      download: "query-raw.overpassql",
+      target: "_blank",
+      href: toDataURL(query_raw)
+    });
+    $("#export-text_raw .copy").attr("href", "").click(copyHandler(query_raw));
+    // export wiki query
+    let query_wiki = `{{OverpassTurboExample|loc=${L.Util.formatNum(
+      this.map.getCenter().lat
+    )};${L.Util.formatNum(
+      this.map.getCenter().lng
+    )};${this.map.getZoom()}|query=\n`;
+    query_wiki += query_raw
+      .replace(/{{/g, "mSAvmrw81O8NgWlX")
+      .replace(/{/g, "Z9P563g6zQYzjiLE")
+      .replace(/}}/g, "AtUhvGGxAlM1mP5i")
+      .replace(/}/g, "Yfxw6RTW5lewTqtg")
+      .replace(/mSAvmrw81O8NgWlX/g, "{{((}}")
+      .replace(/Z9P563g6zQYzjiLE/g, "{{(}}")
+      .replace(/AtUhvGGxAlM1mP5i/g, "{{))}}")
+      .replace(/Yfxw6RTW5lewTqtg/g, "{{)}}")
+      .replace(/\|/g, "{{!}}")
+      .replace(/{{!}}{{!}}/g, "{{!!}}");
+    query_wiki += "\n}}";
+    $("#export-text_wiki .format").html(i18n.t("export.format_text_wiki"));
+    $("#export-text_wiki .export").attr({
+      download: "query-wiki.mediawiki",
+      target: "_blank",
+      href: toDataURL(query_wiki)
+    });
+    $("#export-text_wiki .copy")
+      .attr("href", "")
+      .click(copyHandler(query_wiki));
+    // export umap query
+    let query_umap = query;
+    // remove /* */ comments from query
+    query_umap = query_umap.replace(/\/\*[\S\s]*?\*\//g, "");
+    // replace //  comments from query
+    query_umap = query_umap.replace(/\/\/.*/g, "");
+    // removes indentation
+    query_umap = query_umap.replace(/\n\s*/g, "");
+    // replace bbox with south west north east
+    query_umap = query_umap.replace(
+      new RegExp(shortcuts().bbox, "g"),
+      "{south},{west},{north},{east}"
+    );
+    $("#export-text_umap .format").html(i18n.t("export.format_text_umap"));
+    $("#export-text_umap .export").attr({
+      download: "query-umap.overpassql",
+      target: "_blank",
+      href: toDataURL(query_umap)
+    });
+    $("#export-text_umap .copy")
+      .attr("href", "")
+      .click(
+        copyHandler(
+          query_umap,
+          `${i18n.t("export.section.query")} (${i18n.t(
+            "export.format_text_umap"
+          )})`
+        )
+      );
+    const dialog_buttons = [{name: i18n.t("dialog.done")}];
+    $("#export-dialog a#export-map-state")
+      .unbind("click")
+      .bind("click", () => {
+        const content =
+          `<h4>${i18n.t("export.map_view.permalink")}</h4>` +
+          `<p><a href="//www.openstreetmap.org/#map=${this.map.getZoom()}/${L.Util.formatNum(
+            this.map.getCenter().lat
+          )}/${L.Util.formatNum(
+            this.map.getCenter().lng
+          )}" target="_blank">${i18n.t(
+            "export.map_view.permalink_osm"
+          )}</a></p>` +
+          `<h4>${i18n.t("export.map_view.center")}</h4><p>${L.Util.formatNum(
+            this.map.getCenter().lat
+          )}, ${L.Util.formatNum(this.map.getCenter().lng)} <small>(${i18n.t(
+            "export.map_view.center_expl"
+          )})</small></p>` +
+          `<h4>${i18n.t("export.map_view.bounds")}</h4><p>${L.Util.formatNum(
+            this.map.getBounds().getSouthWest().lat
+          )}, ${L.Util.formatNum(
+            this.map.getBounds().getSouthWest().lng
+          )}, ${L.Util.formatNum(
+            this.map.getBounds().getNorthEast().lat
+          )}, ${L.Util.formatNum(
+            this.map.getBounds().getNorthEast().lng
+          )}<br /><small>(${i18n.t(
+            "export.map_view.bounds_expl"
+          )})</small></p>${
+            this.map.bboxfilter.isEnabled()
+              ? `<h4>${i18n.t(
+                  "export.map_view.bounds_selection"
+                )}</h4><p>${L.Util.formatNum(
+                  this.map.bboxfilter.getBounds().getSouthWest().lat
+                )}, ${L.Util.formatNum(
+                  this.map.bboxfilter.getBounds().getSouthWest().lng
+                )}, ${L.Util.formatNum(
+                  this.map.bboxfilter.getBounds().getNorthEast().lat
+                )}, ${L.Util.formatNum(
+                  this.map.bboxfilter.getBounds().getNorthEast().lng
+                )}<br /><small>(${i18n.t(
+                  "export.map_view.bounds_expl"
+                )})</small></p>`
+              : ""
+          }<h4>${i18n.t(
+            "export.map_view.zoom"
+          )}</h4><p>${this.map.getZoom()}</p>`;
+        showDialog(i18n.t("export.map_view.title"), content, dialog_buttons);
+        return false;
+      });
+    $("#export-dialog a#export-image")
+      .unbind("click")
+      .on("click", () => {
+        this.onExportImageClick();
+        $("#export-dialog").removeClass("is-active");
+        return false;
+      });
+    // GeoJSON format
+    function constructGeojsonString(geojson) {
+      let geoJSON_str;
+      if (!geojson) geoJSON_str = i18n.t("export.geoJSON.no_data");
+      else {
+        console.log(new Date());
+        const gJ = {
+          type: "FeatureCollection",
+          generator: configs.appname,
+          copyright: overpass.copyright,
+          timestamp: overpass.timestamp,
+          features: geojson.features.map((feature) => ({
+            type: "Feature",
+            properties: feature.properties,
+            geometry: feature.geometry
+          })) // makes deep copy
+        };
+        gJ.features.forEach((f) => {
+          const p = f.properties;
+          f.id = `${p.type}/${p.id}`;
+          f.properties = {
+            "@id": f.id
+          };
+          // escapes tags beginning with an @ with another @
+          for (const m in p.tags || {})
+            f.properties[m.replace(/^@/, "@@")] = p.tags[m];
+          for (const m in p.meta || {}) f.properties[`@${m}`] = p.meta[m];
+          // expose internal properties:
+          // * tainted: indicates that the feature's geometry is incomplete
+          if (p.tainted) f.properties["@tainted"] = p.tainted;
+          // * geometry: indicates that the feature's geometry is approximated via the Overpass geometry types "center" or "bounds"
+          if (p.geometry) f.properties["@geometry"] = p.geometry;
+          // expose relation membership (complex data type)
+          if (p.relations && p.relations.length > 0)
+            f.properties["@relations"] = p.relations;
+          // todo: expose way membership for nodes?
+        });
+        geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
-      function saveAs(text, mediatype, filename) {
-        const save_link = document.createElement("a");
-        save_link.href = toDataURL(text, mediatype);
-        save_link.download = filename;
-        save_link.dispatchEvent(new MouseEvent("click"));
-      }
-      function copyHandler(text, successMessage) {
-        return function () {
-          // selector
-          $("#export-clipboard-success").addClass("is-active");
+      return geoJSON_str;
+    }
+    $("#export-geoJSON .format").text("GeoJSON");
+    $("#export-geoJSON .export")
+      .attr("href", "")
+      .unbind("click")
+      .on("click", () => {
+        const geoJSON_str = constructGeojsonString(overpass.geojson);
+        const d = $("#export-download-dialog");
+
+        // make content downloadable as file
+        if (overpass.geojson) {
+          saveAs(geoJSON_str, "application/geo+json", "export.geojson");
+        } else {
+          d.addClass("is-active");
+          $(".message", d).text(geoJSON_str);
+        }
+        return false;
+      });
+    $("#export-geoJSON .copy")
+      .attr("href", "")
+      .click(() => {
+        const d = overpass.geojson
+          ? $("#export-clipboard-success")
+          : $("#export-download-dialog");
+        d.addClass("is-active");
+        if (overpass.geojson) {
+          const geojson = constructGeojsonString(overpass.geojson);
           copyData = {
-            "text/plain": text
+            "text/plain": geojson,
+            "application/geo+json": geojson
           };
           document.execCommand("copy");
-          $("#export-clipboard-success .message").html(
+          $(".message", d).html(
             i18n.t("export.copy_to_clipboard_success-message")
           );
-          $("#export-clipboard-success .export-copy_to_clipboard-content").html(
-            successMessage
-          );
-          return false;
-        };
-      }
-      // export query
-      $("#export-text .format").html(i18n.t("export.format_text"));
-      $("#export-text .export").attr({
-        download: "query.overpassql",
-        target: "_blank",
-        href: toDataURL(query)
-      });
-      $("#export-text .copy").attr("href", "").click(copyHandler(query));
-      // export raw query
-      const query_raw = this.getRawQuery();
-      $("#export-text_raw .format").html(i18n.t("export.format_text_raw"));
-      $("#export-text_raw .export").attr({
-        download: "query-raw.overpassql",
-        target: "_blank",
-        href: toDataURL(query_raw)
-      });
-      $("#export-text_raw .copy")
-        .attr("href", "")
-        .click(copyHandler(query_raw));
-      // export wiki query
-      let query_wiki = `{{OverpassTurboExample|loc=${L.Util.formatNum(
-        this.map.getCenter().lat
-      )};${L.Util.formatNum(
-        this.map.getCenter().lng
-      )};${this.map.getZoom()}|query=\n`;
-      query_wiki += query_raw
-        .replace(/{{/g, "mSAvmrw81O8NgWlX")
-        .replace(/{/g, "Z9P563g6zQYzjiLE")
-        .replace(/}}/g, "AtUhvGGxAlM1mP5i")
-        .replace(/}/g, "Yfxw6RTW5lewTqtg")
-        .replace(/mSAvmrw81O8NgWlX/g, "{{((}}")
-        .replace(/Z9P563g6zQYzjiLE/g, "{{(}}")
-        .replace(/AtUhvGGxAlM1mP5i/g, "{{))}}")
-        .replace(/Yfxw6RTW5lewTqtg/g, "{{)}}")
-        .replace(/\|/g, "{{!}}")
-        .replace(/{{!}}{{!}}/g, "{{!!}}");
-      query_wiki += "\n}}";
-      $("#export-text_wiki .format").html(i18n.t("export.format_text_wiki"));
-      $("#export-text_wiki .export").attr({
-        download: "query-wiki.mediawiki",
-        target: "_blank",
-        href: toDataURL(query_wiki)
-      });
-      $("#export-text_wiki .copy")
-        .attr("href", "")
-        .click(copyHandler(query_wiki));
-      // export umap query
-      let query_umap = query;
-      // remove /* */ comments from query
-      query_umap = query_umap.replace(/\/\*[\S\s]*?\*\//g, "");
-      // replace //  comments from query
-      query_umap = query_umap.replace(/\/\/.*/g, "");
-      // removes indentation
-      query_umap = query_umap.replace(/\n\s*/g, "");
-      // replace bbox with south west north east
-      query_umap = query_umap.replace(
-        new RegExp(shortcuts().bbox, "g"),
-        "{south},{west},{north},{east}"
-      );
-      $("#export-text_umap .format").html(i18n.t("export.format_text_umap"));
-      $("#export-text_umap .export").attr({
-        download: "query-umap.overpassql",
-        target: "_blank",
-        href: toDataURL(query_umap)
-      });
-      $("#export-text_umap .copy")
-        .attr("href", "")
-        .click(
-          copyHandler(
-            query_umap,
-            `${i18n.t("export.section.query")} (${i18n.t(
-              "export.format_text_umap"
-            )})`
-          )
-        );
-      const dialog_buttons = [{name: i18n.t("dialog.done")}];
-      $("#export-dialog a#export-map-state")
-        .unbind("click")
-        .bind("click", () => {
-          const content =
-            `<h4>${i18n.t("export.map_view.permalink")}</h4>` +
-            `<p><a href="//www.openstreetmap.org/#map=${this.map.getZoom()}/${L.Util.formatNum(
-              this.map.getCenter().lat
-            )}/${L.Util.formatNum(
-              this.map.getCenter().lng
-            )}" target="_blank">${i18n.t(
-              "export.map_view.permalink_osm"
-            )}</a></p>` +
-            `<h4>${i18n.t("export.map_view.center")}</h4><p>${L.Util.formatNum(
-              this.map.getCenter().lat
-            )}, ${L.Util.formatNum(this.map.getCenter().lng)} <small>(${i18n.t(
-              "export.map_view.center_expl"
-            )})</small></p>` +
-            `<h4>${i18n.t("export.map_view.bounds")}</h4><p>${L.Util.formatNum(
-              this.map.getBounds().getSouthWest().lat
-            )}, ${L.Util.formatNum(
-              this.map.getBounds().getSouthWest().lng
-            )}, ${L.Util.formatNum(
-              this.map.getBounds().getNorthEast().lat
-            )}, ${L.Util.formatNum(
-              this.map.getBounds().getNorthEast().lng
-            )}<br /><small>(${i18n.t(
-              "export.map_view.bounds_expl"
-            )})</small></p>${
-              this.map.bboxfilter.isEnabled()
-                ? `<h4>${i18n.t(
-                    "export.map_view.bounds_selection"
-                  )}</h4><p>${L.Util.formatNum(
-                    this.map.bboxfilter.getBounds().getSouthWest().lat
-                  )}, ${L.Util.formatNum(
-                    this.map.bboxfilter.getBounds().getSouthWest().lng
-                  )}, ${L.Util.formatNum(
-                    this.map.bboxfilter.getBounds().getNorthEast().lat
-                  )}, ${L.Util.formatNum(
-                    this.map.bboxfilter.getBounds().getNorthEast().lng
-                  )}<br /><small>(${i18n.t(
-                    "export.map_view.bounds_expl"
-                  )})</small></p>`
-                : ""
-            }<h4>${i18n.t(
-              "export.map_view.zoom"
-            )}</h4><p>${this.map.getZoom()}</p>`;
-          showDialog(i18n.t("export.map_view.title"), content, dialog_buttons);
-          return false;
-        });
-      $("#export-dialog a#export-image")
-        .unbind("click")
-        .on("click", () => {
-          this.onExportImageClick();
-          $("#export-dialog").removeClass("is-active");
-          return false;
-        });
-      // GeoJSON format
-      function constructGeojsonString(geojson) {
-        let geoJSON_str;
-        if (!geojson) geoJSON_str = i18n.t("export.geoJSON.no_data");
-        else {
-          console.log(new Date());
-          const gJ = {
-            type: "FeatureCollection",
-            generator: configs.appname,
-            copyright: overpass.copyright,
-            timestamp: overpass.timestamp,
-            features: geojson.features.map((feature) => ({
-              type: "Feature",
-              properties: feature.properties,
-              geometry: feature.geometry
-            })) // makes deep copy
-          };
-          gJ.features.forEach((f) => {
-            const p = f.properties;
-            f.id = `${p.type}/${p.id}`;
-            f.properties = {
-              "@id": f.id
-            };
-            // escapes tags beginning with an @ with another @
-            for (const m in p.tags || {})
-              f.properties[m.replace(/^@/, "@@")] = p.tags[m];
-            for (const m in p.meta || {}) f.properties[`@${m}`] = p.meta[m];
-            // expose internal properties:
-            // * tainted: indicates that the feature's geometry is incomplete
-            if (p.tainted) f.properties["@tainted"] = p.tainted;
-            // * geometry: indicates that the feature's geometry is approximated via the Overpass geometry types "center" or "bounds"
-            if (p.geometry) f.properties["@geometry"] = p.geometry;
-            // expose relation membership (complex data type)
-            if (p.relations && p.relations.length > 0)
-              f.properties["@relations"] = p.relations;
-            // todo: expose way membership for nodes?
-          });
-          geoJSON_str = JSON.stringify(gJ, undefined, 2);
+          $(".export-copy_to_clipboard-content", d).text("GeoJSON");
+        } else {
+          $(".message", d).text(i18n.t("export.geoJSON.no_data"));
         }
-        return geoJSON_str;
-      }
-      $("#export-geoJSON .format").text("GeoJSON");
-      $("#export-geoJSON .export")
-        .attr("href", "")
-        .unbind("click")
-        .on("click", () => {
-          const geoJSON_str = constructGeojsonString(overpass.geojson);
-          const d = $("#export-download-dialog");
-
-          // make content downloadable as file
-          if (overpass.geojson) {
-            saveAs(geoJSON_str, "application/geo+json", "export.geojson");
-          } else {
-            d.addClass("is-active");
-            $(".message", d).text(geoJSON_str);
-          }
-          return false;
-        });
-      $("#export-geoJSON .copy")
-        .attr("href", "")
-        .click(() => {
-          const d = overpass.geojson
-            ? $("#export-clipboard-success")
-            : $("#export-download-dialog");
-          d.addClass("is-active");
-          if (overpass.geojson) {
-            const geojson = constructGeojsonString(overpass.geojson);
-            copyData = {
-              "text/plain": geojson,
-              "application/geo+json": geojson
-            };
-            document.execCommand("copy");
-            $(".message", d).html(
-              i18n.t("export.copy_to_clipboard_success-message")
-            );
-            $(".export-copy_to_clipboard-content", d).text("GeoJSON");
-          } else {
-            $(".message", d).text(i18n.t("export.geoJSON.no_data"));
-          }
-          return false;
-        });
-      $("#export-dialog a#export-geoJSON-gist")
-        .unbind("click")
-        .on("click", () => {
-          const geoJSON_str = constructGeojsonString(overpass.geojson);
-          $.ajax("https://api.github.com/gists", {
-            method: "POST",
-            data: JSON.stringify({
-              description: "data exported by overpass turbo", // todo:descr
-              public: true,
-              files: {
-                "overpass.geojson": {
-                  // todo:name
-                  content: geoJSON_str
-                }
+        return false;
+      });
+    $("#export-dialog a#export-geoJSON-gist")
+      .unbind("click")
+      .on("click", () => {
+        const geoJSON_str = constructGeojsonString(overpass.geojson);
+        $.ajax("https://api.github.com/gists", {
+          method: "POST",
+          data: JSON.stringify({
+            description: "data exported by overpass turbo", // todo:descr
+            public: true,
+            files: {
+              "overpass.geojson": {
+                // todo:name
+                content: geoJSON_str
               }
-            })
+            }
           })
-            .done((data) => {
-              const dialog_buttons = [{name: i18n.t("dialog.done")}];
-              const content =
-                `<p>${i18n.t("export.geoJSON_gist.gist")}&nbsp;<a href="${
-                  data.html_url
-                }" target="_blank" class="external">${data.id}</a></p>` +
-                `<p>${i18n.t(
-                  "export.geoJSON_gist.geojsonio"
-                )}&nbsp;<a href="http://geojson.io/#id=gist:anonymous/${
-                  data.id
-                }" target="_blank" class="external">${i18n.t(
-                  "export.geoJSON_gist.geojsonio_link"
-                )}</a></p>`;
-              showDialog(
-                i18n.t("export.geoJSON_gist.title"),
-                content,
-                dialog_buttons
-              );
-              // data.html_url;
-            })
-            .fail((jqXHR) => {
-              alert(
-                `an error occured during the creation of the overpass gist:\n${JSON.stringify(
-                  jqXHR
-                )}`
-              );
-            });
-          return false;
-        });
-      // GPX format
-      function constructGpxString(geojson) {
-        let gpx_str;
-        if (!geojson) gpx_str = i18n.t("export.GPX.no_data");
-        else {
-          gpx_str = togpx(geojson, {
-            creator: configs.appname,
-            metadata: {
-              desc: "Filtered OSM data converted to GPX by overpass turbo",
-              copyright: {"@author": overpass.copyright},
-              time: overpass.timestamp
-            },
-            featureTitle(props) {
-              if (props.tags) {
-                if (props.tags.name) return props.tags.name;
-                if (props.tags.ref) return props.tags.ref;
-                if (props.tags["addr:housenumber"] && props.tags["addr:street"])
-                  return `${props.tags["addr:street"]} ${props.tags["addr:housenumber"]}`;
-              }
-              return `${props.type}/${props.id}`;
-            },
-            //featureDescription: function(props) {},
-            featureLink(props) {
-              return `http://osm.org/browse/${props.type}/${props.id}`;
-            }
+        })
+          .done((data) => {
+            const dialog_buttons = [{name: i18n.t("dialog.done")}];
+            const content =
+              `<p>${i18n.t("export.geoJSON_gist.gist")}&nbsp;<a href="${
+                data.html_url
+              }" target="_blank" class="external">${data.id}</a></p>` +
+              `<p>${i18n.t(
+                "export.geoJSON_gist.geojsonio"
+              )}&nbsp;<a href="http://geojson.io/#id=gist:anonymous/${
+                data.id
+              }" target="_blank" class="external">${i18n.t(
+                "export.geoJSON_gist.geojsonio_link"
+              )}</a></p>`;
+            showDialog(
+              i18n.t("export.geoJSON_gist.title"),
+              content,
+              dialog_buttons
+            );
+            // data.html_url;
+          })
+          .fail((jqXHR) => {
+            alert(
+              `an error occured during the creation of the overpass gist:\n${JSON.stringify(
+                jqXHR
+              )}`
+            );
           });
-          if (gpx_str[1] !== "?")
-            gpx_str = `<?xml version="1.0" encoding="UTF-8"?>\n${gpx_str}`;
-        }
-        return gpx_str;
-      }
-      $("#export-GPX .format").text("GPX");
-      $("#export-GPX .export")
-        .attr("href", "")
-        .unbind("click")
-        .on("click", () => {
-          const geojson = overpass.geojson;
-          const gpx_str = constructGpxString(geojson);
-          // make content downloadable as file
-          if (geojson) {
-            saveAs(gpx_str, "application/gpx+xml", "export.gpx");
-          } else {
-            const d = $("#export-download-dialog");
-            d.addClass("is-active");
-            $(".message", d).text(gpx_str);
-          }
-          return false;
-        });
-      $("#export-GPX .copy")
-        .attr("href", "")
-        .click(() => {
-          const d = overpass.geojson
-            ? $("#export-clipboard-success")
-            : $("#export-download-dialog");
-          d.addClass("is-active");
-          if (overpass.geojson) {
-            const gpx = constructGpxString(overpass.geojson);
-            copyData = {
-              "text/plain": gpx,
-              "application/gpx+xml": gpx
-            };
-            document.execCommand("copy");
-            $(".message", d).html(
-              i18n.t("export.copy_to_clipboard_success-message")
-            );
-            $(".export-copy_to_clipboard-content", d).text("GPX");
-          } else {
-            $(".message", d).text(i18n.t("export.GPX.no_data"));
-          }
-          return false;
-        });
-      // KML format
-      function constructKmlString(geojson) {
-        geojson = geojson && JSON.parse(constructGeojsonString(geojson));
-        if (!geojson) return i18n.t("export.KML.no_data");
-        else {
-          return tokml(geojson, {
-            documentName: "overpass-turbo.eu export",
-            documentDescription:
-              `Filtered OSM data converted to KML by overpass turbo.\n` +
-              `Copyright: ${overpass.copyright}\n` +
-              `Timestamp: ${overpass.timestamp}`,
-            name: "name",
-            description: "description"
-          });
-        }
-      }
-      $("#export-KML .format").text("KML");
-      $("#export-KML .export")
-        .attr("href", "")
-        .unbind("click")
-        .on("click", () => {
-          const geojson = overpass.geojson;
-          const kml_str = constructKmlString(geojson);
-          // make content downloadable as file
-          if (geojson) {
-            saveAs(
-              kml_str,
-              "application/vnd.google-earth.kml+xml",
-              "export.kml"
-            );
-          } else {
-            $("#export-download-dialog").addClass("is-active");
-            $("#export-download-dialog .message").text(kml_str);
-          }
-          return false;
-        });
-      $("#export-KML .copy")
-        .attr("href", "")
-        .click(() => {
-          const d = overpass.geojson
-            ? $("#export-clipboard-success")
-            : $("#export-download-dialog");
-          d.addClass("is-active");
-          if (overpass.geojson) {
-            const kml = constructKmlString(overpass.geojson);
-            copyData = {
-              "text/plain": kml,
-              "application/vnd.google-earth.kml+xml": kml
-            };
-            document.execCommand("copy");
-            $(".message", d).html(
-              i18n.t("export.copy_to_clipboard_success-message")
-            );
-            $(".export-copy_to_clipboard-content", d).text("KML");
-          } else {
-            $(".message", d).text(i18n.t("export.kml.no_data"));
-          }
-          return false;
-        });
-      // RAW format
-      function constructRawData(geojson) {
-        let raw_str, raw_type;
-        if (!geojson) raw_str = i18n.t("export.raw.no_data");
-        else {
-          const data = overpass.data;
-          if (data instanceof XMLDocument) {
-            raw_str = new XMLSerializer().serializeToString(data);
-            raw_type = raw_str.match(/<osm/) ? "osm" : "xml";
-          } else if (data instanceof Object) {
-            raw_str = JSON.stringify(data, undefined, 2);
-            raw_type = "json";
-          } else {
-            try {
-              raw_str = data.toString();
-            } catch (e) {
-              raw_str = "Error while exporting the data";
+        return false;
+      });
+    // GPX format
+    function constructGpxString(geojson) {
+      let gpx_str;
+      if (!geojson) gpx_str = i18n.t("export.GPX.no_data");
+      else {
+        gpx_str = togpx(geojson, {
+          creator: configs.appname,
+          metadata: {
+            desc: "Filtered OSM data converted to GPX by overpass turbo",
+            copyright: {"@author": overpass.copyright},
+            time: overpass.timestamp
+          },
+          featureTitle(props) {
+            if (props.tags) {
+              if (props.tags.name) return props.tags.name;
+              if (props.tags.ref) return props.tags.ref;
+              if (props.tags["addr:housenumber"] && props.tags["addr:street"])
+                return `${props.tags["addr:street"]} ${props.tags["addr:housenumber"]}`;
             }
+            return `${props.type}/${props.id}`;
+          },
+          //featureDescription: function(props) {},
+          featureLink(props) {
+            return `http://osm.org/browse/${props.type}/${props.id}`;
+          }
+        });
+        if (gpx_str[1] !== "?")
+          gpx_str = `<?xml version="1.0" encoding="UTF-8"?>\n${gpx_str}`;
+      }
+      return gpx_str;
+    }
+    $("#export-GPX .format").text("GPX");
+    $("#export-GPX .export")
+      .attr("href", "")
+      .unbind("click")
+      .on("click", () => {
+        const geojson = overpass.geojson;
+        const gpx_str = constructGpxString(geojson);
+        // make content downloadable as file
+        if (geojson) {
+          saveAs(gpx_str, "application/gpx+xml", "export.gpx");
+        } else {
+          const d = $("#export-download-dialog");
+          d.addClass("is-active");
+          $(".message", d).text(gpx_str);
+        }
+        return false;
+      });
+    $("#export-GPX .copy")
+      .attr("href", "")
+      .click(() => {
+        const d = overpass.geojson
+          ? $("#export-clipboard-success")
+          : $("#export-download-dialog");
+        d.addClass("is-active");
+        if (overpass.geojson) {
+          const gpx = constructGpxString(overpass.geojson);
+          copyData = {
+            "text/plain": gpx,
+            "application/gpx+xml": gpx
+          };
+          document.execCommand("copy");
+          $(".message", d).html(
+            i18n.t("export.copy_to_clipboard_success-message")
+          );
+          $(".export-copy_to_clipboard-content", d).text("GPX");
+        } else {
+          $(".message", d).text(i18n.t("export.GPX.no_data"));
+        }
+        return false;
+      });
+    // KML format
+    function constructKmlString(geojson) {
+      geojson = geojson && JSON.parse(constructGeojsonString(geojson));
+      if (!geojson) return i18n.t("export.KML.no_data");
+      else {
+        return tokml(geojson, {
+          documentName: "overpass-turbo.eu export",
+          documentDescription:
+            `Filtered OSM data converted to KML by overpass turbo.\n` +
+            `Copyright: ${overpass.copyright}\n` +
+            `Timestamp: ${overpass.timestamp}`,
+          name: "name",
+          description: "description"
+        });
+      }
+    }
+    $("#export-KML .format").text("KML");
+    $("#export-KML .export")
+      .attr("href", "")
+      .unbind("click")
+      .on("click", () => {
+        const geojson = overpass.geojson;
+        const kml_str = constructKmlString(geojson);
+        // make content downloadable as file
+        if (geojson) {
+          saveAs(kml_str, "application/vnd.google-earth.kml+xml", "export.kml");
+        } else {
+          $("#export-download-dialog").addClass("is-active");
+          $("#export-download-dialog .message").text(kml_str);
+        }
+        return false;
+      });
+    $("#export-KML .copy")
+      .attr("href", "")
+      .click(() => {
+        const d = overpass.geojson
+          ? $("#export-clipboard-success")
+          : $("#export-download-dialog");
+        d.addClass("is-active");
+        if (overpass.geojson) {
+          const kml = constructKmlString(overpass.geojson);
+          copyData = {
+            "text/plain": kml,
+            "application/vnd.google-earth.kml+xml": kml
+          };
+          document.execCommand("copy");
+          $(".message", d).html(
+            i18n.t("export.copy_to_clipboard_success-message")
+          );
+          $(".export-copy_to_clipboard-content", d).text("KML");
+        } else {
+          $(".message", d).text(i18n.t("export.kml.no_data"));
+        }
+        return false;
+      });
+    // RAW format
+    function constructRawData(geojson) {
+      let raw_str, raw_type;
+      if (!geojson) raw_str = i18n.t("export.raw.no_data");
+      else {
+        const data = overpass.data;
+        if (data instanceof XMLDocument) {
+          raw_str = new XMLSerializer().serializeToString(data);
+          raw_type = raw_str.match(/<osm/) ? "osm" : "xml";
+        } else if (data instanceof Object) {
+          raw_str = JSON.stringify(data, undefined, 2);
+          raw_type = "json";
+        } else {
+          try {
+            raw_str = data.toString();
+          } catch (e) {
+            raw_str = "Error while exporting the data";
           }
         }
-        return {
-          raw_str: raw_str,
-          raw_type: raw_type
-        };
       }
-      $("#export-raw .format").text(i18n.t("export.raw_data"));
-      $("#export-raw .export")
-        .attr("href", "")
-        .unbind("click")
-        .on("click", () => {
-          const geojson = overpass.geojson;
+      return {
+        raw_str: raw_str,
+        raw_type: raw_type
+      };
+    }
+    $("#export-raw .format").text(i18n.t("export.raw_data"));
+    $("#export-raw .export")
+      .attr("href", "")
+      .unbind("click")
+      .on("click", () => {
+        const geojson = overpass.geojson;
+        const raw = constructRawData(geojson);
+        const raw_str = raw.raw_str;
+        const raw_type = raw.raw_type;
+        // make content downloadable as file
+        if (geojson) {
+          if (raw_type == "osm" || raw_type == "xml") {
+            saveAs(raw_str, "application/xml", `export.${raw_type}`);
+          } else if (raw_type == "json") {
+            saveAs(raw_str, "application/json", "export.json");
+          } else {
+            saveAs(raw_str, "application/octet-stream", "export.dat");
+          }
+        } else {
+          const d = $("#export-download-dialog");
+          d.addClass("is-active");
+          $(".message", d).text(raw_str);
+        }
+        return false;
+      });
+    $("#export-raw .copy")
+      .attr("href", "")
+      .click(() => {
+        const d = overpass.geojson
+          ? $("#export-clipboard-success")
+          : $("#export-download-dialog");
+        d.addClass("is-active");
+        const geojson = overpass.geojson;
+        if (geojson) {
           const raw = constructRawData(geojson);
           const raw_str = raw.raw_str;
           const raw_type = raw.raw_type;
-          // make content downloadable as file
-          if (geojson) {
-            if (raw_type == "osm" || raw_type == "xml") {
-              saveAs(raw_str, "application/xml", `export.${raw_type}`);
-            } else if (raw_type == "json") {
-              saveAs(raw_str, "application/json", "export.json");
-            } else {
-              saveAs(raw_str, "application/octet-stream", "export.dat");
-            }
+          copyData = {
+            "text/plain": raw_str
+          };
+          if (raw_type == "osm" || raw_type == "xml") {
+            copyData["application/xml"] = raw_str;
+          } else if (raw_type == "json") {
+            copyData["application/json"] = raw_str;
           } else {
-            const d = $("#export-download-dialog");
-            d.addClass("is-active");
-            $(".message", d).text(raw_str);
+            copyData["application/octet-stream"] = raw_str;
           }
-          return false;
-        });
-      $("#export-raw .copy")
-        .attr("href", "")
-        .click(() => {
-          const d = overpass.geojson
-            ? $("#export-clipboard-success")
-            : $("#export-download-dialog");
-          d.addClass("is-active");
-          const geojson = overpass.geojson;
-          if (geojson) {
-            const raw = constructRawData(geojson);
-            const raw_str = raw.raw_str;
-            const raw_type = raw.raw_type;
-            copyData = {
-              "text/plain": raw_str
-            };
-            if (raw_type == "osm" || raw_type == "xml") {
-              copyData["application/xml"] = raw_str;
-            } else if (raw_type == "json") {
-              copyData["application/json"] = raw_str;
-            } else {
-              copyData["application/octet-stream"] = raw_str;
+          document.execCommand("copy");
+          $(".message", d).html(
+            i18n.t("export.copy_to_clipboard_success-message")
+          );
+          $(".export-copy_to_clipboard-content", d).html(
+            i18n.t("export.raw_data")
+          );
+        } else {
+          $(".message", d).text(i18n.t("export.raw.no_data"));
+        }
+        return false;
+      });
+
+    $(
+      "#export-dialog a#export-convert-xml"
+    )[0].href = `${server}convert?${new URLSearchParams({
+      data: query,
+      target: "xml"
+    })}`;
+    $(
+      "#export-dialog a#export-convert-ql"
+    )[0].href = `${server}convert?${new URLSearchParams({
+      data: query,
+      target: "mapql"
+    })}`;
+    $(
+      "#export-dialog a#export-convert-compact"
+    )[0].href = `${server}convert?${new URLSearchParams({
+      data: query,
+      target: "compact"
+    })}`;
+
+    // OSM editors
+    // first check for possible mistakes in query.
+    const validEditorQuery = Autorepair.detect.editors(
+      this.getRawQuery(),
+      this.getQueryLang()
+    );
+    // * Level0
+    const exportToLevel0 = $("#export-dialog a#export-editors-level0");
+    exportToLevel0.unbind("click");
+    function constructLevel0Link(query) {
+      return `https://level0.osmz.ru/?${new URLSearchParams({
+        url: `${server}interpreter?${new URLSearchParams({data: query})}`
+      })}`;
+    }
+    if (validEditorQuery) {
+      exportToLevel0[0].href = constructLevel0Link(query);
+    } else {
+      exportToLevel0[0].href = "";
+      exportToLevel0.bind("click", () => {
+        const dialog_buttons = [
+          {
+            name: i18n.t("dialog.repair_query"),
+            callback() {
+              this.repairQuery("xml+metadata");
+              this.getQuery((query) => {
+                exportToLevel0.unbind("click");
+                exportToLevel0[0].href = constructLevel0Link(query);
+              });
             }
-            document.execCommand("copy");
-            $(".message", d).html(
-              i18n.t("export.copy_to_clipboard_success-message")
-            );
-            $(".export-copy_to_clipboard-content", d).html(
-              i18n.t("export.raw_data")
-            );
-          } else {
-            $(".message", d).text(i18n.t("export.raw.no_data"));
+          },
+          {
+            name: i18n.t("dialog.continue_anyway"),
+            callback() {
+              exportToLevel0.unbind("click");
+              exportToLevel0[0].href = constructLevel0Link(query);
+            }
           }
+        ];
+        const content = `<p>${i18n.t(
+          "warning.incomplete.remote.expl.1"
+        )}</p><p>${i18n.t("warning.incomplete.remote.expl.2")}</p>`;
+        showDialog(i18n.t("warning.incomplete.title"), content, dialog_buttons);
+        return false;
+      });
+    }
+    // * JOSM
+    $("#export-dialog a#export-editors-josm")
+      .unbind("click")
+      .on("click", () => {
+        const export_dialog = $("#export-dialog");
+        function send_to_josm(query) {
+          const JRC_url = "http://127.0.0.1:8111/";
+          $.getJSON(`${JRC_url}version`)
+            .done((d) => {
+              if (d.protocolversion.major == 1) {
+                $.get(`${JRC_url}import`, {
+                  // JOSM doesn't handle protocol-less links very well
+                  url: `${server.replace(
+                    /^\/\//,
+                    `${location.protocol}//`
+                  )}interpreter?data=${encodeURIComponent(query)}`
+                })
+                  .fail(() => {
+                    alert("Error: Unexpected JOSM remote control error.");
+                  })
+                  .done(() => {
+                    console.log("successfully invoked JOSM remote control");
+                  });
+              } else {
+                const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+                const content = `<p>${i18n.t("error.remote.incompat")}: ${
+                  d.protocolversion.major
+                }.${d.protocolversion.minor} :(</p>`;
+                showDialog(
+                  i18n.t("error.remote.title"),
+                  content,
+                  dialog_buttons
+                );
+              }
+            })
+            .fail(() => {
+              const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+              const content = `<p>${i18n.t("error.remote.not_found")}</p>`;
+              showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
+            });
+        }
+        // first check for possible mistakes in query.
+        const valid = Autorepair.detect.editors(
+          this.getRawQuery(),
+          this.getQueryLang()
+        );
+        if (valid) {
+          // now send the query to JOSM via remote control
+          send_to_josm(query);
           return false;
-        });
-
-      $(
-        "#export-dialog a#export-convert-xml"
-      )[0].href = `${server}convert?${new URLSearchParams({
-        data: query,
-        target: "xml"
-      })}`;
-      $(
-        "#export-dialog a#export-convert-ql"
-      )[0].href = `${server}convert?${new URLSearchParams({
-        data: query,
-        target: "mapql"
-      })}`;
-      $(
-        "#export-dialog a#export-convert-compact"
-      )[0].href = `${server}convert?${new URLSearchParams({
-        data: query,
-        target: "compact"
-      })}`;
-
-      // OSM editors
-      // first check for possible mistakes in query.
-      const validEditorQuery = Autorepair.detect.editors(
-        this.getRawQuery(),
-        this.getQueryLang()
-      );
-      // * Level0
-      const exportToLevel0 = $("#export-dialog a#export-editors-level0");
-      exportToLevel0.unbind("click");
-      function constructLevel0Link(query) {
-        return `https://level0.osmz.ru/?${new URLSearchParams({
-          url: `${server}interpreter?${new URLSearchParams({data: query})}`
-        })}`;
-      }
-      if (validEditorQuery) {
-        exportToLevel0[0].href = constructLevel0Link(query);
-      } else {
-        exportToLevel0[0].href = "";
-        exportToLevel0.bind("click", () => {
+        } else {
           const dialog_buttons = [
             {
               name: i18n.t("dialog.repair_query"),
               callback() {
                 this.repairQuery("xml+metadata");
                 this.getQuery((query) => {
-                  exportToLevel0.unbind("click");
-                  exportToLevel0[0].href = constructLevel0Link(query);
+                  send_to_josm(query);
+                  export_dialog.removeClass("is-active");
                 });
               }
             },
             {
               name: i18n.t("dialog.continue_anyway"),
               callback() {
-                exportToLevel0.unbind("click");
-                exportToLevel0[0].href = constructLevel0Link(query);
+                send_to_josm(query);
+                export_dialog.removeClass("is-active");
               }
             }
           ];
@@ -2123,96 +2192,10 @@ class IDE {
             dialog_buttons
           );
           return false;
-        });
-      }
-      // * JOSM
-      $("#export-dialog a#export-editors-josm")
-        .unbind("click")
-        .on("click", () => {
-          const export_dialog = $("#export-dialog");
-          function send_to_josm(query) {
-            const JRC_url = "http://127.0.0.1:8111/";
-            $.getJSON(`${JRC_url}version`)
-              .done((d) => {
-                if (d.protocolversion.major == 1) {
-                  $.get(`${JRC_url}import`, {
-                    // JOSM doesn't handle protocol-less links very well
-                    url: `${server.replace(
-                      /^\/\//,
-                      `${location.protocol}//`
-                    )}interpreter?data=${encodeURIComponent(query)}`
-                  })
-                    .fail(() => {
-                      alert("Error: Unexpected JOSM remote control error.");
-                    })
-                    .done(() => {
-                      console.log("successfully invoked JOSM remote control");
-                    });
-                } else {
-                  const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-                  const content = `<p>${i18n.t("error.remote.incompat")}: ${
-                    d.protocolversion.major
-                  }.${d.protocolversion.minor} :(</p>`;
-                  showDialog(
-                    i18n.t("error.remote.title"),
-                    content,
-                    dialog_buttons
-                  );
-                }
-              })
-              .fail(() => {
-                const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-                const content = `<p>${i18n.t("error.remote.not_found")}</p>`;
-                showDialog(
-                  i18n.t("error.remote.title"),
-                  content,
-                  dialog_buttons
-                );
-              });
-          }
-          // first check for possible mistakes in query.
-          const valid = Autorepair.detect.editors(
-            this.getRawQuery(),
-            this.getQueryLang()
-          );
-          if (valid) {
-            // now send the query to JOSM via remote control
-            send_to_josm(query);
-            return false;
-          } else {
-            const dialog_buttons = [
-              {
-                name: i18n.t("dialog.repair_query"),
-                callback() {
-                  this.repairQuery("xml+metadata");
-                  this.getQuery((query) => {
-                    send_to_josm(query);
-                    export_dialog.removeClass("is-active");
-                  });
-                }
-              },
-              {
-                name: i18n.t("dialog.continue_anyway"),
-                callback() {
-                  send_to_josm(query);
-                  export_dialog.removeClass("is-active");
-                }
-              }
-            ];
-            const content = `<p>${i18n.t(
-              "warning.incomplete.remote.expl.1"
-            )}</p><p>${i18n.t("warning.incomplete.remote.expl.2")}</p>`;
-            showDialog(
-              i18n.t("warning.incomplete.title"),
-              content,
-              dialog_buttons
-            );
-            return false;
-          }
-        });
-      // open the export dialog
-      $("#export-dialog").addClass("is-active");
-    });
+        }
+      });
+    // open the export dialog
+    $("#export-dialog").addClass("is-active");
   }
   onExportDownloadClose() {
     $("#export-download-dialog").removeClass("is-active");
@@ -2598,7 +2581,7 @@ class IDE {
 
     // todo: more shortcuts
   }
-  update_map() {
+  async update_map() {
     this.waiter.open(i18n.t("waiter.processing_query"));
     this.waiter.addInfo("resetting map");
     $("#data_stats").remove();
@@ -2612,30 +2595,28 @@ class IDE {
 
     this.waiter.addInfo("building query");
     // run the query via the overpass object
-    this.getQuery((query) => {
-      const query_lang = this.getQueryLang();
-      const server =
-        this.data_source &&
-        this.data_source.mode == "overpass" &&
-        this.data_source.options.server
-          ? this.data_source.options.server
-          : settings.server;
-      overpass.run_query(
-        query,
-        query_lang,
-        undefined,
-        undefined,
-        server,
-        this.mapcss
-      );
-    });
+    const query = await this.getQuery();
+    const query_lang = this.getQueryLang();
+    const server =
+      this.data_source &&
+      this.data_source.mode == "overpass" &&
+      this.data_source.options.server
+        ? this.data_source.options.server
+        : settings.server;
+    overpass.run_query(
+      query,
+      query_lang,
+      undefined,
+      undefined,
+      server,
+      this.mapcss
+    );
   }
-  rerender_map() {
+  async rerender_map() {
     if (typeof overpass.osmLayer != "undefined")
       this.map.removeLayer(overpass.osmLayer);
-    this.getQuery(() => {
-      overpass.rerender(this.mapcss);
-    });
+    await this.getQuery();
+    overpass.rerender(this.mapcss);
   }
   update_ffs_query(s, callback) {
     const search = s || $("#ffs-dialog input[type=search]").val();

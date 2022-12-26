@@ -29,7 +29,7 @@ describe("ide.query", () => {
   });
 
   // expand {{parameters}} in ql query
-  it("expand {{parameters}} in ql query", () => {
+  it("expand {{parameters}} in ql query", async () => {
     vi.spyOn(ide, "setQuery").mockImplementation(() => {});
     const examples = [
       {
@@ -48,16 +48,14 @@ describe("ide.query", () => {
         outp: ";foofoo"
       }
     ];
-    const callback = vi.fn(() => 0);
     for (const example of examples) {
       ide.codeEditor.getValue = () => example.inp;
-      ide.getQuery(callback);
-      expect(callback).toHaveBeenCalledWith(example.outp);
+      await expect(ide.getQuery()).resolves.toBe(example.outp);
     }
     ide.setQuery.restore();
   });
   // expand {{parameters}} in xml query
-  it("expand {{parameters}} in xml", () => {
+  it("expand {{parameters}} in xml", async () => {
     vi.spyOn(ide, "setQuery").mockImplementation(() => {});
     const examples = [
       {
@@ -76,16 +74,14 @@ describe("ide.query", () => {
         outp: "<xml>foofoo</xml>"
       }
     ];
-    const callback = vi.fn(() => 0);
     for (const example of examples) {
       ide.codeEditor.getValue = () => example.inp;
-      ide.getQuery(callback);
-      expect(callback).toHaveBeenCalledWith(example.outp);
+      await expect(ide.getQuery()).resolves.toBe(example.outp);
     }
     ide.setQuery.restore();
   });
   // expand {{bbox}}
-  it("expand {{bbox}}", () => {
+  it("expand {{bbox}}", async () => {
     vi.spyOn(ide, "setQuery").mockImplementation(() => {});
     const examples = [
       {
@@ -104,16 +100,14 @@ describe("ide.query", () => {
         outp: '<osm-script bbox="1,2,3,4"/>'
       }
     ];
-    const callback = vi.fn(() => 0);
     for (const example of examples) {
       ide.codeEditor.getValue = () => example.inp;
-      ide.getQuery(callback);
-      expect(callback).toHaveBeenCalledWith(example.outp);
+      await expect(ide.getQuery()).resolves.toBe(example.outp);
     }
     ide.setQuery.restore();
   });
   // expand {{center}}
-  it("expand {{center}}", () => {
+  it("expand {{center}}", async () => {
     vi.spyOn(ide, "setQuery").mockImplementation(() => {});
     const examples = [
       {
@@ -127,11 +121,9 @@ describe("ide.query", () => {
         outp: '<around lat="5" lon="6"/>'
       }
     ];
-    const callback = vi.fn(() => 0);
     for (const example of examples) {
       ide.codeEditor.getValue = () => example.inp;
-      ide.getQuery(callback);
-      expect(callback).toHaveBeenCalledWith(example.outp);
+      await expect(ide.getQuery()).resolves.toBe(example.outp);
     }
     ide.setQuery.restore();
   });
