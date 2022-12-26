@@ -14,19 +14,19 @@ styleparser.Style.prototype = {
   styleType: "Style",
   evals: null,
 
-  __init__: function () {
+  __init__() {
     this.evals = {};
   },
 
-  drawn: function () {
+  drawn() {
     return false;
   },
 
-  has: function (k) {
+  has(k) {
     return this.properties.indexOf(k) > -1;
   },
 
-  mergeWith: function (additional) {
+  mergeWith(additional) {
     for (const prop in this.properties) {
       if (additional[prop]) {
         this[prop] = additional[prop];
@@ -35,7 +35,7 @@ styleparser.Style.prototype = {
     this.merged = true;
   },
 
-  setPropertyFromString: function (k, v, isEval) {
+  setPropertyFromString(k, v, isEval) {
     this.edited = true;
     if (isEval) {
       this.evals[k] = v;
@@ -53,7 +53,7 @@ styleparser.Style.prototype = {
     return true;
   },
 
-  runEvals: function (tags) {
+  runEvals(tags) {
     // helper object for eval() properties
     for (const k in this.evals) {
       try {
@@ -67,7 +67,7 @@ styleparser.Style.prototype = {
     }
   },
 
-  toString: function () {
+  toString() {
     let str = "";
     for (const k in this.properties) {
       // eslint-disable-next-line no-prototype-builtins
@@ -94,9 +94,9 @@ styleparser.InstructionStyle.prototype = {
   breaker: false,
   styleType: "InstructionStyle",
 
-  __init__: function () {},
+  __init__() {},
 
-  addSetTag: function (k, v) {
+  addSetTag(k, v) {
     this.edited = true;
     if (!this.set_tags) this.set_tags = {};
     this.set_tags[k] = v;
@@ -124,11 +124,11 @@ styleparser.PointStyle.prototype = {
   rotation: NaN,
   styleType: "PointStyle",
 
-  drawn: function () {
+  drawn() {
     return this.icon_image !== null;
   },
 
-  maxwidth: function () {
+  maxwidth() {
     return this.evals.icon_width ? 0 : this.icon_width;
   }
 };
@@ -178,7 +178,7 @@ styleparser.ShapeStyle.prototype = {
   layer: NaN, // optional layer override (usually set by OSM tag)
   styleType: "ShapeStyle",
 
-  drawn: function () {
+  drawn() {
     return (
       this.fill_image ||
       !isNaN(this.fill_color) ||
@@ -186,14 +186,14 @@ styleparser.ShapeStyle.prototype = {
       this.casing_width
     );
   },
-  maxwidth: function () {
+  maxwidth() {
     // If width is set by an eval, then we can't use it to calculate maxwidth, or it'll just grow on each invocation...
     if (this.evals.width || this.evals.casing_width) {
       return 0;
     }
     return this.width + (this.casing_width ? this.casing_width * 2 : 0);
   },
-  strokeStyler: function () {
+  strokeStyler() {
     let cap, join;
     switch (this.linecap) {
       case "round":
@@ -228,7 +228,7 @@ styleparser.ShapeStyle.prototype = {
       join: join
     };
   },
-  shapeStrokeStyler: function () {
+  shapeStrokeStyler() {
     if (isNaN(this.casing_color)) {
       return {width: 0};
     }
@@ -240,19 +240,19 @@ styleparser.ShapeStyle.prototype = {
       width: this.casing_width ? this.casing_width : 1
     };
   },
-  shapeFillStyler: function () {
+  shapeFillStyler() {
     if (isNaN(this.color)) {
       return null;
     }
     return this.dojoColor(this.color, this.opacity ? this.opacity : 1);
   },
-  fillStyler: function () {
+  fillStyler() {
     return this.dojoColor(
       this.fill_color,
       this.fill_opacity ? this.fill_opacity : 1
     );
   },
-  casingStyler: function () {
+  casingStyler() {
     let cap, join;
     switch (this.linecap) {
       case "round":
@@ -331,7 +331,7 @@ styleparser.TextStyle.prototype = {
   letter_spacing: 0,
   styleType: "TextStyle",
 
-  fontStyler: function () {
+  fontStyler() {
     return {
       family: this.font_family ? this.font_family : "Arial",
       size: this.font_size ? this.font_size * 2 : "10px",
@@ -339,14 +339,14 @@ styleparser.TextStyle.prototype = {
       style: this.font_italic ? "italic" : "normal"
     };
   },
-  textStyler: function (_text) {
+  textStyler(_text) {
     return {
       decoration: this.font_underline ? "underline" : "none",
       align: "middle",
       text: _text
     };
   },
-  fillStyler: function () {
+  fillStyler() {
     // not implemented yet
     return this.dojoColor(0, 1);
   }
@@ -363,7 +363,7 @@ styleparser.ShieldStyle = function () {
 };
 
 styleparser.ShieldStyle.prototype = {
-  has: function (k) {
+  has(k) {
     return this.properties.indexOf(k) > -1;
   },
   properties: ["shield_image", "shield_width", "shield_height"],

@@ -30,10 +30,10 @@ describe("ide.permalink", () => {
   it("share coordinates", () => {
     const q = " ";
     ide.map = {
-      getCenter: function () {
+      getCenter() {
         return {lat: 12.3456, lng: -65.4321};
       },
-      getZoom: function () {
+      getZoom() {
         return 8;
       }
     };

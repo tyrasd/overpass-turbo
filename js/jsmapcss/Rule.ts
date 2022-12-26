@@ -11,7 +11,7 @@ styleparser.Rule.prototype = {
   maxZoom: 255, // maximum zoom level at which the Rule is fulfilled
   subject: "", // entity type to which the Rule applies: 'way', 'node', 'relation', 'area' (closed way) or 'line' (unclosed way)
 
-  addSubject: function (_subject) {
+  addSubject(_subject) {
     // summary:		A MapCSS selector. Contains a list of Conditions; the entity type to which the selector applies;
     //				and the zoom levels at which it is true. way[waterway=river][boat=yes] would be parsed into one Rule.
     //				The selectors and declaration together form a StyleChooser.
@@ -19,12 +19,12 @@ styleparser.Rule.prototype = {
     this.conditions = [];
   },
 
-  addCondition: function (_condition) {
+  addCondition(_condition) {
     // summary:		Add a condition to this rule.
     this.conditions.push(_condition);
   },
 
-  test: function (entity, tags, zoom) {
+  test(entity, tags, zoom) {
     // summary: Evaluate the Rule on the given entity, tags and zoom level.
     // returns: true if the Rule passes, false if the conditions aren't fulfilled.
     if (this.subject !== "" && !entity.isSubject(this.subject)) {
@@ -51,7 +51,7 @@ styleparser.Rule.prototype = {
     return v;
   },
 
-  toString: function () {
+  toString() {
     return `${this.subject} z${this.minZoom}-${this.maxZoom}: ${this.conditions}`;
   }
 };

@@ -10,14 +10,14 @@ describe("ide.query", () => {
     orig_map = ide.map;
     ide.map = {
       bboxfilter: {
-        isEnabled: function () {
+        isEnabled() {
           return false;
         }
       },
-      getBounds: function () {
+      getBounds() {
         return L.latLngBounds([1, 2], [3, 4]);
       },
-      getCenter: function () {
+      getCenter() {
         return L.latLng([5, 6]);
       }
     };
@@ -50,9 +50,7 @@ describe("ide.query", () => {
     ];
     const callback = vi.fn(() => 0);
     for (const example of examples) {
-      ide.codeEditor.getValue = function () {
-        return example.inp;
-      };
+      ide.codeEditor.getValue = () => example.inp;
       ide.getQuery(callback);
       expect(callback).toHaveBeenCalledWith(example.outp);
     }
@@ -80,9 +78,7 @@ describe("ide.query", () => {
     ];
     const callback = vi.fn(() => 0);
     for (const example of examples) {
-      ide.codeEditor.getValue = function () {
-        return example.inp;
-      };
+      ide.codeEditor.getValue = () => example.inp;
       ide.getQuery(callback);
       expect(callback).toHaveBeenCalledWith(example.outp);
     }
@@ -110,9 +106,7 @@ describe("ide.query", () => {
     ];
     const callback = vi.fn(() => 0);
     for (const example of examples) {
-      ide.codeEditor.getValue = function () {
-        return example.inp;
-      };
+      ide.codeEditor.getValue = () => example.inp;
       ide.getQuery(callback);
       expect(callback).toHaveBeenCalledWith(example.outp);
     }
@@ -135,9 +129,7 @@ describe("ide.query", () => {
     ];
     const callback = vi.fn(() => 0);
     for (const example of examples) {
-      ide.codeEditor.getValue = function () {
-        return example.inp;
-      };
+      ide.codeEditor.getValue = () => example.inp;
       ide.getQuery(callback);
       expect(callback).toHaveBeenCalledWith(example.outp);
     }

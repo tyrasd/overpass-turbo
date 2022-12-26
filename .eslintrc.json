@@ -20,6 +20,7 @@
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/prefer-for-of": "warn",
     "no-var": "warn",
+    "func-style": ["warn", "declaration"],
     "prefer-const": "warn",
     "prefer-template": "warn",
     "prefer-arrow-callback": "warn"

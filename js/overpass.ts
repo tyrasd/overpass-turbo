@@ -19,10 +19,10 @@ const overpass = new (function () {
   this.rerender = function () {};
 
   // == private methods ==
-  const fire = function (name, ...handler_args) {
+  function fire(name, ...handler_args) {
     if (typeof overpass.handlers[name] != "function") return undefined;
     return overpass.handlers[name].apply({}, handler_args);
-  };
+  }
 
   // == public methods ==
 
@@ -83,7 +83,7 @@ const overpass = new (function () {
           callback();
         });
     });
-    const onSuccessCb = function (data, textStatus, jqXHR) {
+    function onSuccessCb(data, textStatus, jqXHR) {
       //textStatus is not needed in the successCallback, don't cache it
       if (cache) cache[query] = [data, undefined, jqXHR];
 
@@ -259,10 +259,10 @@ const overpass = new (function () {
                 try {
                   dummy_mapcss.getStyles(
                     {
-                      isSubject: function () {
+                      isSubject() {
                         return true;
                       },
-                      getParentObjects: function () {
+                      getParentObjects() {
                         return [];
                       }
                     },
@@ -299,7 +299,7 @@ const overpass = new (function () {
                     userMapCSS
                   }`
               );
-              const get_feature_style = function (feature, highlight) {
+              function get_feature_style(feature, highlight) {
                 function hasInterestingTags(props) {
                   // this checks if the node has any tags other than "created_by"
                   return (
@@ -314,7 +314,7 @@ const overpass = new (function () {
                 }
                 const s = mapcss.getStyles(
                   {
-                    isSubject: function (subject) {
+                    isSubject(subject) {
                       switch (subject) {
                         case "node":
                           return (
@@ -338,19 +338,19 @@ const overpass = new (function () {
                       }
                       return false;
                     },
-                    getParentObjects: function () {
+                    getParentObjects() {
                       if (feature.properties.relations.length == 0) return [];
                       else
                         return feature.properties.relations.map((rel) => ({
                           tags: rel.reltags,
-                          isSubject: function (subject) {
+                          isSubject(subject) {
                             return (
                               subject == "relation" ||
                               (subject == "area" &&
                                 rel.reltags.type == "multipolyon")
                             );
                           },
-                          getParentObjects: function () {
+                          getParentObjects() {
                             return [];
                           }
                         }));
@@ -383,7 +383,7 @@ const overpass = new (function () {
                   18 /*restyle on zoom??*/
                 );
                 return s;
-              };
+              }
 
               L.GeoJSON.geometryToLayer = function (feature, options) {
                 const s = get_feature_style(feature);
@@ -491,7 +491,7 @@ const overpass = new (function () {
               //new L.GeoJSON(null, {
               //new L.GeoJsonNoVanish(null, {
               overpass.osmLayer = new L_OSM4Leaflet(null, {
-                afterParse: function () {
+                afterParse() {
                   fire("onProgress", "rendering geoJSON");
                 },
                 baseLayerClass: settings.disable_poiomatic
@@ -499,10 +499,10 @@ const overpass = new (function () {
                   : L_GeoJsonNoVanish,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
-                  compress: function () {
+                  compress() {
                     return true;
                   },
-                  style: function (feature, highlight) {
+                  style(feature, highlight) {
                     const stl = {};
                     const s = get_feature_style(feature, highlight);
                     // apply mapcss styles
@@ -584,7 +584,7 @@ const overpass = new (function () {
                     // return style object
                     return stl;
                   },
-                  pointToLayer: function (feature, latlng) {
+                  pointToLayer(feature, latlng) {
                     // todo: labels!
                     const s = get_feature_style(feature);
                     const stl = s.pointStyles["default"] || {};
@@ -622,7 +622,7 @@ const overpass = new (function () {
                     }
                     return marker;
                   },
-                  onEachFeature: function (feature, layer) {
+                  onEachFeature(feature, layer) {
                     layer.on("click", function (e) {
                       let popup = "";
                       if (feature.properties.type == "node")
@@ -931,7 +931,7 @@ const overpass = new (function () {
           }, 1); // end setTimeout
         }
       );
-    };
+    }
     // eslint-disable-next-line no-prototype-builtins
     if (cache && cache.hasOwnProperty(query)) {
       onSuccessCb.apply(this, cache[query]);
@@ -941,7 +941,7 @@ const overpass = new (function () {
         type: "POST",
         data: {data: query},
         success: onSuccessCb,
-        error: function (jqXHR, textStatus) {
+        error(jqXHR, textStatus) {
           if (textStatus == "abort") return; // ignore aborted queries.
           fire("onProgress", "error during ajax call");
           if (

@@ -1,26 +1,26 @@
 import L from "leaflet";
 
 L.GeoJsonNoVanish = L.GeoJSON.extend({
-  initialize: function (geojson, options) {
+  initialize(geojson, options) {
     this.options = {
       threshold: 10
     };
     L.GeoJSON.prototype.initialize.call(this, geojson, options);
   },
-  onAdd: function (map) {
+  onAdd(map) {
     this._map = map;
     this.eachLayer(map.addLayer, map);
 
     this._map.addEventListener("zoomend", this._onZoomEnd, this);
     this._onZoomEnd();
   },
-  onRemove: function (map) {
+  onRemove(map) {
     this._map.removeEventListener("zoomend", this._onZoomEnd, this);
 
     this.eachLayer(map.removeLayer, map);
     this._map = null;
   },
-  _onZoomEnd: function () {
+  _onZoomEnd() {
     // todo: name
     // todo: possible optimizations: zoomOut = skip already compressed objects (and vice versa)
     const is_max_zoom = this._map.getZoom() == this._map.getMaxZoom();
@@ -72,8 +72,7 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
     }, this);
   }
 });
-L.geoJsonNoVanish = function (geojson, options) {
-  return new L.GeoJsonNoVanish(geojson, options);
-};
+L.geoJsonNoVanish = (geojson, options) =>
+  new L.GeoJsonNoVanish(geojson, options);
 
 export default L.GeoJsonNoVanish;

@@ -72,7 +72,7 @@ export default function ffs_free(callback) {
   }
 }
 
-freeFormQuery.get_query_clause = function (condition) {
+freeFormQuery.get_query_clause = (condition) => {
   // search presets for ffs term
   const search = condition.free.toLowerCase();
   const candidates = Object.values(presets).filter((preset) => {
@@ -124,7 +124,7 @@ freeFormQuery.get_query_clause = function (condition) {
   };
 };
 
-freeFormQuery.fuzzy_search = function (condition) {
+freeFormQuery.fuzzy_search = (condition) => {
   // search presets for ffs term
   const search = condition.free.toLowerCase();
   // fuzzyness: max lev.dist allowed to still match

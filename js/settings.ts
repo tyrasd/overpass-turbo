@@ -203,7 +203,7 @@ settings.define_setting("show_data_stats", "boolean", true, 21);
 // upgrade callbacks
 settings.define_upgrade_callback(12, (s) => {
   // migrate code and saved examples to new mustache style syntax
-  const migrate = function (code) {
+  function migrate(code) {
     code.overpass = code.overpass.replace(/\(bbox\)/g, "({{bbox}})");
     code.overpass = code.overpass.replace(
       /<bbox-query\/>/g,
@@ -214,7 +214,7 @@ settings.define_upgrade_callback(12, (s) => {
       "<coord-query {{center}}/>"
     );
     return code;
-  };
+  }
   s.code = migrate(s.code);
   for (const ex in s.saves) {
     s.saves[ex] = migrate(s.saves[ex]);

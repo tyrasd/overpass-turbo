@@ -35,7 +35,7 @@ export default function autorepair(q, lng) {
     }
   })();
 
-  repair.getQuery = function () {
+  repair.getQuery = () => {
     // expand placeholded comments
     for (const placeholder in comments) {
       q = q.replace(placeholder, comments[placeholder]);
@@ -43,7 +43,7 @@ export default function autorepair(q, lng) {
     return q;
   };
 
-  repair.recurse = function () {
+  repair.recurse = () => {
     if (lng == "xml") {
       // do some fancy mixture between regex magic and xml as html parsing :€
       const prints =
@@ -87,7 +87,7 @@ export default function autorepair(q, lng) {
     return true;
   };
 
-  repair.editors = function () {
+  repair.editors = () => {
     if (lng == "xml") {
       // 1. fix <osm-script output=*
       const src = q.match(/<osm-script([^>]*)>/);
@@ -181,7 +181,7 @@ export default function autorepair(q, lng) {
 }
 
 autorepair.detect = {};
-autorepair.detect.editors = function (q, lng) {
+autorepair.detect.editors = (q, lng) => {
   // todo: test this
   // todo: move into autorepair "module" /// todo. done?
   q = q.replace(/{{.*?}}/g, "");

@@ -17,27 +17,27 @@ styleparser.StyleChooser.prototype = {
   rcpos: 0,
   stylepos: 0,
 
-  constructor: function () {
+  constructor() {
     // summary:		A combination of the selectors (ruleChains) and declaration (styles).
     //				For example, way[highway=footway] node[barrier=gate] { icon: gate.png; } is one StyleChooser.
   },
 
-  currentChain: function () {
+  currentChain() {
     return this.ruleChains[this.ruleChains.length - 1];
   },
 
-  newRuleChain: function () {
+  newRuleChain() {
     // summary:		Starts a new ruleChain in this.ruleChains.
     if (this.ruleChains[this.ruleChains.length - 1].length() > 0) {
       this.ruleChains.push(new styleparser.RuleChain());
     }
   },
 
-  addStyles: function (a) {
+  addStyles(a) {
     this.styles = this.styles.concat(a);
   },
 
-  updateStyles: function (entity, tags, sl, zoom) {
+  updateStyles(entity, tags, sl, zoom) {
     if (this.zoomSpecific) {
       sl.validAt = zoom;
     }

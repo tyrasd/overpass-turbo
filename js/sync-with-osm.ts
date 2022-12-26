@@ -11,7 +11,7 @@ if (enabled) auth = osmAuth(configs.osmAuth);
 
 export default {
   enabled: enabled,
-  load: function (callback) {
+  load(callback) {
     if (!auth.authenticated()) {
       auth.authenticate((err) => {
         //check err param exists
@@ -22,7 +22,7 @@ export default {
       loadQueries(callback);
     }
   },
-  save: function (query, callback) {
+  save(query, callback) {
     if (!auth.authenticated()) {
       auth.authenticate((err) => {
         //check err param exists
@@ -33,7 +33,7 @@ export default {
       saveQuery(query, callback);
     }
   },
-  delete: function (query, callback) {
+  delete(query, callback) {
     if (!auth.authenticated())
       return callback(new Error("must be logged in to delete a synced query"));
     query = {
@@ -42,10 +42,10 @@ export default {
     };
     saveQuery(query, callback);
   },
-  logout: function () {
+  logout() {
     if (auth.authenticated()) auth.logout();
   },
-  authenticated: function () {
+  authenticated() {
     return enabled && auth.authenticated();
   }
 };

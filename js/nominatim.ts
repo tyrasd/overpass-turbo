@@ -16,7 +16,7 @@ export default class nominatim {
           format: "json",
           q: search
         },
-        success: function (data) {
+        success(data) {
           // hacky firefox hack :( (it is not properly detecting json from the content-type header)
           if (typeof data == "string") {
             // if the data is a string, but looks more like a json object
@@ -27,7 +27,7 @@ export default class nominatim {
           cache[search] = data;
           callback(undefined, data);
         },
-        error: function () {
+        error() {
           const err =
             "An error occurred while contacting the osm search server nominatim.openstreetmap.org :(";
           console.log(err);

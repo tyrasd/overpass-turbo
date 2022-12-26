@@ -8,14 +8,14 @@ styleparser.Condition.prototype = {
   type: "", // eq/ne/regex etc.
   params: [], // what to test against
 
-  init: function (_type, ..._params) {
+  init(_type, ..._params) {
     // summary:		A condition to evaluate.
     this.type = _type;
     this.params = _params;
     return this;
   },
 
-  test: function (tags) {
+  test(tags) {
     // summary:		Run the condition against the supplied tags.
     const p = this.params;
     switch (this.type) {
@@ -47,7 +47,7 @@ styleparser.Condition.prototype = {
     return false;
   },
 
-  toString: function () {
+  toString() {
     return `[${this.type}: ${this.params}]`;
   }
 };

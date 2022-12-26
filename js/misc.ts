@@ -15,7 +15,7 @@ export const Base64 = {
   _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
   // public method for encoding
-  encode: function (input, not_base64url) {
+  encode(input, not_base64url) {
     let output = "";
     //input = Base64._utf8_encode(input);
     input = unescape(encodeURIComponent(input));
@@ -57,7 +57,7 @@ export const Base64 = {
 
   // public method for decoding
   // this decodes base64url as well as standard base64 with or without padding)
-  decode: function (input, binary) {
+  decode(input, binary) {
     let output = "";
     input = this._convert_to_base64nopad(input);
     input = input.replace(/[^A-Za-z0-9+/]/g, "");
@@ -113,7 +113,7 @@ export const Base64 = {
     return output;
   },
 
-  encodeNum: function (num, not_base64url) {
+  encodeNum(num, not_base64url) {
     let output = "";
     if (num == 0) return this._keyStr.charAt(0);
     let neg = false;
@@ -131,7 +131,7 @@ export const Base64 = {
     else return output;
   },
 
-  decodeNum: function (input) {
+  decodeNum(input) {
     input = this._convert_to_base64nopad(input);
     input = input.replace(/[^A-Za-z0-9+/.]/g, "");
     let num = 0;
@@ -148,15 +148,15 @@ export const Base64 = {
     return (neg ? -1 : 1) * num;
   },
 
-  _convert_to_base64url: function (input) {
+  _convert_to_base64url(input) {
     return input.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
   },
-  _convert_to_base64nopad: function (input) {
+  _convert_to_base64nopad(input) {
     return input.replace(/-/g, "+").replace(/_/g, "/");
   },
 
   // private method for UTF-8 encoding
-  _utf8_encode: function (string) {
+  _utf8_encode(string) {
     string = string.replace(/\r\n/g, "\n");
     let utftext = "";
 
@@ -179,7 +179,7 @@ export const Base64 = {
   },
 
   // private method for UTF-8 decoding
-  _utf8_decode: function (utftext) {
+  _utf8_decode(utftext) {
     let string = "";
     let i = 0;
 

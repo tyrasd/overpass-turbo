@@ -55,7 +55,7 @@ const ide = new (function () {
 
   // == helpers ==
 
-  const make_combobox = function (input, options, deletables, deleteCallback) {
+  function make_combobox(input, options, deletables, deleteCallback) {
     if (input[0].is_combobox) {
       input.autocomplete("option", {source: options});
       return;
@@ -107,9 +107,9 @@ const ide = new (function () {
         input.focus();
       });
     input[0].is_combobox = true;
-  }; // make_combobox()
+  } // make_combobox()
 
-  const showDialog = function (title, content, buttons) {
+  function showDialog(title, content, buttons) {
     const dialogContent = `\
       <div class="modal is-active">\
         <div class="modal-background"></div>\
@@ -158,7 +158,7 @@ const ide = new (function () {
 
     // Add the element to the body
     element.appendTo("body");
-  };
+  }
 
   // == public sub objects ==
 
@@ -166,7 +166,7 @@ const ide = new (function () {
     opened: true,
     frames: ["◴", "◷", "◶", "◵"],
     frameDelay: 250,
-    open: function (show_info) {
+    open(show_info) {
       if (show_info) {
         $(".modal .wait-info h4").text(show_info);
         $(".wait-info").show();
@@ -188,7 +188,7 @@ const ide = new (function () {
       );
       ide.waiter.opened = true;
     },
-    close: function () {
+    close() {
       if (!ide.waiter.opened) return;
       clearInterval(ide.waiter.interval);
       document.title = ide.waiter._initialTitle;
@@ -197,7 +197,7 @@ const ide = new (function () {
       delete ide.waiter.onAbort;
       ide.waiter.opened = false;
     },
-    addInfo: function (txt, abortCallback) {
+    addInfo(txt, abortCallback) {
       $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
       $(".wait-info ul li:nth-child(n+1)").css("opacity", 0.5);
       $(".wait-info ul li span.fas")
@@ -220,7 +220,7 @@ const ide = new (function () {
       }
       $(".wait-info ul").prepend(li);
     },
-    abort: function () {
+    abort() {
       if (typeof ide.waiter.onAbort == "function") {
         ide.waiter.addInfo("aborting");
         ide.waiter.onAbort(ide.waiter.close);
@@ -308,7 +308,7 @@ const ide = new (function () {
     $("#editor").resizable({
       handles: isInitialAspectPortrait ? "s" : "e",
       minWidth: isInitialAspectPortrait ? undefined : "200",
-      resize: function () {
+      resize() {
         if (!isInitialAspectPortrait) {
           $(this)
             .next()
@@ -319,7 +319,7 @@ const ide = new (function () {
         }
         ide.map.invalidateSize(false);
       },
-      stop: function () {
+      stop() {
         if (isInitialAspectPortrait) return;
         settings.editor_width = $("#editor").css("width");
         settings.save();
@@ -391,7 +391,7 @@ const ide = new (function () {
         lineNumbers: true,
         lineWrapping: true,
         mode: "text/plain",
-        onChange: function (e) {
+        onChange(e) {
           clearTimeout(pending);
           pending = setTimeout(() => {
             // update syntax highlighting mode
@@ -439,10 +439,10 @@ const ide = new (function () {
           "difference"
         ],
         extraKeys: {
-          "'>'": function (cm) {
+          "'>'"(cm) {
             cm.closeTag(cm, ">");
           },
-          "'/'": function (cm) {
+          "'/'"(cm) {
             cm.closeTag(cm, "/");
           }
         }
@@ -535,7 +535,7 @@ const ide = new (function () {
       options: {
         position: "topleft"
       },
-      onAdd: function () {
+      onAdd() {
         // create the control container with a particular class name
         const container = L.DomUtil.create(
           "div",
@@ -703,7 +703,7 @@ const ide = new (function () {
       options: {
         position: "topright"
       },
-      onAdd: function () {
+      onAdd() {
         const container = L.DomUtil.create(
           "div",
           "leaflet-control-search control has-icons-left"
@@ -728,14 +728,14 @@ const ide = new (function () {
         };
         // autocomplete functionality
         $(inp).autocomplete({
-          source: function (request, response) {
+          source(request, response) {
             // ajax (GET) request to nominatim
             $.ajax(
               `https://search.osmnames.org/q/${encodeURIComponent(
                 request.term
               )}.js?key=${configs.osmnamesApiKey}`,
               {
-                success: function (data) {
+                success(data) {
                   // hacky firefox hack :( (it is not properly detecting json from the content-type header)
                   if (typeof data == "string") {
                     // if the data is a string, but looks more like a json object
@@ -753,7 +753,7 @@ const ide = new (function () {
                     }))
                   );
                 },
-                error: function () {
+                error() {
                   // todo: better error handling
                   console.error(
                     "An error occured while contacting the search server osmnames.org :("
@@ -764,7 +764,7 @@ const ide = new (function () {
           },
           minLength: 2,
           autoFocus: true,
-          select: function (event, ui) {
+          select(event, ui) {
             if (ui.item.boundingbox && ui.item.boundingbox instanceof Array)
               ide.map.fitBounds(
                 L.latLngBounds([
@@ -777,10 +777,10 @@ const ide = new (function () {
             this.value = "";
             return false;
           },
-          open: function () {
+          open() {
             $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
           },
-          close: function () {
+          close() {
             $(this).addClass("ui-corner-all").removeClass("ui-corner-top");
           }
         });
@@ -876,13 +876,13 @@ const ide = new (function () {
           const dialog_buttons = [
             {
               name: i18n.t("dialog.repair_query"),
-              callback: function () {
+              callback() {
                 ide.repairQuery("no visible data");
               }
             },
             {
               name: i18n.t("dialog.show_data"),
-              callback: function () {
+              callback() {
                 if (
                   $("input[name=hide_incomplete_data_warning]", this)[0].checked
                 ) {
@@ -928,14 +928,14 @@ const ide = new (function () {
         const dialog_buttons = [
           {
             name: i18n.t("dialog.abort"),
-            callback: function () {
+            callback() {
               document.title = _originalDocumentTitle;
               abortCB();
             }
           },
           {
             name: i18n.t("dialog.continue_anyway"),
-            callback: function () {
+            callback() {
               document.title = _originalDocumentTitle;
               continueCB();
             }
@@ -961,7 +961,7 @@ const ide = new (function () {
       const dialog_buttons = [
         {
           name: i18n.t("dialog.dismiss"),
-          callback: function () {
+          callback() {
             document.title = _originalDocumentTitle;
           }
         }
@@ -982,7 +982,7 @@ const ide = new (function () {
       const dialog_buttons = [
         {
           name: i18n.t("dialog.dismiss"),
-          callback: function () {
+          callback() {
             document.title = _originalDocumentTitle;
           }
         }
@@ -1047,7 +1047,7 @@ const ide = new (function () {
         $("#data_stats").tooltip({
           items: "div",
           tooltipClass: "stats",
-          content: function () {
+          content() {
             let str = "<div>";
             if (overpass.ajax_request_duration) {
               let duration = overpass.ajax_request_duration;
@@ -1225,7 +1225,7 @@ const ide = new (function () {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
-        callback: function () {
+        callback() {
           delete settings.saves[ex];
           settings.save();
           $(self).parent("li").remove();
@@ -1245,7 +1245,7 @@ const ide = new (function () {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
-        callback: function () {
+        callback() {
           sync.delete(query.name, (err) => {
             if (err) return console.error(err);
 
@@ -1448,13 +1448,6 @@ const ide = new (function () {
       // compose compressed share link
       share_link.append("q", Base64.encode(lzw_encode(query)));
       if (coords) {
-        const encode_coords = function (lat, lng) {
-          const coords_cpr = Base64.encodeNum(
-            Math.round((lat + 90) * 100000) +
-              Math.round((lng + 180) * 100000) * 180 * 100000
-          );
-          return "AAAAAAAA".substring(0, 9 - coords_cpr.length) + coords_cpr;
-        };
         share_link.append(
           "c",
           encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng) +
@@ -1464,6 +1457,13 @@ const ide = new (function () {
     }
     if (run) share_link.append("R", "");
     return `?${share_link}`;
+    function encode_coords(lat, lng) {
+      const coords_cpr = Base64.encodeNum(
+        Math.round((lat + 90) * 100000) +
+          Math.round((lng + 180) * 100000) * 180 * 100000
+      );
+      return "AAAAAAAA".substring(0, 9 - coords_cpr.length) + coords_cpr;
+    }
   };
   this.updateShareLink = function () {
     const baseurl = `${location.protocol}//${location.host}${location.pathname}`;
@@ -1847,7 +1847,7 @@ const ide = new (function () {
               copyright: {"@author": overpass.copyright},
               time: overpass.timestamp
             },
-            featureTitle: function (props) {
+            featureTitle(props) {
               if (props.tags) {
                 if (props.tags.name) return props.tags.name;
                 if (props.tags.ref) return props.tags.ref;
@@ -1857,7 +1857,7 @@ const ide = new (function () {
               return `${props.type}/${props.id}`;
             },
             //featureDescription: function(props) {},
-            featureLink: function (props) {
+            featureLink(props) {
               return `http://osm.org/browse/${props.type}/${props.id}`;
             }
           });
@@ -2091,7 +2091,7 @@ const ide = new (function () {
           const dialog_buttons = [
             {
               name: i18n.t("dialog.repair_query"),
-              callback: function () {
+              callback() {
                 ide.repairQuery("xml+metadata");
                 ide.getQuery((query) => {
                   exportToLevel0.unbind("click");
@@ -2101,7 +2101,7 @@ const ide = new (function () {
             },
             {
               name: i18n.t("dialog.continue_anyway"),
-              callback: function () {
+              callback() {
                 exportToLevel0.unbind("click");
                 exportToLevel0[0].href = constructLevel0Link(query);
               }
@@ -2123,7 +2123,7 @@ const ide = new (function () {
         .unbind("click")
         .on("click", () => {
           const export_dialog = $("#export-dialog");
-          const send_to_josm = function (query) {
+          function send_to_josm(query) {
             const JRC_url = "http://127.0.0.1:8111/";
             $.getJSON(`${JRC_url}version`)
               .done((d) => {
@@ -2162,7 +2162,7 @@ const ide = new (function () {
                   dialog_buttons
                 );
               });
-          };
+          }
           // first check for possible mistakes in query.
           const valid = Autorepair.detect.editors(
             ide.getRawQuery(),
@@ -2176,7 +2176,7 @@ const ide = new (function () {
             const dialog_buttons = [
               {
                 name: i18n.t("dialog.repair_query"),
-                callback: function () {
+                callback() {
                   ide.repairQuery("xml+metadata");
                   ide.getQuery((query) => {
                     send_to_josm(query);
@@ -2186,7 +2186,7 @@ const ide = new (function () {
               },
               {
                 name: i18n.t("dialog.continue_anyway"),
-                callback: function () {
+                callback() {
                   send_to_josm(query);
                   export_dialog.removeClass("is-active");
                 }

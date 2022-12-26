@@ -9,7 +9,7 @@ styleparser.RuleSet = function () {};
 styleparser.RuleSet.prototype = {
   choosers: [], // list of StyleChoosers
 
-  getStyles: function (entity, tags, zoom) {
+  getStyles(entity, tags, zoom) {
     // summary:		Find the styles for a given entity.
     const sl = new styleparser.StyleList();
     for (const i in this.choosers) {
@@ -27,7 +27,7 @@ styleparser.RuleSet.prototype = {
         });
     },*/
 
-  parseCSS: function (css) {
+  parseCSS(css) {
     // summary:		Parse a CSS document into a set of StyleChoosers.
     let previous = 0; // what was the previous CSS word?
     let sc = new styleparser.StyleChooser(); // currently being assembled
@@ -157,11 +157,11 @@ styleparser.RuleSet.prototype = {
     }
   },
 
-  saveChooser: function (sc) {
+  saveChooser(sc) {
     this.choosers.push(sc);
   },
 
-  parseDeclaration: function (s) {
+  parseDeclaration(s) {
     const styles = [];
     const t = {};
     let o = {};
@@ -278,7 +278,7 @@ styleparser.RuleSet.prototype = {
     return styles;
   },
 
-  parseZoom: function (s) {
+  parseZoom(s) {
     let o = {};
     const maxscale = 999; // TODO: hardcoded
     const minscale = -999; // TODO: hardcoded
@@ -294,7 +294,7 @@ styleparser.RuleSet.prototype = {
     return null;
   },
 
-  parseCondition: function (s) {
+  parseCondition(s) {
     let o = {};
     if ((o = this.CONDITION_TRUE.exec(s))) {
       return new styleparser.Condition().init("true", o[1]);
@@ -322,7 +322,7 @@ styleparser.RuleSet.prototype = {
     return null;
   },
 
-  parseCSSColor: function (colorStr) {
+  parseCSSColor(colorStr) {
     // todo: this should be done at user (=style consumer) side (if necessary).
     // -> move to a more appropriate location
     colorStr = colorStr.toLowerCase();
