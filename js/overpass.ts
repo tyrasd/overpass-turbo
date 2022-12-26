@@ -12,6 +12,8 @@ import settings from "./settings";
 import {htmlentities} from "./misc";
 import styleparser from "./jsmapcss";
 
+export type QueryLang = "xml" | "OverpassQL";
+
 class Overpass {
   private originalGeom2Layer;
   ajax_request_duration: number;
@@ -62,7 +64,14 @@ class Overpass {
   }
 
   // updates the map
-  run_query(query, query_lang, cache, shouldCacheOnly, server, user_mapcss) {
+  run_query(
+    query: string,
+    query_lang: QueryLang,
+    cache,
+    shouldCacheOnly = false,
+    server: string,
+    user_mapcss: string
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const overpass = this;
     server = server || configs.defaultServer;
