@@ -26,7 +26,7 @@ import "../css/compact.css";
 
 // initialize ide on document ready
 import ide from "./ide";
-$(document).ready(ide.init);
+$(document).ready(() => ide.init());
 $(document).ready(initClickHandler);
 
 function initClickHandler() {
@@ -34,7 +34,7 @@ function initClickHandler() {
     const handlerDefinition = $(this).attr("data-ide-handler").split(/:/);
     const event = handlerDefinition[0];
     const handlerName = handlerDefinition[1];
-    const handler = ide[handlerName];
+    const handler = ide[handlerName].bind(ide);
     $(this).on(event, handler);
   });
 }

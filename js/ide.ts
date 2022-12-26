@@ -24,6 +24,8 @@ import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import sync from "./sync-with-osm";
 import shortcuts from "./shortcuts";
 
+declare const CodeMirror;
+
 // Handler to allow copying in various MIME formats
 // @see https://developer.mozilla.org/en-US/docs/Web/Events/copy
 // @see https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
@@ -41,76 +43,61 @@ $(document).on("copy", (e) => {
   }
 });
 
-const ide = new (function () {
-  // == private members ==
-  let attribControl = null;
-  let scaleControl = null;
-  const queryParser = new Query();
-  // == public members ==
-  this.codeEditor = null;
-  this.dataViewer = null;
-  this.map = null;
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const ide = this;
-
-  // == helpers ==
-
-  function make_combobox(input, options, deletables, deleteCallback) {
-    if (input[0].is_combobox) {
-      input.autocomplete("option", {source: options});
-      return;
-    }
-    const wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
-    input
-      .autocomplete({
-        source: options,
-        minLength: 0
-      })
-      .addClass("ui-widget ui-widget-content ui-corner-left ui-state-default")
-      .autocomplete("instance")._renderItem = function (ul, item) {
-      return $("<li>")
-        .append(
-          deletables && deletables.indexOf(item.value) !== -1
-            ? `<div title="shift-click to remove from list" style="font-style:italic;">${item.label}</div>`
-            : `<div>${item.label}</div>`
-        )
-        .on("click", function (event) {
-          if (event.shiftKey && deletables.indexOf(item.value) !== -1) {
-            deleteCallback(item.value);
-            $(this).remove();
-            const options = input.autocomplete("option", "source");
-            options.splice(options.indexOf(item), 1);
-            input.autocomplete("option", "source", options);
-            return false;
-          }
-        })
-        .appendTo(ul);
-    };
-    $("<a>")
-      .attr("tabIndex", -1)
-      .attr("title", "show all items")
-      .appendTo(wrapper)
-      .button({
-        icons: {primary: "ui-icon-triangle-1-s"},
-        text: false
-      })
-      .removeClass("ui-corner-all")
-      .addClass("ui-corner-right ui-combobox-toggle")
-      .click(() => {
-        // close if already visible
-        if (input.autocomplete("widget").is(":visible")) {
-          input.autocomplete("close");
-          return;
+function make_combobox(input, options, deletables, deleteCallback) {
+  if (input[0].is_combobox) {
+    input.autocomplete("option", {source: options});
+    return;
+  }
+  const wrapper = input.wrap("<span>").parent().addClass("ui-combobox");
+  input
+    .autocomplete({
+      source: options,
+      minLength: 0
+    })
+    .addClass("ui-widget ui-widget-content ui-corner-left ui-state-default")
+    .autocomplete("instance")._renderItem = (ul, item) =>
+    $("<li>")
+      .append(
+        deletables && deletables.indexOf(item.value) !== -1
+          ? `<div title="shift-click to remove from list" style="font-style:italic;">${item.label}</div>`
+          : `<div>${item.label}</div>`
+      )
+      .on("click", function (event) {
+        if (event.shiftKey && deletables.indexOf(item.value) !== -1) {
+          deleteCallback(item.value);
+          $(this).remove();
+          const options = input.autocomplete("option", "source");
+          options.splice(options.indexOf(item), 1);
+          input.autocomplete("option", "source", options);
+          return false;
         }
-        // pass empty string as value to search for, displaying all results
-        input.autocomplete("search", "");
-        input.focus();
-      });
-    input[0].is_combobox = true;
-  } // make_combobox()
+      })
+      .appendTo(ul);
+  $("<a>")
+    .attr("tabIndex", -1)
+    .attr("title", "show all items")
+    .appendTo(wrapper)
+    .button({
+      icons: {primary: "ui-icon-triangle-1-s"},
+      text: false
+    })
+    .removeClass("ui-corner-all")
+    .addClass("ui-corner-right ui-combobox-toggle")
+    .click(() => {
+      // close if already visible
+      if (input.autocomplete("widget").is(":visible")) {
+        input.autocomplete("close");
+        return;
+      }
+      // pass empty string as value to search for, displaying all results
+      input.autocomplete("search", "");
+      input.focus();
+    });
+  input[0].is_combobox = true;
+} // make_combobox()
 
-  function showDialog(title, content, buttons) {
-    const dialogContent = `\
+function showDialog(title, content, buttons) {
+  const dialogContent = `\
       <div class="modal is-active">\
         <div class="modal-background"></div>\
         <div class="modal-card">\
@@ -133,36 +120,47 @@ const ide = new (function () {
       </div>\
     `;
 
-    // Create modal in body
-    const element = $(dialogContent);
-    // Handle close event
-    $(".delete", element).click(() => $(element).remove());
+  // Create modal in body
+  const element = $(dialogContent);
+  // Handle close event
+  $(".delete", element).click(() => $(element).remove());
 
-    // Add all the buttons
-    for (const index in buttons) {
-      const button = buttons[index];
-      $(`<button class="button">${button.name}</button>`)
-        .click(
-          (function (callback) {
-            return function () {
-              if (callback) {
-                callback();
-              }
-              // destroy modal dialog after callback, see #528
-              $(element).remove();
-            };
-          })(button.callback)
-        )
-        .appendTo($("footer .level-item", element));
-    }
-
-    // Add the element to the body
-    element.appendTo("body");
+  // Add all the buttons
+  for (const index in buttons) {
+    const button = buttons[index];
+    $(`<button class="button">${button.name}</button>`)
+      .click(
+        (function (callback) {
+          return function () {
+            if (callback) {
+              callback();
+            }
+            // destroy modal dialog after callback, see #528
+            $(element).remove();
+          };
+        })(button.callback)
+      )
+      .appendTo($("footer .level-item", element));
   }
+
+  // Add the element to the body
+  element.appendTo("body");
+}
+
+class IDE {
+  // == private members ==
+  private attribControl = null;
+  private scaleControl = null;
+  private queryParser = new Query();
+  private run_query_on_startup = false;
+  // == public members ==
+  codeEditor = null;
+  dataViewer = null;
+  map: L.Map = null;
 
   // == public sub objects ==
 
-  this.waiter = {
+  waiter = {
     opened: true,
     frames: ["◴", "◷", "◶", "◵"],
     frameDelay: 250,
@@ -174,28 +172,23 @@ const ide = new (function () {
         $(".wait-info").hide();
       }
       $("#loading-dialog").addClass("is-active");
-      document.title = `${ide.waiter.frames[0]} ${ide.waiter._initialTitle}`;
+      document.title = `${this.frames[0]} ${this._initialTitle}`;
       let f = 0;
-      ide.waiter.interval = setInterval(
-        function () {
-          document.title = `${
-            this.isAlert
-              ? this.alertFrame
-              : this.frames[++f % this.frames.length]
-          } ${this._initialTitle}`;
-        }.bind(ide.waiter),
-        ide.waiter.frameDelay
-      );
-      ide.waiter.opened = true;
+      this.interval = setInterval(() => {
+        document.title = `${
+          this.isAlert ? this.alertFrame : this.frames[++f % this.frames.length]
+        } ${this._initialTitle}`;
+      }, this.frameDelay);
+      this.opened = true;
     },
     close() {
-      if (!ide.waiter.opened) return;
-      clearInterval(ide.waiter.interval);
-      document.title = ide.waiter._initialTitle;
+      if (!this.opened) return;
+      clearInterval(this.interval);
+      document.title = this._initialTitle;
       $("#loading-dialog").removeClass("is-active");
       $(".wait-info ul li").remove();
-      delete ide.waiter.onAbort;
-      ide.waiter.opened = false;
+      delete this.onAbort;
+      this.opened = false;
     },
     addInfo(txt, abortCallback) {
       $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
@@ -209,11 +202,11 @@ const ide = new (function () {
         `<li><span class="fas fa-spinner fa-spin" style="display:inline-block; margin-bottom:-2px; margin-right:3px;"></span>${txt}</li>`
       );
       if (typeof abortCallback == "function") {
-        ide.waiter.onAbort = abortCallback;
+        this.onAbort = abortCallback;
         const aborter = $(
           '<span id="aborter">&nbsp;(<a href="#">abort</a>)</span>'
         ).on("click", () => {
-          ide.waiter.abort();
+          this.abort();
           return false;
         });
         li.append(aborter);
@@ -221,18 +214,18 @@ const ide = new (function () {
       $(".wait-info ul").prepend(li);
     },
     abort() {
-      if (typeof ide.waiter.onAbort == "function") {
-        ide.waiter.addInfo("aborting");
-        ide.waiter.onAbort(ide.waiter.close);
+      if (typeof this.onAbort == "function") {
+        this.addInfo("aborting");
+        this.onAbort(this.close);
       }
-    }
+    },
+    _initialTitle: document.title
   };
-  this.waiter._initialTitle = document.title;
 
   // == public methods ==
 
-  this.init = function () {
-    ide.waiter.addInfo("ide starting up");
+  init() {
+    this.waiter.addInfo("ide starting up");
     $("#overpass-turbo-version").html(
       `overpass-turbo <code>${GIT_VERSION}</code>` // eslint-disable-line no-undef
     );
@@ -255,23 +248,25 @@ const ide = new (function () {
       false
     ) {
       // the currently used browser is not capable of running the IDE. :(
-      ide.not_supported = true;
+      this.not_supported = true;
       $("#warning-unsupported-browser").addClass("is-active");
     }
     // load settings
-    ide.waiter.addInfo("load settings");
+    this.waiter.addInfo("load settings");
     settings.load();
     // translate ui
-    ide.waiter.addInfo("translate ui");
-    i18n.translate().then(() => initAfterI18n.call(this));
+    this.waiter.addInfo("translate ui");
+    i18n.translate().then(() => this.initAfterI18n());
 
     if (sync.enabled) {
       $("#load-dialog .osm").show();
       if (sync.authenticated()) $("#logout").show();
     }
-  };
+  }
 
-  function initAfterI18n() {
+  initAfterI18n() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const ide = this;
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
     const args = urlParameters();
@@ -495,8 +490,8 @@ const ide = new (function () {
       maxNativeZoom: 19,
       maxZoom: ide.map.options.maxZoom
     });
-    attribControl = new L.Control.Attribution({prefix: ""});
-    attribControl.addAttribution(tilesAttrib);
+    ide.attribControl = new L.Control.Attribution({prefix: ""});
+    ide.attribControl.addAttribution(tilesAttrib);
     const pos = new L.LatLng(settings.coords_lat, settings.coords_lon);
     ide.map.setView(pos, settings.coords_zoom).addLayer(tiles);
     ide.map.tile_layer = tiles;
@@ -506,8 +501,8 @@ const ide = new (function () {
     ).setOpacity(1 - settings.background_opacity);
     if (settings.background_opacity != 1)
       ide.map.inv_opacity_layer.addTo(ide.map);
-    scaleControl = new L.Control.Scale({metric: true, imperial: false});
-    scaleControl.addTo(ide.map);
+    ide.scaleControl = new L.Control.Scale({metric: true, imperial: false});
+    ide.scaleControl.addTo(ide.map);
     ide.map.on("moveend", () => {
       settings.coords_lat = ide.map.getCenter().lat;
       settings.coords_lon = ide.map.getCenter().lng;
@@ -528,7 +523,7 @@ const ide = new (function () {
     });
 
     // keyboard event listener
-    $(document).keydown(ide.onKeyPress);
+    $(document).keydown((event) => ide.onKeyPress(event));
 
     // leaflet extension: more map controls
     const MapButtons = L.Control.extend({
@@ -1120,15 +1115,15 @@ const ide = new (function () {
     }
   } // init()
 
-  this.onNominatimError = function (search, type) {
+  onNominatimError(search, type) {
     // close waiter
-    ide.waiter.close();
+    this.waiter.close();
     // highlight error lines
-    let query = ide.getRawQuery();
+    let query = this.getRawQuery();
     query = query.split("\n");
     query.forEach((line, i) => {
       if (line.indexOf(`{{geocode${type}:${search}}}`) !== -1)
-        ide.highlightError(i + 1);
+        this.highlightError(i + 1);
     });
     // show error message dialog
     const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
@@ -1136,32 +1131,34 @@ const ide = new (function () {
       "error.nominatim.expl"
     )}</p><p><i>${htmlentities(search)}</i></p>`;
     showDialog(i18n.t("error.nominatim.title"), content, dialog_buttons);
-  };
+  }
+
   /* this returns the current raw query in the editor.
    * shortcuts are not expanded. */
-  this.getRawQuery = function () {
-    return ide.codeEditor.getValue();
-  };
+  getRawQuery() {
+    return this.codeEditor.getValue();
+  }
+
   /* this returns the current query in the editor.
    * shortcuts are expanded. */
-  this.getQuery = function (callback) {
-    let query = ide.getRawQuery();
+  getQuery(callback) {
+    let query = this.getRawQuery();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
     query = query.replace(
       /(<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,
       "$1{{__bbox__global_bbox_xml__ezs4K8__}}$3"
     );
-    queryParser.parse(query, shortcuts(), (query) => {
+    this.queryParser.parse(query, shortcuts(), (query) => {
       // parse mapcss declarations
       let mapcss = "";
-      if (queryParser.hasStatement("style"))
-        mapcss = queryParser.getStatement("style");
-      ide.mapcss = mapcss;
+      if (this.queryParser.hasStatement("style"))
+        mapcss = this.queryParser.getStatement("style");
+      this.mapcss = mapcss;
       // parse data-source statements
       let data_source = null;
-      if (queryParser.hasStatement("data")) {
-        data_source = queryParser.getStatement("data");
+      if (this.queryParser.hasStatement("data")) {
+        data_source = this.queryParser.getStatement("data");
         data_source = data_source.split(",");
         const data_mode = data_source[0].toLowerCase();
         data_source = data_source.slice(1);
@@ -1175,24 +1172,25 @@ const ide = new (function () {
           options: options
         };
       }
-      ide.data_source = data_source;
+      this.data_source = data_source;
       // call result callback
       callback(query);
     });
-  };
-  this.setQuery = function (query) {
-    ide.codeEditor.setValue(query);
-  };
-  this.getQueryLang = function () {
-    if ($.trim(ide.getRawQuery().replace(/{{.*?}}/g, "")).match(/^</))
+  }
+
+  setQuery(query) {
+    this.codeEditor.setValue(query);
+  }
+  getQueryLang() {
+    if ($.trim(this.getRawQuery().replace(/{{.*?}}/g, "")).match(/^</))
       return "xml";
     else return "OverpassQL";
-  };
+  }
   /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
-  this.repairQuery = function (repair) {
+  repairQuery(repair) {
     // - preparations -
-    const q = ide.getRawQuery(), // get original query
-      lng = ide.getQueryLang();
+    const q = this.getRawQuery(), // get original query
+      lng = this.getQueryLang();
     const autorepair = Autorepair(q, lng);
     // - repairs -
     if (repair == "no visible data") {
@@ -1203,25 +1201,25 @@ const ide = new (function () {
       autorepair.editors();
     }
     // - set repaired query -
-    ide.setQuery(autorepair.getQuery());
-  };
-  this.highlightError = function (line) {
-    ide.codeEditor.setLineClass(line - 1, null, "errorline");
-  };
-  this.resetErrors = function () {
-    for (let i = 0; i < ide.codeEditor.lineCount(); i++)
-      ide.codeEditor.setLineClass(i, null, null);
-  };
+    this.setQuery(autorepair.getQuery());
+  }
+  highlightError(line) {
+    this.codeEditor.setLineClass(line - 1, null, "errorline");
+  }
+  resetErrors() {
+    for (let i = 0; i < this.codeEditor.lineCount(); i++)
+      this.codeEditor.setLineClass(i, null, null);
+  }
 
-  this.switchTab = function (tab) {
+  switchTab(tab) {
     $(`.tabs li.${tab}`).click();
-  };
+  }
 
-  this.loadExample = function (ex) {
+  loadExample(ex) {
     if (typeof settings.saves[ex] != "undefined")
-      ide.setQuery(settings.saves[ex].overpass);
-  };
-  this.removeExample = function (ex, self) {
+      this.setQuery(settings.saves[ex].overpass);
+  }
+  removeExample(ex, self) {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
@@ -1240,8 +1238,8 @@ const ide = new (function () {
         "dialog.delete_query.expl"
       )}: &quot;<i>${ex}</i>&quot;?</p>`;
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
-  };
-  this.removeExampleSync = function (query, self) {
+  }
+  removeExampleSync(query, self) {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
@@ -1262,10 +1260,12 @@ const ide = new (function () {
       "dialog.delete_query.expl-osm"
     )}: &quot;<i>${query.name}</i>&quot;?</p>`;
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
-  };
+  }
 
   // Event handlers
-  this.onLoadClick = function () {
+  onLoadClick() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const ide = this;
     $("#load-dialog .panel.saved_query .panel-block").remove();
     $("#load-dialog .panel.example .panel-block").remove();
     // load example list
@@ -1327,8 +1327,10 @@ const ide = new (function () {
         )
         .appendTo(ui);
     }
-  };
-  this.loadOsmQueries = function () {
+  }
+  loadOsmQueries() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const ide = this;
     const ui = $("#load-dialog .panel.osm-queries");
     ui.show();
     ui.find(".panel-block").remove();
@@ -1377,11 +1379,11 @@ const ide = new (function () {
           .appendTo(ui);
       });
     });
-  };
-  this.onLoadClose = function () {
+  }
+  onLoadClose() {
     $("#load-dialog").removeClass("is-active");
-  };
-  this.onSaveClick = function () {
+  }
+  onSaveClick() {
     // combobox for existing saves.
     const saves_names = [];
     for (const key in settings.saves)
@@ -1392,19 +1394,19 @@ const ide = new (function () {
       $("#save-dialog button.osm").show();
     }
     $("#save-dialog").addClass("is-active");
-  };
-  this.onSaveSumbit = function () {
+  }
+  onSaveSumbit() {
     const name = $("#save-dialog input[name=save]")[0].value;
     settings.saves[htmlentities(name)] = {
-      overpass: ide.getRawQuery(),
+      overpass: this.getRawQuery(),
       type: "saved_query"
     };
     settings.save();
     $("#save-dialog").removeClass("is-active");
-  };
-  this.onSaveOsmSumbit = function () {
+  }
+  onSaveOsmSumbit() {
     const name = $("#save-dialog input[name=save]")[0].value;
-    const query = ide.compose_share_link(ide.getRawQuery(), true).slice(3);
+    const query = this.compose_share_link(this.getRawQuery(), true).slice(3);
     sync.save(
       {
         name: name,
@@ -1416,23 +1418,23 @@ const ide = new (function () {
         $("#save-dialog").removeClass("is-active");
       }
     );
-  };
-  this.onSaveClose = function () {
+  }
+  onSaveClose() {
     $("#save-dialog").removeClass("is-active");
-  };
-  this.onLogoutClick = function () {
+  }
+  onLogoutClick() {
     if (!window.confirm("Logout?")) return;
     sync.logout();
     $("#load-dialog .panel.osm-queries .panel-block").remove();
     $("#logout").hide();
-  };
-  this.onRunClick = function () {
-    ide.update_map();
-  };
-  this.onRerenderClick = function () {
-    ide.rerender_map();
-  };
-  this.compose_share_link = function (query, compression, coords, run) {
+  }
+  onRunClick() {
+    this.update_map();
+  }
+  onRerenderClick() {
+    this.rerender_map();
+  }
+  compose_share_link(query, compression, coords, run) {
     const share_link = new URLSearchParams();
     if (!compression) {
       // compose uncompressed share link
@@ -1440,9 +1442,9 @@ const ide = new (function () {
       if (coords)
         share_link.append(
           "C",
-          `${L.Util.formatNum(ide.map.getCenter().lat)};${L.Util.formatNum(
-            ide.map.getCenter().lng
-          )};${ide.map.getZoom()}`
+          `${L.Util.formatNum(this.map.getCenter().lat)};${L.Util.formatNum(
+            this.map.getCenter().lng
+          )};${this.map.getZoom()}`
         );
     } else {
       // compose compressed share link
@@ -1450,8 +1452,8 @@ const ide = new (function () {
       if (coords) {
         share_link.append(
           "c",
-          encode_coords(ide.map.getCenter().lat, ide.map.getCenter().lng) +
-            Base64.encodeNum(ide.map.getZoom())
+          encode_coords(this.map.getCenter().lat, this.map.getCenter().lng) +
+            Base64.encodeNum(this.map.getZoom())
         );
       }
     }
@@ -1464,10 +1466,10 @@ const ide = new (function () {
       );
       return "AAAAAAAA".substring(0, 9 - coords_cpr.length) + coords_cpr;
     }
-  };
-  this.updateShareLink = function () {
+  }
+  updateShareLink() {
     const baseurl = `${location.protocol}//${location.host}${location.pathname}`;
-    const query = ide.getRawQuery();
+    const query = this.getRawQuery();
     const compress =
       (settings.share_compression == "auto" && query.length > 300) ||
       settings.share_compression == "on";
@@ -1476,7 +1478,7 @@ const ide = new (function () {
     const run_immediately = $("div#share-dialog input[name=run_immediately]")[0]
       .checked;
 
-    const shared_query = ide.compose_share_link(
+    const shared_query = this.compose_share_link(
       query,
       compress,
       inc_coords,
@@ -1507,33 +1509,35 @@ const ide = new (function () {
         }
       );
     }
-  };
-  this.onShareClick = function () {
+  }
+  onShareClick() {
     $("div#share-dialog input[name=include_coords]")[0].checked =
       settings.share_include_pos;
-    ide.updateShareLink();
+    this.updateShareLink();
     $("#share-dialog").addClass("is-active");
-  };
-  this.onShareClose = function () {
+  }
+  onShareClose() {
     $("#share-dialog").removeClass("is-active");
-  };
-  this.onExportClick = function () {
+  }
+  onExportClick() {
     // prepare export dialog
-    ide.getQuery((query) => {
+    this.getQuery((query) => {
       const baseurl = `${location.protocol}//${location.host}${
         location.pathname.match(/.*\//)[0]
       }`;
       const server =
-        ide.data_source &&
-        ide.data_source.mode == "overpass" &&
-        ide.data_source.options.server
-          ? ide.data_source.options.server
+        this.data_source &&
+        this.data_source.mode == "overpass" &&
+        this.data_source.options.server
+          ? this.data_source.options.server
           : settings.server;
       let queryWithMapCSS = query;
-      if (queryParser.hasStatement("style"))
-        queryWithMapCSS += `{{style: ${queryParser.getStatement("style")} }}`;
-      if (queryParser.hasStatement("data"))
-        queryWithMapCSS += `{{data:${queryParser.getStatement("data")}}}`;
+      if (this.queryParser.hasStatement("style"))
+        queryWithMapCSS += `{{style: ${this.queryParser.getStatement(
+          "style"
+        )} }}`;
+      if (this.queryParser.hasStatement("data"))
+        queryWithMapCSS += `{{data:${this.queryParser.getStatement("data")}}}`;
       else if (settings.server !== configs.defaultServer)
         queryWithMapCSS += `{{data:overpass,server=${settings.server}}}`;
       $(
@@ -1585,7 +1589,7 @@ const ide = new (function () {
       });
       $("#export-text .copy").attr("href", "").click(copyHandler(query));
       // export raw query
-      const query_raw = ide.getRawQuery();
+      const query_raw = this.getRawQuery();
       $("#export-text_raw .format").html(i18n.t("export.format_text_raw"));
       $("#export-text_raw .export").attr({
         download: "query-raw.overpassql",
@@ -1597,10 +1601,10 @@ const ide = new (function () {
         .click(copyHandler(query_raw));
       // export wiki query
       let query_wiki = `{{OverpassTurboExample|loc=${L.Util.formatNum(
-        ide.map.getCenter().lat
+        this.map.getCenter().lat
       )};${L.Util.formatNum(
-        ide.map.getCenter().lng
-      )};${ide.map.getZoom()}|query=\n`;
+        this.map.getCenter().lng
+      )};${this.map.getZoom()}|query=\n`;
       query_wiki += query_raw
         .replace(/{{/g, "mSAvmrw81O8NgWlX")
         .replace(/{/g, "Z9P563g6zQYzjiLE")
@@ -1657,54 +1661,54 @@ const ide = new (function () {
         .bind("click", () => {
           const content =
             `<h4>${i18n.t("export.map_view.permalink")}</h4>` +
-            `<p><a href="//www.openstreetmap.org/#map=${ide.map.getZoom()}/${L.Util.formatNum(
-              ide.map.getCenter().lat
+            `<p><a href="//www.openstreetmap.org/#map=${this.map.getZoom()}/${L.Util.formatNum(
+              this.map.getCenter().lat
             )}/${L.Util.formatNum(
-              ide.map.getCenter().lng
+              this.map.getCenter().lng
             )}" target="_blank">${i18n.t(
               "export.map_view.permalink_osm"
             )}</a></p>` +
             `<h4>${i18n.t("export.map_view.center")}</h4><p>${L.Util.formatNum(
-              ide.map.getCenter().lat
-            )}, ${L.Util.formatNum(ide.map.getCenter().lng)} <small>(${i18n.t(
+              this.map.getCenter().lat
+            )}, ${L.Util.formatNum(this.map.getCenter().lng)} <small>(${i18n.t(
               "export.map_view.center_expl"
             )})</small></p>` +
             `<h4>${i18n.t("export.map_view.bounds")}</h4><p>${L.Util.formatNum(
-              ide.map.getBounds().getSouthWest().lat
+              this.map.getBounds().getSouthWest().lat
             )}, ${L.Util.formatNum(
-              ide.map.getBounds().getSouthWest().lng
+              this.map.getBounds().getSouthWest().lng
             )}, ${L.Util.formatNum(
-              ide.map.getBounds().getNorthEast().lat
+              this.map.getBounds().getNorthEast().lat
             )}, ${L.Util.formatNum(
-              ide.map.getBounds().getNorthEast().lng
+              this.map.getBounds().getNorthEast().lng
             )}<br /><small>(${i18n.t(
               "export.map_view.bounds_expl"
             )})</small></p>${
-              ide.map.bboxfilter.isEnabled()
+              this.map.bboxfilter.isEnabled()
                 ? `<h4>${i18n.t(
                     "export.map_view.bounds_selection"
                   )}</h4><p>${L.Util.formatNum(
-                    ide.map.bboxfilter.getBounds().getSouthWest().lat
+                    this.map.bboxfilter.getBounds().getSouthWest().lat
                   )}, ${L.Util.formatNum(
-                    ide.map.bboxfilter.getBounds().getSouthWest().lng
+                    this.map.bboxfilter.getBounds().getSouthWest().lng
                   )}, ${L.Util.formatNum(
-                    ide.map.bboxfilter.getBounds().getNorthEast().lat
+                    this.map.bboxfilter.getBounds().getNorthEast().lat
                   )}, ${L.Util.formatNum(
-                    ide.map.bboxfilter.getBounds().getNorthEast().lng
+                    this.map.bboxfilter.getBounds().getNorthEast().lng
                   )}<br /><small>(${i18n.t(
                     "export.map_view.bounds_expl"
                   )})</small></p>`
                 : ""
             }<h4>${i18n.t(
               "export.map_view.zoom"
-            )}</h4><p>${ide.map.getZoom()}</p>`;
+            )}</h4><p>${this.map.getZoom()}</p>`;
           showDialog(i18n.t("export.map_view.title"), content, dialog_buttons);
           return false;
         });
       $("#export-dialog a#export-image")
         .unbind("click")
         .on("click", () => {
-          ide.onExportImageClick();
+          this.onExportImageClick();
           $("#export-dialog").removeClass("is-active");
           return false;
         });
@@ -2072,8 +2076,8 @@ const ide = new (function () {
       // OSM editors
       // first check for possible mistakes in query.
       const validEditorQuery = Autorepair.detect.editors(
-        ide.getRawQuery(),
-        ide.getQueryLang()
+        this.getRawQuery(),
+        this.getQueryLang()
       );
       // * Level0
       const exportToLevel0 = $("#export-dialog a#export-editors-level0");
@@ -2092,8 +2096,8 @@ const ide = new (function () {
             {
               name: i18n.t("dialog.repair_query"),
               callback() {
-                ide.repairQuery("xml+metadata");
-                ide.getQuery((query) => {
+                this.repairQuery("xml+metadata");
+                this.getQuery((query) => {
                   exportToLevel0.unbind("click");
                   exportToLevel0[0].href = constructLevel0Link(query);
                 });
@@ -2165,8 +2169,8 @@ const ide = new (function () {
           }
           // first check for possible mistakes in query.
           const valid = Autorepair.detect.editors(
-            ide.getRawQuery(),
-            ide.getQueryLang()
+            this.getRawQuery(),
+            this.getQueryLang()
           );
           if (valid) {
             // now send the query to JOSM via remote control
@@ -2177,8 +2181,8 @@ const ide = new (function () {
               {
                 name: i18n.t("dialog.repair_query"),
                 callback() {
-                  ide.repairQuery("xml+metadata");
-                  ide.getQuery((query) => {
+                  this.repairQuery("xml+metadata");
+                  this.getQuery((query) => {
                     send_to_josm(query);
                     export_dialog.removeClass("is-active");
                   });
@@ -2206,28 +2210,28 @@ const ide = new (function () {
       // open the export dialog
       $("#export-dialog").addClass("is-active");
     });
-  };
-  this.onExportDownloadClose = function () {
+  }
+  onExportDownloadClose() {
     $("#export-download-dialog").removeClass("is-active");
-  };
-  this.onExportClipboardClose = function () {
+  }
+  onExportClipboardClose() {
     $("#export-clipboard-success").removeClass("is-active");
-  };
-  this.onExportClose = function () {
+  }
+  onExportClose() {
     $("#export-dialog").removeClass("is-active");
-  };
-  this.onExportImageClick = async function () {
-    ide.waiter.open(i18n.t("waiter.export_as_image"));
+  }
+  async onExportImageClick() {
+    this.waiter.open(i18n.t("waiter.export_as_image"));
     // 1. render canvas from map tiles
     // hide map controlls in this step :/
     // todo: also hide popups?
-    ide.waiter.addInfo("prepare map");
+    this.waiter.addInfo("prepare map");
     $("#map .leaflet-control-container .leaflet-top").hide();
     $("#data_stats").hide();
-    if (settings.export_image_attribution) attribControl.addTo(ide.map);
-    if (!settings.export_image_scale) scaleControl.removeFrom(ide.map);
+    if (settings.export_image_attribution) this.attribControl.addTo(this.map);
+    if (!settings.export_image_scale) this.scaleControl.removeFrom(this.map);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
-    ide.waiter.addInfo("rendering map tiles");
+    this.waiter.addInfo("rendering map tiles");
     $("#map .leaflet-overlay-pane").hide();
     const canvas = await html2canvas(document.getElementById("map"), {
       useCORS: true,
@@ -2235,11 +2239,12 @@ const ide = new (function () {
       proxy: configs.html2canvas_use_proxy ? "/html2canvas_proxy/" : undefined // use own proxy if necessary and available
     });
     $("#map .leaflet-overlay-pane").show();
-    if (settings.export_image_attribution) attribControl.removeFrom(ide.map);
-    if (!settings.export_image_scale) scaleControl.addTo(ide.map);
+    if (settings.export_image_attribution)
+      this.attribControl.removeFrom(this.map);
+    if (!settings.export_image_scale) this.scaleControl.addTo(this.map);
     if (settings.show_data_stats) $("#data_stats").show();
     $("#map .leaflet-control-container .leaflet-top").show();
-    ide.waiter.addInfo("rendering map data");
+    this.waiter.addInfo("rendering map data");
     // 2. render overlay data onto canvas
     canvas.id = "render_canvas";
     const ctx = canvas.getContext("2d");
@@ -2265,7 +2270,7 @@ const ide = new (function () {
       });
       v.render();
     }
-    ide.waiter.addInfo("converting to png image");
+    this.waiter.addInfo("converting to png image");
     // 3. export canvas as html image
     const imgstr = canvas.toDataURL("image/png");
     let attrib_message = "";
@@ -2274,7 +2279,7 @@ const ide = new (function () {
         '<p style="font-size:smaller; color:orange;">Make sure to include proper attributions when distributing this image!</p>';
     const dialog_buttons = [{name: i18n.t("dialog.done")}];
 
-    ide.waiter.close();
+    this.waiter.close();
     const content = `<p><img src="${imgstr}" alt="${i18n.t(
       "export.image.alt"
     )}" width="480px"/><br><!--<a href="${imgstr}" download="export.png" target="_blank">${i18n.t(
@@ -2285,8 +2290,8 @@ const ide = new (function () {
     save_link.href = imgstr;
     save_link.download = "export.png";
     save_link.dispatchEvent(new MouseEvent("click"));
-  };
-  this.onFfsClick = function () {
+  }
+  onFfsClick() {
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
     $("#ffs-dialog #ffs-dialog-typo").hide();
     $("#ffs-dialog .loading").hide();
@@ -2295,19 +2300,19 @@ const ide = new (function () {
       .unbind("keypress")
       .bind("keypress", (e) => {
         if (e.which == 13 || e.which == 10) {
-          ide.onFfsRun(true);
+          this.onFfsRun(true);
           e.preventDefault();
         }
       });
     $("#ffs-dialog").addClass("is-active");
-  };
-  this.onFfsClose = function () {
+  }
+  onFfsClose() {
     $("#ffs-dialog").removeClass("is-active");
-  };
-  this.onFfsBuild = function () {
-    ide.onFfsRun(false);
-  };
-  this.onFfsRun = function (autorun) {
+  }
+  onFfsBuild() {
+    this.onFfsRun(false);
+  }
+  onFfsRun(autorun) {
     // Show loading spinner and hide all errors
     $("#ffs-dialog input[type=search]").removeClass("is-danger");
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
@@ -2315,11 +2320,11 @@ const ide = new (function () {
     $("#ffs-dialog .loading").show();
 
     // Build query and run it immediately if autorun is set
-    ide.update_ffs_query(undefined, (err, ffs_result) => {
+    this.update_ffs_query(undefined, (err, ffs_result) => {
       $("#ffs-dialog .loading").hide();
       if (!err) {
         $("#ffs-dialog").removeClass("is-active");
-        if (autorun !== false) ide.onRunClick();
+        if (autorun !== false) this.onRunClick();
       } else {
         if (_.isArray(ffs_result)) {
           // show parse error message
@@ -2349,8 +2354,8 @@ const ide = new (function () {
         }
       }
     });
-  };
-  this.onSettingsClick = function () {
+  }
+  onSettingsClick() {
     $("#settings-dialog input[name=ui_language]")[0].value =
       settings.ui_language;
     const lngDescs = i18n.getSupportedLanguagesDescriptions();
@@ -2421,8 +2426,8 @@ const ide = new (function () {
       settings.export_image_attribution;
     // open dialog
     $("#settings-dialog").addClass("is-active");
-  };
-  this.onSettingsSave = function () {
+  }
+  onSettingsSave() {
     // save settings
     const new_ui_language = $("#settings-dialog input[name=ui_language]")[0]
       .value;
@@ -2472,7 +2477,7 @@ const ide = new (function () {
     }
     // update tile layer (if changed)
     if (prev_tile_server != settings.tile_server)
-      ide.map.tile_layer.setUrl(settings.tile_server);
+      this.map.tile_layer.setUrl(settings.tile_server);
     const prev_background_opacity = settings.background_opacity;
     settings.background_opacity = +$(
       "#settings-dialog input[name=background_opacity]"
@@ -2480,11 +2485,11 @@ const ide = new (function () {
     // update background opacity layer
     if (settings.background_opacity != prev_background_opacity)
       if (settings.background_opacity == 1)
-        ide.map.removeLayer(ide.map.inv_opacity_layer);
+        this.map.removeLayer(this.map.inv_opacity_layer);
       else
-        ide.map.inv_opacity_layer
+        this.map.inv_opacity_layer
           .setOpacity(1 - settings.background_opacity)
-          .addTo(ide.map);
+          .addTo(this.map);
     settings.enable_crosshairs = $(
       "#settings-dialog input[name=enable_crosshairs]"
     )[0].checked;
@@ -2503,29 +2508,29 @@ const ide = new (function () {
     )[0].checked;
     settings.save();
     $("#settings-dialog").removeClass("is-active");
-  };
-  this.onSettingsClose = function () {
+  }
+  onSettingsClose() {
     $("#settings-dialog").removeClass("is-active");
-  };
-  this.onSettingsReset = function () {
+  }
+  onSettingsReset() {
     if (!window.confirm("Reset?")) return;
     settings.reset();
     location.reload();
-  };
-  this.onHelpClick = function () {
+  }
+  onHelpClick() {
     $("#help-dialog").addClass("is-active");
-  };
-  this.onHelpClose = function () {
+  }
+  onHelpClose() {
     $("#help-dialog").removeClass("is-active");
-  };
-  this.onKeyPress = function (event) {
+  }
+  onKeyPress(event) {
     if (
       (event.which == 120 && event.charCode == 0) || // F9
       ((event.which == 13 || event.which == 10) &&
         (event.ctrlKey || event.metaKey))
     ) {
       // Ctrl+Enter
-      ide.onRunClick(); // run query
+      this.onRunClick(); // run query
       event.preventDefault();
     }
     if (
@@ -2535,7 +2540,7 @@ const ide = new (function () {
       !event.altKey
     ) {
       // Ctrl+E
-      ide.onExportClick();
+      this.onExportClick();
       event.preventDefault();
     }
     if (
@@ -2545,7 +2550,7 @@ const ide = new (function () {
       !event.altKey
     ) {
       // Ctrl+S
-      ide.onSaveClick();
+      this.onSaveClick();
       event.preventDefault();
     }
     if (
@@ -2555,7 +2560,7 @@ const ide = new (function () {
       !event.altKey
     ) {
       // Ctrl+O
-      ide.onLoadClick();
+      this.onLoadClick();
       event.preventDefault();
     }
     if (
@@ -2565,7 +2570,7 @@ const ide = new (function () {
       !event.altKey
     ) {
       // Ctrl+H
-      ide.onHelpClick();
+      this.onHelpClick();
       event.preventDefault();
     }
     if (
@@ -2579,7 +2584,7 @@ const ide = new (function () {
         !event.altKey)
     ) {
       // Ctrl+Shift+F
-      ide.onFfsClick();
+      this.onFfsClick();
       event.preventDefault();
     }
 
@@ -2589,28 +2594,28 @@ const ide = new (function () {
     }
 
     // todo: more shortcuts
-  };
-  this.update_map = function () {
-    ide.waiter.open(i18n.t("waiter.processing_query"));
-    ide.waiter.addInfo("resetting map");
+  }
+  update_map() {
+    this.waiter.open(i18n.t("waiter.processing_query"));
+    this.waiter.addInfo("resetting map");
     $("#data_stats").remove();
     // resets previously highlighted error lines
     this.resetErrors();
     // reset previously loaded data and overlay
-    ide.dataViewer.setValue("");
+    this.dataViewer.setValue("");
     if (typeof overpass.osmLayer != "undefined")
-      ide.map.removeLayer(overpass.osmLayer);
+      this.map.removeLayer(overpass.osmLayer);
     $("#map_blank").remove();
 
-    ide.waiter.addInfo("building query");
+    this.waiter.addInfo("building query");
     // run the query via the overpass object
-    ide.getQuery((query) => {
-      const query_lang = ide.getQueryLang();
+    this.getQuery((query) => {
+      const query_lang = this.getQueryLang();
       const server =
-        ide.data_source &&
-        ide.data_source.mode == "overpass" &&
-        ide.data_source.options.server
-          ? ide.data_source.options.server
+        this.data_source &&
+        this.data_source.mode == "overpass" &&
+        this.data_source.options.server
+          ? this.data_source.options.server
           : settings.server;
       overpass.run_query(
         query,
@@ -2618,18 +2623,18 @@ const ide = new (function () {
         undefined,
         undefined,
         server,
-        ide.mapcss
+        this.mapcss
       );
     });
-  };
-  this.rerender_map = function () {
+  }
+  rerender_map() {
     if (typeof overpass.osmLayer != "undefined")
-      ide.map.removeLayer(overpass.osmLayer);
-    ide.getQuery(() => {
-      overpass.rerender(ide.mapcss);
+      this.map.removeLayer(overpass.osmLayer);
+    this.getQuery(() => {
+      overpass.rerender(this.mapcss);
     });
-  };
-  this.update_ffs_query = function (s, callback) {
+  }
+  update_ffs_query(s, callback) {
     const search = s || $("#ffs-dialog input[type=search]").val();
     const comment = $("#ffs-dialog input[name='ffs.comments']")[0].checked;
     ffs_construct_query(search, comment, (err, query) => {
@@ -2644,11 +2649,13 @@ const ide = new (function () {
           }
         });
       } else {
-        ide.setQuery(query);
+        this.setQuery(query);
         callback(null);
       }
     });
-  };
-})(); // end create ide object
+  }
+}
+
+const ide = new IDE();
 
 export default ide;
