@@ -3,7 +3,10 @@ import {ffs_construct_query} from "./ffs";
 import settings from "./settings";
 import {Base64, lzw_decode} from "./misc";
 
-export default function urlParameters(param_str: string, callback) {
+export default function urlParameters(
+  param_str = location.search,
+  callback?: (err: unknown, result: ReturnType<typeof urlParameters>) => void
+) {
   // defaults
   const t = {
     has_query: false,
@@ -32,7 +35,7 @@ export default function urlParameters(param_str: string, callback) {
   if (args.has("c")) {
     // map center & zoom (compressed)
     const tmp = args.get("c").match(/([A-Za-z0-9\-_]+)([A-Za-z0-9\-_])/);
-    const coords_cpr = Base64.decodeNum(str);
+    const coords_cpr = Base64.decodeNum(tmp[1]);
     t.coords = {
       lat: (coords_cpr % (180 * 100000)) / 100000 - 90,
       lng: Math.floor(coords_cpr / (180 * 100000)) / 100000 - 180

@@ -274,7 +274,7 @@ const ide = new (function () {
   function initAfterI18n() {
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
-    const args = urlParameters(location.search);
+    const args = urlParameters();
     // set appropriate settings
     if (args.has_coords) {
       // map center coords set via url
