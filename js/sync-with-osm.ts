@@ -104,7 +104,7 @@ function saveQuery(new_query, callback) {
       `preference[k^="${configs.appname}_query"]`
     );
     for (const e of existing) {
-      preferences.removeChild(e);
+      e.remove();
     }
     // insert new query into list of existing ones
     let is_new = true;
