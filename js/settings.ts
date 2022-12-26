@@ -3,93 +3,120 @@ import _ from "lodash";
 
 import configs from "./configs";
 
-function Settings(namespace, version) {
-  // == private members ==
-  const prefix = `${namespace}_`;
-  let ls = {
-    setItem: function (n, v) {
-      this[n] = v;
-    },
-    getItem: function (n) {
-      return this[n] !== undefined ? this[n] : null;
-    },
-    removeItem: function (n) {
-      delete this[n];
+class Settings {
+  // settings.define_setting
+  coords_lat: number;
+  coords_lon: number;
+  coords_zoom: number;
+  code: object;
+  saves: object;
+  server: string;
+  customServers: string[];
+  share_compression: string;
+  share_include_pos: boolean;
+  use_rich_editor: boolean;
+  tile_server: string;
+  customTiles: string[];
+  enable_crosshairs: boolean;
+  export_image_scale: boolean;
+  export_image_attribution: boolean;
+  background_opacity: number;
+  no_autorepair: boolean;
+  editor_width: string;
+  ui_language: string;
+  disable_poiomatic: boolean;
+  show_data_stats: boolean;
+
+  // meta settings
+  first_time_visit: boolean;
+  prefix: string;
+  settings_version: number;
+  settings: Record<
+    string,
+    {
+      type: string;
+      preset: string | number | boolean | string[];
+      version: number;
     }
-  };
-  try {
-    localStorage.setItem(`${prefix}test`, 123);
-    localStorage.removeItem(`${prefix}test`);
-    ls = localStorage;
-  } catch (e) {
-    console.trace(e);
+  >;
+  upgrade_callbacks: ((s: Settings) => void)[];
+  version: number;
+
+  constructor(namespace: string, version: number) {
+    this.prefix = `${namespace}_`;
+    this.settings_version = version;
+    this.version = +localStorage.getItem(`${this.prefix}version`);
+    this.settings = {};
+    this.upgrade_callbacks = [];
   }
-  const settings_version = version;
-  version = +ls.getItem(`${prefix}version`);
-  const settings = {};
-  const upgrade_callbacks = [];
 
   // == public methods ==
-  this.define_setting = function (name, type, preset, version) {
-    settings[name] = {type: type, preset: preset, version: version};
-  };
-  this.define_upgrade_callback = function (version, fun) {
-    upgrade_callbacks[version] = fun;
-  };
+  define_setting(
+    name: string,
+    type: string,
+    preset: string | number | boolean | string[],
+    version: number
+  ) {
+    this.settings[name] = {type: type, preset: preset, version: version};
+  }
+  define_upgrade_callback(version: number, fun: (s: Settings) => void) {
+    this.upgrade_callbacks[version] = fun;
+  }
 
-  this.set = function (name, value) {
+  set(name: string, value: string) {
     if (
       value === undefined // use preset if no value is given
     )
-      value = settings[name].preset;
-    if (settings[name].type != "String") {
+      value = this.settings[name].preset;
+    if (this.settings[name].type != "String") {
       // stringify all non-string values.
       value = JSON.stringify(value);
     }
-    ls.setItem(prefix + name, value);
-  };
-  this.get = function (name) {
+    localStorage.setItem(this.prefix + name, value);
+  }
+  get(name: string) {
     // initialize new settings
-    if (settings[name].version > version) this.set(name, undefined);
+    if (this.settings[name].version > this.version) this.set(name, undefined);
     // load the setting
-    let value = ls.getItem(prefix + name);
-    if (settings[name].type != "String") {
+    let value = localStorage.getItem(this.prefix + name);
+    if (this.settings[name].type != "String") {
       // parse all non-string values.
       value = JSON.parse(value);
     }
     return value;
-  };
+  }
 
-  this.load = function () {
+  load() {
     // load all settings into the objects namespace
-    for (const name in settings) {
+    for (const name in this.settings) {
       this[name] = this.get(name);
     }
     // version upgrade
-    if (version == 0) this.first_time_visit = true;
-    if (version < settings_version) {
-      for (let v = version + 1; v <= settings_version; v++) {
-        if (typeof upgrade_callbacks[v] == "function")
-          upgrade_callbacks[v](this);
+    if (this.version == 0) this.first_time_visit = true;
+    if (this.version < this.settings_version) {
+      for (let v = this.version + 1; v <= this.settings_version; v++) {
+        if (typeof this.upgrade_callbacks[v] == "function")
+          this.upgrade_callbacks[v](this);
       }
-      version = settings_version;
-      ls.setItem(`${prefix}version`, version);
+      this.version = this.settings_version;
+      localStorage.setItem(`${this.prefix}version`, this.version);
     }
-  };
-  this.save = function () {
+  }
+  save() {
     // save all settings from the objects namespace
-    for (const name in settings) {
+    for (const name in this.settings) {
       this.set(name, this[name]);
     }
-  };
-  this.reset = function () {
-    for (const name in settings) {
-      localStorage.removeItem(prefix + name);
-      delete settings[name];
+  }
+  reset() {
+    for (const name in this.settings) {
+      localStorage.removeItem(this.prefix + name);
+      delete this.settings[name];
     }
-    localStorage.removeItem(`${prefix}version`);
-  };
+    localStorage.removeItem(`${this.prefix}version`);
+  }
 }
+
 // examples
 const examples = {
   "Drinking Water": {
