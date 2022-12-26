@@ -2,6 +2,7 @@
 import $ from "jquery";
 import _ from "lodash";
 import L from "leaflet";
+import "mapbbcode/src/controls/PopupIcon.js";
 import L_OSM4Leaflet from "./OSM4Leaflet";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
 import polylabel from "polylabel";
