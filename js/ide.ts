@@ -1218,14 +1218,14 @@ class IDE {
     if (typeof settings.saves[ex] != "undefined")
       this.setQuery(settings.saves[ex].overpass);
   }
-  removeExample(ex, self) {
+  removeExample(ex) {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
-        callback() {
+        callback: () => {
           delete settings.saves[ex];
           settings.save();
-          $(self).parent("li").remove();
+          this.onLoadClick();
         }
       },
       {name: i18n.t("dialog.cancel")}
@@ -1275,29 +1275,19 @@ class IDE {
       $('<a class="panel-block">')
         .attr("href", "#")
         .text(example)
-        .on(
-          "click",
-          (function (example) {
-            return function () {
-              ide.loadExample(example);
-              $("#load-dialog").removeClass("is-active");
-              return false;
-            };
-          })(example)
-        )
+        .on("click", () => {
+          ide.loadExample(example);
+          $("#load-dialog").removeClass("is-active");
+          return false;
+        })
         .append(
           $('<button class="ml-auto">')
             .attr("title", `${i18n.t("load.delete_query")}: ${example}`)
             .addClass("delete")
-            .on(
-              "click",
-              (function (example) {
-                return function () {
-                  ide.removeExample(example, this);
-                  return false;
-                };
-              })(example)
-            )
+            .on("click", () => {
+              ide.removeExample(example);
+              return false;
+            })
         )
         .appendTo(`#load-dialog .panel.${type}`);
       if (type == "saved_query") has_saved_query = true;
@@ -1351,29 +1341,19 @@ class IDE {
         $('<a class="panel-block">')
           .attr("href", "#")
           .text(q.name)
-          .on(
-            "click",
-            (function (query) {
-              return function () {
-                ide.setQuery(lzw_decode(Base64.decode(query.query)));
-                $("#load-dialog").removeClass("is-active");
-                return false;
-              };
-            })(q)
-          )
+          .on("click", () => {
+            ide.setQuery(lzw_decode(Base64.decode(q.query)));
+            $("#load-dialog").removeClass("is-active");
+            return false;
+          })
           .append(
             $('<button class="ml-auto">')
               .attr("title", `${i18n.t("load.delete_query")}: ${q.name}`)
               .addClass("delete")
-              .on(
-                "click",
-                (function (example) {
-                  return function () {
-                    ide.removeExampleSync(example, this);
-                    return false;
-                  };
-                })(q)
-              )
+              .on("click", () => {
+                ide.removeExampleSync(q, this);
+                return false;
+              })
           )
           .appendTo(ui);
       });
