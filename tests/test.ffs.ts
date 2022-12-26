@@ -1,11 +1,11 @@
 import {beforeEach, describe, expect, it} from "vitest";
-import ffs from "../js/ffs";
+import {ffs_construct_query} from "../js/ffs";
 import {setPresets} from "../js/ffs/free";
 
 describe("ide.ffs", () => {
   function construct_query(search) {
     return new Promise((resolve, reject) => {
-      ffs.construct_query(search, undefined, (err, result) => {
+      ffs_construct_query(search, undefined, (err, result) => {
         if (err) {
           reject(err);
         } else if (typeof result === "string") {

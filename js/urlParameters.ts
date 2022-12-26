@@ -1,5 +1,5 @@
 // urlParameters module
-import ffs from "./ffs";
+import {ffs_construct_query} from "./ffs";
 import settings from "./settings";
 import {Base64, lzw_decode} from "./misc";
 
@@ -80,7 +80,7 @@ export default function urlParameters(param_str: string, callback) {
   }
   if (args.has("w")) {
     // construct a query using the wizard
-    ffs.construct_query(args.get("w"), wizard_comment, (err, query) => {
+    ffs_construct_query(args.get("w"), wizard_comment, (err, query) => {
       if (!err) {
         t.query = query;
         t.has_query = true;

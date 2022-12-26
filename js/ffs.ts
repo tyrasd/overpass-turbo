@@ -2,7 +2,6 @@
 import ffs_free from "./ffs/free";
 import ffs_parser from "./ffs/ffs.pegjs";
 
-let ffs = {};
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 let freeFormQuery;
 
@@ -52,18 +51,18 @@ function escRegexp(str) {
   return str.replace(/([()[{*+.$^\\|?])/g, "\\$1");
 }
 
-/**
- * @param {string} search
- * @param {string | false | undefined} comment
- * @param {function} callback
- */
-ffs.construct_query = function (search, comment, callback) {
+export function ffs_construct_query(
+  search: string,
+  comment: string | false | undefined,
+  callback
+) {
   function quote_comment_str(s) {
     // quote strings that are to be used within c-style comments
     // replace any comment-ending sequences in these strings that would break the resulting query
     return s.replace(/\*\//g, "[…]").replace(/\n/g, "\\n");
   }
 
+  let ffs;
   try {
     ffs = ffs_parser.parse(search);
   } catch (e) {
@@ -337,10 +336,13 @@ ffs.construct_query = function (search, comment, callback) {
 
     callback(null, query_parts.join("\n"));
   });
-};
+}
 
-// this is a "did you mean …" mechanism against typos in preset names
-ffs.repair_search = function (search, callback) {
+/**
+ * this is a "did you mean …" mechanism against typos in preset names
+ */
+export function ffs_repair_search(search: string, callback) {
+  let ffs;
   try {
     ffs = ffs_parser.parse(search);
   } catch (e) {
@@ -386,10 +388,8 @@ ffs.repair_search = function (search, callback) {
     if (!repaired) callback(false);
     else callback(search_parts);
   });
-};
+}
 
-ffs.invalidateCache = function () {
+export function ffs_invalidateCache() {
   freeFormQuery = undefined;
-};
-
-export default ffs;
+}

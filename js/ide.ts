@@ -10,7 +10,11 @@ import tokml from "tokml";
 import togpx from "togpx";
 import configs from "./configs";
 import Query from "./query";
-import ffs from "./ffs";
+import {
+  ffs_construct_query,
+  ffs_invalidateCache,
+  ffs_repair_search
+} from "./ffs";
 import i18n from "./i18n";
 import settings from "./settings";
 import overpass from "./overpass";
@@ -2425,7 +2429,7 @@ const ide = new (function () {
     // reload ui if language has been changed
     if (settings.ui_language != new_ui_language) {
       i18n.translate(new_ui_language);
-      ffs.invalidateCache();
+      ffs_invalidateCache();
     }
     settings.ui_language = new_ui_language;
     settings.server = $("#settings-dialog input[name=server]")[0].value;
@@ -2628,9 +2632,9 @@ const ide = new (function () {
   this.update_ffs_query = function (s, callback) {
     const search = s || $("#ffs-dialog input[type=search]").val();
     const comment = $("#ffs-dialog input[name='ffs.comments']")[0].checked;
-    ffs.construct_query(search, comment, (err, query) => {
+    ffs_construct_query(search, comment, (err, query) => {
       if (err) {
-        ffs.repair_search(search, (repaired) => {
+        ffs_repair_search(search, (repaired) => {
           if (repaired) {
             callback("repairable query", repaired);
           } else {
