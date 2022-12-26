@@ -12,22 +12,29 @@ import settings from "./settings";
 import {htmlentities} from "./misc";
 import styleparser from "./jsmapcss";
 
-const overpass = new (function () {
-  // == private members ==
-  let originalGeom2Layer;
-  // == public members ==
-  this.handlers = {};
-  this.rerender = function () {};
+class Overpass {
+  private originalGeom2Layer;
+  ajax_request_duration: number;
+  ajax_request_start: number;
+  ajax_request;
+  copyright;
+  data;
+  geojson;
+  handlers = {};
+  osmLayer;
+  rerender: (userMapCSS: string) => void = () => {};
+  resultText;
+  resultType: string;
+  stats;
+  timestamp;
+  timestampAreas;
 
-  // == private methods ==
-  function fire(name, ...handler_args) {
-    if (typeof overpass.handlers[name] != "function") return undefined;
-    return overpass.handlers[name].apply({}, handler_args);
+  private fire(name, ...handler_args) {
+    if (typeof this.handlers[name] != "function") return undefined;
+    return this.handlers[name].apply({}, handler_args);
   }
 
-  // == public methods ==
-
-  this.init = function () {
+  init() {
     // register mapcss extensions
     /* own MapCSS-extension:
      * added symbol-* properties
@@ -51,18 +58,13 @@ const overpass = new (function () {
     styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
 
     // prepare some Leaflet hacks
-    originalGeom2Layer = L.GeoJSON.geometryToLayer;
-  };
+    this.originalGeom2Layer = L.GeoJSON.geometryToLayer;
+  }
 
   // updates the map
-  this.run_query = function (
-    query,
-    query_lang,
-    cache,
-    shouldCacheOnly,
-    server,
-    user_mapcss
-  ) {
+  run_query(query, query_lang, cache, shouldCacheOnly, server, user_mapcss) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const overpass = this;
     server = server || configs.defaultServer;
     // 1. get overpass json data
     if (query_lang == "xml") {
@@ -73,17 +75,21 @@ const overpass = new (function () {
         query = `<?xml version="1.0" encoding="UTF-8"?>${query}`;
       }
     }
-    fire("onProgress", "calling Overpass API interpreter", (callback) => {
-      // kill the query on abort
-      overpass.ajax_request.abort();
-      // try to abort queries via kill_my_queries
-      $.get(`${server}kill_my_queries`)
-        .done(callback)
-        .fail(() => {
-          console.log("Warning: failed to kill query.");
-          callback();
-        });
-    });
+    overpass.fire(
+      "onProgress",
+      "calling Overpass API interpreter",
+      (callback) => {
+        // kill the query on abort
+        overpass.ajax_request.abort();
+        // try to abort queries via kill_my_queries
+        $.get(`${server}kill_my_queries`)
+          .done(callback)
+          .fail(() => {
+            console.log("Warning: failed to kill query.");
+            callback();
+          });
+      }
+    );
     function onSuccessCb(data, textStatus, jqXHR) {
       //textStatus is not needed in the successCallback, don't cache it
       if (cache) cache[query] = [data, undefined, jqXHR];
@@ -97,14 +103,14 @@ const overpass = new (function () {
       if (data_amount < 1000) data_txt = `${data_amount} bytes`;
       else if (data_amount < 1000000) data_txt = `${data_amount / 1000} kB`;
       else data_txt = `${data_amount / 1000000} MB`;
-      fire("onProgress", `received about ${data_txt} of data`);
-      fire(
+      overpass.fire("onProgress", `received about ${data_txt} of data`);
+      overpass.fire(
         "onDataReceived",
         data_amount,
         data_txt,
         () => {
           // abort callback
-          fire("onAbort");
+          overpass.fire("onAbort");
           return;
         },
         () => {
@@ -112,10 +118,22 @@ const overpass = new (function () {
           // different cases of loaded data: json data, xml data or error message?
           let data_mode = null;
           let geojson;
-          const stats = {};
+          const stats = {} as {
+            data: {
+              nodes: number;
+              ways: number;
+              relations: number;
+              areas: number;
+            };
+            geojson: {
+              polys: number;
+              lines: number;
+              pois: number;
+            };
+          };
           overpass.ajax_request_duration =
             Date.now() - overpass.ajax_request_start;
-          fire("onProgress", "parsing data");
+          overpass.fire("onProgress", "parsing data");
           setTimeout(() => {
             // hacky firefox hack :( (it is not properly detecting json from the content-type header)
             if (typeof data == "string" && data[0] == "{") {
@@ -193,12 +211,15 @@ const overpass = new (function () {
                     .text($.trim(data.remark))
                     .html()}</p>`;
                 console.log("Overpass API error", fullerrmsg || errmsg); // write (full) error message to console for easier debugging
-                fire("onQueryError", errmsg);
+                overpass.fire("onQueryError", errmsg);
                 data_mode = "error";
                 // parse errors and highlight error lines
                 const errlines = errmsg.match(/line \d+:/g) || [];
                 for (const errline of errlines) {
-                  fire("onQueryErrorLine", 1 * errline.match(/\d+/)[0]);
+                  overpass.fire(
+                    "onQueryErrorLine",
+                    1 * errline.match(/\d+/)[0]
+                  );
                 }
               }
               // the html error message returned by overpass API looks goods also in xml mode ^^
@@ -247,7 +268,7 @@ const overpass = new (function () {
               //geojson = overpass.overpassJSON2geoJSON(data);
             }
 
-            //fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
+            //overpass.fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 
             // show rerender button, if query contains mapcss styles
             if (user_mapcss) $("#rerender-button").show();
@@ -275,7 +296,7 @@ const overpass = new (function () {
                 }
               } catch (e) {
                 userMapCSS = "";
-                fire("onStyleError", `<p>${e.message}</p>`);
+                overpass.fire("onStyleError", `<p>${e.message}</p>`);
               }
               const mapcss = new styleparser.RuleSet();
               mapcss.parseCSS(
@@ -300,7 +321,7 @@ const overpass = new (function () {
                     userMapCSS
                   }`
               );
-              function get_feature_style(feature, highlight) {
+              function get_feature_style(feature, highlight = false) {
                 function hasInterestingTags(props) {
                   // this checks if the node has any tags other than "created_by"
                   return (
@@ -389,7 +410,11 @@ const overpass = new (function () {
               L.GeoJSON.geometryToLayer = function (feature, options) {
                 const s = get_feature_style(feature);
                 const stl = s.textStyles["default"] || {};
-                const layer = originalGeom2Layer.call(this, feature, options);
+                const layer = overpass.originalGeom2Layer.call(
+                  this,
+                  feature,
+                  options
+                );
 
                 function getFeatureLabelPosition(feature) {
                   let bestVal;
@@ -493,7 +518,7 @@ const overpass = new (function () {
               //new L.GeoJsonNoVanish(null, {
               overpass.osmLayer = new L_OSM4Leaflet(null, {
                 afterParse() {
-                  fire("onProgress", "rendering geoJSON");
+                  overpass.fire("onProgress", "rendering geoJSON");
                 },
                 baseLayerClass: settings.disable_poiomatic
                   ? L.GeoJSON
@@ -800,7 +825,7 @@ const overpass = new (function () {
                         .setLatLng(latlng)
                         .setContent(popup);
                       p.layer = layer;
-                      fire("onPopupReady", p);
+                      overpass.fire("onPopupReady", p);
                     });
                   }
                 }
@@ -836,13 +861,13 @@ const overpass = new (function () {
                     }
                   overpass.stats = stats;
 
-                  if (!shouldCacheOnly) fire("onGeoJsonReady");
+                  if (!shouldCacheOnly) overpass.fire("onGeoJsonReady");
 
                   // print raw data
-                  fire("onProgress", "printing raw data");
+                  overpass.fire("onProgress", "printing raw data");
                   setTimeout(() => {
                     overpass.resultText = jqXHR.responseText;
-                    fire("onRawDataPresent");
+                    overpass.fire("onRawDataPresent");
 
                     // todo: the following would profit from some unit testing
                     // this is needed for auto-tab-switching: if there is only non map-visible data, show it directly
@@ -919,11 +944,11 @@ const overpass = new (function () {
                         empty_msg = "received empty dataset";
                       }
                       // show why there is an empty map
-                      fire("onEmptyMap", empty_msg, data_mode);
+                      overpass.fire("onEmptyMap", empty_msg, data_mode);
                     }
 
                     // closing wait spinner
-                    fire("onDone");
+                    overpass.fire("onDone");
                   }, 1); // end setTimeout
                 });
               }, 1); // end setTimeout
@@ -944,7 +969,7 @@ const overpass = new (function () {
         success: onSuccessCb,
         error(jqXHR, textStatus) {
           if (textStatus == "abort") return; // ignore aborted queries.
-          fire("onProgress", "error during ajax call");
+          overpass.fire("onProgress", "error during ajax call");
           if (
             jqXHR.status == 400 ||
             jqXHR.status == 504 ||
@@ -969,15 +994,15 @@ const overpass = new (function () {
             jqXHR.statusText != "OK" // note to me: jqXHR.status "should" give http status codes
           )
             errmsg += `<p>Error-Code: ${jqXHR.statusText} (${jqXHR.status})</p>`;
-          fire("onAjaxError", errmsg);
+          overpass.fire("onAjaxError", errmsg);
           // closing wait spinner
-          fire("onDone");
+          overpass.fire("onDone");
         }
       }); // getJSON
     }
-  };
+  }
+}
 
-  // == initializations ==
-})(); // end create overpass object
+const overpass = new Overpass();
 
 export default overpass;
