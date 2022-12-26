@@ -1,5 +1,7 @@
 export default {
   appname: "overpass-turbo",
+  // used for localStorage and openstreetmap.org/api/0.6/user/preferences
+  settingNamespace: "overpass-ide",
   defaultServer: "//overpass-api.de/api/",
   // https://wiki.openstreetmap.org/wiki/Overpass_API#Public_Overpass_API_instances
   suggestedServers: [

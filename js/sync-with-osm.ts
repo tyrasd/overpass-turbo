@@ -63,7 +63,7 @@ function loadQueries(callback) {
         cnt_elem;
       if (
         (cnt_elem = res.querySelector(
-          `preference[k="${configs.appname}_query-count"]`
+          `preference[k="${configs.settingNamespace}_query-count"]`
         ))
       )
         pref_count = +cnt_elem.getAttribute("v");
@@ -71,7 +71,7 @@ function loadQueries(callback) {
       const result = [];
       for (let i = 0; i < pref_count; i++) {
         const pref_elem = res.querySelector(
-          `preference[k="${configs.appname}_query_${i}_0"]`
+          `preference[k="${configs.settingNamespace}_query_${i}_0"]`
         );
         if (!pref_elem) continue;
         const first_chunk = pref_elem.getAttribute("v").split("&");
@@ -80,7 +80,9 @@ function loadQueries(callback) {
         let query = first_chunk[2].slice(2);
         for (let j = 1; j < length; j++) {
           query += res
-            .querySelector(`preference[k="${configs.appname}_query_${i}_${j}"]`)
+            .querySelector(
+              `preference[k="${configs.settingNamespace}_query_${i}_${j}"]`
+            )
             .getAttribute("v");
         }
         result.push({

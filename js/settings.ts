@@ -148,7 +148,7 @@ const examples_initial_example = "Drinking Water";
 
 // global settings object
 const settings = new Settings(
-  configs.appname !== "overpass-turbo" ? configs.appname : "overpass-ide", // todo: use appname consistently
+  configs.settingNamespace || configs.appname,
   38 // settings version number
 );
 
