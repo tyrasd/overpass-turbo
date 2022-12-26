@@ -2594,6 +2594,13 @@ class IDE {
     this.waiter.addInfo("building query");
     // run the query via the overpass object
     const query = await this.getQuery();
+    if (typeof history.replaceState == "function") {
+      history.pushState(
+        {},
+        "",
+        this.compose_share_link(this.getRawQuery(), true)
+      );
+    }
     const query_lang = this.getQueryLang();
     const server =
       this.data_source &&
