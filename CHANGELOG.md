@@ -9,6 +9,7 @@
 - Migrate source code to TypeScript (#606)
 - Retain query in URL when loading overpass-turbo (#563)
 - Store query in URL when running it (#585)
+- Trim `w=` URL parameter (#609)
 
 ## 2022-01-09
 

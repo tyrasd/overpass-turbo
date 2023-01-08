@@ -83,7 +83,7 @@ export default function urlParameters(
   }
   if (args.has("w")) {
     // construct a query using the wizard
-    ffs_construct_query(args.get("w"), wizard_comment, (err, query) => {
+    ffs_construct_query(args.get("w").trim(), wizard_comment, (err, query) => {
       if (!err) {
         t.query = query;
         t.has_query = true;

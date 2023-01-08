@@ -93,6 +93,33 @@ describe("urlParameters", () => {
     args = urlParameters("?Q=foo&R=true");
     expect(args).toMatchObject({run_query: true});
   });
+  // wizard (trim)
+  it("wizard (trim)", () => {
+    const args = urlParameters(
+      "?w=addr%3Astreet%3D%22T%C4%81lival%C5%BEa%20iela%22%20in%20Riga%0A"
+    );
+    expect(args).toMatchObject({
+      has_query: true,
+      query: `/*
+
+*/
+[out:json][timeout:25];
+// fetch area “Riga” to search in
+{{geocodeArea:Riga}}->.searchArea;
+// gather results
+(
+  // query part for: “"addr:street"="Tālivalža iela"”
+  // nwr is short for node/way/relation
+  nwr["addr:street"="Tālivalža iela"](area.searchArea);
+);
+// print results
+out body;
+>;
+out skel qt;`,
+      has_coords: false,
+      has_zoom: false
+    });
+  });
   // template
   it("template", async () => {
     const orig_ss = settings.saves;
