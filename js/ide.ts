@@ -2586,9 +2586,12 @@ class IDE {
     const query = await this.getQuery();
     if (typeof history.pushState == "function") {
       const url = this.compose_share_link(this.getRawQuery(), true);
-      // avoid HTTP 431 Request Header Fields Too Large
-      // see https://stackoverflow.com/a/417184
-      if (url.length <= 2000) {
+      if (url.length > 2000) {
+        // avoid HTTP 431 Request Header Fields Too Large
+        // see https://stackoverflow.com/a/417184
+        // simply store as hash in URL
+        history.pushState({}, "", `?#${url.slice(1)}`);
+      } else {
         history.pushState({}, "", url);
       }
     }

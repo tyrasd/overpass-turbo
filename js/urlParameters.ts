@@ -3,8 +3,14 @@ import {ffs_construct_query} from "./ffs";
 import settings from "./settings";
 import {Base64, lzw_decode} from "./misc";
 
+export function parseUrlParameters(
+  param_str = location.search || location.hash || ""
+) {
+  return new URLSearchParams(param_str.substring(1));
+}
+
 export default function urlParameters(
-  param_str = location.search,
+  param_str = location.search || location.hash || "",
   callback?: (err: unknown, result: ReturnType<typeof urlParameters>) => void
 ) {
   // defaults
@@ -19,7 +25,7 @@ export default function urlParameters(
   };
 
   // split parameter string
-  const args = new URLSearchParams(param_str.substring(1));
+  const args = parseUrlParameters(param_str);
 
   // interpret arguments
   if (args.has("q")) {

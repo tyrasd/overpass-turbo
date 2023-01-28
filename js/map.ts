@@ -9,6 +9,7 @@ import "../css/map.css";
 import configs from "./configs";
 import overpass from "./overpass";
 import Query from "./query";
+import {parseUrlParameters} from "./urlParameters";
 
 $(document).ready(() => {
   // main map cache
@@ -120,7 +121,7 @@ $(document).ready(() => {
     ).dialog({modal: true});
   }
   // check for any get-parameters
-  const params = new URLSearchParams(location.search.substring(1));
+  const params = parseUrlParameters();
   // uncompressed query set in url
   settings.code["overpass"] = params.get("Q");
   // don't alert on overpass errors, but send messages to parent window
