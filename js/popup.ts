@@ -5,11 +5,23 @@ import {htmlentities} from "./misc";
 export function featurePopupContent(feature: GeoJSON.Feature) {
   let popup = "";
   if (feature.properties.type == "node")
-    popup += `<h4 class='title is-4'>Node <a href='//www.openstreetmap.org/node/${feature.properties.id}' target='_blank'>${feature.properties.id}</a></h4>`;
+    popup +=
+      `<h4 class='title is-4'>Node` +
+      ` <a href='//www.openstreetmap.org/node/${feature.properties.id}' target='_blank'>${feature.properties.id}</a>` +
+      ` <a href='//www.openstreetmap.org/edit?node=${feature.properties.id}' target='_blank'>✏</a>` +
+      `</h4>`;
   else if (feature.properties.type == "way")
-    popup += `<h4 class='title is-4'>Way <a href='//www.openstreetmap.org/way/${feature.properties.id}' target='_blank'>${feature.properties.id}</a></h4>`;
+    popup +=
+      `<h4 class='title is-4'>Way` +
+      ` <a href='//www.openstreetmap.org/way/${feature.properties.id}' target='_blank'>${feature.properties.id}</a>` +
+      ` <a href='//www.openstreetmap.org/edit?way=${feature.properties.id}' target='_blank'>✏</a>` +
+      `</h4>`;
   else if (feature.properties.type == "relation")
-    popup += `<h4 class='title is-4'>Relation <a href='//www.openstreetmap.org/relation/${feature.properties.id}' target='_blank'>${feature.properties.id}</a></h4>`;
+    popup +=
+      `<h4 class='title is-4'>Relation` +
+      ` <a href='//www.openstreetmap.org/relation/${feature.properties.id}' target='_blank'>${feature.properties.id}</a>` +
+      ` <a href='//www.openstreetmap.org/edit?relation=${feature.properties.id}' target='_blank'>✏</a>` +
+      `</h4>`;
   else
     popup += `<h5 class='subtitle is-5'>${feature.properties.type} #${feature.properties.id}</h5>`;
   if (
