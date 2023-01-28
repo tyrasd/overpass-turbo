@@ -52,7 +52,7 @@ $(document).ready(() => {
     disable_poiomatic: false
   };
   const ide = {
-    map: (undefined as unknown) as L.Map,
+    map: undefined as unknown as L.Map,
     mapcss: "",
     async getQuery(): Promise<string> {
       let query = settings.code["overpass"];
