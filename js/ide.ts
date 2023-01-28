@@ -2574,12 +2574,13 @@ class IDE {
     this.waiter.addInfo("building query");
     // run the query via the overpass object
     const query = await this.getQuery();
-    if (typeof history.replaceState == "function") {
-      history.pushState(
-        {},
-        "",
-        this.compose_share_link(this.getRawQuery(), true)
-      );
+    if (typeof history.pushState == "function") {
+      const url = this.compose_share_link(this.getRawQuery(), true);
+      // avoid HTTP 431 Request Header Fields Too Large
+      // see https://stackoverflow.com/a/417184
+      if (url.length <= 2000) {
+        history.pushState({}, "", url);
+      }
     }
     const query_lang = this.getQueryLang();
     const server =
