@@ -4,7 +4,7 @@ import _ from "lodash";
 import jQuery from "jquery";
 import html2canvas from "html2canvas";
 import {Canvg} from "canvg";
-import L from "leaflet";
+import "leaflet";
 import "codemirror/lib/codemirror.js";
 import tokml from "tokml";
 import togpx from "togpx";
@@ -491,7 +491,7 @@ class IDE {
       maxNativeZoom: 19,
       maxZoom: ide.map.options.maxZoom
     });
-    ide.attribControl = new L.Control.Attribution({prefix: ""});
+    ide.attribControl = new L.Control.Attribution({prefix: false});
     ide.attribControl.addAttribution(tilesAttrib);
     const pos = new L.LatLng(settings.coords_lat, settings.coords_lon);
     ide.map.setView(pos, settings.coords_zoom).addLayer(tiles);
@@ -2192,8 +2192,9 @@ class IDE {
     this.waiter.addInfo("prepare map");
     $("#map .leaflet-control-container .leaflet-top").hide();
     $("#data_stats").hide();
-    if (settings.export_image_attribution) this.attribControl.addTo(this.map);
-    if (!settings.export_image_scale) this.scaleControl.removeFrom(this.map);
+    if (settings.export_image_attribution)
+      this.map.addControl(this.attribControl);
+    if (!settings.export_image_scale) this.map.removeControl(this.scaleControl);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
     this.waiter.addInfo("rendering map tiles");
     $("#map .leaflet-overlay-pane").hide();
@@ -2204,8 +2205,8 @@ class IDE {
     });
     $("#map .leaflet-overlay-pane").show();
     if (settings.export_image_attribution)
-      this.attribControl.removeFrom(this.map);
-    if (!settings.export_image_scale) this.scaleControl.addTo(this.map);
+      this.map.removeControl(this.attribControl);
+    if (!settings.export_image_scale) this.map.addControl(this.scaleControl);
     if (settings.show_data_stats) $("#data_stats").show();
     $("#map .leaflet-control-container .leaflet-top").show();
     this.waiter.addInfo("rendering map data");
