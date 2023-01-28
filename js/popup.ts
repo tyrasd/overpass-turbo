@@ -1,35 +1,34 @@
 import $ from "jquery";
-import L from "leaflet";
 import {htmlentities} from "./misc";
 
 export function featurePopupContent(feature: GeoJSON.Feature) {
   let popup = "";
   if (feature.properties.type == "node")
     popup +=
-      `<h4 class='title is-4'>Node` +
-      ` <a href='//www.openstreetmap.org/node/${feature.properties.id}' target='_blank'>${feature.properties.id}</a>` +
-      ` <a href='//www.openstreetmap.org/edit?node=${feature.properties.id}' target='_blank'>✏</a>` +
+      `<h4 class="title is-4"><span class="t" data-t="popup.node">Node</span>` +
+      ` <a href="//www.openstreetmap.org/node/${feature.properties.id}" target="_blank">${feature.properties.id}</a>` +
+      ` <a href="//www.openstreetmap.org/edit?node=${feature.properties.id}" target="_blank">✏</a>` +
       `</h4>`;
   else if (feature.properties.type == "way")
     popup +=
-      `<h4 class='title is-4'>Way` +
-      ` <a href='//www.openstreetmap.org/way/${feature.properties.id}' target='_blank'>${feature.properties.id}</a>` +
-      ` <a href='//www.openstreetmap.org/edit?way=${feature.properties.id}' target='_blank'>✏</a>` +
+      `<h4 class="title is-4"><span class="t" data-t="popup.way">Way</span>` +
+      ` <a href="//www.openstreetmap.org/way/${feature.properties.id}" target="_blank">${feature.properties.id}</a>` +
+      ` <a href="//www.openstreetmap.org/edit?way=${feature.properties.id}" target="_blank">✏</a>` +
       `</h4>`;
   else if (feature.properties.type == "relation")
     popup +=
-      `<h4 class='title is-4'>Relation` +
-      ` <a href='//www.openstreetmap.org/relation/${feature.properties.id}' target='_blank'>${feature.properties.id}</a>` +
-      ` <a href='//www.openstreetmap.org/edit?relation=${feature.properties.id}' target='_blank'>✏</a>` +
+      `<h4 class="title is-4"><span class="t" data-t="popup.relation">Relation</span>` +
+      ` <a href="//www.openstreetmap.org/relation/${feature.properties.id}" target="_blank">${feature.properties.id}</a>` +
+      ` <a href="//www.openstreetmap.org/edit?relation=${feature.properties.id}" target="_blank">✏</a>` +
       `</h4>`;
   else
-    popup += `<h5 class='subtitle is-5'>${feature.properties.type} #${feature.properties.id}</h5>`;
+    popup += `<h5 class="subtitle is-5">${feature.properties.type} #${feature.properties.id}</h5>`;
   if (
     feature.properties &&
     feature.properties.tags &&
     !$.isEmptyObject(feature.properties.tags)
   ) {
-    popup += "<h5 class='subtitle is-5'>Tags";
+    popup += `<h5 class="subtitle is-5"><span class="t" data-t="popup.tags">Tags</span>`;
     if (typeof Object.keys === "function") {
       popup += ` <span class="tag is-info is-light">${
         Object.keys(feature.properties.tags).length
@@ -89,7 +88,7 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
       )
         v = `<a href="https://www.mapillary.com/app?focus=photo&pKey=${mapillary_page[0]}" target="_blank">${v}</a>`;
 
-      popup += `<li><span class='is-family-monospace'>${k} = ${v}</span></li>`;
+      popup += `<li><span class="is-family-monospace">${k} = ${v}</span></li>`;
     });
     popup += "</ul>";
   }
@@ -98,7 +97,7 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     feature.properties.relations &&
     !$.isEmptyObject(feature.properties.relations)
   ) {
-    popup += "<h3 class='title is-4'>Relations";
+    popup += `<h3 class="title is-4"><span class="t" data-t="popup.relations">Relations</span>`;
     if (typeof Object.keys === "function") {
       popup += ` <span class="tag is-info is-light">${
         Object.keys(feature.properties.relations).length
@@ -106,7 +105,7 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     }
     popup += "</h3><ul>";
     $.each(feature.properties.relations, (k, v) => {
-      popup += `<li><a href='//www.openstreetmap.org/relation/${v["rel"]}' target='_blank'>${v["rel"]}</a>`;
+      popup += `<li><a href="//www.openstreetmap.org/relation/${v["rel"]}" target="_blank">${v["rel"]}</a>`;
       if (v.reltags && (v.reltags.name || v.reltags.ref || v.reltags.type))
         popup += ` <i>${$.trim(
           (v.reltags.type ? `${htmlentities(v.reltags.type)} ` : "") +
@@ -123,7 +122,7 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     feature.properties.meta &&
     !$.isEmptyObject(feature.properties.meta)
   ) {
-    popup += '<h4 class="subtitle is-5">Meta</h4><ul>';
+    popup += `<h4 class="subtitle is-5"><span class="t" data-t="popup.metadata">Metadata</span></h4><ul>`;
     $.each(feature.properties.meta, (k, v) => {
       k = htmlentities(k);
       v = htmlentities(v);
@@ -131,21 +130,18 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
         v = `<a href="//www.openstreetmap.org/user/${v}" target="_blank">${v}</a>`;
       if (k == "changeset")
         v = `<a href="//www.openstreetmap.org/changeset/${v}" target="_blank">${v}</a>`;
-      popup += `<li><span class='is-family-monospace'>${k} = ${v}</span></li>`;
+      popup += `<li><span class="is-family-monospace">${k} = ${v}</span></li>`;
     });
     popup += "</ul>";
   }
 
-  if (feature.geometry.type == "Point")
-    popup += L.Util.template(
-      "<h3 class='subtitle is-5'>Coordinates:</h3><p>" +
-        '<a href="geo:{lat},{lon}">{lat} / {lon}</a> ' +
-        "<small>(lat/lon)</small></p>",
-      {
-        lat: feature.geometry.coordinates[1],
-        lon: feature.geometry.coordinates[0]
-      }
-    );
+  if (feature.geometry.type == "Point") {
+    const lat = feature.geometry.coordinates[1];
+    const lon = feature.geometry.coordinates[0];
+    popup +=
+      `<h3 class="subtitle is-5"><span class="t" data-t="popup.coordinates">Coordinates</span></h3>` +
+      `<p><a href="geo:${lat},${lon}">${lat} / ${lon}</a> <small>(lat/lon)</small></p>`;
+  }
   if (
     $.inArray(feature.geometry.type, [
       "LineString",
@@ -154,8 +150,7 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     ]) != -1
   ) {
     if (feature.properties && feature.properties.tainted == true) {
-      popup +=
-        "<p><strong>Attention: incomplete geometry (e.g. some nodes missing)</strong></p>";
+      popup += `<p><strong class="t" data-t="popup.incomplete_geometry">Attention: incomplete geometry (e.g. some nodes missing)</strong></p>`;
     }
   }
   return popup;
