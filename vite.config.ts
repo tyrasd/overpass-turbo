@@ -35,6 +35,9 @@ const APP_DEPENDENCIES = JSON.stringify(
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
   base: "./",
+  optimizeDeps: {
+    exclude: ["leaflet"]
+  },
   build: {
     rollupOptions: {
       input: [

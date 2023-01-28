@@ -145,6 +145,9 @@ a.external {
   }
 }
 
+.leaflet-control-buttons .fas {
+  font-size: 14px;
+}
 .leaflet-control-buttons a:hover {
   background-color: #ffffff;
   color: #777777;
@@ -170,6 +173,7 @@ a.external {
 }
 .leaflet-container .leaflet-control-search .input {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  border-radius: 4px;
 }
 .leaflet-container .leaflet-control-zoom a,
 .leaflet-container .leaflet-control-buttons a {
@@ -177,20 +181,6 @@ a.external {
 }
 .leaflet-container a:visited {
   color: #4b2f89;
-}
-/* touch specific styles */
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-control-zoom,
-.leaflet-touch .leaflet-control-buttons {
-  border: 3px solid rgba(0, 0, 0, 0.298);
-  border-radius: 5px;
-}
-.leaflet-touch .leaflet-control-buttons {
-  box-shadow: none;
-}
-.leaflet-touch .leaflet-bar a:first-child,
-.leaflet-touch .leaflet-bar a:last-child {
-  border-radius: 3px;
 }
 
 .dialog {

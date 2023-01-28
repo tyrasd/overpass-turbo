@@ -1,25 +1,24 @@
-import L from "leaflet";
-
-L.GeoJsonNoVanish = L.GeoJSON.extend({
-  initialize(geojson, options) {
-    this.options = {
-      threshold: 10
-    };
-    L.GeoJSON.prototype.initialize.call(this, geojson, options);
-  },
+class GeoJsonNoVanish extends L.GeoJSON {
+  threshold = 10;
+  constructor(geojson, options) {
+    super(geojson, options);
+    this.threshold = options?.threshold ?? 10;
+  }
   onAdd(map) {
     this._map = map;
     this.eachLayer(map.addLayer, map);
 
     this._map.addEventListener("zoomend", this._onZoomEnd, this);
     this._onZoomEnd();
-  },
+    return this;
+  }
   onRemove(map) {
     this._map.removeEventListener("zoomend", this._onZoomEnd, this);
 
     this.eachLayer(map.removeLayer, map);
     this._map = null;
-  },
+    return this;
+  }
   _onZoomEnd() {
     // todo: name
     // todo: possible optimizations: zoomOut = skip already compressed objects (and vice versa)
@@ -34,7 +33,7 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
         const p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
         const p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
         const d = Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
-        if (d > Math.pow(this.options.threshold, 2) || is_max_zoom) {
+        if (d > Math.pow(this.threshold, 2) || is_max_zoom) {
           delete o.obj.placeholder;
           this.addLayer(o.obj);
           this.removeLayer(o);
@@ -47,7 +46,7 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
       const p1 = crs.latLngToPoint(bounds.getSouthWest(), o._map.getZoom());
       const p2 = crs.latLngToPoint(bounds.getNorthEast(), o._map.getZoom());
       const d = Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
-      if (d > Math.pow(this.options.threshold, 2)) return;
+      if (d > Math.pow(this.threshold, 2)) return;
       /*var c = this.options.pointToLayer ? 
                 this.options.pointToLayer(o.feature, bounds.getCenter()) : 
                 new L.Marker(bounds.getCenter());*/
@@ -71,8 +70,6 @@ L.GeoJsonNoVanish = L.GeoJSON.extend({
       this.removeLayer(o);
     }, this);
   }
-});
-L.geoJsonNoVanish = (geojson, options) =>
-  new L.GeoJsonNoVanish(geojson, options);
+}
 
-export default L.GeoJsonNoVanish;
+export default GeoJsonNoVanish;

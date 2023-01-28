@@ -1,7 +1,7 @@
 import $ from "jquery";
 
 import "leaflet";
-import "leaflet-polylineoffset";
+import "./leaflet.polylineoffset";
 import "leaflet.locationfilter";
 
 import "codemirror/lib/codemirror";
