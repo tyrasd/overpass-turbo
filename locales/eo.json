@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Fonto de datumoj",
     "help.attr.data": "Datumoj &copy; kontribuintoj de <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">kondiĉoj</a>)</span>",
     "help.attr.mining": "Datum-analizado de",
-    "help.attr.tiles": "Map-kaheloj &copy; kontribuintoj de <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contributors",
+    "help.attr.tiles": "Map tiles &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contributors",
     "help.attr.search": "Serĉado liverata de",
     "help.attr.software": "Programaro kaj bibliotekoj",
     "help.attr.leaflet": "Mapo funkciigata de",
