@@ -2695,6 +2695,11 @@ svg-pathdata@^6.0.3:
   resolved "https://registry.yarnpkg.com/svg-pathdata/-/svg-pathdata-6.0.3.tgz#80b0e0283b652ccbafb69ad4f8f73e8d3fbf2cac"
   integrity sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==
 
+tag2link@^2022.11.28:
+  version "2022.11.28"
+  resolved "https://registry.yarnpkg.com/tag2link/-/tag2link-2022.11.28.tgz#3489b8fe648bb9a37cd15ec48ad8e2ebb6ab4da6"
+  integrity sha512-EaHP48HHGvowDB/iEGA017sbbFpicEJdmtvxdPegmXBMVnWiB8XPaG8ILUNvTbMggI3ug/h1tX9RAOt+yjrOOg==
+
 tap@~0.4.8:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/tap/-/tap-0.4.13.tgz#3986134d6759727fc2223e61126eeb87243accbc"

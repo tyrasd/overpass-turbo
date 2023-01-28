@@ -1,5 +1,6 @@
 import $ from "jquery";
 import {htmlentities} from "./misc";
+import tag2link from "tag2link/index.json";
 
 export function featurePopupContent(feature: GeoJSON.Feature) {
   let popup = "";
@@ -88,6 +89,11 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
       )
         v = `<a href="https://www.mapillary.com/app?focus=photo&pKey=${mapillary_page[0]}" target="_blank">${v}</a>`;
 
+      // hyperlinks from tag2link
+      const rule = tag2link.find((i) => i.key === `Key:${k}`);
+      if (rule?.url && !v.includes("<a href")) {
+        v = `<a href="${rule.url.replace(/\$1/g, v)}" target="_blank">${v}</a>`;
+      }
       popup += `<li><span class="is-family-monospace">${k} = ${v}</span></li>`;
     });
     popup += "</ul>";

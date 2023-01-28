@@ -31,4 +31,45 @@ describe("featurePopupContent", () => {
     };
     expect(featurePopupContent(feature)).toMatchSnapshot();
   });
+  it("", () => {
+    const feature = {
+      type: "Feature",
+      id: "relation/1243821",
+      properties: {
+        type: "relation",
+        id: "1243821",
+        tags: {
+          architect: "André and Jean Polak",
+          "architect:wikidata": "Q2848896",
+          building: "yes",
+          "contact:email": "info@atomium.be",
+          "contact:phone": "+32 2 475 47 75",
+          "contact:website": "https://www.atomium.be/",
+          engineer: "André Waterkeyn",
+          "engineer:wikidata": "Q523346",
+          height: "102",
+          image:
+            "https://images.mapillary.com/dWS3qotev3rzfk3zwkB0nu/thumb-2048.jpg",
+          layer: "1",
+          mapillary: "291574785922785",
+          name: "Atomium",
+          start_date: "1958",
+          "toilets:wheelchair": "yes",
+          tourism: "attraction",
+          type: "multipolygon",
+          wheelchair: "limited",
+          wikidata: "Q180901",
+          wikipedia: "fr:Atomium"
+        },
+        relations: [],
+        meta: {},
+        geometry: "center"
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [4.3415237, 50.894924]
+      }
+    };
+    expect(featurePopupContent(feature)).toMatchSnapshot();
+  });
 });
