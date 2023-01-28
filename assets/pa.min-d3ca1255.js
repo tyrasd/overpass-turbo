@@ -1,0 +1,1 @@
+const e={presets:{fields:{address:{placeholders:{city:"ਸ਼ਹਿਰ"}},cuisine:{options:{indian:"ਭਾਰਤੀ"}},name:{label:"ਨਾਮ"}},presets:{"amenity/place_of_worship/muslim":{name:"ਮਸਜਿਦ",aliases:"ਮਸੀਤ"}}}},s={pa:e};export{s as default,e as pa};
