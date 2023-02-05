@@ -34,6 +34,6 @@ Development is done in the _master_ branch, stable releases are marked with git 
 
 ### install & run
 
-1. `npm install`
-2. `npm start` for a Development server listening at http://localhost:8080
-3. `npm run build` for a minified build in `./build`
+1. `yarn install`
+2. `yarn run start` for a Development server listening at http://localhost:5173
+3. `yarn run build` for a minified build in `./build`
