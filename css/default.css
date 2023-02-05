@@ -244,6 +244,7 @@ a.ui-button:active,
   margin-top: -9px;
   margin-left: -8px;
   opacity: 0.6;
+  z-index: 800; /* Order above Leaflet map panes: https://leafletjs.com/reference.html#map-pane */
 }
 
 .errorline {
