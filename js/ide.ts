@@ -129,17 +129,11 @@ function showDialog(title, content, buttons) {
   for (const index in buttons) {
     const button = buttons[index];
     $(`<button class="button">${button.name}</button>`)
-      .click(
-        (function (callback) {
-          return function () {
-            if (callback) {
-              callback();
-            }
-            // destroy modal dialog after callback, see #528
-            $(element).remove();
-          };
-        })(button.callback)
-      )
+      .click(() => {
+        button.callback?.();
+        // destroy modal dialog after callback, see #528
+        $(element).remove();
+      })
       .appendTo($("footer .level-item", element));
   }
 
@@ -2077,17 +2071,16 @@ class IDE {
         const dialog_buttons = [
           {
             name: i18n.t("dialog.repair_query"),
-            callback() {
+            callback: async () => {
               this.repairQuery("xml+metadata");
-              this.getQuery((query) => {
-                exportToLevel0.unbind("click");
-                exportToLevel0[0].href = constructLevel0Link(query);
-              });
+              const query = await this.getQuery();
+              exportToLevel0.unbind("click");
+              exportToLevel0[0].href = constructLevel0Link(query);
             }
           },
           {
             name: i18n.t("dialog.continue_anyway"),
-            callback() {
+            callback: () => {
               exportToLevel0.unbind("click");
               exportToLevel0[0].href = constructLevel0Link(query);
             }
@@ -2154,17 +2147,16 @@ class IDE {
           const dialog_buttons = [
             {
               name: i18n.t("dialog.repair_query"),
-              callback() {
+              callback: async () => {
                 this.repairQuery("xml+metadata");
-                this.getQuery((query) => {
-                  send_to_josm(query);
-                  export_dialog.removeClass("is-active");
-                });
+                const query = await this.getQuery();
+                send_to_josm(query);
+                export_dialog.removeClass("is-active");
               }
             },
             {
               name: i18n.t("dialog.continue_anyway"),
-              callback() {
+              callback: () => {
                 send_to_josm(query);
                 export_dialog.removeClass("is-active");
               }
