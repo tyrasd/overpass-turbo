@@ -776,7 +776,6 @@ class IDE {
           }
         });
         $(inp).autocomplete("option", "delay", 20);
-        //$(inp).autocomplete().keypress(function(e) {if (e.which==13 || e.which==10) $(this).autocomplete("search");});
         return container;
       }
     });
@@ -2265,7 +2264,7 @@ class IDE {
       .removeClass("is-danger")
       .unbind("keypress")
       .bind("keypress", (e) => {
-        if (e.which == 13 || e.which == 10) {
+        if (e.key === "Enter") {
           this.onFfsRun(true);
           e.preventDefault();
         }
@@ -2489,18 +2488,17 @@ class IDE {
   onHelpClose() {
     $("#help-dialog").removeClass("is-active");
   }
-  onKeyPress(event) {
+  onKeyPress(event: KeyboardEvent) {
     if (
-      (event.which == 120 && event.charCode == 0) || // F9
-      ((event.which == 13 || event.which == 10) &&
-        (event.ctrlKey || event.metaKey))
+      event.key === "F9" || // F9
+      (event.key === "Enter" && (event.ctrlKey || event.metaKey))
     ) {
       // Ctrl+Enter
       this.onRunClick(); // run query
       event.preventDefault();
     }
     if (
-      String.fromCharCode(event.which).toLowerCase() == "e" &&
+      event.key == "e" &&
       (event.ctrlKey || event.metaKey) &&
       !event.shiftKey &&
       !event.altKey
@@ -2510,7 +2508,7 @@ class IDE {
       event.preventDefault();
     }
     if (
-      String.fromCharCode(event.which).toLowerCase() == "s" &&
+      event.key == "s" &&
       (event.ctrlKey || event.metaKey) &&
       !event.shiftKey &&
       !event.altKey
@@ -2520,7 +2518,7 @@ class IDE {
       event.preventDefault();
     }
     if (
-      String.fromCharCode(event.which).toLowerCase() == "o" &&
+      event.key == "o" &&
       (event.ctrlKey || event.metaKey) &&
       !event.shiftKey &&
       !event.altKey
@@ -2530,7 +2528,7 @@ class IDE {
       event.preventDefault();
     }
     if (
-      String.fromCharCode(event.which).toLowerCase() == "h" &&
+      event.key == "h" &&
       (event.ctrlKey || event.metaKey) &&
       !event.shiftKey &&
       !event.altKey
@@ -2540,11 +2538,11 @@ class IDE {
       event.preventDefault();
     }
     if (
-      (String.fromCharCode(event.which).toLowerCase() == "i" &&
+      (event.key == "i" &&
         (event.ctrlKey || event.metaKey) &&
         !event.shiftKey &&
         !event.altKey) || // Ctrl+I
-      (String.fromCharCode(event.which).toLowerCase() == "f" &&
+      (event.key == "f" &&
         (event.ctrlKey || event.metaKey) &&
         event.shiftKey &&
         !event.altKey)
@@ -2554,7 +2552,7 @@ class IDE {
       event.preventDefault();
     }
 
-    if (event.which === 27) {
+    if (event.key === "Escape") {
       // Escape
       $(".modal").removeClass("is-active");
     }
