@@ -469,7 +469,7 @@ class Overpass {
                         ]);
                         if (p !== undefined) stl.fillOpacity = p;
                         p = get_property(styles, ["dashes"]);
-                        if (p !== undefined) stl.dashArray = p.join(",");
+                        if (p !== undefined) stl.dashArray = p.join(" ");
                         break;
                       case "LineString":
                       case "MultiLineString":
@@ -483,7 +483,7 @@ class Overpass {
                         p = get_property(styles, ["offset"]);
                         if (p !== undefined) stl.dashOffset = String(-p); // MapCSS and PolylineOffset definitions use different signs
                         p = get_property(styles, ["dashes"]);
-                        if (p !== undefined) stl.dashArray = p.join(",");
+                        if (p !== undefined) stl.dashArray = p.join(" ");
                         break;
                       case "Polygon":
                       case "MultiPolygon":
@@ -499,7 +499,7 @@ class Overpass {
                         p = get_property(styles, ["fill_opacity"]);
                         if (p !== undefined) stl.fillOpacity = p;
                         p = get_property(styles, ["dashes"]);
-                        if (p !== undefined) stl.dashArray = p.join(",");
+                        if (p !== undefined) stl.dashArray = p.join(" ");
                         break;
                     }
                     // todo: more style properties? linecap, linejoin?
