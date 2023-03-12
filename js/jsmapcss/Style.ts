@@ -298,37 +298,37 @@ styleparser.TextStyle = function () {
 };
 styleparser.TextStyle.prototype = {
   properties: [
-    "font_family",
     "font_bold",
-    "font_italic",
     "font_caps",
-    "font_underline",
+    "font_family",
+    "font_italic",
     "font_size",
-    "text_color",
-    "text_offset",
+    "font_underline",
+    "letter_spacing",
     "max_width",
-    "text",
+    "text_center",
+    "text_color",
     "text_halo_color",
     "text_halo_radius",
-    "text_center",
-    "letter_spacing"
+    "text_offset",
+    "text"
   ],
-  // TODO: font_bold??? wtf? -> support propper MapCSS properites!
+  // TODO: font_bold??? wtf? -> support proper MapCSS properties!
 
-  font_family: null,
   font_bold: false,
-  font_italic: false,
-  font_underline: false,
   font_caps: false,
+  font_family: null,
+  font_italic: false,
   font_size: NaN,
-  text_color: null,
-  text_offset: NaN,
+  font_underline: false,
+  letter_spacing: 0,
   max_width: NaN,
-  text: null,
+  text_center: true,
+  text_color: null,
   text_halo_color: null,
   text_halo_radius: 0,
-  text_center: true,
-  letter_spacing: 0,
+  text_offset: NaN,
+  text: null,
   styleType: "TextStyle",
 
   fontStyler() {
