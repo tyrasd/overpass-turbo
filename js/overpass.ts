@@ -541,31 +541,18 @@ class Overpass {
                         radius: r
                       });
                     }
-
-                    const text_stl = s.textStyles["default"] || {};
-                    let text = "";
-                    if (
-                      (text_stl["text"] &&
-                        text_stl.evals["text"] &&
-                        (text = text_stl["text"])) ||
-                      (text_stl["text"] &&
-                        (text = feature.properties.tags[text_stl["text"]]))
-                    ) {
-                      const textIcon = new L_PopupIcon(htmlentities(text), {
-                        color: "rgba(255,255,255,0.8)"
-                      });
-                      const textmarker = new L.Marker(
-                        getFeatureLabelPosition(feature, marker),
-                        {icon: textIcon}
-                      );
-                      return new L.FeatureGroup(
-                        _.compact([marker, textmarker])
-                      );
-                    }
-
                     return marker;
                   },
                   onEachFeature(feature, layer) {
+                    const s = get_feature_style(feature, false);
+                    const stl = s.textStyles["default"] || {};
+                    let text = stl["text"];
+                    if (
+                      (text && stl.evals["text"]) ||
+                      (text && (text = feature.properties.tags[text]))
+                    ) {
+                      layer.bindTooltip(htmlentities(text), {permanent: true});
+                    }
                     layer.on("click", function (e) {
                       const popup = featurePopupContent(feature);
                       let latlng;
@@ -792,8 +779,8 @@ function getFeatureLabelPosition(
       latlng = L.CRS.EPSG3857.pointToLatLng(
         L.point(
           polylabel(
-            [labelPolygon.getLatLngs()]
-              .concat(labelPolygon._holes)
+            labelPolygon
+              .getLatLngs()
               .map((ring) =>
                 ring
                   .map((latlng) => L.CRS.EPSG3857.latLngToPoint(latlng, 20))
