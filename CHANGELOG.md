@@ -10,6 +10,22 @@
 - Retain query in URL when loading overpass-turbo (#563)
 - Store query in URL when running it (#585)
 - Trim `w=` URL parameter (#609)
+- Support many [MapCSS label properties](https://wiki.openstreetmap.org/wiki/MapCSS/0.2#Label_properties) (#627)
+  - `font-family`
+  - `font-size`
+  - `font-style`
+  - `font-variant`
+  - `font-weight`
+  - `max-width`
+  - `shield-color`
+  - `shield-frame-color`
+  - `shield-frame-width`
+  - `text-color`
+  - `text-decoration`
+  - `text-halo-color`
+  - `text-halo-radius`
+  - `text-opacity`
+  - `text-transform`
 
 ## 2022-01-09
 
