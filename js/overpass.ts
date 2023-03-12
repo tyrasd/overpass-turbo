@@ -551,7 +551,22 @@ class Overpass {
                       (text && stl.evals["text"]) ||
                       (text && (text = feature.properties.tags[text]))
                     ) {
-                      layer.bindTooltip(htmlentities(text), {permanent: true});
+                      const tooltip = new L.Tooltip({
+                        direction: stl["text_position"],
+                        className: "p-0",
+                        permanent: true
+                      });
+                      tooltip.setContent(htmlentities(text));
+                      tooltip._initLayout = function () {
+                        L.Tooltip.prototype._initLayout.call(this);
+                        this._container.setAttribute(
+                          "style",
+                          styleparser.TextStyle.prototype.textStyleAsCSS.call(
+                            stl
+                          )
+                        );
+                      };
+                      layer.bindTooltip(tooltip);
                     }
                     layer.on("click", function (e) {
                       const popup = featurePopupContent(feature);

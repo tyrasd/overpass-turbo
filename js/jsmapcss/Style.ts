@@ -298,60 +298,81 @@ styleparser.TextStyle = function () {
 };
 styleparser.TextStyle.prototype = {
   properties: [
-    "font_bold",
-    "font_caps",
     "font_family",
-    "font_italic",
     "font_size",
-    "font_underline",
-    "letter_spacing",
+    "font_style",
+    "font_variant",
+    "font_weight",
     "max_width",
-    "text_center",
+    "shield_casing_color",
+    "shield_casing_width",
+    "shield_color",
+    "shield_frame_color",
+    "shield_frame_width",
+    "shield_image",
+    "shield_opacity",
+    "shield_shape",
+    "shield_text",
     "text_color",
+    "text_decoration",
     "text_halo_color",
     "text_halo_radius",
     "text_offset",
+    "text_opacity",
+    "text_position",
+    "text_transform",
     "text"
   ],
-  // TODO: font_bold??? wtf? -> support proper MapCSS properties!
 
-  font_bold: false,
-  font_caps: false,
   font_family: null,
-  font_italic: false,
-  font_size: NaN,
-  font_underline: false,
-  letter_spacing: 0,
-  max_width: NaN,
-  text_center: true,
+  font_size: null,
+  font_style: null,
+  font_variant: null,
+  font_weight: null,
+  max_width: null,
+  shield_casing_color: null,
+  shield_casing_width: null,
+  shield_color: null,
+  shield_frame_color: null,
+  shield_frame_width: null,
+  shield_image: null,
+  shield_opacity: null,
+  shield_shape: null,
+  shield_text: null,
   text_color: null,
+  text_decoration: null,
   text_halo_color: null,
   text_halo_radius: 0,
-  text_offset: NaN,
+  text_offset: null,
+  text_opacity: null,
+  text_position: null,
+  text_transform: null,
   text: null,
+
   styleType: "TextStyle",
 
-  fontStyler() {
-    return {
-      family: this.font_family ? this.font_family : "Arial",
-      size: this.font_size ? this.font_size * 2 : "10px",
-      weight: this.font_bold ? "bold" : "normal",
-      style: this.font_italic ? "italic" : "normal"
-    };
-  },
-  textStyler(_text) {
-    return {
-      decoration: this.font_underline ? "underline" : "none",
-      align: "middle",
-      text: _text
-    };
-  },
-  fillStyler() {
-    // not implemented yet
-    return this.dojoColor(0, 1);
+  textStyleAsCSS(): string {
+    return styleString({
+      borderColor: this.shield_frame_color,
+      borderStyle: this.shield_frame_color ? "solid" : null,
+      borderWidth: this.shield_frame_width,
+      backgroundColor: this.shield_color,
+      fontFamily: this.font_family,
+      fontSize: this.font_size,
+      fontStyle: this.font_style,
+      fontVariant: this.font_variant,
+      fontWeight: this.font_weight,
+      maxWidth: this.max_width,
+      color: this.text_color,
+      textDecoration: this.text_decoration,
+      textShadow:
+        this.text_halo_color && this.text_halo_radius > 0
+          ? `0 0 ${this.text_halo_radius}px ${this.text_halo_color}`
+          : null,
+      opacity: this.text_opacity,
+      transform: this.text_transform
+    });
   }
-
-  // getTextFormat, getHaloFilter, writeNameLabel
 };
 styleparser.inherit_from_Style(styleparser.TextStyle.prototype);
 
@@ -378,3 +399,13 @@ styleparser.inherit_from_Style(styleparser.ShieldStyle.prototype);
 // End of module
 
 export default styleparser;
+
+export function styleString(style: Partial<CSSStyleDeclaration>) {
+  return Object.entries(style)
+    .filter(([key, value]) => value !== null && value !== undefined)
+    .map(
+      ([key, value]) =>
+        `${key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}: ${value}`
+    )
+    .join(";");
+}
