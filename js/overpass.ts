@@ -481,7 +481,7 @@ class Overpass {
                         p = get_property(styles, ["width"]);
                         if (p !== undefined) stl.weight = p;
                         p = get_property(styles, ["offset"]);
-                        if (p !== undefined) stl.offset = -p; // MapCSS and PolylineOffset definitions use different signs
+                        if (p !== undefined) stl.dashOffset = String(-p); // MapCSS and PolylineOffset definitions use different signs
                         p = get_property(styles, ["dashes"]);
                         if (p !== undefined) stl.dashArray = p.join(",");
                         break;
