@@ -1,7 +1,7 @@
 [main]
 host = https://www.transifex.com
 
-[overpass-turbo.main]
+[o:overpass-turbo:p:overpass-turbo:r:main]
 file_filter = locales/<lang>.json
 source_file = locales/en.json
 source_lang = en
