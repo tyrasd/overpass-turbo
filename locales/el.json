@@ -236,5 +236,15 @@
     "data_stats.lag": "Ενημερότητα των δεδομένων",
     "data_stats.lag_areas": "Ενημερότητα των περιοχών",
     "data_stats.lag.expl": "πίσω από την κύρια βάση δεδομένων του OSM",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "Αυτός ο χάρτης αφέθηκε κενός σκόπιμα."
 }

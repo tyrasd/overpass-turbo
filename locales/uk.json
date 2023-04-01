@@ -236,5 +236,15 @@
     "data_stats.lag": "Актуальність даних",
     "data_stats.lag_areas": "Актуальність ділянок",
     "data_stats.lag.expl": "відстає від основної бази OSM",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "Мапа навмисно не містить даних."
 }

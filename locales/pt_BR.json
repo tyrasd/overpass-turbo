@@ -236,5 +236,15 @@
     "data_stats.lag": "Atualidade dos dados",
     "data_stats.lag_areas": "Atualidade das áreas",
     "data_stats.lag.expl": "por trás do banco de dados OSM principal",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "Este mapa está intencionalmente em branco."
 }

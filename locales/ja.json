@@ -236,5 +236,15 @@
     "data_stats.lag": "データの最新性",
     "data_stats.lag_areas": "エリアの最新性",
     "data_stats.lag.expl": "メインOSMデータベース経由",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "この地図表示は意図して空白になっています。"
 }

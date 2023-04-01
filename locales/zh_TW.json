@@ -236,5 +236,15 @@
     "data_stats.lag": "資料即時性",
     "data_stats.lag_areas": "區域的的即時性",
     "data_stats.lag.expl": "落後OSM主要資料庫",
+    "popup.tags": "標籤",
+    "popup.metadata": "元資料",
+    "popup.coordinates": "座標",
+    "popup.node": "節點",
+    "popup.nodes": "節點",
+    "popup.way": "路徑",
+    "popup.ways": "路徑",
+    "popup.relation": "關係",
+    "popup.relations": "關系",
+    "popup.incomplete_geometry": "注意：不完整的幾何 (例如缺失一些節點)",
     "map.intentionally_blank": "地圖的確是空的."
 }

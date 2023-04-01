@@ -236,5 +236,15 @@
     "data_stats.lag": "Độ trễ dữ liệu",
     "data_stats.lag_areas": "Độ trễ dữ liệu theo vùng",
     "data_stats.lag.expl": "trễ hơn CSDL chính của OSM",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "Bản đồ này được chủ ý để trống."
 }

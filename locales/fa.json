@@ -236,5 +236,15 @@
     "data_stats.lag": "به‌هنگامیِ داده‌ها",
     "data_stats.lag_areas": "به‌هنگامیِ ناحیه‌ها",
     "data_stats.lag.expl": "عقب‌تر از پایگاه‌دادهٔ اصلی OSM",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "این نقشه خالی است."
 }

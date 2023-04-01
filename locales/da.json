@@ -236,5 +236,15 @@
     "data_stats.lag": "Aktualitet af geodata",
     "data_stats.lag_areas": "Aktualiteten af områderne",
     "data_stats.lag.expl": "bagefter OSM databasen",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "Kortet er forsætligt tomt."
 }

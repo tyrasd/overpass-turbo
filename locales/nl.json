@@ -236,5 +236,15 @@
     "data_stats.lag": "Currentness of data",
     "data_stats.lag_areas": "Currentness of areas",
     "data_stats.lag.expl": "behind main OSM db",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "Deze kaart is met opzet leeg gelaten."
 }

@@ -236,5 +236,15 @@
     "data_stats.lag": "Současnost dat",
     "data_stats.lag_areas": "Současnost oblastí",
     "data_stats.lag.expl": "za hlavní OSM db",
+    "popup.tags": "Tagy",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Souřadnice",
+    "popup.node": "Uzel",
+    "popup.nodes": "Uzly",
+    "popup.way": "Cesta",
+    "popup.ways": "Cesty",
+    "popup.relation": "Relace",
+    "popup.relations": "Relace",
+    "popup.incomplete_geometry": "Pozor: Nekompletní geometrie (např. některé uzly chybí)",
     "map.intentionally_blank": "Tato mapa byla záměrně ponechána prázdná."
 }

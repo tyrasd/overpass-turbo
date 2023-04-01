@@ -236,5 +236,15 @@
     "data_stats.lag": "Актуальность данных",
     "data_stats.lag_areas": "Актуальность площадей",
     "data_stats.lag.expl": "позже от основной базы OSM",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "Карта намеренно не содержит данных."
 }

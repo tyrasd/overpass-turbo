@@ -236,5 +236,15 @@
     "data_stats.lag": "Andmete ajakohasus",
     "data_stats.lag_areas": "Alade ajakohasus",
     "data_stats.lag.expl": "maas OSM andmebaasist",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "See kaart on jäetud sihilikult tühjaks"
 }
