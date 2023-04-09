@@ -159,8 +159,7 @@ describe("mapcss.eval", () => {
   });
   it("general functions", () => {
     q = 'tag("_")';
-    window.osm_tag = () => "foo";
-    p = evalparser.parse(q);
+    p = evalparser.parse(q, {osm_tag: () => "foo"});
     expect(p).to.equal("foo");
     q = 'cond("true", "a", "b")';
     p = evalparser.parse(q);

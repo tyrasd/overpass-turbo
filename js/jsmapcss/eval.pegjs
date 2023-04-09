@@ -68,7 +68,7 @@ Factor
       case "sqrt":
         return ""+Math.sqrt(expr);
       case "tag":
-        return window.osm_tag(expr);
+        return options.osm_tag(expr);
       }
     }
   / "cond(" _ exprCond:Expression _ "," _ exprTrue:Expression _ "," _ exprFalse:Expression _ ")" { return ["false", "no", "0", 0, ""].indexOf(exprCond) < 0 ? exprTrue : exprFalse }

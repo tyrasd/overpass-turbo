@@ -12,7 +12,7 @@ styleparser.Style.prototype = {
   //interactive: true, // TODO: commented out. see RuleSet.js
   properties: [],
   styleType: "Style",
-  evals: null,
+  evals: {},
 
   __init__() {
     this.evals = {};
@@ -57,10 +57,10 @@ styleparser.Style.prototype = {
     // helper object for eval() properties
     for (const k in this.evals) {
       try {
-        window.osm_tag = function (t) {
-          return tags[t] || "";
-        };
-        this.setPropertyFromString(k, evalparser.parse(this.evals[k]));
+        const evaluated = evalparser.parse(this.evals[k], {
+          osm_tag: (t) => tags[t] || ""
+        });
+        this.setPropertyFromString(k, evaluated);
       } catch (e) {
         console.error("Error while evaluating mapcss evals", e);
       }
