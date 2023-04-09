@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
-import {defineConfig} from "vite";
+import {type Plugin, defineConfig, createFilter} from "vite";
 import inject from "@rollup/plugin-inject";
-import pegjs from "rollup-plugin-pegjs";
+import {type ParserBuildOptions, generate} from "peggy";
 
 import {readFileSync} from "fs";
 import {resolve} from "path";
@@ -57,11 +57,27 @@ export default defineConfig(() => ({
       $: "jquery",
       jQuery: "jquery"
     }),
-    pegjs()
+    peggy()
   ],
   // https://vitest.dev/config/
   test: {
     environment: "happy-dom",
-    include: "tests/test*.ts"
+    include: ["tests/test*.ts"]
   }
 }));
+
+function peggy(options: ParserBuildOptions = {}): Plugin {
+  return {
+    name: "peggy",
+    transform(grammar, id) {
+      const {include = ["*.pegjs", "**/*.pegjs"], exclude} = options;
+      const filter = createFilter(include, exclude);
+      if (!filter(id)) return null;
+      const code = generate(grammar, {output: "source", ...options});
+      return {
+        code: `export default ${code};`,
+        map: {mappings: ""}
+      };
+    }
+  };
+}
