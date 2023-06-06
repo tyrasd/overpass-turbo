@@ -28,7 +28,7 @@
     "prettier": "^2.8.7",
     "request": "^2.67.0",
     "typescript": "^5.0.4",
-    "vite": "^4.2.1",
+    "vite": "^4.2.3",
     "vitest": "^0.29.8"
   },
   "dependencies": {
