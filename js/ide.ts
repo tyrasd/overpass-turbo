@@ -855,9 +855,15 @@ class IDE {
       }
     };
     overpass.handlers["onEmptyMap"] = function (empty_msg, data_mode) {
-      // show warning/info if only invisible data is returned
+      // get the current query
+      let query = ide.getRawQuery();
+      
+      // check if 'out' followed by any number of characters (non-greedy) and then 'count' is present in the query
+      var isCountPresent = /out.*?count/.test(query);
+      
+      // show warning/info if only invisible data is returned and 'out...count' is not present in the query
       if (empty_msg == "no visible data") {
-        if (!settings.no_autorepair) {
+        if (!isCountPresent && !settings.no_autorepair) {
           const content = `<p>${i18n.t(
             "warning.incomplete.expl.1"
           )}</p><p>${i18n.t(
@@ -891,6 +897,8 @@ class IDE {
             content,
             dialog_buttons
           );
+        } else if (isCountPresent) {
+            ide.switchTab("Data");
         }
       }
       // auto tab switching (if only areas are returned)
