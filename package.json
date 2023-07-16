@@ -44,7 +44,7 @@
     "leaflet-polylineoffset": "^1.1.1",
     "leaflet.locationfilter": "tmgreensolutions/leaflet-locationfilter#ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d",
     "lodash": ">=4.17.5",
-    "osm-auth": "^1.0.1",
+    "osm-auth": "^2.2.0",
     "osmtogeojson": "^3.0.0-beta.5",
     "polylabel": "^1.0.2",
     "rgbcolor": "^1.0.1",
