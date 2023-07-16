@@ -17,7 +17,7 @@ export default {
   // > Attribution must also make it clear that the data is available under the Open Database License.
   // > This may be done by making the text "OpenStreetMap" a link to openstreetmap.org/copyright, which has information about OpenStreetMap’s data sources (which OpenStreetMap needs to credit) as well as the ODbL.
   // https://www.openstreetmap.org/copyright
-  tileServerAttribution: `<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>`,
+  tileServerAttribution: `© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors`,
   suggestedTiles: [
     "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
     //"http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",

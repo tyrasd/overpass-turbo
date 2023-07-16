@@ -473,7 +473,7 @@ class IDE {
 
     // init leaflet
     ide.map = new L.Map("map", {
-      attributionControl: false,
+      attributionControl: true,
       minZoom: 0,
       maxZoom: configs.maxMapZoom,
       worldCopyJump: false
