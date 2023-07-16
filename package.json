@@ -46,7 +46,6 @@
     "lodash": ">=4.17.5",
     "osm-auth": "^2.2.0",
     "osmtogeojson": "^3.0.0-beta.5",
-    "polylabel": "^1.0.2",
     "rgbcolor": "^1.0.1",
     "stackblur": "^1.0.0",
     "tag2link": "^2022.11.28",

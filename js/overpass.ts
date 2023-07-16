@@ -2,9 +2,8 @@
 import $ from "jquery";
 import _ from "lodash";
 import "leaflet";
-import L_PopupIcon from "./PopupIcon";
+import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import L_OSM4Leaflet from "./OSM4Leaflet";
-import polylabel from "polylabel";
 
 import configs from "./configs";
 import settings from "./settings";
@@ -760,85 +759,3 @@ class Overpass {
 const overpass = new Overpass();
 
 export default overpass;
-
-function getFeatureLabelPosition(
-  feature: GeoJSON.Feature,
-  layer: L.Layer
-): L.LatLng {
-  let bestVal;
-  let labelLayer;
-  let labelPolygon;
-  let latlng;
-  let latlng1;
-  let latlng2;
-  let latlngs;
-  switch (feature.geometry.type) {
-    case "Point":
-      latlng = layer.getLatLng();
-      break;
-    case "MultiPolygon":
-      bestVal = -Infinity;
-      layer.getLayers().forEach((layer) => {
-        const size = layer
-          .getBounds()
-          .getNorthEast()
-          .distanceTo(layer.getBounds().getSouthWest());
-        if (size > bestVal) {
-          labelPolygon = layer;
-          bestVal = size;
-        }
-      });
-    // falls through
-    case "Polygon":
-      if (!labelPolygon) labelPolygon = layer;
-      latlng = L.CRS.EPSG3857.pointToLatLng(
-        L.point(
-          polylabel(
-            labelPolygon
-              .getLatLngs()
-              .map((ring) =>
-                ring
-                  .map((latlng) => L.CRS.EPSG3857.latLngToPoint(latlng, 20))
-                  .map((p) => [p.x, p.y])
-              )
-          )
-        ),
-        20
-      );
-      break;
-    case "MultiLineString":
-      bestVal = -Infinity;
-      layer.getLayers().forEach((layer) => {
-        const size = layer
-          .getBounds()
-          .getNorthEast()
-          .distanceTo(layer.getBounds().getSouthWest());
-        if (size > bestVal) {
-          labelLayer = layer;
-          bestVal = size;
-        }
-      });
-    // falls through
-    case "LineString":
-      if (!labelLayer) labelLayer = layer;
-      latlngs = labelLayer.getLatLngs();
-      if (latlngs.length % 2 == 1)
-        latlng = latlngs[Math.floor(latlngs.length / 2)];
-      else {
-        (latlng1 = latlngs[Math.floor(latlngs.length / 2)]),
-          (latlng2 = latlngs[Math.floor(latlngs.length / 2 - 1)]);
-        latlng = L.latLng([
-          (latlng1.lat + latlng2.lat) / 2,
-          (latlng1.lng + latlng2.lng) / 2
-        ]);
-      }
-      break;
-    default:
-      // todo: multipoints
-      console.error(
-        "unsupported geometry type while constructing text label:",
-        feature.geometry.type
-      );
-  }
-  return latlng;
-}

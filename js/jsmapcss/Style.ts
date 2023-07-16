@@ -402,7 +402,7 @@ export default styleparser;
 
 export function styleString(style: Partial<CSSStyleDeclaration>) {
   return Object.entries(style)
-    .filter(([key, value]) => value !== null && value !== undefined)
+    .filter(([_key, value]) => value !== null && value !== undefined)
     .map(
       ([key, value]) =>
         `${key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}: ${value}`
