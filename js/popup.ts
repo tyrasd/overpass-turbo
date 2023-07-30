@@ -144,9 +144,14 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
   if (feature.geometry.type == "Point") {
     const lat = feature.geometry.coordinates[1];
     const lon = feature.geometry.coordinates[0];
+    const heading = 0;
+    const elevation = 0;
+    const zoom = 1;
+    const svEmbedUrl = `https://www.google.com/maps/embed?pb=!!6m8!1m7!!2m2!1d${lat}!2d${lon}!3f${heading}!4f${elevation}!5f${zoom}`;
+    document.querySelector("#streetview iframe").src = svEmbedUrl;
     popup +=
       `<h3 class="subtitle is-5"><span class="t" data-t="popup.coordinates">Coordinates</span></h3>` +
-      `<p><a href="geo:${lat},${lon}">${lat} / ${lon}</a> <small>(lat/lon)</small></p>`;
+      `<p><a href="https://www.google.com/maps?q=&layer=c&cbll=${lat},${lon}">${lat} / ${lon}</a> <small>(lat/lon)</small></p>`;
   }
   if (
     $.inArray(feature.geometry.type, [

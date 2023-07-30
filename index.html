@@ -17,189 +17,201 @@
   </head>
   <body>
     <!-- Layout -->
-    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
-      <div class="navbar-start">
-        <div class="navbar-item">
-          <div class="buttons has-addons">
-            <button
-              class="t button is-success"
-              accesskey="1"
-              data-ide-handler="click:onRunClick"
-              title=""
-              data-t="[title]nav.run_tt"
-              data-shortcut="Ctrl+Enter"
-            >
-              <span class="icon">
-                <span class="fas fa-play"></span>
-              </span>
-              <span class="t" data-t="nav.run">Run</span>
-            </button>
-            <button
-              id="rerender-button"
-              class="t button"
-              data-ide-handler="click:onRerenderClick"
-              title=""
-              data-t="[title]nav.rerender_tt"
-              style="display: none"
-            >
-              <span class="icon">
-                <span class="fas fa-sync-alt"></span>
-              </span>
-            </button>
-            <button
-              class="t button"
-              accesskey="2"
-              data-ide-handler="click:onShareClick"
-              title=""
-              data-t="[title]nav.share_tt"
-            >
-              <span class="icon">
-                <span class="fas fa-share-alt"></span>
-              </span>
-              <span class="t" data-t="nav.share">Share</span>
-            </button>
-            <button
-              class="t button"
-              accesskey="3"
-              data-ide-handler="click:onExportClick"
-              title=""
-              data-t="[title]nav.export_tt"
-              data-shortcut="Ctrl+E"
-            >
-              <span class="icon">
-                <span class="fas fa-external-link-alt"></span>
-              </span>
-              <span class="t" data-t="nav.export">Export</span>
-            </button>
+    <main>
+      <nav
+        class="navbar is-light"
+        role="navigation"
+        aria-label="main navigation"
+      >
+        <div class="navbar-start">
+          <div class="navbar-item">
+            <div class="buttons has-addons">
+              <button
+                class="t button is-success"
+                accesskey="1"
+                data-ide-handler="click:onRunClick"
+                title=""
+                data-t="[title]nav.run_tt"
+                data-shortcut="Ctrl+Enter"
+              >
+                <span class="icon">
+                  <span class="fas fa-play"></span>
+                </span>
+                <span class="t" data-t="nav.run">Run</span>
+              </button>
+              <button
+                id="rerender-button"
+                class="t button"
+                data-ide-handler="click:onRerenderClick"
+                title=""
+                data-t="[title]nav.rerender_tt"
+                style="display: none"
+              >
+                <span class="icon">
+                  <span class="fas fa-sync-alt"></span>
+                </span>
+              </button>
+              <button
+                class="t button"
+                accesskey="2"
+                data-ide-handler="click:onShareClick"
+                title=""
+                data-t="[title]nav.share_tt"
+              >
+                <span class="icon">
+                  <span class="fas fa-share-alt"></span>
+                </span>
+                <span class="t" data-t="nav.share">Share</span>
+              </button>
+              <button
+                class="t button"
+                accesskey="3"
+                data-ide-handler="click:onExportClick"
+                title=""
+                data-t="[title]nav.export_tt"
+                data-shortcut="Ctrl+E"
+              >
+                <span class="icon">
+                  <span class="fas fa-external-link-alt"></span>
+                </span>
+                <span class="t" data-t="nav.export">Export</span>
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="navbar-item">
-          <div class="buttons has-addons">
-            <button
-              class="t button"
-              accesskey="4"
-              data-ide-handler="click:onFfsClick"
-              title=""
-              data-t="[title]nav.wizard_tt"
-              data-shortcut="Ctrl+Shift+F"
-            >
-              <span class="icon">
-                <span class="fas fa-magic"></span>
-              </span>
-              <span class="t" data-t="nav.wizard">Wizard</span>
-            </button>
+          <div class="navbar-item">
+            <div class="buttons has-addons">
+              <button
+                class="t button"
+                accesskey="4"
+                data-ide-handler="click:onFfsClick"
+                title=""
+                data-t="[title]nav.wizard_tt"
+                data-shortcut="Ctrl+Shift+F"
+              >
+                <span class="icon">
+                  <span class="fas fa-magic"></span>
+                </span>
+                <span class="t" data-t="nav.wizard">Wizard</span>
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="navbar-item">
-          <div class="buttons has-addons">
-            <button
-              class="t button"
-              accesskey="5"
-              data-ide-handler="click:onSaveClick"
-              title=""
-              data-t="[title]nav.save_tt"
-              data-shortcut="Ctrl+S"
-            >
-              <span class="icon">
-                <span class="fas fa-save"></span>
-              </span>
-              <span class="t" data-t="nav.save">Save</span>
-            </button>
-            <button
-              class="t button"
-              accesskey="6"
-              data-ide-handler="click:onLoadClick"
-              title=""
-              data-t="[title]nav.load_tt"
-              data-shortcut="Ctrl+O"
-            >
-              <span class="icon">
-                <span class="fas fa-folder-open"></span>
-              </span>
-              <span class="t" data-t="nav.load">Load</span>
-            </button>
-            <button
-              class="t button"
-              accesskey=""
-              id="logout"
-              data-ide-handler="click:onLogoutClick"
-              title=""
-              data-t="[title]nav.logout_tt"
-            >
-              <span class="icon">
-                <span class="fas fa-sign-out-alt"></span>
-              </span>
-              <span class="t" data-t="nav.logout">Log out</span>
-            </button>
+          <div class="navbar-item">
+            <div class="buttons has-addons">
+              <button
+                class="t button"
+                accesskey="5"
+                data-ide-handler="click:onSaveClick"
+                title=""
+                data-t="[title]nav.save_tt"
+                data-shortcut="Ctrl+S"
+              >
+                <span class="icon">
+                  <span class="fas fa-save"></span>
+                </span>
+                <span class="t" data-t="nav.save">Save</span>
+              </button>
+              <button
+                class="t button"
+                accesskey="6"
+                data-ide-handler="click:onLoadClick"
+                title=""
+                data-t="[title]nav.load_tt"
+                data-shortcut="Ctrl+O"
+              >
+                <span class="icon">
+                  <span class="fas fa-folder-open"></span>
+                </span>
+                <span class="t" data-t="nav.load">Load</span>
+              </button>
+              <button
+                class="t button"
+                accesskey=""
+                id="logout"
+                data-ide-handler="click:onLogoutClick"
+                title=""
+                data-t="[title]nav.logout_tt"
+              >
+                <span class="icon">
+                  <span class="fas fa-sign-out-alt"></span>
+                </span>
+                <span class="t" data-t="nav.logout">Log out</span>
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="navbar-item">
-          <div class="buttons has-addons">
-            <button
-              class="t button"
-              accesskey="9"
-              data-ide-handler="click:onSettingsClick"
-              title=""
-              data-t="[title]nav.settings_tt"
-            >
-              <span class="icon">
-                <span class="fas fa-cog"></span>
-              </span>
-              <span class="t" data-t="nav.settings">Settings</span>
-            </button>
-            <button
-              class="t button"
-              accesskey="0"
-              data-ide-handler="click:onHelpClick"
-              title=""
-              data-t="[title]nav.help_tt"
-              data-shortcut="Ctrl+H"
-            >
-              <span class="icon">
-                <span class="fas fa-question"></span>
-              </span>
-              <span class="t" data-t="nav.help">Help</span>
-            </button>
+          <div class="navbar-item">
+            <div class="buttons has-addons">
+              <button
+                class="t button"
+                accesskey="9"
+                data-ide-handler="click:onSettingsClick"
+                title=""
+                data-t="[title]nav.settings_tt"
+              >
+                <span class="icon">
+                  <span class="fas fa-cog"></span>
+                </span>
+                <span class="t" data-t="nav.settings">Settings</span>
+              </button>
+              <button
+                class="t button"
+                accesskey="0"
+                data-ide-handler="click:onHelpClick"
+                title=""
+                data-t="[title]nav.help_tt"
+                data-shortcut="Ctrl+H"
+              >
+                <span class="icon">
+                  <span class="fas fa-question"></span>
+                </span>
+                <span class="t" data-t="nav.help">Help</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="navbar-brand">
+            <a class="navbar-item" href="index.html">
+              overpass turbo
+              <img src="turbo.png" alt="overpass turbo" />
+            </a>
           </div>
         </div>
 
-        <div class="navbar-brand">
-          <a class="navbar-item" href="index.html">
-            overpass turbo
-            <img src="turbo.png" alt="overpass turbo" />
-          </a>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="tabs is-toggle">
+              <ul>
+                <li class="is-active Map">
+                  <a class="t" title="" data-t="[title]tabs.map_tt;tabs.map">
+                    Map
+                  </a>
+                </li>
+                <li class="Data">
+                  <a class="t" title="" data-t="[title]tabs.data_tt;tabs.data">
+                    Data
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
+      </nav>
+
+      <div id="editor">
+        <!-- CodeMirror goes here -->
+        <textarea></textarea>
       </div>
-
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="tabs is-toggle">
-            <ul>
-              <li class="is-active Map">
-                <a class="t" title="" data-t="[title]tabs.map_tt;tabs.map">
-                  Map
-                </a>
-              </li>
-              <li class="Data">
-                <a class="t" title="" data-t="[title]tabs.data_tt;tabs.data">
-                  Data
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div id="streetview">
+        <iframe
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
       </div>
-    </nav>
-
-    <div id="editor">
-      <!-- CodeMirror goes here -->
-      <textarea></textarea>
-    </div>
-    <div id="dataviewer">
-      <div id="map"></div>
-      <div id="data"></div>
-    </div>
-
+      <div id="dataviewer">
+        <div id="map"></div>
+        <div id="data"></div>
+      </div>
+    </main>
     <!-- Wait spinner -->
     <div class="modal is-active" id="loading-dialog">
       <div class="modal-background"></div>
