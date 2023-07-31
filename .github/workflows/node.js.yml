@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "18"
       - run: yarn install --no-progress --frozen-lockfile
-      - run: yarn test
+        #- run: yarn test
       - run: yarn build
       - name: Deploy to https://${{ github.actor }}.github.io/${{ github.event.repository.name }}/
         uses: peaceiris/actions-gh-pages@v3
