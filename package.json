@@ -40,7 +40,7 @@
     "html2canvas": "^1.4.1",
     "jquery": "3.6.1",
     "jquery-ui": "1.13.2",
-    "leaflet": "1.9.3",
+    "leaflet": "1.9.4",
     "leaflet-polylineoffset": "^1.1.1",
     "leaflet.locationfilter": "tmgreensolutions/leaflet-locationfilter#ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d",
     "lodash": ">=4.17.5",
