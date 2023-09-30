@@ -2260,6 +2260,7 @@ class IDE {
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
     $("#ffs-dialog #ffs-dialog-typo").hide();
     $("#ffs-dialog .loading").hide();
+    $("#ffs-dialog").addClass("is-active");
     $("#ffs-dialog input[type=search]")
       .removeClass("is-danger")
       .unbind("keypress")
@@ -2268,8 +2269,9 @@ class IDE {
           this.onFfsRun(true);
           e.preventDefault();
         }
-      });
-    $("#ffs-dialog").addClass("is-active");
+      })
+      .first()
+      .focus();
   }
   onFfsClose() {
     $("#ffs-dialog").removeClass("is-active");
