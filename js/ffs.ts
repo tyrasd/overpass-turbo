@@ -314,10 +314,8 @@ export function ffs_construct_query(
       clauses_str = clauses_str.join(" and ");
 
       // construct query
-      add_comment(`  // query part for: “${clauses_str}”`);
       if (types.length === 3) {
         types = ["nwr"];
-        add_comment("  // nwr is short for node/way/relation");
       }
       for (const t of types) {
         let buffer = `  ${t}`;
@@ -327,7 +325,14 @@ export function ffs_construct_query(
         query_parts.push(buffer);
       }
     }
-    query_parts.push(");");
+
+    if (query_parts.indexOf("(") === query_parts.length - 2) {
+      var idx = query_parts.indexOf("(");
+      query_parts.splice(idx, 1);
+      query_parts[idx] = query_parts[idx].substr(2);
+    } else {
+      query_parts.push(");");
+    }
 
     add_comment("// print results");
     query_parts.push("out geom;");
