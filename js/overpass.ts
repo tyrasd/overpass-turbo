@@ -4,6 +4,7 @@ import _ from "lodash";
 import "leaflet";
 import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import L_OSM4Leaflet from "./OSM4Leaflet";
+import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
 
 import configs from "./configs";
 import settings from "./settings";
@@ -417,7 +418,7 @@ class Overpass {
                 },
                 baseLayerClass: settings.disable_poiomatic
                   ? L.GeoJSON
-                  : L.GeoJSON, // fixme L_GeoJsonNoVanish errors with "TypeError: options.icon is undefined"
+                  : L_GeoJsonNoVanish,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
                   compress() {
