@@ -330,9 +330,7 @@ export function ffs_construct_query(
     query_parts.push(");");
 
     add_comment("// print results");
-    query_parts.push("out body;");
-    query_parts.push(">;");
-    query_parts.push("out skel qt;");
+    query_parts.push("out geom;");
 
     callback(null, query_parts.join("\n"));
   });
