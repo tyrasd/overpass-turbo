@@ -164,7 +164,7 @@
     "help.attr.data_sources": "منابع داده",
     "help.attr.data": "داده‌ها &copy; مشارکت‌کنندگان <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>،‏ <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL (<a href=\"http://www.openstreetmap.org/copyright\">شرایط</a>)</a>",
     "help.attr.mining": "داده‌کاوی توسط",
-    "help.attr.tiles": "کاشی‌های نقشه &copy; مشارکت‌کنندگان <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>،‏",
+    "help.attr.tiles": "Map tiles &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contributors",
     "help.attr.search": "جست‌وجو ارائه‌شده توسط",
     "help.attr.software": "نرم‌افزار و کتابخانه‌ها",
     "help.attr.leaflet": "نقشه بر پایهٔ",

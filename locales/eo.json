@@ -236,5 +236,15 @@
     "data_stats.lag": "Aktualeco de datumoj",
     "data_stats.lag_areas": "Aktualeco de datumoj",
     "data_stats.lag.expl": "antaŭ ĉefa OSM-datumbazo",
+    "popup.tags": "Tags",
+    "popup.metadata": "Metadata",
+    "popup.coordinates": "Coordinates",
+    "popup.node": "Node",
+    "popup.nodes": "Nodes",
+    "popup.way": "Way",
+    "popup.ways": "Ways",
+    "popup.relation": "Relation",
+    "popup.relations": "Relations",
+    "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "Ĉi tiu mapo estas intence malplena."
 }

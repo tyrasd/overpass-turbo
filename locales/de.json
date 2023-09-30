@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Datenquellen",
     "help.attr.data": "Daten &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>-Mitwirkende, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">Bestimmungen</a>)</span>",
     "help.attr.mining": "Datenfilterung über",
-    "help.attr.tiles": "Karten-Kacheln &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>-Mitwirkende",
+    "help.attr.tiles": "Map tiles &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contributors",
     "help.attr.search": "Suche über",
     "help.attr.software": "Software & Bibliotheken",
     "help.attr.leaflet": "Karte unterstützt durch",

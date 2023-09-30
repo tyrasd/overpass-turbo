@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Databronnen",
     "help.attr.data": "Gegevens &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>-bijdragers, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">Voorwaarden</a>)</span>",
     "help.attr.mining": "Datamining door",
-    "help.attr.tiles": "Kaarttegels &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>-bijdragers",
+    "help.attr.tiles": "Map tiles &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contributors",
     "help.attr.search": "Search provided by",
     "help.attr.software": "Software & bibliotheken",
     "help.attr.leaflet": "Kaart aangemaakt met",

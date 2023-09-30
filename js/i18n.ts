@@ -26,9 +26,13 @@ function browser_locale() {
 const default_lng = "en";
 const languages = {
   // translations found in locale/*.json
+  ast: "Asturian",
   en: "English",
+  "en-GB": "English (GB)",
+  "en-US": "English (US)",
   ca: "Catalan",
   cs: "Czech",
+  cy: "Welsh",
   da: "Danish",
   eo: "Esperanto",
   de: "German",
@@ -41,7 +45,9 @@ const languages = {
   hu: "Hungarian",
   it: "Italian",
   ja: "Japanese",
+  ko: "Korean",
   lv: "Latvian",
+  mr: "Marathi",
   nl: "Dutch",
   no: "Norwegian",
   pl: "Polish",
@@ -49,11 +55,13 @@ const languages = {
   "pt-BR": "Portuguese (Brazil)",
   ru: "Russian",
   sl: "Slovenian",
+  tr: "Turkish",
   uk: "Ukrainian",
   vi: "Vietnamese",
   "zh-CN": "Chinese (Simplified)",
   "zh-TW": "Chinese (Taiwan)"
 };
+27;
 
 type Language = keyof typeof languages;
 const supported_lngs: Language[] = _.keys(languages);

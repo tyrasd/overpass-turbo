@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Andmeallikad",
     "help.attr.data": "Andmed &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMapi</a> kaastöölised, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">Tingimused</a>)</span>",
     "help.attr.mining": "Andmekaeve",
-    "help.attr.tiles": "Kaardi paanid &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMapi</a> kaastöölised",
+    "help.attr.tiles": "Map tiles &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contributors",
     "help.attr.search": "Otsingut teostab",
     "help.attr.software": "Tarkvara ja teegid",
     "help.attr.leaflet": "Kaardimootor",

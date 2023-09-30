@@ -164,7 +164,7 @@
     "help.attr.data_sources": "Джерела даних",
     "help.attr.data": " Дані &copy; учасники <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, <span style=\"font-size:smaller;\"><a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">ODbL</a> (<a href=\"http://www.openstreetmap.org/copyright\">умови</a>)</span> ",
     "help.attr.mining": "Обробка даних",
-    "help.attr.tiles": "Тайли мапи &copy; учасники <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" style=\"font-size:smaller;\">ODbL</a> ",
+    "help.attr.tiles": "Map tiles &copy; <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contributors",
     "help.attr.search": "Пошук за підтримки",
     "help.attr.software": "Програми та бібліотеки",
     "help.attr.leaflet": "Бібліотека для показу мапи – ",
