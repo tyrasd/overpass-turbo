@@ -107,15 +107,9 @@ describe("urlParameters", () => {
 // fetch area “Riga” to search in
 {{geocodeArea:Riga}}->.searchArea;
 // gather results
-(
-  // query part for: “"addr:street"="Tālivalža iela"”
-  // nwr is short for node/way/relation
-  nwr["addr:street"="Tālivalža iela"](area.searchArea);
-);
+nwr["addr:street"="Tālivalža iela"](area.searchArea);
 // print results
-out body;
->;
-out skel qt;`,
+out geom;`,
       has_coords: false,
       has_zoom: false
     });
@@ -141,15 +135,9 @@ The original search was:
 */
 [out:json][timeout:25];
 // gather results
-(
-  // query part for: “name=foo”
-  // nwr is short for node/way/relation
-  nwr["name"="foo"]({{bbox}});
-);
+nwr["name"="foo"]({{bbox}});
 // print results
-out body;
->;
-out skel qt;`
+out geom;`
     });
     settings.saves = orig_ss;
   });

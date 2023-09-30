@@ -327,7 +327,7 @@ export function ffs_construct_query(
     }
 
     if (query_parts.indexOf("(") === query_parts.length - 2) {
-      var idx = query_parts.indexOf("(");
+      const idx = query_parts.indexOf("(");
       query_parts.splice(idx, 1);
       query_parts[idx] = query_parts[idx].substr(2);
     } else {
