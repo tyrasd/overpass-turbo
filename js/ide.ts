@@ -2576,7 +2576,7 @@ class IDE {
     this.waiter.addInfo("building query");
     // run the query via the overpass object
     const query = await this.getQuery();
-    if (typeof history.pushState == "function") {
+    if (configs.push_history_url && typeof history.pushState == "function") {
       const url = this.compose_share_link(this.getRawQuery(), true);
       if (url.length > 2000) {
         // avoid HTTP 431 Request Header Fields Too Large

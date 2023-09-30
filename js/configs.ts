@@ -32,6 +32,7 @@ export default {
   },
   maxMapZoom: 20,
   short_url_service: "",
+  push_history_url: true,
   html2canvas_use_proxy: false,
   // api key for osmnames geocoder, go to http://osmnames.org/api/ to get one if you run your own overpass instance
   osmnamesApiKey: "gtXyh2mBSaN5zWqqqQRh",
