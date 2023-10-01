@@ -276,7 +276,11 @@ class Overpass {
             //overpass.fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 
             // show rerender button, if query contains mapcss styles
-            if (user_mapcss) $("#rerender-button").show();
+            if (user_mapcss) {
+              $("#rerender-button").show();
+            } else {
+              $("#rerender-button").hide();
+            }
 
             overpass.rerender = function (userMapCSS) {
               // test user supplied mapcss stylesheet
