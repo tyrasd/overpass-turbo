@@ -2,6 +2,7 @@
 import $ from "jquery";
 import _ from "lodash";
 import jQuery from "jquery";
+import "jquery-ui-bundle/jquery-ui";
 import html2canvas from "html2canvas";
 import {Canvg} from "canvg";
 import "leaflet";
