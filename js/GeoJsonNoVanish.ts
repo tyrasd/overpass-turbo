@@ -35,8 +35,9 @@ class GeoJsonNoVanish extends L.GeoJSON {
         const d = Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
         if (d > Math.pow(this.threshold, 2) || is_max_zoom) {
           delete o.obj.placeholder;
-          this.addLayer(o.obj);
           this.removeLayer(o);
+          o.obj.bindTooltip(o._tooltip);
+          this.addLayer(o.obj);
         }
         return;
       }
@@ -61,12 +62,13 @@ class GeoJsonNoVanish extends L.GeoJSON {
       c.on("click", function (e) {
         this.obj.fireEvent(e.type, e);
       });
+      this.removeLayer(o);
       this.resetStyle(c);
       c.options.interactive = true;
       c.options.stroke = true;
       c.options.fill = true;
+      c.bindTooltip(o._tooltip);
       this.addLayer(c);
-      this.removeLayer(o);
     }, this);
   }
 }
