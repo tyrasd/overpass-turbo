@@ -557,7 +557,7 @@ class Overpass {
                     ) {
                       const tooltip = new L.Tooltip({
                         direction: stl["text_position"],
-                        className: "p-0",
+                        className: "text-tooltip",
                         permanent: true
                       });
                       tooltip.setContent(htmlentities(text));

@@ -332,6 +332,10 @@ body .ui-tooltip {
   opacity: 0.8;
 }
 
+.leaflet-tooltip.text-tooltip {
+  padding: 2px 6px;
+}
+
 /* osm.org query sync */
 #logout {
   display: none;
