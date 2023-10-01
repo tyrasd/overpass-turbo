@@ -1,8 +1,8 @@
 // global ide object
-import $ from "jquery";
 import _ from "lodash";
+import $ from "jquery";
 import jQuery from "jquery";
-import "jquery-ui-bundle/jquery-ui";
+import "jquery-ui-dist/jquery-ui";
 import html2canvas from "html2canvas";
 import {Canvg} from "canvg";
 import "leaflet";
