@@ -259,7 +259,10 @@ class IDE {
 
     if (sync.enabled) {
       $("#load-dialog .osm").show();
-      if (sync.authenticated()) $("#logout").show();
+      if (sync.authenticated()) {
+        $("#logout").show();
+        $("#logout").appendTo($("#logout").parent());
+      }
     }
   }
 
@@ -1305,19 +1308,23 @@ class IDE {
       ide.loadOsmQueries();
     } else {
       const ui = $("#load-dialog .panel.osm-queries");
-      ui.show();
-      ui.find(".panel-block").remove();
-      $('<div class="panel-block">')
-        .append(
-          $(
-            `<button class='button is-link is-outlined t' title='load.title'>${i18n.t(
-              "load.title"
-            )}</button>`
-          ).on("click", () => {
-            ide.loadOsmQueries();
-          })
-        )
-        .appendTo(ui);
+      if (location.protocol === "https:" || location.hostname === "127.0.0.1") {
+        ui.show();
+        ui.find(".panel-block").remove();
+        $('<div class="panel-block">')
+          .append(
+            $(
+              `<button class='button is-link is-outlined t' title='load.title'>${i18n.t(
+                "load.title"
+              )}</button>`
+            ).on("click", () => {
+              ide.loadOsmQueries();
+            })
+          )
+          .appendTo(ui);
+      } else {
+        ui.hide();
+      }
     }
   }
   loadOsmQueries() {
@@ -1340,6 +1347,7 @@ class IDE {
       }
       ui.find(".panel-block").remove();
       $("#logout").show();
+      $("#logout").appendTo($("#logout").parent());
       queries.forEach((q) => {
         $('<a class="panel-block">')
           .attr("href", "#")
@@ -1372,7 +1380,10 @@ class IDE {
       if (settings.saves[key].type != "template") saves_names.push(key);
     make_combobox($("#save-dialog input[name=save]"), saves_names);
 
-    if (sync.enabled) {
+    if (
+      sync.enabled &&
+      (location.protocol === "https:" || location.hostname === "127.0.0.1")
+    ) {
       $("#save-dialog button.osm").show();
     }
     $("#save-dialog").addClass("is-active");
@@ -1397,6 +1408,7 @@ class IDE {
       (err) => {
         if (err) return console.error(err);
         $("#logout").show();
+        $("#logout").appendTo($("#logout").parent());
         $("#save-dialog").removeClass("is-active");
       }
     );
@@ -1405,10 +1417,10 @@ class IDE {
     $("#save-dialog").removeClass("is-active");
   }
   onLogoutClick() {
-    if (!window.confirm("Logout?")) return;
     sync.logout();
     $("#load-dialog .panel.osm-queries .panel-block").remove();
     $("#logout").hide();
+    $("#logout").insertBefore($("#logout").prev());
   }
   onRunClick() {
     this.update_map();
