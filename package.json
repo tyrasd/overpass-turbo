@@ -29,15 +29,19 @@
     "request": "^2.67.0",
     "typescript": "^5.0.4",
     "vite": "^4.4.4",
-    "vitest": "^0.29.8",
-    "vite-plugin-favicons-inject": "^2.2.0"
+    "vite-plugin-favicons-inject": "^2.2.0",
+    "vitest": "^0.29.8"
   },
   "dependencies": {
+    "@codemirror/lang-css": "^6.2.1",
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@codemirror/lang-xml": "^6.0.2",
+    "@codemirror/legacy-modes": "^6.3.3",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@openstreetmap/id-tagging-schema": "^3.5.1",
     "bulma": "^0.9.4",
     "canvg": "4.0.1",
-    "codemirror": "https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz",
+    "codemirror": "^6.0.1",
     "html2canvas": "^1.4.1",
     "jquery": "3.7.1",
     "jquery-ui": "1.13.2",
@@ -51,7 +55,7 @@
     "rgbcolor": "^1.0.1",
     "stackblur": "^1.0.0",
     "tag2link": "^2022.11.28",
-    "togpx": "tyrasd/togpx#4396a386fd179be6876f7443438909d524651eed",
+    "togpx": "Khartir/togpx#74f2733cecd2383c6eb0fb7083f1f7b7289a1e01",
     "tokml": "^0.4.0"
   },
   "prettier": {

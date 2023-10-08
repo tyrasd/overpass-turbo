@@ -59,10 +59,10 @@
     margin-top: 10px;
   }
 
-  .CodeMirror {
+  .cm-editor {
     line-height: 1.2em;
   }
-  #editor .CodeMirror-scroll {
+  #editor .cm-scroller {
     height: auto;
     overflow-x: auto;
   }
@@ -74,12 +74,13 @@
     min-height: 300px;
     font-family: monospace;
   }
-  #data .CodeMirror-scroll {
+  #data .cm-scroller {
     height: 100%;
     overflow-x: auto;
   }
-  .CodeMirror-gutter-text,
-  .CodeMirror-lines {
+  /* TODO: these are probably wrong */
+  .cm-gutter-text,
+  .cm-lines {
     padding: 0;
   }
   .tabs {

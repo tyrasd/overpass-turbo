@@ -5,7 +5,14 @@ import jQuery from "jquery";
 import html2canvas from "html2canvas";
 import {Canvg} from "canvg";
 import "leaflet";
-import "codemirror/lib/codemirror.js";
+import {EditorView, basicSetup} from "codemirror";
+import {EditorState, Compartment} from "@codemirror/state";
+import {StreamLanguage} from "@codemirror/language";
+import {javascript} from "@codemirror/lang-javascript";
+import {xml} from "@codemirror/lang-xml";
+import {css} from "@codemirror/lang-css";
+import {clike} from "@codemirror/legacy-modes/mode/clike";
+
 import tokml from "tokml";
 import togpx from "togpx";
 import configs from "./configs";
@@ -23,8 +30,6 @@ import Autorepair from "./autorepair";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import sync from "./sync-with-osm";
 import shortcuts from "./shortcuts";
-
-declare const CodeMirror;
 
 // Handler to allow copying in various MIME formats
 // @see https://developer.mozilla.org/en-US/docs/Web/Events/copy
@@ -140,6 +145,62 @@ function showDialog(title, content, buttons) {
   // Add the element to the body
   element.appendTo("body");
 }
+
+const language = new Compartment();
+export const overpassQL = clike({
+  name: "overpassQL",
+  keywords: (function (str) {
+    const r = {};
+    const a = str.split(" ");
+    for (const ai of a) r[ai] = true;
+    return r;
+  })(
+    "out json xml custom popup timeout maxsize bbox" + // initial declarations
+      " date diff adiff" + //attic declarations
+      " foreach" + // block statements
+      " relation rel way node is_in area around user uid newer changed poly pivot nwr nw nr wr derived" + // queries
+      " out meta body skel tags ids count qt asc" + // actions
+      " center bb geom" // geometry types
+    //+"r w n br bw" // recursors
+  )
+});
+// TODO: define custom XML mode that supports mustache syntax
+// TODO: define custom QL mode that supports mustache syntax
+// CodeMirror.defineMode("xml+mustache", (config) =>
+//   CodeMirror.multiplexingMode(
+//     CodeMirror.multiplexingMode(CodeMirror.getMode(config, "xml"), {
+//       open: "{{",
+//       close: "}}",
+//       mode: CodeMirror.getMode(config, "text/plain"),
+//       delimStyle: "mustache"
+//     }),
+//     {
+//       open: "{{style:",
+//       close: "}}",
+//       mode: CodeMirror.getMode(config, "text/css"),
+//       delimStyle: "mustache"
+//     }
+//   )
+// );
+// CodeMirror.defineMode("ql+mustache", (config) =>
+//   CodeMirror.multiplexingMode(
+//     CodeMirror.multiplexingMode(
+//       CodeMirror.getMode(config, "text/x-overpassQL"),
+//       {
+//         open: "{{",
+//         close: "}}",
+//         mode: CodeMirror.getMode(config, "text/plain"),
+//         delimStyle: "mustache"
+//       }
+//     ),
+//     {
+//       open: "{{style:",
+//       close: "}}",
+//       mode: CodeMirror.getMode(config, "text/css"),
+//       delimStyle: "mustache"
+//     }
+//   )
+// );
 
 class IDE {
   // == private members ==
@@ -326,123 +387,70 @@ class IDE {
     // init codemirror
     $("#editor textarea")[0].value = settings.code["overpass"];
     if (settings.use_rich_editor) {
-      let pending = 0;
-      CodeMirror.defineMIME("text/x-overpassQL", {
-        name: "clike",
-        keywords: (function (str) {
-          const r = {};
-          const a = str.split(" ");
-          for (const ai of a) r[ai] = true;
-          return r;
-        })(
-          "out json xml custom popup timeout maxsize bbox" + // initial declarations
-            " date diff adiff" + //attic declarations
-            " foreach" + // block statements
-            " relation rel way node is_in area around user uid newer changed poly pivot nwr nw nr wr derived" + // queries
-            " out meta body skel tags ids count qt asc" + // actions
-            " center bb geom" // geometry types
-          //+"r w n br bw" // recursors
-        )
+      let pending: number | NodeJS.Timeout = 0;
+      const view = new EditorView({
+        doc: settings.code["overpass"],
+        extensions: [
+          basicSetup,
+          language.of(StreamLanguage.define(overpassQL)),
+          EditorView.lineWrapping,
+          EditorView.updateListener.of((v) => {
+            if (!v.docChanged) {
+              return;
+            }
+            clearTimeout(pending);
+            pending = setTimeout(() => {
+              // TODO: get current mode
+              const mode = v.state.facet(EditorState.syntax);
+              if (ide.getQueryLang() == "xml") {
+                if (mode !== "xml+mustache") {
+                  v.view.dispatch({
+                    effects: language.reconfigure(xml())
+                    // TODO: use custom XML mode that supports mustache syntax
+                    // effects: language.reconfigure(StreamLanguage.define(overpassXML))
+                  });
+                }
+              } else {
+                if (mode !== "ql+mustache") {
+                  v.view.dispatch({
+                    effects: language.reconfigure(
+                      StreamLanguage.define(overpassQL)
+                    )
+                  });
+                }
+              }
+              // check for inactive ui elements
+              const bbox_filter = $(".leaflet-control-buttons-bboxfilter");
+              if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
+                if (bbox_filter.hasClass("disabled")) {
+                  bbox_filter.removeClass("disabled");
+                  bbox_filter.attr(
+                    "data-t",
+                    "[title]map_controlls.select_bbox"
+                  );
+                  i18n.translate_ui(bbox_filter[0]);
+                }
+              } else {
+                if (!bbox_filter.hasClass("disabled")) {
+                  bbox_filter.addClass("disabled");
+                  bbox_filter.attr(
+                    "data-t",
+                    "[title]map_controlls.select_bbox_disabled"
+                  );
+                  i18n.translate_ui(bbox_filter[0]);
+                }
+              }
+            }, 500);
+            settings.code["overpass"] = v.state.doc.toString();
+            settings.save();
+          })
+        ]
       });
-      CodeMirror.defineMIME("text/x-overpassXML", "xml");
-      CodeMirror.defineMode("xml+mustache", (config) =>
-        CodeMirror.multiplexingMode(
-          CodeMirror.multiplexingMode(CodeMirror.getMode(config, "xml"), {
-            open: "{{",
-            close: "}}",
-            mode: CodeMirror.getMode(config, "text/plain"),
-            delimStyle: "mustache"
-          }),
-          {
-            open: "{{style:",
-            close: "}}",
-            mode: CodeMirror.getMode(config, "text/css"),
-            delimStyle: "mustache"
-          }
-        )
-      );
-      CodeMirror.defineMode("ql+mustache", (config) =>
-        CodeMirror.multiplexingMode(
-          CodeMirror.multiplexingMode(
-            CodeMirror.getMode(config, "text/x-overpassQL"),
-            {
-              open: "{{",
-              close: "}}",
-              mode: CodeMirror.getMode(config, "text/plain"),
-              delimStyle: "mustache"
-            }
-          ),
-          {
-            open: "{{style:",
-            close: "}}",
-            mode: CodeMirror.getMode(config, "text/css"),
-            delimStyle: "mustache"
-          }
-        )
-      );
-      ide.codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
-        //value: settings.code["overpass"],
-        lineNumbers: true,
-        lineWrapping: true,
-        mode: "text/plain",
-        onChange(e) {
-          clearTimeout(pending);
-          pending = setTimeout(() => {
-            // update syntax highlighting mode
-            if (ide.getQueryLang() == "xml") {
-              if (e.getOption("mode") != "xml+mustache") {
-                e.closeTagEnabled = true;
-                e.setOption("matchBrackets", false);
-                e.setOption("mode", "xml+mustache");
-              }
-            } else {
-              if (e.getOption("mode") != "ql+mustache") {
-                e.closeTagEnabled = false;
-                e.setOption("matchBrackets", true);
-                e.setOption("mode", "ql+mustache");
-              }
-            }
-            // check for inactive ui elements
-            const bbox_filter = $(".leaflet-control-buttons-bboxfilter");
-            if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
-              if (bbox_filter.hasClass("disabled")) {
-                bbox_filter.removeClass("disabled");
-                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox");
-                i18n.translate_ui(bbox_filter[0]);
-              }
-            } else {
-              if (!bbox_filter.hasClass("disabled")) {
-                bbox_filter.addClass("disabled");
-                bbox_filter.attr(
-                  "data-t",
-                  "[title]map_controlls.select_bbox_disabled"
-                );
-                i18n.translate_ui(bbox_filter[0]);
-              }
-            }
-          }, 500);
-          settings.code["overpass"] = e.getValue();
-          settings.save();
-        },
-        closeTagEnabled: true,
-        closeTagIndent: [
-          "osm-script",
-          "query",
-          "union",
-          "foreach",
-          "difference"
-        ],
-        extraKeys: {
-          "'>'"(cm) {
-            cm.closeTag(cm, ">");
-          },
-          "'/'"(cm) {
-            cm.closeTag(cm, "/");
-          }
-        }
-      });
-      // fire onChange after initialization
-      ide.codeEditor.getOption("onChange")(ide.codeEditor);
+
+      const textarea = $("#editor textarea")[0] as HTMLInputElement;
+      textarea.parentNode.insertBefore(view.dom, textarea);
+      textarea.style.display = "none";
+      ide.codeEditor = view;
     } else {
       // use non-rich editor
       ide.codeEditor = $("#editor textarea")[0];
@@ -467,11 +475,10 @@ class IDE {
       ide.codeEditor.setValue(args.query);
     }
     // init dataviewer
-    ide.dataViewer = CodeMirror($("#data")[0], {
-      value: "no data loaded yet",
-      lineNumbers: true,
-      readOnly: true,
-      mode: "javascript"
+    ide.dataViewer = new EditorView({
+      parent: $("#data")[0],
+      doc: "no data loaded yet",
+      extensions: [basicSetup, javascript(), EditorState.readOnly.of(true)]
     });
 
     // init leaflet
