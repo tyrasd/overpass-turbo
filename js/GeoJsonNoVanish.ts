@@ -36,7 +36,9 @@ class GeoJsonNoVanish extends L.GeoJSON {
         if (d > Math.pow(this.threshold, 2) || is_max_zoom) {
           delete o.obj.placeholder;
           this.removeLayer(o);
-          o.obj.bindTooltip(o._tooltip);
+          if (o._tooltip) {
+            o.obj.bindTooltip(o._tooltip);
+          }
           this.addLayer(o.obj);
         }
         return;
@@ -67,7 +69,9 @@ class GeoJsonNoVanish extends L.GeoJSON {
       c.options.interactive = true;
       c.options.stroke = true;
       c.options.fill = true;
-      c.bindTooltip(o._tooltip);
+      if (o._tooltip) {
+        c.bindTooltip(o._tooltip);
+      }
       this.addLayer(c);
     }, this);
   }
