@@ -301,13 +301,8 @@ body .ui-tooltip {
 }
 
 #data_stats {
-  z-index: 5;
-  display: block;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: auto;
   text-align: right;
+  margin: 0;
   padding: 0.1em 0.7em;
   font-size: 12px;
   line-height: 1.5;

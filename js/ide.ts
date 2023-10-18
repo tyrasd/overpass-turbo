@@ -1031,9 +1031,9 @@ class IDE {
           )}:&nbsp;${stats.geojson.lines}, ${i18n.t(
             "data_stats.polygons"
           )}:&nbsp;${stats.geojson.polys}</small>`;
-        $(`<div id="data_stats" class="stats">${stats_txt}</div>`).insertAfter(
-          "#map"
-        );
+        $(
+          `<div id="data_stats" class="stats leaflet-control">${stats_txt}</div>`
+        ).insertAfter("#map .leaflet-control-attribution");
         // show more stats as a tooltip
         const backlogOverpass =
           overpass.timestamp && Date.now() - Date.parse(overpass.timestamp);
