@@ -158,7 +158,8 @@ styleparser.ShapeStyle.prototype = {
     "casing_color",
     "casing_opacity",
     "casing_dashes",
-    "layer"
+    "layer",
+    "render"
   ],
 
   width: 0,
@@ -176,6 +177,7 @@ styleparser.ShapeStyle.prototype = {
   casing_opacity: NaN,
   casing_dashes: [],
   layer: NaN, // optional layer override (usually set by OSM tag)
+  render: null, // "auto" indicates that line/area features are allowed to be rendered as points on low zoom levels; the value "native" always renders features using their native geometry type; the value "point" always renders features as points in the centroid of the feature geometry
   styleType: "ShapeStyle",
 
   drawn() {

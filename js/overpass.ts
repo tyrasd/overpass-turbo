@@ -314,9 +314,9 @@ class Overpass {
                   // point features
                   `node {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n` +
                   // line features
-                  `line {color:#03f; width:5; opacity:0.6;} \n` +
+                  `line {color:#03f; width:5; opacity:0.6; render:auto;} \n` +
                   // polygon features
-                  `area {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3;} \n` +
+                  `area {color:#03f; width:2; opacity:0.7; fill-color:#fc0; fill-opacity:0.3; render:auto;} \n` +
                   // style modifications
                   // objects in relations
                   `relation node, relation way, relation {color:#d0f;} \n` +
@@ -420,13 +420,14 @@ class Overpass {
                 afterParse() {
                   overpass.fire("onProgress", "rendering geoJSON");
                 },
-                baseLayerClass: settings.disable_poiomatic
-                  ? L.GeoJSON
-                  : L_GeoJsonNoVanish,
+                baseLayerClass: L_GeoJsonNoVanish,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
-                  compress() {
-                    return true;
+                  compress(feature) {
+                    const render = this.style(feature).render;
+                    if (render === "auto" && settings.disable_poiomatic)
+                      return "native";
+                    else return render;
                   },
                   style(feature, highlight) {
                     const stl: L.PathOptions = {};
@@ -488,6 +489,8 @@ class Overpass {
                         if (p !== undefined) stl.dashOffset = String(-p); // MapCSS and PolylineOffset definitions use different signs
                         p = get_property(styles, ["dashes"]);
                         if (p !== undefined) stl.dashArray = p.join(" ");
+                        p = get_property(styles, ["render"]);
+                        if (p !== undefined) stl.render = p;
                         break;
                       case "Polygon":
                       case "MultiPolygon":
@@ -504,6 +507,8 @@ class Overpass {
                         if (p !== undefined) stl.fillOpacity = p;
                         p = get_property(styles, ["dashes"]);
                         if (p !== undefined) stl.dashArray = p.join(" ");
+                        p = get_property(styles, ["render"]);
+                        if (p !== undefined) stl.render = p;
                         break;
                     }
                     // todo: more style properties? linecap, linejoin?
@@ -581,7 +586,7 @@ class Overpass {
                       // if there is a placeholder on a line, polygon or multipolygon
                       // then get the center instead of the position of the click
                       else if (e.target.placeholder)
-                        latlng = e.target.getBounds().getCenter();
+                        latlng = e.target.placeholder._latlng;
                       else latlng = e.latlng; // all other (lines, polygons, multipolygons)
                       const p = L.popup({maxHeight: 600}, this)
                         .setLatLng(latlng)
