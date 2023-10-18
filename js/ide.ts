@@ -2616,6 +2616,7 @@ class IDE {
     );
   }
   async rerender_map() {
+    $("#data_stats").remove();
     if (typeof overpass.osmLayer != "undefined")
       this.map.removeLayer(overpass.osmLayer);
     await this.getQuery();
