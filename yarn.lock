@@ -2764,10 +2764,9 @@ svg-pathdata@^6.0.3:
   resolved "https://registry.yarnpkg.com/svg-pathdata/-/svg-pathdata-6.0.3.tgz#80b0e0283b652ccbafb69ad4f8f73e8d3fbf2cac"
   integrity sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==
 
-tag2link@^2022.11.28:
-  version "2022.11.28"
-  resolved "https://registry.yarnpkg.com/tag2link/-/tag2link-2022.11.28.tgz#3489b8fe648bb9a37cd15ec48ad8e2ebb6ab4da6"
-  integrity sha512-EaHP48HHGvowDB/iEGA017sbbFpicEJdmtvxdPegmXBMVnWiB8XPaG8ILUNvTbMggI3ug/h1tX9RAOt+yjrOOg==
+tag2link@JOSM/tag2link.git#master:
+  version "2023.10.21"
+  resolved "https://codeload.github.com/JOSM/tag2link/tar.gz/a7b71589488bf86aade358b3eb9ad239d03f65b3"
 
 tap@~0.4.8:
   version "0.4.13"

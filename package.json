@@ -29,8 +29,8 @@
     "request": "^2.67.0",
     "typescript": "^5.0.4",
     "vite": "^4.4.4",
-    "vitest": "^0.29.8",
-    "vite-plugin-favicons-inject": "^2.2.0"
+    "vite-plugin-favicons-inject": "^2.2.0",
+    "vitest": "^0.29.8"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
@@ -50,7 +50,7 @@
     "osmtogeojson": "^3.0.0-beta.5",
     "rgbcolor": "^1.0.1",
     "stackblur": "^1.0.0",
-    "tag2link": "^2022.11.28",
+    "tag2link": "JOSM/tag2link.git#master",
     "togpx": "tyrasd/togpx#4396a386fd179be6876f7443438909d524651eed",
     "tokml": "^0.4.0"
   },
