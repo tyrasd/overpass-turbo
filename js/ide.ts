@@ -904,7 +904,7 @@ class IDE {
       if (data_mode == "unknown") ide.switchTab("Data");
       // display empty map badge
       $(
-        `<div id="map_blank" style="z-index:5; display:block; position:relative; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">${i18n.t(
+        `<div id="map_blank" style="z-index:700; display:block; position:relative; top:50px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">${i18n.t(
           "map.intentionally_blank"
         )} <small>(${empty_msg})</small></div>`
       ).appendTo("#map");
