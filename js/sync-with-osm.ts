@@ -105,7 +105,7 @@ function saveQuery(new_query, callback) {
     const preferences = dom.querySelector("preferences");
     // clean up existing data
     const existing = preferences.querySelectorAll(
-      `preference[k^="${configs.appname}_query"]`
+      `preference[k^="${configs.settingNamespace}_query"]`
     );
     for (const e of existing) {
       e.remove();
@@ -125,7 +125,7 @@ function saveQuery(new_query, callback) {
     }
     // construct new preferences xml
     const new_elem = dom.createElement("preference");
-    new_elem.setAttribute("k", `${configs.appname}_query-count`);
+    new_elem.setAttribute("k", `${configs.settingNamespace}_query-count`);
     new_elem.setAttribute("v", existing_queries.length);
     preferences.appendChild(new_elem);
     for (let i = 0; i < existing_queries.length; i++) {
@@ -145,7 +145,10 @@ function saveQuery(new_query, callback) {
 
       for (let j = 0; j < numParts; j++) {
         const new_elem = dom.createElement("preference");
-        new_elem.setAttribute("k", `${configs.appname}_query_${i}_${j}`);
+        new_elem.setAttribute(
+          "k",
+          `${configs.settingNamespace}_query_${i}_${j}`
+        );
         new_elem.setAttribute("v", queryStr[j]);
         preferences.appendChild(new_elem);
       }
