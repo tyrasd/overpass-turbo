@@ -859,7 +859,7 @@ class IDE {
       let query = ide.getRawQuery();
       
       // check if 'out' followed by any number of characters (non-greedy) and then 'count' is present in the query
-      var isCountPresent = /out.*?count/.test(query);
+      var isCountPresent = /out[^;]+?count/.test(query);
       
       // show warning/info if only invisible data is returned and 'out...count' is not present in the query
       if (empty_msg == "no visible data") {
