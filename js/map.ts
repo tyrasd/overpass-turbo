@@ -153,7 +153,7 @@ $(document).ready(() => {
   // overpass functionality
   overpass.handlers["onEmptyMap"] = (empty_msg) => {
     $(
-      `<div id="map_blank" style="z-index:1; display:block; position:absolute; top:42px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>(${empty_msg})</small></div>`
+      `<div id="map_blank" style="z-index:700; display:block; position:absolute; top:50px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">This map intentionally left blank. <small>(${empty_msg})</small></div>`
     ).appendTo("#map");
   };
   if (settings.silent) {
