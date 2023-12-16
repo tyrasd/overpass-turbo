@@ -150,11 +150,11 @@ export default function autorepair(q, lng) {
         let new_out_statement;
         // non meta output
         if (
-          out_statement.match(/\s(body|skel|ids|tags)/) ||
+          out_statement.match(/\s(body|skel|ids|tags|count)/) ||
           !out_statement.match(/\s(meta)/)
         ) {
           new_out_statement = out_statement
-            .replace(/\s(body|skel|ids|tags|meta)/g, "")
+            .replace(/\s(body|skel|ids|tags|count|meta)/g, "")
             .replace(/^out/, "out meta");
           new_print = new_print.replace(out_statement, new_out_statement);
           out_statement = new_out_statement;
