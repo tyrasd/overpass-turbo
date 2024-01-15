@@ -2095,6 +2095,7 @@ class IDE {
               const query = await this.getQuery();
               exportToLevel0.unbind("click");
               exportToLevel0[0].href = constructLevel0Link(query);
+              window.open(exportToLevel0[0].href, "_blank");
             }
           },
           {
@@ -2102,6 +2103,7 @@ class IDE {
             callback: () => {
               exportToLevel0.unbind("click");
               exportToLevel0[0].href = constructLevel0Link(query);
+              window.open(exportToLevel0[0].href, "_blank");
             }
           }
         ];
