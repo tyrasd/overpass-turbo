@@ -158,7 +158,7 @@ function saveQuery(new_query, callback) {
       {
         method: "PUT",
         path: "/api/0.6/user/preferences",
-        options: {header: {"Content-Type": "text/xml"}},
+        headers: {"Content-Type": "text/xml"},
         content: dom.firstChild.outerHTML
       },
       (err) => {
