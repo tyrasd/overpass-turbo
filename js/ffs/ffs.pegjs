@@ -93,12 +93,15 @@ key_not_like_val
     { return { query:"notlike", key:x, val:y.regex?y:{regex:y} } }
 
 key_substr_val
-  = x:string _ ( ":" ) _ y:string
+  = x:string & { return x !== "type" } _ ( ":" ) _ y:string
     { return { query:"substr", key:x, val:y } }
 
 type
-  = "type" _ ":" _ x:string
+  = "type" _ ":" _ x:osm_type
     { return { query:"type", type:x } }
+
+osm_type
+  = "node" / "way" / "relation"
 
 meta // TODO?
   = x:("user" / "uid" / "newer" / "id") _ ":" _ y:string
