@@ -28,7 +28,7 @@
     "prettier": "^2.8.7",
     "request": "^2.67.0",
     "typescript": "^5.0.4",
-    "vite": "^4.4.12",
+    "vite": "^4.5.2",
     "vite-plugin-favicons-inject": "^2.2.0",
     "vitest": "^0.29.8"
   },
