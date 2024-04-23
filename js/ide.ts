@@ -225,7 +225,7 @@ class IDE {
   // == public methods ==
 
   init() {
-    this.waiter.addInfo(i18n.t("waiter.ide_starting_up"));
+    this.waiter.addInfo("ide starting up");
     $("#overpass-turbo-version").html(
       `overpass-turbo <code>${GIT_VERSION}</code>` // eslint-disable-line no-undef
     );
@@ -252,10 +252,10 @@ class IDE {
       $("#warning-unsupported-browser").addClass("is-active");
     }
     // load settings
-    this.waiter.addInfo(i18n.t("waiter.load_settings"));
+    this.waiter.addInfo("load settings");
     settings.load();
     // translate ui
-    this.waiter.addInfo(i18n.t("waiter.translate_ui"));
+    this.waiter.addInfo("translate ui");
     i18n.translate().then(() => this.initAfterI18n());
 
     if (sync.enabled) {
