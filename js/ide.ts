@@ -1459,7 +1459,7 @@ class IDE {
       }
     }
     if (run) share_link.append("R", "");
-    return `?${share_link}`.replace(/\+/g, '%20');
+    return `?${share_link}`.replace(/\+/g, "%20");
     function encode_coords(lat, lng) {
       const coords_cpr = Base64.encodeNum(
         Math.round((lat + 90) * 100000) +
