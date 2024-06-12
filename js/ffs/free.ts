@@ -3,10 +3,33 @@
 import i18n from "../i18n";
 import {levenshteinDistance} from "../misc";
 
-const freeFormQuery = {};
-let presets = {};
+type Presets = Record<string, Preset>;
 
-export function setPresets(newPresets) {
+type Preset = {
+  // overpass-turbo
+  name?: string;
+  nameCased?: string;
+  terms?: string[];
+  translated?: boolean;
+  // upstream
+  fields?: string[];
+  moreFields?: string[];
+  geometry: string[];
+  tags: {[key: string]: string};
+  searchable?: boolean;
+  icon?: string;
+  matchScore?: number;
+  addTags?: {[key: string]: string};
+  removeTags?: Record<string, string>;
+  reference?: {key: string; value?: string};
+  replacement?: string;
+  locationSet?: {exclude?: string[]; include?: string[]};
+};
+
+const freeFormQuery = {};
+let presets: Presets = {};
+
+export function setPresets(newPresets: Presets) {
   presets = newPresets;
   Object.values(presets).forEach((preset) => {
     preset.nameCased = preset.name;
@@ -48,8 +71,8 @@ export default function ffs_free(callback) {
       );
       data = data[language].presets.presets;
       // load translated names and terms into presets object
-      Object.entries(data).forEach(([preset, translation]) => {
-        preset = presets[preset];
+      Object.entries(data).forEach(([presetName, translation]) => {
+        const preset = presets[presetName];
         preset.translated = true;
         // save original preset name under alternative terms
         const oriPresetName = preset.name;
