@@ -40,6 +40,7 @@ export default defineConfig(() => ({
     exclude: ["leaflet"]
   },
   build: {
+    sourcemap: true,
     rollupOptions: {
       input: [
         resolve(__dirname, "index.html"),
