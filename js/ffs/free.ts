@@ -63,12 +63,19 @@ export default function ffs_free(callback) {
   }
   // load preset translations
   async function loadPresetTranslations() {
-    const language = i18n.getLanguage();
+    let language = i18n.getLanguage();
     if (!language) return;
     try {
       let {default: data} = await import(
         `../../node_modules/@openstreetmap/id-tagging-schema/dist/translations/${language}.json`
       );
+      if (language.length > 2 && !data[language]?.presets?.presets) {
+        language = language.slice(0, 2);
+        const {default: data2} = await import(
+          `../../node_modules/@openstreetmap/id-tagging-schema/dist/translations/${language}.json`
+        );
+        data = data2;
+      }
       data = data[language].presets.presets;
       // load translated names and terms into presets object
       Object.entries(data).forEach(([presetName, translation]) => {

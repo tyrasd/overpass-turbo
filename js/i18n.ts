@@ -80,7 +80,7 @@ export default class i18n {
   static getSupportedLanguagesDescriptions() {
     return languages;
   }
-  static getLanguage(lng: Language | string): Language {
+  static getLanguage(lng?: Language | string): Language {
     lng = lng || settings.ui_language;
     if (lng == "auto") {
       // get user agent's language
