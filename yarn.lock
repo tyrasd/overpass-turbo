@@ -4269,9 +4269,9 @@ __metadata:
   linkType: hard
 
 "tag2link@JOSM/tag2link.git#master":
-  version: 2023.10.21
-  resolution: "tag2link@https://github.com/JOSM/tag2link.git#commit=a7b71589488bf86aade358b3eb9ad239d03f65b3"
-  checksum: 10c0/f315caebbf29be9f235096f8415363936b272b102ca0c96e0e67b97aabdd65b8dc98bb81d729a87710c6706e3f92ecd67fbd04cdba46e906152b64d4b7660698
+  version: 2024.05.21
+  resolution: "tag2link@https://github.com/JOSM/tag2link.git#commit=a79b70d8e9ed7bc5c013a173b3c249b67d749be6"
+  checksum: 10c0/fb9013109a0821364d8e6d122305d1e91d79a52f67956fc335d2c15c4d4be301f3e019df3c6e243f55b1207dcb7c576479d61234822b26d2ab8a4d19a0459373
   languageName: node
   linkType: hard
 
