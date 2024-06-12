@@ -140,11 +140,11 @@ export default function autorepair(q, lng) {
           "$1xml$3/*fixed by auto repair*/"
         );
       // 2. fix print statements: non meta output, overpass geometries
-      const prints = q.match(/(\.([^;.]+?)\s+)?(out[^:;"\]]*;)/g) || [];
+      const prints = q.match(/(\.([^;.]+?)\s+)?(\bout\b[^:;"\]]*;)/g) || [];
       for (const print_i of prints) {
         // eslint-disable-next-line prefer-const
         let [print, , out_set, out_statement] = print_i.match(
-          /(\.([^;.]+?)\s+)?(out[^:;"\]]*;)/
+          /(\.([^;.]+?)\s+)?(\bout[^:;"\]]*;)/
         );
         let new_print = print;
         let new_out_statement;

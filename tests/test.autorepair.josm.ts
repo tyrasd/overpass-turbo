@@ -121,6 +121,10 @@ describe("ide.autorepair.josm", () => {
         // more complex real world example
         inp: '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out qt;',
         outp: '/*bla*/\n[out:xml];\nway\n  ["amenity"]\n  ({{bbox}})\n->.foo;\n.foo out meta qt;/*fixed by auto repair*/'
+      },
+      {
+        inp: "{{geocodeArea:South Carolina}}->.searchArea;",
+        outp: "{{geocodeArea:South Carolina}}->.searchArea;"
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "OverpassQL");
