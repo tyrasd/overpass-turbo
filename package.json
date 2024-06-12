@@ -4,6 +4,7 @@
   "homepage": "http://overpass-turbo.eu/",
   "repository": "git+https://github.com/tyrasd/overpass-turbo.git",
   "license": "MIT",
+  "packageManager": "yarn@4.3.0",
   "scripts": {
     "test": "yarn run test:eslint && yarn run test:style && yarn run test:vitest",
     "test:eslint": "eslint .",

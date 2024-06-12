@@ -9,5 +9,6 @@ overpass-turbo-ffs.min.js
 build
 node_modules
 transifex.auth
+.yarn/
 build/
 dist/
