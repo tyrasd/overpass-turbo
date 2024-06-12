@@ -52,7 +52,6 @@ describe("ide.query", () => {
       ide.codeEditor.getValue = () => example.inp;
       await expect(ide.getQuery()).resolves.toBe(example.outp);
     }
-    ide.setQuery.restore();
   });
   // expand {{parameters}} in xml query
   it("expand {{parameters}} in xml", async () => {
@@ -78,7 +77,6 @@ describe("ide.query", () => {
       ide.codeEditor.getValue = () => example.inp;
       await expect(ide.getQuery()).resolves.toBe(example.outp);
     }
-    ide.setQuery.restore();
   });
   // expand {{bbox}}
   it("expand {{bbox}}", async () => {
@@ -104,7 +102,6 @@ describe("ide.query", () => {
       ide.codeEditor.getValue = () => example.inp;
       await expect(ide.getQuery()).resolves.toBe(example.outp);
     }
-    ide.setQuery.restore();
   });
   // expand {{center}}
   it("expand {{center}}", async () => {
@@ -125,6 +122,5 @@ describe("ide.query", () => {
       ide.codeEditor.getValue = () => example.inp;
       await expect(ide.getQuery()).resolves.toBe(example.outp);
     }
-    ide.setQuery.restore();
   });
 });
