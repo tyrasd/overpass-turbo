@@ -164,8 +164,8 @@ freeFormQuery.fuzzy_search = (condition) => {
   }
   const candidates = Object.values(presets).filter((preset) => {
     if (preset.searchable === false) return false;
-    if (fuzzyMatch(preset.name)) return true;
-    return preset.terms.some(fuzzyMatch);
+    if (preset.name && fuzzyMatch(preset.name)) return true;
+    return Array.isArray(preset.terms) && preset.terms.some(fuzzyMatch);
   });
   if (candidates.length === 0) return false;
   // sort candidates
