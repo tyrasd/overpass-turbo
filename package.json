@@ -6,6 +6,7 @@
   "license": "MIT",
   "packageManager": "yarn@4.3.0",
   "scripts": {
+    "prepare": "husky",
     "test": "yarn run test:eslint && yarn run test:style && yarn run test:vitest",
     "test:eslint": "eslint .",
     "test:style": "prettier --check .",
@@ -23,8 +24,8 @@
     "@typescript-eslint/parser": "^5.57.1",
     "eslint": "^8.38.0",
     "happy-dom": "^8.1.5",
-    "husky": "^4.3.0",
-    "lint-staged": "^13.2.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
     "peggy": "^3.0.2",
     "prettier": "^2.8.7",
     "request": "^2.67.0",
@@ -58,11 +59,6 @@
   "prettier": {
     "bracketSpacing": false,
     "trailingComma": "none"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
