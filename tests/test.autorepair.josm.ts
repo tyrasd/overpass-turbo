@@ -81,8 +81,8 @@ describe("ide.autorepair.josm", () => {
       },
       {
         // more complex real world example
-        inp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="body" order="quadtile"/>\n</osm-script>',
-        outp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print mode="meta" order="quadtile"></print><!-- fixed by auto repair -->\n</osm-script>'
+        inp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print order="quadtile" mode="body"/>\n</osm-script>',
+        outp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print order="quadtile" mode="meta"></print><!-- fixed by auto repair -->\n</osm-script>'
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
