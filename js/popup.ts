@@ -69,8 +69,10 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
           (wiki_lang = v.match(/^([a-zA-Z]+):(.*)$/)) &&
           (wiki_page = wiki_lang[2]))
       )
-        wiki_page = wiki_page.replace(/#.*$/, match => match.replace(/ /g, '_')); // 'Target page#Section header' -> 'Target page#Section_header'
-        v = `<a href="//${wiki_lang[1]}.wikipedia.org/wiki/${wiki_page}" target="_blank">${v}</a>`;
+        wiki_page = wiki_page.replace(/#.*$/, (match) =>
+          match.replace(/ /g, "_")
+        ); // 'Target page#Section header' -> 'Target page#Section_header'
+      v = `<a href="//${wiki_lang[1]}.wikipedia.org/wiki/${wiki_page}" target="_blank">${v}</a>`;
       // hyperlinks for wikidata entries
       if (k.match(/(^|:)wikidata$/))
         v = v.replace(
