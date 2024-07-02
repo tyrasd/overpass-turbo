@@ -1541,16 +1541,18 @@ class IDE {
       queryWithMapCSS += `{{data:${this.queryParser.getStatement("data")}}}`;
     else if (settings.server !== configs.defaultServer)
       queryWithMapCSS += `{{data:overpass,server=${settings.server}}}`;
-    $("#export-dialog a#export-interactive-map")[0].href =
-      `${baseurl}map.html?${new URLSearchParams({
-        Q: queryWithMapCSS
-      })}`;
+    $(
+      "#export-dialog a#export-interactive-map"
+    )[0].href = `${baseurl}map.html?${new URLSearchParams({
+      Q: queryWithMapCSS
+    })}`;
     // encoding exclamation marks for better command line usability (bash)
-    $("#export-dialog a#export-overpass-api")[0].href =
-      `${server}interpreter?data=${encodeURIComponent(query)
-        .replace(/!/g, "%21")
-        .replace(/\(/g, "%28")
-        .replace(/\)/g, "%29")}`;
+    $(
+      "#export-dialog a#export-overpass-api"
+    )[0].href = `${server}interpreter?data=${encodeURIComponent(query)
+      .replace(/!/g, "%21")
+      .replace(/\(/g, "%28")
+      .replace(/\)/g, "%29")}`;
     function toDataURL(text, mediatype) {
       return `data:${mediatype || "text/plain"};charset=${
         document.characterSet || document.charset
@@ -2047,21 +2049,24 @@ class IDE {
         return false;
       });
 
-    $("#export-dialog a#export-convert-xml")[0].href =
-      `${server}convert?${new URLSearchParams({
-        data: query,
-        target: "xml"
-      })}`;
-    $("#export-dialog a#export-convert-ql")[0].href =
-      `${server}convert?${new URLSearchParams({
-        data: query,
-        target: "mapql"
-      })}`;
-    $("#export-dialog a#export-convert-compact")[0].href =
-      `${server}convert?${new URLSearchParams({
-        data: query,
-        target: "compact"
-      })}`;
+    $(
+      "#export-dialog a#export-convert-xml"
+    )[0].href = `${server}convert?${new URLSearchParams({
+      data: query,
+      target: "xml"
+    })}`;
+    $(
+      "#export-dialog a#export-convert-ql"
+    )[0].href = `${server}convert?${new URLSearchParams({
+      data: query,
+      target: "mapql"
+    })}`;
+    $(
+      "#export-dialog a#export-convert-compact"
+    )[0].href = `${server}convert?${new URLSearchParams({
+      data: query,
+      target: "compact"
+    })}`;
 
     // OSM editors
     // first check for possible mistakes in query.
