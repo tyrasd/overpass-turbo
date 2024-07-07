@@ -476,7 +476,7 @@ class IDE {
 
     // init leaflet
     ide.map = new L.Map("map", {
-      attributionControl: true,
+      attributionControl: false,
       minZoom: 0,
       maxZoom: configs.maxMapZoom,
       worldCopyJump: false
@@ -489,8 +489,9 @@ class IDE {
       maxNativeZoom: 19,
       maxZoom: ide.map.options.maxZoom
     });
-    ide.attribControl = new L.Control.Attribution({prefix: false});
-    ide.attribControl.addAttribution(tilesAttrib);
+    const attribControl = new L.Control.Attribution({position: "bottomright"});
+    attribControl.addAttribution(tilesAttrib);
+    attribControl.addTo(ide.map);
     const pos = new L.LatLng(settings.coords_lat, settings.coords_lon);
     ide.map.setView(pos, settings.coords_zoom).addLayer(tiles);
     ide.map.tile_layer = tiles;
