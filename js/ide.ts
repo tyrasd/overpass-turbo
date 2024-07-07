@@ -750,7 +750,7 @@ class IDE {
                 error() {
                   // todo: better error handling
                   console.error(
-                    "An error occured while contacting the search server osmnames.org :("
+                    "An error occurred while contacting the search server osmnames.org :("
                   );
                 }
               }
@@ -1193,7 +1193,7 @@ class IDE {
       return "xml";
     else return "OverpassQL";
   }
-  /* this is for repairig obvious mistakes in the query, such as missing recurse statements */
+  /* this is for repairing obvious mistakes in the query, such as missing recurse statements */
   repairQuery(repair) {
     // - preparations -
     const q = this.getRawQuery(), // get original query
@@ -1829,7 +1829,7 @@ class IDE {
           })
           .fail((jqXHR) => {
             alert(
-              `an error occured during the creation of the overpass gist:\n${JSON.stringify(
+              `an error occurred during the creation of the overpass gist:\n${JSON.stringify(
                 jqXHR
               )}`
             );
