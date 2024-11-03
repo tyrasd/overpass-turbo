@@ -1,16 +1,18 @@
-## Latest changes live on https://tyrasd.github.io/overpass-turbo/
+<!--## undeployed-->
 
-- Implement nwr shorthand
+## 2024-11-03
+
+- Implement `nwr` shorthand in query wizard
 - Display Git commit date in help/about
 - Use modern build tools: vite, vitest
 - Show shortcuts in tooltip
 - Wizard: checkbox to include/exclude query comments
-- Migrate to @openstreetmap/id-tagging-schema
-- Migrate source code to TypeScript (#606)
-- Retain query in URL when loading overpass-turbo (#563)
-- Store query in URL when running it (#585)
-- Trim `w=` URL parameter (#609)
-- Support many [MapCSS label properties](https://wiki.openstreetmap.org/wiki/MapCSS/0.2#Label_properties) (#627)
+- Migrate to `@openstreetmap/id-tagging-schema`
+- Migrate source code to TypeScript ([#606](https://github.com/tyrasd/overpass-turbo/pull/606))
+- Retain query in URL when loading overpass-turbo ([#563](https://github.com/tyrasd/overpass-turbo/issues/563))
+- Store query in URL when running it ([#585](https://github.com/tyrasd/overpass-turbo/issues/585))
+- Trim `w=` URL parameter ([#609](https://github.com/tyrasd/overpass-turbo/issues/609))
+- Support many [MapCSS label properties](https://wiki.openstreetmap.org/wiki/MapCSS/0.2#Label_properties) ([#627](https://github.com/tyrasd/overpass-turbo/pull/627))
   - `font-family`
   - `font-size`
   - `font-style`
@@ -26,6 +28,9 @@
   - `text-halo-radius`
   - `text-opacity`
   - `text-transform`
+- Implement support for wildcard `*` type selector (to match any map feature)
+- Make rendering of "small" features (i.e. the collapsing of feature geometries to a point marker if they would otherwise have very tiny dimensions at the current zoom level) customizable via a custom new mapcss statement `render: auto/native/point` ([#30](https://github.com/tyrasd/overpass-turbo/issues/30))
+- (beta) Add a wizard-style dialog to auto-generate simple mapcss to style features based on one of two palettes (a qualitative and a sequential one), according to the values of a selectable OSM tag of the current result set
 
 ## 2022-01-09
 
