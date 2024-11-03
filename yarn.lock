@@ -3343,6 +3343,7 @@ __metadata:
     togpx: "tyrasd/togpx#4396a386fd179be6876f7443438909d524651eed"
     tokml: "npm:^0.4.0"
     typescript: "npm:^5.0.4"
+    vite: "npm:^5.2.14"
     vite-plugin-favicons-inject: "npm:^2.2.0"
     vitest: "npm:^1.6.0"
   languageName: unknown
@@ -4710,7 +4711,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.0":
+"vite@npm:^5.0.0, vite@npm:^5.2.14":
   version: 5.4.10
   resolution: "vite@npm:5.4.10"
   dependencies:
