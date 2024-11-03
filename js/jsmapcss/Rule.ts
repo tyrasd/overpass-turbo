@@ -9,7 +9,7 @@ styleparser.Rule.prototype = {
   isAnd: true, // do all Conditions need to be true for the Rule to be fulfilled? (Always =true for MapCSS)
   minZoom: 0, // minimum zoom level at which the Rule is fulfilled
   maxZoom: 255, // maximum zoom level at which the Rule is fulfilled
-  subject: "", // entity type to which the Rule applies: 'way', 'node', 'relation', 'area' (closed way) or 'line' (unclosed way)
+  subject: "", // entity type to which the Rule applies: 'way', 'node', 'relation', 'area' (closed way), 'line' (unclosed way), or '*' (everything)
 
   addSubject(_subject) {
     // summary:		A MapCSS selector. Contains a list of Conditions; the entity type to which the selector applies;

@@ -366,6 +366,8 @@ class Overpass {
                           return feature.properties.type == "way";
                         case "relation":
                           return feature.properties.type == "relation";
+                        case "*":
+                          return true;
                       }
                       return false;
                     },

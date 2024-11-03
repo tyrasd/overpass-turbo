@@ -327,7 +327,7 @@ styleparser.RuleSet.prototype = {
   ZOOM: /^\|\s*z([\d-]+)\s*/i,
   GROUP: /^,\s*/i,
   CONDITION: /^\[(.+?)\]\s*/,
-  OBJECT: /^(\w+)\s*/, // TODO: match also "*" (and handle the wildcard appropriately)
+  OBJECT: /^(way|node|relation|line|area|canvas|\*)\s*/,
   DECLARATION: /^\{(.+?)\}\s*/,
   SUBPART: /^::(\w+)\s*/,
   UNKNOWN: /^(\S+)\s*/,
