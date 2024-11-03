@@ -46,19 +46,21 @@ const languages = {
   it: "Italian",
   ja: "Japanese",
   ko: "Korean",
-  lv: "Latvian",
+  // lv: "Latvian",
   mr: "Marathi",
   nl: "Dutch",
   no: "Norwegian",
+  // oc: "Occitan",
   pl: "Polish",
   pt: "Portuguese",
   "pt-BR": "Portuguese (Brazil)",
   ru: "Russian",
   sl: "Slovenian",
+  // th: "Thai",
   tr: "Turkish",
   uk: "Ukrainian",
   vi: "Vietnamese",
-  "zh-CN": "Chinese (Simplified)",
+  // "zh-CN": "Chinese (Simplified)",
   "zh-TW": "Chinese (Taiwan)"
 };
 27;

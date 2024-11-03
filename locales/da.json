@@ -239,12 +239,12 @@
     "popup.tags": "Tags",
     "popup.metadata": "Metadata",
     "popup.coordinates": "Coordinates",
-    "popup.node": "Node",
-    "popup.nodes": "Nodes",
-    "popup.way": "Way",
-    "popup.ways": "Ways",
+    "popup.node": "Punkt",
+    "popup.nodes": "Punkter",
+    "popup.way": "Vej",
+    "popup.ways": "Veje",
     "popup.relation": "Relation",
-    "popup.relations": "Relations",
+    "popup.relations": "Relationer",
     "popup.incomplete_geometry": "Attention: incomplete geometry (e.g. some nodes missing)",
     "map.intentionally_blank": "Kortet er forsætligt tomt."
 }
