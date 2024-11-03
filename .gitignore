@@ -12,3 +12,4 @@ transifex.auth
 .yarn/
 build/
 dist/
+.DS_Store

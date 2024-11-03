@@ -4,7 +4,7 @@
   "homepage": "http://overpass-turbo.eu/",
   "repository": "git+https://github.com/tyrasd/overpass-turbo.git",
   "license": "MIT",
-  "packageManager": "yarn@4.3.1",
+  "packageManager": "yarn@4.5.0+sha512.837566d24eec14ec0f5f1411adb544e892b3454255e61fdef8fd05f3429480102806bac7446bc9daff3896b01ae4b62d00096c7e989f1596f2af10b927532f39",
   "scripts": {
     "prepare": "husky",
     "test": "yarn run test:eslint && yarn run test:style && yarn run test:vitest",
@@ -49,14 +49,14 @@
     "jquery-ui-dist": "1.13.2",
     "leaflet": "1.9.4",
     "leaflet-polylineoffset": "^1.1.1",
-    "leaflet.locationfilter": "tmgreensolutions/leaflet-locationfilter#ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d",
+    "leaflet.locationfilter": "green-solutions-tourinfra/leaflet-locationfilter#ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d",
     "lodash": ">=4.17.5",
     "osm-auth": "^2.2.0",
     "osmtogeojson": "^3.0.0-beta.5",
     "rgbcolor": "^1.0.1",
     "stackblur": "^1.0.0",
-    "tag2link": "JOSM/tag2link.git#master",
-    "togpx": "tyrasd/togpx#4396a386fd179be6876f7443438909d524651eed",
+    "tag2link": "JOSM/tag2link#master",
+    "togpx": "tyrasd/togpx#master",
     "tokml": "^0.4.0"
   },
   "prettier": {
