@@ -364,3 +364,35 @@ kbd {
     0 0 0 2px #fff inset;
   white-space: nowrap;
 }
+
+.modal-card-title .icon {
+  margin-right: 4px;
+}
+
+.palette {
+  width: 22px;
+  display: inline-block;
+  height: 12px;
+  margin-right: 120px;
+}
+.palette.sequential {
+  background: #ffffb2;
+  box-shadow:
+    #fed976 22px 0px 0px 0px,
+    #feb24c 44px 0px 0px 0px,
+    #fd8d3c 66px 0px 0px 0px,
+    #f03b20 88px 0px 0px 0px,
+    #bd0026 110px 0px 0px 0px;
+}
+.palette.qualitative {
+  background: #e41a1c;
+  box-shadow:
+    #377eb8 22px 0px 0px 0px,
+    #4daf4a 44px 0px 0px 0px,
+    #984ea3 66px 0px 0px 0px,
+    #ff7f00 88px 0px 0px 0px,
+    #ffff33 110px 0px 0px 0px;
+}
+#styler-button {
+  display: none;
+}

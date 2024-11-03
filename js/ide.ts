@@ -6,8 +6,11 @@ import html2canvas from "html2canvas";
 import {Canvg} from "canvg";
 import "leaflet";
 import "codemirror/lib/codemirror.js";
+import colormap from "colormap";
 import tokml from "tokml";
 import togpx from "togpx";
+import {default as colorbrewer} from "colorbrewer";
+//import { schemegroups as colorbrewer } from "colorbrewer";
 import configs from "./configs";
 import Query from "./query";
 import {
@@ -1018,6 +1021,8 @@ class IDE {
       if (typeof ide.run_query_on_startup === "function") {
         ide.run_query_on_startup();
       }
+      // enable auto-styler
+      $("#styler-button").show();
       // display stats
       if (settings.show_data_stats) {
         const stats = overpass.stats;
@@ -2340,6 +2345,101 @@ class IDE {
       }
     });
   }
+  onStylerClick() {
+    if (!overpass.geojson || overpass.geojson.features.length === 0) return;
+    $("#styler-dialog").addClass("is-active");
+    let allTags = {};
+    overpass.geojson.features.forEach(
+      (feature) => (allTags = {...allTags, ...feature.properties.tags})
+    );
+    make_combobox(
+      $("#styler-dialog input[name=attribute]"),
+      Object.keys(allTags)
+    );
+    function checkTag() {
+      const key = $("#styler-dialog input[type=text]").first().val();
+      if (allTags[key] !== undefined) {
+        $("#styler-dialog button.is-success").removeAttr("disabled");
+        return true;
+      } else {
+        $("#styler-dialog button.is-success").attr("disabled", "disabled");
+        return false;
+      }
+    }
+    $("#styler-dialog input[type=text]")
+      .first()
+      .unbind("keypress")
+      .bind("keypress", (e) => {
+        if (e.key === "Enter") {
+          if (checkTag()) {
+            this.onStylerRun();
+            e.preventDefault();
+          }
+        }
+      })
+      .unbind("input")
+      .bind("input", checkTag)
+      .on("autocompleteselect", checkTag)
+      .focus();
+  }
+  onStylerRun() {
+    if (!overpass.geojson || overpass.geojson.features.length === 0) return;
+    const key = $("#styler-dialog input[name=attribute]").val();
+    const values = [
+      ...new Set(
+        overpass.geojson.features
+          .map((f) => f.properties.tags[key])
+          .filter(Boolean)
+      )
+    ].sort((a, b) =>
+      isFinite(a) && isFinite(b) ? a - b : a < b ? -1 : a > b ? 1 : 0
+    );
+
+    let colors: string[];
+    if (
+      $("#styler-dialog input[name=palette]:checked").val() === "qualitative"
+    ) {
+      colors = colorbrewer["Set1"][Math.min(Math.max(values.length, 3), 9)];
+    } else if (values.length <= 9) {
+      colors = colorbrewer["YlOrRd"][Math.max(values.length, 3)];
+    } else {
+      colors = colormap({
+        colormap: "inferno",
+        nshades: values.length,
+        format: "hex",
+        alpha: 1
+      }).reverse();
+    }
+
+    const mapCssColors = {};
+    values.forEach((value, i) => {
+      const color = colors[i % colors.length];
+      if (!mapCssColors[color]) mapCssColors[color] = [];
+      mapCssColors[color].push(`*[${key}=${value}]`);
+    });
+    const mapcss = Object.keys(mapCssColors)
+      .map(
+        (color) =>
+          `${mapCssColors[color].join(",\n")}\n{ color: ${color}; fill-color:${color}; }`
+      )
+      .join("\n");
+
+    let query = ide.getRawQuery();
+    // drop previous auto-styler mapcss
+    query = query.replace(
+      /(\n\n)?{{style: \/\* added by auto-styler \*\/[\s\S]*?}}/,
+      ""
+    );
+    ide.setQuery(
+      `${query}\n\n{{style: /* added by auto-styler */\n${mapcss}\n}}`
+    );
+
+    this.rerender_map();
+    this.onStylerClose();
+  }
+  onStylerClose() {
+    $("#styler-dialog").removeClass("is-active");
+  }
   onSettingsClick() {
     $("#settings-dialog input[name=ui_language]")[0].value =
       settings.ui_language;
@@ -2569,6 +2669,18 @@ class IDE {
     ) {
       // Ctrl+I or Ctrl+Shift+F
       this.onFfsClick();
+      event.preventDefault();
+    }
+    if (
+      event.key == "k" &&
+      (event.ctrlKey || event.metaKey) &&
+      !event.shiftKey &&
+      !event.altKey
+    ) {
+      // Ctrl+K
+      if (overpass.geojson) {
+        this.onStylerClick();
+      }
       event.preventDefault();
     }
 

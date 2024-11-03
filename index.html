@@ -88,6 +88,20 @@
               </span>
               <span class="t" data-t="nav.wizard">Wizard</span>
             </button>
+            <button
+              class="t button"
+              accesskey=""
+              data-ide-handler="click:onStylerClick"
+              title=""
+              id="styler-button"
+              data-t="[title]nav.styler_tt"
+              data-shortcut="Ctrl+K"
+            >
+              <span class="icon">
+                <span class="fas fa-palette"></span>
+              </span>
+              <span class="t" data-t="nav.styler">Style</span>
+            </button>
           </div>
         </div>
         <div class="navbar-item">
@@ -1086,6 +1100,90 @@
                   <span class="t" data-t="dialog.wizard_build"></span>
                 </button>
                 <button class="button" data-ide-handler="click:onFfsClose">
+                  <span class="t" data-t="dialog.cancel">Cancel</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!--styling wizard -->
+    <div class="modal" id="styler-dialog">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">
+            <span class="icon">
+              <span class="fas fa-palette"></span>
+            </span>
+            <span class="t" data-t="[html]styler.title"></span
+            ><span> (beta)</span>
+          </p>
+          <button
+            class="delete"
+            aria-label="close"
+            data-ide-handler="click:onStylerClose"
+          ></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="content">
+            <span class="t" data-t="[html]styler.expl"></span>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input
+                name="attribute"
+                type="text"
+                autofocus="autofocus"
+                placeholder=""
+                value=""
+                id="ffs-input"
+                class="t input monospace"
+                data-t="[placeholder]styler.placeholder"
+                required
+              />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <span class="t" data-t="styler.palette"></span>
+              <input type="radio" name="palette" value="qualitative" checked />
+              <label
+                for="qualitative"
+                data-t="[title]styler.palette.qualitative"
+                class="palette qualitative"
+              ></label>
+              <input
+                type="radio"
+                name="palette"
+                value="sequential"
+                id="sequential"
+              />
+              <label
+                for="sequential"
+                data-t="[title]styler.palette.sequential"
+                class="palette sequential"
+              ></label>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <div class="level">
+            <div class="level-right">
+              <div class="level-item">
+                <button
+                  class="button is-success"
+                  data-ide-handler="click:onStylerRun"
+                  disabled
+                >
+                  <span class="icon">
+                    <span class="fas fa-play"></span>
+                  </span>
+                  <span class="t" data-t="dialog.styler_run"></span>
+                </button>
+                <button class="button" data-ide-handler="click:onStylerClose">
                   <span class="t" data-t="dialog.cancel">Cancel</span>
                 </button>
               </div>

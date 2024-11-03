@@ -517,6 +517,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/colormap@npm:^2":
+  version: 2.3.4
+  resolution: "@types/colormap@npm:2.3.4"
+  checksum: 10c0/9a8d41762aee496418f69ada4cdc1ec4969522b157c6e4b481c6c782a288999c9c4089e59816cf0cc56f6db45e9e753e9f8027a954c951e8b5a145517b151bda
+  languageName: node
+  linkType: hard
+
 "@types/estree@npm:1.0.6":
   version: 1.0.6
   resolution: "@types/estree@npm:1.0.6"
@@ -1284,10 +1291,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"colorbrewer@npm:^1.5.7":
+  version: 1.5.7
+  resolution: "colorbrewer@npm:1.5.7"
+  checksum: 10c0/fd602d3741f39f66a7d7f98517d53ab49cce8a7f64ed0b7232fc1a59dac41498139ae3411640986c8ef7f7b6c5fc30d5c693f5b8b811f26b73b86f0026b216f3
+  languageName: node
+  linkType: hard
+
 "colorette@npm:^2.0.20":
   version: 2.0.20
   resolution: "colorette@npm:2.0.20"
   checksum: 10c0/e94116ff33b0ff56f3b83b9ace895e5bf87c2a7a47b3401b8c3f3226e050d5ef76cf4072fb3325f9dc24d1698f9b730baf4e05eeaf861d74a1883073f4c98a40
+  languageName: node
+  linkType: hard
+
+"colormap@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "colormap@npm:2.3.2"
+  dependencies:
+    lerp: "npm:^1.0.3"
+  checksum: 10c0/81fe0710ecc4506981769adf4f9764fd1bb7eee194ddbfd3da7370069c9c5968ea86ecfa104e7603858d85d8ab9df758825c13605d97bb0853d44ad8b313c76c
   languageName: node
   linkType: hard
 
@@ -2671,6 +2694,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lerp@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "lerp@npm:1.0.3"
+  checksum: 10c0/cd451cff0b0dc9742bd89f8410468834bd184603f19c915bdf89e5a7f8ce5c67a2a9f5d9be53bb18cd3085db02ecbc1543ab8b7e81293b9c8811cad582f8a9d9
+  languageName: node
+  linkType: hard
+
 "levn@npm:^0.4.1":
   version: 0.4.1
   resolution: "levn@npm:0.4.1"
@@ -3280,6 +3310,7 @@ __metadata:
     "@fortawesome/fontawesome-free": "npm:^5.13.0"
     "@openstreetmap/id-tagging-schema": "npm:^3.5.1"
     "@rollup/plugin-inject": "npm:^5.0.3"
+    "@types/colormap": "npm:^2"
     "@types/jquery": "npm:^3.5.16"
     "@types/leaflet": "npm:^1.9.3"
     "@typescript-eslint/eslint-plugin": "npm:^5.57.1"
@@ -3287,6 +3318,8 @@ __metadata:
     bulma: "npm:^0.9.4"
     canvg: "npm:4.0.1"
     codemirror: "https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz"
+    colorbrewer: "npm:^1.5.7"
+    colormap: "npm:^2.3.2"
     eslint: "npm:^8.38.0"
     happy-dom: "npm:^14.12.0"
     html2canvas: "npm:^1.4.1"
