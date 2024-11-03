@@ -2356,8 +2356,8 @@ class IDE {
       $("#styler-dialog input[name=attribute]"),
       Object.keys(allTags)
     );
-    function checkTag() {
-      const key = $("#styler-dialog input[type=text]").first().val();
+    function checkTag(key?) {
+      key = key || $("#styler-dialog input[type=text]").first().val();
       if (allTags[key] !== undefined) {
         $("#styler-dialog button.is-success").removeAttr("disabled");
         return true;
@@ -2379,7 +2379,8 @@ class IDE {
       })
       .unbind("input")
       .bind("input", checkTag)
-      .on("autocompleteselect", checkTag)
+      .unbind("autocompleteselect")
+      .bind("autocompleteselect", (_, ui) => checkTag(ui.item.value))
       .focus();
   }
   onStylerRun() {
