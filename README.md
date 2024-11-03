@@ -15,7 +15,7 @@ More information about _overpass turbo_ is found in the [OSM wiki](http://wiki.o
 
 ## Translating
 
-Translations are managed using the [Transifex](https://www.transifex.com/projects/p/overpass-turbo) platform. After signing up, you can go to [overpass-turbo's project page](https://www.transifex.com/projects/p/overpass-turbo), select a language and click _Translate now_ to start translating.
+Translations are managed using the [Transifex](https://explore.transifex.com/overpass-turbo/overpass-turbo) platform. After signing up, you can go to [overpass-turbo's project page](https://explore.transifex.com/overpass-turbo/overpass-turbo), click _JOIN THIS PROJECT_ and pick a language to start translating.
 
 If your language isn't currently in the list, just drop me a [mail](mailto:tyr.asd@gmail.com) or open an [issue ticket](https://github.com/tyrasd/overpass-turbo/issues/new).
 
