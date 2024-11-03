@@ -272,8 +272,47 @@
   "warning.huge_data.expl.1": "This query returned quite a lot of data (approx. {{amount_txt}}).",
   "warning.huge_data.expl.2": "Your browser may have a hard time trying to render this. Do you really want to continue?",
 
+  "editor.no_data_loaded": "no data loaded yet",
+
   "waiter.processing_query": "processing query...",
   "waiter.export_as_image": "exporting as image...",
+
+  "waiter.calling_api": "Calling Overpass API interpreter",
+  "waiter.abort": "abort",
+  "waiter.aborting": "aborting",
+
+  "waiter.ide_starting_up": "ide starting up",
+  "waiter.load_settings": "load settings",
+  "waiter.translate_ui": "translate ui",
+  "waiter.parse_url_parameters": "parse url parameters",
+  "waiter.initialize_page": "initialize page",
+  "waiter.prepare_map": "prepare map",
+  "waiter.rendering_map_tiles": "rendering map tiles",
+  "waiter.rendering_map_data": "rendering map data",
+  "waiter.converting_to_png_image": "converting to png image",
+  "waiter.resetting_map": "resetting map",
+  "waiter.building_query": "building query",
+
+  "waiter.only_areas_returned": "only areas returned",
+  "waiter.no_coordinates_returned": "no coordinates returned",
+  "waiter.no_visible_data": "no visible data",
+  "waiter.an_error_occured": "an error occured",
+  "waiter.unstructured_data_returned": "unstructured data returned",
+  "waiter.received_empty_dataset": "received empty dataset",
+  "waiter.printing_raw_data": "printing raw data",
+  "waiter.error_during_ajax_call": "error during ajax call",
+
+  "waiter.bytes": "bytes",
+  "waiter.kilobytes": "kB",
+  "waiter.megabytes": "MB",
+  "waiter.received_data": "received about {{data_amount}} of data",
+
+  "waiter.parsing_data": "parsing data",
+  "waiter.rendering": "rendering geoJSON",
+
+  "waiter.request_rejected": "Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)",
+  "waiter.parse_error": "Error while parsing the data ({{textStatus}}).",
+  "waiter.error_code": "Error-Code: {{textStatus}}",
 
   "data_stats.loaded": "Loaded",
   "data_stats.displayed": "Displayed",
