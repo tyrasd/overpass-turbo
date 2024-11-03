@@ -2560,13 +2560,13 @@ class IDE {
       (event.key == "i" &&
         (event.ctrlKey || event.metaKey) &&
         !event.shiftKey &&
-        !event.altKey) || // Ctrl+I
-      (event.key == "f" &&
+        !event.altKey) ||
+      (event.key == "F" &&
         (event.ctrlKey || event.metaKey) &&
         event.shiftKey &&
         !event.altKey)
     ) {
-      // Ctrl+Shift+F
+      // Ctrl+I or Ctrl+Shift+F
       this.onFfsClick();
       event.preventDefault();
     }
