@@ -30,7 +30,7 @@
     "prettier": "^3.3.2",
     "request": "^2.67.0",
     "typescript": "^5.0.4",
-    "vite": "^5.2.13",
+    "vite": "^5.2.14",
     "vite-plugin-favicons-inject": "^2.2.0",
     "vitest": "^1.6.0"
   },
