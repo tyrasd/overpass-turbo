@@ -2246,14 +2246,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^14.12.0":
-  version: 14.12.0
-  resolution: "happy-dom@npm:14.12.0"
+"happy-dom@npm:^15.10.1":
+  version: 15.10.1
+  resolution: "happy-dom@npm:15.10.1"
   dependencies:
     entities: "npm:^4.5.0"
     webidl-conversions: "npm:^7.0.0"
     whatwg-mimetype: "npm:^3.0.0"
-  checksum: 10c0/b844d7f3f16d2657a8650e0968ddd9272f152cfd9660e0dd4378215f153fc940509981d387e1e855f117baf0cf432918ff084f10c9b557192db5d7743d78302e
+  checksum: 10c0/2951f40e8051b7c031a5887098b772a729c677322b8ebf4918111e2abb65ad451cf93cf1925cb86c1ab8b2fe922f4e5d746104bb3e4caa6a6a31b67f7bb71bab
   languageName: node
   linkType: hard
 
@@ -3321,7 +3321,7 @@ __metadata:
     colorbrewer: "npm:^1.5.7"
     colormap: "npm:^2.3.2"
     eslint: "npm:^8.38.0"
-    happy-dom: "npm:^14.12.0"
+    happy-dom: "npm:^15.10.1"
     html2canvas: "npm:^1.4.1"
     husky: "npm:^9.0.11"
     jquery: "npm:3.7.1"
