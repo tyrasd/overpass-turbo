@@ -4,7 +4,7 @@
   "homepage": "http://overpass-turbo.eu/",
   "repository": "git+https://github.com/tyrasd/overpass-turbo.git",
   "license": "MIT",
-  "packageManager": "yarn@4.3.1",
+  "packageManager": "yarn@4.5.3",
   "scripts": {
     "prepare": "husky",
     "test": "yarn run test:eslint && yarn run test:style && yarn run test:vitest",
@@ -31,9 +31,9 @@
     "prettier": "^3.3.2",
     "request": "^2.67.0",
     "typescript": "^5.0.4",
-    "vite": "^5.2.14",
+    "vite": "^6.0.5",
     "vite-plugin-favicons-inject": "^2.2.0",
-    "vitest": "^1.6.0"
+    "vitest": "^3.0.0-beta.3"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
