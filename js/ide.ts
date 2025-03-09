@@ -1198,7 +1198,7 @@ class IDE {
     const q = $.trim(this.getRawQuery().replace(/{{.*?}}/g, ""))
     if (q.match(/^</))
       return "xml";
-    else if (q.match(/planet_osm/i) && q.match(/select/i))
+    else if (q.match(/^select/i))
       return "SQL";
     else return "OverpassQL";
   }
