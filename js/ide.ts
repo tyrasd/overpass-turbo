@@ -1195,8 +1195,11 @@ class IDE {
     this.codeEditor.setValue(query);
   }
   getQueryLang() {
-    if ($.trim(this.getRawQuery().replace(/{{.*?}}/g, "")).match(/^</))
+    const q = $.trim(this.getRawQuery().replace(/{{.*?}}/g, ""))
+    if (q.match(/^</))
       return "xml";
+    else if (q.match(/planet_osm/i) && q.match(/select/i))
+      return "SQL";
     else return "OverpassQL";
   }
   /* this is for repairing obvious mistakes in the query, such as missing recurse statements */
@@ -1532,12 +1535,12 @@ class IDE {
     const baseurl = `${location.protocol}//${location.host}${
       location.pathname.match(/.*\//)[0]
     }`;
-    const server =
-      this.data_source &&
-      this.data_source.mode == "overpass" &&
-      this.data_source.options.server
-        ? this.data_source.options.server
-        : settings.server;
+    const query_lang = this.getQueryLang();
+    const server = (this.data_source &&
+      this.data_source.options.server &&
+      ((query_lang == "SQL" && this.data_source.mode == "sql") ||
+       this.data_source.mode == "overpass")) ? 
+          this.data_source.options.server : settings.server;
     let queryWithMapCSS = query;
     if (this.queryParser.hasStatement("style"))
       queryWithMapCSS += `{{style: ${this.queryParser.getStatement(
@@ -2719,12 +2722,12 @@ class IDE {
       }
     }
     const query_lang = this.getQueryLang();
-    const server =
-      this.data_source &&
-      this.data_source.mode == "overpass" &&
-      this.data_source.options.server
-        ? this.data_source.options.server
-        : settings.server;
+    const server = (this.data_source &&
+      this.data_source.options.server &&
+      ((query_lang == "SQL" && this.data_source.mode == "sql") ||
+       this.data_source.mode == "overpass")) ? 
+          this.data_source.options.server : settings.server;
+
     overpass.run_query(
       query,
       query_lang,

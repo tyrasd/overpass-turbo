@@ -12,7 +12,7 @@ import {htmlentities} from "./misc";
 import styleparser from "./jsmapcss";
 import {featurePopupContent} from "./popup";
 
-export type QueryLang = "xml" | "OverpassQL";
+export type QueryLang = "xml" | "OverpassQL" | "SQL";
 
 class Overpass {
   ajax_request_duration: number;
@@ -255,6 +255,19 @@ class Overpass {
               };
               //// convert to geoJSON
               //geojson = overpass.overpassXML2geoJSON(data);
+            } else if (data.type && data.type == 'FeatureCollection') {
+              // GeoJSON
+              overpass.resultType = "javascript";
+              data_mode = "json";
+              overpass.timestamp = undefined;
+              overpass.timestampAreas = undefined;
+              overpass.copyright = undefined;
+              stats.data = {
+                nodes: undefined,
+                ways: undefined,
+                relations: undefined,
+                areas: undefined
+              };
             } else {
               // maybe json data
               overpass.resultType = "javascript";
@@ -372,7 +385,7 @@ class Overpass {
                       return false;
                     },
                     getParentObjects() {
-                      if (feature.properties.relations.length == 0) return [];
+                      if (!feature.properties.relations || feature.properties.relations.length == 0) return [];
                       else
                         return feature.properties.relations.map((rel) => ({
                           tags: rel.reltags,
@@ -423,6 +436,7 @@ class Overpass {
                   overpass.fire("onProgress", "rendering geoJSON");
                 },
                 baseLayerClass: L_GeoJsonNoVanish,
+                query_lang: query_lang,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
                   compress(feature) {

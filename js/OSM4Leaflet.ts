@@ -31,7 +31,7 @@ class OSM4Leaflet extends L.Layer {
   addData(data, onDone?: () => void) {
     setTimeout(() => {
       // 1. convert to GeoJSON
-      const geojson = osmtogeojson(data, {flatProperties: false});
+      const geojson = (this.options.query_lang == 'SQL') ? data : osmtogeojson(data, {flatProperties: false});
       this._resultData = geojson;
       if (this.options.afterParse) this.options.afterParse();
       setTimeout(() => {
