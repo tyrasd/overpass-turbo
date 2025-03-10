@@ -1026,17 +1026,21 @@ class IDE {
       // display stats
       if (settings.show_data_stats) {
         const stats = overpass.stats;
-        const stats_txt =
-          `<small>${i18n.t("data_stats.loaded")}</small>&nbsp;&ndash;&nbsp;` +
-          `${i18n.t("data_stats.nodes")}:&nbsp;${stats.data.nodes}, ${i18n.t(
-            "data_stats.ways"
-          )}:&nbsp;${stats.data.ways}, ${i18n.t(
-            "data_stats.relations"
-          )}:&nbsp;${stats.data.relations}${
-            stats.data.areas > 0
-              ? `, ${i18n.t("data_stats.areas")}:&nbsp;${stats.data.areas}`
-              : ""
-          }<br/>` +
+        let stats_txt = "";
+        if (stats.data !== undefined) {
+          stats_txt +=
+            `<small>${i18n.t("data_stats.loaded")}</small>&nbsp;&ndash;&nbsp;` +
+            `${i18n.t("data_stats.nodes")}:&nbsp;${stats.data.nodes}, ${i18n.t(
+              "data_stats.ways"
+            )}:&nbsp;${stats.data.ways}, ${i18n.t(
+              "data_stats.relations"
+            )}:&nbsp;${stats.data.relations}${
+              stats.data.areas > 0
+                ? `, ${i18n.t("data_stats.areas")}:&nbsp;${stats.data.areas}`
+                : ""
+            }<br/>`;
+        }
+        stats_txt +=
           `<small>${i18n.t(
             "data_stats.displayed"
           )}</small>&nbsp;&ndash;&nbsp;` +
@@ -1195,11 +1199,9 @@ class IDE {
     this.codeEditor.setValue(query);
   }
   getQueryLang() {
-    const q = $.trim(this.getRawQuery().replace(/{{.*?}}/g, ""))
-    if (q.match(/^</))
-      return "xml";
-    else if (q.match(/^select/i))
-      return "SQL";
+    const q = $.trim(this.getRawQuery().replace(/{{.*?}}/g, ""));
+    if (q.match(/^</)) return "xml";
+    else if (q.match(/^select/i)) return "SQL";
     else return "OverpassQL";
   }
   /* this is for repairing obvious mistakes in the query, such as missing recurse statements */
@@ -1536,11 +1538,13 @@ class IDE {
       location.pathname.match(/.*\//)[0]
     }`;
     const query_lang = this.getQueryLang();
-    const server = (this.data_source &&
+    const server =
+      this.data_source &&
       this.data_source.options.server &&
       ((query_lang == "SQL" && this.data_source.mode == "sql") ||
-       this.data_source.mode == "overpass")) ? 
-          this.data_source.options.server : settings.server;
+        this.data_source.mode == "overpass")
+        ? this.data_source.options.server
+        : settings.server;
     let queryWithMapCSS = query;
     if (this.queryParser.hasStatement("style"))
       queryWithMapCSS += `{{style: ${this.queryParser.getStatement(
@@ -2722,11 +2726,13 @@ class IDE {
       }
     }
     const query_lang = this.getQueryLang();
-    const server = (this.data_source &&
+    const server =
+      this.data_source &&
       this.data_source.options.server &&
       ((query_lang == "SQL" && this.data_source.mode == "sql") ||
-       this.data_source.mode == "overpass")) ? 
-          this.data_source.options.server : settings.server;
+        this.data_source.mode == "overpass")
+        ? this.data_source.options.server
+        : settings.server;
 
     overpass.run_query(
       query,

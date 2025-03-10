@@ -255,19 +255,38 @@ class Overpass {
               };
               //// convert to geoJSON
               //geojson = overpass.overpassXML2geoJSON(data);
-            } else if (data.type && data.type == 'FeatureCollection') {
+            } else if (data.type && data.type == "FeatureCollection") {
               // GeoJSON
               overpass.resultType = "javascript";
               data_mode = "json";
               overpass.timestamp = undefined;
               overpass.timestampAreas = undefined;
               overpass.copyright = undefined;
-              stats.data = {
-                nodes: undefined,
-                ways: undefined,
-                relations: undefined,
-                areas: undefined
-              };
+              stats.data = undefined;
+              // change properties to overpass turbo's expected format:
+              data.features.forEach((feature) => {
+                // nest all tags inside properties.tags
+                const nonTags = {
+                  osm_id: true,
+                  tags: true,
+                  way_area: true,
+                  z_order: true
+                };
+                if (!feature.properties.tags) feature.properties.tags = {};
+                for (const key in feature.properties) {
+                  if (nonTags[key] || feature.properties[key] === null)
+                    continue;
+                  feature.properties.tags[key] = feature.properties[key];
+                }
+                if (feature.properties.osm_id < 0) {
+                  feature.properties.type = "relation";
+                  feature.properties.id = -feature.properties.osm_id;
+                } else {
+                  feature.properties.type =
+                    feature.geometry.type === "Point" ? "node" : "way";
+                  feature.properties.id = feature.properties.osm_id;
+                }
+              });
             } else {
               // maybe json data
               overpass.resultType = "javascript";
@@ -336,9 +355,9 @@ class Overpass {
                   // tainted objects
                   `way:tainted, relation:tainted {dashes:5,8;} \n` +
                   // placeholder points
-                  `way:placeholder, relation:placeholder {fill-color:#f22;} \n` +
+                  `node:placeholder {fill-color:#f22;} \n` +
                   // highlighted features
-                  `node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n${
+                  `node:active, line:active, area:active {color:#f50; fill-color:#f50;} \n${
                     // user supplied mapcss
                     userMapCSS
                   }`
@@ -385,7 +404,11 @@ class Overpass {
                       return false;
                     },
                     getParentObjects() {
-                      if (!feature.properties.relations || feature.properties.relations.length == 0) return [];
+                      if (
+                        !feature.properties.relations ||
+                        feature.properties.relations.length == 0
+                      )
+                        return [];
                       else
                         return feature.properties.relations.map((rel) => ({
                           tags: rel.reltags,
