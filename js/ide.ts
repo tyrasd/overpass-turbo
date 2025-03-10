@@ -383,6 +383,25 @@ class IDE {
           }
         )
       );
+      CodeMirror.defineMode("sql+mustache", (config) =>
+        CodeMirror.multiplexingMode(
+          CodeMirror.multiplexingMode(
+            CodeMirror.getMode(config, "text/x-sql"),
+            {
+              open: "{{",
+              close: "}}",
+              mode: CodeMirror.getMode(config, "text/plain"),
+              delimStyle: "mustache"
+            }
+          ),
+          {
+            open: "{{style:",
+            close: "}}",
+            mode: CodeMirror.getMode(config, "text/css"),
+            delimStyle: "mustache"
+          }
+        )
+      );
       ide.codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
         //value: settings.code["overpass"],
         lineNumbers: true,
@@ -397,6 +416,12 @@ class IDE {
                 e.closeTagEnabled = true;
                 e.setOption("matchBrackets", false);
                 e.setOption("mode", "xml+mustache");
+              }
+            } else if (ide.getQueryLang() == "SQL") {
+              if (e.getOption("mode") != "sql+mustache") {
+                e.closeTagEnabled = false;
+                e.setOption("matchBrackets", true);
+                e.setOption("mode", "sql+mustache");
               }
             } else {
               if (e.getOption("mode") != "ql+mustache") {
