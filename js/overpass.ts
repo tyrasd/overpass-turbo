@@ -192,6 +192,9 @@ class Overpass {
                 (typeof data == "object" &&
                   data.remark &&
                   data.remark.length > 0);
+              is_error ||=
+                typeof data == "string" &&
+                data.indexOf("pq: syntax error") != -1;
               if (is_error) {
                 // this really looks like an error message, so lets open an additional modal error message
                 let errmsg = "?";
