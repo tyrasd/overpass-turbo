@@ -218,7 +218,7 @@ class IDE {
     abort() {
       if (typeof this.onAbort == "function") {
         this.addInfo("aborting");
-        this.onAbort(this.close);
+        this.onAbort(() => ide.waiter.close());
       }
     }
   })();

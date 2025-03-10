@@ -6,6 +6,7 @@ import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint
 import L_OSM4Leaflet from "./OSM4Leaflet";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
 
+import ide from "./ide";
 import configs from "./configs";
 import settings from "./settings";
 import {htmlentities} from "./misc";
@@ -82,11 +83,12 @@ class Overpass {
     }
     overpass.fire(
       "onProgress",
-      "calling Overpass API interpreter",
+      `calling ${ide.getQueryLang() === "SQL" ? "SQL Server" : "Overpass API interpreter"}`,
       (callback) => {
         // kill the query on abort
         overpass.ajax_request.abort();
-        // try to abort queries via kill_my_queries
+        if (ide.getQueryLang() === "SQL") return callback();
+        // try to abort Overpass API queries via kill_my_queries
         $.get(`${server}kill_my_queries`)
           .done(callback)
           .fail(() => {
