@@ -6,6 +6,7 @@ import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint
 import L_OSM4Leaflet from "./OSM4Leaflet";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
 
+import ide from "./ide";
 import configs from "./configs";
 import settings from "./settings";
 import {htmlentities} from "./misc";
@@ -82,11 +83,12 @@ class Overpass {
     }
     overpass.fire(
       "onProgress",
-      "calling Overpass API interpreter",
+      `calling ${ide.getQueryLang() === "SQL" ? "SQL Server" : "Overpass API interpreter"}`,
       (callback) => {
         // kill the query on abort
         overpass.ajax_request.abort();
-        // try to abort queries via kill_my_queries
+        if (ide.getQueryLang() === "SQL") return callback();
+        // try to abort Overpass API queries via kill_my_queries
         $.get(`${server}kill_my_queries`)
           .done(callback)
           .fail(() => {
@@ -190,6 +192,9 @@ class Overpass {
                 (typeof data == "object" &&
                   data.remark &&
                   data.remark.length > 0);
+              is_error ||=
+                typeof data == "string" &&
+                data.indexOf("pq: syntax error") != -1;
               if (is_error) {
                 // this really looks like an error message, so lets open an additional modal error message
                 let errmsg = "?";
@@ -255,19 +260,40 @@ class Overpass {
               };
               //// convert to geoJSON
               //geojson = overpass.overpassXML2geoJSON(data);
-            } else if (data.type && data.type == 'FeatureCollection') {
+            } else if (data.type && data.type == "FeatureCollection") {
               // GeoJSON
               overpass.resultType = "javascript";
               data_mode = "json";
               overpass.timestamp = undefined;
               overpass.timestampAreas = undefined;
               overpass.copyright = undefined;
-              stats.data = {
-                nodes: undefined,
-                ways: undefined,
-                relations: undefined,
-                areas: undefined
-              };
+              stats.data = undefined;
+              // change properties to overpass turbo's expected format:
+              data.features.forEach((feature) => {
+                // nest all tags inside properties.tags
+                const nonTags = {
+                  osm_id: true,
+                  tags: true,
+                  way_area: true,
+                  z_order: true
+                };
+                if (!feature.properties.tags) feature.properties.tags = {};
+                for (const key in feature.properties) {
+                  if (nonTags[key] || feature.properties[key] === null)
+                    continue;
+                  feature.properties.tags[key] = feature.properties[key];
+                }
+                if (feature.properties.osm_id) {
+                  if (feature.properties.osm_id < 0) {
+                    feature.properties.type = "relation";
+                    feature.properties.id = -feature.properties.osm_id;
+                  } else {
+                    feature.properties.type =
+                      feature.geometry.type === "Point" ? "node" : "way";
+                    feature.properties.id = feature.properties.osm_id;
+                  }
+                }
+              });
             } else {
               // maybe json data
               overpass.resultType = "javascript";
@@ -336,9 +362,9 @@ class Overpass {
                   // tainted objects
                   `way:tainted, relation:tainted {dashes:5,8;} \n` +
                   // placeholder points
-                  `way:placeholder, relation:placeholder {fill-color:#f22;} \n` +
+                  `node:placeholder {fill-color:#f22;} \n` +
                   // highlighted features
-                  `node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n${
+                  `node:active, line:active, area:active {color:#f50; fill-color:#f50;} \n${
                     // user supplied mapcss
                     userMapCSS
                   }`
@@ -385,7 +411,11 @@ class Overpass {
                       return false;
                     },
                     getParentObjects() {
-                      if (!feature.properties.relations || feature.properties.relations.length == 0) return [];
+                      if (
+                        !feature.properties.relations ||
+                        feature.properties.relations.length == 0
+                      )
+                        return [];
                       else
                         return feature.properties.relations.map((rel) => ({
                           tags: rel.reltags,
