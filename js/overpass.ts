@@ -280,13 +280,15 @@ class Overpass {
                     continue;
                   feature.properties.tags[key] = feature.properties[key];
                 }
-                if (feature.properties.osm_id < 0) {
-                  feature.properties.type = "relation";
-                  feature.properties.id = -feature.properties.osm_id;
-                } else {
-                  feature.properties.type =
-                    feature.geometry.type === "Point" ? "node" : "way";
-                  feature.properties.id = feature.properties.osm_id;
+                if (feature.properties.osm_id) {
+                  if (feature.properties.osm_id < 0) {
+                    feature.properties.type = "relation";
+                    feature.properties.id = -feature.properties.osm_id;
+                  } else {
+                    feature.properties.type =
+                      feature.geometry.type === "Point" ? "node" : "way";
+                    feature.properties.id = feature.properties.osm_id;
+                  }
                 }
               });
             } else {
