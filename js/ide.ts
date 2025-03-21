@@ -1224,9 +1224,9 @@ class IDE {
     this.codeEditor.setValue(query);
   }
   getQueryLang() {
+    if (this.data_source && this.data_source.mode == "sql") return "SQL";
     const q = $.trim(this.getRawQuery().replace(/{{.*?}}/g, ""));
     if (q.match(/^</)) return "xml";
-    else if (q.match(/^select/i)) return "SQL";
     else return "OverpassQL";
   }
   /* this is for repairing obvious mistakes in the query, such as missing recurse statements */
@@ -1562,12 +1562,10 @@ class IDE {
     const baseurl = `${location.protocol}//${location.host}${
       location.pathname.match(/.*\//)[0]
     }`;
-    const query_lang = this.getQueryLang();
     const server =
       this.data_source &&
       this.data_source.options.server &&
-      ((query_lang == "SQL" && this.data_source.mode == "sql") ||
-        this.data_source.mode == "overpass")
+      (this.data_source.mode == "sql" || this.data_source.mode == "overpass")
         ? this.data_source.options.server
         : settings.server;
     let queryWithMapCSS = query;
@@ -2754,8 +2752,7 @@ class IDE {
     const server =
       this.data_source &&
       this.data_source.options.server &&
-      ((query_lang == "SQL" && this.data_source.mode == "sql") ||
-        this.data_source.mode == "overpass")
+      (this.data_source.mode == "sql" || this.data_source.mode == "overpass")
         ? this.data_source.options.server
         : settings.server;
 
