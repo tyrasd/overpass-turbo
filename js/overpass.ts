@@ -67,6 +67,7 @@ class Overpass {
     cache,
     shouldCacheOnly = false,
     server: string,
+    options,
     user_mapcss: string
   ) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -778,7 +779,7 @@ class Overpass {
       overpass.ajax_request_start = Date.now();
       overpass.ajax_request = $.ajax(`${server}interpreter`, {
         type: "POST",
-        data: {data: query},
+        data: {data: query, options: options },
         success: onSuccessCb,
         error(jqXHR, textStatus) {
           if (textStatus == "abort") return; // ignore aborted queries.

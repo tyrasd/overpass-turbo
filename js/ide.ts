@@ -2762,6 +2762,7 @@ class IDE {
       undefined,
       undefined,
       server,
+      this.data_source ? this.data_source.options : undefined,
       this.mapcss
     );
   }
