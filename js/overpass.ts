@@ -295,7 +295,7 @@ class Overpass {
                   }
                 }
               });
-            } else {
+            } else if (data.osm3s) {
               // maybe json data
               overpass.resultType = "javascript";
               data_mode = "json";
@@ -312,6 +312,12 @@ class Overpass {
               //// convert to geoJSON
               //geojson = overpass.overpassJSON2geoJSON(data);
             }
+            else
+            {
+              // fixme how to show text in data view but not try to render map?
+              data_mode = "text";
+            }
+
 
             //overpass.fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 
