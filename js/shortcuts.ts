@@ -16,7 +16,7 @@ function map2bbox(lang) {
   if (lang == "OverpassQL") return `${lat1},${lng1},${lat2},${lng2}`;
   else if (lang == "xml")
     return `s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`;
-  else if (lang == "SQL" )
+  else if (lang == "SQL")
     return `st_setsrid(st_makebox2d(st_makepoint(${lng1},${lat1}), st_makepoint(${lng2},${lat2})), 4326)`;
 }
 

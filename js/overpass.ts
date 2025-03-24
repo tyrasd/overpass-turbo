@@ -311,13 +311,10 @@ class Overpass {
               };
               //// convert to geoJSON
               //geojson = overpass.overpassJSON2geoJSON(data);
-            }
-            else
-            {
+            } else {
               // fixme how to show text in data view but not try to render map?
               data_mode = "text";
             }
-
 
             //overpass.fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
 
@@ -785,7 +782,7 @@ class Overpass {
       overpass.ajax_request_start = Date.now();
       overpass.ajax_request = $.ajax(`${server}interpreter`, {
         type: "POST",
-        data: {data: query, options: options },
+        data: {data: query, options: options},
         success: onSuccessCb,
         error(jqXHR, textStatus) {
           if (textStatus == "abort") return; // ignore aborted queries.
