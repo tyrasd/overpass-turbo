@@ -25,7 +25,7 @@ import urlParameters from "./urlParameters";
 import Autorepair from "./autorepair";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import sync from "./sync-with-osm";
-import shortcuts from "./shortcuts";
+import shortcuts, {Shortcut} from "./shortcuts";
 
 declare const CodeMirror;
 
@@ -329,7 +329,6 @@ class IDE {
     // init codemirror
     $("#editor textarea")[0].value = settings.code["overpass"];
     if (settings.use_rich_editor) {
-      let pending = 0;
       CodeMirror.defineMIME("text/x-overpassQL", {
         name: "clike",
         keywords: (function (str) {
@@ -407,51 +406,61 @@ class IDE {
         lineNumbers: true,
         lineWrapping: true,
         mode: "text/plain",
-        onChange(e) {
-          clearTimeout(pending);
-          pending = setTimeout(() => {
-            // update syntax highlighting mode
-            if (ide.getQueryLang() == "xml") {
-              if (e.getOption("mode") != "xml+mustache") {
-                e.closeTagEnabled = true;
-                e.setOption("matchBrackets", false);
-                e.setOption("mode", "xml+mustache");
+        onChange: _.debounce(
+          (e) => {
+            settings.code["overpass"] = e.getValue();
+            settings.save();
+            ide.getQuery({}).then(() => {
+              const query_lang = ide.getQueryLang();
+              // update syntax highlighting mode
+              switch (query_lang) {
+                case "xml":
+                  if (e.getOption("mode") != "xml+mustache") {
+                    e.closeTagEnabled = true;
+                    e.setOption("matchBrackets", false);
+                    e.setOption("mode", "xml+mustache");
+                  }
+                  break;
+                case "SQL":
+                  if (e.getOption("mode") != "sql+mustache") {
+                    e.closeTagEnabled = false;
+                    e.setOption("matchBrackets", true);
+                    e.setOption("mode", "sql+mustache");
+                  }
+                  break;
+                default:
+                  if (e.getOption("mode") != "ql+mustache") {
+                    e.closeTagEnabled = false;
+                    e.setOption("matchBrackets", true);
+                    e.setOption("mode", "ql+mustache");
+                  }
               }
-            } else if (ide.getQueryLang() == "SQL") {
-              if (e.getOption("mode") != "sql+mustache") {
-                e.closeTagEnabled = false;
-                e.setOption("matchBrackets", true);
-                e.setOption("mode", "sql+mustache");
+              // check for inactive ui elements
+              const bbox_filter = $(".leaflet-control-buttons-bboxfilter");
+              if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
+                if (bbox_filter.hasClass("disabled")) {
+                  bbox_filter.removeClass("disabled");
+                  bbox_filter.attr(
+                    "data-t",
+                    "[title]map_controlls.select_bbox"
+                  );
+                  i18n.translate_ui(bbox_filter[0]);
+                }
+              } else {
+                if (!bbox_filter.hasClass("disabled")) {
+                  bbox_filter.addClass("disabled");
+                  bbox_filter.attr(
+                    "data-t",
+                    "[title]map_controlls.select_bbox_disabled"
+                  );
+                  i18n.translate_ui(bbox_filter[0]);
+                }
               }
-            } else {
-              if (e.getOption("mode") != "ql+mustache") {
-                e.closeTagEnabled = false;
-                e.setOption("matchBrackets", true);
-                e.setOption("mode", "ql+mustache");
-              }
-            }
-            // check for inactive ui elements
-            const bbox_filter = $(".leaflet-control-buttons-bboxfilter");
-            if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
-              if (bbox_filter.hasClass("disabled")) {
-                bbox_filter.removeClass("disabled");
-                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox");
-                i18n.translate_ui(bbox_filter[0]);
-              }
-            } else {
-              if (!bbox_filter.hasClass("disabled")) {
-                bbox_filter.addClass("disabled");
-                bbox_filter.attr(
-                  "data-t",
-                  "[title]map_controlls.select_bbox_disabled"
-                );
-                i18n.translate_ui(bbox_filter[0]);
-              }
-            }
-          }, 500);
-          settings.code["overpass"] = e.getValue();
-          settings.save();
-        },
+            });
+          },
+          100,
+          {leading: true, trailing: true}
+        ),
         closeTagEnabled: true,
         closeTagIndent: [
           "osm-script",
@@ -1185,7 +1194,9 @@ class IDE {
 
   /* this returns the current query in the editor.
    * shortcuts are expanded. */
-  async getQuery(): Promise<string> {
+  async getQuery(
+    _shortcuts: Record<string, Shortcut> = undefined
+  ): Promise<string> {
     let query = this.getRawQuery();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
@@ -1193,7 +1204,10 @@ class IDE {
       /(<osm-script[^>]+bbox[^=]*=[^"'']*["'])({{bbox}})(["'])/,
       "$1{{__bbox__global_bbox_xml__ezs4K8__}}$3"
     );
-    query = await this.queryParser.parse(query, shortcuts());
+    query = await this.queryParser.parse(
+      query,
+      _shortcuts ? _shortcuts : shortcuts()
+    );
     // parse mapcss declarations
     let mapcss = "";
     if (this.queryParser.hasStatement("style"))
