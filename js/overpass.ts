@@ -296,7 +296,7 @@ class Overpass {
                 }
               });
             } else if (data.osm3s) {
-              // maybe json data
+              // json data from Overpass
               overpass.resultType = "javascript";
               data_mode = "json";
               overpass.timestamp = data.osm3s.timestamp_osm_base;
@@ -311,9 +311,16 @@ class Overpass {
               };
               //// convert to geoJSON
               //geojson = overpass.overpassJSON2geoJSON(data);
+            } else if (
+              typeof data === "object" &&
+              data?.type === "FeatureCollection"
+            ) {
+              // geojson directly from a source like Postpass
+              data_mode = "geojson";
             } else {
-              // fixme how to show text in data view but not try to render map?
-              data_mode = "text";
+              // other json / unknown
+              data_mode = "unknown";
+              data = {elements: []};
             }
 
             //overpass.fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
