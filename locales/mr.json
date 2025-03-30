@@ -36,7 +36,7 @@
     "settings.section.general": "सामान्य सेटिंग",
     "settings.ui_lang": "आंतरपृष्ठ भाषा",
     "settings.server": "सर्व्हर",
-    "settings.disable_autorepair": "Overpass API कडून दृश्य डेटा न आल्यास सावधान/स्वयंदुरुस्तीच्या सूचना निष्क्रिय करा ",
+    "settings.disable_autorepair": "Overpass API कडून दृश्य डेटा न आल्यास सावधान/स्वयंदुरुस्तीच्या सूचना निष्क्रिय करा",
     "settings.section.editor": "संपादक",
     "settings.enable_rich_editor": "समृध्द कोड संपादक सक्रिय करा",
     "settings.enable_rich_editor_expl": "मोबाईल उपकरणांवर निष्क्रिय करा; परिणाम दिसायला पान पुनःलोड करावे लागेल",

@@ -86,7 +86,7 @@
     "export.format_text_wiki": "<abbr title=\"For usage in the OSM wiki as a OverpassTurboExample-Template\">osm wiki</abbr>",
     "export.format_text_umap": "<abbr title=\"For usage with umap.openstreetmap.fr\">umap</abbr> url de les dades en remot",
     "export.to_xml": "converteix a <a id=\"export-convert-xml\" href=\"\" target=\"_blank\" class=\"external\">Overpass-XML</a>",
-    "export.to_ql": "converteix a <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL</a> (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compacte</a>) ",
+    "export.to_ql": "converteix a <a id=\"export-convert-ql\" href=\"\" target=\"_blank\" class=\"external\">OverpassQL</a> (<a id=\"export-convert-compact\" href=\"\" target=\"_blank\" class=\"external\">compacte</a>)",
     "export.editors": "carrega les dades en un editor OSM:",
     "export.geoJSON.title": "Exporta - GeoJSON",
     "export.geoJSON.expl": "Les dades mostrades actualment com a GeoJSON:",

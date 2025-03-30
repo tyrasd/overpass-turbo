@@ -178,7 +178,7 @@
     "ffs.expl": "Il <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">compositore</a> può assisterti nel creare query Overpass. Qui alcuni esempi di utilizzo:",
     "ffs.parse_error": "Questa ricerca non è stata riconosciuta.",
     "ffs.parse_error_expl": "NOTA: è necessario utilizzare le virgolette per le stringhe che contengono spazi o caratteri speciali. I filtri di ricerca multipli devono essere separati da appositi operatori booleani (<i>and</i> oppure <i>or</i>). Leggere la <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">documentazione</a> per ulteriori informazioni.",
-    "ffs.typo": "Forse intendevi: ",
+    "ffs.typo": "Forse intendevi:",
     "styler.title": "Auto Styler",
     "styler.expl": "Style the query result based on the values of the specified tag",
     "styler.placeholder": "Select a tag key",

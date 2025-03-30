@@ -241,7 +241,7 @@
     "data_stats.pois": "POIs",
     "data_stats.lines": "Linien",
     "data_stats.polygons": "Polygone",
-    "data_stats.request_duration": "Die Overpass Anfrage benötigte ",
+    "data_stats.request_duration": "Die Overpass Anfrage benötigte",
     "data_stats.lag": "Aktualität der Daten",
     "data_stats.lag_areas": "Aktualität der Areas",
     "data_stats.lag.expl": "Rückstand zur zentralen OSM-Datenbank",
