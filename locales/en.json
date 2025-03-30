@@ -256,7 +256,7 @@
   "warning.browser.title": "Your browser is not supported :(",
   "warning.browser.expl.1": "The browser you are currently using, is (most likely) not capable of running (significant parts of) this Application. <small>It must support <a href=\"http://en.wikipedia.org/wiki/Web_storage#localStorage\">Web Storage API</a> and <a href=\"http://en.wikipedia.org/wiki/Cross-origin_resource_sharing\">cross origin resource sharing (CORS)</a>.</small>",
   "warning.browser.expl.2": "Note that you may have to enable cookies and/or \"local Data\" for this site on some browsers (such as Firefox and Chrome).",
-  "warning.browser.expl.3": "Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href=\"http://www.opera.com\">Opera</a>, <a href=\"http://www.google.com/intl/de/chrome/browser/\">Chrome</a> and <a href=\"http://www.mozilla.org/de/firefox/\">Firefox</a> have been tested to work. Alternatively, you can still use the <a href=\"http://overpass-api.de/query_form.html\">Overpass_API query form</a>.",
+  "warning.browser.expl.3": "Please upgrade to a more up-to-date version of your browser or switch to a more capable one! Recent versions of <a href=\"https://www.opera.com\">Opera</a>, <a href=\"https://www.google.com/intl/de/chrome/browser/\">Chrome</a> and <a href=\"https://www.mozilla.org/de/firefox/\">Firefox</a> have been tested to work. Alternatively, you can still use the <a href=\"https://overpass-api.de/query_form.html\">Overpass_API query form</a>.",
 
   "warning.incomplete.title": "Incomplete Data",
   "warning.incomplete.expl.1": "This query returned no nodes. In OSM, only nodes contain coordinates. For example, a way cannot be displayed without its nodes.",
