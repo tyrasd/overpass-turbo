@@ -582,13 +582,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/offscreencanvas@npm:^2019.6.4":
-  version: 2019.7.0
-  resolution: "@types/offscreencanvas@npm:2019.7.0"
-  checksum: 10c0/f10647cf8abf5c5313ac39a688866e824f04207b18fd03c2fa986a2d856f1c26dd11b04b3692fe64e6f1467b0d52579e8f4d0e532377d5c9065214bff4ebc0e7
-  languageName: node
-  linkType: hard
-
 "@types/raf@npm:^3.4.0":
   version: 3.4.0
   resolution: "@types/raf@npm:3.4.0"
@@ -1164,17 +1157,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"canvg@npm:4.0.1":
-  version: 4.0.1
-  resolution: "canvg@npm:4.0.1"
+"canvg@npm:4.0.3":
+  version: 4.0.3
+  resolution: "canvg@npm:4.0.3"
   dependencies:
-    "@types/offscreencanvas": "npm:^2019.6.4"
     "@types/raf": "npm:^3.4.0"
     raf: "npm:^3.4.1"
     rgbcolor: "npm:^1.0.1"
     stackblur-canvas: "npm:^2.0.0"
     svg-pathdata: "npm:^6.0.3"
-  checksum: 10c0/d7fd4e81fa92e0dc1c929e34ea9337ad323c9886fdb701f9be75f96a84dd34f0ae38b260f0949e48842e8929ac3277fd08edeb3b90064efa70855d1b178efd09
+  checksum: 10c0/ae73842020becda78a61428a967c42131fd0a73a474af19c5a622a7acf41fb38097f6d3b0201676f5f7aa0dad65cde4c78b6d0288ed36f69c6e2caf2f8e6bf70
   languageName: node
   linkType: hard
 
@@ -3322,7 +3314,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^5.57.1"
     "@typescript-eslint/parser": "npm:^5.57.1"
     bulma: "npm:^0.9.4"
-    canvg: "npm:4.0.1"
+    canvg: "npm:4.0.3"
     codemirror: "https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz"
     colorbrewer: "npm:^1.5.7"
     colormap: "npm:^2.3.2"
