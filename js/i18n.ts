@@ -50,18 +50,19 @@ const languages = {
   mr: "Marathi",
   nl: "Dutch",
   no: "Norwegian",
-  // oc: "Occitan",
   pl: "Polish",
   pt: "Portuguese",
   "pt-BR": "Portuguese (Brazil)",
   ru: "Russian",
   sl: "Slovenian",
-  // th: "Thai",
+  th: "Thai",
   tr: "Turkish",
   uk: "Ukrainian",
   vi: "Vietnamese",
-  // "zh-CN": "Chinese (Simplified)",
-  "zh-TW": "Chinese (Taiwan)"
+  "zh-CN": "Chinese (China)",
+  "zh-Hans": "Chinese (Simplified)",
+  "zh-TW": "Chinese (Taiwan)",
+  "zh-Hant": "Chinese (Traditional)"
 };
 27;
 
