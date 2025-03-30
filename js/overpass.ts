@@ -7,6 +7,7 @@ import L_OSM4Leaflet from "./OSM4Leaflet";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
 
 import configs from "./configs";
+import i18n from "./i18n";
 import settings from "./settings";
 import {htmlentities} from "./misc";
 import styleparser from "./jsmapcss";
@@ -80,21 +81,17 @@ class Overpass {
         query = `<?xml version="1.0" encoding="UTF-8"?>${query}`;
       }
     }
-    overpass.fire(
-      "onProgress",
-      "calling Overpass API interpreter",
-      (callback) => {
-        // kill the query on abort
-        overpass.ajax_request.abort();
-        // try to abort queries via kill_my_queries
-        $.get(`${server}kill_my_queries`)
-          .done(callback)
-          .fail(() => {
-            console.log("Warning: failed to kill query.");
-            callback();
-          });
-      }
-    );
+    overpass.fire("onProgress", i18n.t("waiter.calling_api"), (callback) => {
+      // kill the query on abort
+      overpass.ajax_request.abort();
+      // try to abort queries via kill_my_queries
+      $.get(`${server}kill_my_queries`)
+        .done(callback)
+        .fail(() => {
+          console.log("Warning: failed to kill query.");
+          callback();
+        });
+    });
     function onSuccessCb(data, textStatus, jqXHR) {
       //textStatus is not needed in the successCallback, don't cache it
       if (cache) cache[query] = [data, undefined, jqXHR];
@@ -105,10 +102,15 @@ class Overpass {
       const scale = Math.floor(Math.log(data_amount) / Math.log(10));
       data_amount =
         Math.round(data_amount / Math.pow(10, scale)) * Math.pow(10, scale);
-      if (data_amount < 1000) data_txt = `${data_amount} bytes`;
-      else if (data_amount < 1000000) data_txt = `${data_amount / 1000} kB`;
-      else data_txt = `${data_amount / 1000000} MB`;
-      overpass.fire("onProgress", `received about ${data_txt} of data`);
+      if (data_amount < 1000)
+        data_txt = `${data_amount} ${i18n.t("waiter.bytes")}`;
+      else if (data_amount < 1000000)
+        data_txt = `${data_amount / 1000} ${i18n.t("waiter.kilobytes")}`;
+      else data_txt = `${data_amount / 1000000} ${i18n.t("waiter.megabytes")}`;
+      overpass.fire(
+        "onProgress",
+        i18n.t("waiter.received_data").replace("{{data_amount}}", data_txt)
+      );
       overpass.fire(
         "onDataReceived",
         data_amount,
@@ -138,7 +140,7 @@ class Overpass {
           };
           overpass.ajax_request_duration =
             Date.now() - overpass.ajax_request_start;
-          overpass.fire("onProgress", "parsing data");
+          overpass.fire("onProgress", i18n.t("waiter.parsing_data"));
           setTimeout(() => {
             // hacky firefox hack :( (it is not properly detecting json from the content-type header)
             if (typeof data == "string" && data[0] == "{") {
@@ -420,7 +422,7 @@ class Overpass {
 
               overpass.osmLayer = new L_OSM4Leaflet(null, {
                 afterParse() {
-                  overpass.fire("onProgress", "rendering geoJSON");
+                  overpass.fire("onProgress", i18n.t("waiter.rendering"));
                 },
                 baseLayerClass: L_GeoJsonNoVanish,
                 baseLayerOptions: {
@@ -633,7 +635,10 @@ class Overpass {
                   if (!shouldCacheOnly) overpass.fire("onGeoJsonReady");
 
                   // print raw data
-                  overpass.fire("onProgress", "printing raw data");
+                  overpass.fire(
+                    "onProgress",
+                    i18n.t("waiter.printing_raw_data")
+                  );
                   setTimeout(() => {
                     overpass.resultText = jqXHR.responseText;
                     overpass.fire("onRawDataPresent");
@@ -659,7 +664,7 @@ class Overpass {
                               .children()
                               .not("note,meta,bounds,area").length == 0)
                         )
-                          empty_msg = "only areas returned";
+                          empty_msg = "waiter.only_areas_returned";
                         else if (
                           (data_mode == "json" &&
                             _.some(data.elements, {type: "node"})) ||
@@ -667,7 +672,7 @@ class Overpass {
                             $("osm", data).children().filter("node").length > 0)
                         )
                           // check for "ids_only" or "tags" on nodes
-                          empty_msg = "no coordinates returned";
+                          empty_msg = "waiter.no_coordinates_returned";
                         else if (
                           (data_mode == "json" &&
                             _.some(data.elements, {type: "way"}) &&
@@ -685,7 +690,7 @@ class Overpass {
                               .filter("nd").length == 0)
                         )
                           // check for "ids_only" or "tags" on ways
-                          empty_msg = "no coordinates returned";
+                          empty_msg = "waiter.no_coordinates_returned";
                         else if (
                           (data_mode == "json" &&
                             _.some(data.elements, {type: "relation"}) &&
@@ -703,14 +708,14 @@ class Overpass {
                               .filter("member").length == 0)
                         )
                           // check for "ids_only" or "tags" on relations
-                          empty_msg = "no coordinates returned";
-                        else empty_msg = "no visible data";
+                          empty_msg = "waiter.no_coordinates_returned";
+                        else empty_msg = "waiter.no_visible_data";
                       } else if (data_mode == "error") {
-                        empty_msg = "an error occured";
+                        empty_msg = "waiter.an_error_occured";
                       } else if (data_mode == "unknown") {
-                        empty_msg = "unstructured data returned";
+                        empty_msg = "waiter.unstructured_data_returned";
                       } else {
-                        empty_msg = "received empty dataset";
+                        empty_msg = "waiter.received_empty_dataset";
                       }
                       // show why there is an empty map
                       overpass.fire("onEmptyMap", empty_msg, data_mode);
@@ -738,7 +743,7 @@ class Overpass {
         success: onSuccessCb,
         error(jqXHR, textStatus) {
           if (textStatus == "abort") return; // ignore aborted queries.
-          overpass.fire("onProgress", "error during ajax call");
+          overpass.fire("onProgress", i18n.t("waiter.error_during_ajax_call"));
           if (
             jqXHR.status == 400 ||
             jqXHR.status == 504 ||
@@ -752,17 +757,31 @@ class Overpass {
           overpass.resultText = jqXHR.resultText;
           let errmsg = "";
           if (jqXHR.state() == "rejected")
-            errmsg +=
-              "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";
+            errmsg += "<p>" + i18n.t("waiter.request_rejected") + "</p>";
           if (textStatus == "parsererror")
-            errmsg += "<p>Error while parsing the data (parsererror).</p>";
+            errmsg +=
+              "<p>" +
+              i18n
+                .t("waiter.parse_error")
+                .replace("{{textStatus}}", textStatus) +
+              "</p>";
           else if (textStatus != "error" && textStatus != jqXHR.statusText)
-            errmsg += `<p>Error-Code: ${textStatus}</p>`;
+            errmsg +=
+              "<p>" +
+              i18n
+                .t("waiter.error_code")
+                .replace("{{textStatus}}", textStatus) +
+              "</p>";
           if (
             (jqXHR.status != 0 && jqXHR.status != 200) ||
             jqXHR.statusText != "OK" // note to me: jqXHR.status "should" give http status codes
           )
-            errmsg += `<p>Error-Code: ${jqXHR.statusText} (${jqXHR.status})</p>`;
+            errmsg +=
+              "<p>" +
+              i18n
+                .t("waiter.error_code")
+                .replace("{{textStatus}}", jqXHR.statusText) +
+              ` (${jqXHR.status})</p>`;
           overpass.fire("onAjaxError", errmsg);
           // closing wait spinner
           overpass.fire("onDone");

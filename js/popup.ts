@@ -1,4 +1,5 @@
 import $ from "jquery";
+import i18n from "./i18n";
 import {htmlentities} from "./misc";
 import tag2link from "tag2link/index.json";
 
@@ -10,19 +11,25 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
   let popup = "";
   if (feature.properties.type == "node")
     popup +=
-      `<h4 class="title is-4"><span class="t" data-t="popup.node">Node</span>` +
+      `<h4 class="title is-4"><span class="t" data-t="popup.node">${i18n.t(
+        "popup.node"
+      )}</span>` +
       ` <a href="//www.openstreetmap.org/node/${feature.properties.id}" target="_blank">${feature.properties.id}</a>` +
       ` <a href="//www.openstreetmap.org/edit?node=${feature.properties.id}" target="_blank">✏</a>` +
       `</h4>`;
   else if (feature.properties.type == "way")
     popup +=
-      `<h4 class="title is-4"><span class="t" data-t="popup.way">Way</span>` +
+      `<h4 class="title is-4"><span class="t" data-t="popup.way">${i18n.t(
+        "popup.way"
+      )}</span>` +
       ` <a href="//www.openstreetmap.org/way/${feature.properties.id}" target="_blank">${feature.properties.id}</a>` +
       ` <a href="//www.openstreetmap.org/edit?way=${feature.properties.id}" target="_blank">✏</a>` +
       `</h4>`;
   else if (feature.properties.type == "relation")
     popup +=
-      `<h4 class="title is-4"><span class="t" data-t="popup.relation">Relation</span>` +
+      `<h4 class="title is-4"><span class="t" data-t="popup.relation">${i18n.t(
+        "popup.relation"
+      )}</span>` +
       ` <a href="//www.openstreetmap.org/relation/${feature.properties.id}" target="_blank">${feature.properties.id}</a>` +
       ` <a href="//www.openstreetmap.org/edit?relation=${feature.properties.id}" target="_blank">✏</a>` +
       `</h4>`;
@@ -33,7 +40,9 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     feature.properties.tags &&
     !$.isEmptyObject(feature.properties.tags)
   ) {
-    popup += `<h5 class="subtitle is-5"><span class="t" data-t="popup.tags">Tags</span>`;
+    popup += `<h5 class="subtitle is-5"><span class="t" data-t="popup.tags">${i18n.t(
+      "tags"
+    )}</span>`;
     if (typeof Object.keys === "function") {
       popup += ` <span class="tag is-info is-light">${
         Object.keys(feature.properties.tags).length
@@ -112,7 +121,9 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     feature.properties.relations &&
     !$.isEmptyObject(feature.properties.relations)
   ) {
-    popup += `<h3 class="title is-4"><span class="t" data-t="popup.relations">Relations</span>`;
+    popup += `<h3 class="title is-4"><span class="t" data-t="popup.relations">${i18n.t(
+      "relations"
+    )}</span>`;
     if (typeof Object.keys === "function") {
       popup += ` <span class="tag is-info is-light">${
         Object.keys(feature.properties.relations).length
@@ -137,7 +148,9 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     feature.properties.meta &&
     !$.isEmptyObject(feature.properties.meta)
   ) {
-    popup += `<h4 class="subtitle is-5"><span class="t" data-t="popup.metadata">Metadata</span></h4><ul>`;
+    popup += `<h4 class="subtitle is-5"><span class="t" data-t="popup.metadata">${i18n.t(
+      "metadata"
+    )}</span></h4><ul>`;
     $.each(feature.properties.meta, (k, v) => {
       k = htmlentities(k);
       v = htmlentities(v);
@@ -154,7 +167,9 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     const lat = feature.geometry.coordinates[1];
     const lon = feature.geometry.coordinates[0];
     popup +=
-      `<h3 class="subtitle is-5"><span class="t" data-t="popup.coordinates">Coordinates</span></h3>` +
+      `<h3 class="subtitle is-5"><span class="t" data-t="popup.coordinates">${i18n.t(
+        "coordinates"
+      )}</span></h3>` +
       `<p><a href="geo:${lat},${lon}">${lat} / ${lon}</a> <small>(lat/lon)</small></p>`;
   }
   if (
@@ -165,7 +180,9 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     ]) != -1
   ) {
     if (feature.properties && feature.properties.tainted == true) {
-      popup += `<p><strong class="t" data-t="popup.incomplete_geometry">Attention: incomplete geometry (e.g. some nodes missing)</strong></p>`;
+      popup += `<p><strong class="t" data-t="popup.incomplete_geometry">${i18n.t(
+        "popup.incomplete_geometry"
+      )}</strong></p>`;
     }
   }
   return popup;

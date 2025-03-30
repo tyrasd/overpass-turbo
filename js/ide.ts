@@ -206,7 +206,9 @@ class IDE {
       if (typeof abortCallback == "function") {
         this.onAbort = abortCallback;
         const aborter = $(
-          '<span id="aborter">&nbsp;(<a href="#">abort</a>)</span>'
+          `<span id="aborter">&nbsp;(<a href="#">${i18n.t(
+            "waiter.abort"
+          )}</a>)</span>`
         ).on("click", () => {
           this.abort();
           return false;
@@ -217,7 +219,7 @@ class IDE {
     }
     abort() {
       if (typeof this.onAbort == "function") {
-        this.addInfo("aborting");
+        this.addInfo(i18n.t("waiter.aborting"));
         this.onAbort(this.close);
       }
     }
@@ -272,7 +274,7 @@ class IDE {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ide = this;
     // parse url string parameters
-    ide.waiter.addInfo("parse url parameters");
+    ide.waiter.addInfo(i18n.t("waiter.parse_url_parameters"));
     const args = urlParameters();
     // set appropriate settings
     if (args.has_coords) {
@@ -290,7 +292,7 @@ class IDE {
     }
     settings.save();
 
-    ide.waiter.addInfo("initialize page");
+    ide.waiter.addInfo(i18n.t("waiter.initialize_page"));
     // init page layout
     const isInitialAspectPortrait =
       $(window).width() / $(window).height() < 0.8;
@@ -471,7 +473,7 @@ class IDE {
     }
     // init dataviewer
     ide.dataViewer = CodeMirror($("#data")[0], {
-      value: "no data loaded yet",
+      value: i18n.t("editor.no_data_loaded"),
       lineNumbers: true,
       readOnly: true,
       mode: "javascript"
@@ -869,7 +871,7 @@ class IDE {
       const isCountPresent = /out[^;]+?count/.test(query);
 
       // show warning/info if only invisible data is returned and 'out...count' is not present in the query
-      if (empty_msg == "no visible data") {
+      if (empty_msg == "waiter.no_visible_data") {
         if (!isCountPresent && !settings.no_autorepair) {
           const content = `<p>${i18n.t(
             "warning.incomplete.expl.1"
@@ -909,16 +911,16 @@ class IDE {
         }
       }
       // auto tab switching (if only areas are returned)
-      if (empty_msg == "only areas returned") ide.switchTab("Data");
+      if (empty_msg == "waiter.only_areas_returned") ide.switchTab("Data");
       // auto tab switching (if nodes without coordinates are returned)
-      if (empty_msg == "no coordinates returned") ide.switchTab("Data");
+      if (empty_msg == "waiter.no_coordinates_returned") ide.switchTab("Data");
       // auto tab switching (if unstructured data is returned)
       if (data_mode == "unknown") ide.switchTab("Data");
       // display empty map badge
       $(
         `<div id="map_blank" style="z-index:700; display:block; position:relative; top:50px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">${i18n.t(
           "map.intentionally_blank"
-        )} <small>(${empty_msg})</small></div>`
+        )} <small>(${i18n.t(empty_msg)})</small></div>`
       ).appendTo("#map");
     };
     overpass.handlers["onDataReceived"] = function (
@@ -2212,14 +2214,14 @@ class IDE {
     // 1. render canvas from map tiles
     // hide map controlls in this step :/
     // todo: also hide popups?
-    this.waiter.addInfo("prepare map");
+    this.waiter.addInfo(i18n.t("waiter.prepare_map"));
     $("#map .leaflet-control-container .leaflet-top").hide();
     $("#data_stats").hide();
     if (settings.export_image_attribution)
       this.map.addControl(this.attribControl);
     if (!settings.export_image_scale) this.map.removeControl(this.scaleControl);
     // try to use crossOrigin image loading. osm tiles should be served with the appropriate headers -> no need of bothering the proxy
-    this.waiter.addInfo("rendering map tiles");
+    this.waiter.addInfo(i18n.t("waiter.rendering_map_tiles"));
     $("#map .leaflet-overlay-pane").hide();
     const canvas = await html2canvas(document.getElementById("map"), {
       useCORS: true,
@@ -2232,7 +2234,7 @@ class IDE {
     if (!settings.export_image_scale) this.map.addControl(this.scaleControl);
     if (settings.show_data_stats) $("#data_stats").show();
     $("#map .leaflet-control-container .leaflet-top").show();
-    this.waiter.addInfo("rendering map data");
+    this.waiter.addInfo(i18n.t("waiter.rendering_map_data"));
     // 2. render overlay data onto canvas
     canvas.id = "render_canvas";
     const ctx = canvas.getContext("2d");
@@ -2258,7 +2260,7 @@ class IDE {
       });
       v.render();
     }
-    this.waiter.addInfo("converting to png image");
+    this.waiter.addInfo(i18n.t("waiter.converting_to_png_image"));
     // 3. export canvas as html image
     const imgstr = canvas.toDataURL("image/png");
     let attrib_message = "";
@@ -2694,7 +2696,7 @@ class IDE {
   }
   async update_map() {
     this.waiter.open(i18n.t("waiter.processing_query"));
-    this.waiter.addInfo("resetting map");
+    this.waiter.addInfo(i18n.t("waiter.resetting_map"));
     $("#data_stats").remove();
     // resets previously highlighted error lines
     this.resetErrors();
@@ -2704,7 +2706,7 @@ class IDE {
       this.map.removeLayer(overpass.osmLayer);
     $("#map_blank").remove();
 
-    this.waiter.addInfo("building query");
+    this.waiter.addInfo(i18n.t("waiter.building_query"));
     // run the query via the overpass object
     const query = await this.getQuery();
     if (configs.push_history_url && typeof history.pushState == "function") {
