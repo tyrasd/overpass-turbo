@@ -6,13 +6,14 @@ import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint
 import L_OSM4Leaflet from "./OSM4Leaflet";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
 
+import ide from "./ide";
 import configs from "./configs";
 import settings from "./settings";
 import {htmlentities} from "./misc";
 import styleparser from "./jsmapcss";
 import {featurePopupContent} from "./popup";
 
-export type QueryLang = "xml" | "OverpassQL";
+export type QueryLang = "xml" | "OverpassQL" | "SQL";
 
 class Overpass {
   ajax_request_duration: number;
@@ -66,6 +67,7 @@ class Overpass {
     cache,
     shouldCacheOnly = false,
     server: string,
+    options,
     user_mapcss: string
   ) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -82,11 +84,12 @@ class Overpass {
     }
     overpass.fire(
       "onProgress",
-      "calling Overpass API interpreter",
+      `calling ${ide.getQueryLang() === "SQL" ? "SQL Server" : "Overpass API interpreter"}`,
       (callback) => {
         // kill the query on abort
         overpass.ajax_request.abort();
-        // try to abort queries via kill_my_queries
+        if (ide.getQueryLang() === "SQL") return callback();
+        // try to abort Overpass API queries via kill_my_queries
         $.get(`${server}kill_my_queries`)
           .done(callback)
           .fail(() => {
@@ -190,6 +193,8 @@ class Overpass {
                 (typeof data == "object" &&
                   data.remark &&
                   data.remark.length > 0);
+              is_error ||=
+                typeof data == "string" && data.match(/^(pq|sql): /) !== null;
               if (is_error) {
                 // this really looks like an error message, so lets open an additional modal error message
                 let errmsg = "?";
@@ -255,8 +260,42 @@ class Overpass {
               };
               //// convert to geoJSON
               //geojson = overpass.overpassXML2geoJSON(data);
-            } else {
-              // maybe json data
+            } else if (data.type && data.type == "FeatureCollection") {
+              // GeoJSON
+              overpass.resultType = "javascript";
+              data_mode = "json";
+              overpass.timestamp = undefined;
+              overpass.timestampAreas = undefined;
+              overpass.copyright = undefined;
+              stats.data = undefined;
+              // change properties to overpass turbo's expected format:
+              data.features.forEach((feature) => {
+                // nest all tags inside properties.tags
+                const nonTags = {
+                  osm_id: true,
+                  tags: true,
+                  way_area: true,
+                  z_order: true
+                };
+                if (!feature.properties.tags) feature.properties.tags = {};
+                for (const key in feature.properties) {
+                  if (nonTags[key] || feature.properties[key] === null)
+                    continue;
+                  feature.properties.tags[key] = feature.properties[key];
+                }
+                if (feature.properties.osm_id) {
+                  if (feature.properties.osm_id < 0) {
+                    feature.properties.type = "relation";
+                    feature.properties.id = -feature.properties.osm_id;
+                  } else {
+                    feature.properties.type =
+                      feature.geometry.type === "Point" ? "node" : "way";
+                    feature.properties.id = feature.properties.osm_id;
+                  }
+                }
+              });
+            } else if (data.osm3s) {
+              // json data from Overpass
               overpass.resultType = "javascript";
               data_mode = "json";
               overpass.timestamp = data.osm3s.timestamp_osm_base;
@@ -271,6 +310,16 @@ class Overpass {
               };
               //// convert to geoJSON
               //geojson = overpass.overpassJSON2geoJSON(data);
+            } else if (
+              typeof data === "object" &&
+              data?.type === "FeatureCollection"
+            ) {
+              // geojson directly from a source like Postpass
+              data_mode = "geojson";
+            } else {
+              // other json / unknown
+              data_mode = "unknown";
+              data = {elements: []};
             }
 
             //overpass.fire("onProgress", "applying styles"); // doesn't correspond to what's really going on. (the whole code could in principle be put further up and called "preparing mapcss styles" or something, but it's probably not worth the effort)
@@ -323,9 +372,9 @@ class Overpass {
                   // tainted objects
                   `way:tainted, relation:tainted {dashes:5,8;} \n` +
                   // placeholder points
-                  `way:placeholder, relation:placeholder {fill-color:#f22;} \n` +
+                  `node:placeholder {fill-color:#f22;} \n` +
                   // highlighted features
-                  `node:active, way:active, relation:active {color:#f50; fill-color:#f50;} \n${
+                  `node:active, line:active, area:active {color:#f50; fill-color:#f50;} \n${
                     // user supplied mapcss
                     userMapCSS
                   }`
@@ -372,7 +421,11 @@ class Overpass {
                       return false;
                     },
                     getParentObjects() {
-                      if (feature.properties.relations.length == 0) return [];
+                      if (
+                        !feature.properties.relations ||
+                        feature.properties.relations.length == 0
+                      )
+                        return [];
                       else
                         return feature.properties.relations.map((rel) => ({
                           tags: rel.reltags,
@@ -423,6 +476,7 @@ class Overpass {
                   overpass.fire("onProgress", "rendering geoJSON");
                 },
                 baseLayerClass: L_GeoJsonNoVanish,
+                query_lang: query_lang,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
                   compress(feature) {
@@ -734,7 +788,7 @@ class Overpass {
       overpass.ajax_request_start = Date.now();
       overpass.ajax_request = $.ajax(`${server}interpreter`, {
         type: "POST",
-        data: {data: query},
+        data: {data: query, options: options},
         success: onSuccessCb,
         error(jqXHR, textStatus) {
           if (textStatus == "abort") return; // ignore aborted queries.
@@ -742,7 +796,9 @@ class Overpass {
           if (
             jqXHR.status == 400 ||
             jqXHR.status == 504 ||
-            jqXHR.status == 429
+            jqXHR.status == 429 ||
+            (jqXHR.status == 500 &&
+              jqXHR.responseText.match(/^(pq|sql): /) !== null) // postgresql error messages
           ) {
             // todo: handle those in a separate routine
             // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.

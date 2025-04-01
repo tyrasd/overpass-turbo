@@ -10,6 +10,7 @@ import "codemirror/mode/javascript/javascript";
 import "codemirror/mode/xml/xml";
 import "codemirror/mode/clike/clike";
 import "codemirror/mode/css/css";
+import "codemirror/mode/sql/sql";
 import "codemirror/lib/util/multiplex";
 import "codemirror/lib/util/closetag";
 
