@@ -194,8 +194,7 @@ class Overpass {
                   data.remark &&
                   data.remark.length > 0);
               is_error ||=
-                typeof data == "string" &&
-                data.indexOf("pq: syntax error") != -1;
+                typeof data == "string" && data.match(/^(pq|sql): /) !== null;
               if (is_error) {
                 // this really looks like an error message, so lets open an additional modal error message
                 let errmsg = "?";
@@ -797,7 +796,9 @@ class Overpass {
           if (
             jqXHR.status == 400 ||
             jqXHR.status == 504 ||
-            jqXHR.status == 429
+            jqXHR.status == 429 ||
+            (jqXHR.status == 500 &&
+              jqXHR.responseText.match(/^(pq|sql): /) !== null) // postgresql error messages
           ) {
             // todo: handle those in a separate routine
             // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
