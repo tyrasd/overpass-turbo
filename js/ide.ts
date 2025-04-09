@@ -1159,7 +1159,7 @@ class IDE {
 
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true) {
-      ide.update_map();
+      ide.getQuery({}).then(ide.update_map.bind(this));
       // automatically zoom to data.
       if (
         !args.has_coords &&
