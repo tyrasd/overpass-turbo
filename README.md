@@ -37,3 +37,8 @@ Development is done in the _master_ branch, stable releases are marked with git 
 1. `yarn install`
 2. `yarn run start` for a Development server listening at http://localhost:5173
 3. `yarn run build` for a minified build in `./dist`
+
+## See Also
+
+* [Ultra](https://gitlab.com/trailstash/ultra) is a re-imagining of Overpass turbo powered by [MapLibre GL JS](https://wiki.openstreetmap.org/wiki/MapLibre_GL_JS) which allows for visualizing large datasets and complex styling.
+* [QuickOSM](http://plugins.qgis.org/plugins/QuickOSM/) is a QGIS plugin to fetch OSM data with the Overpass API.
