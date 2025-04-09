@@ -189,7 +189,13 @@ $(document).ready(() => {
   overpass.handlers["onPopupReady"] = (p) => {
     p.openOn(ide.map);
   };
-  overpass.handlers["onDataReceived"] = (amount, txt, abortCB, continueCB) => {
+  overpass.handlers["onDataReceived"] = (
+    amount,
+    txt,
+    elements,
+    abortCB,
+    continueCB
+  ) => {
     continueCB();
   };
   overpass.handlers["onRawDataPresent"] = () => {

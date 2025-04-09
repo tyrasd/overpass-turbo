@@ -111,11 +111,20 @@ class Overpass {
       if (data_amount < 1000) data_txt = `${data_amount} bytes`;
       else if (data_amount < 1000000) data_txt = `${data_amount / 1000} kB`;
       else data_txt = `${data_amount / 1000000} MB`;
+      let data_elements;
+      if (jqXHR.responseXML) {
+        data_elements = jqXHR.responseXML.childNodes[0].childElementCount;
+      } else if (jqXHR.responseJSON) {
+        data_elements = (
+          jqXHR.responseJSON.elements || jqXHR.responseJSON.features
+        ).length;
+      }
       overpass.fire("onProgress", `received about ${data_txt} of data`);
       overpass.fire(
         "onDataReceived",
         data_amount,
         data_txt,
+        data_elements,
         () => {
           // abort callback
           overpass.fire("onAbort");

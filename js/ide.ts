@@ -956,16 +956,20 @@ class IDE {
       ).appendTo("#map");
     };
     overpass.handlers["onDataReceived"] = function (
-      amount,
+      amount_bytes,
       amount_txt,
+      amount_elements,
       abortCB,
       continueCB
     ) {
-      if (amount > 1000000) {
+      if (
+        (amount_elements > 5e3 || amount_bytes > 1e7) &&
+        !settings.disable_warning_huge_data
+      ) {
         ide.waiter.close();
         const _originalDocumentTitle = document.title;
         document.title = `❗ ${_originalDocumentTitle}`;
-        // more than ~1MB of data
+        // more than 5k features or ~10MB of raw data:
         // show warning dialog
         const dialog_buttons = [
           {
@@ -979,6 +983,12 @@ class IDE {
             name: i18n.t("dialog.continue_anyway"),
             callback() {
               document.title = _originalDocumentTitle;
+              if (
+                $("input[name=dialog_disable_warning_huge_data]")?.[0]?.checked
+              ) {
+                settings.disable_warning_huge_data = true;
+                settings.save();
+              }
               continueCB();
             }
           }
@@ -988,6 +998,8 @@ class IDE {
           .t("warning.huge_data.expl.1")
           .replace("{{amount_txt}}", amount_txt)}</p><p>${i18n.t(
           "warning.huge_data.expl.2"
+        )}</p><p><input type="checkbox" name="dialog_disable_warning_huge_data"/>&nbsp;${i18n.t(
+          "warning.incomplete.not_again"
         )}</p>`;
         showDialog(i18n.t("warning.huge_data.title"), content, dialog_buttons);
       } else continueCB();
@@ -2511,6 +2523,8 @@ class IDE {
     );
     $("#settings-dialog input[name=no_autorepair]")[0].checked =
       settings.no_autorepair;
+    $("#settings-dialog input[name=disable_warning_huge_data]")[0].checked =
+      settings.disable_warning_huge_data;
     // editor options
     $("#settings-dialog input[name=use_rich_editor]")[0].checked =
       settings.use_rich_editor;
@@ -2576,6 +2590,9 @@ class IDE {
     }
     settings.no_autorepair = $(
       "#settings-dialog input[name=no_autorepair]"
+    )[0].checked;
+    settings.disable_warning_huge_data = $(
+      "#settings-dialog input[name=disable_warning_huge_data]"
     )[0].checked;
     settings.use_rich_editor = $(
       "#settings-dialog input[name=use_rich_editor]"

@@ -144,6 +144,16 @@ a.external {
     width: 894px;
   }
 }
+.modal-card-body p {
+  margin-bottom: 0.2lh;
+}
+.modal-card-body p > input[type="checkbox"]:first-child {
+  margin-top: 1lh;
+}
+
+input[type="checkbox"] {
+  margin-right: 0.3em;
+}
 
 .leaflet-control-buttons .fas {
   font-size: 14px;
