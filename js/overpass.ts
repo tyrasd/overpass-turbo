@@ -292,7 +292,17 @@ class Overpass {
                     continue;
                   feature.properties.tags[key] = feature.properties[key];
                 }
-                if (feature.properties.osm_id) {
+                if (feature.properties.osm_type) {
+                  const typeMap = {
+                    N: "node",
+                    W: "way",
+                    R: "relation"
+                  };
+                  feature.properties.type =
+                    typeMap[feature.properties.osm_type] ||
+                    feature.properties.osm_type;
+                  feature.properties.id = feature.properties.osm_id;
+                } else if (feature.properties.osm_id) {
                   if (feature.properties.osm_id < 0) {
                     feature.properties.type = "relation";
                     feature.properties.id = -feature.properties.osm_id;
