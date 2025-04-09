@@ -273,7 +273,7 @@ class Overpass {
               // GeoJSON
               overpass.resultType = "javascript";
               data_mode = "json";
-              overpass.timestamp = undefined;
+              overpass.timestamp = data.properties?.timestamp;
               overpass.timestampAreas = undefined;
               overpass.copyright = undefined;
               stats.data = undefined;
