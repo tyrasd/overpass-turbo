@@ -37,6 +37,7 @@
     "settings.ui_lang": "Jazyk uživatelského prostředí",
     "settings.server": "Server",
     "settings.disable_autorepair": "Zakázat varovnou / autorepair zprávu, když rozhraní Overpass API nevrací žádná viditelná data.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "Editor",
     "settings.enable_rich_editor": "Povolit editor kompletního kódu",
     "settings.enable_rich_editor_expl": "vypnout to na mobilních zařízeních; vyžaduje opětovné načtení stránky, aby se projevilo",

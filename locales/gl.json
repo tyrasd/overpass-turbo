@@ -37,6 +37,7 @@
     "settings.ui_lang": "Lingua da interface",
     "settings.server": "Servidor",
     "settings.disable_autorepair": "Desactivar o aviso ou mensaxe de autoarranxo cando o Overpass API non devolva datos visíbeis",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "Editor",
     "settings.enable_rich_editor": "Habilitar o editor de código arrequecido",
     "settings.enable_rich_editor_expl": "inhabilitar isto en dispositivos móbiles; require recargar a páxina para ter efecto",

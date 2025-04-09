@@ -37,6 +37,7 @@
     "settings.ui_lang": "UI sprog",
     "settings.server": "Server",
     "settings.disable_autorepair": "Slå advarsel/autoreparation besked fra når Overpass API ingen geodata sender retur.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "Editor",
     "settings.enable_rich_editor": "Aktiver kodeditoren",
     "settings.enable_rich_editor_expl": "på mobile enheder vil en deaktivering kræve en side genindlæsning",

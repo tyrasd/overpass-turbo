@@ -37,6 +37,7 @@
     "settings.ui_lang": "UI 언어",
     "settings.server": "서버",
     "settings.disable_autorepair": "Overpass API가 지도에 표시되는 데이터를 반환하지 않으면 경고/자동 복구 메시지를 띄우지 않도록 합니다.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "편집기",
     "settings.enable_rich_editor": "화려한 코드 편집기 활성화",
     "settings.enable_rich_editor_expl": "모바일 기기에서는 비활성화됩니다. 효과를 적용하려면 페이지를 다시 불러와야 합니다.",

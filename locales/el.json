@@ -37,6 +37,7 @@
     "settings.ui_lang": "Γλώσσα διεπαφής",
     "settings.server": "Διακομιστής",
     "settings.disable_autorepair": "Απενεργοποίηση μηνύματος προειδοποίησης για αυτόματη διόρθωση, όταν το Overpass API δεν επιστρέφει ορατά δεδομένα.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "Διορθωτής",
     "settings.enable_rich_editor": "Ενεργοποίηση διορθωτή πλούσιου κώδικα",
     "settings.enable_rich_editor_expl": "απενεργοποίηση σε κινητές συσκευές - απαιτεί ανανέωση σελίδας για να ισχύσει",

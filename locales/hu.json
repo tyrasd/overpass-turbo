@@ -37,6 +37,7 @@
     "settings.ui_lang": "Kezelőfelület nyelve",
     "settings.server": "Szerver",
     "settings.disable_autorepair": "Figyelmeztető/önjavító üzenetek letiltása, amikor az Overpass API nem ad vissza látható adatokat.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "Szerkesztő",
     "settings.enable_rich_editor": "Kódkiemelős szerkesztőfelület engedélyezése",
     "settings.enable_rich_editor_expl": "letiltás mobil eszközökön; a lap újratöltése szükséges",

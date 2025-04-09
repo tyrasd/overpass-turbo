@@ -37,6 +37,7 @@
     "settings.ui_lang": "界面語言",
     "settings.server": "伺服器",
     "settings.disable_autorepair": "當Overpass API回傳不可視資料時，關閉警告/自動修復訊息",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "編輯器",
     "settings.enable_rich_editor": "啟用程式碼高亮度編輯器",
     "settings.enable_rich_editor_expl": "在行動裝置上關閉；需重新載入頁面才會生效",

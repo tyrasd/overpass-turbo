@@ -37,6 +37,7 @@
     "settings.ui_lang": "Liidese keel",
     "settings.server": "Server",
     "settings.disable_autorepair": "Keelatakse hoiatuse/automaatparanduse teade kui Overpass API ei anna tulemuseks nähtavaid andmeid.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "Redaktor",
     "settings.enable_rich_editor": "Lubatakse vormindatud teksti redaktor",
     "settings.enable_rich_editor_expl": "keela see valik mobiilseadmete korral; nõuab aktiveerimiseks lehe taaslaadimist",

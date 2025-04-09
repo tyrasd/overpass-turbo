@@ -37,6 +37,7 @@
     "settings.ui_lang": "Taal voor gebruikersinterface",
     "settings.server": "Server",
     "settings.disable_autorepair": "Zet waarschuwing/automatisch herstellen uit wanneer de Overpass API geen zichtbare gegevens teruggeeft.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "Bewerkingssoftware",
     "settings.enable_rich_editor": "Uitgebreide codebewerker inschakelen",
     "settings.enable_rich_editor_expl": "schakel dit uit op mobiele toestellen; vereist herladen van de pagina om effect te hebben",

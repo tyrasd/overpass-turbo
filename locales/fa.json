@@ -37,6 +37,7 @@
     "settings.ui_lang": "زبان رابط کاربری",
     "settings.server": "میزبان",
     "settings.disable_autorepair": "هنگامی که Overpass API دادهٔ قابل‌مشاهده‌ای برنمی‌گرداند پیام‌های هشدار/اصلاح خودکار را نشان نده.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "ويرايشگر",
     "settings.enable_rich_editor": "ویرایشگر غنی کد فعال باشد",
     "settings.enable_rich_editor_expl": "این گزینه را روی دستگاه‌های موبایل خاموش کنید. این تنظیم پس از تازه‌سازی صفحه به کار گرفته می‌شود.",

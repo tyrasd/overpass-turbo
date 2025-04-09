@@ -37,6 +37,7 @@
     "settings.ui_lang": "UI Dili",
     "settings.server": "Sunucu",
     "settings.disable_autorepair": "Disable warning/autorepair message when Overpass API returns no visible data.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "Düzenleyici",
     "settings.enable_rich_editor": "Zengin metin düzenleyiciyi kullan",
     "settings.enable_rich_editor_expl": "Mobil cihazlarda bu seçeneği kapatın; uygulanması için sayfayı yenilemeniz gerekir",

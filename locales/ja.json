@@ -37,6 +37,7 @@
     "settings.ui_lang": "利用言語",
     "settings.server": "サーバ",
     "settings.disable_autorepair": "Overpass APIから有効なデータが帰ってこなかった場合の警告表示やクエリの自動修正を無効化",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "エディタ",
     "settings.enable_rich_editor": "リッチ・コードエディタを有効化",
     "settings.enable_rich_editor_expl": "モバイル機器では無効化します; ページの再読み込みが必要です",

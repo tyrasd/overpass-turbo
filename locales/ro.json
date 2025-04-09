@@ -37,6 +37,7 @@
     "settings.ui_lang": "UI Language",
     "settings.server": "Server",
     "settings.disable_autorepair": "Disable warning/autorepair message when Overpass API returns no visible data.",
+    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
     "settings.section.editor": "Editor",
     "settings.enable_rich_editor": "Enable rich code editor",
     "settings.enable_rich_editor_expl": "disable this on mobile devices; requires a page-reload to take effect",
