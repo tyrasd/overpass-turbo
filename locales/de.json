@@ -181,7 +181,7 @@
     "ffs.parse_error_expl": "Bedenke, dass für Texte, Leerzeichen oder spezielle Zeichen Anführungszeichen benutzt werden müssen. Außerdem werden mehrere Suchfilter durch logische Operatoren (<i>and</i> oder <i>or</i>) getrennt. Siehe die <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/Wizard\" target=\"_blank\">Dokumentation</a> für mehr Informationen.",
     "ffs.typo": "Meintest Du:",
     "styler.title": "Autostyler",
-    "styler.expl": "Stilisiere das Ergebnis der Abfrage auf der Grundlage der Werte des unten asugewählten Tags.",
+    "styler.expl": "Stilisiere das Ergebnis der Abfrage auf der Grundlage der Werte des unten ausgewählten Tags.",
     "styler.placeholder": "Wähle einen Tag-Key",
     "styler.palette": "Wähle eine Palette:",
     "styler.palette.sequential": "sequenziell",
