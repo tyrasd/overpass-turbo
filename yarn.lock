@@ -3262,12 +3262,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"osm-auth@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "osm-auth@npm:2.2.0"
-  dependencies:
-    store: "npm:~2.0.12"
-  checksum: 10c0/0b798a3e2b83028127a1294d618a2c114ea163cb7f7c14301fbd1561b3e89211c4ee57eb5587676883b1ddaa81b02c31136efa53b388d058424c36f57ee33725
+"osm-auth@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "osm-auth@npm:3.0.0"
+  checksum: 10c0/cef228fb8c68f694214ff8e707af1b1423eb549b789b1d386cf471c92107eed769b925abbd8b5f8773722a668236785bccb64618c65b4ca0ac6f54ff96457052
   languageName: node
   linkType: hard
 
@@ -3330,7 +3328,7 @@ __metadata:
     leaflet.locationfilter: "tmgreensolutions/leaflet-locationfilter#ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d"
     lint-staged: "npm:^15.2.7"
     lodash: "npm:>=4.17.5"
-    osm-auth: "npm:^2.2.0"
+    osm-auth: "npm:^3.0.0"
     osmtogeojson: "npm:^3.0.0-beta.5"
     peggy: "npm:^3.0.2"
     prettier: "npm:^3.3.2"
@@ -4118,13 +4116,6 @@ __metadata:
   version: 3.8.0
   resolution: "std-env@npm:3.8.0"
   checksum: 10c0/f560a2902fd0fa3d648d7d0acecbd19d664006f7372c1fba197ed4c216b4c9e48db6e2769b5fe1616d42a9333c9f066c5011935035e85c59f45dc4f796272040
-  languageName: node
-  linkType: hard
-
-"store@npm:~2.0.12":
-  version: 2.0.12
-  resolution: "store@npm:2.0.12"
-  checksum: 10c0/a25a1461aab251bc4b620c7da9e876fbad7a233817e271514893a922c512ac1e80a938ae3d764aa4432556ef6f32068d46ecd830fe2bfaa591eb4a9587aa3988
   languageName: node
   linkType: hard
 
