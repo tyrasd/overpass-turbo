@@ -40,5 +40,5 @@ Development is done in the _master_ branch, stable releases are marked with git 
 
 ## See Also
 
-* [Ultra](https://gitlab.com/trailstash/ultra) is a re-imagining of Overpass turbo powered by [MapLibre GL JS](https://wiki.openstreetmap.org/wiki/MapLibre_GL_JS) which allows for visualizing large datasets and complex styling.
-* [QuickOSM](http://plugins.qgis.org/plugins/QuickOSM/) is a QGIS plugin to fetch OSM data with the Overpass API.
+- [Ultra](https://gitlab.com/trailstash/ultra) is a re-imagining of Overpass turbo powered by [MapLibre GL JS](https://wiki.openstreetmap.org/wiki/MapLibre_GL_JS) which allows for visualizing large datasets and complex styling.
+- [QuickOSM](http://plugins.qgis.org/plugins/QuickOSM/) is a QGIS plugin to fetch OSM data with the Overpass API.
