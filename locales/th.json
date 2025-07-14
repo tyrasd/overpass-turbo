@@ -37,7 +37,7 @@
     "settings.ui_lang": "ภาษาของ UI",
     "settings.server": "เซิฟเวอร์",
     "settings.disable_autorepair": "ปิดใช้งานข้อความเตือน/การซ่อมแซมอัตโนมัติเมื่อ Overpass API ไม่สามารถส่งคืนข้อมูลที่มองเห็นได้",
-    "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
+    "settings.disable_warning_huge_data": "ปิดใช้งานการเตือนเมื่อ Overpass API ส่งคืนข้อมูลจำนวนมาก",
     "settings.section.editor": "ตัวแก้ไข",
     "settings.enable_rich_editor": "เปิดใช้งานตัวแก้ไข rich code",
     "settings.enable_rich_editor_expl": "ปิดใช้งานนี้บนอุปกรณ์พกพา จะต้องโหลดหน้าใหม่ถึงจะมีผล",
