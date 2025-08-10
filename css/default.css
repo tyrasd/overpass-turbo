@@ -3,6 +3,7 @@ html {
   overflow-y: auto;
 }
 body {
+  color-scheme: light;
   background-color: white;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
