@@ -242,6 +242,19 @@ describe("ide.ffs", () => {
         `node(newer:"date:1day")(bbox);${out_str}`
       );
     });
+    // older
+    it("older", async () => {
+      // regular
+      let search = 'older:"2000-01-01T01:01:01Z" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "2000-01-01T01:01:01Z")(bbox);${out_str}`
+      );
+      // relative
+      search = "older:1day and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "date:1day")(bbox);${out_str}`
+      );
+    });
     // user
     it("user", async () => {
       // user name
