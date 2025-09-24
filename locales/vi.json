@@ -1,7 +1,7 @@
 {
     "nav.run": "Chạy",
-    "nav.run_tt": "chạy truy vấn này trên Overpass API", 
- "nav.clear": "Clear query",
+    "nav.run_tt": "chạy truy vấn này trên Overpass API",
+    "nav.clear": "Clear query",
     "nav.rerender_tt": "phân tích mã MapCSS và kết xuất lại bản đồ",
     "nav.share": "Chia sẻ",
     "nav.share_tt": "lấy liên kết thường trực đến truy vấn này",

@@ -1,7 +1,7 @@
 {
     "nav.run": "Uruchom",
-    "nav.run_tt": "uruchom tę kwerendę na Overpass API", 
- "nav.clear": "Clear query",
+    "nav.run_tt": "uruchom tę kwerendę na Overpass API",
+    "nav.clear": "Clear query",
     "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "Udostępnij",
     "nav.share_tt": "Link do tej kwerendy",

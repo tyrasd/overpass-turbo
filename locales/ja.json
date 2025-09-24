@@ -1,7 +1,7 @@
 {
     "nav.run": "実行",
-    "nav.run_tt": "このクエリをOverpass APIで実行する", 
- "nav.clear": "Clear query",
+    "nav.run_tt": "このクエリをOverpass APIで実行する",
+    "nav.clear": "Clear query",
     "nav.rerender_tt": "MapCSSを解析して地図を再描画する",
     "nav.share": "共有",
     "nav.share_tt": "このクエリのパーマリンクを取得する",
