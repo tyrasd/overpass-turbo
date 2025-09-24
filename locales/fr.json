@@ -1,6 +1,7 @@
 {
     "nav.run": "Exécuter",
-    "nav.run_tt": "Exécuter cette requête avec l'API Overpass",
+    "nav.run_tt": "Exécuter cette requête avec l'API Overpass", 
+ "nav.clear": "Clear query",
     "nav.rerender_tt": "analyser le MapCSS et refaire le rendu de carte",
     "nav.share": "Partager",
     "nav.share_tt": "obtenir un permalien pour cette requête",

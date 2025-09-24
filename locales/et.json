@@ -1,6 +1,7 @@
 {
     "nav.run": "Käivita",
-    "nav.run_tt": "teosta antud päring Overpass API peal",
+    "nav.run_tt": "teosta antud päring Overpass API peal", 
+ "nav.clear": "Clear query",
     "nav.rerender_tt": "parse the MapCSS and rerender the map",
     "nav.share": "Jaga",
     "nav.share_tt": "püsilink antud päringule",

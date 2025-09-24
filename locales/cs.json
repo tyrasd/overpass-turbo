@@ -1,6 +1,7 @@
 {
     "nav.run": "Spustit",
-    "nav.run_tt": "spustit tento databázový dotaz v rozhraní Overpass API",
+    "nav.run_tt": "spustit tento databázový dotaz v rozhraní Overpass API", 
+ "nav.clear": "Clear query",
     "nav.rerender_tt": "analyzovat MapCSS a znovu vykreslit mapu",
     "nav.share": "Sdílet",
     "nav.share_tt": "získat trvalý odkaz pro tento databázový dotaz",

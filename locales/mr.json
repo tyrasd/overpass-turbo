@@ -1,6 +1,7 @@
 {
     "nav.run": "चालवा",
-    "nav.run_tt": "ही विचारणा overpass API वर चालवा",
+    "nav.run_tt": "ही विचारणा overpass API वर चालवा", 
+ "nav.clear": "Clear query",
     "nav.rerender_tt": "MapCSS वाचा आणि नकाशा परत काढा",
     "nav.share": "सामायिक",
     "nav.share_tt": "ह्या विचारणाची कायमदुवा मिळवा",

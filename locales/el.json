@@ -1,6 +1,7 @@
 {
     "nav.run": "Εκτέλεση",
-    "nav.run_tt": "εκτέλεση αυτού του ερωτήματος στο Overpass API",
+    "nav.run_tt": "εκτέλεση αυτού του ερωτήματος στο Overpass API", 
+ "nav.clear": "Clear query",
     "nav.rerender_tt": "ανάλυση του MapCss και ξανασχεδίαση του χάρτη",
     "nav.share": "Μοίρασμα",
     "nav.share_tt": "πάρτε ένα σταθεροδεσμό αυτού του ερωτήματος",

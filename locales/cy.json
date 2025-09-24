@@ -1,6 +1,7 @@
 {
     "nav.run": "Gweithredu",
-    "nav.run_tt": "Gweithredu'r ymholiad hwn ar Overpass API",
+    "nav.run_tt": "Gweithredu'r ymholiad hwn ar Overpass API", 
+ "nav.clear": "Clear query",
     "nav.rerender_tt": "dosrannu'r MapCSS ac ailgynhyrchu'r map",
     "nav.share": "Rhannu",
     "nav.share_tt": "cael dolen barhaol ar gyfer yr ymholiad hwn",

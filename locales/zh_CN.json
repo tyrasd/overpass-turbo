@@ -1,6 +1,7 @@
 {
     "nav.run": "运行",
-    "nav.run_tt": "通过 Overpass API 执行此查询",
+    "nav.run_tt": "通过 Overpass API 执行此查询", 
+ "nav.clear": "Clear query",
     "nav.rerender_tt": "解析 MapCSS 并重新渲染地图",
     "nav.share": "分享",
     "nav.share_tt": "获取此查询的固定链接",

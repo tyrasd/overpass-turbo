@@ -1,6 +1,7 @@
 {
     "nav.run": "실행",
-    "nav.run_tt": "이 쿼리를 Overpass API에서 실행합니다",
+    "nav.run_tt": "이 쿼리를 Overpass API에서 실행합니다", 
+ "nav.clear": "Clear query",
     "nav.rerender_tt": "MapCSS를 파싱하고 지도를 다시 렌더링합니다",
     "nav.share": "공유",
     "nav.share_tt": "이 쿼리의 고유 링크를 얻습니다",
