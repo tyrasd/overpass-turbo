@@ -116,7 +116,7 @@ class Overpass {
         data_elements = jqXHR.responseXML.childNodes[0].childElementCount;
       } else if (jqXHR.responseJSON) {
         data_elements = (
-          jqXHR.responseJSON.elements || jqXHR.responseJSON.features
+          jqXHR.responseJSON.elements || jqXHR.responseJSON.features || jqXHR.responseJSON.result
         ).length;
       }
       overpass.fire("onProgress", `received about ${data_txt} of data`);
@@ -718,7 +718,7 @@ class Overpass {
                       // switch only if there is some unplottable data in the returned json/xml.
                       let empty_msg;
                       if (
-                        (data_mode == "json" && data.elements.length > 0) ||
+                        (data_mode == "json" && data.elements && data.elements.length > 0) ||
                         (data_mode == "xml" &&
                           $("osm", data).children().not("note,meta,bounds")
                             .length > 0)
