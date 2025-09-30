@@ -1,6 +1,7 @@
 {
     "nav.run": "รัน",
     "nav.run_tt": "ดำเนินการคำร้องถามบน Overpass API",
+    "nav.clear": "Clear query",
     "nav.rerender_tt": "วิเคราะห์ MapCSS และเรนเดอร์แผนที่ใหม่",
     "nav.share": "แชร์",
     "nav.share_tt": "รับลิงก์ถาวรสำหรับคำร้องถามนี้",
