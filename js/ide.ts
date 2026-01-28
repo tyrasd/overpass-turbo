@@ -234,25 +234,6 @@ class IDE {
     $("#overpass-turbo-dependencies").html(
       APP_DEPENDENCIES // eslint-disable-line no-undef
     );
-    // (very raw) compatibility check <- TODO: put this into its own function
-    if (
-      jQuery.support.cors != true ||
-      //typeof localStorage  != "object" ||
-      typeof (function () {
-        let ls = undefined;
-        try {
-          localStorage.setItem("startup_localstorage_quota_test", 123);
-          localStorage.removeItem("startup_localstorage_quota_test");
-          ls = localStorage;
-        } catch (e) {}
-        return ls;
-      })() != "object" ||
-      false
-    ) {
-      // the currently used browser is not capable of running the IDE. :(
-      this.not_supported = true;
-      $("#warning-unsupported-browser").addClass("is-active");
-    }
     // load settings
     this.waiter.addInfo("load settings");
     settings.load();
@@ -773,7 +754,7 @@ class IDE {
                   if (typeof data == "string") {
                     // if the data is a string, but looks more like a json object
                     try {
-                      data = $.parseJSON(data);
+                      data = JSON.parse(data);
                     } catch (e) {}
                   }
                   response(
@@ -1252,7 +1233,7 @@ class IDE {
   }
   getQueryLang() {
     if (this.data_source && this.data_source.mode == "sql") return "SQL";
-    const q = $.trim(this.getRawQuery().replace(/{{.*?}}/g, ""));
+    const q = String(this.getRawQuery().replace(/{{.*?}}/g, "")).trim();
     if (q.match(/^</)) return "xml";
     else return "OverpassQL";
   }

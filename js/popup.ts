@@ -123,11 +123,11 @@ export function featurePopupContent(feature: GeoJSON.Feature) {
     $.each(feature.properties.relations, (k, v) => {
       popup += `<li><a href="//www.openstreetmap.org/relation/${v["rel"]}" target="_blank">${v["rel"]}</a>`;
       if (v.reltags && (v.reltags.name || v.reltags.ref || v.reltags.type))
-        popup += ` <i>${$.trim(
+        popup += ` <i>${(
           (v.reltags.type ? `${htmlentities(v.reltags.type)} ` : "") +
-            (v.reltags.ref ? `${htmlentities(v.reltags.ref)} ` : "") +
-            (v.reltags.name ? `${htmlentities(v.reltags.name)} ` : "")
-        )}</i>`;
+          (v.reltags.ref ? `${htmlentities(v.reltags.ref)} ` : "") +
+          (v.reltags.name ? `${htmlentities(v.reltags.name)} ` : "")
+        ).trim()}</i>`;
       if (v["role"]) popup += ` as <i>${htmlentities(v["role"])}</i>`;
       popup += "</li>";
     });
