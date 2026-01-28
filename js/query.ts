@@ -1,5 +1,6 @@
 // query parser module
 import _ from "lodash";
+
 import type {Shortcut} from "./shortcuts";
 
 export default class parser {

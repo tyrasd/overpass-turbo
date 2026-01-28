@@ -1,4 +1,5 @@
 import {describe, expect, it} from "vitest";
+
 import ide from "../js/ide";
 
 describe("ide.permalink", () => {

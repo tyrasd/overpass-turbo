@@ -2,16 +2,15 @@
 import $ from "jquery";
 import _ from "lodash";
 import "leaflet";
-import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint/no-unused-vars
-import L_OSM4Leaflet from "./OSM4Leaflet";
-import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
-
-import ide from "./ide";
 import configs from "./configs";
-import settings from "./settings";
-import {htmlentities} from "./misc";
+import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
+import ide from "./ide";
 import styleparser from "./jsmapcss";
+import {htmlentities} from "./misc";
+import L_OSM4Leaflet from "./OSM4Leaflet";
 import {featurePopupContent} from "./popup";
+import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint/no-unused-vars
+import settings from "./settings";
 
 export type QueryLang = "xml" | "OverpassQL" | "SQL";
 

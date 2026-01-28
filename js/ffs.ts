@@ -1,6 +1,6 @@
+import ffs_parser from "./ffs/ffs.pegjs";
 // ffs/wizard module
 import ffs_free from "./ffs/free";
-import ffs_parser from "./ffs/ffs.pegjs";
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 let freeFormQuery;

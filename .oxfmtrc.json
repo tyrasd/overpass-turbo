@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "bracketSpacing": false,
+  "experimentalSortImports": {},
+  "trailingComma": "none",
+  "printWidth": 80,
+  "ignorePatterns": ["build/", "data/", "dist/", "locales/"]
+}
