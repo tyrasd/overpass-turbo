@@ -527,7 +527,7 @@ class IDE {
       maxNativeZoom: 19,
       maxZoom: ide.map.options.maxZoom
     });
-    const attribControl = new L.Control.Attribution({position: "bottomright"});
+    const attribControl = ide.attribControl = new L.Control.Attribution({position: "bottomright"});
     attribControl.addAttribution(tilesAttrib);
     attribControl.addTo(ide.map);
     const pos = new L.LatLng(settings.coords_lat, settings.coords_lon);
