@@ -32,7 +32,6 @@
     "request": "^2.67.0",
     "typescript": "^5.0.4",
     "vite": "^6.2.7",
-    "vite-plugin-favicons-inject": "^2.2.0",
     "vitest": "^3.0.0-beta.3"
   },
   "dependencies": {

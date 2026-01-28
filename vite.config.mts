@@ -1,6 +1,5 @@
 /// <reference types="vitest" />
 import {type Plugin, defineConfig, createFilter} from "vite";
-import vitePluginFaviconsInject from "vite-plugin-favicons-inject";
 import inject from "@rollup/plugin-inject";
 import peggy from "peggy";
 
@@ -59,8 +58,7 @@ export default defineConfig(() => ({
       $: "jquery",
       jQuery: "jquery"
     }),
-    peggyPlugin(),
-    vitePluginFaviconsInject("./turbo.svg")
+    peggyPlugin()
   ],
   // https://vitest.dev/config/
   test: {
