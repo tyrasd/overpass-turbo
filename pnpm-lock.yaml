@@ -35,9 +35,6 @@ importers:
       jquery:
         specifier: 3.7.1
         version: 3.7.1
-      jquery-ui:
-        specifier: 1.13.2
-        version: 1.13.2
       jquery-ui-dist:
         specifier: 1.13.2
         version: 1.13.2
@@ -951,9 +948,6 @@ packages:
 
   jquery-ui-dist@1.13.2:
     resolution: {integrity: sha512-oVDRd1NLtTbBwpRKAYdIRgpWVDzeBhfy7Gu0RmY6JEaZtmBq6kDn1pm5SgDiAotrnDS+RoTRXO6xvcNTxA9tOA==}
-
-  jquery-ui@1.13.2:
-    resolution: {integrity: sha512-wBZPnqWs5GaYJmo1Jj0k/mrSkzdQzKDwhXNtHKcBdAcKVxMM3KNYFq+iJ2i1rwiG53Z8M4mTn3Qxrm17uH1D4Q==}
 
   jquery@3.7.1:
     resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
@@ -2199,10 +2193,6 @@ snapshots:
   isexe@2.0.0: {}
 
   jquery-ui-dist@1.13.2:
-    dependencies:
-      jquery: 3.7.1
-
-  jquery-ui@1.13.2:
     dependencies:
       jquery: 3.7.1
 

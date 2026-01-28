@@ -25,7 +25,6 @@
     "colormap": "^2.3.2",
     "html2canvas": "^1.4.1",
     "jquery": "3.7.1",
-    "jquery-ui": "1.13.2",
     "jquery-ui-dist": "1.13.2",
     "leaflet": "1.9.4",
     "leaflet-polylineoffset": "^1.1.1",
