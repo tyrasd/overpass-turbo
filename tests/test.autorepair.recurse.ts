@@ -1,4 +1,5 @@
 import {afterEach, describe, expect, it, vi} from "vitest";
+
 import ide from "../js/ide";
 
 describe("ide.autorepair.recurse", () => {

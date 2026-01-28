@@ -1,4 +1,5 @@
 import {beforeEach, describe, expect, it} from "vitest";
+
 import {ffs_construct_query} from "../js/ffs";
 import {setPresets} from "../js/ffs/free";
 

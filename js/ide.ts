@@ -1,31 +1,32 @@
-// global ide object
-import _ from "lodash";
-import $ from "jquery";
-import jQuery from "jquery";
-import html2canvas from "html2canvas";
 import {Canvg} from "canvg";
+import {default as colorbrewer} from "colorbrewer";
+import colormap from "colormap";
+import html2canvas from "html2canvas";
+import $ from "jquery";
 import "leaflet";
 import "codemirror/lib/codemirror.js";
-import colormap from "colormap";
-import tokml from "tokml";
+import jQuery from "jquery";
+// global ide object
+import _ from "lodash";
 import togpx from "togpx";
-import {default as colorbrewer} from "colorbrewer";
+import tokml from "tokml";
+
+import Autorepair from "./autorepair";
 //import { schemegroups as colorbrewer } from "colorbrewer";
 import configs from "./configs";
-import Query from "./query";
 import {
   ffs_construct_query,
   ffs_invalidateCache,
   ffs_repair_search
 } from "./ffs";
 import i18n from "./i18n";
-import settings from "./settings";
-import overpass from "./overpass";
-import urlParameters from "./urlParameters";
-import Autorepair from "./autorepair";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
-import sync from "./sync-with-osm";
+import overpass from "./overpass";
+import Query from "./query";
+import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
+import sync from "./sync-with-osm";
+import urlParameters from "./urlParameters";
 
 declare const CodeMirror;
 
