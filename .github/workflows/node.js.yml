@@ -18,9 +18,9 @@ jobs:
         with:
           node-version: "20"
       - run: corepack enable
-      - run: yarn install
-      - run: yarn test
-      - run: yarn build
+      - run: pnpm install
+      - run: pnpm test
+      - run: pnpm build
       - name: Deploy to https://${{ github.actor }}.github.io/${{ github.event.repository.name }}/
         uses: peaceiris/actions-gh-pages@v3
         with:
