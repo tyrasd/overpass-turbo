@@ -47,7 +47,7 @@
     "jquery-ui-dist": "1.13.2",
     "leaflet": "1.9.4",
     "leaflet-polylineoffset": "^1.1.1",
-    "leaflet.locationfilter": "tmgreensolutions/leaflet-locationfilter#ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d",
+    "leaflet.locationfilter": "https://github.com/kajic/leaflet-locationfilter/archive/ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d.tar.gz",
     "lodash": ">=4.17.5",
     "osm-auth": "^3.0.0",
     "osmtogeojson": "^3.0.0-beta.5",
