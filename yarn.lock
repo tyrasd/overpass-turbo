@@ -3487,7 +3487,7 @@ __metadata:
     request: "npm:^2.67.0"
     rgbcolor: "npm:^1.0.1"
     stackblur: "npm:^1.0.0"
-    tag2link: "JOSM/tag2link.git#master"
+    tag2link: "npm:^2026.1.21"
     togpx: "tyrasd/togpx#4396a386fd179be6876f7443438909d524651eed"
     tokml: "npm:^0.4.0"
     typescript: "npm:^5.0.4"
@@ -4483,10 +4483,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tag2link@JOSM/tag2link.git#master":
-  version: 2024.05.21
-  resolution: "tag2link@https://github.com/JOSM/tag2link.git#commit=a79b70d8e9ed7bc5c013a173b3c249b67d749be6"
-  checksum: 10c0/fb9013109a0821364d8e6d122305d1e91d79a52f67956fc335d2c15c4d4be301f3e019df3c6e243f55b1207dcb7c576479d61234822b26d2ab8a4d19a0459373
+"tag2link@npm:^2026.1.21":
+  version: 2026.1.21
+  resolution: "tag2link@npm:2026.1.21"
+  checksum: 10c0/cca6487c3398509a1dec180c9e3402a53f89e05389b8575f78797873f6a0f1c063f7cf81482051cf16737fe5630b555521c4c4c79f480b041b8ccbefdb2353a7
   languageName: node
   linkType: hard
 
