@@ -29,7 +29,6 @@
     "lint-staged": "^15.2.7",
     "peggy": "^3.0.2",
     "prettier": "^3.8.1",
-    "request": "^2.67.0",
     "typescript": "^5.0.4",
     "vite": "^8.0.0-beta.10",
     "vitest": "^4.0.18"
