@@ -28,7 +28,7 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "peggy": "^3.0.2",
-    "prettier": "^3.3.2",
+    "prettier": "^3.8.1",
     "request": "^2.67.0",
     "typescript": "^5.0.4",
     "vite": "^6.2.7",
