@@ -1,6 +1,7 @@
 {
     "nav.run": "Søg",
     "nav.run_tt": "udfør denne søgning på Overpass API",
+    "nav.clear": "Clear query",
     "nav.rerender_tt": "forktolk MapCSS og gentegn kortet",
     "nav.share": "Del",
     "nav.share_tt": "få et permalink for denne søgning",

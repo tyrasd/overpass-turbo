@@ -1,6 +1,7 @@
 {
     "nav.run": "اجرا",
     "nav.run_tt": "این پرس‌وجو را از طریق Overpass API اجرا کنید",
+    "nav.clear": "Clear query",
     "nav.rerender_tt": "MapCSS را بخوان و نقشه را دوباره رندر کن",
     "nav.share": "هم‌رسانی",
     "nav.share_tt": "برای این پرس‌وجو یک پایاپیوند دریافت کنید",

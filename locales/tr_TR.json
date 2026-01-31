@@ -1,6 +1,7 @@
 {
     "nav.run": "Çalıştır",
     "nav.run_tt": "Bu sorguyu Overpass API üzerinde çalıştırın",
+    "nav.clear": "Clear query",
     "nav.rerender_tt": "MapCSS verisini oku ve haritayı yeniden çiz",
     "nav.share": "Paylaş",
     "nav.share_tt": "Sorgu için paylaşma uzantısı oluştur",
