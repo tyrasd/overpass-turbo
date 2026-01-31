@@ -190,6 +190,14 @@ export function ffs_construct_query(
             )
               return `(newer:"{{date:${val}}}")`;
             return `(newer:"${val}")`;
+          case "older":
+            if (
+              condition.val.match(
+                /^-?\d+ ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?$/
+              )
+            )
+              return `(if: timestamp() <= "{{date:${val}}}")`;
+            return `(if: timestamp() <= "${val}")`;
           case "user":
             return `(user:"${val}")`;
           case "uid":
@@ -252,6 +260,8 @@ export function ffs_construct_query(
             return quote_comment_str(`id:${quotes(condition.val)}`);
           case "newer":
             return quote_comment_str(`newer:${quotes(condition.val)}`);
+          case "older":
+            return quote_comment_str(`older:${quotes(condition.val)}`);
           case "user":
             return quote_comment_str(`user:${quotes(condition.val)}`);
           case "uid":
