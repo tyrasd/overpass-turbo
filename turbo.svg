@@ -4,18 +4,27 @@
     <path
        d="M 15,8 A 7,7 0 1 1 1,8 7,7 0 1 1 15,8 z"
        id="circle"
-       style="fill:none;stroke:#000000;stroke-width:1.5" />
+       style="fill:none;stroke-width:1.5" />
     <path
        d="m 1,6 c 0,0 4.5,3 7,3 2.5,0 7,-3 7,-3"
        id="roundshape"
-       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:none;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
        d="M 8,15 8,9"
        id="verticalbar"
-       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
        d="M 13,7.5 3,7.5"
        id="horizbar"
-       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:none;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
   </g>
+  <style>
+    path {
+      stroke: #000000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      path { stroke: #ffffff; }
+    }
+  </style>
 </svg>
