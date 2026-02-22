@@ -1,12 +1,10 @@
-/// <reference types="vitest" />
-import {type Plugin, defineConfig, createFilter} from "vite";
-import vitePluginFaviconsInject from "vite-plugin-favicons-inject";
 import inject from "@rollup/plugin-inject";
-import peggy from "peggy";
-
+import {execSync} from "child_process";
 import {readFileSync} from "fs";
 import {resolve} from "path";
-import {execSync} from "child_process";
+import peggy from "peggy";
+/// <reference types="vitest" />
+import {type Plugin, defineConfig, createFilter} from "vite";
 
 const GIT_VERSION = JSON.stringify(
   `${execSync("git log -1 --format=%cd --date=short", {
@@ -59,8 +57,7 @@ export default defineConfig(() => ({
       $: "jquery",
       jQuery: "jquery"
     }),
-    peggyPlugin(),
-    vitePluginFaviconsInject("./turbo.svg")
+    peggyPlugin()
   ],
   // https://vitest.dev/config/
   test: {

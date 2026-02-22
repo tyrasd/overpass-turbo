@@ -1,4 +1,5 @@
 import {osmAuth} from "osm-auth";
+
 import configs from "./configs";
 
 const enabled = configs.osmAuth && configs.osmAuth.client_id;

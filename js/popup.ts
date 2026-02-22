@@ -1,6 +1,7 @@
 import $ from "jquery";
-import {htmlentities} from "./misc";
 import tag2link from "tag2link/index.json";
+
+import {htmlentities} from "./misc";
 
 const _tag2link = tag2link.filter(
   (i) => !i.url.startsWith("https://unavatar.now.sh")

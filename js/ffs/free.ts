@@ -52,9 +52,8 @@ export default function ffs_free(callback) {
   // load presets
   async function loadPresets() {
     try {
-      const {default: data} = await import(
-        "../../node_modules/@openstreetmap/id-tagging-schema/dist/presets.json"
-      );
+      const {default: data} =
+        await import("../../node_modules/@openstreetmap/id-tagging-schema/dist/presets.json");
       setPresets(data);
     } catch (err) {
       console.warn("failed to load presets file", err);

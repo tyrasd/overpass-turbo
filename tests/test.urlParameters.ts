@@ -1,4 +1,5 @@
 import {describe, expect, it} from "vitest";
+
 import settings from "../js/settings";
 import urlParameters from "../js/urlParameters";
 

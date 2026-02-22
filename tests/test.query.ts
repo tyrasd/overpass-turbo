@@ -1,5 +1,6 @@
-import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
 import L from "leaflet";
+import {afterEach, beforeEach, describe, expect, it, vi} from "vitest";
+
 import ide from "../js/ide";
 
 describe("ide.query", () => {

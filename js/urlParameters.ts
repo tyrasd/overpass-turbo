@@ -1,7 +1,7 @@
 // urlParameters module
 import {ffs_construct_query} from "./ffs";
-import settings from "./settings";
 import {Base64, lzw_decode} from "./misc";
+import settings from "./settings";
 
 export function parseUrlParameters(
   param_str = location.search || location.hash || ""
