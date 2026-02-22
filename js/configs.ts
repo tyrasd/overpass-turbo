@@ -8,7 +8,7 @@ export default {
     "https://overpass-api.de/api/",
     "https://overpass-api.de/api/",
     "https://maps.mail.ru/osm/tools/overpass/api/",
-    "https://overpass.kumi.systems/api/"
+    "https://overpass.private.coffee/api/"
   ],
   defaultTiles: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
   // https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
