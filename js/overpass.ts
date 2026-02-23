@@ -157,7 +157,7 @@ class Overpass {
             if (typeof data == "string" && data[0] == "{") {
               // if the data is a string, but looks more like a json object
               try {
-                data = $.parseJSON(data);
+                data = JSON.parse(data);
               } catch (e) {}
             }
             // hacky firefox hack :( (it is not properly detecting xml from the content-type header)
@@ -225,10 +225,10 @@ class Overpass {
                   );
                 }
                 if (typeof data == "object" && jqXHR.responseXML)
-                  errmsg = `<p>${$.trim($("remark", data).html())}</p>`;
+                  errmsg = `<p>${String($("remark", data).html()).trim()}</p>`;
                 if (typeof data == "object" && data.remark)
                   errmsg = `<p>${$("<div/>")
-                    .text($.trim(data.remark))
+                    .text(String(data.remark).trim())
                     .html()}</p>`;
                 console.log("Overpass API error", fullerrmsg || errmsg); // write (full) error message to console for easier debugging
                 overpass.fire("onQueryError", errmsg);

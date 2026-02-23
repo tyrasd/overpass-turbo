@@ -87,7 +87,7 @@ $(document).ready(() => {
       return query;
     },
     getQueryLang() {
-      return $.trim(settings.code["overpass"]).match(/^</)
+      return String(settings.code["overpass"]).trim().match(/^</)
         ? "xml"
         : "OverpassQL";
     },
@@ -110,16 +110,6 @@ $(document).ready(() => {
     }
   };
   overpass.init();
-  // (very raw) compatibility check
-  if ($.support.cors != true || false) {
-    // the currently used browser is not capable of running the IDE. :(
-    $(
-      '<div title="Your browser is not supported :(">' +
-        '<p>The browser you are currently using, is not capable of running this Application. <small>It has to support <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross origin resource sharing (CORS)</a>.</small></p>' +
-        '<p>Please update to a more up-to-date version of your browser or switch to a more capable browser! Recent versions of <a href="http://www.opera.com">Opera</a>, <a href="http://www.google.com/intl/de/chrome/browser/">Chrome</a> and <a href="http://www.mozilla.org/de/firefox/">Firefox</a> have been tested to work.</p>' +
-        "</div>"
-    ).dialog({modal: true});
-  }
   // check for any get-parameters
   const params = parseUrlParameters();
   // uncompressed query set in url
