@@ -85,8 +85,8 @@ importers:
         specifier: ^1.9.3
         version: 1.9.3
       happy-dom:
-        specifier: ^15.10.2
-        version: 15.10.2
+        specifier: ^20.8.9
+        version: 20.8.9
       husky:
         specifier: ^9.0.11
         version: 9.0.11
@@ -107,10 +107,10 @@ importers:
         version: 5.1.6
       vite:
         specifier: ^8.0.0-beta.10
-        version: 8.0.0-beta.10(yaml@2.4.5)
+        version: 8.0.0-beta.10(@types/node@25.5.0)(yaml@2.4.5)
       vitest:
         specifier: ^4.0.18
-        version: 4.0.18(happy-dom@15.10.2)(lightningcss@1.31.1)(yaml@2.4.5)
+        version: 4.0.18(@types/node@25.5.0)(happy-dom@20.8.9)(lightningcss@1.31.1)(yaml@2.4.5)
 
 packages:
 
@@ -631,11 +631,20 @@ packages:
   '@types/leaflet@1.9.3':
     resolution: {integrity: sha512-Caa1lYOgKVqDkDZVWkto2Z5JtVo09spEaUt2S69LiugbBpoqQu92HYFMGUbYezZbnBkyOxMNPXHSgRrRY5UyIA==}
 
+  '@types/node@25.5.0':
+    resolution: {integrity: sha512-jp2P3tQMSxWugkCUKLRPVUpGaL5MVFwF8RDuSRztfwgN1wmqJeMSbKlnEtQqU8UrhTmzEmZdu2I6v2dpp7XIxw==}
+
   '@types/raf@3.4.0':
     resolution: {integrity: sha512-taW5/WYqo36N7V39oYyHP9Ipfd5pNFvGTIQsNGj86xV88YQ7GnI30/yMfKDF7Zgin0m3e+ikX88FvImnK4RjGw==}
 
   '@types/sizzle@2.3.3':
     resolution: {integrity: sha512-JYM8x9EGF163bEyhdJBpR2QX1R5naCJHC8ucJylJ3w9/CVBaskdQ8WqBf8MmQrd1kRvp/a4TS8HJ+bxzR7ZJYQ==}
+
+  '@types/whatwg-mimetype@3.0.2':
+    resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
+
+  '@types/ws@8.18.1':
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@vitest/expect@4.0.18':
     resolution: {integrity: sha512-8sCWUyckXXYvx4opfzVY03EOiYVxyNrHS5QxX3DAIi5dpJAAkyJezHCP77VMX4HKA2LDT/Jpfo8i2r5BE3GnQQ==}
@@ -823,8 +832,8 @@ packages:
   emoji-regex@10.3.0:
     resolution: {integrity: sha512-QpLs9D9v9kArv4lfDEgg1X/gN5XLnf/A6l9cs8SPZLRZR3ZkY9+kwIQTxm+fsSej5UMYGE8fdoaZVIBlqG0XTw==}
 
-  entities@4.5.0:
-    resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
+  entities@7.0.1:
+    resolution: {integrity: sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA==}
     engines: {node: '>=0.12'}
 
   es-module-lexer@1.7.0:
@@ -896,11 +905,11 @@ packages:
 
   glob@3.2.11:
     resolution: {integrity: sha512-hVb0zwEZwC1FXSKRPFTeOtN7AArJcJlI6ULGLtrstaswKNlrTJqAA+1lYlSUop4vjA423xlBzqfVS3iWGlqJ+g==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
-  happy-dom@15.10.2:
-    resolution: {integrity: sha512-NbA5XrSovenJIIcfixCREX3ZnV7yHP4phhbfuxxf4CPn+LZpz/jIM9EqJ2DrPwgVDSMoAKH3pZwQvkbsSiCrUw==}
-    engines: {node: '>=18.0.0'}
+  happy-dom@20.8.9:
+    resolution: {integrity: sha512-Tz23LR9T9jOGVZm2x1EPdXqwA37G/owYMxRwU0E4miurAtFsPMQ1d2Jc2okUaSjZqAFz2oEn3FLXC5a0a+siyA==}
+    engines: {node: '>=20.0.0'}
 
   html2canvas@1.4.1:
     resolution: {integrity: sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==}
@@ -1422,6 +1431,9 @@ packages:
     resolution: {integrity: sha512-YYY9Dle1leC+btgrHnAR05eq0aRdcPJsXlYYD+SYw2lqc5HFuFNHg3wWEW4SNE0iXXEUl0fz43gTQ3r1YK76rg==}
     hasBin: true
 
+  undici-types@7.18.2:
+    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -1542,10 +1554,6 @@ packages:
       jsdom:
         optional: true
 
-  webidl-conversions@7.0.0:
-    resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
-    engines: {node: '>=12'}
-
   whatwg-mimetype@3.0.0:
     resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
     engines: {node: '>=12'}
@@ -1567,6 +1575,18 @@ packages:
   wrap-ansi@9.0.0:
     resolution: {integrity: sha512-G8ura3S+3Z2G+mkgNRq8dqaFZAuxfsxpBB8OCTGRTCtp+l/v9nbFNmCUP1BZMts3G1142MsZfn6eeUKrr4PD1Q==}
     engines: {node: '>=18'}
+
+  ws@8.20.0:
+    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
 
   xmldom@0.1.31:
     resolution: {integrity: sha512-yS2uJflVQs6n+CyjHoaBmVSqIDevTAWrzMmjG1Gc7h1qQ7uVozNhEPJAwZXWyGQ/Gafo3fCwrcaokezLPupVyQ==}
@@ -1891,9 +1911,19 @@ snapshots:
     dependencies:
       '@types/geojson': 7946.0.10
 
+  '@types/node@25.5.0':
+    dependencies:
+      undici-types: 7.18.2
+
   '@types/raf@3.4.0': {}
 
   '@types/sizzle@2.3.3': {}
+
+  '@types/whatwg-mimetype@3.0.2': {}
+
+  '@types/ws@8.18.1':
+    dependencies:
+      '@types/node': 25.5.0
 
   '@vitest/expect@4.0.18':
     dependencies:
@@ -1904,13 +1934,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.18(vite@6.3.4(lightningcss@1.31.1)(yaml@2.4.5))':
+  '@vitest/mocker@4.0.18(vite@6.3.4(@types/node@25.5.0)(lightningcss@1.31.1)(yaml@2.4.5))':
     dependencies:
       '@vitest/spy': 4.0.18
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 6.3.4(lightningcss@1.31.1)(yaml@2.4.5)
+      vite: 6.3.4(@types/node@25.5.0)(lightningcss@1.31.1)(yaml@2.4.5)
 
   '@vitest/pretty-format@4.0.18':
     dependencies:
@@ -2067,7 +2097,7 @@ snapshots:
 
   emoji-regex@10.3.0: {}
 
-  entities@4.5.0: {}
+  entities@7.0.1: {}
 
   es-module-lexer@1.7.0: {}
 
@@ -2152,11 +2182,17 @@ snapshots:
       inherits: 2.0.4
       minimatch: 0.3.0
 
-  happy-dom@15.10.2:
+  happy-dom@20.8.9:
     dependencies:
-      entities: 4.5.0
-      webidl-conversions: 7.0.0
+      '@types/node': 25.5.0
+      '@types/whatwg-mimetype': 3.0.2
+      '@types/ws': 8.18.1
+      entities: 7.0.1
       whatwg-mimetype: 3.0.0
+      ws: 8.20.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
 
   html2canvas@1.4.1:
     dependencies:
@@ -2666,13 +2702,15 @@ snapshots:
 
   uglify-js@1.1.1: {}
 
+  undici-types@7.18.2: {}
+
   util-deprecate@1.0.2: {}
 
   utrie@1.0.2:
     dependencies:
       base64-arraybuffer: 1.0.2
 
-  vite@6.3.4(lightningcss@1.31.1)(yaml@2.4.5):
+  vite@6.3.4(@types/node@25.5.0)(lightningcss@1.31.1)(yaml@2.4.5):
     dependencies:
       esbuild: 0.25.1
       fdir: 6.4.4(picomatch@4.0.2)
@@ -2681,11 +2719,12 @@ snapshots:
       rollup: 4.40.1
       tinyglobby: 0.2.13
     optionalDependencies:
+      '@types/node': 25.5.0
       fsevents: 2.3.3
       lightningcss: 1.31.1
       yaml: 2.4.5
 
-  vite@8.0.0-beta.10(yaml@2.4.5):
+  vite@8.0.0-beta.10(@types/node@25.5.0)(yaml@2.4.5):
     dependencies:
       '@oxc-project/runtime': 0.110.0
       fdir: 6.5.0(picomatch@4.0.3)
@@ -2695,13 +2734,14 @@ snapshots:
       rolldown: 1.0.0-rc.1
       tinyglobby: 0.2.15
     optionalDependencies:
+      '@types/node': 25.5.0
       fsevents: 2.3.3
       yaml: 2.4.5
 
-  vitest@4.0.18(happy-dom@15.10.2)(lightningcss@1.31.1)(yaml@2.4.5):
+  vitest@4.0.18(@types/node@25.5.0)(happy-dom@20.8.9)(lightningcss@1.31.1)(yaml@2.4.5):
     dependencies:
       '@vitest/expect': 4.0.18
-      '@vitest/mocker': 4.0.18(vite@6.3.4(lightningcss@1.31.1)(yaml@2.4.5))
+      '@vitest/mocker': 4.0.18(vite@6.3.4(@types/node@25.5.0)(lightningcss@1.31.1)(yaml@2.4.5))
       '@vitest/pretty-format': 4.0.18
       '@vitest/runner': 4.0.18
       '@vitest/snapshot': 4.0.18
@@ -2718,10 +2758,11 @@ snapshots:
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 6.3.4(lightningcss@1.31.1)(yaml@2.4.5)
+      vite: 6.3.4(@types/node@25.5.0)(lightningcss@1.31.1)(yaml@2.4.5)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      happy-dom: 15.10.2
+      '@types/node': 25.5.0
+      happy-dom: 20.8.9
     transitivePeerDependencies:
       - jiti
       - less
@@ -2734,8 +2775,6 @@ snapshots:
       - terser
       - tsx
       - yaml
-
-  webidl-conversions@7.0.0: {}
 
   whatwg-mimetype@3.0.0: {}
 
@@ -2755,6 +2794,8 @@ snapshots:
       ansi-styles: 6.2.1
       string-width: 7.1.0
       strip-ansi: 7.1.0
+
+  ws@8.20.0: {}
 
   xmldom@0.1.31: {}
 
