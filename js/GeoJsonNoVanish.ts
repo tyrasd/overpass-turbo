@@ -1,3 +1,5 @@
+import * as L from 'leaflet';
+
 class GeoJsonNoVanish extends L.GeoJSON {
   threshold = 10;
   constructor(geojson, options) {
