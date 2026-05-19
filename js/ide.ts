@@ -1061,7 +1061,12 @@ class IDE {
     };
     overpass.handlers["onRawDataPresent"] = function () {
       ide.dataViewer.setOption("mode", overpass.resultType);
-      ide.dataViewer.setValue(overpass.resultText);
+      try {
+        ide.dataViewer.setValue(overpass.resultText);
+      } catch (e) {
+        ide.dataViewer.setOption("mode", "text");
+        ide.dataViewer.setValue(overpass.resultText);
+      }
     };
     overpass.handlers["onGeoJsonReady"] = function () {
       // show layer
