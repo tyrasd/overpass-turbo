@@ -5,7 +5,7 @@
 - ~~resizable panels (editor/map)- maybe also: hide editor temporarily for map inspections (or just go with a fullscreen mode?)~~
 - ~~editor: better Syntax highlighting (auto detect query language xml/overpassQL, support for overpassQL)~~
 - editor: code auto completion (with inline help?) ~~and auto tag closing for xml~~
-- ~~editor: highline lines where an error occured~~
+- ~~editor: highline lines where an error occurred~~
 - map: make crosshairs not overlap map popups
 - ~~map: make crosshairs optional (default: not visible)~~
 - map popups: ~~show coordinates of points~~ (and bbox of ways?), ~~show metadata (if present)~~
