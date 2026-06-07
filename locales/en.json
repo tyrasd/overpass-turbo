@@ -215,6 +215,8 @@
   "error.ajax.expl": "An error occurred during the execution of the overpass query!",
   "error.mapcss.title": "MapCSS Error",
   "error.mapcss.expl": "Invalid MapCSS stylesheet:",
+  "error.josm.title": "JOSM Error",
+  "error.josm.expl": "Unable to open in JOSM. Is JOSM running with remote control enabled?",
   "error.remote.title": "Remote Control Error",
   "error.remote.incompat": "Error: incompatible JOSM remote control version",
   "error.remote.not_found": "Remote control not found. :( Make sure JOSM is already running and properly configured.",

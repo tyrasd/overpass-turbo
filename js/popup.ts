@@ -3,15 +3,39 @@ import tag2link from "tag2link/index.json";
 
 import {htmlentities} from "./misc";
 import settings from "./settings";
+import i18n from "./i18n";
 
 const _tag2link = tag2link.filter(
   (i) => !i.url.startsWith("https://unavatar.now.sh")
 );
 
+// event delegation for JOSM edit links
+$(document).on("click", "a.josm-edit", function (e) {
+  e.preventDefault();
+  const objects = $(this).attr("data-objects");
+  fetch(`http://localhost:8111/load_object?objects=${objects}&relation_members=true`)
+    .catch(() => {
+      const content = `<div class="notification is-danger is-light">${i18n.t("error.josm.expl")}</div>`;
+      const dialog = $(`<div class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">${i18n.t("error.josm.title")}</p>
+            <button class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">${content}</section>
+          <footer class="modal-card-foot"></footer>
+        </div>
+      </div>`);
+      dialog.find(".delete, .modal-background").on("click", () => dialog.remove());
+      $("body").append(dialog);
+    });
+});
+
 function editLink(type: string, id: string): string {
   if (settings.editor_preference === "josm") {
     const prefix = type === "node" ? "n" : type === "way" ? "w" : "r";
-    return ` <a href="#" onclick="fetch('http://localhost:8111/load_object?objects=${prefix}${id}&relation_members=true');return false;">✏</a>`;
+    return ` <a href="#" class="josm-edit" data-objects="${prefix}${id}">✏</a>`;
   }
   return ` <a href="//www.openstreetmap.org/edit?${type}=${id}" target="_blank">✏</a>`;
 }
