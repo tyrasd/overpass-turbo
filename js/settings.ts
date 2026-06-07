@@ -25,6 +25,7 @@ class Settings {
   disable_poiomatic: boolean;
   show_data_stats: boolean;
   disable_warning_huge_data: boolean;
+  editor_preference: string;
 
   // meta settings
   first_time_visit: boolean;
@@ -199,6 +200,8 @@ settings.define_setting("ui_language", "String", "auto", 19);
 settings.define_setting("disable_poiomatic", "boolean", false, 21);
 // show data stats
 settings.define_setting("show_data_stats", "boolean", true, 21);
+// editor preference (osm.org or josm)
+settings.define_setting("editor_preference", "String", "osmdotorg", 1);
 // disable poi-o-matic
 settings.define_setting("disable_warning_huge_data", "boolean", false, 39);
 
