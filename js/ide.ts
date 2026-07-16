@@ -637,9 +637,13 @@ class IDE {
     });
 
     // tabs
-    const tabDivs = {Map: "#map", Data: "#data", Table: "#data-table"};
-    for (const sel of Object.values(tabDivs)) {
-      $(sel)[0].style.zIndex = "-1001";
+    const tabDivs = {Map: "#map", Data: "#data", Table: "#table"};
+    const activeTab = $(".tabs li.is-active");
+    const activeTabClass = Object.keys(tabDivs).find((c) =>
+      activeTab.hasClass(c)
+    );
+    for (const [name, sel] of Object.entries(tabDivs)) {
+      $(sel)[0].style.zIndex = name === activeTabClass ? "1001" : "-1001";
     }
     $(".tabs li").bind("click", (e) => {
       const $li = $(e.target).closest("li");
@@ -1000,6 +1004,16 @@ class IDE {
       // check if 'out' followed by any number of characters (non-greedy) and then 'count' is present in the query
       const isCountPresent = /out[^;]+?count/.test(query);
 
+      // helper: switch to table if it has rows, otherwise to data
+      function switchToTableOrData() {
+        const tableEl = document.getElementById("table");
+        if (tableEl && tableEl.querySelector("table")) {
+          ide.switchTab("Table");
+        } else {
+          ide.switchTab("Data");
+        }
+      }
+
       // show warning/info if only invisible data is returned and 'out...count' is not present in the query
       if (empty_msg == "no visible data") {
         if (!isCountPresent && !settings.no_autorepair) {
@@ -1029,7 +1043,7 @@ class IDE {
                   settings.no_autorepair = true;
                   settings.save();
                 }
-                ide.switchTab("Data");
+                switchToTableOrData();
               }
             }
           ];
@@ -1039,15 +1053,15 @@ class IDE {
             dialog_buttons
           );
         } else if (isCountPresent) {
-          ide.switchTab("Data");
+          switchToTableOrData();
         }
       }
       // auto tab switching (if only areas are returned)
-      if (empty_msg == "only areas returned") ide.switchTab("Data");
+      if (empty_msg == "only areas returned") switchToTableOrData();
       // auto tab switching (if nodes without coordinates are returned)
-      if (empty_msg == "no coordinates returned") ide.switchTab("Data");
+      if (empty_msg == "no coordinates returned") switchToTableOrData();
       // auto tab switching (if unstructured data is returned)
-      if (data_mode == "unknown") ide.switchTab("Data");
+      if (data_mode == "unknown") switchToTableOrData();
       // display empty map badge
       $(
         `<div id="map_blank" style="z-index:700; display:block; position:relative; top:50px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">${i18n.t(
@@ -1158,56 +1172,171 @@ class IDE {
     overpass.handlers["onQueryErrorLine"] = function (linenumber) {
       ide.highlightError(linenumber);
     };
+    function parseCSVText(
+      text: string
+    ): {columns: string[]; rows: object[]} | null {
+      const lines = text.trim().split(/\r?\n/);
+      if (lines.length < 2) return null;
+      const parseRow = (line: string): string[] => {
+        const result: string[] = [];
+        let current = "";
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (inQuotes) {
+            if (ch === '"') {
+              if (i + 1 < line.length && line[i + 1] === '"') {
+                current += '"';
+                i++;
+              } else {
+                inQuotes = false;
+              }
+            } else {
+              current += ch;
+            }
+          } else {
+            if (ch === '"') {
+              inQuotes = true;
+            } else if (ch === ",") {
+              result.push(current);
+              current = "";
+            } else {
+              current += ch;
+            }
+          }
+        }
+        result.push(current);
+        return result;
+      };
+      const columns = parseRow(lines[0]);
+      const rows = lines.slice(1).map((line) => {
+        const values = parseRow(line);
+        const obj: Record<string, string> = {};
+        columns.forEach((col, i) => {
+          obj[col] = values[i] ?? "";
+        });
+        return obj;
+      });
+      return {columns, rows};
+    }
+    function objectsToTable(arr: object[]): {
+      columns: string[];
+      rows: object[];
+    } {
+      const colSet = new Set<string>();
+      for (const el of arr) {
+        if (el && typeof el === "object") {
+          for (const k of Object.keys(el)) colSet.add(k);
+        }
+      }
+      return {columns: Array.from(colSet), rows: arr};
+    }
+    function flattenFeatures(features: any[]): {
+      columns: string[];
+      rows: object[];
+    } {
+      const rows = features.map((f) => {
+        const row: Record<string, any> = {};
+        row.type = f.geometry?.type ?? "";
+        row.coordinates = JSON.stringify(f.geometry?.coordinates ?? "");
+        const props = f.properties ?? {};
+        for (const [k, v] of Object.entries(props)) {
+          if (typeof v === "object" && v !== null) {
+            if (k === "tags" && typeof v === "object") {
+              for (const [tk, tv] of Object.entries(v as Record<string, any>)) {
+                row["tag:" + tk] = tv;
+              }
+            } else {
+              row[k] = JSON.stringify(v);
+            }
+          } else {
+            row[k] = v;
+          }
+        }
+        return row;
+      });
+      return objectsToTable(rows);
+    }
+    function findFirstArray(obj: any): any[] | null {
+      if (Array.isArray(obj)) return obj;
+      if (obj && typeof obj === "object") {
+        for (const v of Object.values(obj)) {
+          const found = findFirstArray(v);
+          if (found) return found;
+        }
+      }
+      return null;
+    }
+    function renderTable(
+      tableEl: HTMLElement,
+      data: {columns: string[]; rows: object[]}
+    ) {
+      let html = "<table><thead><tr>";
+      for (const col of data.columns) {
+        html += "<th>" + htmlentities(col) + "</th>";
+      }
+      html += "</tr></thead><tbody>";
+      for (const row of data.rows) {
+        html += "<tr>";
+        for (const col of data.columns) {
+          let val: any = row[col];
+          if (val === undefined || val === null) val = "";
+          else if (typeof val === "object") val = JSON.stringify(val);
+          html += "<td>" + htmlentities(String(val)) + "</td>";
+        }
+        html += "</tr>";
+      }
+      html += "</tbody></table>";
+      tableEl.innerHTML = html;
+    }
     overpass.handlers["onRawDataPresent"] = function () {
       ide.dataViewer.setOption("mode", overpass.resultType);
-      console.log("overpass.resultType", overpass.resultType);
       try {
         ide.dataViewer.setValue(overpass.resultText);
       } catch (e) {
         ide.dataViewer.setOption("mode", "text");
         ide.dataViewer.setValue(overpass.resultText);
       }
-      // render table view for JSON results with an elements array
-      const tableEl = document.getElementById("data-table");
-      if (overpass.resultText) {
-        const elements = JSON.parse(overpass.resultText).result;
-        // collect all column keys, flattening tags.* into tag columns
-        const tagKeys = new Set<string>();
-        for (const el of elements) {
-          if (el && typeof el === "object") {
-            for (const k of Object.keys(el)) {
-              tagKeys.add(k);
+      const tableEl = document.getElementById("table");
+      if (tableEl.innerHTML === "" && overpass.resultText) {
+        let parsed: {columns: string[]; rows: object[]} | null = null;
+        const text = overpass.resultText.trim();
+        if (text.startsWith("{") || text.startsWith("[")) {
+          try {
+            const data = JSON.parse(text);
+            const arr = findFirstArray(data);
+            if (arr) {
+              parsed =
+                arr.length > 0 && arr[0].type === "Feature"
+                  ? flattenFeatures(arr)
+                  : objectsToTable(arr);
             }
+          } catch (e) {
+            // not valid JSON
           }
         }
-        const baseKeys = Object.keys(elements[0]).filter((k) => k !== "tags");
-        const columns = Array.from(tagKeys);
-
-        let html = "<table><thead><tr>";
-        for (const col of columns) {
-          html += "<th>" + htmlentities(col) + "</th>";
+        if (!parsed) {
+          parsed = parseCSVText(text);
         }
-        html += "</tr></thead><tbody>";
-        for (const el of elements) {
-          html += "<tr>";
-          for (const col of columns) {
-            let val: any;
-            val = el[col];
-            if (val === undefined || val === null) val = "";
-            else if (typeof val === "object") val = JSON.stringify(val);
-            html += "<td>" + htmlentities(String(val)) + "</td>";
-          }
-          html += "</tr>";
+        if (parsed && parsed.rows.length > 0) {
+          renderTable(tableEl, parsed);
+        } else {
+          tableEl.innerHTML =
+            "<p style='padding:12px;color:#888'>No tabular data to display.</p>";
         }
-        html += "</tbody></table>";
-        tableEl.innerHTML = html;
-      } else {
-        tableEl.innerHTML = "";
       }
     };
     overpass.handlers["onGeoJsonReady"] = function () {
       // show layer
       ide.map.addLayer(overpass.osmLayer);
+      // render table from geojson if available
+      const tableEl = document.getElementById("table");
+      if (overpass.geojson?.features?.length > 0) {
+        const parsed = flattenFeatures(overpass.geojson.features);
+        renderTable(tableEl, parsed);
+      } else {
+        tableEl.innerHTML = "";
+      }
       // autorun callback (e.g. zoom to data)
       if (typeof ide.run_query_on_startup === "function") {
         ide.run_query_on_startup();
