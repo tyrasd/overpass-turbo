@@ -8,6 +8,7 @@ import $ from "jquery";
 import jQuery from "jquery";
 // global ide object
 import debounce from "lodash/debounce";
+import Papa from "papaparse";
 import togpx from "togpx";
 import tokml from "tokml";
 
@@ -1175,49 +1176,14 @@ class IDE {
     function parseCSVText(
       text: string
     ): {columns: string[]; rows: object[]} | null {
-      const lines = text.trim().split(/\r?\n/);
-      if (lines.length < 2) return null;
-      const parseRow = (line: string): string[] => {
-        const result: string[] = [];
-        let current = "";
-        let inQuotes = false;
-        for (let i = 0; i < line.length; i++) {
-          const ch = line[i];
-          if (inQuotes) {
-            if (ch === '"') {
-              if (i + 1 < line.length && line[i + 1] === '"') {
-                current += '"';
-                i++;
-              } else {
-                inQuotes = false;
-              }
-            } else {
-              current += ch;
-            }
-          } else {
-            if (ch === '"') {
-              inQuotes = true;
-            } else if (ch === ",") {
-              result.push(current);
-              current = "";
-            } else {
-              current += ch;
-            }
-          }
-        }
-        result.push(current);
-        return result;
-      };
-      const columns = parseRow(lines[0]);
-      const rows = lines.slice(1).map((line) => {
-        const values = parseRow(line);
-        const obj: Record<string, string> = {};
-        columns.forEach((col, i) => {
-          obj[col] = values[i] ?? "";
-        });
-        return obj;
+      const result = Papa.parse(text.trim(), {
+        header: true,
+        skipEmptyLines: true
       });
-      return {columns, rows};
+      if (result.errors.length > 0 || result.data.length === 0) return null;
+      const columns = result.meta.fields ?? [];
+      if (columns.length === 0) return null;
+      return {columns, rows: result.data as object[]};
     }
     function objectsToTable(arr: object[]): {
       columns: string[];
@@ -1231,24 +1197,18 @@ class IDE {
       }
       return {columns: Array.from(colSet), rows: arr};
     }
-    function flattenFeatures(features: any[]): {
+    function geoJsonToTable(features: any[]): {
       columns: string[];
       rows: object[];
     } {
       const rows = features.map((f) => {
         const row: Record<string, any> = {};
-        row.type = f.geometry?.type ?? "";
+        console.log(f);
         row.coordinates = JSON.stringify(f.geometry?.coordinates ?? "");
         const props = f.properties ?? {};
         for (const [k, v] of Object.entries(props)) {
           if (typeof v === "object" && v !== null) {
-            if (k === "tags" && typeof v === "object") {
-              for (const [tk, tv] of Object.entries(v as Record<string, any>)) {
-                row["tag:" + tk] = tv;
-              }
-            } else {
-              row[k] = JSON.stringify(v);
-            }
+            row[k] = JSON.stringify(v);
           } else {
             row[k] = v;
           }
@@ -1257,12 +1217,11 @@ class IDE {
       });
       return objectsToTable(rows);
     }
-    function findFirstArray(obj: any): any[] | null {
+    function findArrayInObj(obj: any): any[] | null {
       if (Array.isArray(obj)) return obj;
       if (obj && typeof obj === "object") {
         for (const v of Object.values(obj)) {
-          const found = findFirstArray(v);
-          if (found) return found;
+          if (Array.isArray(v)) return v;
         }
       }
       return null;
@@ -1304,11 +1263,11 @@ class IDE {
         if (text.startsWith("{") || text.startsWith("[")) {
           try {
             const data = JSON.parse(text);
-            const arr = findFirstArray(data);
+            const arr = findArrayInObj(data);
             if (arr) {
               parsed =
                 arr.length > 0 && arr[0].type === "Feature"
-                  ? flattenFeatures(arr)
+                  ? geoJsonToTable(arr)
                   : objectsToTable(arr);
             }
           } catch (e) {
@@ -1332,7 +1291,7 @@ class IDE {
       // render table from geojson if available
       const tableEl = document.getElementById("table");
       if (overpass.geojson?.features?.length > 0) {
-        const parsed = flattenFeatures(overpass.geojson.features);
+        const parsed = geoJsonToTable(overpass.geojson.features);
         renderTable(tableEl, parsed);
       } else {
         tableEl.innerHTML = "";

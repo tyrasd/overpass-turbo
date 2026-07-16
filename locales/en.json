@@ -24,6 +24,8 @@
 
   "tabs.map": "Map",
   "tabs.map_tt": "map view",
+  "tabs.table": "Table",
+  "tabs.table_tt": "table view",
   "tabs.data": "Data",
   "tabs.data_tt": "data view",
 
@@ -34,7 +36,7 @@
   "map_controlls.select_bbox_disabled": "disabled as the current query doesn't require a bbox",
   "map_controlls.toggle_wide_map": "toggle wide map",
   "map_controlls.toggle_data": "toggle data overlay",
-  "map_controlls.suggest_zoom_to_data" : "click here to show the data",
+  "map_controlls.suggest_zoom_to_data": "click here to show the data",
 
   "settings.title": "Settings",
 
