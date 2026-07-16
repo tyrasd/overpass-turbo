@@ -637,16 +637,25 @@ class IDE {
     });
 
     // tabs
-    $("#dataviewer > div#data")[0].style.zIndex = "-1001";
+    const tabDivs = {Map: "#map", Data: "#data", Table: "#data-table"};
+    for (const sel of Object.values(tabDivs)) {
+      $(sel)[0].style.zIndex = "-1001";
+    }
     $(".tabs li").bind("click", (e) => {
-      if ($(e.target).hasClass("is-active")) {
+      const $li = $(e.target).closest("li");
+      if ($li.hasClass("is-active")) {
         return;
-      } else {
-        $("#dataviewer > div#data")[0].style.zIndex = String(
-          -1 * +$("#dataviewer > div#data")[0].style.zIndex
-        );
-        $(".tabs li").toggleClass("is-active");
       }
+      const tabClass = (
+        Object.keys(tabDivs) as (keyof typeof tabDivs)[]
+      ).find((c) => $li.hasClass(c));
+      if (tabClass) {
+        for (const [c, sel] of Object.entries(tabDivs)) {
+          $(sel)[0].style.zIndex = c === tabClass ? "1001" : "-1001";
+        }
+      }
+      $(".tabs li").removeClass("is-active");
+      $li.addClass("is-active");
     });
 
     // keyboard event listener
@@ -1151,11 +1160,49 @@ class IDE {
     };
     overpass.handlers["onRawDataPresent"] = function () {
       ide.dataViewer.setOption("mode", overpass.resultType);
+      console.log("overpass.resultType", overpass.resultType);
       try {
         ide.dataViewer.setValue(overpass.resultText);
       } catch (e) {
         ide.dataViewer.setOption("mode", "text");
         ide.dataViewer.setValue(overpass.resultText);
+      }
+      // render table view for JSON results with an elements array
+      const tableEl = document.getElementById("data-table");
+      if (overpass.resultText) {
+        const elements = JSON.parse(overpass.resultText).result;
+        // collect all column keys, flattening tags.* into tag columns
+        const tagKeys = new Set<string>();
+        for (const el of elements) {
+          if (el && typeof el === "object") {
+            for (const k of Object.keys(el)) {
+              tagKeys.add(k);
+            }
+          }
+        }
+        const baseKeys = Object.keys(elements[0]).filter((k) => k !== "tags");
+        const columns = Array.from(tagKeys);
+
+        let html = "<table><thead><tr>";
+        for (const col of columns) {
+          html += "<th>" + htmlentities(col) + "</th>";
+        }
+        html += "</tr></thead><tbody>";
+        for (const el of elements) {
+          html += "<tr>";
+          for (const col of columns) {
+            let val: any;
+            val = el[col];
+            if (val === undefined || val === null) val = "";
+            else if (typeof val === "object") val = JSON.stringify(val);
+            html += "<td>" + htmlentities(String(val)) + "</td>";
+          }
+          html += "</tr>";
+        }
+        html += "</tbody></table>";
+        tableEl.innerHTML = html;
+      } else {
+        tableEl.innerHTML = "";
       }
     };
     overpass.handlers["onGeoJsonReady"] = function () {
