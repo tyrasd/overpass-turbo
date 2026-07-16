@@ -8,7 +8,6 @@ import $ from "jquery";
 import jQuery from "jquery";
 // global ide object
 import debounce from "lodash/debounce";
-import Papa from "papaparse";
 import togpx from "togpx";
 import tokml from "tokml";
 
@@ -27,6 +26,7 @@ import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
 import sync from "./sync-with-osm";
+import {updateTableFromGeoJson, updateTableFromRawData} from "./table";
 import urlParameters from "./urlParameters";
 
 declare module "leaflet" {
@@ -1173,81 +1173,6 @@ class IDE {
     overpass.handlers["onQueryErrorLine"] = function (linenumber) {
       ide.highlightError(linenumber);
     };
-    function parseCSVText(
-      text: string
-    ): {columns: string[]; rows: object[]} | null {
-      const result = Papa.parse(text.trim(), {
-        header: true,
-        skipEmptyLines: true
-      });
-      if (result.errors.length > 0 || result.data.length === 0) return null;
-      const columns = result.meta.fields ?? [];
-      if (columns.length === 0) return null;
-      return {columns, rows: result.data as object[]};
-    }
-    function objectsToTable(arr: object[]): {
-      columns: string[];
-      rows: object[];
-    } {
-      const colSet = new Set<string>();
-      for (const el of arr) {
-        if (el && typeof el === "object") {
-          for (const k of Object.keys(el)) colSet.add(k);
-        }
-      }
-      return {columns: Array.from(colSet), rows: arr};
-    }
-    function geoJsonToTable(features: any[]): {
-      columns: string[];
-      rows: object[];
-    } {
-      const rows = features.map((f) => {
-        const row: Record<string, any> = {};
-        console.log(f);
-        row.coordinates = JSON.stringify(f.geometry?.coordinates ?? "");
-        const props = f.properties ?? {};
-        for (const [k, v] of Object.entries(props)) {
-          if (typeof v === "object" && v !== null) {
-            row[k] = JSON.stringify(v);
-          } else {
-            row[k] = v;
-          }
-        }
-        return row;
-      });
-      return objectsToTable(rows);
-    }
-    function findArrayInObj(obj: any): any[] | null {
-      if (Array.isArray(obj)) return obj;
-      if (obj && typeof obj === "object") {
-        for (const v of Object.values(obj)) {
-          if (Array.isArray(v)) return v;
-        }
-      }
-      return null;
-    }
-    function renderTable(
-      tableEl: HTMLElement,
-      data: {columns: string[]; rows: object[]}
-    ) {
-      let html = "<table><thead><tr>";
-      for (const col of data.columns) {
-        html += "<th>" + htmlentities(col) + "</th>";
-      }
-      html += "</tr></thead><tbody>";
-      for (const row of data.rows) {
-        html += "<tr>";
-        for (const col of data.columns) {
-          let val: any = row[col];
-          if (val === undefined || val === null) val = "";
-          else if (typeof val === "object") val = JSON.stringify(val);
-          html += "<td>" + htmlentities(String(val)) + "</td>";
-        }
-        html += "</tr>";
-      }
-      html += "</tbody></table>";
-      tableEl.innerHTML = html;
-    }
     overpass.handlers["onRawDataPresent"] = function () {
       ide.dataViewer.setOption("mode", overpass.resultType);
       try {
@@ -1258,31 +1183,7 @@ class IDE {
       }
       const tableEl = document.getElementById("table");
       if (tableEl.innerHTML === "" && overpass.resultText) {
-        let parsed: {columns: string[]; rows: object[]} | null = null;
-        const text = overpass.resultText.trim();
-        if (text.startsWith("{") || text.startsWith("[")) {
-          try {
-            const data = JSON.parse(text);
-            const arr = findArrayInObj(data);
-            if (arr) {
-              parsed =
-                arr.length > 0 && arr[0].type === "Feature"
-                  ? geoJsonToTable(arr)
-                  : objectsToTable(arr);
-            }
-          } catch (e) {
-            // not valid JSON
-          }
-        }
-        if (!parsed) {
-          parsed = parseCSVText(text);
-        }
-        if (parsed && parsed.rows.length > 0) {
-          renderTable(tableEl, parsed);
-        } else {
-          tableEl.innerHTML =
-            "<p style='padding:12px;color:#888'>No tabular data to display.</p>";
-        }
+        updateTableFromRawData(overpass.resultText, tableEl);
       }
     };
     overpass.handlers["onGeoJsonReady"] = function () {
@@ -1290,12 +1191,7 @@ class IDE {
       ide.map.addLayer(overpass.osmLayer);
       // render table from geojson if available
       const tableEl = document.getElementById("table");
-      if (overpass.geojson?.features?.length > 0) {
-        const parsed = geoJsonToTable(overpass.geojson.features);
-        renderTable(tableEl, parsed);
-      } else {
-        tableEl.innerHTML = "";
-      }
+      updateTableFromGeoJson(overpass.geojson?.features, tableEl);
       // autorun callback (e.g. zoom to data)
       if (typeof ide.run_query_on_startup === "function") {
         ide.run_query_on_startup();
