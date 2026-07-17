@@ -3,6 +3,7 @@
  * @license MIT
  * @see github.com/bbecquet/Leaflet.PolylineOffset
  */
+import "leaflet";
 
 function forEachPair(list, callback) {
   if (!list || list.length < 1) {

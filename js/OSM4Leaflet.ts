@@ -1,3 +1,4 @@
+import "leaflet";
 import osmtogeojson from "osmtogeojson";
 
 type Options = {

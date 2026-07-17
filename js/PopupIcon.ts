@@ -5,6 +5,8 @@
  * @license WTFPL
  * @see github.com/MapBBCode/mapbbcode
  */
+import "leaflet";
+
 const PopupIcon = L.Icon.extend({
   options: {
     selectable: false,
