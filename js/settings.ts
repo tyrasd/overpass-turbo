@@ -46,7 +46,10 @@ class Settings {
   constructor(namespace: string, version: number) {
     this.prefix = `${namespace}_`;
     this.settings_version = version;
-    this.version = +localStorage.getItem(`${this.prefix}version`);
+    this.version =
+      typeof localStorage === "undefined"
+        ? 0
+        : +localStorage.getItem(`${this.prefix}version`);
     this.settings = {};
     this.upgrade_callbacks = [];
   }

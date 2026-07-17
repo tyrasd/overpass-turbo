@@ -1,10 +1,11 @@
-import inject from "@rollup/plugin-inject";
 import {execSync} from "child_process";
 import {readFileSync} from "fs";
 import {resolve} from "path";
+
+import inject from "@rollup/plugin-inject";
 import peggy from "peggy";
 /// <reference types="vitest" />
-import {type Plugin, defineConfig, createFilter} from "vite";
+import {type Plugin, defineConfig, createFilter, lazyPlugins} from "vite-plus";
 
 const GIT_VERSION = JSON.stringify(
   `${execSync("git log -1 --format=%cd --date=short", {
@@ -51,18 +52,28 @@ export default defineConfig(() => ({
     APP_DEPENDENCIES,
     GIT_VERSION
   },
-  plugins: [
+  plugins: lazyPlugins(() => [
     inject({
       exclude: /(css|pegjs)$/,
       $: "jquery",
       jQuery: "jquery"
     }),
     peggyPlugin()
-  ],
+  ]),
   // https://vitest.dev/config/
   test: {
     environment: "happy-dom",
     include: ["tests/test*.ts"]
+  },
+  fmt: {
+    bracketSpacing: false,
+    experimentalSortImports: {},
+    trailingComma: "none",
+    printWidth: 80,
+    ignorePatterns: ["build/", "data/", "dist/", "locales/"]
+  },
+  staged: {
+    "**/*": "vp fmt --no-error-on-unmatched-pattern --write"
   }
 }));
 

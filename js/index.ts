@@ -1,6 +1,7 @@
 import $ from "jquery";
 import "jquery-ui-dist/jquery-ui";
 import "leaflet";
+
 import "./leaflet.polylineoffset";
 import "leaflet.locationfilter";
 import "codemirror/lib/codemirror";
@@ -12,6 +13,7 @@ import "codemirror/mode/sql/sql";
 import "codemirror/lib/util/multiplex";
 import "codemirror/lib/util/closetag";
 import "html2canvas";
+
 // include the CSS files
 import "codemirror/lib/codemirror.css";
 import "leaflet/dist/leaflet.css";
