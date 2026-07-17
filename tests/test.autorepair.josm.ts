@@ -73,17 +73,17 @@ describe("ide.autorepair.josm", () => {
       {
         // trivial case
         inp: "<print/>",
-        outp: '<print mode="meta"></print><!-- fixed by auto repair -->'
+        outp: '<print mode="meta"/><!-- fixed by auto repair -->'
       },
       {
         // trivial case 2
         inp: '<osm-script output="xml"><print/></osm-script>',
-        outp: '<osm-script output="xml"><print mode="meta"></print><!-- fixed by auto repair --></osm-script>'
+        outp: '<osm-script output="xml"><print mode="meta"/><!-- fixed by auto repair --></osm-script>'
       },
       {
         // more complex real world example
         inp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print order="quadtile" mode="body"/>\n</osm-script>',
-        outp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print order="quadtile" mode="meta"></print><!-- fixed by auto repair -->\n</osm-script>'
+        outp: '<osm-script output="xml">\n  <query type="node">\n    <has-kv k="amenity" v="drinking_water"/>\n    <bbox-query {{bbox}}/>\n  </query>\n  <print order="quadtile" mode="meta"/><!-- fixed by auto repair -->\n</osm-script>'
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
@@ -143,27 +143,27 @@ describe("ide.autorepair.josm", () => {
       {
         // center geometry
         inp: '<print mode="meta" geometry="center"/>',
-        outp: '<union><item/><recurse type="down"/></union><print mode="meta"></print><!-- fixed by auto repair -->'
+        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
       },
       {
         // bounds geometry
         inp: '<print mode="meta" geometry="bounds"/>',
-        outp: '<union><item/><recurse type="down"/></union><print mode="meta"></print><!-- fixed by auto repair -->'
+        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
       },
       {
         // full geometry
         inp: '<print mode="meta" geometry="full"/>',
-        outp: '<union><item/><recurse type="down"/></union><print mode="meta"></print><!-- fixed by auto repair -->'
+        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
       },
       {
         // full geometry with from output mode
         inp: '<print mode="body" geometry="full"/>',
-        outp: '<union><item/><recurse type="down"/></union><print mode="meta"></print><!-- fixed by auto repair -->'
+        outp: '<union><item/><recurse type="down"/></union><print mode="meta"/><!-- fixed by auto repair -->'
       },
       {
         // full geometry with named input set
         inp: '<print from="foo" mode="meta" geometry="full"/>',
-        outp: '<union into="foo"><item set="foo"/><recurse from="foo" type="down"/></union><print from="foo" mode="meta"></print><!-- fixed by auto repair -->'
+        outp: '<union into="foo"><item set="foo"/><recurse from="foo" type="down"/></union><print from="foo" mode="meta"/><!-- fixed by auto repair -->'
       }
     ];
     vi.spyOn(ide, "getQueryLang").mockImplementation(() => "xml");
