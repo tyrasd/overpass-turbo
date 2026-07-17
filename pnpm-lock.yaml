@@ -30,8 +30,8 @@ importers:
         specifier: 4.0.3
         version: 4.0.3
       codemirror:
-        specifier: https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz
-        version: https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz
+        specifier: ~5.65.21
+        version: 5.65.21
       colorbrewer:
         specifier: ^1.5.7
         version: 1.5.7
@@ -715,9 +715,8 @@ packages:
   charm@0.1.2:
     resolution: {integrity: sha512-syedaZ9cPe7r3hoQA9twWYKu5AIyCswN5+szkmPBe9ccdLrj4bYaCnLVPTLd2kgVRc7+zoX4tyPgRnFKCj5YjQ==}
 
-  codemirror@https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz:
-    resolution: {integrity: sha512-k5Spq+EL9nIRMe37XTKYU2iEINd7/l4dlrw7DJbXhh5gnonQHJbfb8hUB0McIMjFfkF+ncVFTF0mGXnf8hDVug==, tarball: https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz}
-    version: 2.38.0
+  codemirror@5.65.21:
+    resolution: {integrity: sha512-6teYk0bA0nR3QP0ihGMoxuKzpl5W80FpnHpBJpgy66NK3cZv5b/d/HY8PnRvfSsCG1MTfr92u2WUl+wT0E40mQ==}
 
   colorbrewer@1.5.7:
     resolution: {integrity: sha512-G8wX/cby1fu05mkJ0+vF33fg3ksxqpPu2wfnl08ivV1/TnPzNxjyW6NH1XI+DpgwbFpWgh1x9dOPZWvpOrnBug==}
@@ -1196,7 +1195,7 @@ packages:
     resolution: {integrity: sha512-zks18/TWT1iHO3v0vFp5qLKOG27m67ycq/Y7a7cTiRuUNlc4gf3HGnkRgMv0NyhnfTamtkYBJl+YeD1/j07gBQ==}
 
   togpx@https://codeload.github.com/tyrasd/togpx/tar.gz/4396a386fd179be6876f7443438909d524651eed:
-    resolution: {tarball: https://codeload.github.com/tyrasd/togpx/tar.gz/4396a386fd179be6876f7443438909d524651eed}
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/tyrasd/togpx/tar.gz/4396a386fd179be6876f7443438909d524651eed}
     version: 0.5.4
     hasBin: true
 
@@ -1723,7 +1722,7 @@ snapshots:
 
   charm@0.1.2: {}
 
-  codemirror@https://github.com/codemirror/CodeMirror/archive/v2.38.tar.gz: {}
+  codemirror@5.65.21: {}
 
   colorbrewer@1.5.7: {}
 

@@ -1,10 +1,10 @@
 import {Canvg} from "canvg";
+import CodeMirror from "codemirror";
 import {default as colorbrewer} from "colorbrewer";
 import colormap from "colormap";
 import html2canvas from "html2canvas";
-import $ from "jquery";
 import "leaflet";
-import "codemirror/lib/codemirror.js";
+import $ from "jquery";
 import jQuery from "jquery";
 // global ide object
 import debounce from "lodash/debounce";
@@ -27,8 +27,6 @@ import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
 import sync from "./sync-with-osm";
 import urlParameters from "./urlParameters";
-
-declare const CodeMirror;
 
 // Handler to allow copying in various MIME formats
 // @see https://developer.mozilla.org/en-US/docs/Web/Events/copy
@@ -402,85 +400,70 @@ class IDE {
           }
         )
       );
+      const autoCloseTagsOptions = {
+        indentTags: ["osm-script", "query", "union", "foreach", "difference"]
+      };
+      const onCodeChange = debounce(
+        (e) => {
+          settings.code["overpass"] = e.getValue();
+          settings.save();
+          ide.getQuery({}).then(() => {
+            const query_lang = ide.getQueryLang();
+            // update syntax highlighting mode
+            switch (query_lang) {
+              case "xml":
+                if (e.getOption("mode") != "xml+mustache") {
+                  e.setOption("autoCloseTags", autoCloseTagsOptions);
+                  e.setOption("matchBrackets", false);
+                  e.setOption("mode", "xml+mustache");
+                }
+                break;
+              case "SQL":
+                if (e.getOption("mode") != "sql+mustache") {
+                  e.setOption("autoCloseTags", false);
+                  e.setOption("matchBrackets", true);
+                  e.setOption("mode", "sql+mustache");
+                }
+                break;
+              default:
+                if (e.getOption("mode") != "ql+mustache") {
+                  e.setOption("autoCloseTags", false);
+                  e.setOption("matchBrackets", true);
+                  e.setOption("mode", "ql+mustache");
+                }
+            }
+            // check for inactive ui elements
+            const bbox_filter = $(".leaflet-control-buttons-bboxfilter");
+            if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
+              if (bbox_filter.hasClass("disabled")) {
+                bbox_filter.removeClass("disabled");
+                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox");
+                i18n.translate_ui(bbox_filter[0]);
+              }
+            } else {
+              if (!bbox_filter.hasClass("disabled")) {
+                bbox_filter.addClass("disabled");
+                bbox_filter.attr(
+                  "data-t",
+                  "[title]map_controlls.select_bbox_disabled"
+                );
+                i18n.translate_ui(bbox_filter[0]);
+              }
+            }
+          });
+        },
+        100,
+        {leading: true, trailing: true}
+      );
       ide.codeEditor = CodeMirror.fromTextArea($("#editor textarea")[0], {
-        //value: settings.code["overpass"],
         lineNumbers: true,
         lineWrapping: true,
         mode: "text/plain",
-        onChange: debounce(
-          (e) => {
-            settings.code["overpass"] = e.getValue();
-            settings.save();
-            ide.getQuery({}).then(() => {
-              const query_lang = ide.getQueryLang();
-              // update syntax highlighting mode
-              switch (query_lang) {
-                case "xml":
-                  if (e.getOption("mode") != "xml+mustache") {
-                    e.closeTagEnabled = true;
-                    e.setOption("matchBrackets", false);
-                    e.setOption("mode", "xml+mustache");
-                  }
-                  break;
-                case "SQL":
-                  if (e.getOption("mode") != "sql+mustache") {
-                    e.closeTagEnabled = false;
-                    e.setOption("matchBrackets", true);
-                    e.setOption("mode", "sql+mustache");
-                  }
-                  break;
-                default:
-                  if (e.getOption("mode") != "ql+mustache") {
-                    e.closeTagEnabled = false;
-                    e.setOption("matchBrackets", true);
-                    e.setOption("mode", "ql+mustache");
-                  }
-              }
-              // check for inactive ui elements
-              const bbox_filter = $(".leaflet-control-buttons-bboxfilter");
-              if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
-                if (bbox_filter.hasClass("disabled")) {
-                  bbox_filter.removeClass("disabled");
-                  bbox_filter.attr(
-                    "data-t",
-                    "[title]map_controlls.select_bbox"
-                  );
-                  i18n.translate_ui(bbox_filter[0]);
-                }
-              } else {
-                if (!bbox_filter.hasClass("disabled")) {
-                  bbox_filter.addClass("disabled");
-                  bbox_filter.attr(
-                    "data-t",
-                    "[title]map_controlls.select_bbox_disabled"
-                  );
-                  i18n.translate_ui(bbox_filter[0]);
-                }
-              }
-            });
-          },
-          100,
-          {leading: true, trailing: true}
-        ),
-        closeTagEnabled: true,
-        closeTagIndent: [
-          "osm-script",
-          "query",
-          "union",
-          "foreach",
-          "difference"
-        ],
-        extraKeys: {
-          "'>'"(cm) {
-            cm.closeTag(cm, ">");
-          },
-          "'/'"(cm) {
-            cm.closeTag(cm, "/");
-          }
-        }
+        autoCloseTags: autoCloseTagsOptions
       });
-      // fire onChange after initialization
-      ide.codeEditor.getOption("onChange")(ide.codeEditor);
+      ide.codeEditor.on("change", onCodeChange);
+      // fire change handler after initialization
+      onCodeChange(ide.codeEditor);
     } else {
       // use non-rich editor
       ide.codeEditor = $("#editor textarea")[0];
@@ -493,7 +476,8 @@ class IDE {
       ide.codeEditor.lineCount = function () {
         return this.value.split(/\r\n|\r|\n/).length;
       };
-      ide.codeEditor.setLineClass = function () {};
+      ide.codeEditor.addLineClass = function () {};
+      ide.codeEditor.removeLineClass = function () {};
       $("#editor textarea").bind("input change", (e) => {
         settings.code["overpass"] = e.target.getValue();
         settings.save();
@@ -1281,11 +1265,11 @@ class IDE {
     this.setQuery(autorepair.getQuery());
   }
   highlightError(line) {
-    this.codeEditor.setLineClass(line - 1, null, "errorline");
+    this.codeEditor.addLineClass(line - 1, "background", "errorline");
   }
   resetErrors() {
     for (let i = 0; i < this.codeEditor.lineCount(); i++)
-      this.codeEditor.setLineClass(i, null, null);
+      this.codeEditor.removeLineClass(i, "background", "errorline");
   }
 
   switchTab(tab) {

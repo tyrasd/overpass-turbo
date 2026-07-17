@@ -10,8 +10,9 @@ import "codemirror/mode/xml/xml";
 import "codemirror/mode/clike/clike";
 import "codemirror/mode/css/css";
 import "codemirror/mode/sql/sql";
-import "codemirror/lib/util/multiplex";
-import "codemirror/lib/util/closetag";
+import "codemirror/addon/mode/multiplex";
+import "codemirror/addon/edit/closetag";
+import "codemirror/addon/edit/matchbrackets";
 import "html2canvas";
 
 // include the CSS files

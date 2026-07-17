@@ -107,10 +107,9 @@ body {
   height: 100%;
   overflow-x: auto;
 }
-.CodeMirror-gutter-text {
+.CodeMirror-linenumber {
   color: #888;
 }
-.CodeMirror-gutter-text,
 .CodeMirror-lines {
   padding: 20px 12px 12px;
 }

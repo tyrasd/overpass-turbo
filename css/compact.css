@@ -78,7 +78,6 @@
     height: 100%;
     overflow-x: auto;
   }
-  .CodeMirror-gutter-text,
   .CodeMirror-lines {
     padding: 0;
   }
