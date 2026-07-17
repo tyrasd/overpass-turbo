@@ -18,15 +18,6 @@ styleparser.RuleSet.prototype = {
     return sl; // styleparser.StyleList
   },
 
-  /*loadFromCSS: function(url, callback) {
-        // summary:		Load a MapCSS file from a URL, then throw it at the parser when it's loaded.
-        this.callback = callback;
-        $.ajax({
-            url: url,
-            success: _.bind(this.parseCSS, this)
-        });
-    },*/
-
   parseCSS(css) {
     // summary:		Parse a CSS document into a set of StyleChoosers.
     let previous = 0; // what was the previous CSS word?
