@@ -1,6 +1,5 @@
 // global overpass object
 import $ from "jquery";
-import _ from "lodash";
 import "leaflet";
 
 import configs from "./configs";
@@ -730,7 +729,7 @@ class Overpass {
                         // check for "only areas returned"
                         if (
                           (data_mode == "json" &&
-                            _.every(data.elements, {type: "area"})) ||
+                            data.elements.every((e) => e.type === "area")) ||
                           (data_mode == "xml" &&
                             $("osm", data)
                               .children()
@@ -739,7 +738,7 @@ class Overpass {
                           empty_msg = "only areas returned";
                         else if (
                           (data_mode == "json" &&
-                            _.some(data.elements, {type: "node"})) ||
+                            data.elements.some((e) => e.type === "node")) ||
                           (data_mode == "xml" &&
                             $("osm", data).children().filter("node").length > 0)
                         )
@@ -747,10 +746,9 @@ class Overpass {
                           empty_msg = "no coordinates returned";
                         else if (
                           (data_mode == "json" &&
-                            _.some(data.elements, {type: "way"}) &&
-                            !_.some(
-                              _.filter(data.elements, {type: "way"}),
-                              "nodes"
+                            data.elements.some((e) => e.type === "way") &&
+                            !data.elements.some(
+                              (e) => e.type === "way" && e.nodes
                             )) ||
                           (data_mode == "xml" &&
                             $("osm", data).children().filter("way").length >
@@ -765,10 +763,9 @@ class Overpass {
                           empty_msg = "no coordinates returned";
                         else if (
                           (data_mode == "json" &&
-                            _.some(data.elements, {type: "relation"}) &&
-                            !_.some(
-                              _.filter(data.elements, {type: "relation"}),
-                              "members"
+                            data.elements.some((e) => e.type === "relation") &&
+                            !data.elements.some(
+                              (e) => e.type === "relation" && e.members
                             )) ||
                           (data_mode == "xml" &&
                             $("osm", data).children().filter("relation")

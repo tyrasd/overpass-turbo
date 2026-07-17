@@ -1,6 +1,4 @@
 // Settings class
-import _ from "lodash";
-
 import configs from "./configs";
 
 class Settings {
@@ -320,7 +318,7 @@ settings.define_upgrade_callback(28, (s) => {
 });
 settings.define_upgrade_callback(29, (s) => {
   // convert templates to wizard-syntax
-  _.each(s.saves, (save, name) => {
+  Object.entries(s.saves).forEach(([name, save]) => {
     if (save.type !== "template") return;
     switch (name) {
       case "key":
@@ -349,7 +347,7 @@ settings.define_upgrade_callback(29, (s) => {
 settings.define_upgrade_callback(30, (s) => {
   // add comments for templates
   const chooseAndRun = "\nChoose your region and hit the Run button above!";
-  _.each(s.saves, (save, name) => {
+  Object.entries(s.saves).forEach(([name, save]) => {
     if (save.type !== "template") return;
     switch (name) {
       case "key":
@@ -387,7 +385,7 @@ settings.define_upgrade_callback(30, (s) => {
 
 settings.define_upgrade_callback(31, (s) => {
   // rewrite examples in OverpassQL
-  _.each(s.saves, (save, name) => {
+  Object.entries(s.saves).forEach(([name, save]) => {
     if (save.type !== "example") return;
     switch (name) {
       case "Drinking Water":

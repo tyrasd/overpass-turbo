@@ -1,6 +1,5 @@
 // global i18n object
 import $ from "jquery";
-import _ from "lodash";
 
 import settings from "./settings";
 
@@ -67,7 +66,7 @@ const languages = {
 27;
 
 type Language = keyof typeof languages;
-const supported_lngs: Language[] = _.keys(languages);
+const supported_lngs = Object.keys(languages) as Language[];
 
 export default class i18n {
   // translated texts

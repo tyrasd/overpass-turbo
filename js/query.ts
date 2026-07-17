@@ -1,6 +1,4 @@
 // query parser module
-import _ from "lodash";
-
 import type {Shortcut} from "./shortcuts";
 
 export default class parser {
@@ -21,7 +19,7 @@ export default class parser {
       // remove constant definitions
       query = query.replace(constant, "");
     }
-    _.extend(shortcuts, constants, (b, a) => (typeof a == "undefined" ? b : a));
+    Object.assign(shortcuts, constants);
     // 2. replace overpass turbo this.statements, user-constants and shortcuts
     this.statements = {};
     if (_found_statements) this.statements = _found_statements;

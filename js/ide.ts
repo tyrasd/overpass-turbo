@@ -7,7 +7,7 @@ import "leaflet";
 import "codemirror/lib/codemirror.js";
 import jQuery from "jquery";
 // global ide object
-import _ from "lodash";
+import debounce from "lodash/debounce";
 import togpx from "togpx";
 import tokml from "tokml";
 
@@ -407,7 +407,7 @@ class IDE {
         lineNumbers: true,
         lineWrapping: true,
         mode: "text/plain",
-        onChange: _.debounce(
+        onChange: debounce(
           (e) => {
             settings.code["overpass"] = e.getValue();
             settings.save();
@@ -2380,7 +2380,7 @@ class IDE {
         $("#ffs-dialog").removeClass("is-active");
         if (autorun !== false) this.onRunClick();
       } else {
-        if (_.isArray(ffs_result)) {
+        if (Array.isArray(ffs_result)) {
           // show parse error message
           $("#ffs-dialog #ffs-dialog-parse-error").hide();
           $("#ffs-dialog #ffs-dialog-typo").show();
