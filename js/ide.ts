@@ -651,9 +651,9 @@ class IDE {
       if ($li.hasClass("is-active")) {
         return;
       }
-      const tabClass = (
-        Object.keys(tabDivs) as (keyof typeof tabDivs)[]
-      ).find((c) => $li.hasClass(c));
+      const tabClass = (Object.keys(tabDivs) as (keyof typeof tabDivs)[]).find(
+        (c) => $li.hasClass(c)
+      );
       if (tabClass) {
         for (const [c, sel] of Object.entries(tabDivs)) {
           $(sel)[0].style.zIndex = c === tabClass ? "1001" : "-1001";
@@ -1406,7 +1406,7 @@ class IDE {
       this.codeEditor.removeLineClass(i, "background", "errorline");
   }
 
-  switchTab(tab: "Data" | "Map"): void {
+  switchTab(tab: "Data" | "Map" | "Table"): void {
     $(`.tabs li.${tab}`).click();
   }
 
