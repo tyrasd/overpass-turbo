@@ -36,8 +36,18 @@ Development is done in the _master_ branch, stable releases are marked with git 
 
 0. Use `corepack enable` to install [pnpm](https://pnpm.io/).
 1. `pnpm install`
-2. `pnpm run start` for a Development server listening at http://localhost:5173
-3. `pnpm run build` for a minified build in `./dist`
+2. `pnpm dev` for a development server listening at http://localhost:5173
+3. `pnpm build` for a minified build in `./dist`
+4. `pnpm preview` to serve the production build locally
+
+### test & lint
+
+- `pnpm test` runs the [Vitest](https://vitest.dev/) test suite
+- `pnpm check` runs the format, lint, and type checks (as done in CI)
+- `pnpm format` formats the code in place, `pnpm lint` lints it
+
+Formatting is applied automatically to staged files by the pre-commit hook.
+Run `pnpm exec vp config` once after cloning to install it.
 
 ## See Also
 

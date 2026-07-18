@@ -19,6 +19,7 @@ jobs:
           node-version: "24"
       - run: corepack enable
       - run: pnpm install
+      - run: pnpm check
       - run: pnpm test
       - run: pnpm build
       - name: Deploy to https://${{ github.actor }}.github.io/${{ github.event.repository.name }}/

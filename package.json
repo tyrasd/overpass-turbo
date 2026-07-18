@@ -5,14 +5,14 @@
   "license": "MIT",
   "repository": "git+https://github.com/tyrasd/overpass-turbo.git",
   "scripts": {
-    "test": "pnpm run test:lint && pnpm run test:style && pnpm run test:vitest",
-    "test:lint": "vp lint .",
-    "test:style": "vp fmt --check .",
-    "test:vitest": "vp test",
-    "fix:style": "vp fmt --write .",
-    "start": "vp dev",
     "dev": "vp dev",
-    "build": "vp build"
+    "start": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview",
+    "check": "vp check",
+    "lint": "vp lint .",
+    "format": "vp fmt --write .",
+    "test": "vp test"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
