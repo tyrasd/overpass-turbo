@@ -20,7 +20,7 @@
     "bulma": "^0.9.4",
     "canvg": "4.0.3",
     "codemirror": "~5.65.21",
-    "colorbrewer": "^1.5.7",
+    "colorbrewer": "^1.7.0",
     "colormap": "^2.3.2",
     "html2canvas": "^1.4.1",
     "jquery": "4.0.0",

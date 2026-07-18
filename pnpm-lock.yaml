@@ -33,8 +33,8 @@ importers:
         specifier: ~5.65.21
         version: 5.65.21
       colorbrewer:
-        specifier: ^1.5.7
-        version: 1.5.7
+        specifier: ^1.7.0
+        version: 1.7.0
       colormap:
         specifier: ^2.3.2
         version: 2.3.2
@@ -715,9 +715,8 @@ packages:
   codemirror@5.65.21:
     resolution: {integrity: sha512-6teYk0bA0nR3QP0ihGMoxuKzpl5W80FpnHpBJpgy66NK3cZv5b/d/HY8PnRvfSsCG1MTfr92u2WUl+wT0E40mQ==}
 
-  colorbrewer@1.5.7:
-    resolution: {integrity: sha512-G8wX/cby1fu05mkJ0+vF33fg3ksxqpPu2wfnl08ivV1/TnPzNxjyW6NH1XI+DpgwbFpWgh1x9dOPZWvpOrnBug==}
-    deprecated: version has typo
+  colorbrewer@1.7.0:
+    resolution: {integrity: sha512-hctXi+S4uPJFnzLS/v8LJqe9WQjOITs9Wo9sGQMHpB5kapFDMB28PUY2zKG54LkxF7qzME3BEbTzRloFM241hQ==}
 
   colormap@2.3.2:
     resolution: {integrity: sha512-jDOjaoEEmA9AgA11B/jCSAvYE95r3wRoAyTf3LEHGiUVlNHJaL1mRkf5AyLSpQBVGfTEPwGEqCIzL+kgr2WgNA==}
@@ -1717,7 +1716,7 @@ snapshots:
 
   codemirror@5.65.21: {}
 
-  colorbrewer@1.5.7: {}
+  colorbrewer@1.7.0: {}
 
   colormap@2.3.2:
     dependencies:
