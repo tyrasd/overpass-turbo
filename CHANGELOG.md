@@ -1,4 +1,6 @@
-## undeployed
+## Unreleased
+
+These changes are live on the development instance at <https://tyrasd.github.io/overpass-turbo/>, but are not yet part of a stable release and are not deployed to <https://overpass-turbo.eu/>.
 
 - Add support for Postpass / PostGIS SQL backends: `{{data:sql}}` as the query format signifier, SQL syntax highlighting, detection of GeoJSON and other JSON responses, and handling of backend error messages ([#788](https://github.com/tyrasd/overpass-turbo/issues/788))
 - Add a light/dark/auto theme setting, including dark mode styling for jQuery UI buttons and icons
