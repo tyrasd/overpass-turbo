@@ -5,7 +5,6 @@ import colormap from "colormap";
 import html2canvas from "html2canvas";
 import "leaflet";
 import $ from "jquery";
-import jQuery from "jquery";
 // global ide object
 import debounce from "lodash/debounce";
 import togpx from "togpx";
@@ -46,7 +45,7 @@ declare module "leaflet" {
 }
 
 declare global {
-  // the jQuery UI widgets used by the IDE ("jquery-ui-dist" ships no type definitions)
+  // the jQuery UI widgets used by the IDE ("jquery-ui" ships no type definitions)
   interface JQuery<TElement = HTMLElement> {
     autocomplete(method: string, ...args: unknown[]): any;
     autocomplete(options: Record<string, unknown>): JQuery<TElement>;
@@ -333,7 +332,9 @@ class IDE {
     );
     // (very raw) compatibility check <- TODO: put this into its own function
     if (
-      jQuery.support.cors != true ||
+      // CORS support (jQuery.support.cors was removed in jQuery 4)
+      typeof XMLHttpRequest !== "function" ||
+      !("withCredentials" in new XMLHttpRequest()) ||
       //typeof localStorage  != "object" ||
       typeof (function () {
         let ls = undefined;
