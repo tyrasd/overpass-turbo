@@ -21,23 +21,100 @@ import {
 } from "./ffs";
 import i18n from "./i18n";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
-import overpass from "./overpass";
+import overpass, {type QueryLang} from "./overpass";
 import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
 import sync from "./sync-with-osm";
 import urlParameters from "./urlParameters";
 
+declare module "leaflet" {
+  // leaflet.locationfilter ships no type definitions
+  // eslint-disable-next-line no-unused-vars
+  class LocationFilter extends Layer {
+    constructor(options?: {
+      enable?: boolean;
+      adjustButton?: boolean;
+      enableButton?: boolean;
+    });
+    isEnabled(): boolean;
+    enable(): void;
+    disable(): void;
+    getBounds(): LatLngBounds;
+    setBounds(bounds: LatLngBounds): void;
+  }
+}
+
+declare global {
+  // the jQuery UI widgets used by the IDE ("jquery-ui-dist" ships no type definitions)
+  interface JQuery<TElement = HTMLElement> {
+    autocomplete(method: string, ...args: unknown[]): any;
+    autocomplete(options: Record<string, unknown>): JQuery<TElement>;
+    button(options?: Record<string, unknown>): JQuery<TElement>;
+    resizable(method: string, ...args: unknown[]): any;
+    resizable(options?: Record<string, unknown>): JQuery<TElement>;
+    tooltip(method: string, ...args: unknown[]): any;
+    tooltip(options?: Record<string, unknown>): JQuery<TElement>;
+  }
+}
+
+/** a clipboard payload, keyed by MIME type */
+type CopyData = Record<string, string>;
+
+/** an item of the autocomplete source lists used by {@link make_combobox} */
+type ComboboxItem = string | {value: string; label: string};
+
+/** a button of the modal dialogs created by {@link showDialog} */
+interface DialogButton {
+  name: string;
+  callback?: () => void;
+}
+
+/** a query saved in the user's OSM preferences (see {@link sync}) */
+interface OsmSavedQuery {
+  name: string;
+  query: string;
+}
+
+/** the `{{data:…}}` statement of a query, e.g. `{{data:overpass,server=…}}` */
+interface DataSource {
+  mode: string;
+  options: Record<string, string>;
+}
+
+/**
+ * the subset of the CodeMirror API used by the IDE. it is also implemented by
+ * the plain textarea fallback (see `settings.use_rich_editor`).
+ */
+interface Editor {
+  getValue(): string;
+  setValue(value: string): void;
+  lineCount(): number;
+  addLineClass(line: number, where: string, className: string): void;
+  removeLineClass(line: number, where: string, className: string): void;
+  getOption(option: string): unknown;
+  setOption(option: string, value: unknown): void;
+  on(event: string, handler: (editor: Editor) => void): void;
+}
+
+/** the leaflet map, including the layers/controls attached to it by the IDE */
+export interface OverpassTurboMap extends L.Map {
+  tile_layer: L.TileLayer;
+  inv_opacity_layer: L.TileLayer;
+  bboxfilter: import("leaflet").LocationFilter;
+}
+
 // Handler to allow copying in various MIME formats
 // @see https://developer.mozilla.org/en-US/docs/Web/Events/copy
 // @see https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData
-let copyData = undefined;
+let copyData: CopyData = undefined;
 $(document).on("copy", (e) => {
-  if (copyData && e.originalEvent && e.originalEvent.clipboardData) {
+  const clipboardEvent = e.originalEvent as ClipboardEvent | undefined;
+  if (copyData && clipboardEvent && clipboardEvent.clipboardData) {
     Object.keys(copyData).forEach((format) => {
-      e.originalEvent.clipboardData.setData(format, copyData[format]);
+      clipboardEvent.clipboardData.setData(format, copyData[format]);
     });
-    e.originalEvent.preventDefault();
+    clipboardEvent.preventDefault();
     copyData = undefined;
   } else if (copyData && copyData["text/plain"]) {
     prompt(i18n.t("export.copy_to_clipboard"), copyData["text/plain"]);
@@ -45,8 +122,14 @@ $(document).on("copy", (e) => {
   }
 });
 
-function make_combobox(input, options, deletables, deleteCallback) {
-  if (input[0].is_combobox) {
+function make_combobox(
+  input: JQuery<HTMLElement>,
+  options: ComboboxItem[],
+  deletables?: string[],
+  deleteCallback?: (value: string) => void
+): void {
+  const inputElement = input[0] as HTMLElement & {is_combobox?: boolean};
+  if (inputElement.is_combobox) {
     input.autocomplete("option", {source: options});
     return;
   }
@@ -57,7 +140,10 @@ function make_combobox(input, options, deletables, deleteCallback) {
       minLength: 0
     })
     .addClass("ui-widget ui-widget-content ui-corner-left ui-state-default")
-    .autocomplete("instance")._renderItem = (ul, item) =>
+    .autocomplete("instance")._renderItem = (
+    ul: JQuery<HTMLElement>,
+    item: {value: string; label: string}
+  ) =>
     $("<li>")
       .append(
         deletables && deletables.indexOf(item.value) !== -1
@@ -95,10 +181,14 @@ function make_combobox(input, options, deletables, deleteCallback) {
       input.autocomplete("search", "");
       input.focus();
     });
-  input[0].is_combobox = true;
+  inputElement.is_combobox = true;
 } // make_combobox()
 
-function showDialog(title, content, buttons) {
+function showDialog(
+  title: string,
+  content: string,
+  buttons: DialogButton[]
+): void {
   const dialogContent = `\
       <div class="modal is-active">\
         <div class="modal-background"></div>\
@@ -145,14 +235,21 @@ function showDialog(title, content, buttons) {
 
 class IDE {
   // == private members ==
-  private attribControl = null;
-  private scaleControl = null;
+  private attribControl: L.Control.Attribution = null;
+  private scaleControl: L.Control.Scale = null;
   private queryParser = new Query();
-  private run_query_on_startup = false;
+  /** `true` if the query is to be run on startup, or a callback to be invoked once its data is loaded */
+  private run_query_on_startup: boolean | (() => void) = false;
   // == public members ==
-  codeEditor = null;
-  dataViewer = null;
-  map: L.Map = null;
+  codeEditor: Editor = null;
+  dataViewer: Editor = null;
+  map: OverpassTurboMap = null;
+  /** `true` if the browser is not capable of running the IDE */
+  not_supported: boolean;
+  /** the mapcss of the current query, as parsed by {@link getQuery} */
+  mapcss: string;
+  /** the data source of the current query, as parsed by {@link getQuery} */
+  data_source: DataSource;
 
   // == public sub objects ==
 
@@ -160,11 +257,13 @@ class IDE {
     opened = true;
     frames = ["◴", "◷", "◶", "◵"];
     frameDelay = 250;
-    onAbort = undefined;
-    interval = 0;
+    onAbort: (done: () => void) => void = undefined;
+    interval: ReturnType<typeof setInterval> = undefined;
+    isAlert: boolean;
+    alertFrame: string;
     _initialTitle = document.title;
 
-    open(show_info) {
+    open(show_info?: string) {
       if (show_info) {
         $(".modal .wait-info h4").text(show_info);
         $(".wait-info").show();
@@ -191,7 +290,7 @@ class IDE {
       delete this.onAbort;
       this.opened = false;
     }
-    addInfo(txt, abortCallback) {
+    addInfo(txt: string, abortCallback?: (done: () => void) => void) {
       $("#aborter").remove(); // remove previously added abort button, which cannot be used anymore.
       $(".wait-info ul li:nth-child(n+1)").css("opacity", 0.5);
       $(".wait-info ul li span.fas")
@@ -239,7 +338,7 @@ class IDE {
       typeof (function () {
         let ls = undefined;
         try {
-          localStorage.setItem("startup_localstorage_quota_test", 123);
+          localStorage.setItem("startup_localstorage_quota_test", "123");
           localStorage.removeItem("startup_localstorage_quota_test");
           ls = localStorage;
         } catch (e) {}
@@ -326,7 +425,8 @@ class IDE {
     );
 
     // init codemirror
-    $("#editor textarea")[0].value = settings.code["overpass"];
+    $<HTMLTextAreaElement>("#editor textarea")[0].value =
+      settings.code["overpass"];
     if (settings.use_rich_editor) {
       CodeMirror.defineMIME("text/x-overpassQL", {
         name: "clike",
@@ -466,20 +566,22 @@ class IDE {
       onCodeChange(ide.codeEditor);
     } else {
       // use non-rich editor
-      ide.codeEditor = $("#editor textarea")[0];
-      ide.codeEditor.getValue = function () {
+      const textarea = $("#editor textarea")[0] as HTMLTextAreaElement &
+        Partial<Editor>;
+      textarea.getValue = function () {
         return this.value;
       };
-      ide.codeEditor.setValue = function (v) {
+      textarea.setValue = function (v: string) {
         this.value = v;
       };
-      ide.codeEditor.lineCount = function () {
+      textarea.lineCount = function () {
         return this.value.split(/\r\n|\r|\n/).length;
       };
-      ide.codeEditor.addLineClass = function () {};
-      ide.codeEditor.removeLineClass = function () {};
+      textarea.addLineClass = function () {};
+      textarea.removeLineClass = function () {};
+      ide.codeEditor = textarea as unknown as Editor;
       $("#editor textarea").bind("input change", (e) => {
-        settings.code["overpass"] = e.target.getValue();
+        settings.code["overpass"] = (e.target as typeof textarea).getValue();
         settings.save();
       });
     }
@@ -502,7 +604,7 @@ class IDE {
       minZoom: 0,
       maxZoom: configs.maxMapZoom,
       worldCopyJump: false
-    });
+    }) as OverpassTurboMap;
     const tilesUrl = settings.tile_server;
     const tilesAttrib = configs.tileServerAttribution;
     const tiles = new L.TileLayer(tilesUrl, {
@@ -535,13 +637,14 @@ class IDE {
     });
 
     // tabs
-    $("#dataviewer > div#data")[0].style.zIndex = -1001;
+    $("#dataviewer > div#data")[0].style.zIndex = "-1001";
     $(".tabs li").bind("click", (e) => {
       if ($(e.target).hasClass("is-active")) {
         return;
       } else {
-        $("#dataviewer > div#data")[0].style.zIndex =
-          -1 * $("#dataviewer > div#data")[0].style.zIndex;
+        $("#dataviewer > div#data")[0].style.zIndex = String(
+          -1 * +$("#dataviewer > div#data")[0].style.zIndex
+        );
         $(".tabs li").toggleClass("is-active");
       }
     });
@@ -738,11 +841,9 @@ class IDE {
         inp.id = "search";
         inp.type = "search";
         // hack against focus stealing leaflet :/
-        inp.onclick = function () {
-          this.focus();
-        };
+        inp.onclick = () => inp.focus();
         // prevent propagation of doubleclicks to map container
-        container.ondblclick = function (e) {
+        container.ondblclick = function (e: MouseEvent) {
           e.stopPropagation();
         };
         // autocomplete functionality
@@ -825,10 +926,11 @@ class IDE {
       if (typeof e.popup.layer != "undefined") {
         const layer = e.popup.layer.placeholder || e.popup.layer;
         // re-call style handler to eventually modify the style of the clicked feature
-        const stl = overpass.osmLayer._baseLayer.options.style(
-          layer.feature,
-          e.type == "popupopen"
-        );
+        const style = overpass.osmLayer.getBaseLayer().options.style as (
+          feature: GeoJSON.Feature,
+          highlight: boolean
+        ) => L.PathOptions;
+        const stl = style(layer.feature, e.type == "popupopen");
         if (typeof layer.eachLayer != "function") {
           if (typeof layer.setStyle == "function") layer.setStyle(stl); // other objects (pois, ways)
         } else
@@ -911,7 +1013,9 @@ class IDE {
               name: i18n.t("dialog.show_data"),
               callback() {
                 if (
-                  $("input[name=hide_incomplete_data_warning]")?.[0]?.checked
+                  $<HTMLInputElement>(
+                    "input[name=hide_incomplete_data_warning]"
+                  )?.[0]?.checked
                 ) {
                   settings.no_autorepair = true;
                   settings.save();
@@ -971,7 +1075,9 @@ class IDE {
             callback() {
               document.title = _originalDocumentTitle;
               if (
-                $("input[name=dialog_disable_warning_huge_data]")?.[0]?.checked
+                $<HTMLInputElement>(
+                  "input[name=dialog_disable_warning_huge_data]"
+                )?.[0]?.checked
               ) {
                 settings.disable_warning_huge_data = true;
                 settings.save();
@@ -1102,7 +1208,7 @@ class IDE {
           content() {
             let str = "<div>";
             if (overpass.ajax_request_duration) {
-              let duration = overpass.ajax_request_duration;
+              let duration: number | string = overpass.ajax_request_duration;
               if (duration.toLocaleString) {
                 duration = duration.toLocaleString();
               }
@@ -1172,12 +1278,11 @@ class IDE {
     }
   } // init()
 
-  onNominatimError(search, type) {
+  onNominatimError(search: string, type: string): void {
     // close waiter
     this.waiter.close();
     // highlight error lines
-    let query = this.getRawQuery();
-    query = query.split("\n");
+    const query = this.getRawQuery().split("\n");
     query.forEach((line, i) => {
       if (line.indexOf(`{{geocode${type}:${search}}}`) !== -1)
         this.highlightError(i + 1);
@@ -1192,7 +1297,7 @@ class IDE {
 
   /* this returns the current raw query in the editor.
    * shortcuts are not expanded. */
-  getRawQuery() {
+  getRawQuery(): string {
     return this.codeEditor.getValue();
   }
 
@@ -1218,14 +1323,12 @@ class IDE {
       mapcss = this.queryParser.getStatement("style");
     this.mapcss = mapcss;
     // parse data-source statements
-    let data_source = null;
+    let data_source: DataSource = null;
     if (this.queryParser.hasStatement("data")) {
-      data_source = this.queryParser.getStatement("data");
-      data_source = data_source.split(",");
-      const data_mode = data_source[0].toLowerCase();
-      data_source = data_source.slice(1);
-      const options = {};
-      for (const src of data_source) {
+      const statement = this.queryParser.getStatement("data").split(",");
+      const data_mode = statement[0].toLowerCase();
+      const options: Record<string, string> = {};
+      for (const src of statement.slice(1)) {
         const tmp = src.split("=");
         options[tmp[0]] = tmp[1];
       }
@@ -1238,17 +1341,17 @@ class IDE {
     return query;
   }
 
-  setQuery(query) {
+  setQuery(query: string): void {
     this.codeEditor.setValue(query);
   }
-  getQueryLang() {
+  getQueryLang(): QueryLang {
     if (this.data_source && this.data_source.mode == "sql") return "SQL";
     const q = $.trim(this.getRawQuery().replace(/{{.*?}}/g, ""));
     if (q.match(/^</)) return "xml";
     else return "OverpassQL";
   }
   /* this is for repairing obvious mistakes in the query, such as missing recurse statements */
-  repairQuery(repair) {
+  repairQuery(repair: "no visible data" | "xml+metadata"): void {
     // - preparations -
     const q = this.getRawQuery(), // get original query
       lng = this.getQueryLang();
@@ -1264,15 +1367,15 @@ class IDE {
     // - set repaired query -
     this.setQuery(autorepair.getQuery());
   }
-  highlightError(line) {
+  highlightError(line: number): void {
     this.codeEditor.addLineClass(line - 1, "background", "errorline");
   }
-  resetErrors() {
+  resetErrors(): void {
     for (let i = 0; i < this.codeEditor.lineCount(); i++)
       this.codeEditor.removeLineClass(i, "background", "errorline");
   }
 
-  switchTab(tab) {
+  switchTab(tab: "Data" | "Map"): void {
     $(`.tabs li.${tab}`).click();
   }
 
@@ -1285,7 +1388,7 @@ class IDE {
       this.setQuery(query);
     }
   }
-  removeExample(ex) {
+  removeExample(ex: string): void {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
@@ -1305,7 +1408,7 @@ class IDE {
       )}: &quot;<i>${ex}</i>&quot;?</p>`;
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   }
-  removeExampleSync(query, self) {
+  removeExampleSync(query: OsmSavedQuery, self: HTMLElement): void {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
@@ -1398,7 +1501,7 @@ class IDE {
       .text(i18n.t("load.saved_queries-osm-loading"))
       .appendTo(ui);
 
-    sync.load((err, queries) => {
+    sync.load((err: unknown, queries: OsmSavedQuery[]) => {
       if (err) {
         ui.find(".panel-block").remove();
         $('<div class="panel-block">')
@@ -1422,7 +1525,7 @@ class IDE {
             $('<button class="ml-auto">')
               .attr("title", `${i18n.t("load.delete_query")}: ${q.name}`)
               .addClass("delete")
-              .on("click", () => {
+              .on("click", function (this: HTMLElement) {
                 ide.removeExampleSync(q, this);
                 return false;
               })
@@ -1450,7 +1553,7 @@ class IDE {
     $("#save-dialog").addClass("is-active");
   }
   onSaveSumbit() {
-    const name = $("#save-dialog input[name=save]")[0].value;
+    const name = $<HTMLInputElement>("#save-dialog input[name=save]")[0].value;
     settings.saves[htmlentities(name)] = {
       overpass: this.getRawQuery(),
       type: "saved_query"
@@ -1459,7 +1562,7 @@ class IDE {
     $("#save-dialog").removeClass("is-active");
   }
   onSaveOsmSumbit() {
-    const name = $("#save-dialog input[name=save]")[0].value;
+    const name = $<HTMLInputElement>("#save-dialog input[name=save]")[0].value;
     const query = this.compose_share_link(this.getRawQuery(), true).slice(3);
     sync.save(
       {
@@ -1489,7 +1592,12 @@ class IDE {
   onRerenderClick() {
     this.rerender_map();
   }
-  compose_share_link(query, compression, coords, run) {
+  compose_share_link(
+    query: string,
+    compression?: boolean,
+    coords?: boolean,
+    run?: boolean
+  ): string {
     const share_link = new URLSearchParams();
     if (!compression) {
       // compose uncompressed share link
@@ -1514,7 +1622,7 @@ class IDE {
     }
     if (run) share_link.append("R", "");
     return `?${share_link}`.replace(/\+/g, "%20");
-    function encode_coords(lat, lng) {
+    function encode_coords(lat: number, lng: number): string {
       const coords_cpr = Base64.encodeNum(
         Math.round((lat + 90) * 100000) +
           Math.round((lng + 180) * 100000) * 180 * 100000
@@ -1528,10 +1636,12 @@ class IDE {
     const compress =
       (settings.share_compression == "auto" && query.length > 300) ||
       settings.share_compression == "on";
-    const inc_coords = $("div#share-dialog input[name=include_coords]")[0]
-      .checked;
-    const run_immediately = $("div#share-dialog input[name=run_immediately]")[0]
-      .checked;
+    const inc_coords = $<HTMLInputElement>(
+      "div#share-dialog input[name=include_coords]"
+    )[0].checked;
+    const run_immediately = $<HTMLInputElement>(
+      "div#share-dialog input[name=run_immediately]"
+    )[0].checked;
 
     const shared_query = this.compose_share_link(
       query,
@@ -1551,23 +1661,27 @@ class IDE {
 
     $("div#share-dialog #share_link_warning").html(warning);
 
-    $("div#share-dialog #share_link_a")[0].href = share_link;
-    $("div#share-dialog #share_link_textarea")[0].value = share_link;
+    $<HTMLAnchorElement>("div#share-dialog #share_link_a")[0].href = share_link;
+    $<HTMLTextAreaElement>("div#share-dialog #share_link_textarea")[0].value =
+      share_link;
 
     // automatically minify urls if enabled
     if (configs.short_url_service != "") {
       $.get(
         configs.short_url_service + encodeURIComponent(share_link),
         (data) => {
-          $("div#share-dialog #share_link_a")[0].href = data;
-          $("div#share-dialog #share_link_textarea")[0].value = data;
+          $<HTMLAnchorElement>("div#share-dialog #share_link_a")[0].href = data;
+          $<HTMLTextAreaElement>(
+            "div#share-dialog #share_link_textarea"
+          )[0].value = data;
         }
       );
     }
   }
   onShareClick() {
-    $("div#share-dialog input[name=include_coords]")[0].checked =
-      settings.share_include_pos;
+    $<HTMLInputElement>(
+      "div#share-dialog input[name=include_coords]"
+    )[0].checked = settings.share_include_pos;
     this.updateShareLink();
     $("#share-dialog").addClass("is-active");
   }
@@ -1595,29 +1709,29 @@ class IDE {
       queryWithMapCSS += `{{data:${this.queryParser.getStatement("data")}}}`;
     else if (settings.server !== configs.defaultServer)
       queryWithMapCSS += `{{data:overpass,server=${settings.server}}}`;
-    $("#export-dialog a#export-interactive-map")[0].href =
+    $<HTMLAnchorElement>("#export-dialog a#export-interactive-map")[0].href =
       `${baseurl}map.html?${new URLSearchParams({
         Q: queryWithMapCSS
       })}`;
     // encoding exclamation marks for better command line usability (bash)
-    $("#export-dialog a#export-overpass-api")[0].href =
+    $<HTMLAnchorElement>("#export-dialog a#export-overpass-api")[0].href =
       `${server}interpreter?data=${encodeURIComponent(query)
         .replace(/!/g, "%21")
         .replace(/\(/g, "%28")
         .replace(/\)/g, "%29")}`;
-    function toDataURL(text, mediatype) {
+    function toDataURL(text: string, mediatype?: string): string {
       return `data:${mediatype || "text/plain"};charset=${
         document.characterSet || document.charset
       };base64,${Base64.encode(text, true)}`;
     }
-    function saveAs(text, mediatype, filename) {
+    function saveAs(text: string, mediatype: string, filename: string): void {
       const save_link = document.createElement("a");
       save_link.href = toDataURL(text, mediatype);
       save_link.download = filename;
       save_link.dispatchEvent(new MouseEvent("click"));
     }
-    function copyHandler(text, successMessage) {
-      return function () {
+    function copyHandler(text: string, successMessage?: string) {
+      return function (): false {
         // selector
         $("#export-clipboard-success").addClass("is-active");
         copyData = {
@@ -1764,8 +1878,8 @@ class IDE {
         return false;
       });
     // GeoJSON format
-    function constructGeojsonString(geojson) {
-      let geoJSON_str;
+    function constructGeojsonString(geojson: GeoJSON.FeatureCollection) {
+      let geoJSON_str: string;
       if (!geojson) geoJSON_str = i18n.t("export.geoJSON.no_data");
       else {
         console.log(new Date());
@@ -1774,11 +1888,13 @@ class IDE {
           generator: configs.appname,
           copyright: overpass.copyright,
           timestamp: overpass.timestamp,
-          features: geojson.features.map((feature) => ({
-            type: "Feature",
-            properties: feature.properties,
-            geometry: feature.geometry
-          })) // makes deep copy
+          features: geojson.features.map(
+            (feature): GeoJSON.Feature => ({
+              type: "Feature",
+              properties: feature.properties,
+              geometry: feature.geometry
+            })
+          ) // makes deep copy
         };
         gJ.features.forEach((f) => {
           const p = f.properties;
@@ -1891,8 +2007,8 @@ class IDE {
         return false;
       });
     // GPX format
-    function constructGpxString(geojson) {
-      let gpx_str;
+    function constructGpxString(geojson: GeoJSON.FeatureCollection) {
+      let gpx_str: string;
       if (!geojson) gpx_str = i18n.t("export.GPX.no_data");
       else {
         gpx_str = togpx(geojson, {
@@ -1902,7 +2018,7 @@ class IDE {
             copyright: {"@author": overpass.copyright},
             time: overpass.timestamp
           },
-          featureTitle(props) {
+          featureTitle(props: Record<string, any>) {
             if (props.tags) {
               if (props.tags.name) return props.tags.name;
               if (props.tags.ref) return props.tags.ref;
@@ -1912,7 +2028,7 @@ class IDE {
             return `${props.type}/${props.id}`;
           },
           //featureDescription: function(props) {},
-          featureLink(props) {
+          featureLink(props: Record<string, any>) {
             return `http://osm.org/browse/${props.type}/${props.id}`;
           }
         });
@@ -1962,7 +2078,7 @@ class IDE {
         return false;
       });
     // KML format
-    function constructKmlString(geojson) {
+    function constructKmlString(geojson: GeoJSON.FeatureCollection): string {
       geojson = geojson && JSON.parse(constructGeojsonString(geojson));
       if (!geojson) return i18n.t("export.KML.no_data");
       else {
@@ -2017,8 +2133,11 @@ class IDE {
         return false;
       });
     // RAW format
-    function constructRawData(geojson) {
-      let raw_str, raw_type;
+    function constructRawData(geojson: GeoJSON.FeatureCollection): {
+      raw_str: string;
+      raw_type?: "osm" | "xml" | "json";
+    } {
+      let raw_str: string, raw_type: "osm" | "xml" | "json";
       if (!geojson) raw_str = i18n.t("export.raw.no_data");
       else {
         const data = overpass.data;
@@ -2101,17 +2220,17 @@ class IDE {
         return false;
       });
 
-    $("#export-dialog a#export-convert-xml")[0].href =
+    $<HTMLAnchorElement>("#export-dialog a#export-convert-xml")[0].href =
       `${server}convert?${new URLSearchParams({
         data: query,
         target: "xml"
       })}`;
-    $("#export-dialog a#export-convert-ql")[0].href =
+    $<HTMLAnchorElement>("#export-dialog a#export-convert-ql")[0].href =
       `${server}convert?${new URLSearchParams({
         data: query,
         target: "mapql"
       })}`;
-    $("#export-dialog a#export-convert-compact")[0].href =
+    $<HTMLAnchorElement>("#export-dialog a#export-convert-compact")[0].href =
       `${server}convert?${new URLSearchParams({
         data: query,
         target: "compact"
@@ -2124,9 +2243,11 @@ class IDE {
       this.getQueryLang()
     );
     // * Level0
-    const exportToLevel0 = $("#export-dialog a#export-editors-level0");
+    const exportToLevel0 = $<HTMLAnchorElement>(
+      "#export-dialog a#export-editors-level0"
+    );
     exportToLevel0.unbind("click");
-    function constructLevel0Link(query) {
+    function constructLevel0Link(query: string): string {
       return `https://level0.osmz.ru/?${new URLSearchParams({
         url: `${server}interpreter?${new URLSearchParams({data: query})}`
       })}`;
@@ -2168,7 +2289,7 @@ class IDE {
       .unbind("click")
       .on("click", () => {
         const export_dialog = $("#export-dialog");
-        function send_to_josm(query) {
+        function send_to_josm(query: string): void {
           const JRC_url = "http://127.0.0.1:8111/";
           $.getJSON(`${JRC_url}version`)
             .done((d) => {
@@ -2350,7 +2471,7 @@ class IDE {
   onFfsBuild() {
     this.onFfsRun(false);
   }
-  onFfsRun(autorun) {
+  onFfsRun(autorun: boolean): void {
     // Show loading spinner and hide all errors
     $("#ffs-dialog input[type=search]").removeClass("is-danger");
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
@@ -2396,7 +2517,7 @@ class IDE {
   onStylerClick() {
     if (!overpass.geojson || overpass.geojson.features.length === 0) return;
     $("#styler-dialog").addClass("is-active");
-    let allTags = {};
+    let allTags: Record<string, string> = {};
     overpass.geojson.features.forEach(
       (feature) => (allTags = {...allTags, ...feature.properties.tags})
     );
@@ -2404,8 +2525,9 @@ class IDE {
       $("#styler-dialog input[name=attribute]"),
       Object.keys(allTags)
     );
-    function checkTag(key?) {
-      key = key || $("#styler-dialog input[type=text]").first().val();
+    function checkTag(key?: string): boolean {
+      key =
+        key || String($("#styler-dialog input[type=text]").first().val() ?? "");
       if (allTags[key] !== undefined) {
         $("#styler-dialog button.is-success").removeAttr("disabled");
         return true;
@@ -2426,22 +2548,24 @@ class IDE {
         }
       })
       .unbind("input")
-      .bind("input", checkTag)
+      .bind("input", () => checkTag())
       .unbind("autocompleteselect")
-      .bind("autocompleteselect", (_, ui) => checkTag(ui.item.value))
+      .bind("autocompleteselect", (_, ui: {item: {value: string}}) =>
+        checkTag(ui.item.value)
+      )
       .focus();
   }
   onStylerRun() {
     if (!overpass.geojson || overpass.geojson.features.length === 0) return;
-    const key = $("#styler-dialog input[name=attribute]").val();
+    const key = String($("#styler-dialog input[name=attribute]").val() ?? "");
     const values = [
-      ...new Set(
+      ...new Set<string>(
         overpass.geojson.features
           .map((f) => f.properties.tags[key])
           .filter(Boolean)
       )
     ].sort((a, b) =>
-      isFinite(a) && isFinite(b) ? a - b : a < b ? -1 : a > b ? 1 : 0
+      isFinite(+a) && isFinite(+b) ? +a - +b : a < b ? -1 : a > b ? 1 : 0
     );
 
     let colors: string[];
@@ -2460,7 +2584,7 @@ class IDE {
       }).reverse();
     }
 
-    const mapCssColors = {};
+    const mapCssColors: Record<string, string[]> = {};
     values.forEach((value, i) => {
       const color = colors[i % colors.length];
       if (!mapCssColors[color]) mapCssColors[color] = [];
@@ -2490,7 +2614,7 @@ class IDE {
     $("#styler-dialog").removeClass("is-active");
   }
   onSettingsClick() {
-    $("#settings-dialog input[name=ui_language]")[0].value =
+    $<HTMLInputElement>("#settings-dialog input[name=ui_language]")[0].value =
       settings.ui_language;
     const lngDescs = i18n.getSupportedLanguagesDescriptions();
     make_combobox(
@@ -2500,7 +2624,8 @@ class IDE {
         label: lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`
       }))
     );
-    $("#settings-dialog input[name=server]")[0].value = settings.server;
+    $<HTMLInputElement>("#settings-dialog input[name=server]")[0].value =
+      settings.server;
     make_combobox(
       $("#settings-dialog input[name=server]"),
       configs.suggestedServers.concat(settings.customServers),
@@ -2513,27 +2638,32 @@ class IDE {
         settings.save();
       }
     );
-    $("#settings-dialog input[name=no_autorepair]")[0].checked =
-      settings.no_autorepair;
-    $("#settings-dialog input[name=disable_warning_huge_data]")[0].checked =
-      settings.disable_warning_huge_data;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=no_autorepair]"
+    )[0].checked = settings.no_autorepair;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=disable_warning_huge_data]"
+    )[0].checked = settings.disable_warning_huge_data;
     // editor options
-    $("#settings-dialog input[name=use_rich_editor]")[0].checked =
-      settings.use_rich_editor;
-    $("#settings-dialog input[name=editor_width]")[0].value =
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=use_rich_editor]"
+    )[0].checked = settings.use_rich_editor;
+    $<HTMLInputElement>("#settings-dialog input[name=editor_width]")[0].value =
       settings.editor_width;
     // sharing options
-    $("#settings-dialog input[name=share_include_pos]")[0].checked =
-      settings.share_include_pos;
-    $("#settings-dialog input[name=share_compression]")[0].value =
-      settings.share_compression;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=share_include_pos]"
+    )[0].checked = settings.share_include_pos;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=share_compression]"
+    )[0].value = settings.share_compression;
     make_combobox($("#settings-dialog input[name=share_compression]"), [
       "auto",
       "on",
       "off"
     ]);
     // map settings
-    $("#settings-dialog input[name=tile_server]")[0].value =
+    $<HTMLInputElement>("#settings-dialog input[name=tile_server]")[0].value =
       settings.tile_server;
     make_combobox(
       $("#settings-dialog input[name=tile_server]"),
@@ -2547,50 +2677,59 @@ class IDE {
         settings.save();
       }
     );
-    $("#settings-dialog input[name=background_opacity]")[0].value =
-      settings.background_opacity;
-    $("#settings-dialog input[name=enable_crosshairs]")[0].checked =
-      settings.enable_crosshairs;
-    $("#settings-dialog input[name=disable_poiomatic]")[0].checked =
-      settings.disable_poiomatic;
-    $("#settings-dialog input[name=show_data_stats]")[0].checked =
-      settings.show_data_stats;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=background_opacity]"
+    )[0].value = String(settings.background_opacity);
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=enable_crosshairs]"
+    )[0].checked = settings.enable_crosshairs;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=disable_poiomatic]"
+    )[0].checked = settings.disable_poiomatic;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=show_data_stats]"
+    )[0].checked = settings.show_data_stats;
     // export settings
-    $("#settings-dialog input[name=export_image_scale]")[0].checked =
-      settings.export_image_scale;
-    $("#settings-dialog input[name=export_image_attribution]")[0].checked =
-      settings.export_image_attribution;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=export_image_scale]"
+    )[0].checked = settings.export_image_scale;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=export_image_attribution]"
+    )[0].checked = settings.export_image_attribution;
     // open dialog
     $("#settings-dialog").addClass("is-active");
   }
   onSettingsSave() {
     // save settings
-    const new_ui_language = $("#settings-dialog input[name=ui_language]")[0]
-      .value;
+    const new_ui_language = $<HTMLInputElement>(
+      "#settings-dialog input[name=ui_language]"
+    )[0].value;
     // reload ui if language has been changed
     if (settings.ui_language != new_ui_language) {
       i18n.translate(new_ui_language);
       ffs_invalidateCache();
     }
     settings.ui_language = new_ui_language;
-    settings.server = $("#settings-dialog input[name=server]")[0].value;
+    settings.server = $<HTMLInputElement>(
+      "#settings-dialog input[name=server]"
+    )[0].value;
     if (
       configs.suggestedServers.indexOf(settings.server) === -1 &&
       settings.customServers.indexOf(settings.server) === -1
     ) {
       settings.customServers.push(settings.server);
     }
-    settings.no_autorepair = $(
+    settings.no_autorepair = $<HTMLInputElement>(
       "#settings-dialog input[name=no_autorepair]"
     )[0].checked;
-    settings.disable_warning_huge_data = $(
+    settings.disable_warning_huge_data = $<HTMLInputElement>(
       "#settings-dialog input[name=disable_warning_huge_data]"
     )[0].checked;
-    settings.use_rich_editor = $(
+    settings.use_rich_editor = $<HTMLInputElement>(
       "#settings-dialog input[name=use_rich_editor]"
     )[0].checked;
     const prev_editor_width = settings.editor_width;
-    settings.editor_width = $(
+    settings.editor_width = $<HTMLInputElement>(
       "#settings-dialog input[name=editor_width]"
     )[0].value;
     // update editor width (if changed)
@@ -2598,14 +2737,14 @@ class IDE {
       $("#editor").css("width", settings.editor_width);
       $("#dataviewer").css("left", settings.editor_width);
     }
-    settings.share_include_pos = $(
+    settings.share_include_pos = $<HTMLInputElement>(
       "#settings-dialog input[name=share_include_pos]"
     )[0].checked;
-    settings.share_compression = $(
+    settings.share_compression = $<HTMLInputElement>(
       "#settings-dialog input[name=share_compression]"
     )[0].value;
     const prev_tile_server = settings.tile_server;
-    settings.tile_server = $(
+    settings.tile_server = $<HTMLInputElement>(
       "#settings-dialog input[name=tile_server]"
     )[0].value;
     if (
@@ -2618,7 +2757,7 @@ class IDE {
     if (prev_tile_server != settings.tile_server)
       this.map.tile_layer.setUrl(settings.tile_server);
     const prev_background_opacity = settings.background_opacity;
-    settings.background_opacity = +$(
+    settings.background_opacity = +$<HTMLInputElement>(
       "#settings-dialog input[name=background_opacity]"
     )[0].value;
     // update background opacity layer
@@ -2629,20 +2768,20 @@ class IDE {
         this.map.inv_opacity_layer
           .setOpacity(1 - settings.background_opacity)
           .addTo(this.map);
-    settings.enable_crosshairs = $(
+    settings.enable_crosshairs = $<HTMLInputElement>(
       "#settings-dialog input[name=enable_crosshairs]"
     )[0].checked;
-    settings.disable_poiomatic = $(
+    settings.disable_poiomatic = $<HTMLInputElement>(
       "#settings-dialog input[name=disable_poiomatic]"
     )[0].checked;
-    settings.show_data_stats = $(
+    settings.show_data_stats = $<HTMLInputElement>(
       "#settings-dialog input[name=show_data_stats]"
     )[0].checked;
     $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
-    settings.export_image_scale = $(
+    settings.export_image_scale = $<HTMLInputElement>(
       "#settings-dialog input[name=export_image_scale]"
     )[0].checked;
-    settings.export_image_attribution = $(
+    settings.export_image_attribution = $<HTMLInputElement>(
       "#settings-dialog input[name=export_image_attribution]"
     )[0].checked;
     settings.save();
@@ -2662,7 +2801,7 @@ class IDE {
   onHelpClose() {
     $("#help-dialog").removeClass("is-active");
   }
-  onKeyPress(event: KeyboardEvent) {
+  onKeyPress(event: KeyboardEvent | JQuery.KeyDownEvent): void {
     if (
       event.key === "F9" || // F9
       (event.key === "Enter" && (event.ctrlKey || event.metaKey))
@@ -2796,12 +2935,17 @@ class IDE {
     await this.getQuery();
     overpass.rerender(this.mapcss);
   }
-  update_ffs_query(s, callback) {
-    const search = s || $("#ffs-dialog input[type=search]").val();
-    const comment = $("#ffs-dialog input[name='ffs.comments']")[0].checked;
-    ffs_construct_query(search, comment, (err, query) => {
+  update_ffs_query(
+    s: string | undefined,
+    callback: (err: unknown, ffs_result?: string[]) => void
+  ): void {
+    const search = s || String($("#ffs-dialog input[type=search]").val() ?? "");
+    const comment = $<HTMLInputElement>(
+      "#ffs-dialog input[name='ffs.comments']"
+    )[0].checked;
+    ffs_construct_query(search, comment, (err: unknown, query: string) => {
       if (err) {
-        ffs_repair_search(search, (repaired) => {
+        ffs_repair_search(search, (repaired: string[] | false) => {
           if (repaired) {
             callback("repairable query", repaired);
           } else {

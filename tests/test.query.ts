@@ -7,7 +7,7 @@ describe("ide.query", () => {
   let orig_codeEditor, orig_map;
   beforeEach(() => {
     orig_codeEditor = ide.codeEditor;
-    ide.codeEditor = {};
+    ide.codeEditor = {} as typeof ide.codeEditor;
     orig_map = ide.map;
     ide.map = {
       bboxfilter: {
@@ -21,7 +21,7 @@ describe("ide.query", () => {
       getCenter() {
         return L.latLng([5, 6]);
       }
-    };
+    } as typeof ide.map;
   });
   afterEach(() => {
     ide.map = orig_map;
