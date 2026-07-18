@@ -125,6 +125,9 @@ $(document).on("copy", (e) => {
 let suggestedServers = configs.suggestedServers;
 // what the wiki says about those instances, to describe the selected one
 let wikiInstances: OverpassInstance[] = [];
+// the wiki is queried once per session, on the first open of the settings
+// dialog; every later open reuses the result
+let instancesPromise: Promise<OverpassInstance[]> | undefined;
 
 function make_combobox(
   input: JQuery<HTMLElement>,
@@ -2669,16 +2672,20 @@ class IDE {
         [coverage, instance?.usagePolicy].filter(Boolean).join(" — ")
       );
     };
-    $("#settings-dialog input[name=server]").on(
-      "input autocompleteselect autocompletechange",
-      // the combobox fills the input after the event, hence the deferral
-      () => setTimeout(show_server_info)
-    );
+    $("#settings-dialog input[name=server]")
+      // `show_server_info` is recreated on every open, so drop the previous
+      // handler first — namespaced, as the combobox listens on `input` too
+      .off(".server-info")
+      .on(
+        "input.server-info autocompleteselect.server-info autocompletechange.server-info",
+        // the combobox fills the input after the event, hence the deferral
+        () => setTimeout(show_server_info)
+      );
     show_server_info();
     // the instances listed on the OSM wiki trickle in afterwards, the combobox
     // is rebuilt once they do. if the wiki cannot be reached, the hardcoded
     // servers are kept
-    void fetchInstances()
+    void (instancesPromise ??= fetchInstances())
       .then((instances) => {
         wikiInstances = instances;
         suggestedServers = [
