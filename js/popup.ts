@@ -1,8 +1,8 @@
 import $ from "jquery";
 import tag2link from "tag2link/index.json";
 
-import {request} from "./httpRequest";
 import i18n from "./i18n";
+import {loadObject} from "./josmRemoteControl";
 import {htmlentities} from "./misc";
 import settings from "./settings";
 
@@ -14,9 +14,8 @@ const _tag2link = tag2link.filter(
 $(document).on("click", "a.josm-edit", function (e) {
   e.preventDefault();
   const objects = $(this).attr("data-objects");
-  request(
-    `http://localhost:8111/load_object?objects=${objects}&relation_members=true`
-  ).catch(() => {
+  loadObject(objects).catch((error) => {
+    console.error("JOSM remote control load_object failed", error);
     const content = `<div class="notification is-danger is-light">${i18n.t("error.josm.expl")}</div>`;
     const dialog = $(`<div class="modal is-active">
         <div class="modal-background"></div>

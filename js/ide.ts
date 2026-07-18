@@ -18,8 +18,9 @@ import {
   ffs_invalidateCache,
   ffs_repair_search
 } from "./ffs";
-import {request, requestJson, requestText} from "./httpRequest";
+import {requestJson, requestText} from "./httpRequest";
 import i18n from "./i18n";
+import * as josm from "./josmRemoteControl";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import overpass, {type QueryLang} from "./overpass";
 import Query from "./query";
@@ -2292,10 +2293,9 @@ class IDE {
       .on("click", () => {
         const export_dialog = $("#export-dialog");
         async function send_to_josm(query: string): Promise<void> {
-          const JRC_url = "http://127.0.0.1:8111/";
           let d;
           try {
-            d = await requestJson(`${JRC_url}version`);
+            d = await josm.version();
           } catch (error) {
             console.error("JOSM remote control is not reachable", error);
             const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
@@ -2312,16 +2312,13 @@ class IDE {
             return;
           }
           try {
-            const url = new URL(`${JRC_url}import`);
-            url.searchParams.set(
-              "url",
+            await josm.importUrl(
               // JOSM doesn't handle protocol-less links very well
               `${server.replace(
                 /^\/\//,
                 `${location.protocol}//`
               )}interpreter?data=${encodeURIComponent(query)}`
             );
-            await request(url);
             console.log("successfully invoked JOSM remote control");
           } catch (error) {
             console.error(error);
