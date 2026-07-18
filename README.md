@@ -34,7 +34,7 @@ Development is done in the _master_ branch, stable releases are marked with git 
 
 ### install & run
 
-0. Use `corepack enable` to install [pnpm](https://pnpm.io/).
+0. Install [pnpm](https://pnpm.io/installation), e.g. via `npm install -g pnpm`.
 1. `pnpm install`
 2. `pnpm dev` for a development server listening at http://localhost:5173
 3. `pnpm build` for a minified build in `./dist`
