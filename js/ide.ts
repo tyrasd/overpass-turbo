@@ -2689,6 +2689,9 @@ class IDE {
     $<HTMLInputElement>(
       "#settings-dialog input[name=show_data_stats]"
     )[0].checked = settings.show_data_stats;
+    $<HTMLSelectElement>(
+      "#settings-dialog select[name=editor_preference]"
+    )[0].value = settings.editor_preference;
     // export settings
     $<HTMLInputElement>(
       "#settings-dialog input[name=export_image_scale]"
@@ -2777,6 +2780,9 @@ class IDE {
     settings.show_data_stats = $<HTMLInputElement>(
       "#settings-dialog input[name=show_data_stats]"
     )[0].checked;
+    settings.editor_preference = $<HTMLSelectElement>(
+      "#settings-dialog select[name=editor_preference]"
+    )[0].value;
     $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
     settings.export_image_scale = $<HTMLInputElement>(
       "#settings-dialog input[name=export_image_scale]"
