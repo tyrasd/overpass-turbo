@@ -52,7 +52,7 @@ function map2coord(lang: QueryLang) {
 }
 
 // converts relative time to ISO time string
-function relativeTime(instr: string, callback: ShortcutCallback): void {
+async function relativeTime(instr: string): Promise<string> {
   const now = Date.now();
   // very basic differential date
   if (instr == "") instr = "0 seconds";
@@ -61,10 +61,7 @@ function relativeTime(instr: string, callback: ShortcutCallback): void {
     .match(
       /(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/
     );
-  if (match === null) {
-    callback(""); // todo: throw an error. do not silently fail
-    return;
-  }
+  if (match === null) return ""; // todo: throw an error. do not silently fail
   const count = parseInt(match[1]);
   let interval: number;
   switch (match[2]) {
@@ -99,14 +96,11 @@ function relativeTime(instr: string, callback: ShortcutCallback): void {
       break;
   }
   const date = now - count * interval * 1000;
-  callback(new Date(date).toISOString());
+  return new Date(date).toISOString();
 }
 
 // geocoded values (object/area ids, coords, bbox)
-async function geocodeId(
-  instr: string,
-  callback: ShortcutCallback
-): Promise<void> {
+async function geocodeId(instr: string): Promise<string> {
   const lang = ide.getQueryLang();
   function filter(n: nominatim.NominatimResult) {
     return n.osm_type && n.osm_id;
@@ -114,19 +108,16 @@ async function geocodeId(
   let res: nominatim.NominatimResult;
   try {
     res = await nominatim.getBest(instr, filter);
-  } catch {
-    return ide.onNominatimError(instr, "Id");
+  } catch (error) {
+    ide.onNominatimError(instr, "Id");
+    throw error;
   }
-  if (lang == "OverpassQL") callback(`${res.osm_type}(${res.osm_id})`);
-  else if (lang == "xml")
-    callback(`type="${res.osm_type}" ref="${res.osm_id}"`);
+  if (lang == "OverpassQL") return `${res.osm_type}(${res.osm_id})`;
+  if (lang == "xml") return `type="${res.osm_type}" ref="${res.osm_id}"`;
   // todo: there is no SQL representation for this shortcut
-  else callback(String(res));
+  return String(res);
 }
-async function geocodeArea(
-  instr: string,
-  callback: ShortcutCallback
-): Promise<void> {
+async function geocodeArea(instr: string): Promise<string> {
   const lang = ide.getQueryLang();
   function filter(n: nominatim.NominatimResult) {
     return n.osm_type && n.osm_id && n.osm_type !== "node";
@@ -134,8 +125,9 @@ async function geocodeArea(
   let res: nominatim.NominatimResult;
   try {
     res = await nominatim.getBest(instr, filter);
-  } catch {
-    return ide.onNominatimError(instr, "Area");
+  } catch (error) {
+    ide.onNominatimError(instr, "Area");
+    throw error;
   }
   let area_ref: number | string = 1 * res.osm_id;
   if (res.osm_type == "way") area_ref += 2400000000;
@@ -145,57 +137,50 @@ async function geocodeArea(
     // for backward compatibility query both IDs, see
     // https://github.com/tyrasd/overpass-turbo/issues/537
     if (res.osm_type === "way") area_ref = `${area_ref},${res.osm_id}`;
-    return callback(`area(id:${area_ref})`);
-  } else if (lang == "xml") {
+    return `area(id:${area_ref})`;
+  }
+  if (lang == "xml") {
     // https://github.com/tyrasd/overpass-turbo/issues/537
     if (res.osm_type === "way") area_ref = `${area_ref}" ref_1="${res.osm_id}`;
-    return callback(`type="area" ref="${area_ref}"`);
+    return `type="area" ref="${area_ref}"`;
   }
+  // todo: there is no SQL representation for this shortcut
+  return "";
 }
-async function geocodeBbox(
-  instr: string,
-  callback: ShortcutCallback
-): Promise<void> {
+async function geocodeBbox(instr: string): Promise<string> {
   const lang = ide.getQueryLang();
   let res: nominatim.NominatimResult;
   try {
     res = await nominatim.getBest(instr);
-  } catch {
-    return ide.onNominatimError(instr, "Bbox");
+  } catch (error) {
+    ide.onNominatimError(instr, "Bbox");
+    throw error;
   }
   const lat1 = coord(res.boundingbox[0], 90);
   const lat2 = coord(res.boundingbox[1], 90);
   const lng1 = coord(res.boundingbox[2], 180);
   const lng2 = coord(res.boundingbox[3], 180);
-  if (lang == "OverpassQL") callback(`${lat1},${lng1},${lat2},${lng2}`);
-  else if (lang == "xml")
-    callback(`s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`);
+  if (lang == "OverpassQL") return `${lat1},${lng1},${lat2},${lng2}`;
+  if (lang == "xml") return `s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`;
   // todo: there is no SQL representation for this shortcut
-  else callback(String(res));
+  return String(res);
 }
-async function geocodeCoords(
-  instr: string,
-  callback: ShortcutCallback
-): Promise<void> {
+async function geocodeCoords(instr: string): Promise<string> {
   const lang = ide.getQueryLang();
   let res: nominatim.NominatimResult;
   try {
     res = await nominatim.getBest(instr);
-  } catch {
-    return ide.onNominatimError(instr, "Coords");
+  } catch (error) {
+    ide.onNominatimError(instr, "Coords");
+    throw error;
   }
-  if (lang == "OverpassQL") callback(`${res.lat},${res.lon}`);
-  else if (lang == "xml") callback(`lat="${res.lat}" lon="${res.lon}"`);
+  if (lang == "OverpassQL") return `${res.lat},${res.lon}`;
+  if (lang == "xml") return `lat="${res.lat}" lon="${res.lon}"`;
   // todo: there is no SQL representation for this shortcut
-  else callback(String(res));
+  return String(res);
 }
 
-/** receives the value a shortcut resolves to */
-type ShortcutCallback = (s: string) => void;
-
-export type Shortcut =
-  | string
-  | ((instr: string, callback: ShortcutCallback) => void);
+export type Shortcut = string | ((instr: string) => Promise<string>);
 
 export default function shortcuts(): Record<string, Shortcut> {
   const queryLang = ide.getQueryLang();
@@ -214,13 +199,11 @@ export default function shortcuts(): Record<string, Shortcut> {
     nominatimId:
       queryLang == "xml"
         ? geocodeId
-        : (instr, callback) =>
-            geocodeId(instr, (result) => callback(`${result};`)),
+        : async (instr) => `${await geocodeId(instr)};`,
     nominatimArea:
       queryLang == "xml"
         ? geocodeArea
-        : (instr, callback) =>
-            geocodeArea(instr, (result) => callback(`${result};`)),
+        : async (instr) => `${await geocodeArea(instr)};`,
     nominatimBbox: geocodeBbox,
     nominatimCoords: geocodeCoords
   };
