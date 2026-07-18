@@ -24,6 +24,7 @@ import i18n from "./i18n";
 import * as josm from "./josmRemoteControl";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import overpass, {type QueryLang} from "./overpass";
+import {fetchInstances, type OverpassInstance} from "./overpass-servers";
 import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
@@ -118,6 +119,15 @@ $(document).on("copy", (e) => {
     copyData = null;
   }
 });
+
+// the hardcoded servers, extended with the instances listed on the OSM wiki
+// once the settings dialog has been opened
+let suggestedServers = configs.suggestedServers;
+// what the wiki says about those instances, to describe the selected one
+let wikiInstances: OverpassInstance[] = [];
+// the wiki is queried once per session, on the first open of the settings
+// dialog; every later open reuses the result
+let instancesPromise: Promise<OverpassInstance[]> | undefined;
 
 function make_combobox(
   input: JQuery<HTMLElement>,
@@ -2634,18 +2644,60 @@ class IDE {
       settings.theme;
     $<HTMLInputElement>("#settings-dialog input[name=server]")[0].value =
       settings.server;
-    make_combobox(
-      $("#settings-dialog input[name=server]"),
-      configs.suggestedServers.concat(settings.customServers),
-      settings.customServers,
-      (server) => {
-        settings.customServers.splice(
-          settings.customServers.indexOf(server),
-          1
-        );
-        settings.save();
-      }
-    );
+    const make_server_combobox = (servers: string[]) =>
+      make_combobox(
+        $("#settings-dialog input[name=server]"),
+        servers.concat(settings.customServers),
+        settings.customServers,
+        (server) => {
+          settings.customServers.splice(
+            settings.customServers.indexOf(server),
+            1
+          );
+          settings.save();
+        }
+      );
+    make_server_combobox(suggestedServers);
+    // describes the server currently in the input, as far as the wiki knows it
+    const show_server_info = () => {
+      const server = $<HTMLInputElement>(
+        "#settings-dialog input[name=server]"
+      )[0].value;
+      const instance = wikiInstances.find(({url}) => url === server);
+      const coverage =
+        instance?.coverage &&
+        `${i18n.t("settings.server_coverage")}: ${instance.coverage}`;
+      // .text(), never .html(): this comes from a world-writable wiki
+      $("#settings-dialog #server-info").text(
+        [coverage, instance?.usagePolicy].filter(Boolean).join(" — ")
+      );
+    };
+    $("#settings-dialog input[name=server]")
+      // `show_server_info` is recreated on every open, so drop the previous
+      // handler first — namespaced, as the combobox listens on `input` too
+      .off(".server-info")
+      .on(
+        "input.server-info autocompleteselect.server-info autocompletechange.server-info",
+        // the combobox fills the input after the event, hence the deferral
+        () => setTimeout(show_server_info)
+      );
+    show_server_info();
+    // the instances listed on the OSM wiki trickle in afterwards, the combobox
+    // is rebuilt once they do. if the wiki cannot be reached, the hardcoded
+    // servers are kept
+    void (instancesPromise ??= fetchInstances())
+      .then((instances) => {
+        wikiInstances = instances;
+        suggestedServers = [
+          ...new Set([
+            ...configs.suggestedServers,
+            ...instances.map((instance) => instance.url)
+          ])
+        ];
+        make_server_combobox(suggestedServers);
+        show_server_info();
+      })
+      .catch(() => {});
     $<HTMLInputElement>(
       "#settings-dialog input[name=no_autorepair]"
     )[0].checked = settings.no_autorepair;
@@ -2729,7 +2781,7 @@ class IDE {
       "#settings-dialog input[name=server]"
     )[0].value;
     if (
-      configs.suggestedServers.indexOf(settings.server) === -1 &&
+      suggestedServers.indexOf(settings.server) === -1 &&
       settings.customServers.indexOf(settings.server) === -1
     ) {
       settings.customServers.push(settings.server);

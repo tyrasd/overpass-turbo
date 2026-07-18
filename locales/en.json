@@ -42,6 +42,7 @@
   "settings.theme.dark": "dark",
   "settings.theme_expl": "\"automatic\" follows your system's color scheme.",
   "settings.server": "Server",
+  "settings.server_coverage": "Data coverage",
   "settings.disable_autorepair": "Disable warning/autorepair message when Overpass API returns no visible data.",
   "settings.disable_warning_huge_data": "Disable warning when Overpass API returns large amounts of data.",
   "settings.section.editor": "Editor",

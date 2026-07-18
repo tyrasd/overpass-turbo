@@ -15,6 +15,8 @@ These changes are live on the development instance at <https://tyrasd.github.io/
 - Round `{{bbox}}`/`{{center}}` coordinates to 7 decimal places ([#832](https://github.com/tyrasd/overpass-turbo/issues/832))
 - Fall back to the English string for untranslated keys
 - Restore login to osm.org via popup
+- Suggest the servers listed on the [Overpass API wiki page](https://wiki.openstreetmap.org/wiki/Overpass_API#Public_Overpass_API_instances) in the settings dialog, and show the data coverage and usage policy of the selected server ([#854](https://github.com/tyrasd/overpass-turbo/pull/854))
+- Remove duplicate overpass-api.de entry from the suggested servers
 - Remove overpass.openstreetmap.ru instance ([#816](https://github.com/tyrasd/overpass-turbo/issues/816))
 - Update link for overpass.private.coffee instance
 - Try to render results even if parsing fails for some reason
