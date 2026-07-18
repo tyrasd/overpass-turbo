@@ -72,7 +72,7 @@ function parseQueryResponse(
 class Overpass {
   ajax_request_duration: number;
   ajax_request_start: number;
-  ajax_request: AbortController;
+  ajax_request: AbortController = new AbortController();
   copyright;
   data;
   geojson;
