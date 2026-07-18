@@ -1,6 +1,7 @@
 // shortcuts module
 // see http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries
 import clamp from "lodash/clamp";
+
 import ide from "./ide";
 import nominatim from "./nominatim";
 
