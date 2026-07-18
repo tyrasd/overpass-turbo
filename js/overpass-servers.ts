@@ -39,50 +39,6 @@ export interface OverpassInstance {
   usagePolicy?: string;
 }
 
-/** splits a wikitable row into its cells, dropping any `scope="col"` markup */
-function cells(row: string): string[] {
-  return row
-    .split(/^[!|]/m)
-    .slice(1)
-    .map((cell) =>
-      cell
-        .split(/^[!|]{2}/m)[0]
-        .replace(/^scope="col"\s*(width="[^"]*")?\s*\|/, "")
-        .trim()
-    );
-}
-
-/**
- * Turns `https://overpass-api.de/api/interpreter` into
- * `https://overpass-api.de/api/`, the form used in {@link configs.suggestedServers}.
- */
-function normalize(url: string): string {
-  return url.replace(/interpreter\/?$/, "").replace(/\/?$/, "/");
-}
-
-/**
- * Reduces the wikitext of a table cell to plain text: links keep their label
- * (external ones also their target), footnotes and templates are dropped.
- *
- * The result is deliberately text and not HTML — the wiki is world-writable,
- * so its markup must never end up in the DOM as markup.
- */
-function plainText(wikitext: string): string {
-  return wikitext
-    .replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/g, "") // footnotes
-    .replace(/\[\[[^\]|]*\|([^\]]*)\]\]/g, "$1") // [[Page|label]]
-    .replace(/\[\[([^\]]*)\]\]/g, "$1") // [[Page]]
-    .replace(/\[(https?:\/\/\S+)\s+([^\]]*)\]/g, "$2 ($1)") // [url label]
-    .replace(/\[(https?:\/\/[^\]\s]+)\]/g, "$1") // [url]
-    .replace(/\{\{[Uu]ser\|([^|}]*)[^}]*\}\}/g, "$1") // {{User|name|…}}
-    .replace(/\{\{[^{}]*\}\}/g, "") // any other template
-    .replace(/<br\s*\/?>/gi, " ")
-    .replace(/<[^>]+>/g, "") // syntaxhighlight and friends
-    .replace(/'''?/g, "") // bold/italic
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
 /** parses the instance tables out of the raw wikitext of the Overpass API page */
 export function parseInstances(wikitext: string): OverpassInstance[] {
   const instances = new Map<string, OverpassInstance>();
@@ -120,17 +76,57 @@ export function parseInstances(wikitext: string): OverpassInstance[] {
   }
 
   return [...instances.values()];
-}
 
-interface WikiResponse {
-  query?: {
-    pages?: {revisions?: {slots?: {main?: {content?: string}}}[]}[];
-  };
+  /** splits a wikitable row into its cells, dropping any `scope="col"` markup */
+  function cells(row: string): string[] {
+    return row
+      .split(/^[!|]/m)
+      .slice(1)
+      .map((cell) =>
+        cell
+          .split(/^[!|]{2}/m)[0]
+          .replace(/^scope="col"\s*(width="[^"]*")?\s*\|/, "")
+          .trim()
+      );
+  }
+
+  /**
+   * Turns `https://overpass-api.de/api/interpreter` into
+   * `https://overpass-api.de/api/`, the form used in {@link configs.suggestedServers}.
+   */
+  function normalize(url: string): string {
+    return url.replace(/interpreter\/?$/, "").replace(/\/?$/, "/");
+  }
+
+  /**
+   * Reduces the wikitext of a table cell to plain text: links keep their label
+   * (external ones also their target), footnotes and templates are dropped.
+   *
+   * The result is deliberately text and not HTML — the wiki is world-writable,
+   * so its markup must never end up in the DOM as markup.
+   */
+  function plainText(wikitext: string): string {
+    return wikitext
+      .replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/g, "") // footnotes
+      .replace(/\[\[[^\]|]*\|([^\]]*)\]\]/g, "$1") // [[Page|label]]
+      .replace(/\[\[([^\]]*)\]\]/g, "$1") // [[Page]]
+      .replace(/\[(https?:\/\/\S+)\s+([^\]]*)\]/g, "$2 ($1)") // [url label]
+      .replace(/\[(https?:\/\/[^\]\s]+)\]/g, "$1") // [url]
+      .replace(/\{\{[Uu]ser\|([^|}]*)[^}]*\}\}/g, "$1") // {{User|name|…}}
+      .replace(/\{\{[^{}]*\}\}/g, "") // any other template
+      .replace(/<br\s*\/?>/gi, " ")
+      .replace(/<[^>]+>/g, "") // syntaxhighlight and friends
+      .replace(/'''?/g, "") // bold/italic
+      .replace(/\s+/g, " ")
+      .trim();
+  }
 }
 
 /** fetches the public Overpass API instances listed on the OSM wiki */
 export async function fetchInstances(): Promise<OverpassInstance[]> {
-  const response = await requestJson<WikiResponse>(WIKI_URL);
+  const response = await requestJson<{
+    query?: {pages?: {revisions?: {slots?: {main?: {content?: string}}}[]}[]};
+  }>(WIKI_URL);
   const wikitext =
     response.query?.pages?.[0]?.revisions?.[0]?.slots?.main?.content;
   return wikitext ? parseInstances(wikitext) : [];
