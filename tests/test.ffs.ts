@@ -234,6 +234,46 @@ describe("ide.ffs", () => {
         `node(newer:"date:1day")(bbox);${out_str}`
       );
     });
+    // older
+    it("older", async () => {
+      // regular
+      let search = 'older:"2000-01-01T01:01:01Z" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "2000-01-01T01:01:01Z")(bbox);${out_str}`
+      );
+      // relative
+      search = "older:1day and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "date:1day")(bbox);${out_str}`
+      );
+      // relative, spaced and pluralized
+      search = 'older:"3 days" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "date:3 days")(bbox);${out_str}`
+      );
+      // relative, negative offset
+      search = 'older:"-1 year" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "date:-1 year")(bbox);${out_str}`
+      );
+      // non-date values are passed through verbatim
+      search = 'older:"tomorrow" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "tomorrow")(bbox);${out_str}`
+      );
+      // combines with other conditions
+      search = 'older:"2000-01-01T01:01:01Z" and amenity=cafe';
+      await expect(construct_query(search)).resolves.to.equal(
+        `nwr(if: timestamp() <= "2000-01-01T01:01:01Z")["amenity"="cafe"](bbox);${out_str}`
+      );
+    });
+    // older combined with newer, i.e. a date range
+    it("older and newer", async () => {
+      const search = 'older:"1 month" and newer:"2 years" and type:way';
+      await expect(construct_query(search)).resolves.to.equal(
+        `way(if: timestamp() <= "date:1 month")(newer:"date:2 years")(bbox);${out_str}`
+      );
+    });
     // user
     it("user", async () => {
       // user name

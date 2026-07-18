@@ -1,7 +1,11 @@
 // global i18n object
 import $ from "jquery";
 
+import en from "../locales/en.json";
 import settings from "./settings";
+
+/** the source language, used for keys a translation does not (yet) cover */
+const en_td: Record<string, string> = en;
 
 function browser_locale(): string {
   /* taken from https://github.com/maxogden/browser-locale by Max Ogden, BSD licensed */
@@ -74,7 +78,7 @@ export default class i18n {
   static td: Record<string, string> = {};
 
   static t(key: string) {
-    return this.td[key] || "/missing translation/";
+    return this.td[key] || en_td[key] || `/missing translation: ${key}/`;
   }
 
   static getSupportedLanguages() {
@@ -121,7 +125,9 @@ export default class i18n {
     try {
       return import(`../locales/${lng}.json`).then(
         (data) => {
-          Object.assign(this.td, data.default);
+          // replace, don't merge: strings of a previously loaded language must
+          // not survive as a stand-in for keys the new one does not cover
+          this.td = data.default;
           this.translate_ui();
           // todo: nicer implementation
           return data.default;
