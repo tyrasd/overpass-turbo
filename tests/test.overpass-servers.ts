@@ -1,9 +1,14 @@
 import {beforeEach, describe, expect, it, vi} from "vite-plus/test";
 
-import {requestText} from "../js/httpRequest";
+import {requestJson} from "../js/httpRequest";
 import {fetchInstances, parseInstances} from "../js/overpass-servers";
 
-vi.mock("../js/httpRequest", () => ({requestText: vi.fn()}));
+vi.mock("../js/httpRequest", () => ({requestJson: vi.fn()}));
+
+/** wraps wikitext the way the MediaWiki API returns it */
+const apiResponse = (wikitext: string) => ({
+  query: {pages: [{revisions: [{slots: {main: {content: wikitext}}}]}]}
+});
 
 // an excerpt of https://wiki.openstreetmap.org/wiki/Overpass_API, including a
 // decoy table without an "API Endpoint" column and prose mentioning
@@ -63,19 +68,34 @@ const WIKITEXT = `== Public Overpass API instances==
 
 describe("overpass-servers", () => {
   beforeEach(() => {
-    vi.mocked(requestText).mockReset();
+    vi.mocked(requestJson).mockReset();
   });
 
-  it("fetches the wiki page as raw wikitext", async () => {
-    vi.mocked(requestText).mockResolvedValue(WIKITEXT);
+  it("requests the wikitext through the CORS-enabled api.php", async () => {
+    vi.mocked(requestJson).mockResolvedValue(apiResponse(WIKITEXT));
     await fetchInstances();
-    expect(requestText).toHaveBeenCalledWith(
-      "https://wiki.openstreetmap.org/w/index.php?title=Overpass_API&action=raw"
+    const url = vi.mocked(requestJson).mock.calls[0][0] as URL;
+    expect(url.origin + url.pathname).toBe(
+      "https://wiki.openstreetmap.org/w/api.php"
     );
+    expect(Object.fromEntries(url.searchParams)).toMatchObject({
+      action: "query",
+      prop: "revisions",
+      rvprop: "content",
+      rvslots: "main",
+      titles: "Overpass_API",
+      // must stay a literal `*`, percent-encoding it breaks the CORS handshake
+      origin: "*"
+    });
+  });
+
+  it("returns no instances when the page has no content", async () => {
+    vi.mocked(requestJson).mockResolvedValue({});
+    expect(await fetchInstances()).toEqual([]);
   });
 
   it("parses both instance tables", async () => {
-    vi.mocked(requestText).mockResolvedValue(WIKITEXT);
+    vi.mocked(requestJson).mockResolvedValue(apiResponse(WIKITEXT));
     expect(await fetchInstances()).toEqual([
       {url: "https://overpass-api.de/api/", scope: "global"},
       {url: "https://overpass.geofabrik.de/YOUR_API_KEY/api/", scope: "global"},

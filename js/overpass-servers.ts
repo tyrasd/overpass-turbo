@@ -12,10 +12,21 @@
 // listed as `https://overpass.atownsend.org.uk/api/` without the suffix, and
 // the string also occurs in the prose outside of the tables.
 
-import {requestText} from "./httpRequest";
+import {requestJson} from "./httpRequest";
 
-const WIKI_URL =
-  "https://wiki.openstreetmap.org/w/index.php?title=Overpass_API&action=raw";
+// the wikitext is fetched via api.php rather than `action=raw`, because only
+// api.php answers with an `Access-Control-Allow-Origin` header (`origin=*`)
+const WIKI_URL = new URL("https://wiki.openstreetmap.org/w/api.php");
+WIKI_URL.search = new URLSearchParams({
+  action: "query",
+  prop: "revisions",
+  rvprop: "content",
+  rvslots: "main",
+  titles: "Overpass_API",
+  format: "json",
+  formatversion: "2",
+  origin: "*"
+}).toString();
 
 export interface OverpassInstance {
   /** API endpoint, normalized to a trailing slash and without `interpreter` */
@@ -76,7 +87,16 @@ export function parseInstances(wikitext: string): OverpassInstance[] {
   return [...instances.values()];
 }
 
+interface WikiResponse {
+  query?: {
+    pages?: {revisions?: {slots?: {main?: {content?: string}}}[]}[];
+  };
+}
+
 /** fetches the public Overpass API instances listed on the OSM wiki */
 export async function fetchInstances(): Promise<OverpassInstance[]> {
-  return parseInstances(await requestText(WIKI_URL));
+  const response = await requestJson<WikiResponse>(WIKI_URL);
+  const wikitext =
+    response.query?.pages?.[0]?.revisions?.[0]?.slots?.main?.content;
+  return wikitext ? parseInstances(wikitext) : [];
 }
