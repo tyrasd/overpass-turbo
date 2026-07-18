@@ -23,7 +23,7 @@
     "tabs.map": "Karte",
     "tabs.map_tt": "Kartenansicht",
     "tabs.table": "Tabelle",
-    "tabs.data_tt": "Tabellenansicht",
+    "tabs.table_tt": "Tabellenansicht",
     "tabs.data": "Daten",
     "tabs.data_tt": "Datenansicht",
     "map_controlls.zoom_to_data": "auf die Daten zoomen",
