@@ -18,6 +18,7 @@ import {
   ffs_invalidateCache,
   ffs_repair_search
 } from "./ffs";
+import {request, requestJson, requestText} from "./httpRequest";
 import i18n from "./i18n";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import overpass, {type QueryLang} from "./overpass";
@@ -332,9 +333,8 @@ class IDE {
     );
     // (very raw) compatibility check <- TODO: put this into its own function
     if (
-      // CORS support (jQuery.support.cors was removed in jQuery 4)
-      typeof XMLHttpRequest !== "function" ||
-      !("withCredentials" in new XMLHttpRequest()) ||
+      // the fetch API is used for all (cross origin) requests
+      typeof fetch !== "function" ||
       //typeof localStorage  != "object" ||
       typeof (function () {
         let ls = undefined;
@@ -850,36 +850,30 @@ class IDE {
         // autocomplete functionality
         $(inp).autocomplete({
           source(request, response) {
-            // ajax (GET) request to nominatim
-            $.ajax(
+            // GET request to osmnames
+            requestJson(
               `https://search.osmnames.org/q/${encodeURIComponent(
                 request.term
-              )}.js?key=${configs.osmnamesApiKey}`,
-              {
-                success(data) {
-                  // hacky firefox hack :( (it is not properly detecting json from the content-type header)
-                  if (typeof data == "string") {
-                    // if the data is a string, but looks more like a json object
-                    try {
-                      data = JSON.parse(data);
-                    } catch {}
-                  }
-                  response(
-                    data.results.slice(0, 10).map((item) => ({
-                      label: item.display_name,
-                      value: item.display_name,
-                      lat: item.lat,
-                      lon: item.lon,
-                      boundingbox: item.boundingbox
-                    }))
-                  );
-                },
-                error() {
-                  // todo: better error handling
-                  console.error(
-                    "An error occurred while contacting the search server osmnames.org :("
-                  );
-                }
+              )}.js?key=${configs.osmnamesApiKey}`
+            ).then(
+              (data) => {
+                response(
+                  data.results.slice(0, 10).map((item) => ({
+                    label: item.display_name,
+                    value: item.display_name,
+                    lat: item.lat,
+                    lon: item.lon,
+                    boundingbox: item.boundingbox
+                  }))
+                );
+              },
+              (error) => {
+                // todo: better error handling
+                console.error(
+                  "An error occurred while contacting the search server osmnames.org :(",
+                  error
+                );
+                response([]);
               }
             );
           },
@@ -1670,13 +1664,18 @@ class IDE {
 
     // automatically minify urls if enabled
     if (configs.short_url_service != "") {
-      $.get(
-        configs.short_url_service + encodeURIComponent(share_link),
+      requestText(
+        configs.short_url_service + encodeURIComponent(share_link)
+      ).then(
         (data) => {
           $<HTMLAnchorElement>("div#share-dialog #share_link_a")[0].href = data;
           $<HTMLTextAreaElement>(
             "div#share-dialog #share_link_textarea"
           )[0].value = data;
+        },
+        (error) => {
+          // not fatal: the unshortened link stays in place
+          console.error("failed to shorten the share link", error);
         }
       );
     }
@@ -1967,9 +1966,10 @@ class IDE {
       .unbind("click")
       .on("click", () => {
         const geoJSON_str = constructGeojsonString(overpass.geojson);
-        $.ajax("https://api.github.com/gists", {
+        requestJson("https://api.github.com/gists", {
           method: "POST",
-          data: JSON.stringify({
+          headers: {"content-type": "application/json"},
+          body: JSON.stringify({
             description: "data exported by overpass turbo", // todo:descr
             public: true,
             files: {
@@ -1979,8 +1979,8 @@ class IDE {
               }
             }
           })
-        })
-          .done((data) => {
+        }).then(
+          (data) => {
             const dialog_buttons = [{name: i18n.t("dialog.done")}];
             const content =
               `<p>${i18n.t("export.geoJSON_gist.gist")}&nbsp;<a href="${
@@ -1999,14 +1999,13 @@ class IDE {
               dialog_buttons
             );
             // data.html_url;
-          })
-          .fail((jqXHR) => {
+          },
+          (error) => {
             alert(
-              `an error occurred during the creation of the overpass gist:\n${JSON.stringify(
-                jqXHR
-              )}`
+              `an error occurred during the creation of the overpass gist:\n${error}`
             );
-          });
+          }
+        );
         return false;
       });
     // GPX format
@@ -2292,41 +2291,42 @@ class IDE {
       .unbind("click")
       .on("click", () => {
         const export_dialog = $("#export-dialog");
-        function send_to_josm(query: string): void {
+        async function send_to_josm(query: string): Promise<void> {
           const JRC_url = "http://127.0.0.1:8111/";
-          $.getJSON(`${JRC_url}version`)
-            .done((d) => {
-              if (d.protocolversion.major == 1) {
-                $.get(`${JRC_url}import`, {
-                  // JOSM doesn't handle protocol-less links very well
-                  url: `${server.replace(
-                    /^\/\//,
-                    `${location.protocol}//`
-                  )}interpreter?data=${encodeURIComponent(query)}`
-                })
-                  .fail(() => {
-                    alert("Error: Unexpected JOSM remote control error.");
-                  })
-                  .done(() => {
-                    console.log("successfully invoked JOSM remote control");
-                  });
-              } else {
-                const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-                const content = `<p>${i18n.t("error.remote.incompat")}: ${
-                  d.protocolversion.major
-                }.${d.protocolversion.minor} :(</p>`;
-                showDialog(
-                  i18n.t("error.remote.title"),
-                  content,
-                  dialog_buttons
-                );
-              }
-            })
-            .fail(() => {
-              const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-              const content = `<p>${i18n.t("error.remote.not_found")}</p>`;
-              showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
-            });
+          let d;
+          try {
+            d = await requestJson(`${JRC_url}version`);
+          } catch (error) {
+            console.error("JOSM remote control is not reachable", error);
+            const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+            const content = `<p>${i18n.t("error.remote.not_found")}</p>`;
+            showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
+            return;
+          }
+          if (d.protocolversion.major != 1) {
+            const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+            const content = `<p>${i18n.t("error.remote.incompat")}: ${
+              d.protocolversion.major
+            }.${d.protocolversion.minor} :(</p>`;
+            showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
+            return;
+          }
+          try {
+            const url = new URL(`${JRC_url}import`);
+            url.searchParams.set(
+              "url",
+              // JOSM doesn't handle protocol-less links very well
+              `${server.replace(
+                /^\/\//,
+                `${location.protocol}//`
+              )}interpreter?data=${encodeURIComponent(query)}`
+            );
+            await request(url);
+            console.log("successfully invoked JOSM remote control");
+          } catch (error) {
+            console.error(error);
+            alert("Error: Unexpected JOSM remote control error.");
+          }
         }
         // first check for possible mistakes in query.
         const valid = Autorepair.detect.editors(

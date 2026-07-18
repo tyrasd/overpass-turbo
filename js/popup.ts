@@ -1,6 +1,7 @@
 import $ from "jquery";
 import tag2link from "tag2link/index.json";
 
+import {request} from "./httpRequest";
 import i18n from "./i18n";
 import {htmlentities} from "./misc";
 import settings from "./settings";
@@ -13,7 +14,7 @@ const _tag2link = tag2link.filter(
 $(document).on("click", "a.josm-edit", function (e) {
   e.preventDefault();
   const objects = $(this).attr("data-objects");
-  fetch(
+  request(
     `http://localhost:8111/load_object?objects=${objects}&relation_members=true`
   ).catch(() => {
     const content = `<div class="notification is-danger is-light">${i18n.t("error.josm.expl")}</div>`;

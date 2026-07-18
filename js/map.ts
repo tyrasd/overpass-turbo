@@ -112,7 +112,7 @@ $(document).ready(() => {
   };
   overpass.init();
   // (very raw) compatibility check
-  if (!("withCredentials" in new XMLHttpRequest())) {
+  if (typeof fetch !== "function") {
     // the currently used browser is not capable of running the IDE. :(
     $(
       '<div title="Your browser is not supported :(">' +

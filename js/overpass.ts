@@ -4,6 +4,7 @@ import "leaflet";
 
 import configs from "./configs";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
+import {HttpError, isAbortError, request} from "./httpRequest";
 import ide from "./ide";
 import styleparser from "./jsmapcss";
 import {htmlentities} from "./misc";
@@ -14,10 +15,64 @@ import settings from "./settings";
 
 export type QueryLang = "xml" | "OverpassQL" | "SQL";
 
+/** an Overpass API (or SQL server) response, parsed according to its content type */
+interface QueryResponse {
+  status: number;
+  statusText: string;
+  /** the raw (unparsed) response body */
+  text: string;
+  /** set if the body could be parsed as XML */
+  xml?: Document;
+  /** set if the body could be parsed as JSON */
+  json?;
+}
+
+/**
+ * Parses the response body into XML or JSON, depending on the content type.
+ *
+ * Some servers don't announce the content type properly, so the body itself is
+ * sniffed as a fallback. Anything that can't be parsed is passed on as a string
+ * (typically an HTML formatted error page).
+ */
+function parseQueryResponse(
+  res: Response,
+  text: string
+): {response: QueryResponse; data} {
+  const contentType = res.headers.get("content-type") || "";
+  const response: QueryResponse = {
+    status: res.status,
+    statusText: res.statusText,
+    text
+  };
+  const trimmed = text.trimStart();
+  if (/\bjson\b/.test(contentType) || trimmed.startsWith("{")) {
+    try {
+      response.json = JSON.parse(text);
+      return {response, data: response.json};
+    } catch {}
+  }
+  if (
+    /\bxml\b/.test(contentType) ||
+    // not announced as XML, but looks like an OSM document rather than an error page
+    (res.status === 200 &&
+      !/text\/html/.test(contentType) &&
+      trimmed.startsWith("<?xml") &&
+      text.match(/<osm/))
+  ) {
+    try {
+      response.xml = $.parseXML(text);
+      return {response, data: response.xml};
+    } catch {
+      delete response.xml;
+    }
+  }
+  return {response, data: text};
+}
+
 class Overpass {
   ajax_request_duration: number;
   ajax_request_start: number;
-  ajax_request;
+  ajax_request: AbortController;
   copyright;
   data;
   geojson;
@@ -89,19 +144,19 @@ class Overpass {
         overpass.ajax_request.abort();
         if (ide.getQueryLang() === "SQL") return callback();
         // try to abort Overpass API queries via kill_my_queries
-        $.get(`${server}kill_my_queries`)
-          .done(callback)
-          .fail(() => {
-            console.log("Warning: failed to kill query.");
+        request(`${server}kill_my_queries`).then(
+          () => callback(),
+          (error) => {
+            console.log("Warning: failed to kill query.", error);
             callback();
-          });
+          }
+        );
       }
     );
-    function onSuccessCb(data, textStatus, jqXHR) {
-      //textStatus is not needed in the successCallback, don't cache it
-      if (cache) cache[query] = [data, undefined, jqXHR];
+    function onSuccessCb(data, response: QueryResponse) {
+      if (cache) cache[query] = [data, response];
 
-      let data_amount = jqXHR.responseText.length;
+      let data_amount = response.text.length;
       let data_txt;
       // round amount of data
       const scale = Math.floor(Math.log(data_amount) / Math.log(10));
@@ -111,13 +166,13 @@ class Overpass {
       else if (data_amount < 1000000) data_txt = `${data_amount / 1000} kB`;
       else data_txt = `${data_amount / 1000000} MB`;
       let data_elements;
-      if (jqXHR.responseXML) {
-        data_elements = jqXHR.responseXML.childNodes[0].childElementCount;
-      } else if (jqXHR.responseJSON) {
+      if (response.xml) {
+        data_elements = response.xml.documentElement.childElementCount;
+      } else if (response.json) {
         data_elements = (
-          jqXHR.responseJSON.elements ||
-          jqXHR.responseJSON.features ||
-          jqXHR.responseJSON.result
+          response.json.elements ||
+          response.json.features ||
+          response.json.result
         ).length;
       }
       overpass.fire("onProgress", `received about ${data_txt} of data`);
@@ -153,34 +208,10 @@ class Overpass {
             Date.now() - overpass.ajax_request_start;
           overpass.fire("onProgress", "parsing data");
           setTimeout(() => {
-            // hacky firefox hack :( (it is not properly detecting json from the content-type header)
-            if (typeof data == "string" && data[0] == "{") {
-              // if the data is a string, but looks more like a json object
-              try {
-                data = JSON.parse(data);
-              } catch {}
-            }
-            // hacky firefox hack :( (it is not properly detecting xml from the content-type header)
-            if (
-              typeof data == "string" &&
-              data.substr(0, 5) == "<?xml" &&
-              jqXHR.status === 200 &&
-              !(jqXHR.getResponseHeader("content-type") || "").match(
-                /text\/html/
-              ) &&
-              data.match(/<osm/)
-            ) {
-              try {
-                jqXHR.responseXML = data;
-                data = $.parseXML(data);
-              } catch {
-                delete jqXHR.responseXML;
-              }
-            }
             if (
               typeof data == "string" ||
               (typeof data == "object" &&
-                jqXHR.responseXML &&
+                response.xml &&
                 $("remark", data).length > 0) ||
               (typeof data == "object" && data.remark && data.remark.length > 0)
             ) {
@@ -196,7 +227,7 @@ class Overpass {
               is_error =
                 is_error ||
                 (typeof data == "object" &&
-                  jqXHR.responseXML &&
+                  response.xml &&
                   $("remark", data).length > 0);
               is_error =
                 is_error ||
@@ -224,7 +255,7 @@ class Overpass {
                     "[…]"
                   );
                 }
-                if (typeof data == "object" && jqXHR.responseXML)
+                if (typeof data == "object" && response.xml)
                   errmsg = `<p>${$("remark", data).html().trim()}</p>`;
                 if (typeof data == "object" && data.remark)
                   errmsg = `<p>${$("<div/>")
@@ -250,7 +281,7 @@ class Overpass {
               overpass.copyright = undefined;
               stats.data = {nodes: 0, ways: 0, relations: 0, areas: 0};
               //geojson = [{features:[]}, {features:[]}, {features:[]}];
-            } else if (typeof data == "object" && jqXHR.responseXML) {
+            } else if (typeof data == "object" && response.xml) {
               // xml data
               overpass.resultType = "xml";
               data_mode = "xml";
@@ -708,7 +739,7 @@ class Overpass {
                   // print raw data
                   overpass.fire("onProgress", "printing raw data");
                   setTimeout(() => {
-                    overpass.resultText = jqXHR.responseText;
+                    overpass.resultText = response.text;
                     overpass.fire("onRawDataPresent");
 
                     // todo: the following would profit from some unit testing
@@ -800,49 +831,64 @@ class Overpass {
         }
       );
     }
+    function onErrorCb(error: unknown) {
+      console.error("error during the Overpass API request", error);
+      overpass.fire("onProgress", "error during ajax call");
+      let errmsg = "";
+      if (error instanceof HttpError) {
+        overpass.resultText = error.body;
+        errmsg += `<p>Error-Code: ${htmlentities(error.statusText)} (${
+          error.status
+        })</p>`;
+      } else {
+        // the request didn't yield a response at all
+        errmsg +=
+          "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";
+      }
+      overpass.fire("onAjaxError", errmsg);
+      // closing wait spinner
+      overpass.fire("onDone");
+    }
     // eslint-disable-next-line no-prototype-builtins
     if (cache && cache.hasOwnProperty(query)) {
       onSuccessCb.apply(this, cache[query]);
     } else {
       overpass.ajax_request_start = Date.now();
-      overpass.ajax_request = $.ajax(`${server}interpreter`, {
-        type: "POST",
-        data: {data: query, options: options},
-        success: onSuccessCb,
-        error(jqXHR, textStatus) {
-          if (textStatus == "abort") return; // ignore aborted queries.
-          overpass.fire("onProgress", "error during ajax call");
-          if (
-            jqXHR.status == 400 ||
-            jqXHR.status == 504 ||
-            jqXHR.status == 429 ||
-            (jqXHR.status == 500 &&
-              jqXHR.responseText.match(/^(pq|sql): /) !== null) // postgresql error messages
-          ) {
-            // todo: handle those in a separate routine
-            // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
-            this.success(jqXHR.responseText, textStatus, jqXHR);
-            return;
-          }
-          overpass.resultText = jqXHR.resultText;
-          let errmsg = "";
-          if (jqXHR.state() == "rejected")
-            errmsg +=
-              "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";
-          if (textStatus == "parsererror")
-            errmsg += "<p>Error while parsing the data (parsererror).</p>";
-          else if (textStatus != "error" && textStatus != jqXHR.statusText)
-            errmsg += `<p>Error-Code: ${textStatus}</p>`;
-          if (
-            (jqXHR.status != 0 && jqXHR.status != 200) ||
-            jqXHR.statusText != "OK" // note to me: jqXHR.status "should" give http status codes
-          )
-            errmsg += `<p>Error-Code: ${jqXHR.statusText} (${jqXHR.status})</p>`;
-          overpass.fire("onAjaxError", errmsg);
-          // closing wait spinner
-          overpass.fire("onDone");
+      overpass.ajax_request = new AbortController();
+      // jQuery.ajax used to serialize nested objects like this
+      const body = new URLSearchParams({data: query});
+      for (const [key, value] of Object.entries(options || {}))
+        body.set(`options[${key}]`, String(value));
+      void (async () => {
+        let res: Response;
+        let text: string;
+        try {
+          res = await fetch(`${server}interpreter`, {
+            method: "POST",
+            body,
+            signal: overpass.ajax_request.signal
+          });
+          text = await res.text();
+        } catch (error) {
+          if (isAbortError(error)) return; // ignore aborted queries.
+          onErrorCb(error);
+          return;
         }
-      }); // getJSON
+        if (
+          res.ok ||
+          // todo: handle those in a separate routine
+          // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
+          res.status == 400 ||
+          res.status == 504 ||
+          res.status == 429 ||
+          (res.status == 500 && text.match(/^(pq|sql): /) !== null) // postgresql error messages
+        ) {
+          const {response, data} = parseQueryResponse(res, text);
+          onSuccessCb(data, response);
+          return;
+        }
+        onErrorCb(new HttpError(res, text));
+      })();
     }
   }
 }
