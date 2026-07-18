@@ -65,7 +65,7 @@ function escRegexp(str: string): string {
   return str.replace(/([()[{*+.$^\\|?])/g, "\\$1");
 }
 
-/* interprets the value of a `newer:`/`older:` condition:
+/* interprets the value of a `newer:`/`older:`/`date:` condition:
  * abbreviated dates are expanded to the full `yyyy-mm-ddThh:mm:ssZ` format
  * expected by the overpass API, e.g. `2025-12-01` → `2025-12-01T00:00:00Z`,
  * while relative dates are turned into a `{{date:…}}` shortcut.
@@ -116,6 +116,20 @@ export async function ffs_construct_query(
     throw new Error("ffs parse error");
   }
 
+  ffs.query = normalize(ffs.query);
+
+  // `date:` is a global setting (attic data), not a per-object condition:
+  // take it out of the query clauses and put it into the settings line
+  let date_setting = "";
+  for (const and_query of ffs.query.queries) {
+    and_query.queries = and_query.queries.filter((cond_query: Condition) => {
+      if (cond_query.query !== "meta" || cond_query.meta !== "date")
+        return true;
+      date_setting = `[date:"${dateValue(cond_query.val)}"]`;
+      return false;
+    });
+  }
+
   const query_parts = [];
   let bounds_part;
 
@@ -134,7 +148,7 @@ export async function ffs_construct_query(
     add_comment(`“${quote_comment_str(search)}”`);
   }
   add_comment("*/");
-  query_parts.push("[out:json][timeout:25];");
+  query_parts.push(`[out:json][timeout:25]${date_setting};`);
 
   switch (ffs.bounds) {
     case "area":
@@ -309,8 +323,6 @@ export async function ffs_construct_query(
         return "";
     }
   }
-
-  ffs.query = normalize(ffs.query);
 
   let freeForm = false;
   for (const and_query of ffs.query.queries) {

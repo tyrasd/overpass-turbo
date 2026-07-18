@@ -12,7 +12,10 @@ describe("ide.ffs", () => {
   function compact(q) {
     q = q.replace(/\/\*[\s\S]*?\*\//g, "");
     q = q.replace(/\/\/.*/g, "");
-    q = q.replace(/\[out:json\]\[timeout:.*?\];/, "");
+    // keep any additional settings, such as `[date:…]`
+    q = q.replace(/\[out:json\]\[timeout:\d+\](.*?);/, (_, rest) =>
+      rest ? `${rest};` : ""
+    );
     q = q.replace(/\(\{\{bbox\}\}\)/g, "(bbox)");
     q = q.replace(/\{\{geocodeArea:([^}]*)\}\}/g, "area($1)");
     q = q.replace(/\{\{geocodeCoords:([^}]*)\}\}/g, "coords:$1");
@@ -330,6 +333,34 @@ describe("ide.ffs", () => {
       const search = 'older:"1 month" and newer:"2 years" and type:way';
       await expect(construct_query(search)).resolves.to.equal(
         `way(if: timestamp() <= "date:1 month")(newer:"date:2 years")(bbox);${out_str}`
+      );
+    });
+    // date, i.e. attic data
+    it("date", async () => {
+      // absolute, abbreviated
+      let search = "date:2016-01-01 and amenity=cafe";
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"2016-01-01T00:00:00Z"];nwr["amenity"="cafe"](bbox);${out_str}`
+      );
+      // absolute, full
+      search = 'date:"2016-01-01T00:00:00Z" and amenity=cafe';
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"2016-01-01T00:00:00Z"];nwr["amenity"="cafe"](bbox);${out_str}`
+      );
+      // relative
+      search = 'date:"1 week" and amenity=cafe';
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"date:1 week"];nwr["amenity"="cafe"](bbox);${out_str}`
+      );
+      // on its own, i.e. all objects at the given date
+      search = "date:2016";
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"2016-01-01T00:00:00Z"];nwr(bbox);${out_str}`
+      );
+      // combines with other meta conditions
+      search = "date:2016-01-01 and type:node and user:foo";
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"2016-01-01T00:00:00Z"];node(user:"foo")(bbox);${out_str}`
       );
     });
     // user
