@@ -26,7 +26,7 @@ import overpass, {type QueryLang} from "./overpass";
 import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
-import sync from "./sync-with-osm";
+import sync, {type SyncedQuery} from "./sync-with-osm";
 import urlParameters from "./urlParameters";
 
 declare module "leaflet" {
@@ -69,12 +69,6 @@ type ComboboxItem = string | {value: string; label: string};
 interface DialogButton {
   name: string;
   callback?: () => void;
-}
-
-/** a query saved in the user's OSM preferences (see {@link sync}) */
-interface OsmSavedQuery {
-  name: string;
-  query: string;
 }
 
 /** the `{{data:…}}` statement of a query, e.g. `{{data:overpass,server=…}}` */
@@ -1406,16 +1400,15 @@ class IDE {
       )}: &quot;<i>${ex}</i>&quot;?</p>`;
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   }
-  removeExampleSync(query: OsmSavedQuery, self: HTMLElement): void {
+  removeExampleSync(query: SyncedQuery, self: HTMLElement): void {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
         callback() {
-          sync.delete(query.name, (err) => {
-            if (err) return console.error(err);
-
-            $(self).parent().remove();
-          });
+          sync
+            .delete(query.name)
+            .then(() => $(self).parent().remove())
+            .catch((err) => console.error(err));
         }
       },
       {
@@ -1489,7 +1482,7 @@ class IDE {
       }
     }
   }
-  loadOsmQueries() {
+  async loadOsmQueries(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ide = this;
     const ui = $("#load-dialog .panel.osm-queries");
@@ -1499,37 +1492,38 @@ class IDE {
       .text(i18n.t("load.saved_queries-osm-loading"))
       .appendTo(ui);
 
-    sync.load((err: unknown, queries: OsmSavedQuery[]) => {
-      if (err) {
-        ui.find(".panel-block").remove();
-        $('<div class="panel-block">')
-          .text(i18n.t("load.saved_queries-osm-error"))
-          .appendTo(ui);
-        return console.error(err);
-      }
+    let queries: SyncedQuery[];
+    try {
+      queries = await sync.load();
+    } catch (err) {
       ui.find(".panel-block").remove();
-      $("#logout").show();
-      $("#logout").appendTo($("#logout").parent());
-      queries.forEach((q) => {
-        $('<a class="panel-block">')
-          .attr("href", "#")
-          .text(q.name)
-          .on("click", () => {
-            ide.setQuery(lzw_decode(Base64.decode(q.query)));
-            $("#load-dialog").removeClass("is-active");
-            return false;
-          })
-          .append(
-            $('<button class="ml-auto">')
-              .attr("title", `${i18n.t("load.delete_query")}: ${q.name}`)
-              .addClass("delete")
-              .on("click", function (this: HTMLElement) {
-                ide.removeExampleSync(q, this);
-                return false;
-              })
-          )
-          .appendTo(ui);
-      });
+      $('<div class="panel-block">')
+        .text(i18n.t("load.saved_queries-osm-error"))
+        .appendTo(ui);
+      return console.error(err);
+    }
+    ui.find(".panel-block").remove();
+    $("#logout").show();
+    $("#logout").appendTo($("#logout").parent());
+    queries.forEach((q) => {
+      $('<a class="panel-block">')
+        .attr("href", "#")
+        .text(q.name)
+        .on("click", () => {
+          ide.setQuery(lzw_decode(Base64.decode(q.query)));
+          $("#load-dialog").removeClass("is-active");
+          return false;
+        })
+        .append(
+          $('<button class="ml-auto">')
+            .attr("title", `${i18n.t("load.delete_query")}: ${q.name}`)
+            .addClass("delete")
+            .on("click", function (this: HTMLElement) {
+              ide.removeExampleSync(q, this);
+              return false;
+            })
+        )
+        .appendTo(ui);
     });
   }
   onLoadClose() {
@@ -1562,18 +1556,17 @@ class IDE {
   onSaveOsmSumbit() {
     const name = $<HTMLInputElement>("#save-dialog input[name=save]")[0].value;
     const query = this.compose_share_link(this.getRawQuery(), true).slice(3);
-    sync.save(
-      {
+    sync
+      .save({
         name: name,
         query: query
-      },
-      (err) => {
-        if (err) return console.error(err);
+      })
+      .then(() => {
         $("#logout").show();
         $("#logout").appendTo($("#logout").parent());
         $("#save-dialog").removeClass("is-active");
-      }
-    );
+      })
+      .catch((err) => console.error(err));
   }
   onSaveClose() {
     $("#save-dialog").removeClass("is-active");
