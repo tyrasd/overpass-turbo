@@ -27,17 +27,16 @@ function map2bbox(lang) {
     return `st_setsrid(st_makebox2d(st_makepoint(${lng1},${lat1}), st_makepoint(${lng2},${lat2})), 4326)`;
 }
 
-
+// returns the current visible bbox in west,south,east,north order
 function map2wsen() {
   let bbox;
   if (!(ide.map.bboxfilter && ide.map.bboxfilter.isEnabled()))
     bbox = ide.map.getBounds();
   else bbox = ide.map.bboxfilter.getBounds();
-  const south = Math.min(Math.max(bbox.getSouthWest().lat, -90), 90);
-  const north = Math.min(Math.max(bbox.getNorthEast().lat, -90), 90);
-  const west = Math.min(Math.max(bbox.getSouthWest().lng, -180), 180);
-  const east = Math.min(Math.max(bbox.getNorthEast().lng, -180), 180);
-
+  const south = coord(bbox.getSouthWest().lat, 90);
+  const north = coord(bbox.getNorthEast().lat, 90);
+  const west = coord(bbox.getSouthWest().lng, 180);
+  const east = coord(bbox.getNorthEast().lng, 180);
   return `${west},${south},${east},${north}`;
 }
 
