@@ -1253,6 +1253,19 @@ class IDE {
     };
     overpass.handlers["onPopupReady"] = function (p) {
       p.openOn(ide.map);
+      const el = p.getElement();
+      if (el) {
+        el.querySelectorAll("a.edit-link").forEach((a) => {
+          a.addEventListener("click", () => {
+            ide.map.closePopup(p);
+            if (settings.hide_on_edit && p.layer) {
+              const layer = p.layer;
+              overpass.osmLayer.getBaseLayer().removeLayer(layer.placeholder || layer);
+              if (layer.placeholder) overpass.osmLayer.getBaseLayer().removeLayer(layer);
+            }
+          });
+        });
+      }
     };
 
     // close startup waiter
@@ -2702,6 +2715,12 @@ class IDE {
     )[0].checked = settings.use_rich_editor;
     $<HTMLInputElement>("#settings-dialog input[name=editor_width]")[0].value =
       settings.editor_width;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=direct_open]"
+    )[0].checked = settings.direct_open;
+    $<HTMLInputElement>(
+      "#settings-dialog input[name=hide_on_edit]"
+    )[0].checked = settings.hide_on_edit;
     // sharing options
     $<HTMLInputElement>(
       "#settings-dialog input[name=share_include_pos]"
@@ -2796,6 +2815,12 @@ class IDE {
       $("#editor").css("width", settings.editor_width);
       $("#dataviewer").css("left", settings.editor_width);
     }
+    settings.direct_open = $<HTMLInputElement>(
+      "#settings-dialog input[name=direct_open]"
+    )[0].checked;
+    settings.hide_on_edit = $<HTMLInputElement>(
+      "#settings-dialog input[name=hide_on_edit]"
+    )[0].checked;
     settings.share_include_pos = $<HTMLInputElement>(
       "#settings-dialog input[name=share_include_pos]"
     )[0].checked;
