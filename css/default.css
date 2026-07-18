@@ -487,6 +487,22 @@ kbd {
 .ui-widget-content a {
   color: var(--bulma-link-text);
 }
+.ui-button {
+  background: var(--bulma-scheme-main-bis);
+  border-color: var(--bulma-border);
+  color: var(--bulma-text);
+}
+.ui-button:hover,
+.ui-button.ui-state-hover {
+  background: var(--bulma-background);
+  border-color: var(--bulma-border-hover);
+  color: var(--bulma-text-strong);
+}
+/* jQuery UI draws its icons from a dark-on-transparent PNG sprite, which
+   vanishes against a dark background */
+:root[data-theme="dark"] .ui-icon {
+  filter: invert(1);
+}
 .ui-menu .ui-menu-item-wrapper.ui-state-active,
 .ui-state-focus,
 .ui-widget-content .ui-state-focus {
