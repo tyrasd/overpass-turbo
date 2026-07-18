@@ -19,71 +19,44 @@ export interface NominatimResult {
   icon?: string;
 }
 
-/** node style callback, receiving either an error message or a result */
-type Callback<T> = (error: string | undefined, result: T | null) => void;
-
 /** narrows down the results to those usable in the current context */
 type Filter = (result: NominatimResult) => unknown;
 
-const cache: Record<string, NominatimResult[]> = {};
+const cache: Record<string, Promise<NominatimResult[]>> = {};
 
 /** queries nominatim, bypassing the cache */
-export function request(
-  search: string,
-  callback: Callback<NominatimResult[]>
-): void {
+export async function request(search: string): Promise<NominatimResult[]> {
   const url = new URL("https://nominatim.openstreetmap.org/search");
   url.searchParams.set("X-Requested-With", configs.appname);
   url.searchParams.set("format", "json");
   url.searchParams.set("q", search);
-  requestJson<NominatimResult[]>(url).then(
-    (data) => {
-      cache[search] = data;
-      callback(undefined, data);
-    },
-    (error) => {
-      const err =
-        "An error occurred while contacting the osm search server nominatim.openstreetmap.org :(";
-      console.log(err, error);
-      callback(err, null);
-    }
-  );
+  try {
+    return await requestJson<NominatimResult[]>(url);
+  } catch (error) {
+    console.log("nominatim request failed", error);
+    throw new Error(
+      "An error occurred while contacting the osm search server nominatim.openstreetmap.org :("
+    );
+  }
 }
 
 /** returns all results for `search`, from the cache if it was queried before */
-export function get(
-  search: string,
-  callback: Callback<NominatimResult[]>
-): void {
-  if (cache[search] === undefined) request(search, callback);
-  else callback(undefined, cache[search]);
+export function get(search: string): Promise<NominatimResult[]> {
+  // caching the promise also keeps concurrent searches down to one request
+  cache[search] ??= request(search).catch((error) => {
+    delete cache[search]; // a failed search should be retried, not remembered
+    throw error;
+  });
+  return cache[search];
 }
 
 /** returns the first result for `search` that passes the optional `filter` */
-export function getBest(
+export async function getBest(
   search: string,
-  callback: Callback<NominatimResult>
-): void;
-export function getBest(
-  search: string,
-  filter: Filter,
-  callback: Callback<NominatimResult>
-): void;
-export function getBest(
-  search: string,
-  filter: Filter | Callback<NominatimResult>,
-  callback?: Callback<NominatimResult>
-): void {
-  // shift parameters if filter is omitted
-  const cb = callback ?? (filter as Callback<NominatimResult>);
-  const resultFilter = callback ? (filter as Filter) : null;
-  get(search, (err, data) => {
-    if (err) {
-      cb(err, null);
-      return;
-    }
-    const results = resultFilter ? data.filter(resultFilter) : data;
-    if (results.length === 0) cb("No result found", null);
-    else cb(undefined, results[0]);
-  });
+  filter?: Filter
+): Promise<NominatimResult> {
+  const data = await get(search);
+  const results = filter ? data.filter(filter) : data;
+  if (results.length === 0) throw new Error("No result found");
+  return results[0];
 }

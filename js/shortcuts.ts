@@ -103,68 +103,91 @@ function relativeTime(instr: string, callback: ShortcutCallback): void {
 }
 
 // geocoded values (object/area ids, coords, bbox)
-function geocodeId(instr: string, callback: ShortcutCallback): void {
+async function geocodeId(
+  instr: string,
+  callback: ShortcutCallback
+): Promise<void> {
   const lang = ide.getQueryLang();
   function filter(n: nominatim.NominatimResult) {
     return n.osm_type && n.osm_id;
   }
-  nominatim.getBest(instr, filter, (err, res) => {
-    if (err) return ide.onNominatimError(instr, "Id");
-    if (lang == "OverpassQL") callback(`${res.osm_type}(${res.osm_id})`);
-    else if (lang == "xml")
-      callback(`type="${res.osm_type}" ref="${res.osm_id}"`);
-    // todo: there is no SQL representation for this shortcut
-    else callback(String(res));
-  });
+  let res: nominatim.NominatimResult;
+  try {
+    res = await nominatim.getBest(instr, filter);
+  } catch {
+    return ide.onNominatimError(instr, "Id");
+  }
+  if (lang == "OverpassQL") callback(`${res.osm_type}(${res.osm_id})`);
+  else if (lang == "xml")
+    callback(`type="${res.osm_type}" ref="${res.osm_id}"`);
+  // todo: there is no SQL representation for this shortcut
+  else callback(String(res));
 }
-function geocodeArea(instr: string, callback: ShortcutCallback): void {
+async function geocodeArea(
+  instr: string,
+  callback: ShortcutCallback
+): Promise<void> {
   const lang = ide.getQueryLang();
   function filter(n: nominatim.NominatimResult) {
     return n.osm_type && n.osm_id && n.osm_type !== "node";
   }
-  nominatim.getBest(instr, filter, (err, res) => {
-    if (err) return ide.onNominatimError(instr, "Area");
-    let area_ref: number | string = 1 * res.osm_id;
-    if (res.osm_type == "way") area_ref += 2400000000;
-    if (res.osm_type == "relation") area_ref += 3600000000;
-    if (lang == "OverpassQL") {
-      // Do not +2400000000 for ways since version 0.7.57,
-      // for backward compatibility query both IDs, see
-      // https://github.com/tyrasd/overpass-turbo/issues/537
-      if (res.osm_type === "way") area_ref = `${area_ref},${res.osm_id}`;
-      return callback(`area(id:${area_ref})`);
-    } else if (lang == "xml") {
-      // https://github.com/tyrasd/overpass-turbo/issues/537
-      if (res.osm_type === "way")
-        area_ref = `${area_ref}" ref_1="${res.osm_id}`;
-      return callback(`type="area" ref="${area_ref}"`);
-    }
-  });
+  let res: nominatim.NominatimResult;
+  try {
+    res = await nominatim.getBest(instr, filter);
+  } catch {
+    return ide.onNominatimError(instr, "Area");
+  }
+  let area_ref: number | string = 1 * res.osm_id;
+  if (res.osm_type == "way") area_ref += 2400000000;
+  if (res.osm_type == "relation") area_ref += 3600000000;
+  if (lang == "OverpassQL") {
+    // Do not +2400000000 for ways since version 0.7.57,
+    // for backward compatibility query both IDs, see
+    // https://github.com/tyrasd/overpass-turbo/issues/537
+    if (res.osm_type === "way") area_ref = `${area_ref},${res.osm_id}`;
+    return callback(`area(id:${area_ref})`);
+  } else if (lang == "xml") {
+    // https://github.com/tyrasd/overpass-turbo/issues/537
+    if (res.osm_type === "way") area_ref = `${area_ref}" ref_1="${res.osm_id}`;
+    return callback(`type="area" ref="${area_ref}"`);
+  }
 }
-function geocodeBbox(instr: string, callback: ShortcutCallback): void {
+async function geocodeBbox(
+  instr: string,
+  callback: ShortcutCallback
+): Promise<void> {
   const lang = ide.getQueryLang();
-  nominatim.getBest(instr, (err, res) => {
-    if (err) return ide.onNominatimError(instr, "Bbox");
-    const lat1 = coord(res.boundingbox[0], 90);
-    const lat2 = coord(res.boundingbox[1], 90);
-    const lng1 = coord(res.boundingbox[2], 180);
-    const lng2 = coord(res.boundingbox[3], 180);
-    if (lang == "OverpassQL") callback(`${lat1},${lng1},${lat2},${lng2}`);
-    else if (lang == "xml")
-      callback(`s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`);
-    // todo: there is no SQL representation for this shortcut
-    else callback(String(res));
-  });
+  let res: nominatim.NominatimResult;
+  try {
+    res = await nominatim.getBest(instr);
+  } catch {
+    return ide.onNominatimError(instr, "Bbox");
+  }
+  const lat1 = coord(res.boundingbox[0], 90);
+  const lat2 = coord(res.boundingbox[1], 90);
+  const lng1 = coord(res.boundingbox[2], 180);
+  const lng2 = coord(res.boundingbox[3], 180);
+  if (lang == "OverpassQL") callback(`${lat1},${lng1},${lat2},${lng2}`);
+  else if (lang == "xml")
+    callback(`s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`);
+  // todo: there is no SQL representation for this shortcut
+  else callback(String(res));
 }
-function geocodeCoords(instr: string, callback: ShortcutCallback): void {
+async function geocodeCoords(
+  instr: string,
+  callback: ShortcutCallback
+): Promise<void> {
   const lang = ide.getQueryLang();
-  nominatim.getBest(instr, (err, res) => {
-    if (err) return ide.onNominatimError(instr, "Coords");
-    if (lang == "OverpassQL") callback(`${res.lat},${res.lon}`);
-    else if (lang == "xml") callback(`lat="${res.lat}" lon="${res.lon}"`);
-    // todo: there is no SQL representation for this shortcut
-    else callback(String(res));
-  });
+  let res: nominatim.NominatimResult;
+  try {
+    res = await nominatim.getBest(instr);
+  } catch {
+    return ide.onNominatimError(instr, "Coords");
+  }
+  if (lang == "OverpassQL") callback(`${res.lat},${res.lon}`);
+  else if (lang == "xml") callback(`lat="${res.lat}" lon="${res.lon}"`);
+  // todo: there is no SQL representation for this shortcut
+  else callback(String(res));
 }
 
 /** receives the value a shortcut resolves to */
