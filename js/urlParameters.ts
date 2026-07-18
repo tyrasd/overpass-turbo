@@ -9,9 +9,8 @@ export function parseUrlParameters(
   return new URLSearchParams(param_str.substring(1));
 }
 
-export default function urlParameters(
-  param_str = location.search || location.hash || "",
-  callback?: (err: unknown, result: ReturnType<typeof urlParameters>) => void
+export default async function urlParameters(
+  param_str = location.search || location.hash || ""
 ) {
   // defaults
   const t = {
@@ -97,16 +96,12 @@ export default function urlParameters(
   }
   if (args.has("w")) {
     // construct a query using the wizard
-    ffs_construct_query(args.get("w").trim(), wizard_comment, (err, query) => {
-      if (!err) {
-        t.query = query;
-        t.has_query = true;
-        if (typeof callback === "function") callback(null, t);
-      } else {
-        console.log(`invalid wizard syntax:\n  ${args.w}`);
-        if (typeof callback === "function") callback(err, t);
-      }
-    });
+    try {
+      t.query = await ffs_construct_query(args.get("w").trim(), wizard_comment);
+      t.has_query = true;
+    } catch (err) {
+      console.log(`invalid wizard syntax:\n  ${args.get("w")}`, err);
+    }
   }
   if (args.has("R")) {
     // indicates that the supplied query shall be executed immediately

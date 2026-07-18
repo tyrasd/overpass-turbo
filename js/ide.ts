@@ -16,15 +16,18 @@ import configs from "./configs";
 import {
   ffs_construct_query,
   ffs_invalidateCache,
-  ffs_repair_search
+  ffs_repair_search,
+  FfsRepairError
 } from "./ffs";
+import {requestJson, requestText} from "./httpRequest";
 import i18n from "./i18n";
+import * as josm from "./josmRemoteControl";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import overpass, {type QueryLang} from "./overpass";
 import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
-import sync from "./sync-with-osm";
+import sync, {type SyncedQuery} from "./sync-with-osm";
 import urlParameters from "./urlParameters";
 
 declare module "leaflet" {
@@ -67,12 +70,6 @@ type ComboboxItem = string | {value: string; label: string};
 interface DialogButton {
   name: string;
   callback?: () => void;
-}
-
-/** a query saved in the user's OSM preferences (see {@link sync}) */
-interface OsmSavedQuery {
-  name: string;
-  query: string;
 }
 
 /** the `{{data:…}}` statement of a query, e.g. `{{data:overpass,server=…}}` */
@@ -332,9 +329,8 @@ class IDE {
     );
     // (very raw) compatibility check <- TODO: put this into its own function
     if (
-      // CORS support (jQuery.support.cors was removed in jQuery 4)
-      typeof XMLHttpRequest !== "function" ||
-      !("withCredentials" in new XMLHttpRequest()) ||
+      // the fetch API is used for all (cross origin) requests
+      typeof fetch !== "function" ||
       //typeof localStorage  != "object" ||
       typeof (function () {
         let ls = undefined;
@@ -367,12 +363,12 @@ class IDE {
     }
   }
 
-  initAfterI18n() {
+  async initAfterI18n() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ide = this;
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
-    const args = urlParameters();
+    const args = await urlParameters();
     // set appropriate settings
     if (args.has_coords) {
       // map center coords set via url
@@ -850,36 +846,30 @@ class IDE {
         // autocomplete functionality
         $(inp).autocomplete({
           source(request, response) {
-            // ajax (GET) request to nominatim
-            $.ajax(
+            // GET request to osmnames
+            requestJson(
               `https://search.osmnames.org/q/${encodeURIComponent(
                 request.term
-              )}.js?key=${configs.osmnamesApiKey}`,
-              {
-                success(data) {
-                  // hacky firefox hack :( (it is not properly detecting json from the content-type header)
-                  if (typeof data == "string") {
-                    // if the data is a string, but looks more like a json object
-                    try {
-                      data = JSON.parse(data);
-                    } catch {}
-                  }
-                  response(
-                    data.results.slice(0, 10).map((item) => ({
-                      label: item.display_name,
-                      value: item.display_name,
-                      lat: item.lat,
-                      lon: item.lon,
-                      boundingbox: item.boundingbox
-                    }))
-                  );
-                },
-                error() {
-                  // todo: better error handling
-                  console.error(
-                    "An error occurred while contacting the search server osmnames.org :("
-                  );
-                }
+              )}.js?key=${configs.osmnamesApiKey}`
+            ).then(
+              (data) => {
+                response(
+                  data.results.slice(0, 10).map((item) => ({
+                    label: item.display_name,
+                    value: item.display_name,
+                    lat: item.lat,
+                    lon: item.lon,
+                    boundingbox: item.boundingbox
+                  }))
+                );
+              },
+              (error) => {
+                // todo: better error handling
+                console.error(
+                  "An error occurred while contacting the search server osmnames.org :(",
+                  error
+                );
+                response([]);
               }
             );
           },
@@ -1411,16 +1401,15 @@ class IDE {
       )}: &quot;<i>${ex}</i>&quot;?</p>`;
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   }
-  removeExampleSync(query: OsmSavedQuery, self: HTMLElement): void {
+  removeExampleSync(query: SyncedQuery, self: HTMLElement): void {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
         callback() {
-          sync.delete(query.name, (err) => {
-            if (err) return console.error(err);
-
-            $(self).parent().remove();
-          });
+          sync
+            .delete(query.name)
+            .then(() => $(self).parent().remove())
+            .catch((err) => console.error(err));
         }
       },
       {
@@ -1494,7 +1483,7 @@ class IDE {
       }
     }
   }
-  loadOsmQueries() {
+  async loadOsmQueries(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ide = this;
     const ui = $("#load-dialog .panel.osm-queries");
@@ -1504,37 +1493,38 @@ class IDE {
       .text(i18n.t("load.saved_queries-osm-loading"))
       .appendTo(ui);
 
-    sync.load((err: unknown, queries: OsmSavedQuery[]) => {
-      if (err) {
-        ui.find(".panel-block").remove();
-        $('<div class="panel-block">')
-          .text(i18n.t("load.saved_queries-osm-error"))
-          .appendTo(ui);
-        return console.error(err);
-      }
+    let queries: SyncedQuery[];
+    try {
+      queries = await sync.load();
+    } catch (err) {
       ui.find(".panel-block").remove();
-      $("#logout").show();
-      $("#logout").appendTo($("#logout").parent());
-      queries.forEach((q) => {
-        $('<a class="panel-block">')
-          .attr("href", "#")
-          .text(q.name)
-          .on("click", () => {
-            ide.setQuery(lzw_decode(Base64.decode(q.query)));
-            $("#load-dialog").removeClass("is-active");
-            return false;
-          })
-          .append(
-            $('<button class="ml-auto">')
-              .attr("title", `${i18n.t("load.delete_query")}: ${q.name}`)
-              .addClass("delete")
-              .on("click", function (this: HTMLElement) {
-                ide.removeExampleSync(q, this);
-                return false;
-              })
-          )
-          .appendTo(ui);
-      });
+      $('<div class="panel-block">')
+        .text(i18n.t("load.saved_queries-osm-error"))
+        .appendTo(ui);
+      return console.error(err);
+    }
+    ui.find(".panel-block").remove();
+    $("#logout").show();
+    $("#logout").appendTo($("#logout").parent());
+    queries.forEach((q) => {
+      $('<a class="panel-block">')
+        .attr("href", "#")
+        .text(q.name)
+        .on("click", () => {
+          ide.setQuery(lzw_decode(Base64.decode(q.query)));
+          $("#load-dialog").removeClass("is-active");
+          return false;
+        })
+        .append(
+          $('<button class="ml-auto">')
+            .attr("title", `${i18n.t("load.delete_query")}: ${q.name}`)
+            .addClass("delete")
+            .on("click", function (this: HTMLElement) {
+              ide.removeExampleSync(q, this);
+              return false;
+            })
+        )
+        .appendTo(ui);
     });
   }
   onLoadClose() {
@@ -1567,18 +1557,17 @@ class IDE {
   onSaveOsmSumbit() {
     const name = $<HTMLInputElement>("#save-dialog input[name=save]")[0].value;
     const query = this.compose_share_link(this.getRawQuery(), true).slice(3);
-    sync.save(
-      {
+    sync
+      .save({
         name: name,
         query: query
-      },
-      (err) => {
-        if (err) return console.error(err);
+      })
+      .then(() => {
         $("#logout").show();
         $("#logout").appendTo($("#logout").parent());
         $("#save-dialog").removeClass("is-active");
-      }
-    );
+      })
+      .catch((err) => console.error(err));
   }
   onSaveClose() {
     $("#save-dialog").removeClass("is-active");
@@ -1670,13 +1659,18 @@ class IDE {
 
     // automatically minify urls if enabled
     if (configs.short_url_service != "") {
-      $.get(
-        configs.short_url_service + encodeURIComponent(share_link),
+      requestText(
+        configs.short_url_service + encodeURIComponent(share_link)
+      ).then(
         (data) => {
           $<HTMLAnchorElement>("div#share-dialog #share_link_a")[0].href = data;
           $<HTMLTextAreaElement>(
             "div#share-dialog #share_link_textarea"
           )[0].value = data;
+        },
+        (error) => {
+          // not fatal: the unshortened link stays in place
+          console.error("failed to shorten the share link", error);
         }
       );
     }
@@ -1967,9 +1961,10 @@ class IDE {
       .unbind("click")
       .on("click", () => {
         const geoJSON_str = constructGeojsonString(overpass.geojson);
-        $.ajax("https://api.github.com/gists", {
+        requestJson("https://api.github.com/gists", {
           method: "POST",
-          data: JSON.stringify({
+          headers: {"content-type": "application/json"},
+          body: JSON.stringify({
             description: "data exported by overpass turbo", // todo:descr
             public: true,
             files: {
@@ -1979,8 +1974,8 @@ class IDE {
               }
             }
           })
-        })
-          .done((data) => {
+        }).then(
+          (data) => {
             const dialog_buttons = [{name: i18n.t("dialog.done")}];
             const content =
               `<p>${i18n.t("export.geoJSON_gist.gist")}&nbsp;<a href="${
@@ -1999,14 +1994,13 @@ class IDE {
               dialog_buttons
             );
             // data.html_url;
-          })
-          .fail((jqXHR) => {
+          },
+          (error) => {
             alert(
-              `an error occurred during the creation of the overpass gist:\n${JSON.stringify(
-                jqXHR
-              )}`
+              `an error occurred during the creation of the overpass gist:\n${error}`
             );
-          });
+          }
+        );
         return false;
       });
     // GPX format
@@ -2292,41 +2286,38 @@ class IDE {
       .unbind("click")
       .on("click", () => {
         const export_dialog = $("#export-dialog");
-        function send_to_josm(query: string): void {
-          const JRC_url = "http://127.0.0.1:8111/";
-          $.getJSON(`${JRC_url}version`)
-            .done((d) => {
-              if (d.protocolversion.major == 1) {
-                $.get(`${JRC_url}import`, {
-                  // JOSM doesn't handle protocol-less links very well
-                  url: `${server.replace(
-                    /^\/\//,
-                    `${location.protocol}//`
-                  )}interpreter?data=${encodeURIComponent(query)}`
-                })
-                  .fail(() => {
-                    alert("Error: Unexpected JOSM remote control error.");
-                  })
-                  .done(() => {
-                    console.log("successfully invoked JOSM remote control");
-                  });
-              } else {
-                const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-                const content = `<p>${i18n.t("error.remote.incompat")}: ${
-                  d.protocolversion.major
-                }.${d.protocolversion.minor} :(</p>`;
-                showDialog(
-                  i18n.t("error.remote.title"),
-                  content,
-                  dialog_buttons
-                );
-              }
-            })
-            .fail(() => {
-              const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-              const content = `<p>${i18n.t("error.remote.not_found")}</p>`;
-              showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
-            });
+        async function send_to_josm(query: string): Promise<void> {
+          let d;
+          try {
+            d = await josm.version();
+          } catch (error) {
+            console.error("JOSM remote control is not reachable", error);
+            const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+            const content = `<p>${i18n.t("error.remote.not_found")}</p>`;
+            showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
+            return;
+          }
+          if (d.protocolversion.major != 1) {
+            const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+            const content = `<p>${i18n.t("error.remote.incompat")}: ${
+              d.protocolversion.major
+            }.${d.protocolversion.minor} :(</p>`;
+            showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
+            return;
+          }
+          try {
+            await josm.importUrl(
+              // JOSM doesn't handle protocol-less links very well
+              `${server.replace(
+                /^\/\//,
+                `${location.protocol}//`
+              )}interpreter?data=${encodeURIComponent(query)}`
+            );
+            console.log("successfully invoked JOSM remote control");
+          } catch (error) {
+            console.error(error);
+            alert("Error: Unexpected JOSM remote control error.");
+          }
         }
         // first check for possible mistakes in query.
         const valid = Autorepair.detect.editors(
@@ -2474,7 +2465,7 @@ class IDE {
   onFfsBuild() {
     this.onFfsRun(false);
   }
-  onFfsRun(autorun: boolean): void {
+  async onFfsRun(autorun: boolean): Promise<void> {
     // Show loading spinner and hide all errors
     $("#ffs-dialog input[type=search]").removeClass("is-danger");
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
@@ -2482,40 +2473,40 @@ class IDE {
     $("#ffs-dialog .loading").show();
 
     // Build query and run it immediately if autorun is set
-    this.update_ffs_query(undefined, (err, ffs_result) => {
+    try {
+      await this.update_ffs_query();
+    } catch (err) {
       $("#ffs-dialog .loading").hide();
-      if (!err) {
-        $("#ffs-dialog").removeClass("is-active");
-        if (autorun !== false) this.onRunClick();
+      $("#ffs-dialog input[type=search]").addClass("is-danger");
+      if (err instanceof FfsRepairError) {
+        // show a "did you mean …" correction
+        $("#ffs-dialog #ffs-dialog-parse-error").hide();
+        $("#ffs-dialog #ffs-dialog-typo").show();
+        const correction = err.repaired.join("");
+        const correction_html = err.repaired
+          .map((ffs_result_part, i) => {
+            if (i % 2 === 1) return `<b>${ffs_result_part}</b>`;
+            else return ffs_result_part;
+          })
+          .join("");
+        $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
+        $("#ffs-dialog #ffs-dialog-typo-correction")
+          .unbind("click")
+          .bind("click", function (e) {
+            $("#ffs-dialog input[type=search]").val(correction);
+            $(this).parent().hide();
+            e.preventDefault();
+          });
       } else {
-        if (Array.isArray(ffs_result)) {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-parse-error").hide();
-          $("#ffs-dialog #ffs-dialog-typo").show();
-          $("#ffs-dialog input[type=search]").addClass("is-danger");
-          const correction = ffs_result.join("");
-          const correction_html = ffs_result
-            .map((ffs_result_part, i) => {
-              if (i % 2 === 1) return `<b>${ffs_result_part}</b>`;
-              else return ffs_result_part;
-            })
-            .join("");
-          $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
-          $("#ffs-dialog #ffs-dialog-typo-correction")
-            .unbind("click")
-            .bind("click", function (e) {
-              $("#ffs-dialog input[type=search]").val(correction);
-              $(this).parent().hide();
-              e.preventDefault();
-            });
-        } else {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-typo").hide();
-          $("#ffs-dialog #ffs-dialog-parse-error").show();
-          $("#ffs-dialog input[type=search]").addClass("is-danger");
-        }
+        // show parse error message
+        $("#ffs-dialog #ffs-dialog-typo").hide();
+        $("#ffs-dialog #ffs-dialog-parse-error").show();
       }
-    });
+      return;
+    }
+    $("#ffs-dialog .loading").hide();
+    $("#ffs-dialog").removeClass("is-active");
+    if (autorun !== false) this.onRunClick();
   }
   onStylerClick() {
     if (!overpass.geojson || overpass.geojson.features.length === 0) return;
@@ -2944,30 +2935,22 @@ class IDE {
     await this.getQuery();
     overpass.rerender(this.mapcss);
   }
-  update_ffs_query(
-    s: string | undefined,
-    callback: (err: unknown, ffs_result?: string[]) => void
-  ): void {
+  async update_ffs_query(s?: string): Promise<void> {
     const search = s || String($("#ffs-dialog input[type=search]").val() ?? "");
     const comment = $<HTMLInputElement>(
       "#ffs-dialog input[name='ffs.comments']"
     )[0].checked;
-    ffs_construct_query(search, comment, (err: unknown, query: string) => {
-      if (err) {
-        ffs_repair_search(search, (repaired: string[] | false) => {
-          if (repaired) {
-            callback("repairable query", repaired);
-          } else {
-            if (s) return callback(true);
-            // try to parse as generic ffs search
-            this.update_ffs_query(`"${search}"`, callback);
-          }
-        });
-      } else {
-        this.setQuery(query);
-        callback(null);
-      }
-    });
+    let query: string;
+    try {
+      query = await ffs_construct_query(search, comment);
+    } catch {
+      const repaired = await ffs_repair_search(search);
+      if (repaired) throw new FfsRepairError(repaired);
+      if (s) throw new Error("could not parse the wizard query");
+      // try to parse as generic ffs search
+      return this.update_ffs_query(`"${search}"`);
+    }
+    this.setQuery(query);
   }
   onClearClick() {
     this.setQuery("");

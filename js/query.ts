@@ -35,11 +35,9 @@ export default class parser {
       // if the statement is a shortcut, replace its content
       const shortcut = shortcuts[s_name];
       if (shortcut !== undefined) {
-        // these shortcuts can also be callback functions, like {{date:-1day}}
+        // these shortcuts can also be functions, like {{date:-1day}}
         if (typeof shortcut === "function") {
-          const res = await new Promise<string>((resolve) =>
-            shortcut(s_instr, (s) => resolve(s))
-          );
+          const res = await shortcut(s_instr);
           const seed = Math.round(Math.random() * Math.pow(2, 22)); // todo: use some kind of checksum of s_instr if possible
           shortcuts[`__statement__${s_name}__${seed}`] = res;
           query = query.replace(

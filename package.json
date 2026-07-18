@@ -29,7 +29,7 @@
     "leaflet-polylineoffset": "^1.1.1",
     "leaflet.locationfilter": "https://github.com/kajic/leaflet-locationfilter/archive/ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d.tar.gz",
     "lodash": ">=4.18.1",
-    "osm-auth": "^3.0.0",
+    "osm-auth": "^3.2.0",
     "osmtogeojson": "^3.0.0-beta.5",
     "rgbcolor": "^1.0.1",
     "stackblur": "^1.0.0",
