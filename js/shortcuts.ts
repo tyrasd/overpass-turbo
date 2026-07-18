@@ -4,6 +4,7 @@ import clamp from "lodash/clamp";
 
 import ide from "./ide";
 import * as nominatim from "./nominatim";
+import type {QueryLang} from "./overpass";
 
 // clamps a coordinate to the given range and rounds it to OSM's precision
 // of 7 decimal places (~1cm), avoiding long floating point artifacts
@@ -12,11 +13,11 @@ function coord(value: number | string, limit: number) {
 }
 
 // returns the current visible bbox as a bbox-query
-function map2bbox(lang) {
-  let bbox;
-  if (!(ide.map.bboxfilter && ide.map.bboxfilter.isEnabled()))
-    bbox = ide.map.getBounds();
-  else bbox = ide.map.bboxfilter.getBounds();
+function map2bbox(lang: QueryLang) {
+  const bbox =
+    ide.map.bboxfilter && ide.map.bboxfilter.isEnabled()
+      ? ide.map.bboxfilter.getBounds()
+      : ide.map.getBounds();
   const lat1 = coord(bbox.getSouthWest().lat, 90);
   const lat2 = coord(bbox.getNorthEast().lat, 90);
   const lng1 = coord(bbox.getSouthWest().lng, 180);
@@ -30,10 +31,10 @@ function map2bbox(lang) {
 
 // returns the current visible bbox in west,south,east,north order
 function map2wsen() {
-  let bbox;
-  if (!(ide.map.bboxfilter && ide.map.bboxfilter.isEnabled()))
-    bbox = ide.map.getBounds();
-  else bbox = ide.map.bboxfilter.getBounds();
+  const bbox =
+    ide.map.bboxfilter && ide.map.bboxfilter.isEnabled()
+      ? ide.map.bboxfilter.getBounds()
+      : ide.map.getBounds();
   const south = coord(bbox.getSouthWest().lat, 90);
   const north = coord(bbox.getNorthEast().lat, 90);
   const west = coord(bbox.getSouthWest().lng, 180);
@@ -42,7 +43,7 @@ function map2wsen() {
 }
 
 // returns the current visible map center as a coord-query
-function map2coord(lang) {
+function map2coord(lang: QueryLang) {
   const center = ide.map.getCenter();
   const lat = coord(center.lat, 90);
   const lng = coord(center.lng, 180);
@@ -51,22 +52,22 @@ function map2coord(lang) {
 }
 
 // converts relative time to ISO time string
-function relativeTime(instr, callback) {
+function relativeTime(instr: string, callback: ShortcutCallback): void {
   const now = Date.now();
   // very basic differential date
   if (instr == "") instr = "0 seconds";
-  instr = instr
+  const match = instr
     .toLowerCase()
     .match(
       /(-?[0-9]+) ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?/
     );
-  if (instr === null) {
+  if (match === null) {
     callback(""); // todo: throw an error. do not silently fail
     return;
   }
-  const count = parseInt(instr[1]);
-  let interval;
-  switch (instr[2]) {
+  const count = parseInt(match[1]);
+  let interval: number;
+  switch (match[2]) {
     case "second":
     case "seconds":
       interval = 1;
@@ -102,9 +103,9 @@ function relativeTime(instr, callback) {
 }
 
 // geocoded values (object/area ids, coords, bbox)
-function geocodeId(instr, callback) {
+function geocodeId(instr: string, callback: ShortcutCallback): void {
   const lang = ide.getQueryLang();
-  function filter(n) {
+  function filter(n: nominatim.NominatimResult) {
     return n.osm_type && n.osm_id;
   }
   nominatim.getBest(instr, filter, (err, res) => {
@@ -112,12 +113,13 @@ function geocodeId(instr, callback) {
     if (lang == "OverpassQL") callback(`${res.osm_type}(${res.osm_id})`);
     else if (lang == "xml")
       callback(`type="${res.osm_type}" ref="${res.osm_id}"`);
-    else callback(res);
+    // todo: there is no SQL representation for this shortcut
+    else callback(String(res));
   });
 }
-function geocodeArea(instr, callback) {
+function geocodeArea(instr: string, callback: ShortcutCallback): void {
   const lang = ide.getQueryLang();
-  function filter(n) {
+  function filter(n: nominatim.NominatimResult) {
     return n.osm_type && n.osm_id && n.osm_type !== "node";
   }
   nominatim.getBest(instr, filter, (err, res) => {
@@ -139,7 +141,7 @@ function geocodeArea(instr, callback) {
     }
   });
 }
-function geocodeBbox(instr, callback) {
+function geocodeBbox(instr: string, callback: ShortcutCallback): void {
   const lang = ide.getQueryLang();
   nominatim.getBest(instr, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Bbox");
@@ -150,22 +152,27 @@ function geocodeBbox(instr, callback) {
     if (lang == "OverpassQL") callback(`${lat1},${lng1},${lat2},${lng2}`);
     else if (lang == "xml")
       callback(`s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`);
-    else callback(res);
+    // todo: there is no SQL representation for this shortcut
+    else callback(String(res));
   });
 }
-function geocodeCoords(instr, callback) {
+function geocodeCoords(instr: string, callback: ShortcutCallback): void {
   const lang = ide.getQueryLang();
   nominatim.getBest(instr, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Coords");
     if (lang == "OverpassQL") callback(`${res.lat},${res.lon}`);
     else if (lang == "xml") callback(`lat="${res.lat}" lon="${res.lon}"`);
-    else callback(res);
+    // todo: there is no SQL representation for this shortcut
+    else callback(String(res));
   });
 }
 
+/** receives the value a shortcut resolves to */
+type ShortcutCallback = (s: string) => void;
+
 export type Shortcut =
   | string
-  | ((instr: string, callback: (s: string) => void) => void);
+  | ((instr: string, callback: ShortcutCallback) => void);
 
 export default function shortcuts(): Record<string, Shortcut> {
   const queryLang = ide.getQueryLang();
