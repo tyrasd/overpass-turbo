@@ -59,11 +59,11 @@ function parseQueryResponse(
       trimmed.startsWith("<?xml") &&
       text.match(/<osm/))
   ) {
-    try {
-      response.xml = $.parseXML(text);
+    const xml = new DOMParser().parseFromString(text, "application/xml");
+    // DOMParser doesn't throw on malformed input, but returns a <parsererror> document
+    if (!xml.querySelector("parsererror")) {
+      response.xml = xml;
       return {response, data: response.xml};
-    } catch {
-      delete response.xml;
     }
   }
   return {response, data: text};
