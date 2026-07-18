@@ -65,6 +65,39 @@ function escRegexp(str: string): string {
   return str.replace(/([()[{*+.$^\\|?])/g, "\\$1");
 }
 
+/* interprets the value of a `newer:`/`older:` condition:
+ * abbreviated dates are expanded to the full `yyyy-mm-ddThh:mm:ssZ` format
+ * expected by the overpass API, e.g. `2025-12-01` → `2025-12-01T00:00:00Z`,
+ * while relative dates are turned into a `{{date:…}}` shortcut.
+ * a bare four digit number in a plausible year range is treated as a year,
+ * e.g. `2025` → `2025-01-01T00:00:00Z`, and not as a number of days.
+ * any other value is returned unchanged.
+ */
+function dateValue(val: string): string {
+  const [
+    ,
+    year,
+    month = "01",
+    day = "01",
+    hour = "00",
+    minute = "00",
+    second = "00"
+  ] =
+    val.match(
+      /^(\d{4})(?:-(\d{2})(?:-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?)?)?Z?$/
+    ) ?? [];
+  // a number of days is more likely intended outside of this range
+  if (year && +year >= 1900 && +year <= 2099)
+    return `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
+  if (
+    val.match(
+      /^-?\d+ ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?$/
+    )
+  )
+    return `{{date:${val}}}`;
+  return val;
+}
+
 export async function ffs_construct_query(
   search: string,
   comment: string | false | undefined
@@ -196,21 +229,9 @@ export async function ffs_construct_query(
           case "id":
             return `(${val})`;
           case "newer":
-            if (
-              condition.val.match(
-                /^-?\d+ ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?$/
-              )
-            )
-              return `(newer:"{{date:${val}}}")`;
-            return `(newer:"${val}")`;
+            return `(newer:"${dateValue(val)}")`;
           case "older":
-            if (
-              condition.val.match(
-                /^-?\d+ ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?$/
-              )
-            )
-              return `(if: timestamp() <= "{{date:${val}}}")`;
-            return `(if: timestamp() <= "${val}")`;
+            return `(if: timestamp() <= "${dateValue(val)}")`;
           case "user":
             return `(user:"${val}")`;
           case "uid":

@@ -234,6 +234,64 @@ describe("ide.ffs", () => {
         `node(newer:"date:1day")(bbox);${out_str}`
       );
     });
+    // abbreviated dates
+    it("short dates", async () => {
+      // year and month
+      let search = "newer:2025-12 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T00:00:00Z")(bbox);${out_str}`
+      );
+      // year, month and day
+      search = "newer:2025-12-01 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T00:00:00Z")(bbox);${out_str}`
+      );
+      // trailing Z without a time
+      search = "newer:2025-12-01Z and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T00:00:00Z")(bbox);${out_str}`
+      );
+      // date and time, missing seconds
+      search = 'newer:"2025-12-01T12:30" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T12:30:00Z")(bbox);${out_str}`
+      );
+      // date and time, space separated, missing trailing Z
+      search = 'newer:"2025-12-01 12:30:45" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T12:30:45Z")(bbox);${out_str}`
+      );
+      // full dates are left untouched
+      search = 'newer:"2025-12-01T12:30:45Z" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T12:30:45Z")(bbox);${out_str}`
+      );
+      // a bare year
+      search = "newer:2025 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-01-01T00:00:00Z")(bbox);${out_str}`
+      );
+      // numbers outside of a plausible year range remain relative dates (days)
+      search = "newer:100 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"date:100")(bbox);${out_str}`
+      );
+      // an explicit unit still takes precedence over the year interpretation
+      search = 'newer:"2025 days" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"date:2025 days")(bbox);${out_str}`
+      );
+      // non-date values are passed through verbatim
+      search = 'newer:"whenever" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"whenever")(bbox);${out_str}`
+      );
+      // works for older, too
+      search = "older:2025-12-01 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "2025-12-01T00:00:00Z")(bbox);${out_str}`
+      );
+    });
     // older
     it("older", async () => {
       // regular

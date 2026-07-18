@@ -8,6 +8,7 @@ These changes are live on the development instance at <https://tyrasd.github.io/
 - Allow changing the default editor so items open in a JOSM instance running on the user's local machine instead of osm.org, with an error message if the local JOSM process is not reachable
 - Add `{{wsen}}` shortcut, like `{{bbox}}`
 - Add "older" keyword to the wizard ([#247](https://github.com/tyrasd/overpass-turbo/issues/247))
+- Accept abbreviated dates such as `2025`, `2025-12` or `2025-12-01` for the wizard's "newer"/"older" keywords ([#785](https://github.com/tyrasd/overpass-turbo/issues/785))
 - Document wizard conditions in help dialog
 - Add clear query button ([#787](https://github.com/tyrasd/overpass-turbo/issues/787))
 - Add `Ctrl+,` keyboard shortcut to open the settings dialog
