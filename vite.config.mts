@@ -1,5 +1,5 @@
 import {execSync} from "child_process";
-import {readFileSync} from "fs";
+import {cpSync, readFileSync} from "fs";
 import {resolve} from "path";
 
 import inject from "@rollup/plugin-inject";
@@ -58,7 +58,8 @@ export default defineConfig(() => ({
       $: "jquery",
       jQuery: "jquery"
     }),
-    peggyPlugin()
+    peggyPlugin(),
+    copyIconsPlugin()
   ]),
   // https://vitest.dev/config/
   test: {
@@ -76,6 +77,20 @@ export default defineConfig(() => ({
     "**/*": "vp fmt --no-error-on-unmatched-pattern --write"
   }
 }));
+
+// The icons are referenced at runtime by MapCSS `icon-image` URLs only,
+// hence they are copied verbatim instead of being bundled.
+function copyIconsPlugin(): Plugin {
+  return {
+    name: "copy-icons",
+    apply: "build",
+    writeBundle(options) {
+      cpSync(resolve(__dirname, "icons"), resolve(options.dir!, "icons"), {
+        recursive: true
+      });
+    }
+  };
+}
 
 function peggyPlugin(options: peggy.ParserBuildOptions = {}): Plugin {
   return {
