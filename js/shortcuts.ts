@@ -27,6 +27,19 @@ function map2bbox(lang) {
     return `st_setsrid(st_makebox2d(st_makepoint(${lng1},${lat1}), st_makepoint(${lng2},${lat2})), 4326)`;
 }
 
+// returns the current visible bbox in west,south,east,north order
+function map2wsen() {
+  let bbox;
+  if (!(ide.map.bboxfilter && ide.map.bboxfilter.isEnabled()))
+    bbox = ide.map.getBounds();
+  else bbox = ide.map.bboxfilter.getBounds();
+  const south = coord(bbox.getSouthWest().lat, 90);
+  const north = coord(bbox.getNorthEast().lat, 90);
+  const west = coord(bbox.getSouthWest().lng, 180);
+  const east = coord(bbox.getNorthEast().lng, 180);
+  return `${west},${south},${east},${north}`;
+}
+
 // returns the current visible map center as a coord-query
 function map2coord(lang) {
   const center = ide.map.getCenter();
@@ -155,6 +168,7 @@ export default function shortcuts(): Record<string, Shortcut> {
   const queryLang = ide.getQueryLang();
   return {
     bbox: map2bbox(queryLang),
+    wsen: map2wsen(),
     center: map2coord(queryLang),
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
     __bbox__global_bbox_xml__ezs4K8__: map2bbox("OverpassQL"),

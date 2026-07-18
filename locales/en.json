@@ -137,6 +137,7 @@
   "help.queries.expl": "Overpass API allows to query for OSM data by your own search criteria. For this purpose, it has a specifically crafted <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL\">query language</a>.",
   "help.intro.shortcuts": "In addition to regular Overpass API queries one can use the following handy shortcuts in overpass turbo:",
   "help.intro.shortcuts.bbox": "bounding box coordinates of the current map view",
+  "help.intro.shortcuts.wsen": "bounding box coordinates of the current map view in west,south,east,north order",
   "help.intro.shortcuts.center": "map center coordinates",
   "help.intro.shortcuts.date": "ISO 8601 date-time-string a certain time interval ago (e.g. “24 hours”)",
   "help.intro.shortcuts.style": "defines a <a href=\"https://wiki.openstreetmap.org/wiki/Overpass_turbo/MapCSS\">MapCSS stylesheet</a>",
