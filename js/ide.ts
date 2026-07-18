@@ -163,8 +163,8 @@ function make_combobox(
     .attr("title", "show all items")
     .appendTo(wrapper)
     .button({
-      icons: {primary: "ui-icon-triangle-1-s"},
-      text: false
+      icon: "ui-icon-triangle-1-s",
+      showLabel: false
     })
     .removeClass("ui-corner-all")
     .addClass("ui-corner-right ui-combobox-toggle")
