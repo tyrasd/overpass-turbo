@@ -2780,7 +2780,7 @@ class IDE {
     settings.show_data_stats = $<HTMLInputElement>(
       "#settings-dialog input[name=show_data_stats]"
     )[0].checked;
-    settings.editor_preference =  $(
+    settings.editor_preference = $<HTMLSelectElement>(
       "#settings-dialog select[name=editor_preference]"
     )[0].value;
     $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
