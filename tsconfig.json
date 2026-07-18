@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "target": "es2022"
   }
 }
