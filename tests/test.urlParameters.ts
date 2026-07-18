@@ -5,15 +5,15 @@ import urlParameters from "../js/urlParameters";
 
 describe("urlParameters", () => {
   // no parameters
-  it("defaults", () => {
-    let args = urlParameters("");
+  it("defaults", async () => {
+    let args = await urlParameters("");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: false,
       has_zoom: false,
       run_query: false
     });
-    args = urlParameters("?");
+    args = await urlParameters("?");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: false,
@@ -22,8 +22,8 @@ describe("urlParameters", () => {
     });
   });
   // query (uncompressed)
-  it("query", () => {
-    const args = urlParameters("?Q=foo");
+  it("query", async () => {
+    const args = await urlParameters("?Q=foo");
     expect(args).toMatchObject({
       has_query: true,
       query: "foo",
@@ -32,8 +32,8 @@ describe("urlParameters", () => {
     });
   });
   // query (compressed)
-  it("query (compressed)", () => {
-    const args = urlParameters("?q=Zm9v");
+  it("query (compressed)", async () => {
+    const args = await urlParameters("?q=Zm9v");
     expect(args).toMatchObject({
       has_query: true,
       query: "foo",
@@ -42,8 +42,8 @@ describe("urlParameters", () => {
     });
   });
   // coords (uncompressed)
-  it("coords", () => {
-    const args = urlParameters("?C=0;180;1");
+  it("coords", async () => {
+    const args = await urlParameters("?C=0;180;1");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: true,
@@ -53,8 +53,8 @@ describe("urlParameters", () => {
     });
   });
   // coords (uncompressed, lat/lon/zoom)
-  it("coords (lat/lon/zoom)", () => {
-    let args = urlParameters("?lat=0&lon=180.0&zoom=1");
+  it("coords (lat/lon/zoom)", async () => {
+    let args = await urlParameters("?lat=0&lon=180.0&zoom=1");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: true,
@@ -62,14 +62,14 @@ describe("urlParameters", () => {
       has_zoom: true,
       zoom: 1
     });
-    args = urlParameters("?lat=0&lon=180.0");
+    args = await urlParameters("?lat=0&lon=180.0");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: true,
       coords: {lat: 0.0, lng: 180.0},
       has_zoom: false
     });
-    args = urlParameters("?zoom=1");
+    args = await urlParameters("?zoom=1");
     expect(args).toMatchObject({
       has_query: false,
       has_coords: false,
@@ -78,8 +78,8 @@ describe("urlParameters", () => {
     });
   });
   // coords (compressed)
-  it("coords (compressed)", () => {
-    const args = urlParameters("?c=CTVpCWdRAB");
+  it("coords (compressed)", async () => {
+    const args = await urlParameters("?c=CTVpCWdRAB");
     expect(args).toMatchObject({
       has_coords: true,
       coords: {lat: 0.0, lng: 180.0},
@@ -88,15 +88,15 @@ describe("urlParameters", () => {
     });
   });
   // RUN flag
-  it("RUN flag", () => {
-    let args = urlParameters("?Q=foo&R");
+  it("RUN flag", async () => {
+    let args = await urlParameters("?Q=foo&R");
     expect(args).toMatchObject({run_query: true});
-    args = urlParameters("?Q=foo&R=true");
+    args = await urlParameters("?Q=foo&R=true");
     expect(args).toMatchObject({run_query: true});
   });
   // wizard (trim)
-  it("wizard (trim)", () => {
-    const args = urlParameters(
+  it("wizard (trim)", async () => {
+    const args = await urlParameters(
       "?w=addr%3Astreet%3D%22T%C4%81lival%C5%BEa%20iela%22%20in%20Riga%0A"
     );
     expect(args).toMatchObject({
@@ -121,12 +121,7 @@ out geom;`,
     settings.saves = {
       T: {type: "template", parameters: ["p"], wizard: "name={{p}}"}
     };
-    const args = new Promise((resolve, reject) =>
-      urlParameters(
-        "?template=T&p=foo",
-        (err, result) => (err && reject(err)) || resolve(result)
-      )
-    );
+    const args = urlParameters("?template=T&p=foo");
     await expect(args).resolves.toMatchObject({
       has_query: true,
       query: `/*

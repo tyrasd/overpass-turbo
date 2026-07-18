@@ -16,7 +16,8 @@ import configs from "./configs";
 import {
   ffs_construct_query,
   ffs_invalidateCache,
-  ffs_repair_search
+  ffs_repair_search,
+  FfsRepairError
 } from "./ffs";
 import {requestJson, requestText} from "./httpRequest";
 import i18n from "./i18n";
@@ -362,12 +363,12 @@ class IDE {
     }
   }
 
-  initAfterI18n() {
+  async initAfterI18n() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ide = this;
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
-    const args = urlParameters();
+    const args = await urlParameters();
     // set appropriate settings
     if (args.has_coords) {
       // map center coords set via url
@@ -2464,7 +2465,7 @@ class IDE {
   onFfsBuild() {
     this.onFfsRun(false);
   }
-  onFfsRun(autorun: boolean): void {
+  async onFfsRun(autorun: boolean): Promise<void> {
     // Show loading spinner and hide all errors
     $("#ffs-dialog input[type=search]").removeClass("is-danger");
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
@@ -2472,40 +2473,40 @@ class IDE {
     $("#ffs-dialog .loading").show();
 
     // Build query and run it immediately if autorun is set
-    this.update_ffs_query(undefined, (err, ffs_result) => {
+    try {
+      await this.update_ffs_query();
+    } catch (err) {
       $("#ffs-dialog .loading").hide();
-      if (!err) {
-        $("#ffs-dialog").removeClass("is-active");
-        if (autorun !== false) this.onRunClick();
+      $("#ffs-dialog input[type=search]").addClass("is-danger");
+      if (err instanceof FfsRepairError) {
+        // show a "did you mean …" correction
+        $("#ffs-dialog #ffs-dialog-parse-error").hide();
+        $("#ffs-dialog #ffs-dialog-typo").show();
+        const correction = err.repaired.join("");
+        const correction_html = err.repaired
+          .map((ffs_result_part, i) => {
+            if (i % 2 === 1) return `<b>${ffs_result_part}</b>`;
+            else return ffs_result_part;
+          })
+          .join("");
+        $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
+        $("#ffs-dialog #ffs-dialog-typo-correction")
+          .unbind("click")
+          .bind("click", function (e) {
+            $("#ffs-dialog input[type=search]").val(correction);
+            $(this).parent().hide();
+            e.preventDefault();
+          });
       } else {
-        if (Array.isArray(ffs_result)) {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-parse-error").hide();
-          $("#ffs-dialog #ffs-dialog-typo").show();
-          $("#ffs-dialog input[type=search]").addClass("is-danger");
-          const correction = ffs_result.join("");
-          const correction_html = ffs_result
-            .map((ffs_result_part, i) => {
-              if (i % 2 === 1) return `<b>${ffs_result_part}</b>`;
-              else return ffs_result_part;
-            })
-            .join("");
-          $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
-          $("#ffs-dialog #ffs-dialog-typo-correction")
-            .unbind("click")
-            .bind("click", function (e) {
-              $("#ffs-dialog input[type=search]").val(correction);
-              $(this).parent().hide();
-              e.preventDefault();
-            });
-        } else {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-typo").hide();
-          $("#ffs-dialog #ffs-dialog-parse-error").show();
-          $("#ffs-dialog input[type=search]").addClass("is-danger");
-        }
+        // show parse error message
+        $("#ffs-dialog #ffs-dialog-typo").hide();
+        $("#ffs-dialog #ffs-dialog-parse-error").show();
       }
-    });
+      return;
+    }
+    $("#ffs-dialog .loading").hide();
+    $("#ffs-dialog").removeClass("is-active");
+    if (autorun !== false) this.onRunClick();
   }
   onStylerClick() {
     if (!overpass.geojson || overpass.geojson.features.length === 0) return;
@@ -2934,30 +2935,22 @@ class IDE {
     await this.getQuery();
     overpass.rerender(this.mapcss);
   }
-  update_ffs_query(
-    s: string | undefined,
-    callback: (err: unknown, ffs_result?: string[]) => void
-  ): void {
+  async update_ffs_query(s?: string): Promise<void> {
     const search = s || String($("#ffs-dialog input[type=search]").val() ?? "");
     const comment = $<HTMLInputElement>(
       "#ffs-dialog input[name='ffs.comments']"
     )[0].checked;
-    ffs_construct_query(search, comment, (err: unknown, query: string) => {
-      if (err) {
-        ffs_repair_search(search, (repaired: string[] | false) => {
-          if (repaired) {
-            callback("repairable query", repaired);
-          } else {
-            if (s) return callback(true);
-            // try to parse as generic ffs search
-            this.update_ffs_query(`"${search}"`, callback);
-          }
-        });
-      } else {
-        this.setQuery(query);
-        callback(null);
-      }
-    });
+    let query: string;
+    try {
+      query = await ffs_construct_query(search, comment);
+    } catch {
+      const repaired = await ffs_repair_search(search);
+      if (repaired) throw new FfsRepairError(repaired);
+      if (s) throw new Error("could not parse the wizard query");
+      // try to parse as generic ffs search
+      return this.update_ffs_query(`"${search}"`);
+    }
+    this.setQuery(query);
   }
   onClearClick() {
     this.setQuery("");

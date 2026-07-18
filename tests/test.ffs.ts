@@ -4,18 +4,9 @@ import {ffs_construct_query} from "../js/ffs";
 import {setPresets} from "../js/ffs/free";
 
 describe("ide.ffs", () => {
-  function construct_query(search) {
-    return new Promise((resolve, reject) => {
-      ffs_construct_query(search, undefined, (err, result) => {
-        if (err) {
-          reject(err);
-        } else if (typeof result === "string") {
-          resolve(compact(result));
-        } else {
-          resolve(result);
-        }
-      });
-    });
+  async function construct_query(search: string) {
+    const result = await ffs_construct_query(search, undefined);
+    return typeof result === "string" ? compact(result) : result;
   }
 
   function compact(q) {
