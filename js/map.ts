@@ -88,7 +88,7 @@ $(document).ready(() => {
       return query;
     },
     getQueryLang() {
-      return $.trim(settings.code["overpass"]).match(/^</)
+      return settings.code["overpass"].trim().match(/^</)
         ? "xml"
         : "OverpassQL";
     },
@@ -112,7 +112,7 @@ $(document).ready(() => {
   };
   overpass.init();
   // (very raw) compatibility check
-  if ($.support.cors != true || false) {
+  if (!("withCredentials" in new XMLHttpRequest())) {
     // the currently used browser is not capable of running the IDE. :(
     $(
       '<div title="Your browser is not supported :(">' +

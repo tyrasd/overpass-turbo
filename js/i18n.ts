@@ -97,7 +97,8 @@ export default class i18n {
       if ((parts = lng.match(/(.*)-(.*)/)))
         lng = `${parts[1]}-${parts[2].toUpperCase()}`;
       // fall back to generic language file if no country-specific i18n is found
-      if ($.inArray(lng, supported_lngs) == -1) lng = lng.replace(/-.*/, "");
+      if (!(supported_lngs as string[]).includes(lng))
+        lng = lng.replace(/-.*/, "");
     }
     // the result is validated against supported_lngs by the callers
     return lng as Language;
@@ -109,7 +110,7 @@ export default class i18n {
   static translate(lng?: Language | string) {
     lng = this.getLanguage(lng);
 
-    if ($.inArray(lng, supported_lngs) == -1) {
+    if (!(supported_lngs as string[]).includes(lng)) {
       console.log(
         `unsupported language: ${lng} switching back to: ${default_lng}`
       );

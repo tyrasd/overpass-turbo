@@ -860,11 +860,11 @@ class IDE {
                   if (typeof data == "string") {
                     // if the data is a string, but looks more like a json object
                     try {
-                      data = $.parseJSON(data);
+                      data = JSON.parse(data);
                     } catch {}
                   }
                   response(
-                    $.map(data.results.slice(0, 10), (item) => ({
+                    data.results.slice(0, 10).map((item) => ({
                       label: item.display_name,
                       value: item.display_name,
                       lat: item.lat,
@@ -1346,7 +1346,9 @@ class IDE {
   }
   getQueryLang(): QueryLang {
     if (this.data_source && this.data_source.mode == "sql") return "SQL";
-    const q = $.trim(this.getRawQuery().replace(/{{.*?}}/g, ""));
+    const q = this.getRawQuery()
+      .replace(/{{.*?}}/g, "")
+      .trim();
     if (q.match(/^</)) return "xml";
     else return "OverpassQL";
   }

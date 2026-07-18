@@ -157,7 +157,7 @@ class Overpass {
             if (typeof data == "string" && data[0] == "{") {
               // if the data is a string, but looks more like a json object
               try {
-                data = $.parseJSON(data);
+                data = JSON.parse(data);
               } catch {}
             }
             // hacky firefox hack :( (it is not properly detecting xml from the content-type header)
@@ -225,10 +225,10 @@ class Overpass {
                   );
                 }
                 if (typeof data == "object" && jqXHR.responseXML)
-                  errmsg = `<p>${$.trim($("remark", data).html())}</p>`;
+                  errmsg = `<p>${$("remark", data).html().trim()}</p>`;
                 if (typeof data == "object" && data.remark)
                   errmsg = `<p>${$("<div/>")
-                    .text($.trim(data.remark))
+                    .text(data.remark.trim())
                     .html()}</p>`;
                 console.log("Overpass API error", fullerrmsg || errmsg); // write (full) error message to console for easier debugging
                 overpass.fire("onQueryError", errmsg);
@@ -322,11 +322,11 @@ class Overpass {
               overpass.timestampAreas = data.osm3s.timestamp_areas_base;
               overpass.copyright = data.osm3s.copyright;
               stats.data = {
-                nodes: $.grep(data.elements, (d) => d.type == "node").length,
-                ways: $.grep(data.elements, (d) => d.type == "way").length,
-                relations: $.grep(data.elements, (d) => d.type == "relation")
+                nodes: data.elements.filter((d) => d.type == "node").length,
+                ways: data.elements.filter((d) => d.type == "way").length,
+                relations: data.elements.filter((d) => d.type == "relation")
                   .length,
-                areas: $.grep(data.elements, (d) => d.type == "area").length
+                areas: data.elements.filter((d) => d.type == "area").length
               };
               //// convert to geoJSON
               //geojson = overpass.overpassJSON2geoJSON(data);
@@ -462,19 +462,19 @@ class Overpass {
                         }));
                     }
                   },
-                  $.extend(
-                    feature.properties && feature.properties.tainted
+                  {
+                    ...(feature.properties && feature.properties.tainted
                       ? {":tainted": true}
-                      : {},
-                    feature.properties && feature.properties.geometry
+                      : {}),
+                    ...(feature.properties && feature.properties.geometry
                       ? {":placeholder": true}
-                      : {},
-                    feature.is_placeholder ? {":placeholder": true} : {},
-                    hasInterestingTags(feature.properties)
+                      : {}),
+                    ...(feature.is_placeholder ? {":placeholder": true} : {}),
+                    ...(hasInterestingTags(feature.properties)
                       ? {":tagged": true}
-                      : {":untagged": true},
-                    highlight ? {":active": true} : {},
-                    (function (tags, meta, id) {
+                      : {":untagged": true}),
+                    ...(highlight ? {":active": true} : {}),
+                    ...(function (tags, meta, id) {
                       const res = {"@id": id};
                       for (const key in meta) res[`@${key}`] = meta[key];
                       for (const key in tags)
@@ -485,7 +485,7 @@ class Overpass {
                       feature.properties.meta,
                       feature.properties.id
                     )
-                  ),
+                  },
                   18 /*restyle on zoom??*/
                 );
                 return s;
@@ -519,11 +519,10 @@ class Overpass {
                     let styles;
                     switch (feature.geometry.type) {
                       case "Point":
-                        styles = $.extend(
-                          {},
-                          s.shapeStyles["default"],
-                          s.pointStyles["default"]
-                        );
+                        styles = {
+                          ...s.shapeStyles["default"],
+                          ...s.pointStyles["default"]
+                        };
                         p = get_property(styles, [
                           "color",
                           "symbol_stroke_color"

@@ -210,13 +210,13 @@ autorepair.detect.editors = (q, lng) => {
     const out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]/);
     if (out && out[1] != "xml") err.output = true;
     const prints = q.match(/out([^:;]*);/g);
-    $(prints).each((i, p) => {
+    prints?.forEach((p) => {
       if (p.match(/\s(body|skel|ids|tags)/) || !p.match(/meta/))
         err.meta = true;
     });
-    $(prints).each((i, p) => {
+    prints?.forEach((p) => {
       if (p.match(/\s(center|bb|geom)/)) err.geometry = true;
     });
   }
-  return $.isEmptyObject(err);
+  return Object.keys(err).length === 0;
 };
