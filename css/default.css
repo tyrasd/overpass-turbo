@@ -2,15 +2,25 @@ html {
   font-size: 14px;
   overflow-y: auto;
 }
-body {
+:root[data-theme="light"] {
   color-scheme: light;
-  background-color: white;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+body {
+  background-color: var(--bulma-scheme-main);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* Navigation */
+/* Set the navbar slightly off the page background instead of using
+   `is-light`, which pins it to a fixed light grey in both themes. */
 .navbar {
-  border-bottom: 1px solid #ccc;
+  --bulma-navbar-l: var(--bulma-scheme-main-bis-l);
+  --bulma-navbar-background-color: var(--bulma-scheme-main-bis);
+  --bulma-navbar-item-background-l: var(--bulma-scheme-main-bis-l);
+  border-bottom: 1px solid var(--bulma-border);
 }
 .navbar-brand {
   font-size: 1.5rem;
@@ -20,11 +30,23 @@ body {
   margin-left: 0.5rem;
   padding-top: 3px;
 }
+/* turbo.svg carries its own `prefers-color-scheme` rule and cannot see the
+   selected theme, so flip it whenever the two disagree. */
+@media (prefers-color-scheme: light) {
+  :root[data-theme="dark"] .navbar-brand img {
+    filter: invert(1);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="light"] .navbar-brand img {
+    filter: invert(1);
+  }
+}
 
 /* Map and Editor */
 
 #editor {
-  background-color: #ffffff;
+  background-color: var(--bulma-scheme-main);
   padding: 0;
   margin: 0;
   height: auto;
@@ -35,10 +57,10 @@ body {
   width: 45%;
 }
 #dataviewer {
-  background-color: #ffffff;
+  background-color: var(--bulma-scheme-main);
   padding: 0;
   margin: 0;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid var(--bulma-border);
   height: auto;
   position: absolute;
   top: 51px;
@@ -58,7 +80,7 @@ body {
   top: calc(51px + 25%);
   left: 0;
   border-left: none;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid var(--bulma-border);
 }
 
 #map {
@@ -67,7 +89,7 @@ body {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAI0lEQVQIW2NkYGD4f+/ePSAFAYxAzn84D1lASUmJAaQSQwUAcxYRaXDVJ6QAAAAASUVORK5CYII=);
 }
 #data {
-  background-color: white;
+  background-color: var(--bulma-scheme-main);
   width: 100%;
   height: 100%;
   position: absolute;
@@ -108,7 +130,13 @@ body {
   overflow-x: auto;
 }
 .CodeMirror-linenumber {
-  color: #888;
+  color: var(--bulma-text-weak);
+}
+/* let the CodeMirror themes blend into the surrounding panels */
+.CodeMirror.cm-s-default,
+.CodeMirror.cm-s-nord,
+.cm-s-nord .CodeMirror-gutters {
+  background-color: var(--bulma-scheme-main);
 }
 .CodeMirror-lines {
   padding: 20px 12px 12px;
@@ -122,7 +150,7 @@ a.external::after {
   content: "\F35D";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
-  color: #333;
+  color: var(--bulma-text);
   margin-left: 0.4em;
   font-size: 0.8em;
   line-height: 1em;
@@ -159,12 +187,12 @@ input[type="checkbox"] {
   font-size: 14px;
 }
 .leaflet-control-buttons a:hover {
-  background-color: #ffffff;
-  color: #777777;
+  background-color: var(--bulma-scheme-main);
+  color: var(--bulma-text-weak);
 }
 .leaflet-control-buttons a {
   display: block;
-  color: black;
+  color: var(--bulma-text-strong);
   text-align: center;
   text-decoration: none;
 }
@@ -216,7 +244,7 @@ input[type="checkbox"] {
   width: 100%;
 }
 .ui-combobox input.ui-autocomplete-input {
-  background: white;
+  background: var(--bulma-scheme-main);
   width: calc(100% - 30px);
 }
 .ui-widget {
@@ -228,14 +256,14 @@ input[type="checkbox"] {
 a.ui-button:active,
 .ui-button:active,
 .ui-button.ui-state-active:hover {
-  background-color: #ddd;
-  border-color: #bbb;
-  color: #454545;
+  background-color: var(--bulma-background);
+  border-color: var(--bulma-border-hover);
+  color: var(--bulma-text-strong);
 }
 .ui-state-active a,
 .ui-state-active a:link,
 .ui-state-active a:visited {
-  color: #454545;
+  color: var(--bulma-text-strong);
 }
 .ui-state-active .ui-icon,
 .ui-button:active .ui-icon {
@@ -258,7 +286,7 @@ a.ui-button:active,
 }
 
 .errorline {
-  background: #ffe1e1 !important;
+  background: var(--bulma-danger-light) !important;
 }
 
 .cm-mustache {
@@ -316,10 +344,10 @@ body .ui-tooltip {
   padding: 0.1em 0.7em;
   font-size: 12px;
   line-height: 1.5;
-  background-color: #eee;
+  background-color: var(--bulma-background);
   opacity: 0.8;
-  border-top: 1px solid #888;
-  border-left: 1px solid #888;
+  border-top: 1px solid var(--bulma-border);
+  border-left: 1px solid var(--bulma-border);
 }
 .stats {
   font-size: 12px;
@@ -364,14 +392,11 @@ kbd {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   font-size: 11px;
   line-height: 1.4;
-  color: #242729;
-  text-shadow: 0 1px 0 #fff;
-  background-color: #e1e3e5;
-  border: 1px solid #adb3b8;
+  color: var(--bulma-text-strong);
+  background-color: var(--bulma-background);
+  border: 1px solid var(--bulma-border);
   border-radius: 3px;
-  box-shadow:
-    0 1px 0 rgba(12, 13, 14, 0.2),
-    0 0 0 2px #fff inset;
+  box-shadow: 0 1px 0 var(--bulma-border);
   white-space: nowrap;
 }
 
@@ -405,4 +430,89 @@ kbd {
 }
 #styler-button {
   display: none;
+}
+
+/* Bulma builds the panel heading from the *text* color, which inverts into a
+   glaring pale bar in dark mode. Keep it relative to the scheme instead. */
+.panel-heading {
+  --bulma-panel-heading-background-l: var(--bulma-scheme-main-ter-l);
+  --bulma-panel-heading-color-l: var(--bulma-text-strong-l);
+}
+
+/* Leaflet and jQuery UI ship light-only stylesheets with hardcoded colors.
+   Re-point the visible surfaces at Bulma's custom properties so they follow
+   the selected theme. The map tiles themselves are raster images and stay as
+   they are. */
+.leaflet-bar a,
+.leaflet-bar a:hover,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  background-color: var(--bulma-scheme-main);
+  color: var(--bulma-text-strong);
+  border-bottom-color: var(--bulma-border);
+}
+.leaflet-bar a:hover {
+  background-color: var(--bulma-background);
+}
+.leaflet-bar a.leaflet-disabled {
+  background-color: var(--bulma-background);
+  color: var(--bulma-text-weak);
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip,
+.leaflet-tooltip {
+  background: var(--bulma-scheme-main);
+  color: var(--bulma-text);
+}
+.leaflet-tooltip-left::before {
+  border-left-color: var(--bulma-scheme-main);
+}
+.leaflet-tooltip-right::before {
+  border-right-color: var(--bulma-scheme-main);
+}
+.leaflet-control-attribution {
+  background: var(--bulma-scheme-main-ter);
+  color: var(--bulma-text);
+}
+.leaflet-control-attribution a {
+  color: var(--bulma-link-text);
+}
+
+.ui-widget-content,
+.ui-widget-header {
+  background: var(--bulma-scheme-main);
+  border-color: var(--bulma-border);
+  color: var(--bulma-text);
+}
+.ui-widget-content a {
+  color: var(--bulma-link-text);
+}
+.ui-button {
+  background: var(--bulma-scheme-main-bis);
+  border-color: var(--bulma-border);
+  color: var(--bulma-text);
+}
+.ui-button:hover,
+.ui-button.ui-state-hover {
+  background: var(--bulma-background);
+  border-color: var(--bulma-border-hover);
+  color: var(--bulma-text-strong);
+}
+/* jQuery UI draws its icons from a dark-on-transparent PNG sprite, which
+   vanishes against a dark background */
+:root[data-theme="dark"] .ui-icon {
+  filter: invert(1);
+}
+.ui-menu .ui-menu-item-wrapper.ui-state-active,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus {
+  background: var(--bulma-background);
+  border-color: var(--bulma-border-hover);
+  color: var(--bulma-text-strong);
+}
+/* `--bulma-scheme-invert` stays near-black in both themes, so pair it with
+   `--bulma-text-invert` (near-white in both) rather than the scheme color. */
+body .ui-tooltip {
+  background: var(--bulma-scheme-invert);
+  color: var(--bulma-text-invert);
 }

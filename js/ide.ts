@@ -28,6 +28,7 @@ import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
 import sync, {type SyncedQuery} from "./sync-with-osm";
+import {applyTheme, onThemeChange, type Theme} from "./theme";
 import urlParameters from "./urlParameters";
 
 declare module "leaflet" {
@@ -162,8 +163,8 @@ function make_combobox(
     .attr("title", "show all items")
     .appendTo(wrapper)
     .button({
-      icons: {primary: "ui-icon-triangle-1-s"},
-      text: false
+      icon: "ui-icon-triangle-1-s",
+      showLabel: false
     })
     .removeClass("ui-corner-all")
     .addClass("ui-corner-right ui-combobox-toggle")
@@ -350,6 +351,9 @@ class IDE {
     // load settings
     this.waiter.addInfo("load settings");
     settings.load();
+    // apply the color theme as early as possible to avoid a flash of the
+    // wrong scheme
+    applyTheme(settings.theme as Theme);
     // translate ui
     this.waiter.addInfo("translate ui");
     i18n.translate().then(() => this.initAfterI18n());
@@ -593,6 +597,14 @@ class IDE {
       lineNumbers: true,
       readOnly: true,
       mode: "javascript"
+    });
+
+    // CodeMirror picks its theme via an option, so it cannot follow the
+    // `data-theme` attribute through CSS like the rest of the ui does
+    onThemeChange((theme) => {
+      const cmTheme = theme === "dark" ? "nord" : "default";
+      ide.codeEditor?.setOption?.("theme", cmTheme);
+      ide.dataViewer.setOption("theme", cmTheme);
     });
 
     // init leaflet
@@ -2618,6 +2630,8 @@ class IDE {
         label: lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`
       }))
     );
+    $<HTMLSelectElement>("#settings-dialog select[name=theme]")[0].value =
+      settings.theme;
     $<HTMLInputElement>("#settings-dialog input[name=server]")[0].value =
       settings.server;
     make_combobox(
@@ -2707,6 +2721,10 @@ class IDE {
       ffs_invalidateCache();
     }
     settings.ui_language = new_ui_language;
+    settings.theme = $<HTMLSelectElement>(
+      "#settings-dialog select[name=theme]"
+    )[0].value;
+    applyTheme(settings.theme as Theme);
     settings.server = $<HTMLInputElement>(
       "#settings-dialog input[name=server]"
     )[0].value;

@@ -24,8 +24,8 @@ importers:
         specifier: ^3.5.1
         version: 3.5.1
       bulma:
-        specifier: ^0.9.4
-        version: 0.9.4
+        specifier: ^1.0.4
+        version: 1.0.4
       canvg:
         specifier: 4.0.3
         version: 4.0.3
@@ -691,8 +691,8 @@ packages:
     resolution: {integrity: sha512-nEh+kZOPY1w+gcCMobZ6ETUp9WfibndnosbpwB1iJk/8Gt5ZF2bhS6+B6bPYz424KtwsR6Rflc3tCz1/ghX2dQ==}
     engines: {node: '>=4.0'}
 
-  bulma@0.9.4:
-    resolution: {integrity: sha512-86FlT5+1GrsgKbPLRRY7cGDg8fsJiP/jzTqXXVqiUZZ2aZT8uemEOHlU1CDU+TxklPEZ11HZNNWclRBBecP4CQ==}
+  bulma@1.0.4:
+    resolution: {integrity: sha512-Ffb6YGXDiZYX3cqvSbHWqQ8+LkX6tVoTcZuVB3lm93sbAVXlO0D6QlOTMnV6g18gILpAXqkG2z9hf9z4hCjz2g==}
 
   bunker@0.1.2:
     resolution: {integrity: sha512-YnahkcXBNT522S46k5LUA9P18lzvgkunbMl0qIJQ8oeRMQ+dAg3YI3k32q5TnO+AAUErFHO6R768To6jslgYmQ==}
@@ -1691,7 +1691,7 @@ snapshots:
     dependencies:
       '@types/node': 26.1.1
 
-  bulma@0.9.4: {}
+  bulma@1.0.4: {}
 
   bunker@0.1.2:
     dependencies:

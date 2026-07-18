@@ -17,6 +17,7 @@ import "html2canvas";
 
 // include the CSS files
 import "codemirror/lib/codemirror.css";
+import "codemirror/theme/nord.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet.locationfilter/src/locationfilter.css";
 import "jquery-ui/dist/themes/base/jquery-ui.css";
