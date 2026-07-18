@@ -38,9 +38,9 @@ $(document).on("click", "a.josm-edit", function (e) {
 function editLink(type: string, id: string): string {
   if (settings.editor_preference === "josm") {
     const prefix = type === "node" ? "n" : type === "way" ? "w" : "r";
-    return ` <a href="#" class="josm-edit" data-objects="${prefix}${id}">✏</a>`;
+    return ` <a href="#" class="edit-link josm-edit" data-objects="${prefix}${id}">✏</a>`;
   }
-  return ` <a href="//www.openstreetmap.org/edit?${type}=${id}" target="_blank">✏</a>`;
+  return ` <a href="//www.openstreetmap.org/edit?${type}=${id}" target="_blank" class="edit-link">✏</a>`;
 }
 
 export function featurePopupContent(feature: GeoJSON.Feature) {

@@ -9,6 +9,7 @@ import ide from "./ide";
 import styleparser from "./jsmapcss";
 import {htmlentities} from "./misc";
 import L_OSM4Leaflet from "./OSM4Leaflet";
+import {loadObject} from "./josmRemoteControl";
 import {featurePopupContent} from "./popup";
 import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import settings from "./settings";
@@ -684,6 +685,23 @@ class Overpass {
                       layer.bindTooltip(tooltip);
                     }
                     layer.on("click", function (e) {
+                      // Direct open mode: open directly in configured editor
+                      if (settings.direct_open) {
+                        const t = feature.properties.type;
+                        const prefix = t === "node" ? "n" : t === "way" ? "w" : t === "relation" ? "r" : "";
+                        if (prefix && feature.properties.id) {
+                          if (settings.editor_preference === "josm") {
+                            loadObject(`${prefix}${feature.properties.id}`);
+                          } else {
+                            window.open(`//www.openstreetmap.org/edit?${t}=${feature.properties.id}`, "_blank");
+                          }
+                          if (settings.hide_on_edit) {
+                            overpass.osmLayer.getBaseLayer().removeLayer(layer.placeholder || layer);
+                            if (layer.placeholder) overpass.osmLayer.getBaseLayer().removeLayer(layer);
+                          }
+                          return;
+                        }
+                      }
                       const popup = featurePopupContent(feature);
                       let latlng;
                       // node-ish features (circles, markers, icons, placeholders)
