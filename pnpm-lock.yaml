@@ -57,8 +57,8 @@ importers:
         specifier: https://github.com/kajic/leaflet-locationfilter/archive/ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d.tar.gz
         version: leaflet-locationfilter@https://github.com/kajic/leaflet-locationfilter/archive/ba59b65af08ebb9fcd5ca8a0a2e5fec971e5e48d.tar.gz
       lodash:
-        specifier: '>=4.17.23'
-        version: 4.17.23
+        specifier: '>=4.18.1'
+        version: 4.18.1
       osm-auth:
         specifier: ^3.0.0
         version: 3.0.0
@@ -939,8 +939,8 @@ packages:
     resolution: {integrity: sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==}
     engines: {node: '>= 12.0.0'}
 
-  lodash@4.17.23:
-    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   lru-cache@2.7.3:
     resolution: {integrity: sha512-WpibWJ60c3AgAz8a2iYErDrcT2C7OmKnsWhIcHOjkUHFjkXncJhtLxNSqUmxRxRunpb5I8Vprd7aNSd2NtksJQ==}
@@ -1192,7 +1192,7 @@ packages:
     resolution: {integrity: sha512-zks18/TWT1iHO3v0vFp5qLKOG27m67ycq/Y7a7cTiRuUNlc4gf3HGnkRgMv0NyhnfTamtkYBJl+YeD1/j07gBQ==}
 
   togpx@https://codeload.github.com/tyrasd/togpx/tar.gz/4396a386fd179be6876f7443438909d524651eed:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/tyrasd/togpx/tar.gz/4396a386fd179be6876f7443438909d524651eed}
+    resolution: {gitHosted: true, integrity: sha512-EGo2kz7FtcvqsLtr5Js4aL2RoKlOxD6yNOZEpi9P39OTBpAf0AZj3Ej/Bg1Q2MSftNSq8qBQZQdANvqf8uEwRg==, tarball: https://codeload.github.com/tyrasd/togpx/tar.gz/4396a386fd179be6876f7443438909d524651eed}
     version: 0.5.4
     hasBin: true
 
@@ -1903,7 +1903,7 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.32.0
       lightningcss-win32-x64-msvc: 1.32.0
 
-  lodash@4.17.23: {}
+  lodash@4.18.1: {}
 
   lru-cache@2.7.3: {}
 
