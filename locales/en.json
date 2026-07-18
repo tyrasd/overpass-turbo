@@ -181,7 +181,7 @@
   "help.ide.share.expl": "It is possible to send a permalink with the query you are currently working on to someone else. This is found in the <i>Share</i> tool and shows you a link which you can send to a friend or post online. (Note that others will work on their own copy of the query.)",
   "help.ide.save_load.title": "Save and Load",
   "help.ide.save_load.expl": "You can also save and load your queries. For a start, there are a few example queries preloaded. Take a look at them for a short glimpse of what overpass can do.",
-  "help.ide.keyboard.title": "Keyboard shortcuts:",
+  "help.ide.keyboard.title": "Keyboard shortcuts",
   "help.ide.keyboard.run": "Run the current query.",
   "help.ide.keyboard.wizard": "Start the query wizard.",
   "help.ide.keyboard.load_save": "Load (open) / Save a query.",
