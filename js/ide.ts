@@ -1398,7 +1398,9 @@ class IDE {
     if (typeof settings.saves[ex] != "undefined") {
       let query = settings.saves[ex].overpass;
       if (!/@name/.test(query)) {
-        query = `// @name ${ex}\n\n${query}`;
+        // SQL queries use `--` instead of `//` to start a comment
+        const comment = /{{data:\s*sql\b/i.test(query) ? "--" : "//";
+        query = `${comment} @name ${ex}\n\n${query}`;
       }
       this.setQuery(query);
     }
