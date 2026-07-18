@@ -15,8 +15,8 @@
       property="og:description"
       content="A web based data mining tool for OpenStreetMap which runs any kind of Overpass API query and shows the results on an interactive map."
     />
-    <script type="module" crossorigin src="./assets/index-CorQ2hef.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/ide-C4o9bXCr.js">
+    <script type="module" crossorigin src="./assets/index-USfDqUD-.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/ide-BZ88bI7H.js">
     <link rel="stylesheet" crossorigin href="./assets/ide-vh-t_kPv.css">
     <link rel="stylesheet" crossorigin href="./assets/index-DDy4IYOF.css">
   </head>
@@ -38,6 +38,18 @@
                 <span class="fas fa-play"></span>
               </span>
               <span class="t" data-t="nav.run">Run</span>
+            </button>
+            <button
+              class="t button"
+              accesskey="1"
+              data-ide-handler="click:onClearClick"
+              title=""
+              data-t="[title]nav.clear"
+            >
+              <span class="icon">
+                <span class="fas fa-eraser"></span>
+              </span>
+              <span class="t" data-t="nav.clear">Run</span>
             </button>
             <button
               id="rerender-button"
@@ -274,6 +286,10 @@
                 <li>
                   <code>{{bbox}}</code> &mdash;
                   <span class="t" data-t="help.intro.shortcuts.bbox"></span>
+                </li>
+                <li>
+                  <code>{{wsen}}</code> &mdash;
+                  <span class="t" data-t="help.intro.shortcuts.wsen"></span>
                 </li>
                 <li>
                   <code>{{center}}</code> &mdash;
@@ -554,6 +570,34 @@
                   <input type="checkbox" name="show_data_stats" />
                   <span class="t" data-t="settings.show_data_stats"></span>
                 </label>
+              </div>
+            </div>
+            <div class="field">
+              <label
+                class="label t"
+                for="editor_preference"
+                data-t="settings.editor_preference"
+                >Editor</label
+              >
+              <div class="control">
+                <div class="select">
+                  <select name="editor_preference" id="editor_preference">
+                    <option
+                      class="t"
+                      value="osmdotorg"
+                      data-t="settings.editor_preference.osmdotorg"
+                    >
+                      osm.org
+                    </option>
+                    <option
+                      class="t"
+                      value="josm"
+                      data-t="settings.editor_preference.josm"
+                    >
+                      JOSM (local)
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
