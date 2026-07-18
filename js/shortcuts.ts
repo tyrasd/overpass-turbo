@@ -1,7 +1,14 @@
 // shortcuts module
 // see http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries
+import clamp from "lodash/clamp";
 import ide from "./ide";
 import nominatim from "./nominatim";
+
+// clamps a coordinate to the given range and rounds it to OSM's precision
+// of 7 decimal places (~1cm), avoiding long floating point artifacts
+function coord(value: number | string, limit: number) {
+  return clamp(Number(value), -limit, limit).toFixed(7);
+}
 
 // returns the current visible bbox as a bbox-query
 function map2bbox(lang) {
@@ -9,10 +16,10 @@ function map2bbox(lang) {
   if (!(ide.map.bboxfilter && ide.map.bboxfilter.isEnabled()))
     bbox = ide.map.getBounds();
   else bbox = ide.map.bboxfilter.getBounds();
-  const lat1 = Math.min(Math.max(bbox.getSouthWest().lat, -90), 90);
-  const lat2 = Math.min(Math.max(bbox.getNorthEast().lat, -90), 90);
-  const lng1 = Math.min(Math.max(bbox.getSouthWest().lng, -180), 180);
-  const lng2 = Math.min(Math.max(bbox.getNorthEast().lng, -180), 180);
+  const lat1 = coord(bbox.getSouthWest().lat, 90);
+  const lat2 = coord(bbox.getNorthEast().lat, 90);
+  const lng1 = coord(bbox.getSouthWest().lng, 180);
+  const lng2 = coord(bbox.getNorthEast().lng, 180);
   if (lang == "OverpassQL") return `${lat1},${lng1},${lat2},${lng2}`;
   else if (lang == "xml")
     return `s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`;
@@ -23,8 +30,10 @@ function map2bbox(lang) {
 // returns the current visible map center as a coord-query
 function map2coord(lang) {
   const center = ide.map.getCenter();
-  if (lang == "OverpassQL") return `${center.lat},${center.lng}`;
-  else if (lang == "xml") return `lat="${center.lat}" lon="${center.lng}"`;
+  const lat = coord(center.lat, 90);
+  const lng = coord(center.lng, 180);
+  if (lang == "OverpassQL") return `${lat},${lng}`;
+  else if (lang == "xml") return `lat="${lat}" lon="${lng}"`;
 }
 
 // converts relative time to ISO time string
@@ -118,10 +127,10 @@ function geocodeBbox(instr, callback) {
   const lang = ide.getQueryLang();
   nominatim.getBest(instr, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Bbox");
-    const lat1 = Math.min(Math.max(res.boundingbox[0], -90), 90);
-    const lat2 = Math.min(Math.max(res.boundingbox[1], -90), 90);
-    const lng1 = Math.min(Math.max(res.boundingbox[2], -180), 180);
-    const lng2 = Math.min(Math.max(res.boundingbox[3], -180), 180);
+    const lat1 = coord(res.boundingbox[0], 90);
+    const lat2 = coord(res.boundingbox[1], 90);
+    const lng1 = coord(res.boundingbox[2], 180);
+    const lng2 = coord(res.boundingbox[3], 180);
     if (lang == "OverpassQL") res = `${lat1},${lng1},${lat2},${lng2}`;
     else if (lang == "xml")
       res = `s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`;
