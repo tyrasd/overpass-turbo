@@ -3,7 +3,7 @@
 import clamp from "lodash/clamp";
 
 import ide from "./ide";
-import nominatim from "./nominatim";
+import * as nominatim from "./nominatim";
 
 // clamps a coordinate to the given range and rounds it to OSM's precision
 // of 7 decimal places (~1cm), avoiding long floating point artifacts
@@ -109,9 +109,10 @@ function geocodeId(instr, callback) {
   }
   nominatim.getBest(instr, filter, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Id");
-    if (lang == "OverpassQL") res = `${res.osm_type}(${res.osm_id})`;
-    else if (lang == "xml") res = `type="${res.osm_type}" ref="${res.osm_id}"`;
-    callback(res);
+    if (lang == "OverpassQL") callback(`${res.osm_type}(${res.osm_id})`);
+    else if (lang == "xml")
+      callback(`type="${res.osm_type}" ref="${res.osm_id}"`);
+    else callback(res);
   });
 }
 function geocodeArea(instr, callback) {
@@ -121,18 +122,19 @@ function geocodeArea(instr, callback) {
   }
   nominatim.getBest(instr, filter, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Area");
-    let area_ref = 1 * res.osm_id;
+    let area_ref: number | string = 1 * res.osm_id;
     if (res.osm_type == "way") area_ref += 2400000000;
     if (res.osm_type == "relation") area_ref += 3600000000;
     if (lang == "OverpassQL") {
       // Do not +2400000000 for ways since version 0.7.57,
       // for backward compatibility query both IDs, see
       // https://github.com/tyrasd/overpass-turbo/issues/537
-      if (res.osm_type === "way") area_ref += `,${res.osm_id}`;
+      if (res.osm_type === "way") area_ref = `${area_ref},${res.osm_id}`;
       return callback(`area(id:${area_ref})`);
     } else if (lang == "xml") {
       // https://github.com/tyrasd/overpass-turbo/issues/537
-      if (res.osm_type === "way") area_ref += `" ref_1="${res.osm_id}`;
+      if (res.osm_type === "way")
+        area_ref = `${area_ref}" ref_1="${res.osm_id}`;
       return callback(`type="area" ref="${area_ref}"`);
     }
   });
@@ -145,19 +147,19 @@ function geocodeBbox(instr, callback) {
     const lat2 = coord(res.boundingbox[1], 90);
     const lng1 = coord(res.boundingbox[2], 180);
     const lng2 = coord(res.boundingbox[3], 180);
-    if (lang == "OverpassQL") res = `${lat1},${lng1},${lat2},${lng2}`;
+    if (lang == "OverpassQL") callback(`${lat1},${lng1},${lat2},${lng2}`);
     else if (lang == "xml")
-      res = `s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`;
-    callback(res);
+      callback(`s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`);
+    else callback(res);
   });
 }
 function geocodeCoords(instr, callback) {
   const lang = ide.getQueryLang();
   nominatim.getBest(instr, (err, res) => {
     if (err) return ide.onNominatimError(instr, "Coords");
-    if (lang == "OverpassQL") res = `${res.lat},${res.lon}`;
-    else if (lang == "xml") res = `lat="${res.lat}" lon="${res.lon}"`;
-    callback(res);
+    if (lang == "OverpassQL") callback(`${res.lat},${res.lon}`);
+    else if (lang == "xml") callback(`lat="${res.lat}" lon="${res.lon}"`);
+    else callback(res);
   });
 }
 
