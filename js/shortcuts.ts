@@ -2,6 +2,7 @@
 // see http://wiki.openstreetmap.org/wiki/Overpass_turbo/Extended_Overpass_Queries
 import clamp from "lodash/clamp";
 
+import type {GeocodingResult} from "./geocoding";
 import ide from "./ide";
 import * as nominatim from "./nominatim";
 import type {QueryLang} from "./overpass";
@@ -102,10 +103,10 @@ async function relativeTime(instr: string): Promise<string> {
 // geocoded values (object/area ids, coords, bbox)
 async function geocodeId(instr: string): Promise<string> {
   const lang = ide.getQueryLang();
-  function filter(n: nominatim.NominatimResult) {
+  function filter(n: GeocodingResult) {
     return n.osm_type && n.osm_id;
   }
-  let res: nominatim.NominatimResult;
+  let res: GeocodingResult;
   try {
     res = await nominatim.getBest(instr, filter);
   } catch (error) {
@@ -119,10 +120,10 @@ async function geocodeId(instr: string): Promise<string> {
 }
 async function geocodeArea(instr: string): Promise<string> {
   const lang = ide.getQueryLang();
-  function filter(n: nominatim.NominatimResult) {
+  function filter(n: GeocodingResult) {
     return n.osm_type && n.osm_id && n.osm_type !== "node";
   }
-  let res: nominatim.NominatimResult;
+  let res: GeocodingResult;
   try {
     res = await nominatim.getBest(instr, filter);
   } catch (error) {
@@ -149,17 +150,17 @@ async function geocodeArea(instr: string): Promise<string> {
 }
 async function geocodeBbox(instr: string): Promise<string> {
   const lang = ide.getQueryLang();
-  let res: nominatim.NominatimResult;
+  let res: GeocodingResult;
   try {
     res = await nominatim.getBest(instr);
   } catch (error) {
     ide.onNominatimError(instr, "Bbox");
     throw error;
   }
-  const lat1 = coord(res.boundingbox[0], 90);
-  const lat2 = coord(res.boundingbox[1], 90);
-  const lng1 = coord(res.boundingbox[2], 180);
-  const lng2 = coord(res.boundingbox[3], 180);
+  const lat1 = coord(res.bounds[0], 90);
+  const lng1 = coord(res.bounds[1], 180);
+  const lat2 = coord(res.bounds[2], 90);
+  const lng2 = coord(res.bounds[3], 180);
   if (lang == "OverpassQL") return `${lat1},${lng1},${lat2},${lng2}`;
   if (lang == "xml") return `s="${lat1}" w="${lng1}" n="${lat2}" e="${lng2}"`;
   // todo: there is no SQL representation for this shortcut
@@ -167,7 +168,7 @@ async function geocodeBbox(instr: string): Promise<string> {
 }
 async function geocodeCoords(instr: string): Promise<string> {
   const lang = ide.getQueryLang();
-  let res: nominatim.NominatimResult;
+  let res: GeocodingResult;
   try {
     res = await nominatim.getBest(instr);
   } catch (error) {

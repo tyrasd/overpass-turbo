@@ -28,6 +28,13 @@ To download the latest translations from Transifex, run `tx pull --all` using th
 _overpass turbo_ can be linked from other applications by using [URL parameters](https://wiki.openstreetmap.org/wiki/Overpass_turbo/Development#URL_Parameters).
 For example, one can provide a query to load, set the initial map location, or instruct turbo to load a [template](https://wiki.openstreetmap.org/wiki/Overpass_turbo/Templates).
 
+### geocoding
+
+Two geocoders are used, both behind the common interface in `js/geocoding.ts`:
+
+- [Nominatim](https://nominatim.openstreetmap.org/) resolves the `{{geocodeId}}`, `{{geocodeArea}}`, `{{geocodeBbox}}` and `{{geocodeCoords}}` shortcuts
+- [osmnames](https://osmnames.org/) backs the autocompletion of the map search box, as the [Nominatim usage policy](https://operations.osmfoundation.org/policies/nominatim/) forbids autocomplete style querying
+
 ### git-branches
 
 Development is done in the _master_ branch, stable releases are marked with git tags, the _gh-pages_ branch contains static builds of the releases.

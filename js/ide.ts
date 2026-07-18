@@ -23,6 +23,7 @@ import {requestJson, requestText} from "./httpRequest";
 import i18n from "./i18n";
 import * as josm from "./josmRemoteControl";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
+import * as osmnames from "./osmnames";
 import overpass, {type QueryLang} from "./overpass";
 import {fetchInstances, type OverpassInstance} from "./overpass-servers";
 import Query from "./query";
@@ -867,46 +868,35 @@ class IDE {
         };
         // autocomplete functionality
         $(inp).autocomplete({
-          source(request, response) {
-            // GET request to osmnames
-            requestJson(
-              `https://search.osmnames.org/q/${encodeURIComponent(
-                request.term
-              )}.js?key=${configs.osmnamesApiKey}`
-            ).then(
-              (data) => {
-                response(
-                  data.results.slice(0, 10).map((item) => ({
-                    label: item.display_name,
-                    value: item.display_name,
-                    lat: item.lat,
-                    lon: item.lon,
-                    boundingbox: item.boundingbox
-                  }))
-                );
-              },
-              (error) => {
-                // todo: better error handling
-                console.error(
-                  "An error occurred while contacting the search server osmnames.org :(",
-                  error
-                );
-                response([]);
-              }
-            );
+          async source(request, response) {
+            try {
+              const results = await osmnames.get(request.term);
+              response(
+                results.slice(0, 10).map((result) => ({
+                  label: result.name,
+                  value: result.name,
+                  result
+                }))
+              );
+            } catch (error) {
+              // todo: better error handling
+              console.error(error);
+              response([]);
+            }
           },
           minLength: 2,
           autoFocus: true,
           select(event, ui) {
-            if (ui.item.boundingbox && ui.item.boundingbox instanceof Array)
+            const {lat, lon, bounds} = ui.item.result;
+            if (bounds)
               ide.map.fitBounds(
                 L.latLngBounds([
-                  [ui.item.boundingbox[1], ui.item.boundingbox[0]],
-                  [ui.item.boundingbox[3], ui.item.boundingbox[2]]
+                  [bounds[0], bounds[1]],
+                  [bounds[2], bounds[3]]
                 ]),
                 {maxZoom: 18}
               );
-            else ide.map.panTo(new L.LatLng(ui.item.lat, ui.item.lon));
+            else ide.map.panTo(new L.LatLng(lat, lon));
             this.value = "";
             return false;
           },

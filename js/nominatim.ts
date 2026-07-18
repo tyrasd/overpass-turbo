@@ -1,5 +1,6 @@
 // nominatim module
 import configs from "./configs";
+import {geocoder, GeocodingResult} from "./geocoding";
 import {requestJson} from "./httpRequest";
 
 /** a single search result of the nominatim API */
@@ -19,19 +20,26 @@ export interface NominatimResult {
   icon?: string;
 }
 
-/** narrows down the results to those usable in the current context */
-type Filter = (result: NominatimResult) => unknown;
-
-const cache: Record<string, Promise<NominatimResult[]>> = {};
+function normalize(result: NominatimResult): GeocodingResult {
+  const [south, north, west, east] = result.boundingbox.map(Number);
+  return {
+    name: result.display_name,
+    lat: Number(result.lat),
+    lon: Number(result.lon),
+    bounds: [south, west, north, east],
+    osm_type: result.osm_type,
+    osm_id: result.osm_id
+  };
+}
 
 /** queries nominatim, bypassing the cache */
-export async function request(search: string): Promise<NominatimResult[]> {
+async function request(search: string): Promise<GeocodingResult[]> {
   const url = new URL("https://nominatim.openstreetmap.org/search");
   url.searchParams.set("X-Requested-With", configs.appname);
   url.searchParams.set("format", "json");
   url.searchParams.set("q", search);
   try {
-    return await requestJson<NominatimResult[]>(url);
+    return (await requestJson<NominatimResult[]>(url)).map(normalize);
   } catch (error) {
     console.log("nominatim request failed", error);
     throw new Error(
@@ -40,23 +48,7 @@ export async function request(search: string): Promise<NominatimResult[]> {
   }
 }
 
-/** returns all results for `search`, from the cache if it was queried before */
-export function get(search: string): Promise<NominatimResult[]> {
-  // caching the promise also keeps concurrent searches down to one request
-  cache[search] ??= request(search).catch((error) => {
-    delete cache[search]; // a failed search should be retried, not remembered
-    throw error;
-  });
-  return cache[search];
-}
-
-/** returns the first result for `search` that passes the optional `filter` */
-export async function getBest(
-  search: string,
-  filter?: Filter
-): Promise<NominatimResult> {
-  const data = await get(search);
-  const results = filter ? data.filter(filter) : data;
-  if (results.length === 0) throw new Error("No result found");
-  return results[0];
-}
+/* note: the nominatim usage policy forbids autocomplete style querying,
+ * see https://operations.osmfoundation.org/policies/nominatim/
+ */
+export const {get, getBest} = geocoder(request);
