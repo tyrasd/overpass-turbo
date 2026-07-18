@@ -4,7 +4,7 @@ import "leaflet";
 
 import configs from "./configs";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
-import {HttpError, isAbortError, request} from "./httpRequest";
+import {HttpError, request} from "./httpRequest";
 import ide from "./ide";
 import styleparser from "./jsmapcss";
 import {htmlentities} from "./misc";
@@ -870,7 +870,7 @@ class Overpass {
           });
           text = await res.text();
         } catch (error) {
-          if (isAbortError(error)) return; // ignore aborted queries.
+          if ((error as Error)?.name === "AbortError") return; // ignore aborted queries.
           onErrorCb(error);
           return;
         }

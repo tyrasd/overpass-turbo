@@ -41,8 +41,3 @@ export async function requestJson<T = any>(
 ): Promise<T> {
   return (await request(url, init)).json() as Promise<T>;
 }
-
-/** true if the rejection was caused by aborting the request */
-export function isAbortError(error: unknown): boolean {
-  return (error as Error)?.name === "AbortError";
-}
