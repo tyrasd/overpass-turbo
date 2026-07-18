@@ -149,7 +149,7 @@ $(document).ready(() => {
     ide.map.setView([0, 0], 18, true);
     try {
       ide.map.fitBounds(e.layer.getBounds());
-    } catch (err) {}
+    } catch {}
   });
   // overpass functionality
   overpass.handlers["onEmptyMap"] = (empty_msg) => {

@@ -89,7 +89,7 @@ export default class i18n {
       // get user agent's language
       try {
         lng = browser_locale().toLowerCase();
-      } catch (e) {}
+      } catch {}
       // hardcode some language fallbacks
       if (lng === "nb") lng = "no"; // Norwegian Bokmål
       // sanitize inconsistent use of lower and upper case spelling

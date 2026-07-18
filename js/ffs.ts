@@ -348,7 +348,7 @@ export function ffs_repair_search(search: string, callback) {
   let ffs;
   try {
     ffs = ffs_parser.parse(search);
-  } catch (e) {
+  } catch {
     return callback(false);
   }
 
@@ -375,7 +375,7 @@ export function ffs_repair_search(search: string, callback) {
           let free_regex = null;
           try {
             free_regex = new RegExp(`['"]?${escRegexp(cond_query.free)}['"]?`);
-          } catch (e) {}
+          } catch {}
           if (fuzzy && search.match(free_regex)) {
             search_parts = search_parts.concat(search.split(free_regex));
             search = search_parts.pop();

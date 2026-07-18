@@ -341,7 +341,7 @@ class IDE {
           localStorage.setItem("startup_localstorage_quota_test", "123");
           localStorage.removeItem("startup_localstorage_quota_test");
           ls = localStorage;
-        } catch (e) {}
+        } catch {}
         return ls;
       })() != "object" ||
       false
@@ -682,7 +682,7 @@ class IDE {
               ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {
                 maxZoom: 18
               });
-            } catch (e) {}
+            } catch {}
             return false;
           },
           ide.map
@@ -717,7 +717,7 @@ class IDE {
                 );
                 ide.map.setView(pos, settings.coords_zoom);
               });
-            } catch (e) {}
+            } catch {}
             return false;
           },
           ide.map
@@ -861,7 +861,7 @@ class IDE {
                     // if the data is a string, but looks more like a json object
                     try {
                       data = $.parseJSON(data);
-                    } catch (e) {}
+                    } catch {}
                   }
                   response(
                     $.map(data.results.slice(0, 10), (item) => ({
@@ -1153,7 +1153,7 @@ class IDE {
       ide.dataViewer.setOption("mode", overpass.resultType);
       try {
         ide.dataViewer.setValue(overpass.resultText);
-      } catch (e) {
+      } catch {
         ide.dataViewer.setOption("mode", "text");
         ide.dataViewer.setValue(overpass.resultText);
       }
@@ -1271,7 +1271,7 @@ class IDE {
             ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {
               maxZoom: 18
             });
-          } catch (e) {}
+          } catch {}
           // todo: zoom only to specific zoomlevel if args.has_zoom is given
         };
       }
@@ -2150,7 +2150,7 @@ class IDE {
         } else {
           try {
             raw_str = data.toString();
-          } catch (e) {
+          } catch {
             raw_str = "Error while exporting the data";
           }
         }

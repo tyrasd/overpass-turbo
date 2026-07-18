@@ -105,7 +105,7 @@ export const Base64 = {
       // try to decode utf8 characters
       try {
         output = decodeURIComponent(escape(output));
-      } catch (e) {}
+      } catch {}
     } else {
       // convert binary string to typed (Uint8) array
       output = str2ab(output);

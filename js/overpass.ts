@@ -158,7 +158,7 @@ class Overpass {
               // if the data is a string, but looks more like a json object
               try {
                 data = $.parseJSON(data);
-              } catch (e) {}
+              } catch {}
             }
             // hacky firefox hack :( (it is not properly detecting xml from the content-type header)
             if (
@@ -173,7 +173,7 @@ class Overpass {
               try {
                 jqXHR.responseXML = data;
                 data = $.parseXML(data);
-              } catch (e) {
+              } catch {
                 delete jqXHR.responseXML;
               }
             }
@@ -369,7 +369,7 @@ class Overpass {
                     [],
                     18
                   );
-                } catch (e) {
+                } catch {
                   throw new Error("MapCSS runtime error.");
                 }
               } catch (e) {

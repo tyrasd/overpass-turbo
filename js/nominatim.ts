@@ -22,7 +22,7 @@ export default class nominatim {
             // if the data is a string, but looks more like a json object
             try {
               data = JSON.parse(data);
-            } catch (e) {}
+            } catch {}
           }
           cache[search] = data;
           callback(undefined, data);

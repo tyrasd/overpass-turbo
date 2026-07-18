@@ -202,7 +202,7 @@ autorepair.detect.editors = (q, lng) => {
         )
           err.geometry = true;
       });
-    } catch (e) {} // ignore xml syntax errors ?!
+    } catch {} // ignore xml syntax errors ?!
   } else {
     // ignore comments
     q = q.replace(/\/\*[\s\S]*?\*\//g, "");
