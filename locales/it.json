@@ -1,6 +1,7 @@
 {
     "nav.run": "Esegui",
     "nav.run_tt": "esegui questa richiesta con le API Overpass",
+    "nav.clear": "Clear query",
     "nav.rerender_tt": "analizza il codice MapCSS e aggiorna la mappa",
     "nav.share": "Condividi",
     "nav.share_tt": "ottieni un link permanente per questa richiesta",

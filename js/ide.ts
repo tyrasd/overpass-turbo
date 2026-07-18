@@ -2960,6 +2960,9 @@ class IDE {
       }
     });
   }
+  onClearClick() {
+    this.setQuery("");
+  }
 }
 
 const ide = new IDE();
