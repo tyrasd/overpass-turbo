@@ -2949,6 +2949,17 @@ class IDE {
       event.preventDefault();
     }
 
+    if (
+      event.key == "," &&
+      (event.ctrlKey || event.metaKey) &&
+      !event.shiftKey &&
+      !event.altKey
+    ) {
+      // Ctrl+,
+      this.onSettingsClick();
+      event.preventDefault();
+    }
+
     if (event.key === "Escape") {
       // Escape
       $(".modal").removeClass("is-active");

@@ -10,6 +10,7 @@ These changes are live on the development instance at <https://tyrasd.github.io/
 - Add "older" keyword to the wizard ([#247](https://github.com/tyrasd/overpass-turbo/issues/247))
 - Document wizard conditions in help dialog
 - Add clear query button ([#787](https://github.com/tyrasd/overpass-turbo/issues/787))
+- Add `Ctrl+,` keyboard shortcut to open the settings dialog
 - Add setting to disable "huge data" warning ([#248](https://github.com/tyrasd/overpass-turbo/issues/248))
 - Add new Overpass QL keywords ([#749](https://github.com/tyrasd/overpass-turbo/issues/749))
 - Round `{{bbox}}`/`{{center}}` coordinates to 7 decimal places ([#832](https://github.com/tyrasd/overpass-turbo/issues/832))
