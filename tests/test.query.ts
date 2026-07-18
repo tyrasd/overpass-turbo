@@ -86,17 +86,19 @@ describe("ide.query", () => {
       {
         // ql query
         inp: "({{bbox}})",
-        outp: "(1,2,3,4)"
+        outp: "(1.0000000,2.0000000,3.0000000,4.0000000)"
       },
       {
         // xml query
         inp: "<bbox-query {{bbox}}/>",
-        outp: '<bbox-query s="1" w="2" n="3" e="4"/>'
+        outp:
+          '<bbox-query s="1.0000000" w="2.0000000" ' +
+          'n="3.0000000" e="4.0000000"/>'
       },
       {
         // xml query global bbox
         inp: '<osm-script bbox="{{bbox}}"/>',
-        outp: '<osm-script bbox="1,2,3,4"/>'
+        outp: '<osm-script bbox="1.0000000,2.0000000,3.0000000,4.0000000"/>'
       }
     ];
     for (const example of examples) {
@@ -120,12 +122,12 @@ describe("ide.query", () => {
       {
         // ql query
         inp: "({{center}})",
-        outp: "(5,6)"
+        outp: "(5.0000000,6.0000000)"
       },
       {
         // xml query
         inp: "<around {{center}}/>",
-        outp: '<around lat="5" lon="6"/>'
+        outp: '<around lat="5.0000000" lon="6.0000000"/>'
       }
     ];
     for (const example of examples) {
