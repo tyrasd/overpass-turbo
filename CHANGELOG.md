@@ -1,4 +1,25 @@
-<!--## undeployed-->
+## undeployed
+
+- Add support for Postpass / PostGIS SQL backends: `{{data:sql}}` as the query format signifier, SQL syntax highlighting, detection of GeoJSON and other JSON responses, and handling of backend error messages ([#788](https://github.com/tyrasd/overpass-turbo/issues/788))
+- Add a light/dark/auto theme setting, including dark mode styling for jQuery UI buttons and icons
+- Make favicon adaptive to light/dark color-scheme ([#780](https://github.com/tyrasd/overpass-turbo/issues/780))
+- Allow changing the default editor so items open in a JOSM instance running on the user's local machine instead of osm.org, with an error message if the local JOSM process is not reachable
+- Add `{{wsen}}` shortcut, like `{{bbox}}`
+- Add "older" keyword to the wizard ([#247](https://github.com/tyrasd/overpass-turbo/issues/247))
+- Document wizard conditions in help dialog
+- Add clear query button ([#787](https://github.com/tyrasd/overpass-turbo/issues/787))
+- Add setting to disable "huge data" warning ([#248](https://github.com/tyrasd/overpass-turbo/issues/248))
+- Add new Overpass QL keywords ([#749](https://github.com/tyrasd/overpass-turbo/issues/749))
+- Round `{{bbox}}`/`{{center}}` coordinates to 7 decimal places ([#832](https://github.com/tyrasd/overpass-turbo/issues/832))
+- Fall back to the English string for untranslated keys
+- Restore login to osm.org via popup
+- Remove overpass.openstreetmap.ru instance ([#816](https://github.com/tyrasd/overpass-turbo/issues/816))
+- Update link for overpass.private.coffee instance
+- Try to render results even if parsing fails for some reason
+- Fix freeze for certain URLs in tags ([#747](https://github.com/tyrasd/overpass-turbo/issues/747))
+- Fix selection of combobox in autostyler dialog
+- Fix missing `attribution` control object, which is required for PNG export ([#813](https://github.com/tyrasd/overpass-turbo/issues/813))
+- Fix "L is not defined" in production build
 
 ## 2024-11-03
 

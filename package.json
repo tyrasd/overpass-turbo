@@ -12,7 +12,8 @@
     "check": "vp check",
     "lint": "vp lint .",
     "format": "vp fmt --write .",
-    "test": "vp test"
+    "test": "vp test",
+    "changelog": "pnpm dlx git-cliff --config cliff.toml"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
