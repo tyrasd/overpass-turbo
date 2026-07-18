@@ -44,5 +44,5 @@ export async function requestJson<T = any>(
 
 /** true if the rejection was caused by aborting the request */
 export function isAbortError(error: unknown): boolean {
-  return error instanceof Error && error.name === "AbortError";
+  return (error as Error)?.name === "AbortError";
 }
