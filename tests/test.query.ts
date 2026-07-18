@@ -104,6 +104,15 @@ describe("ide.query", () => {
       await expect(ide.getQuery()).resolves.toBe(example.outp);
     }
   });
+  // expand {{wsen}}
+  it("expand {{wsen}}", async () => {
+    vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+    // same bbox as {{bbox}}, but in west,south,east,north order
+    ide.codeEditor.getValue = () => "({{wsen}})";
+    await expect(ide.getQuery()).resolves.toBe(
+      "(2.0000000,1.0000000,4.0000000,3.0000000)"
+    );
+  });
   // expand {{center}}
   it("expand {{center}}", async () => {
     vi.spyOn(ide, "setQuery").mockImplementation(() => {});
