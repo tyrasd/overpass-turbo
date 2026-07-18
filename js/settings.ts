@@ -22,6 +22,7 @@ class Settings {
   no_autorepair: boolean;
   editor_width: string;
   ui_language: string;
+  theme: string;
   disable_poiomatic: boolean;
   show_data_stats: boolean;
   disable_warning_huge_data: boolean;
@@ -152,7 +153,7 @@ const examples_initial_example = "Drinking Water";
 // global settings object
 const settings = new Settings(
   configs.settingNamespace || configs.appname,
-  39 // settings version number
+  40 // settings version number
 );
 
 export default settings;
@@ -196,6 +197,8 @@ settings.define_setting("no_autorepair", "Boolean", false, 16);
 settings.define_setting("editor_width", "String", "", 17);
 // UI language
 settings.define_setting("ui_language", "String", "auto", 19);
+// color theme ("auto" follows the OS preference)
+settings.define_setting("theme", "String", "auto", 40);
 // disable poi-o-matic
 settings.define_setting("disable_poiomatic", "boolean", false, 21);
 // show data stats

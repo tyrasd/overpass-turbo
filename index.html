@@ -18,7 +18,7 @@
   </head>
   <body>
     <!-- Layout -->
-    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-start">
         <div class="navbar-item">
           <div class="buttons has-addons">
@@ -573,6 +573,31 @@
               </div>
             </div>
             <div class="field">
+              <label class="label t" for="theme" data-t="settings.theme">
+                Theme
+              </label>
+              <div class="control">
+                <div class="select">
+                  <select name="theme" id="theme">
+                    <option class="t" value="auto" data-t="settings.theme.auto">
+                      automatic
+                    </option>
+                    <option
+                      class="t"
+                      value="light"
+                      data-t="settings.theme.light"
+                    >
+                      light
+                    </option>
+                    <option class="t" value="dark" data-t="settings.theme.dark">
+                      dark
+                    </option>
+                  </select>
+                </div>
+                <p class="help t" data-t="settings.theme_expl"></p>
+              </div>
+            </div>
+            <div class="field">
               <label class="label" for="server">
                 <span class="t" data-t="settings.server"></span>
               </label>
@@ -775,6 +800,8 @@
                 >
                   <span class="t" data-t="dialog.reset">Reset</span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button
                   class="button is-success"
                   data-ide-handler="click:onSettingsSave"
@@ -784,6 +811,8 @@
                   </span>
                   <span class="t" data-t="dialog.save">Save</span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button class="button" data-ide-handler="click:onSettingsClose">
                   <span class="t" data-t="dialog.close">Close</span>
                 </button>
@@ -842,6 +871,8 @@
                   </span>
                   <span class="t" data-t="dialog.save"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button
                   class="button osm is-success"
                   data-ide-handler="click:onSaveOsmSumbit"
@@ -851,6 +882,8 @@
                   </span>
                   <span class="t" data-t="dialog.save-osm"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button
                   class="t button"
                   data-ide-handler="click:onSaveClose"
@@ -1269,6 +1302,8 @@
                   </span>
                   <span class="t" data-t="dialog.wizard_run"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button
                   class="button is-success"
                   data-ide-handler="click:onFfsBuild"
@@ -1278,6 +1313,8 @@
                   </span>
                   <span class="t" data-t="dialog.wizard_build"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button class="button" data-ide-handler="click:onFfsClose">
                   <span class="t" data-t="dialog.cancel">Cancel</span>
                 </button>
@@ -1362,6 +1399,8 @@
                   </span>
                   <span class="t" data-t="dialog.styler_run"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button class="button" data-ide-handler="click:onStylerClose">
                   <span class="t" data-t="dialog.cancel">Cancel</span>
                 </button>
