@@ -33,6 +33,10 @@ export interface OverpassInstance {
   url: string;
   /** whether the instance serves the whole planet or only a single region */
   scope: "global" | "regional";
+  /** the region the data is limited to, for regional instances */
+  coverage?: string;
+  /** what the operator asks of its users, as plain text */
+  usagePolicy?: string;
 }
 
 /** splits a wikitable row into its cells, dropping any `scope="col"` markup */
@@ -56,6 +60,29 @@ function normalize(url: string): string {
   return url.replace(/interpreter\/?$/, "").replace(/\/?$/, "/");
 }
 
+/**
+ * Reduces the wikitext of a table cell to plain text: links keep their label
+ * (external ones also their target), footnotes and templates are dropped.
+ *
+ * The result is deliberately text and not HTML — the wiki is world-writable,
+ * so its markup must never end up in the DOM as markup.
+ */
+function plainText(wikitext: string): string {
+  return wikitext
+    .replace(/<ref[^>]*\/>|<ref[^>]*>[\s\S]*?<\/ref>/g, "") // footnotes
+    .replace(/\[\[[^\]|]*\|([^\]]*)\]\]/g, "$1") // [[Page|label]]
+    .replace(/\[\[([^\]]*)\]\]/g, "$1") // [[Page]]
+    .replace(/\[(https?:\/\/\S+)\s+([^\]]*)\]/g, "$2 ($1)") // [url label]
+    .replace(/\[(https?:\/\/[^\]\s]+)\]/g, "$1") // [url]
+    .replace(/\{\{[Uu]ser\|([^|}]*)[^}]*\}\}/g, "$1") // {{User|name|…}}
+    .replace(/\{\{[^{}]*\}\}/g, "") // any other template
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<[^>]+>/g, "") // syntaxhighlight and friends
+    .replace(/'''?/g, "") // bold/italic
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 /** parses the instance tables out of the raw wikitext of the Overpass API page */
 export function parseInstances(wikitext: string): OverpassInstance[] {
   const instances = new Map<string, OverpassInstance>();
@@ -70,17 +97,25 @@ export function parseInstances(wikitext: string): OverpassInstance[] {
     const headers = cells(rows[0]);
     const endpointColumn = headers.findIndex((h) => /API Endpoint/i.test(h));
     if (endpointColumn === -1) continue; // not an instance table
-    const scope = headers.some((h) => /Data coverage/i.test(h))
-      ? "regional"
-      : "global";
+    const coverageColumn = headers.findIndex((h) => /Data coverage/i.test(h));
+    const usagePolicyColumn = headers.findIndex((h) => /Usage policy/i.test(h));
+    const scope = coverageColumn === -1 ? "global" : "regional";
 
     for (const row of rows.slice(1)) {
-      const cell = cells(row)[endpointColumn];
-      const url = cell?.replace(/<[^>]+>/g, "").match(/https?:\/\/\S+/)?.[0];
+      const rowCells = cells(row);
+      const url = rowCells[endpointColumn]
+        ?.replace(/<[^>]+>/g, "")
+        .match(/https?:\/\/\S+/)?.[0];
       if (!url) continue;
       const normalized = normalize(url);
-      if (!instances.has(normalized))
-        instances.set(normalized, {url: normalized, scope});
+      if (instances.has(normalized)) continue;
+
+      const instance: OverpassInstance = {url: normalized, scope};
+      const coverage = plainText(rowCells[coverageColumn] ?? "");
+      if (coverage) instance.coverage = coverage;
+      const usagePolicy = plainText(rowCells[usagePolicyColumn] ?? "");
+      if (usagePolicy) instance.usagePolicy = usagePolicy;
+      instances.set(normalized, instance);
     }
   }
 

@@ -24,7 +24,7 @@ import i18n from "./i18n";
 import * as josm from "./josmRemoteControl";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import overpass, {type QueryLang} from "./overpass";
-import {fetchInstances} from "./overpass-servers";
+import {fetchInstances, type OverpassInstance} from "./overpass-servers";
 import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
@@ -123,6 +123,8 @@ $(document).on("copy", (e) => {
 // the hardcoded servers, extended with the instances listed on the OSM wiki
 // once the settings dialog has been opened
 let suggestedServers = configs.suggestedServers;
+// what the wiki says about those instances, to describe the selected one
+let wikiInstances: OverpassInstance[] = [];
 
 function make_combobox(
   input: JQuery<HTMLElement>,
@@ -2653,11 +2655,32 @@ class IDE {
         }
       );
     make_server_combobox(suggestedServers);
+    // describes the server currently in the input, as far as the wiki knows it
+    const show_server_info = () => {
+      const server = $<HTMLInputElement>(
+        "#settings-dialog input[name=server]"
+      )[0].value;
+      const instance = wikiInstances.find(({url}) => url === server);
+      const coverage =
+        instance?.coverage &&
+        `${i18n.t("settings.server_coverage")}: ${instance.coverage}`;
+      // .text(), never .html(): this comes from a world-writable wiki
+      $("#settings-dialog #server-info").text(
+        [coverage, instance?.usagePolicy].filter(Boolean).join(" — ")
+      );
+    };
+    $("#settings-dialog input[name=server]").on(
+      "input autocompleteselect autocompletechange",
+      // the combobox fills the input after the event, hence the deferral
+      () => setTimeout(show_server_info)
+    );
+    show_server_info();
     // the instances listed on the OSM wiki trickle in afterwards, the combobox
     // is rebuilt once they do. if the wiki cannot be reached, the hardcoded
     // servers are kept
     void fetchInstances()
       .then((instances) => {
+        wikiInstances = instances;
         suggestedServers = [
           ...new Set([
             ...configs.suggestedServers,
@@ -2665,6 +2688,7 @@ class IDE {
           ])
         ];
         make_server_combobox(suggestedServers);
+        show_server_info();
       })
       .catch(() => {});
     $<HTMLInputElement>(

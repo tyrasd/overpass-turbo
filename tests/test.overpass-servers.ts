@@ -37,7 +37,7 @@ const WIKITEXT = `== Public Overpass API instances==
 |[https://overpass-api.de/ Main Overpass API instance]
 |<syntaxhighlight inline lang="">https://overpass-api.de/api/interpreter</syntaxhighlight>
 | {{yes}}
-|Less than 10,000 queries per day.
+|Less than 10,000 queries per day<ref>https://dev.overpass-api.de/</ref>.<br />Be sure to send a <syntaxhighlight inline lang="">User-Agent</syntaxhighlight> header. Ask [[User:Roland]] or {{User|someone|wiki=Someone}}.
 |-
 |[https://www.geofabrik.de/data/overpass-api.html Geofabrik Overpass]
 |<syntaxhighlight inline lang="">https://overpass.geofabrik.de/YOUR_API_KEY/api/interpreter</syntaxhighlight>
@@ -97,11 +97,45 @@ describe("overpass-servers", () => {
   it("parses both instance tables", async () => {
     vi.mocked(requestJson).mockResolvedValue(apiResponse(WIKITEXT));
     expect(await fetchInstances()).toEqual([
-      {url: "https://overpass-api.de/api/", scope: "global"},
-      {url: "https://overpass.geofabrik.de/YOUR_API_KEY/api/", scope: "global"},
-      {url: "https://overpass.osm.ch/api/", scope: "regional"},
-      {url: "https://overpass.atownsend.org.uk/api/", scope: "regional"}
+      {
+        url: "https://overpass-api.de/api/",
+        scope: "global",
+        // footnote, templates and markup gone, link labels kept
+        usagePolicy:
+          "Less than 10,000 queries per day. Be sure to send a User-Agent header. Ask User:Roland or someone."
+      },
+      {
+        url: "https://overpass.geofabrik.de/YOUR_API_KEY/api/",
+        scope: "global",
+        usagePolicy:
+          "Payment required (https://www.geofabrik.de/data/overpass-api.html)"
+      },
+      // the regional table of the fixture has no usage policy column
+      {
+        url: "https://overpass.osm.ch/api/",
+        scope: "regional",
+        coverage: "Switzerland"
+      },
+      {
+        url: "https://overpass.atownsend.org.uk/api/",
+        scope: "regional",
+        coverage: "Britain and Ireland"
+      }
     ]);
+  });
+
+  it("strips markup from the usage policy", () => {
+    // anybody can edit the wiki, so no markup may survive into the result
+    const [instance] = parseInstances(`{| class="wikitable"
+|-
+! scope="col" |API Endpoint
+! scope="col" |Usage policy
+|-
+|https://overpass-api.de/api/
+|<script>alert(1)</script><img src=x onerror=alert(1)/> Be '''nice'''.
+|}`);
+    expect(instance.usagePolicy).toBe("alert(1) Be nice.");
+    expect(instance.usagePolicy).not.toMatch(/[<>]/);
   });
 
   it("ignores tables without an API Endpoint column", () => {
