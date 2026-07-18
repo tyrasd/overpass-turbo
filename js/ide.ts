@@ -24,6 +24,7 @@ import i18n from "./i18n";
 import * as josm from "./josmRemoteControl";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
 import overpass, {type QueryLang} from "./overpass";
+import {fetchInstances} from "./overpass-servers";
 import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
@@ -118,6 +119,10 @@ $(document).on("copy", (e) => {
     copyData = null;
   }
 });
+
+// the hardcoded servers, extended with the instances listed on the OSM wiki
+// once the settings dialog has been opened
+let suggestedServers = configs.suggestedServers;
 
 function make_combobox(
   input: JQuery<HTMLElement>,
@@ -2634,18 +2639,34 @@ class IDE {
       settings.theme;
     $<HTMLInputElement>("#settings-dialog input[name=server]")[0].value =
       settings.server;
-    make_combobox(
-      $("#settings-dialog input[name=server]"),
-      configs.suggestedServers.concat(settings.customServers),
-      settings.customServers,
-      (server) => {
-        settings.customServers.splice(
-          settings.customServers.indexOf(server),
-          1
-        );
-        settings.save();
-      }
-    );
+    const make_server_combobox = (servers: string[]) =>
+      make_combobox(
+        $("#settings-dialog input[name=server]"),
+        servers.concat(settings.customServers),
+        settings.customServers,
+        (server) => {
+          settings.customServers.splice(
+            settings.customServers.indexOf(server),
+            1
+          );
+          settings.save();
+        }
+      );
+    make_server_combobox(suggestedServers);
+    // the instances listed on the OSM wiki trickle in afterwards, the combobox
+    // is rebuilt once they do. if the wiki cannot be reached, the hardcoded
+    // servers are kept
+    void fetchInstances()
+      .then((instances) => {
+        suggestedServers = [
+          ...new Set([
+            ...configs.suggestedServers,
+            ...instances.map((instance) => instance.url)
+          ])
+        ];
+        make_server_combobox(suggestedServers);
+      })
+      .catch(() => {});
     $<HTMLInputElement>(
       "#settings-dialog input[name=no_autorepair]"
     )[0].checked = settings.no_autorepair;
@@ -2729,7 +2750,7 @@ class IDE {
       "#settings-dialog input[name=server]"
     )[0].value;
     if (
-      configs.suggestedServers.indexOf(settings.server) === -1 &&
+      suggestedServers.indexOf(settings.server) === -1 &&
       settings.customServers.indexOf(settings.server) === -1
     ) {
       settings.customServers.push(settings.server);
