@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
+    "allowArbitraryExtensions": true,
     "esModuleInterop": true,
+    "lib": ["dom", "dom.iterable", "es2022"],
     "module": "esnext",
     "moduleResolution": "bundler",
+    "noEmit": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "strictNullChecks": false,
-    "target": "es2022"
-  }
+    "target": "es2022",
+    "types": ["vite/client"]
+  },
+  "include": ["js", "tests", "vite.config.mts"]
 }
