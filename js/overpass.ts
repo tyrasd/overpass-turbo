@@ -398,7 +398,10 @@ class Overpass {
                 }
               } catch (e) {
                 userMapCSS = "";
-                overpass.fire("onStyleError", `<p>${e.message}</p>`);
+                overpass.fire(
+                  "onStyleError",
+                  `<p>${e instanceof Error ? e.message : e}</p>`
+                );
               }
               const mapcss = new RuleSet();
               mapcss.parseCSS(

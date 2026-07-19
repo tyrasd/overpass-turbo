@@ -45,7 +45,7 @@
     "@types/leaflet": "^1.9.3",
     "happy-dom": "^20.10.6",
     "peggy": "^3.0.2",
-    "typescript": "^5.0.4",
+    "typescript": "^6.0.3",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   },
