@@ -60,6 +60,12 @@ export default defineConfig(() => ({
     environment: "happy-dom",
     include: ["tests/test*.ts"]
   },
+  lint: {
+    options: {
+      typeAware: true,
+      typeCheck: true
+    }
+  },
   fmt: {
     bracketSpacing: false,
     experimentalSortImports: {},
