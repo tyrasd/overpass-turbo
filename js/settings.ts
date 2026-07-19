@@ -1,6 +1,12 @@
 // Settings class
 import configs from "./configs";
 
+/**
+ * A value a setting can hold. Anything but a `String` setting is stored as
+ * JSON, so any serialisable value will do.
+ */
+type SettingValue = string | number | boolean | string[] | object;
+
 class Settings {
   // settings.define_setting
   coords_lat: number;
@@ -36,7 +42,7 @@ class Settings {
     string,
     {
       type: string;
-      preset: string | number | boolean | string[];
+      preset: SettingValue;
       version: number;
     }
   >;
@@ -58,7 +64,7 @@ class Settings {
   define_setting(
     name: string,
     type: string,
-    preset: string | number | boolean | string[],
+    preset: SettingValue,
     version: number
   ) {
     this.settings[name] = {type: type, preset: preset, version: version};
@@ -67,16 +73,18 @@ class Settings {
     this.upgrade_callbacks[version] = fun;
   }
 
-  set(name: string, value: string) {
+  set(name: string, value?: SettingValue) {
     if (
       value === undefined // use preset if no value is given
     )
       value = this.settings[name].preset;
-    if (this.settings[name].type != "String") {
+    localStorage.setItem(
+      this.prefix + name,
       // stringify all non-string values.
-      value = JSON.stringify(value);
-    }
-    localStorage.setItem(this.prefix + name, value);
+      this.settings[name].type == "String"
+        ? String(value)
+        : JSON.stringify(value)
+    );
   }
   get(name: string) {
     // initialize new settings
@@ -103,7 +111,7 @@ class Settings {
           this.upgrade_callbacks[v](this);
       }
       this.version = this.settings_version;
-      localStorage.setItem(`${this.prefix}version`, this.version);
+      localStorage.setItem(`${this.prefix}version`, String(this.version));
     }
   }
   save() {
