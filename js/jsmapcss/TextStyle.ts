@@ -1,31 +1,59 @@
-import {Style, prototypeDefaults, styleString} from "./Style";
+import {Style, styleString} from "./Style";
 
 /** The label drawn for a feature, and the shield it may sit on. */
 export class TextStyle extends Style {
-  declare font_family: string | null;
-  declare font_size: string | null;
-  declare font_style: string | null;
-  declare font_variant: string | null;
-  declare font_weight: string | null;
-  declare max_width: string | null;
-  declare shield_casing_color: string | null;
-  declare shield_casing_width: string | null;
-  declare shield_color: string | null;
-  declare shield_frame_color: string | null;
-  declare shield_frame_width: string | null;
-  declare shield_image: string | null;
-  declare shield_opacity: string | null;
-  declare shield_shape: string | null;
-  declare shield_text: string | null;
-  declare text_color: string | null;
-  declare text_decoration: string | null;
-  declare text_halo_color: string | null;
-  declare text_halo_radius: number;
-  declare text_offset: string | null;
-  declare text_opacity: string | null;
-  declare text_position: string | null;
-  declare text_transform: string | null;
-  declare text: string | null;
+  override styleType = "TextStyle";
+  override properties = [
+    "font_family",
+    "font_size",
+    "font_style",
+    "font_variant",
+    "font_weight",
+    "max_width",
+    "shield_casing_color",
+    "shield_casing_width",
+    "shield_color",
+    "shield_frame_color",
+    "shield_frame_width",
+    "shield_image",
+    "shield_opacity",
+    "shield_shape",
+    "shield_text",
+    "text_color",
+    "text_decoration",
+    "text_halo_color",
+    "text_halo_radius",
+    "text_offset",
+    "text_opacity",
+    "text_position",
+    "text_transform",
+    "text"
+  ];
+
+  font_family: string | null = null;
+  font_size: string | null = null;
+  font_style: string | null = null;
+  font_variant: string | null = null;
+  font_weight: string | null = null;
+  max_width: string | null = null;
+  shield_casing_color: string | null = null;
+  shield_casing_width: string | null = null;
+  shield_color: string | null = null;
+  shield_frame_color: string | null = null;
+  shield_frame_width: string | null = null;
+  shield_image: string | null = null;
+  shield_opacity: string | null = null;
+  shield_shape: string | null = null;
+  shield_text: string | null = null;
+  text_color: string | null = null;
+  text_decoration: string | null = null;
+  text_halo_color: string | null = null;
+  text_halo_radius = 0;
+  text_offset: string | null = null;
+  text_opacity: string | null = null;
+  text_position: string | null = null;
+  text_transform: string | null = null;
+  text: string | null = null;
 
   /**
    * Renders this style as an inline CSS `style` attribute value.
@@ -57,57 +85,3 @@ export class TextStyle extends Style {
     });
   }
 }
-
-prototypeDefaults(TextStyle, {
-  styleType: "TextStyle",
-  properties: [
-    "font_family",
-    "font_size",
-    "font_style",
-    "font_variant",
-    "font_weight",
-    "max_width",
-    "shield_casing_color",
-    "shield_casing_width",
-    "shield_color",
-    "shield_frame_color",
-    "shield_frame_width",
-    "shield_image",
-    "shield_opacity",
-    "shield_shape",
-    "shield_text",
-    "text_color",
-    "text_decoration",
-    "text_halo_color",
-    "text_halo_radius",
-    "text_offset",
-    "text_opacity",
-    "text_position",
-    "text_transform",
-    "text"
-  ],
-  font_family: null,
-  font_size: null,
-  font_style: null,
-  font_variant: null,
-  font_weight: null,
-  max_width: null,
-  shield_casing_color: null,
-  shield_casing_width: null,
-  shield_color: null,
-  shield_frame_color: null,
-  shield_frame_width: null,
-  shield_image: null,
-  shield_opacity: null,
-  shield_shape: null,
-  shield_text: null,
-  text_color: null,
-  text_decoration: null,
-  text_halo_color: null,
-  text_halo_radius: 0,
-  text_offset: null,
-  text_opacity: null,
-  text_position: null,
-  text_transform: null,
-  text: null
-});

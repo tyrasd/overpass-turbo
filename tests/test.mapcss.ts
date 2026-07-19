@@ -43,15 +43,13 @@ describe("MapCSS styles", () => {
     expect(sl.shapeStyles.default.color).toBe("#00ff00");
   });
 
-  // Style defaults live on the prototype, and StyleChooser copies only own
-  // properties into the StyleList. A style therefore carries *only* the
-  // properties its declaration actually set — which is what keeps the merge
-  // below from clobbering earlier rules with later rules' defaults.
+  // A style contributes only the properties its declaration assigned, which is
+  // what keeps the merge below from clobbering earlier rules with the defaults
+  // of later ones. `evals` always comes along.
   it("carries only explicitly set properties", () => {
     const sl = styles("way {color: #ff0000;}", "way", {});
     expect(Object.keys(sl.shapeStyles.default).sort()).toEqual([
       "color",
-      "edited",
       "evals"
     ]);
   });

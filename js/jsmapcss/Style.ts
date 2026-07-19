@@ -8,31 +8,24 @@ export type Tags = Record<string, string>;
 /** A value a MapCSS declaration can assign to a style property. */
 export type StyleValue = string | number | boolean | number[];
 
-/**
- * Assigns the default values of a style's properties to its prototype.
- *
- * The defaults deliberately do *not* live on the instances: `StyleChooser`
- * copies only own properties into a `StyleList`, so a style carries nothing
- * but the properties its declaration actually set. That is what allows two
- * declarations matching the same feature to be merged without the later one
- * overwriting the earlier one with its own defaults.
- */
-export function prototypeDefaults<T>(
-  style: {prototype: T},
-  defaults: Partial<T>
-): void {
-  Object.assign(style.prototype, defaults);
-}
-
 /** Base class of the MapCSS style types, holding the shared property plumbing. */
 export class Style {
   /** Names of the MapCSS properties this style type accepts. */
-  declare properties: string[];
-  declare styleType: string;
+  properties: string[] = [];
+  styleType = "Style";
   /** Whether any property has been assigned by a declaration. */
-  declare edited: boolean;
+  edited = false;
   /** MapCSS `eval()` expressions by property name, evaluated per feature. */
   evals: Record<string, string> = {};
+  /**
+   * The properties a declaration actually assigned, as opposed to those still
+   * holding their default.
+   *
+   * A style contributes only these to a {@link StyleList}, so that two
+   * declarations matching the same feature can be merged without the later one
+   * overwriting the earlier one with defaults it was never asked for.
+   */
+  readonly assigned = new Set<string>();
 
   /** Whether a feature carrying this style is visible on the map. */
   drawn(): boolean {
@@ -69,6 +62,22 @@ export class Style {
         .map((a) => Number(a));
     }
     properties[k] = v;
+    this.assigned.add(k);
+  }
+
+  /**
+   * The part of this style a declaration established, ready to be merged into
+   * a {@link StyleList}.
+   *
+   * `evals` comes along unconditionally: consumers read it to tell a literal
+   * value apart from one computed per feature.
+   */
+  assignedProperties(): Partial<this> {
+    const properties = this as unknown as Record<string, StyleValue>;
+    return {
+      evals: this.evals,
+      ...Object.fromEntries([...this.assigned].map((k) => [k, properties[k]]))
+    } as Partial<this>;
   }
 
   /** Resolves this style's `eval()` properties against a feature's tags. */
@@ -88,17 +97,11 @@ export class Style {
   toString(): string {
     const properties = this as unknown as Record<string, StyleValue>;
     return this.properties
-      .filter((k) => Object.hasOwn(this, k))
+      .filter((k) => this.assigned.has(k))
       .map((k) => `${k}=${properties[k]}; `)
       .join("");
   }
 }
-
-prototypeDefaults(Style, {
-  properties: [],
-  styleType: "Style",
-  edited: false
-});
 
 /** Serialises a style declaration to an inline CSS `style` attribute value. */
 export function styleString(style: Partial<CSSStyleDeclaration>) {

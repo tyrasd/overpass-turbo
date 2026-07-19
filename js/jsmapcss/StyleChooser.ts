@@ -90,13 +90,12 @@ export class StyleChooser {
         (tags as InjectedTags)._width = sl.maxwidth;
 
         r.runEvals(tags);
-        // Spreading takes only own properties, so a style contributes just what
-        // its declaration set — its defaults stay behind on its prototype and
-        // cannot overwrite what an earlier declaration already established.
-        // The result must stay a plain object: consumers read a property as
-        // absent when it is `undefined`, which inheriting the defaults would
-        // defeat.
-        a[c.subpart] = {...a[c.subpart], ...r};
+        // Only the properties this declaration assigned are merged in, so it
+        // cannot overwrite what an earlier one established with defaults it was
+        // never asked for. The result stays a plain object: consumers read a
+        // property as absent when it is `undefined`, which inheriting the
+        // defaults would defeat.
+        a[c.subpart] = {...a[c.subpart], ...r.assignedProperties()};
       }
     }
   }

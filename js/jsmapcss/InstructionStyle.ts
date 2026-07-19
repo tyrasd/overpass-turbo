@@ -1,11 +1,12 @@
-import {Style, prototypeDefaults} from "./Style";
+import {Style} from "./Style";
 
 /** The `set tag=value` and `exit` instructions of a MapCSS declaration. */
 export class InstructionStyle extends Style {
+  override styleType = "InstructionStyle";
   /** Tags to add to the feature before evaluating the remaining rules. */
-  declare set_tags: Record<string, string | boolean> | null;
+  set_tags: Record<string, string | boolean> | null = null;
   /** Whether this declaration stops the feature being styled any further. */
-  declare breaker: boolean;
+  breaker = false;
 
   addSetTag(k: string, v: string | boolean): void {
     this.edited = true;
@@ -13,9 +14,3 @@ export class InstructionStyle extends Style {
     this.set_tags[k] = v;
   }
 }
-
-prototypeDefaults(InstructionStyle, {
-  styleType: "InstructionStyle",
-  set_tags: null,
-  breaker: false
-});
