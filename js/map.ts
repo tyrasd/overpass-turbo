@@ -110,7 +110,6 @@ $(document).ready(() => {
       $("#map_blank").remove();
     }
   };
-  overpass.init();
   // (very raw) compatibility check
   if (typeof fetch !== "function") {
     // the currently used browser is not capable of running the IDE. :(

@@ -6,7 +6,7 @@ import configs from "./configs";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
 import {HttpError, request} from "./httpRequest";
 import ide from "./ide";
-import styleparser from "./jsmapcss";
+import {RuleSet, TextStyle} from "./jsmapcss";
 import {htmlentities} from "./misc";
 import L_OSM4Leaflet from "./OSM4Leaflet";
 import {featurePopupContent} from "./popup";
@@ -88,30 +88,6 @@ class Overpass {
   private fire(name, ...handler_args) {
     if (typeof this.handlers[name] != "function") return undefined;
     return this.handlers[name].apply({}, handler_args);
-  }
-
-  init() {
-    // register mapcss extensions
-    /* own MapCSS-extension:
-     * added symbol-* properties
-     * TODO: implement symbol-shape = marker|square?|shield?|...
-     */
-    styleparser.PointStyle.prototype.properties.push(
-      "symbol_shape",
-      "symbol_size",
-      "symbol_stroke_width",
-      "symbol_stroke_color",
-      "symbol_stroke_opacity",
-      "symbol_fill_color",
-      "symbol_fill_opacity"
-    );
-    styleparser.PointStyle.prototype.symbol_shape = "";
-    styleparser.PointStyle.prototype.symbol_size = NaN;
-    styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
-    styleparser.PointStyle.prototype.symbol_stroke_color = null;
-    styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
-    styleparser.PointStyle.prototype.symbol_fill_color = null;
-    styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
   }
 
   // updates the map
@@ -385,7 +361,7 @@ class Overpass {
             overpass.rerender = function (userMapCSS) {
               // test user supplied mapcss stylesheet
               try {
-                const dummy_mapcss = new styleparser.RuleSet();
+                const dummy_mapcss = new RuleSet();
                 dummy_mapcss.parseCSS(userMapCSS);
                 try {
                   dummy_mapcss.getStyles(
@@ -407,7 +383,7 @@ class Overpass {
                 userMapCSS = "";
                 overpass.fire("onStyleError", `<p>${e.message}</p>`);
               }
-              const mapcss = new styleparser.RuleSet();
+              const mapcss = new RuleSet();
               mapcss.parseCSS(
                 `` +
                   `node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n` +
@@ -676,9 +652,7 @@ class Overpass {
                         L.Tooltip.prototype._initLayout.call(this);
                         this._container.setAttribute(
                           "style",
-                          styleparser.TextStyle.prototype.textStyleAsCSS.call(
-                            stl
-                          )
+                          TextStyle.prototype.textStyleAsCSS.call(stl)
                         );
                       };
                       layer.bindTooltip(tooltip);

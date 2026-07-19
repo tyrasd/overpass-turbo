@@ -943,9 +943,6 @@ class IDE {
       }
     });
 
-    // init overpass object
-    overpass.init();
-
     // event handlers for overpass object
     overpass.handlers["onProgress"] = function (msg, abortcallback) {
       ide.waiter.addInfo(msg, abortcallback);

@@ -1,9 +1,9 @@
 import {describe, expect, it} from "vite-plus/test";
 
-import styleparser from "../js/jsmapcss";
+import {type Entity, RuleSet, TextStyle} from "../js/jsmapcss";
 
 /** A minimal stand-in for the entity interface RuleChain.test() expects. */
-function entity(type: string, parents: unknown[] = []) {
+function entity(type: string, parents: Entity[] = []): Entity {
   return {
     isSubject: (subject: string) => subject === type,
     getParentObjects: () => parents
@@ -11,7 +11,7 @@ function entity(type: string, parents: unknown[] = []) {
 }
 
 function styles(css: string, type: string, tags: Record<string, string>) {
-  const ruleset = new styleparser.RuleSet();
+  const ruleset = new RuleSet();
   ruleset.parseCSS(css);
   return ruleset.getStyles(entity(type), tags, 18);
 }
@@ -56,6 +56,17 @@ describe("MapCSS styles", () => {
     ]);
   });
 
+  // The style must not inherit the defaults either: consumers treat a property
+  // as absent when reading it yields undefined, so an inherited `width: 0`
+  // would be applied as though the stylesheet had asked for it.
+  it("does not inherit the defaults of its style type", () => {
+    const sl = styles("way {color: #ff0000;}", "way", {});
+    expect(sl.shapeStyles.default.width).toBeUndefined();
+    expect(Object.getPrototypeOf(sl.shapeStyles.default)).toBe(
+      Object.prototype
+    );
+  });
+
   it("merges later rules into earlier ones without dropping their properties", () => {
     const sl = styles(
       "way {color: #ff0000; width: 3;} way[bridge=yes] {width: 7;}",
@@ -84,7 +95,7 @@ describe("MapCSS styles", () => {
   });
 
   it("honours zoom ranges", () => {
-    const ruleset = new styleparser.RuleSet();
+    const ruleset = new RuleSet();
     ruleset.parseCSS("way|z10-12 {color: #ff0000;}");
     expect(
       ruleset.getStyles(entity("way"), {}, 11).shapeStyles.default
@@ -95,7 +106,7 @@ describe("MapCSS styles", () => {
   });
 
   it("parses named and hex CSS colours", () => {
-    const ruleset = new styleparser.RuleSet();
+    const ruleset = new RuleSet();
     expect(ruleset.parseCSSColor("red")).toBe(0xff0000);
     expect(ruleset.parseCSSColor("#abc")).toBe(0xaabbcc);
     expect(ruleset.parseCSSColor("#a1b2c3")).toBe(0xa1b2c3);
@@ -103,14 +114,12 @@ describe("MapCSS styles", () => {
 
   it("renders a text style as inline CSS", () => {
     const sl = styles("node {text: name; text-color: #123456;}", "node", {});
-    const css = styleparser.TextStyle.prototype.textStyleAsCSS.call(
-      sl.textStyles.default
-    );
+    const css = TextStyle.prototype.textStyleAsCSS.call(sl.textStyles.default);
     expect(css).toContain("color: #123456");
   });
 
   it("rejects malformed MapCSS", () => {
-    const ruleset = new styleparser.RuleSet();
+    const ruleset = new RuleSet();
     expect(() => ruleset.parseCSS("way {color: #f00;} $$$")).toThrow();
   });
 });
