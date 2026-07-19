@@ -15,8 +15,8 @@
       property="og:description"
       content="A web based data mining tool for OpenStreetMap which runs any kind of Overpass API query and shows the results on an interactive map."
     />
-    <script type="module" crossorigin src="./assets/index-DsnpcKTa.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/ide-FNc046i7.js">
+    <script type="module" crossorigin src="./assets/index-ehPv2mXw.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/ide-CnDF94Pp.js">
     <link rel="stylesheet" crossorigin href="./assets/ide-vh-t_kPv.css">
     <link rel="stylesheet" crossorigin href="./assets/index-B_uTLofw.css">
   </head>
@@ -579,235 +579,291 @@
         <section class="modal-card-body">
           <div class="box">
             <h3 class="subtitle t" data-t="settings.section.general"></h3>
-            <div class="field">
-              <label class="label" for="ui_language">
-                <span class="t" data-t="settings.ui_lang"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="ui_language"
-                  value=""
-                  id="ui_language"
-                />
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="ui_language">
+                  <span class="t" data-t="settings.ui_lang"></span>
+                </label>
               </div>
-            </div>
-            <div class="field">
-              <label class="label t" for="theme" data-t="settings.theme">
-                Theme
-              </label>
-              <div class="control">
-                <div class="select">
-                  <select name="theme" id="theme">
-                    <option class="t" value="auto" data-t="settings.theme.auto">
-                      automatic
-                    </option>
-                    <option
-                      class="t"
-                      value="light"
-                      data-t="settings.theme.light"
-                    >
-                      light
-                    </option>
-                    <option class="t" value="dark" data-t="settings.theme.dark">
-                      dark
-                    </option>
-                  </select>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <!-- options are filled in by onSettingsClick -->
+                      <select name="ui_language" id="ui_language"></select>
+                    </div>
+                  </div>
                 </div>
-                <p class="help t" data-t="settings.theme_expl"></p>
               </div>
             </div>
-            <div class="field">
-              <label class="label" for="server">
-                <span class="t" data-t="settings.server"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="server"
-                  value=""
-                  id="server"
-                />
-                <p class="help" id="server-info"></p>
-              </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="no_autorepair" />
-                  <span class="t" data-t="settings.disable_autorepair"></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label t" for="theme" data-t="settings.theme">
+                  Theme
                 </label>
               </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select name="theme" id="theme">
+                        <option
+                          class="t"
+                          value="auto"
+                          data-t="settings.theme.auto"
+                        >
+                          auto
+                        </option>
+                        <option
+                          class="t"
+                          value="light"
+                          data-t="settings.theme.light"
+                        >
+                          light
+                        </option>
+                        <option
+                          class="t"
+                          value="dark"
+                          data-t="settings.theme.dark"
+                        >
+                          dark
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="disable_warning_huge_data" />
-                  <span
-                    class="t"
-                    data-t="settings.disable_warning_huge_data"
-                  ></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="server">
+                  <span class="t" data-t="settings.server"></span>
                 </label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      name="server"
+                      value=""
+                      id="server"
+                    />
+                  </div>
+                  <p class="help" id="server-info"></p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.autorepair"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="no_autorepair" />
+                      <span
+                        class="t"
+                        data-t="settings.disable_autorepair"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.warnings"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="disable_warning_huge_data" />
+                      <span
+                        class="t"
+                        data-t="settings.disable_warning_huge_data"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="box">
             <h3 class="subtitle t" data-t="settings.section.editor"></h3>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="use_rich_editor" />
-                  <span class="t" data-t="settings.enable_rich_editor"></span>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.rich_editor"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="use_rich_editor" />
+                      <span
+                        class="t"
+                        data-t="settings.enable_rich_editor"
+                      ></span>
+                    </label>
+                  </div>
+                  <p
+                    class="help t"
+                    data-t="settings.enable_rich_editor_expl"
+                  ></p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="editor_width">
+                  <span class="t" data-t="settings.editor_width"></span>
                 </label>
               </div>
-              <p class="help t" data-t="settings.enable_rich_editor_expl"></p>
-            </div>
-            <div class="field">
-              <label class="label" for="editor_width">
-                <span class="t" data-t="settings.editor_width"></span>
-              </label>
-              <div class="control">
-                <input
-                  type="text"
-                  class="input"
-                  name="editor_width"
-                  value=""
-                  id="editor_width"
-                />
-              </div>
-              <p class="help t" data-t="settings.editor_width_expl"></p>
-            </div>
-          </div>
-          <div class="box">
-            <h3 class="subtitle t" data-t="settings.section.map"></h3>
-            <div class="field">
-              <label class="label" for="tile_server">
-                <span class="t" data-t="settings.tile_server"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="tile_server"
-                  value=""
-                  id="tile_server"
-                />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label" for="background_opacity">
-                <span class="t" data-t="settings.tile_opacity"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="number"
-                  name="background_opacity"
-                  value=""
-                  id="background_opacity"
-                  min="0.0"
-                  max="1.0"
-                  step="0.1"
-                />
-              </div>
-              <p class="help t" data-t="settings.tile_opacity_expl"></p>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="enable_crosshairs" />
-                  <span class="t" data-t="settings.show_crosshairs"></span>
-                </label>
-              </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="disable_poiomatic" />
-                  <span class="t" data-t="settings.disable_poiomatic"></span>
-                </label>
-              </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="show_data_stats" />
-                  <span class="t" data-t="settings.show_data_stats"></span>
-                </label>
-              </div>
-            </div>
-            <div class="field">
-              <label
-                class="label t"
-                for="editor_preference"
-                data-t="settings.editor_preference"
-                >Editor</label
-              >
-              <div class="control">
-                <div class="select">
-                  <select name="editor_preference" id="editor_preference">
-                    <option
-                      class="t"
-                      value="osmdotorg"
-                      data-t="settings.editor_preference.osmdotorg"
-                    >
-                      osm.org
-                    </option>
-                    <option
-                      class="t"
-                      value="josm"
-                      data-t="settings.editor_preference.josm"
-                    >
-                      JOSM (local)
-                    </option>
-                  </select>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      type="text"
+                      class="input"
+                      name="editor_width"
+                      value=""
+                      id="editor_width"
+                    />
+                  </div>
+                  <p class="help t" data-t="settings.editor_width_expl"></p>
                 </div>
               </div>
             </div>
           </div>
           <div class="box">
-            <h3 class="subtitle t" data-t="settings.section.sharing"></h3>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="share_include_pos" />
-                  <span class="t" data-t="settings.include_map_state"></span>
+            <h3 class="subtitle t" data-t="settings.section.map"></h3>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="tile_server">
+                  <span class="t" data-t="settings.tile_server"></span>
                 </label>
               </div>
-            </div>
-            <div class="field">
-              <label class="label" for="share_compression">
-                <span class="t" data-t="settings.compression"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="share_compression"
-                  id="share_compression"
-                  value=""
-                />
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      name="tile_server"
+                      value=""
+                      id="tile_server"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="box">
-            <h3 class="subtitle t" data-t="settings.section.export"></h3>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="export_image_scale" />
-                  <span class="t" data-t="settings.export_image_scale"></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="background_opacity">
+                  <span class="t" data-t="settings.tile_opacity"></span>
                 </label>
               </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="number"
+                      name="background_opacity"
+                      value=""
+                      id="background_opacity"
+                      min="0.0"
+                      max="1.0"
+                      step="0.1"
+                    />
+                  </div>
+                  <p class="help t" data-t="settings.tile_opacity_expl"></p>
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="export_image_attribution" />
-                  <span class="t" data-t="settings.export_image_attr"></span>
-                </label>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.crosshairs"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="enable_crosshairs" />
+                      <span class="t" data-t="settings.show_crosshairs"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.pois"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="disable_poiomatic" />
+                      <span
+                        class="t"
+                        data-t="settings.disable_poiomatic"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.data_stats"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="show_data_stats" />
+                      <span class="t" data-t="settings.show_data_stats"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label
+                  class="label t"
+                  for="editor_preference"
+                  data-t="settings.editor_preference"
+                  >Editor</label
+                >
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select name="editor_preference" id="editor_preference">
+                        <option
+                          class="t"
+                          value="osmdotorg"
+                          data-t="settings.editor_preference.osmdotorg"
+                        >
+                          osm.org
+                        </option>
+                        <option
+                          class="t"
+                          value="josm"
+                          data-t="settings.editor_preference.josm"
+                        >
+                          JOSM (local)
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1020,8 +1076,24 @@
           </div>
           <div class="panel">
             <p class="t panel-heading" data-t="export.section.map"></p>
-            <div class="panel-block">
+            <div class="panel-block is-block">
               <p class="t" data-t="[html]export.as_png"></p>
+              <label class="checkbox is-block">
+                <input
+                  type="checkbox"
+                  name="export_image_scale"
+                  data-ide-handler="change:onExportImageOptionsChange"
+                />
+                <span class="t" data-t="settings.export_image_scale"></span>
+              </label>
+              <label class="checkbox is-block">
+                <input
+                  type="checkbox"
+                  name="export_image_attribution"
+                  data-ide-handler="change:onExportImageOptionsChange"
+                />
+                <span class="t" data-t="settings.export_image_attr"></span>
+              </label>
             </div>
             <div class="panel-block">
               <p class="t" data-t="[html]export.as_interactive_map"></p>
@@ -1195,7 +1267,7 @@
                   <input
                     type="checkbox"
                     name="include_coords"
-                    data-ide-handler="change:updateShareLink"
+                    data-ide-handler="change:onShareOptionsChange"
                   />
                   <span class="t" data-t="share.incl_map_state"></span>
                 </label>
@@ -1211,6 +1283,26 @@
                   />
                   <span class="t" data-t="share.run_immediately"></span>
                 </label>
+              </div>
+            </div>
+            <div class="field">
+              <label
+                class="label t"
+                for="share_compression"
+                data-t="settings.compression"
+              ></label>
+              <div class="control">
+                <div class="select">
+                  <select
+                    name="share_compression"
+                    id="share_compression"
+                    data-ide-handler="change:onShareOptionsChange"
+                  >
+                    <option value="auto">auto</option>
+                    <option value="on">on</option>
+                    <option value="off">off</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
