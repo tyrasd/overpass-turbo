@@ -71,6 +71,6 @@ export class RuleChain {
 
     return entity
       .getParentObjects()
-      .some((parent) => this.test(pos - 1, parent, parent.tags, zoom));
+      .some((parent) => this.test(pos - 1, parent, parent.tags ?? {}, zoom));
   }
 }
