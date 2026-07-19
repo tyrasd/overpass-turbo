@@ -1357,7 +1357,7 @@ class IDE {
     // - preparations -
     const q = this.getRawQuery(), // get original query
       lng = this.getQueryLang();
-    const autorepair = Autorepair(q, lng);
+    const autorepair = new Autorepair(q, lng);
     // - repairs -
     if (repair == "no visible data") {
       // repair missing recurse statements
@@ -2246,7 +2246,7 @@ class IDE {
 
     // OSM editors
     // first check for possible mistakes in query.
-    const validEditorQuery = Autorepair.detect.editors(
+    const validEditorQuery = Autorepair.isEditorCompatible(
       this.getRawQuery(),
       this.getQueryLang()
     );
@@ -2331,7 +2331,7 @@ class IDE {
           }
         }
         // first check for possible mistakes in query.
-        const valid = Autorepair.detect.editors(
+        const valid = Autorepair.isEditorCompatible(
           this.getRawQuery(),
           this.getQueryLang()
         );

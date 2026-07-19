@@ -15,7 +15,7 @@ export const Base64 = {
   _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
   // public method for encoding
-  encode(input, not_base64url) {
+  encode(input: string, not_base64url?: boolean) {
     let output = "";
     //input = Base64._utf8_encode(input);
     input = unescape(encodeURIComponent(input));
