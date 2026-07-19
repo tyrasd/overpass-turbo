@@ -21,6 +21,10 @@ These changes are live on the development instance at <https://tyrasd.github.io/
 - Remove duplicate overpass-api.de entry from the suggested servers
 - Remove overpass.openstreetmap.ru instance ([#816](https://github.com/tyrasd/overpass-turbo/issues/816))
 - Update link for overpass.private.coffee instance
+- Lay the settings dialog out as a horizontal form, with every label in a left-hand column and short names for the checkboxes ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
+- Move the image scale and attribution options into the export dialog, and the map-state and compression options into the share dialog, next to the links they affect ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
+- Remember whether a share link includes the map state, instead of resetting the choice each time ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
+- Pick the UI language from a select instead of a free-text combobox, so typos can no longer fall back to the default unnoticed ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
 - Try to render results even if parsing fails for some reason
 - Fix freeze for certain URLs in tags ([#747](https://github.com/tyrasd/overpass-turbo/issues/747))
 - Fix selection of combobox in autostyler dialog

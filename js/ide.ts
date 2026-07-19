@@ -1690,8 +1690,21 @@ class IDE {
     $<HTMLInputElement>(
       "div#share-dialog input[name=include_coords]"
     )[0].checked = settings.share_include_pos;
+    $<HTMLSelectElement>(
+      "div#share-dialog select[name=share_compression]"
+    )[0].value = settings.share_compression;
     this.updateShareLink();
     $("#share-dialog").addClass("is-active");
+  }
+  onShareOptionsChange() {
+    settings.share_include_pos = $<HTMLInputElement>(
+      "div#share-dialog input[name=include_coords]"
+    )[0].checked;
+    settings.share_compression = $<HTMLSelectElement>(
+      "div#share-dialog select[name=share_compression]"
+    )[0].value;
+    settings.save();
+    this.updateShareLink();
   }
   onShareClose() {
     $("#share-dialog").removeClass("is-active");
@@ -2370,8 +2383,24 @@ class IDE {
           return false;
         }
       });
+    // image export options
+    $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_scale]"
+    )[0].checked = settings.export_image_scale;
+    $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_attribution]"
+    )[0].checked = settings.export_image_attribution;
     // open the export dialog
     $("#export-dialog").addClass("is-active");
+  }
+  onExportImageOptionsChange() {
+    settings.export_image_scale = $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_scale]"
+    )[0].checked;
+    settings.export_image_attribution = $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_attribution]"
+    )[0].checked;
+    settings.save();
   }
   onExportDownloadClose() {
     $("#export-download-dialog").removeClass("is-active");
@@ -2620,16 +2649,24 @@ class IDE {
     $("#styler-dialog").removeClass("is-active");
   }
   onSettingsClick() {
-    $<HTMLInputElement>("#settings-dialog input[name=ui_language]")[0].value =
-      settings.ui_language;
     const lngDescs = i18n.getSupportedLanguagesDescriptions();
-    make_combobox(
-      $("#settings-dialog input[name=ui_language]"),
-      ["auto"].concat(i18n.getSupportedLanguages()).map((lng) => ({
-        value: lng,
-        label: lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`
-      }))
+    const ui_language = $<HTMLSelectElement>(
+      "#settings-dialog select[name=ui_language]"
+    )[0];
+    ui_language.replaceChildren(
+      ...["auto"].concat(i18n.getSupportedLanguages()).map((lng) => {
+        const option = document.createElement("option");
+        option.value = lng;
+        option.text = lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`;
+        return option;
+      })
     );
+    ui_language.value = settings.ui_language;
+    if (!ui_language.value) {
+      // the stored language is not among the supported ones (any more), which
+      // would leave the select without a selection and save an empty value
+      ui_language.value = "auto";
+    }
     $<HTMLSelectElement>("#settings-dialog select[name=theme]")[0].value =
       settings.theme;
     $<HTMLInputElement>("#settings-dialog input[name=server]")[0].value =
@@ -2700,18 +2737,6 @@ class IDE {
     )[0].checked = settings.use_rich_editor;
     $<HTMLInputElement>("#settings-dialog input[name=editor_width]")[0].value =
       settings.editor_width;
-    // sharing options
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=share_include_pos]"
-    )[0].checked = settings.share_include_pos;
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=share_compression]"
-    )[0].value = settings.share_compression;
-    make_combobox($("#settings-dialog input[name=share_compression]"), [
-      "auto",
-      "on",
-      "off"
-    ]);
     // map settings
     $<HTMLInputElement>("#settings-dialog input[name=tile_server]")[0].value =
       settings.tile_server;
@@ -2742,20 +2767,13 @@ class IDE {
     $<HTMLSelectElement>(
       "#settings-dialog select[name=editor_preference]"
     )[0].value = settings.editor_preference;
-    // export settings
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_scale]"
-    )[0].checked = settings.export_image_scale;
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_attribution]"
-    )[0].checked = settings.export_image_attribution;
     // open dialog
     $("#settings-dialog").addClass("is-active");
   }
   onSettingsSave() {
     // save settings
-    const new_ui_language = $<HTMLInputElement>(
-      "#settings-dialog input[name=ui_language]"
+    const new_ui_language = $<HTMLSelectElement>(
+      "#settings-dialog select[name=ui_language]"
     )[0].value;
     // reload ui if language has been changed
     if (settings.ui_language != new_ui_language) {
@@ -2794,12 +2812,6 @@ class IDE {
       $("#editor").css("width", settings.editor_width);
       $("#dataviewer").css("left", settings.editor_width);
     }
-    settings.share_include_pos = $<HTMLInputElement>(
-      "#settings-dialog input[name=share_include_pos]"
-    )[0].checked;
-    settings.share_compression = $<HTMLInputElement>(
-      "#settings-dialog input[name=share_compression]"
-    )[0].value;
     const prev_tile_server = settings.tile_server;
     settings.tile_server = $<HTMLInputElement>(
       "#settings-dialog input[name=tile_server]"
@@ -2838,12 +2850,6 @@ class IDE {
       "#settings-dialog select[name=editor_preference]"
     )[0].value;
     $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
-    settings.export_image_scale = $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_scale]"
-    )[0].checked;
-    settings.export_image_attribution = $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_attribution]"
-    )[0].checked;
     settings.save();
     $("#settings-dialog").removeClass("is-active");
   }
