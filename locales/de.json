@@ -258,8 +258,6 @@
     "error.ajax.expl": "Während des Ausführens der Overpass Query ist ein Fehler aufgetreten!",
     "error.mapcss.title": "MapCSS-Fehler",
     "error.mapcss.expl": "Ungültige MapCSS-Stilvorlage:",
-    "error.josm.title": "JOSM-Fehler",
-    "error.josm.expl": "Kann in JOSM nicht geöffnet werden. Läuft JOSM mit aktivierter Fernsteuerung?",
     "error.remote.title": "Remote-Control-Fehler",
     "error.remote.incompat": "Fehler: unkompatible JOSM-\"remote-control\"-Version",
     "error.remote.not_found": "\"remote control\" nicht gefunden. :( Wurde JOSM bereits gestartet?",

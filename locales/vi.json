@@ -258,8 +258,6 @@
     "error.ajax.expl": "Đã xuất hiện lỗi khi thi hành truy vấn Overpass!",
     "error.mapcss.title": "Lỗi MapCSS",
     "error.mapcss.expl": "Bảng kiểu MapCSS không hợp lệ:",
-    "error.josm.title": "Lỗi JOSM",
-    "error.josm.expl": "Không thể mở trong JOSM. Có phải JOSM đang chạy và kích hoạt bộ điều khiển từ xa không?",
     "error.remote.title": "Lỗi Điều khiển Từ xa",
     "error.remote.incompat": "Lỗi: Phiên bản điều khiển từ xa JOSM không tương thích",
     "error.remote.not_found": "Không tìm thấy trình điều khiển từ xa. :( Hãy chắc chắn rằng JOSM đã được khởi động và được thiết lập chính xác.",
