@@ -33,9 +33,6 @@ process.env.VITE_APP_DEPENDENCIES = Object.keys(dependencies)
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
   base: "./",
-  optimizeDeps: {
-    exclude: ["leaflet"]
-  },
   build: {
     sourcemap: true,
     rollupOptions: {
