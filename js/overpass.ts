@@ -3,7 +3,7 @@ import $ from "jquery";
 import * as L from "leaflet";
 
 import configs from "./configs";
-import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
+import L_GeoJsonNoVanish, {type RenderMode} from "./GeoJsonNoVanish";
 import {HttpError, request} from "./httpRequest";
 import ide from "./ide";
 import {RuleSet, TextStyle} from "./jsmapcss";
@@ -14,6 +14,23 @@ import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint
 import settings from "./settings";
 
 export type QueryLang = "xml" | "OverpassQL" | "SQL";
+
+/** Leaflet's path options, plus overpass turbo's own MapCSS `render` property. */
+interface FeatureStyle extends L.PathOptions {
+  render?: RenderMode;
+}
+
+declare module "leaflet" {
+  interface Popup {
+    /** the layer this popup was opened for */
+    layer?: Layer;
+  }
+  interface Tooltip {
+    /** internal; overridden below to apply a MapCSS text style to the tooltip */
+    _initLayout(): void;
+    _container: HTMLElement;
+  }
+}
 
 /** an Overpass API (or SQL server) response, parsed according to its content type */
 interface QueryResponse {
@@ -245,7 +262,7 @@ class Overpass {
                 for (const errline of errlines) {
                   overpass.fire(
                     "onQueryErrorLine",
-                    1 * errline.match(/\d+/)[0]
+                    Number(errline.match(/\d+/)[0])
                   );
                 }
               }
@@ -373,7 +390,7 @@ class Overpass {
                         return [];
                       }
                     },
-                    [],
+                    {},
                     18
                   );
                 } catch {
@@ -503,7 +520,6 @@ class Overpass {
                   overpass.fire("onProgress", "rendering geoJSON");
                 },
                 baseLayerClass: L_GeoJsonNoVanish,
-                query_lang: query_lang,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
                   compress(feature) {
@@ -513,7 +529,7 @@ class Overpass {
                     else return render;
                   },
                   style(feature, highlight) {
-                    const stl: L.PathOptions = {};
+                    const stl: FeatureStyle = {};
                     const s = get_feature_style(feature, highlight);
                     // apply mapcss styles
                     function get_property(styles, properties) {
@@ -643,7 +659,7 @@ class Overpass {
                       (text && (text = feature.properties.tags[text]))
                     ) {
                       const tooltip = new L.Tooltip({
-                        direction: stl["text_position"],
+                        direction: stl.text_position as L.Direction,
                         className: "text-tooltip",
                         permanent: true
                       });

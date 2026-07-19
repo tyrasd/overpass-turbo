@@ -1,7 +1,11 @@
 import * as L from "leaflet";
 
-/** How a feature should be rendered, as decided by the MapCSS `render` property. */
-type Compress = "auto" | "native" | "point" | undefined;
+/**
+ * How a feature should be drawn, as decided by the MapCSS `render` property:
+ * `auto` lets it be replaced by a point when small, `native` always keeps its
+ * own geometry, and `point` always draws it as a point.
+ */
+export type RenderMode = "auto" | "native" | "point";
 
 /** A GeoJSON feature, plus the marker set on the stand-ins created below. */
 type PlaceholderFeature = GeoJSON.Feature & {is_placeholder?: boolean};
@@ -25,7 +29,7 @@ interface FeatureLayer extends L.Layer {
 interface Options extends L.GeoJSONOptions {
   /** Features smaller than this many pixels across are drawn as a point. */
   threshold?: number;
-  compress?: (feature: PlaceholderFeature) => Compress;
+  compress?: (feature: PlaceholderFeature) => RenderMode | undefined;
 }
 
 /**

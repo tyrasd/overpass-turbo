@@ -7,15 +7,6 @@ import type {Style, Tags} from "./Style";
 import type {StyleList, SubpartStyles} from "./StyleList";
 
 /**
- * Tags as seen while a stylesheet is being applied.
- *
- * Styling injects values that are not strings — the running `_width`, and the
- * booleans recorded by `set foo` — which conditions and `eval()` expressions
- * then coerce as needed.
- */
-type InjectedTags = Record<string, string | number | boolean>;
-
-/**
  * A combination of selectors and a declaration. For example,
  * `way[highway=footway] node[barrier=gate] { icon: gate.png; }` is one
  * StyleChooser.
@@ -78,7 +69,7 @@ export class StyleChooser {
             // `set foo` records a boolean rather than a string, which
             // conditions then compare against loosely.
             for (const k in instruction.set_tags) {
-              (tags as InjectedTags)[k] = instruction.set_tags[k];
+              tags[k] = instruction.set_tags[k];
             }
             a = {}; // "dev/null" stylechooser reciever
             break;
@@ -87,7 +78,7 @@ export class StyleChooser {
         if (r.drawn()) {
           tags[":drawn"] = "yes";
         }
-        (tags as InjectedTags)._width = sl.maxwidth;
+        tags._width = sl.maxwidth;
 
         r.runEvals(tags);
         // Only the properties this declaration assigned are merged in, so it

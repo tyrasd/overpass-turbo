@@ -36,7 +36,7 @@ export class Condition {
       case "ne":
         return value != p[1];
       case "regex":
-        return value !== undefined && new RegExp(p[1], "i").test(value);
+        return value !== undefined && new RegExp(p[1], "i").test(String(value));
       case "true":
         return value == "true" || value == "yes" || value == "1";
       case "false":

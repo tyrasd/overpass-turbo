@@ -2,8 +2,15 @@
 
 import evalparser from "./eval.pegjs";
 
-/** The tags of the OSM feature a style is being evaluated against. */
-export type Tags = Record<string, string>;
+/**
+ * The tags of the OSM feature a style is being evaluated against.
+ *
+ * OSM's own tags are strings, but the values are not all strings: overpass
+ * turbo adds pseudo-tags such as `:tagged` and `:placeholder` as booleans, and
+ * styling injects the running `_width` as a number. Conditions compare
+ * loosely, so these work wherever a string would.
+ */
+export type Tags = Record<string, string | number | boolean>;
 
 /** A value a MapCSS declaration can assign to a style property. */
 export type StyleValue = string | number | boolean | number[];
