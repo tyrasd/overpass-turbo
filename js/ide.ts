@@ -2649,16 +2649,19 @@ class IDE {
     $("#styler-dialog").removeClass("is-active");
   }
   onSettingsClick() {
-    $<HTMLInputElement>("#settings-dialog input[name=ui_language]")[0].value =
-      settings.ui_language;
     const lngDescs = i18n.getSupportedLanguagesDescriptions();
-    make_combobox(
-      $("#settings-dialog input[name=ui_language]"),
-      ["auto"].concat(i18n.getSupportedLanguages()).map((lng) => ({
-        value: lng,
-        label: lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`
-      }))
+    const ui_language = $<HTMLSelectElement>(
+      "#settings-dialog select[name=ui_language]"
+    )[0];
+    ui_language.replaceChildren(
+      ...["auto"].concat(i18n.getSupportedLanguages()).map((lng) => {
+        const option = document.createElement("option");
+        option.value = lng;
+        option.text = lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`;
+        return option;
+      })
     );
+    ui_language.value = settings.ui_language;
     $<HTMLSelectElement>("#settings-dialog select[name=theme]")[0].value =
       settings.theme;
     $<HTMLInputElement>("#settings-dialog input[name=server]")[0].value =
@@ -2764,8 +2767,8 @@ class IDE {
   }
   onSettingsSave() {
     // save settings
-    const new_ui_language = $<HTMLInputElement>(
-      "#settings-dialog input[name=ui_language]"
+    const new_ui_language = $<HTMLSelectElement>(
+      "#settings-dialog select[name=ui_language]"
     )[0].value;
     // reload ui if language has been changed
     if (settings.ui_language != new_ui_language) {
