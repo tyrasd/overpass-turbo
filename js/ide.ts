@@ -52,6 +52,11 @@ declare module "leaflet" {
 }
 
 declare global {
+  interface Window {
+    // leaflet.locationfilter registers itself on the global `L` object
+    L: typeof L;
+  }
+
   // the jQuery UI widgets used by the IDE ("jquery-ui" ships no type definitions)
   interface JQuery<TElement = HTMLElement> {
     autocomplete(method: string, ...args: unknown[]): any;
@@ -865,7 +870,9 @@ class IDE {
       .appendTo("#map");
     if (settings.enable_crosshairs) $(".crosshairs").show();
 
-    ide.map.bboxfilter = new L.LocationFilter({
+    // leaflet.locationfilter augments the global `L` object, which the bundler
+    // does not reflect back into leaflet's ES module namespace
+    ide.map.bboxfilter = new window.L.LocationFilter({
       enable: !true,
       adjustButton: false,
       enableButton: false
