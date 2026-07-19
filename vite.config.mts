@@ -63,7 +63,7 @@ export default defineConfig(() => ({
   fmt: {
     bracketSpacing: false,
     experimentalSortImports: {},
-    trailingComma: "none",
+    trailingComma: "none" as const,
     printWidth: 80,
     ignorePatterns: ["build/", "data/", "dist/", "locales/"]
   },

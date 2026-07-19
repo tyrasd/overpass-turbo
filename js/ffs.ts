@@ -97,7 +97,9 @@ function dateValue(val: string): string {
 
 export async function ffs_construct_query(
   search: string,
-  comment: string | false | undefined
+  /** the comment to head the query with, `true` for the default one, or
+   * `false` to generate no comments at all */
+  comment: string | boolean | undefined
 ): Promise<string> {
   function quote_comment_str(s: string): string {
     // quote strings that are to be used within c-style comments

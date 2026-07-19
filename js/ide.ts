@@ -1809,7 +1809,8 @@ class IDE {
     query_umap = query_umap.replace(/\n\s*/g, "");
     // replace bbox with south west north east
     query_umap = query_umap.replace(
-      new RegExp(shortcuts().bbox, "g"),
+      // the bbox shortcut is expanded to a string, unlike the async ones
+      new RegExp(shortcuts().bbox as string, "g"),
       "{south},{west},{north},{east}"
     );
     $("#export-text_umap .format").html(i18n.t("export.format_text_umap"));

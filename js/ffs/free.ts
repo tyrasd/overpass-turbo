@@ -73,7 +73,7 @@ export default async function ffs_free() {
   }
   // load preset translations
   async function loadPresetTranslations() {
-    let language = i18n.getLanguage();
+    let language: string = i18n.getLanguage();
     if (!language) return;
     try {
       let {default: data} = await import(
