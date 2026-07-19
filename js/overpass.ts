@@ -1,6 +1,6 @@
 // global overpass object
 import $ from "jquery";
-import "leaflet";
+import * as L from "leaflet";
 
 import configs from "./configs";
 import L_GeoJsonNoVanish from "./GeoJsonNoVanish";

@@ -3,8 +3,8 @@ import CodeMirror from "codemirror";
 import {default as colorbrewer} from "colorbrewer";
 import colormap from "colormap";
 import html2canvas from "html2canvas";
-import "leaflet";
 import $ from "jquery";
+import * as L from "leaflet";
 // global ide object
 import debounce from "lodash/debounce";
 import togpx from "togpx";

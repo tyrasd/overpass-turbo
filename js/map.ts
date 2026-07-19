@@ -1,6 +1,6 @@
 // escape strings to show them directly in the html.
 import $ from "jquery";
-import "leaflet";
+import * as L from "leaflet";
 
 // include the CSS files
 import "leaflet/dist/leaflet.css";

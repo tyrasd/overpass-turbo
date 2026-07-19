@@ -1,4 +1,4 @@
-import "leaflet";
+import * as L from "leaflet";
 import osmtogeojson from "osmtogeojson";
 
 type Options = {
