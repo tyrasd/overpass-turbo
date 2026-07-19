@@ -2662,6 +2662,11 @@ class IDE {
       })
     );
     ui_language.value = settings.ui_language;
+    if (!ui_language.value) {
+      // the stored language is not among the supported ones (any more), which
+      // would leave the select without a selection and save an empty value
+      ui_language.value = "auto";
+    }
     $<HTMLSelectElement>("#settings-dialog select[name=theme]")[0].value =
       settings.theme;
     $<HTMLInputElement>("#settings-dialog input[name=server]")[0].value =
