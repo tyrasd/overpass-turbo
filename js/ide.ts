@@ -334,10 +334,10 @@ class IDE {
   init() {
     this.waiter.addInfo("ide starting up");
     $("#overpass-turbo-version").html(
-      `overpass-turbo <code>${GIT_VERSION}</code>` // eslint-disable-line no-undef
+      `overpass-turbo <code>${import.meta.env.VITE_GIT_VERSION}</code>`
     );
     $("#overpass-turbo-dependencies").html(
-      APP_DEPENDENCIES // eslint-disable-line no-undef
+      import.meta.env.VITE_APP_DEPENDENCIES
     );
     // (very raw) compatibility check <- TODO: put this into its own function
     if (
