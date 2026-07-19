@@ -1,6 +1,7 @@
 import $ from "jquery";
 import tag2link from "tag2link/index.json";
 
+import {showDialog} from "./dialog";
 import i18n from "./i18n";
 import {loadObject} from "./josmRemoteControl";
 import {htmlentities} from "./misc";
@@ -16,22 +17,11 @@ $(document).on("click", "a.josm-edit", function (e) {
   const objects = $(this).attr("data-objects");
   loadObject(objects).catch((error) => {
     console.error("JOSM remote control load_object failed", error);
-    const content = `<div class="notification is-danger is-light">${i18n.t("error.josm.expl")}</div>`;
-    const dialog = $(`<div class="modal is-active">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">${i18n.t("error.josm.title")}</p>
-            <button class="delete" aria-label="close"></button>
-          </header>
-          <section class="modal-card-body">${content}</section>
-          <footer class="modal-card-foot"></footer>
-        </div>
-      </div>`);
-    dialog
-      .find(".delete, .modal-background")
-      .on("click", () => dialog.remove());
-    $("body").append(dialog);
+    showDialog(
+      i18n.t("error.remote.title"),
+      `<p>${i18n.t("error.remote.not_found")}</p>`,
+      [{name: i18n.t("dialog.dismiss")}]
+    );
   });
 });
 

@@ -13,6 +13,7 @@ import tokml from "tokml";
 import Autorepair from "./autorepair";
 //import { schemegroups as colorbrewer } from "colorbrewer";
 import configs from "./configs";
+import {type DialogButton, showDialog} from "./dialog";
 import {
   ffs_construct_query,
   ffs_invalidateCache,
@@ -68,12 +69,6 @@ type CopyData = Record<string, string>;
 
 /** an item of the autocomplete source lists used by {@link make_combobox} */
 type ComboboxItem = string | {value: string; label: string};
-
-/** a button of the modal dialogs created by {@link showDialog} */
-interface DialogButton {
-  name: string;
-  callback?: () => void;
-}
 
 /** the `{{data:…}}` statement of a query, e.g. `{{data:overpass,server=…}}` */
 interface DataSource {
@@ -191,55 +186,6 @@ function make_combobox(
     });
   inputElement.is_combobox = true;
 } // make_combobox()
-
-function showDialog(
-  title: string,
-  content: string,
-  buttons: DialogButton[]
-): void {
-  const dialogContent = `\
-      <div class="modal is-active">\
-        <div class="modal-background"></div>\
-        <div class="modal-card">\
-          <header class="modal-card-head">\
-            <p class="modal-card-title">${title}</p>\
-            <button class="delete" aria-label="close"></button>\
-          </header>\
-          <section class="modal-card-body">\
-            ${content}\
-          </section>\
-          <footer class="modal-card-foot">\
-            <div class="level">\
-              <div class="level-right">\
-                <div class="level-item">\
-                </div>\
-              </div>\
-            </div>\
-          </footer>\
-        </div>\
-      </div>\
-    `;
-
-  // Create modal in body
-  const element = $(dialogContent);
-  // Handle close event
-  $(".delete", element).click(() => $(element).remove());
-
-  // Add all the buttons
-  for (const index in buttons) {
-    const button = buttons[index];
-    $(`<button class="button">${button.name}</button>`)
-      .click(() => {
-        button.callback?.();
-        // destroy modal dialog after callback, see #528
-        $(element).remove();
-      })
-      .appendTo($("footer .level-item", element));
-  }
-
-  // Add the element to the body
-  element.appendTo("body");
-}
 
 class IDE {
   // == private members ==
