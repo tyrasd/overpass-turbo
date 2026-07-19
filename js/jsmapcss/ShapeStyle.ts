@@ -49,10 +49,7 @@ export class ShapeStyle extends Style {
 
   override drawn(): boolean {
     return Boolean(
-      this.fill_image ||
-      !isNaN(Number(this.fill_color)) ||
-      this.width ||
-      this.casing_width
+      this.fill_image || this.fill_color || this.width || this.casing_width
     );
   }
 
