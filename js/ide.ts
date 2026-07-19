@@ -1690,8 +1690,21 @@ class IDE {
     $<HTMLInputElement>(
       "div#share-dialog input[name=include_coords]"
     )[0].checked = settings.share_include_pos;
+    $<HTMLSelectElement>(
+      "div#share-dialog select[name=share_compression]"
+    )[0].value = settings.share_compression;
     this.updateShareLink();
     $("#share-dialog").addClass("is-active");
+  }
+  onShareOptionsChange() {
+    settings.share_include_pos = $<HTMLInputElement>(
+      "div#share-dialog input[name=include_coords]"
+    )[0].checked;
+    settings.share_compression = $<HTMLSelectElement>(
+      "div#share-dialog select[name=share_compression]"
+    )[0].value;
+    settings.save();
+    this.updateShareLink();
   }
   onShareClose() {
     $("#share-dialog").removeClass("is-active");
@@ -2716,18 +2729,6 @@ class IDE {
     )[0].checked = settings.use_rich_editor;
     $<HTMLInputElement>("#settings-dialog input[name=editor_width]")[0].value =
       settings.editor_width;
-    // sharing options
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=share_include_pos]"
-    )[0].checked = settings.share_include_pos;
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=share_compression]"
-    )[0].value = settings.share_compression;
-    make_combobox($("#settings-dialog input[name=share_compression]"), [
-      "auto",
-      "on",
-      "off"
-    ]);
     // map settings
     $<HTMLInputElement>("#settings-dialog input[name=tile_server]")[0].value =
       settings.tile_server;
@@ -2803,12 +2804,6 @@ class IDE {
       $("#editor").css("width", settings.editor_width);
       $("#dataviewer").css("left", settings.editor_width);
     }
-    settings.share_include_pos = $<HTMLInputElement>(
-      "#settings-dialog input[name=share_include_pos]"
-    )[0].checked;
-    settings.share_compression = $<HTMLInputElement>(
-      "#settings-dialog input[name=share_compression]"
-    )[0].value;
     const prev_tile_server = settings.tile_server;
     settings.tile_server = $<HTMLInputElement>(
       "#settings-dialog input[name=tile_server]"

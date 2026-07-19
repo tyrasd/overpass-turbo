@@ -763,31 +763,6 @@
               </div>
             </div>
           </div>
-          <div class="box">
-            <h3 class="subtitle t" data-t="settings.section.sharing"></h3>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="share_include_pos" />
-                  <span class="t" data-t="settings.include_map_state"></span>
-                </label>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label" for="share_compression">
-                <span class="t" data-t="settings.compression"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="share_compression"
-                  id="share_compression"
-                  value=""
-                />
-              </div>
-            </div>
-          </div>
         </section>
         <footer class="modal-card-foot">
           <div class="level">
@@ -1188,7 +1163,7 @@
                   <input
                     type="checkbox"
                     name="include_coords"
-                    data-ide-handler="change:updateShareLink"
+                    data-ide-handler="change:onShareOptionsChange"
                   />
                   <span class="t" data-t="share.incl_map_state"></span>
                 </label>
@@ -1204,6 +1179,26 @@
                   />
                   <span class="t" data-t="share.run_immediately"></span>
                 </label>
+              </div>
+            </div>
+            <div class="field">
+              <label
+                class="label t"
+                for="share_compression"
+                data-t="settings.compression"
+              ></label>
+              <div class="control">
+                <div class="select">
+                  <select
+                    name="share_compression"
+                    id="share_compression"
+                    data-ide-handler="change:onShareOptionsChange"
+                  >
+                    <option value="auto">auto</option>
+                    <option value="on">on</option>
+                    <option value="off">off</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
