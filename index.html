@@ -788,25 +788,6 @@
               </div>
             </div>
           </div>
-          <div class="box">
-            <h3 class="subtitle t" data-t="settings.section.export"></h3>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="export_image_scale" />
-                  <span class="t" data-t="settings.export_image_scale"></span>
-                </label>
-              </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="export_image_attribution" />
-                  <span class="t" data-t="settings.export_image_attr"></span>
-                </label>
-              </div>
-            </div>
-          </div>
         </section>
         <footer class="modal-card-foot">
           <div class="level">
@@ -1016,8 +997,24 @@
           </div>
           <div class="panel">
             <p class="t panel-heading" data-t="export.section.map"></p>
-            <div class="panel-block">
+            <div class="panel-block is-block">
               <p class="t" data-t="[html]export.as_png"></p>
+              <label class="checkbox is-block">
+                <input
+                  type="checkbox"
+                  name="export_image_scale"
+                  data-ide-handler="change:onExportImageOptionsChange"
+                />
+                <span class="t" data-t="settings.export_image_scale"></span>
+              </label>
+              <label class="checkbox is-block">
+                <input
+                  type="checkbox"
+                  name="export_image_attribution"
+                  data-ide-handler="change:onExportImageOptionsChange"
+                />
+                <span class="t" data-t="settings.export_image_attr"></span>
+              </label>
             </div>
             <div class="panel-block">
               <p class="t" data-t="[html]export.as_interactive_map"></p>

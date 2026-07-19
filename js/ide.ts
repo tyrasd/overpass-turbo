@@ -2370,8 +2370,24 @@ class IDE {
           return false;
         }
       });
+    // image export options
+    $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_scale]"
+    )[0].checked = settings.export_image_scale;
+    $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_attribution]"
+    )[0].checked = settings.export_image_attribution;
     // open the export dialog
     $("#export-dialog").addClass("is-active");
+  }
+  onExportImageOptionsChange() {
+    settings.export_image_scale = $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_scale]"
+    )[0].checked;
+    settings.export_image_attribution = $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_attribution]"
+    )[0].checked;
+    settings.save();
   }
   onExportDownloadClose() {
     $("#export-download-dialog").removeClass("is-active");
@@ -2742,13 +2758,6 @@ class IDE {
     $<HTMLSelectElement>(
       "#settings-dialog select[name=editor_preference]"
     )[0].value = settings.editor_preference;
-    // export settings
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_scale]"
-    )[0].checked = settings.export_image_scale;
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_attribution]"
-    )[0].checked = settings.export_image_attribution;
     // open dialog
     $("#settings-dialog").addClass("is-active");
   }
@@ -2838,12 +2847,6 @@ class IDE {
       "#settings-dialog select[name=editor_preference]"
     )[0].value;
     $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
-    settings.export_image_scale = $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_scale]"
-    )[0].checked;
-    settings.export_image_attribution = $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_attribution]"
-    )[0].checked;
     settings.save();
     $("#settings-dialog").removeClass("is-active");
   }
