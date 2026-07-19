@@ -575,190 +575,306 @@
         <section class="modal-card-body">
           <div class="box">
             <h3 class="subtitle t" data-t="settings.section.general"></h3>
-            <div class="field">
-              <label class="label" for="ui_language">
-                <span class="t" data-t="settings.ui_lang"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="ui_language"
-                  value=""
-                  id="ui_language"
-                />
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="ui_language">
+                  <span class="t" data-t="settings.ui_lang"></span>
+                </label>
               </div>
-            </div>
-            <div class="field">
-              <label class="label t" for="theme" data-t="settings.theme">
-                Theme
-              </label>
-              <div class="control">
-                <div class="select">
-                  <select name="theme" id="theme">
-                    <option class="t" value="auto" data-t="settings.theme.auto">
-                      automatic
-                    </option>
-                    <option
-                      class="t"
-                      value="light"
-                      data-t="settings.theme.light"
-                    >
-                      light
-                    </option>
-                    <option class="t" value="dark" data-t="settings.theme.dark">
-                      dark
-                    </option>
-                  </select>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      name="ui_language"
+                      value=""
+                      id="ui_language"
+                    />
+                  </div>
                 </div>
-                <p class="help t" data-t="settings.theme_expl"></p>
               </div>
             </div>
-            <div class="field">
-              <label class="label" for="server">
-                <span class="t" data-t="settings.server"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="server"
-                  value=""
-                  id="server"
-                />
-                <p class="help" id="server-info"></p>
-              </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="no_autorepair" />
-                  <span class="t" data-t="settings.disable_autorepair"></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label t" for="theme" data-t="settings.theme">
+                  Theme
                 </label>
               </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select name="theme" id="theme">
+                        <option
+                          class="t"
+                          value="auto"
+                          data-t="settings.theme.auto"
+                        >
+                          automatic
+                        </option>
+                        <option
+                          class="t"
+                          value="light"
+                          data-t="settings.theme.light"
+                        >
+                          light
+                        </option>
+                        <option
+                          class="t"
+                          value="dark"
+                          data-t="settings.theme.dark"
+                        >
+                          dark
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <p class="help t" data-t="settings.theme_expl"></p>
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="disable_warning_huge_data" />
-                  <span
-                    class="t"
-                    data-t="settings.disable_warning_huge_data"
-                  ></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="server">
+                  <span class="t" data-t="settings.server"></span>
                 </label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      name="server"
+                      value=""
+                      id="server"
+                    />
+                  </div>
+                  <p class="help" id="server-info"></p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label
+                  class="label t"
+                  data-t="settings.label.autorepair"
+                ></label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="no_autorepair" />
+                      <span
+                        class="t"
+                        data-t="settings.disable_autorepair"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label class="label t" data-t="settings.label.warnings"></label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="disable_warning_huge_data" />
+                      <span
+                        class="t"
+                        data-t="settings.disable_warning_huge_data"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="box">
             <h3 class="subtitle t" data-t="settings.section.editor"></h3>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="use_rich_editor" />
-                  <span class="t" data-t="settings.enable_rich_editor"></span>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label
+                  class="label t"
+                  data-t="settings.label.rich_editor"
+                ></label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="use_rich_editor" />
+                      <span
+                        class="t"
+                        data-t="settings.enable_rich_editor"
+                      ></span>
+                    </label>
+                  </div>
+                  <p
+                    class="help t"
+                    data-t="settings.enable_rich_editor_expl"
+                  ></p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="editor_width">
+                  <span class="t" data-t="settings.editor_width"></span>
                 </label>
               </div>
-              <p class="help t" data-t="settings.enable_rich_editor_expl"></p>
-            </div>
-            <div class="field">
-              <label class="label" for="editor_width">
-                <span class="t" data-t="settings.editor_width"></span>
-              </label>
-              <div class="control">
-                <input
-                  type="text"
-                  class="input"
-                  name="editor_width"
-                  value=""
-                  id="editor_width"
-                />
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      type="text"
+                      class="input"
+                      name="editor_width"
+                      value=""
+                      id="editor_width"
+                    />
+                  </div>
+                  <p class="help t" data-t="settings.editor_width_expl"></p>
+                </div>
               </div>
-              <p class="help t" data-t="settings.editor_width_expl"></p>
             </div>
           </div>
           <div class="box">
             <h3 class="subtitle t" data-t="settings.section.map"></h3>
-            <div class="field">
-              <label class="label" for="tile_server">
-                <span class="t" data-t="settings.tile_server"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="tile_server"
-                  value=""
-                  id="tile_server"
-                />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label" for="background_opacity">
-                <span class="t" data-t="settings.tile_opacity"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="number"
-                  name="background_opacity"
-                  value=""
-                  id="background_opacity"
-                  min="0.0"
-                  max="1.0"
-                  step="0.1"
-                />
-              </div>
-              <p class="help t" data-t="settings.tile_opacity_expl"></p>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="enable_crosshairs" />
-                  <span class="t" data-t="settings.show_crosshairs"></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="tile_server">
+                  <span class="t" data-t="settings.tile_server"></span>
                 </label>
               </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="disable_poiomatic" />
-                  <span class="t" data-t="settings.disable_poiomatic"></span>
-                </label>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      name="tile_server"
+                      value=""
+                      id="tile_server"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="show_data_stats" />
-                  <span class="t" data-t="settings.show_data_stats"></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="background_opacity">
+                  <span class="t" data-t="settings.tile_opacity"></span>
                 </label>
               </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="number"
+                      name="background_opacity"
+                      value=""
+                      id="background_opacity"
+                      min="0.0"
+                      max="1.0"
+                      step="0.1"
+                    />
+                  </div>
+                  <p class="help t" data-t="settings.tile_opacity_expl"></p>
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <label
-                class="label t"
-                for="editor_preference"
-                data-t="settings.editor_preference"
-                >Editor</label
-              >
-              <div class="control">
-                <div class="select">
-                  <select name="editor_preference" id="editor_preference">
-                    <option
-                      class="t"
-                      value="osmdotorg"
-                      data-t="settings.editor_preference.osmdotorg"
-                    >
-                      osm.org
-                    </option>
-                    <option
-                      class="t"
-                      value="josm"
-                      data-t="settings.editor_preference.josm"
-                    >
-                      JOSM (local)
-                    </option>
-                  </select>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label
+                  class="label t"
+                  data-t="settings.label.crosshairs"
+                ></label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="enable_crosshairs" />
+                      <span class="t" data-t="settings.show_crosshairs"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label class="label t" data-t="settings.label.pois"></label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="disable_poiomatic" />
+                      <span
+                        class="t"
+                        data-t="settings.disable_poiomatic"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label
+                  class="label t"
+                  data-t="settings.label.data_stats"
+                ></label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="show_data_stats" />
+                      <span class="t" data-t="settings.show_data_stats"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label
+                  class="label t"
+                  for="editor_preference"
+                  data-t="settings.editor_preference"
+                  >Editor</label
+                >
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select name="editor_preference" id="editor_preference">
+                        <option
+                          class="t"
+                          value="osmdotorg"
+                          data-t="settings.editor_preference.osmdotorg"
+                        >
+                          osm.org
+                        </option>
+                        <option
+                          class="t"
+                          value="josm"
+                          data-t="settings.editor_preference.josm"
+                        >
+                          JOSM (local)
+                        </option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
