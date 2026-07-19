@@ -1,53 +1,63 @@
-// ----------------------------------------------------------------------
-// Condition base class
+import type {Tags} from "./Style";
 
-import styleparser from "./Style";
+/** The comparison a {@link Condition} applies to a tag. */
+export type ConditionType =
+  | "eq"
+  | "ne"
+  | "regex"
+  | "true"
+  | "false"
+  | "set"
+  | "unset"
+  | "<"
+  | "<="
+  | ">"
+  | ">=";
 
-styleparser.Condition = function () {};
-styleparser.Condition.prototype = {
-  type: "", // eq/ne/regex etc.
-  params: [], // what to test against
+/** A single `[…]` test of a MapCSS selector, such as `[highway=primary]`. */
+export class Condition {
+  /** The tag key to test, followed by the value to test it against. */
+  params: string[] = [];
 
-  init(_type, ..._params) {
-    // summary:		A condition to evaluate.
-    this.type = _type;
-    this.params = _params;
-    return this;
-  },
+  constructor(
+    public type: ConditionType,
+    ...params: string[]
+  ) {
+    this.params = params;
+  }
 
-  test(tags) {
-    // summary:		Run the condition against the supplied tags.
+  /** Runs the condition against the supplied tags. */
+  test(tags: Tags): boolean {
     const p = this.params;
+    const value = tags[p[0]];
     switch (this.type) {
       case "eq":
-        return tags[p[0]] == p[1];
+        return value == p[1];
       case "ne":
-        return tags[p[0]] != p[1];
+        return value != p[1];
       case "regex":
-        return (
-          tags[p[0]] !== undefined && new RegExp(p[1], "i").test(tags[p[0]])
-        );
+        return value !== undefined && new RegExp(p[1], "i").test(String(value));
       case "true":
-        return tags[p[0]] == "true" || tags[p[0]] == "yes" || tags[p[0]] == "1";
+        return value == "true" || value == "yes" || value == "1";
       case "false":
-        return tags[p[0]] == "false" || tags[p[0]] == "no" || tags[p[0]] == "0";
+        return value == "false" || value == "no" || value == "0";
       case "set":
-        return tags[p[0]] !== undefined && tags[p[0]] !== "";
+        return value !== undefined && value !== "";
       case "unset":
-        return tags[p[0]] === undefined || tags[p[0]] === "";
+        return value === undefined || value === "";
       case "<":
-        return Number(tags[p[0]]) < Number(p[1]);
+        return Number(value) < Number(p[1]);
       case "<=":
-        return Number(tags[p[0]]) <= Number(p[1]);
+        return Number(value) <= Number(p[1]);
       case ">":
-        return Number(tags[p[0]]) > Number(p[1]);
+        return Number(value) > Number(p[1]);
       case ">=":
-        return Number(tags[p[0]]) >= Number(p[1]);
+        return Number(value) >= Number(p[1]);
     }
     return false;
-  },
+  }
 
-  toString() {
+  toString(): string {
     return `[${this.type}: ${this.params}]`;
   }
-};
+}

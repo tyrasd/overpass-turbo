@@ -1,18 +1,18 @@
-import "leaflet";
+import * as L from "leaflet";
 import osmtogeojson from "osmtogeojson";
 
-type Options = {
-  data_mode: string;
+interface Options extends L.LayerOptions {
+  /** The GeoJSON layer class to render the result with. */
   baseLayerClass: typeof L.GeoJSON;
   baseLayerOptions: L.GeoJSONOptions;
+  /** Invoked once the result has been converted to GeoJSON. */
   afterParse?: () => void;
-};
+}
 
 class OSM4Leaflet extends L.Layer {
   private _resultData: GeoJSON.FeatureCollection;
   private _baseLayer: L.GeoJSON;
-  private options: Options = {
-    data_mode: "xml",
+  options: Options = {
     baseLayerClass: L.GeoJSON,
     baseLayerOptions: {}
   };

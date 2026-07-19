@@ -1,3 +1,4 @@
+import * as L from "leaflet";
 import {describe, expect, it} from "vite-plus/test";
 
 import ide from "../js/ide";
@@ -30,14 +31,15 @@ describe("ide.permalink", () => {
   });
   it("share coordinates", () => {
     const q = " ";
+    // only the two accessors compose_share_link reads
     ide.map = {
       getCenter() {
-        return {lat: 12.3456, lng: -65.4321};
+        return new L.LatLng(12.3456, -65.4321);
       },
       getZoom() {
         return 8;
       }
-    };
+    } as unknown as typeof ide.map;
     let p = ide.compose_share_link(q, false, true, false);
     expect(p).to.have.string("&C=12.3456%3B-65.4321%3B8");
     expect(p).not.to.have.string("&c=");

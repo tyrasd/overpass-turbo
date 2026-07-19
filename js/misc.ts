@@ -15,7 +15,7 @@ export const Base64 = {
   _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
   // public method for encoding
-  encode(input, not_base64url) {
+  encode(input: string, not_base64url?: boolean) {
     let output = "";
     //input = Base64._utf8_encode(input);
     input = unescape(encodeURIComponent(input));
@@ -57,7 +57,7 @@ export const Base64 = {
 
   // public method for decoding
   // this decodes base64url as well as standard base64 with or without padding)
-  decode(input, binary) {
+  decode(input: string) {
     let output = "";
     input = this._convert_to_base64nopad(input);
     input = input.replace(/[^A-Za-z0-9+/]/g, "");
@@ -92,28 +92,14 @@ export const Base64 = {
       }
     }
 
-    function str2ab(str) {
-      const buf = new ArrayBuffer(str.length); // 1 byte for each char
-      const bufView = new Uint8Array(buf);
-      for (let i = 0, strLen = str.length; i < strLen; i++) {
-        bufView[i] = str.charCodeAt(i);
-      }
-      return buf;
-    }
-
-    if (!binary) {
-      // try to decode utf8 characters
-      try {
-        output = decodeURIComponent(escape(output));
-      } catch {}
-    } else {
-      // convert binary string to typed (Uint8) array
-      output = str2ab(output);
-    }
+    // try to decode utf8 characters
+    try {
+      output = decodeURIComponent(escape(output));
+    } catch {}
     return output;
   },
 
-  encodeNum(num, not_base64url) {
+  encodeNum(num: number, not_base64url?: boolean) {
     let output = "";
     if (num == 0) return this._keyStr.charAt(0);
     let neg = false;

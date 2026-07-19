@@ -4,7 +4,7 @@ import {featurePopupContent} from "../js/popup";
 
 describe("featurePopupContent", () => {
   it("", () => {
-    const feature = {
+    const feature: GeoJSON.Feature = {
       type: "Feature",
       id: "node/270198479",
       properties: {
@@ -33,7 +33,7 @@ describe("featurePopupContent", () => {
     expect(featurePopupContent(feature)).toMatchSnapshot();
   });
   it("", () => {
-    const feature = {
+    const feature: GeoJSON.Feature = {
       type: "Feature",
       id: "relation/1243821",
       properties: {

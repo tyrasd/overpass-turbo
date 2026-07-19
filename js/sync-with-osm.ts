@@ -1,4 +1,4 @@
-import {osmAuth} from "osm-auth";
+import {type OSMAuthFetchOptions, osmAuth} from "osm-auth";
 
 import configs from "./configs";
 import {HttpError} from "./httpRequest";
@@ -18,13 +18,17 @@ interface QueryUpdate {
 
 const enabled = configs.osmAuth && configs.osmAuth.client_id;
 
-if (!configs.osmAuth.redirect_uri) {
-  configs.osmAuth.redirect_uri = `${window.location.origin}${window.location.pathname}land.html`;
-}
-configs.osmAuth.scope = "read_prefs write_prefs";
-
-let auth;
-if (enabled) auth = osmAuth(configs.osmAuth);
+const auth = enabled
+  ? new osmAuth({
+      ...configs.osmAuth,
+      client_id: configs.osmAuth.client_id,
+      // land.html completes the OAuth redirect
+      redirect_uri:
+        configs.osmAuth.redirect_uri ||
+        `${window.location.origin}${window.location.pathname}land.html`,
+      scope: "read_prefs write_prefs"
+    })
+  : undefined;
 
 const preferencesPath = "/api/0.6/user/preferences";
 
@@ -41,7 +45,7 @@ function authenticate(): Promise<void> {
  */
 async function apiRequest(
   path: string,
-  options: RequestInit
+  options: OSMAuthFetchOptions
 ): Promise<Response> {
   const res: Response = await auth.fetch(auth.options().apiUrl + path, options);
   if (!res.ok) throw new HttpError(res, await res.text().catch(() => ""));

@@ -1,10 +1,24 @@
 {
   "compilerOptions": {
+    "allowArbitraryExtensions": true,
     "esModuleInterop": true,
+    "lib": ["dom", "dom.iterable", "es2022"],
     "module": "esnext",
     "moduleResolution": "bundler",
+    "noEmit": true,
     "resolveJsonModule": true,
-    "strictNullChecks": false,
-    "target": "es2022"
-  }
+    "skipLibCheck": true,
+    "target": "es2022",
+    "types": ["vite/client"],
+
+    // Set explicitly rather than left to the compiler's default, which differs
+    // between TypeScript versions. The codebase satisfies all of `strict`
+    // except these three; turning each back on is a worthwhile piece of work on
+    // its own — noImplicitAny alone is some 275 errors.
+    "strict": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": false
+  },
+  "include": ["js", "tests", "vite.config.mts"]
 }

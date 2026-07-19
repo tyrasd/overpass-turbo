@@ -26,6 +26,8 @@ These changes are live on the development instance at <https://tyrasd.github.io/
 - Fix selection of combobox in autostyler dialog
 - Fix missing `attribution` control object, which is required for PNG export ([#813](https://github.com/tyrasd/overpass-turbo/issues/813))
 - Fix "L is not defined" in production build
+- Rewrite the MapCSS style parser as ES6 classes, keeping selector matching, property assignment and style merging as they were ([#857](https://github.com/tyrasd/overpass-turbo/pull/857))
+- Type-check the whole codebase, on TypeScript 6 with `strict` enabled, and check it in CI ([#857](https://github.com/tyrasd/overpass-turbo/pull/857))
 
 ## 2024-11-03
 

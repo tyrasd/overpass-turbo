@@ -73,7 +73,7 @@ export default async function ffs_free() {
   }
   // load preset translations
   async function loadPresetTranslations() {
-    let language = i18n.getLanguage();
+    let language: string = i18n.getLanguage();
     if (!language) return;
     try {
       let {default: data} = await import(
@@ -88,8 +88,8 @@ export default async function ffs_free() {
       }
       data = data[language].presets.presets;
       // load translated names and terms into presets object
-      Object.entries(data).forEach(
-        ([presetName, translation]: [string, PresetTranslation]) => {
+      Object.entries(data as Record<string, PresetTranslation>).forEach(
+        ([presetName, translation]) => {
           const preset = presets[presetName];
           preset.translated = true;
           // save original preset name under alternative terms

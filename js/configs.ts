@@ -1,3 +1,5 @@
+import type {OSMAuthOptions} from "osm-auth";
+
 export default {
   appname: "overpass-turbo",
   // used for localStorage and openstreetmap.org/api/0.6/user/preferences
@@ -40,5 +42,5 @@ export default {
   osmAuth: {
     url: "https://www.openstreetmap.org",
     client_id: "lIifli2M7Enpi1LUqCxSNe3yDXhBHwf_n8HzJ03mKFg"
-  }
+  } as Partial<OSMAuthOptions>
 };

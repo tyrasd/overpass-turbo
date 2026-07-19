@@ -456,7 +456,7 @@ describe("ide.ffs", () => {
 
     it("preset not found", async () => {
       const search = "foo";
-      await expect(construct_query(search)).rejects.to.throw(
+      await expect(construct_query(search)).rejects.toThrow(
         "unknown ffs string"
       );
     });

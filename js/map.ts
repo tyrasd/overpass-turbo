@@ -1,6 +1,6 @@
 // escape strings to show them directly in the html.
 import $ from "jquery";
-import "leaflet";
+import * as L from "leaflet";
 
 // include the CSS files
 import "leaflet/dist/leaflet.css";
@@ -9,6 +9,19 @@ import configs from "./configs";
 import overpass from "./overpass";
 import Query from "./query";
 import {parseUrlParameters} from "./urlParameters";
+
+declare global {
+  interface JQuery {
+    /** jquery-ui's dialog, which map.html does not load — stubbed below */
+    dialog(options?: Record<string, unknown>): void;
+  }
+}
+
+/** the `[data:…]` statement of a query, naming a non-Overpass data source */
+interface DataSource {
+  mode: string;
+  options: Record<string, string>;
+}
 
 $(document).ready(() => {
   // main map cache
@@ -55,6 +68,7 @@ $(document).ready(() => {
   const ide = {
     map: undefined as unknown as L.Map,
     mapcss: "",
+    data_source: null as DataSource | null,
     async getQuery(): Promise<string> {
       let query = settings.code["overpass"];
       const queryParser = new Query();
@@ -110,7 +124,6 @@ $(document).ready(() => {
       $("#map_blank").remove();
     }
   };
-  overpass.init();
   // (very raw) compatibility check
   if (typeof fetch !== "function") {
     // the currently used browser is not capable of running the IDE. :(
@@ -146,7 +159,7 @@ $(document).ready(() => {
   });
   ide.map.on("layeradd", (e) => {
     if (!(e.layer instanceof L.GeoJSON)) return;
-    ide.map.setView([0, 0], 18, true);
+    ide.map.setView([0, 0], 18);
     try {
       ide.map.fitBounds(e.layer.getBounds());
     } catch {}

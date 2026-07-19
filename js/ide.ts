@@ -3,8 +3,8 @@ import CodeMirror from "codemirror";
 import {default as colorbrewer} from "colorbrewer";
 import colormap from "colormap";
 import html2canvas from "html2canvas";
-import "leaflet";
 import $ from "jquery";
+import * as L from "leaflet";
 // global ide object
 import debounce from "lodash/debounce";
 import togpx from "togpx";
@@ -334,10 +334,10 @@ class IDE {
   init() {
     this.waiter.addInfo("ide starting up");
     $("#overpass-turbo-version").html(
-      `overpass-turbo <code>${GIT_VERSION}</code>` // eslint-disable-line no-undef
+      `overpass-turbo <code>${import.meta.env.VITE_GIT_VERSION}</code>`
     );
     $("#overpass-turbo-dependencies").html(
-      APP_DEPENDENCIES // eslint-disable-line no-undef
+      import.meta.env.VITE_APP_DEPENDENCIES
     );
     // (very raw) compatibility check <- TODO: put this into its own function
     if (
@@ -943,9 +943,6 @@ class IDE {
       }
     });
 
-    // init overpass object
-    overpass.init();
-
     // event handlers for overpass object
     overpass.handlers["onProgress"] = function (msg, abortcallback) {
       ide.waiter.addInfo(msg, abortcallback);
@@ -1360,7 +1357,7 @@ class IDE {
     // - preparations -
     const q = this.getRawQuery(), // get original query
       lng = this.getQueryLang();
-    const autorepair = Autorepair(q, lng);
+    const autorepair = new Autorepair(q, lng);
     // - repairs -
     if (repair == "no visible data") {
       // repair missing recurse statements
@@ -1812,7 +1809,8 @@ class IDE {
     query_umap = query_umap.replace(/\n\s*/g, "");
     // replace bbox with south west north east
     query_umap = query_umap.replace(
-      new RegExp(shortcuts().bbox, "g"),
+      // the bbox shortcut is expanded to a string, unlike the async ones
+      new RegExp(shortcuts().bbox as string, "g"),
       "{south},{west},{north},{east}"
     );
     $("#export-text_umap .format").html(i18n.t("export.format_text_umap"));
@@ -2249,7 +2247,7 @@ class IDE {
 
     // OSM editors
     // first check for possible mistakes in query.
-    const validEditorQuery = Autorepair.detect.editors(
+    const validEditorQuery = Autorepair.isEditorCompatible(
       this.getRawQuery(),
       this.getQueryLang()
     );
@@ -2334,7 +2332,7 @@ class IDE {
           }
         }
         // first check for possible mistakes in query.
-        const valid = Autorepair.detect.editors(
+        const valid = Autorepair.isEditorCompatible(
           this.getRawQuery(),
           this.getQueryLang()
         );

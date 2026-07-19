@@ -21,9 +21,6 @@ type Condition = {
   free?: string;
 };
 
-/** a value to be quoted for use inside a regular expression */
-type RegexValue = {regex: string; modifier?: string};
-
 /* this converts a random boolean expression into a normalized form:
  * A∧B∧… ∨ C∧D∧… ∨ …
  * for example: A∧(B∨C) ⇔ (A∧B)∨(A∧C)
@@ -100,7 +97,9 @@ function dateValue(val: string): string {
 
 export async function ffs_construct_query(
   search: string,
-  comment: string | false | undefined
+  /** the comment to head the query with, `true` for the default one, or
+   * `false` to generate no comments at all */
+  comment: string | boolean | undefined
 ): Promise<string> {
   function quote_comment_str(s: string): string {
     // quote strings that are to be used within c-style comments
@@ -262,67 +261,6 @@ export async function ffs_construct_query(
         return false;
     }
   }
-  function get_query_clause_str(condition: Condition): string {
-    function quotes(s: string): string {
-      if (s.match(/^[a-zA-Z0-9_]+$/) === null)
-        return `"${s.replace(/"/g, '\\"')}"`;
-      return s;
-    }
-    function quoteRegex(s: RegexValue): string {
-      if (s.regex.match(/^[a-zA-Z0-9_]+$/) === null || s.modifier)
-        return `/${s.regex.replace(/\//g, "\\/")}/${s.modifier || ""}`;
-      return s.regex;
-    }
-    switch (condition.query) {
-      case "key":
-        return quote_comment_str(`${quotes(condition.key)}=*`);
-      case "nokey":
-        return quote_comment_str(`${quotes(condition.key)}!=*`);
-      case "eq":
-        return quote_comment_str(
-          `${quotes(condition.key)}=${quotes(condition.val)}`
-        );
-      case "neq":
-        return quote_comment_str(
-          `${quotes(condition.key)}!=${quotes(condition.val)}`
-        );
-      case "like":
-        return quote_comment_str(
-          `${quotes(condition.key)}~${quoteRegex(condition.val)}`
-        );
-      case "likelike":
-        return quote_comment_str(
-          `~${quotes(condition.key)}~${quoteRegex(condition.val)}`
-        );
-      case "notlike":
-        return quote_comment_str(
-          `${quotes(condition.key)}!~${quoteRegex(condition.val)}`
-        );
-      case "substr":
-        return quote_comment_str(
-          `${quotes(condition.key)}:${quotes(condition.val)}`
-        );
-      case "meta":
-        switch (condition.meta) {
-          case "id":
-            return quote_comment_str(`id:${quotes(condition.val)}`);
-          case "newer":
-            return quote_comment_str(`newer:${quotes(condition.val)}`);
-          case "older":
-            return quote_comment_str(`older:${quotes(condition.val)}`);
-          case "user":
-            return quote_comment_str(`user:${quotes(condition.val)}`);
-          case "uid":
-            return quote_comment_str(`uid:${quotes(condition.val)}`);
-          default:
-            return "";
-        }
-      case "free form":
-        return quote_comment_str(quotes(condition.free));
-      default:
-        return "";
-    }
-  }
 
   let freeForm = false;
   for (const and_query of ffs.query.queries) {
@@ -342,7 +280,6 @@ export async function ffs_construct_query(
   for (const and_query of ffs.query.queries) {
     let types = ["node", "way", "relation"];
     let clauses = [];
-    let clauses_str = [];
     for (const cond_query of and_query.queries) {
       // todo: looks like some code duplication here could be reduced by refactoring
       if (cond_query.query === "free form") {
@@ -351,7 +288,6 @@ export async function ffs_construct_query(
         // restrict possible data types
         types = types.filter((t) => ffs_clause.types.indexOf(t) != -1);
         // add clauses
-        clauses_str.push(get_query_clause_str(cond_query));
         clauses = clauses.concat(
           ffs_clause.conditions.map((condition) => get_query_clause(condition))
         );
@@ -360,13 +296,11 @@ export async function ffs_construct_query(
         types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
       } else {
         // add another query clause
-        clauses_str.push(get_query_clause_str(cond_query));
         const clause = get_query_clause(cond_query);
         if (clause === false) throw new Error("unknown query clause");
         clauses.push(clause);
       }
     }
-    clauses_str = clauses_str.join(" and ");
 
     // construct query
     if (types.length === 3) {

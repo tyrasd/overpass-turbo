@@ -1,12 +1,12 @@
 // global overpass object
 import $ from "jquery";
-import "leaflet";
+import * as L from "leaflet";
 
 import configs from "./configs";
-import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
+import L_GeoJsonNoVanish, {type RenderMode} from "./GeoJsonNoVanish";
 import {HttpError, request} from "./httpRequest";
 import ide from "./ide";
-import styleparser from "./jsmapcss";
+import {RuleSet, TextStyle} from "./jsmapcss";
 import {htmlentities} from "./misc";
 import L_OSM4Leaflet from "./OSM4Leaflet";
 import {featurePopupContent} from "./popup";
@@ -14,6 +14,23 @@ import L_PopupIcon from "./PopupIcon"; // eslint-disable-line @typescript-eslint
 import settings from "./settings";
 
 export type QueryLang = "xml" | "OverpassQL" | "SQL";
+
+/** Leaflet's path options, plus overpass turbo's own MapCSS `render` property. */
+interface FeatureStyle extends L.PathOptions {
+  render?: RenderMode;
+}
+
+declare module "leaflet" {
+  interface Popup {
+    /** the layer this popup was opened for */
+    layer?: Layer;
+  }
+  interface Tooltip {
+    /** internal; overridden below to apply a MapCSS text style to the tooltip */
+    _initLayout(): void;
+    _container: HTMLElement;
+  }
+}
 
 /** an Overpass API (or SQL server) response, parsed according to its content type */
 interface QueryResponse {
@@ -88,30 +105,6 @@ class Overpass {
   private fire(name, ...handler_args) {
     if (typeof this.handlers[name] != "function") return undefined;
     return this.handlers[name].apply({}, handler_args);
-  }
-
-  init() {
-    // register mapcss extensions
-    /* own MapCSS-extension:
-     * added symbol-* properties
-     * TODO: implement symbol-shape = marker|square?|shield?|...
-     */
-    styleparser.PointStyle.prototype.properties.push(
-      "symbol_shape",
-      "symbol_size",
-      "symbol_stroke_width",
-      "symbol_stroke_color",
-      "symbol_stroke_opacity",
-      "symbol_fill_color",
-      "symbol_fill_opacity"
-    );
-    styleparser.PointStyle.prototype.symbol_shape = "";
-    styleparser.PointStyle.prototype.symbol_size = NaN;
-    styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
-    styleparser.PointStyle.prototype.symbol_stroke_color = null;
-    styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
-    styleparser.PointStyle.prototype.symbol_fill_color = null;
-    styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
   }
 
   // updates the map
@@ -269,7 +262,7 @@ class Overpass {
                 for (const errline of errlines) {
                   overpass.fire(
                     "onQueryErrorLine",
-                    1 * errline.match(/\d+/)[0]
+                    Number(errline.match(/\d+/)[0])
                   );
                 }
               }
@@ -385,7 +378,7 @@ class Overpass {
             overpass.rerender = function (userMapCSS) {
               // test user supplied mapcss stylesheet
               try {
-                const dummy_mapcss = new styleparser.RuleSet();
+                const dummy_mapcss = new RuleSet();
                 dummy_mapcss.parseCSS(userMapCSS);
                 try {
                   dummy_mapcss.getStyles(
@@ -397,7 +390,7 @@ class Overpass {
                         return [];
                       }
                     },
-                    [],
+                    {},
                     18
                   );
                 } catch {
@@ -405,9 +398,12 @@ class Overpass {
                 }
               } catch (e) {
                 userMapCSS = "";
-                overpass.fire("onStyleError", `<p>${e.message}</p>`);
+                overpass.fire(
+                  "onStyleError",
+                  `<p>${e instanceof Error ? e.message : e}</p>`
+                );
               }
-              const mapcss = new styleparser.RuleSet();
+              const mapcss = new RuleSet();
               mapcss.parseCSS(
                 `` +
                   `node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n` +
@@ -527,7 +523,6 @@ class Overpass {
                   overpass.fire("onProgress", "rendering geoJSON");
                 },
                 baseLayerClass: L_GeoJsonNoVanish,
-                query_lang: query_lang,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
                   compress(feature) {
@@ -537,7 +532,7 @@ class Overpass {
                     else return render;
                   },
                   style(feature, highlight) {
-                    const stl: L.PathOptions = {};
+                    const stl: FeatureStyle = {};
                     const s = get_feature_style(feature, highlight);
                     // apply mapcss styles
                     function get_property(styles, properties) {
@@ -667,7 +662,7 @@ class Overpass {
                       (text && (text = feature.properties.tags[text]))
                     ) {
                       const tooltip = new L.Tooltip({
-                        direction: stl["text_position"],
+                        direction: stl.text_position as L.Direction,
                         className: "text-tooltip",
                         permanent: true
                       });
@@ -676,9 +671,7 @@ class Overpass {
                         L.Tooltip.prototype._initLayout.call(this);
                         this._container.setAttribute(
                           "style",
-                          styleparser.TextStyle.prototype.textStyleAsCSS.call(
-                            stl
-                          )
+                          TextStyle.prototype.textStyleAsCSS.call(stl)
                         );
                       };
                       layer.bindTooltip(tooltip);
