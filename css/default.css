@@ -129,6 +129,40 @@ body {
   height: 100%;
   overflow-x: auto;
 }
+#table {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: -1001;
+  overflow: auto;
+  background-color: var(--bulma-scheme-main);
+}
+#table table {
+  width: 100%;
+  font-size: 12px;
+  font-family: monospace;
+  white-space: nowrap;
+}
+#table th,
+#table td {
+  border: 1px solid var(--bulma-border);
+  padding: 4px 8px;
+  text-align: left;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#table th {
+  background-color: var(--bulma-background-active);
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+#table tr:hover {
+  background-color: var(--bulma-background-hover);
+}
 .CodeMirror-linenumber {
   color: var(--bulma-text-weak);
 }

@@ -65,6 +65,9 @@ importers:
       osmtogeojson:
         specifier: ^3.0.0-beta.5
         version: 3.0.0-beta.5
+      papaparse:
+        specifier: ^5.5.4
+        version: 5.5.4
       rgbcolor:
         specifier: ^1.0.1
         version: 1.0.1
@@ -93,6 +96,9 @@ importers:
       '@types/leaflet':
         specifier: ^1.9.3
         version: 1.9.3
+      '@types/papaparse':
+        specifier: ^5.5.2
+        version: 5.5.2
       happy-dom:
         specifier: ^20.10.6
         version: 20.10.6
@@ -485,6 +491,9 @@ packages:
 
   '@types/node@26.1.1':
     resolution: {integrity: sha512-nxAkRSVkN1Y0JC1W8ky/fTfkGsMmcrRsbx+3XoZE+rMOX71kLYTV7fLXpqud1GpbpP5TuffXFqfX7fH2GgZREw==}
+
+  '@types/papaparse@5.5.2':
+    resolution: {integrity: sha512-gFnFp/JMzLHCwRf7tQHrNnfhN4eYBVYYI897CGX4MY1tzY9l2aLkVyx2IlKZ/SAqDbB3I1AOZW5gTMGGsqWliA==}
 
   '@types/raf@3.4.0':
     resolution: {integrity: sha512-taW5/WYqo36N7V39oYyHP9Ipfd5pNFvGTIQsNGj86xV88YQ7GnI30/yMfKDF7Zgin0m3e+ikX88FvImnK4RjGw==}
@@ -1030,6 +1039,9 @@ packages:
       vite-plus:
         optional: true
 
+  papaparse@5.5.4:
+    resolution: {integrity: sha512-SwzWD9gl/ElwYLCI0nUja1mFJzjq2D8ziShfNBa7zCHzkOozeOGDwHWQ+tvCzEZcewecWZ5U7kUopDnG+DFYEQ==}
+
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
@@ -1541,6 +1553,10 @@ snapshots:
     dependencies:
       undici-types: 8.3.0
 
+  '@types/papaparse@5.5.2':
+    dependencies:
+      '@types/node': 26.1.1
+
   '@types/raf@3.4.0': {}
 
   '@types/whatwg-mimetype@3.0.2': {}
@@ -2018,6 +2034,8 @@ snapshots:
       '@oxlint/binding-win32-x64-msvc': 1.72.0
       oxlint-tsgolint: 0.24.0
       vite-plus: 0.2.4(@types/node@26.1.1)(@voidzero-dev/vite-plus-core@0.2.4(@types/node@26.1.1)(typescript@6.0.3)(yaml@2.4.5))(happy-dom@20.10.6)(typescript@6.0.3)(yaml@2.4.5)
+
+  papaparse@5.5.4: {}
 
   pathe@2.0.3: {}
 

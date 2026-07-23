@@ -30,6 +30,7 @@ import {fetchInstances, type OverpassInstance} from "./overpass-servers";
 import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
+import {updateTableFromGeoJson, updateTableFromRawData} from "./table";
 import sync, {type SyncedQuery} from "./sync-with-osm";
 import {applyTheme, onThemeChange, type Theme} from "./theme";
 import urlParameters from "./urlParameters";
@@ -608,16 +609,29 @@ class IDE {
     });
 
     // tabs
-    $("#dataviewer > div#data")[0].style.zIndex = "-1001";
+    const tabDivs = {Map: "#map", Data: "#data", Table: "#table"};
+    const activeTab = $(".tabs li.is-active");
+    const activeTabClass = Object.keys(tabDivs).find((c) =>
+      activeTab.hasClass(c)
+    );
+    for (const [name, sel] of Object.entries(tabDivs)) {
+      $(sel)[0].style.zIndex = name === activeTabClass ? "1001" : "-1001";
+    }
     $(".tabs li").bind("click", (e) => {
-      if ($(e.target).hasClass("is-active")) {
+      const $li = $(e.target).closest("li");
+      if ($li.hasClass("is-active")) {
         return;
-      } else {
-        $("#dataviewer > div#data")[0].style.zIndex = String(
-          -1 * +$("#dataviewer > div#data")[0].style.zIndex
-        );
-        $(".tabs li").toggleClass("is-active");
       }
+      const tabClass = (Object.keys(tabDivs) as (keyof typeof tabDivs)[]).find(
+        (c) => $li.hasClass(c)
+      );
+      if (tabClass) {
+        for (const [c, sel] of Object.entries(tabDivs)) {
+          $(sel)[0].style.zIndex = c === tabClass ? "1001" : "-1001";
+        }
+      }
+      $(".tabs li").removeClass("is-active");
+      $li.addClass("is-active");
     });
 
     // keyboard event listener
@@ -944,6 +958,16 @@ class IDE {
       // check if 'out' followed by any number of characters (non-greedy) and then 'count' is present in the query
       const isCountPresent = /out[^;]+?count/.test(query);
 
+      // helper: switch to table if it has rows, otherwise to data
+      function switchToTableOrData() {
+        const tableEl = document.getElementById("table");
+        if (tableEl && tableEl.querySelector("table")) {
+          ide.switchTab("Table");
+        } else {
+          ide.switchTab("Data");
+        }
+      }
+
       // show warning/info if only invisible data is returned and 'out...count' is not present in the query
       if (empty_msg == "no visible data") {
         if (!isCountPresent && !settings.no_autorepair) {
@@ -973,7 +997,7 @@ class IDE {
                   settings.no_autorepair = true;
                   settings.save();
                 }
-                ide.switchTab("Data");
+                switchToTableOrData();
               }
             }
           ];
@@ -983,15 +1007,15 @@ class IDE {
             dialog_buttons
           );
         } else if (isCountPresent) {
-          ide.switchTab("Data");
+          switchToTableOrData();
         }
       }
       // auto tab switching (if only areas are returned)
-      if (empty_msg == "only areas returned") ide.switchTab("Data");
+      if (empty_msg == "only areas returned") switchToTableOrData();
       // auto tab switching (if nodes without coordinates are returned)
-      if (empty_msg == "no coordinates returned") ide.switchTab("Data");
+      if (empty_msg == "no coordinates returned") switchToTableOrData();
       // auto tab switching (if unstructured data is returned)
-      if (data_mode == "unknown") ide.switchTab("Data");
+      if (data_mode == "unknown") switchToTableOrData();
       // display empty map badge
       $(
         `<div id="map_blank" style="z-index:700; display:block; position:relative; top:50px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">${i18n.t(
@@ -1110,10 +1134,17 @@ class IDE {
         ide.dataViewer.setOption("mode", "text");
         ide.dataViewer.setValue(overpass.resultText);
       }
+      const tableEl = document.getElementById("table");
+      if (tableEl.innerHTML === "" && overpass.resultText) {
+        updateTableFromRawData(overpass.resultText, tableEl);
+      }
     };
     overpass.handlers["onGeoJsonReady"] = function () {
       // show layer
       ide.map.addLayer(overpass.osmLayer);
+      // render table from geojson if available
+      const tableEl = document.getElementById("table");
+      updateTableFromGeoJson(overpass.geojson?.features, tableEl);
       // autorun callback (e.g. zoom to data)
       if (typeof ide.run_query_on_startup === "function") {
         ide.run_query_on_startup();
@@ -1330,7 +1361,7 @@ class IDE {
       this.codeEditor.removeLineClass(i, "background", "errorline");
   }
 
-  switchTab(tab: "Data" | "Map"): void {
+  switchTab(tab: "Data" | "Map" | "Table"): void {
     $(`.tabs li.${tab}`).click();
   }
 

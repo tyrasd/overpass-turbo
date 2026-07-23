@@ -23,6 +23,8 @@
   "nav.logout_tt": "logout from currently synced osm account",
   "tabs.map": "Map",
   "tabs.map_tt": "map view",
+  "tabs.table": "Table",
+  "tabs.table_tt": "table view",
   "tabs.data": "Data",
   "tabs.data_tt": "data view",
   "map_controlls.zoom_to_data": "zoom to data",
