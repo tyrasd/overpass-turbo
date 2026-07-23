@@ -18,7 +18,7 @@
   </head>
   <body>
     <!-- Layout -->
-    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-start">
         <div class="navbar-item">
           <div class="buttons has-addons">
@@ -34,6 +34,18 @@
                 <span class="fas fa-play"></span>
               </span>
               <span class="t" data-t="nav.run">Run</span>
+            </button>
+            <button
+              class="t button"
+              accesskey="1"
+              data-ide-handler="click:onClearClick"
+              title=""
+              data-t="[title]nav.clear"
+            >
+              <span class="icon">
+                <span class="fas fa-eraser"></span>
+              </span>
+              <span class="t" data-t="nav.clear">Run</span>
             </button>
             <button
               id="rerender-button"
@@ -156,6 +168,7 @@
               data-ide-handler="click:onSettingsClick"
               title=""
               data-t="[title]nav.settings_tt"
+              data-shortcut="Ctrl+,"
             >
               <span class="icon">
                 <span class="fas fa-cog"></span>
@@ -278,6 +291,10 @@
                   <span class="t" data-t="help.intro.shortcuts.bbox"></span>
                 </li>
                 <li>
+                  <code>{{wsen}}</code> &mdash;
+                  <span class="t" data-t="help.intro.shortcuts.wsen"></span>
+                </li>
+                <li>
                   <code>{{center}}</code> &mdash;
                   <span class="t" data-t="help.intro.shortcuts.center"></span>
                 </li>
@@ -295,6 +312,133 @@
                 <li class="t" data-t="[html]help.intro.shortcuts.custom"></li>
               </ul>
               <p class="t" data-t="[html]help.intro.shortcuts.more"></p>
+              <h4 class="t" data-t="help.wizard.title"></h4>
+              <p class="t" data-t="[html]help.wizard.expl"></p>
+              <h5 class="t" data-t="help.wizard.tags"></h5>
+              <ul>
+                <li>
+                  <code>key=value</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.tags.eq"></span>
+                </li>
+                <li>
+                  <code>key!=value</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.tags.neq"></span>
+                </li>
+                <li>
+                  <code>key=*</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.tags.key"></span>
+                </li>
+                <li>
+                  <code>key!=*</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.tags.nokey"></span>
+                </li>
+                <li>
+                  <code>key~value</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.tags.like"></span>
+                </li>
+                <li>
+                  <code>~key~value</code> &mdash;
+                  <span
+                    class="t"
+                    data-t="[html]help.wizard.tags.likelike"
+                  ></span>
+                </li>
+                <li>
+                  <code>key!~value</code> &mdash;
+                  <span
+                    class="t"
+                    data-t="[html]help.wizard.tags.notlike"
+                  ></span>
+                </li>
+                <li>
+                  <code>key:value</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.tags.substr"></span>
+                </li>
+                <li>
+                  <code>value</code> &mdash;
+                  <span
+                    class="t"
+                    data-t="[html]help.wizard.tags.freeform"
+                  ></span>
+                </li>
+              </ul>
+              <h5 class="t" data-t="help.wizard.meta"></h5>
+              <ul>
+                <li>
+                  <code>type:node|way|relation</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.meta.type"></span>
+                </li>
+                <li>
+                  <code>id:…</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.meta.id"></span>
+                </li>
+                <li>
+                  <code>user:…</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.meta.user"></span>
+                </li>
+                <li>
+                  <code>uid:…</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.meta.uid"></span>
+                </li>
+                <li>
+                  <code>newer:…</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.meta.newer"></span>
+                </li>
+                <li>
+                  <code>older:…</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.meta.older"></span>
+                </li>
+                <li>
+                  <code>date:…</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.meta.date"></span>
+                </li>
+              </ul>
+              <h5 class="t" data-t="help.wizard.combine"></h5>
+              <ul>
+                <li>
+                  <code>and</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.combine.and"></span>
+                </li>
+                <li>
+                  <code>or</code> &mdash;
+                  <span class="t" data-t="[html]help.wizard.combine.or"></span>
+                </li>
+                <li>
+                  <code>(…)</code> &mdash;
+                  <span
+                    class="t"
+                    data-t="[html]help.wizard.combine.braces"
+                  ></span>
+                </li>
+                <li>
+                  <code>in bbox</code> &mdash;
+                  <span
+                    class="t"
+                    data-t="[html]help.wizard.combine.bbox"
+                  ></span>
+                </li>
+                <li>
+                  <code>in …</code> &mdash;
+                  <span
+                    class="t"
+                    data-t="[html]help.wizard.combine.area"
+                  ></span>
+                </li>
+                <li>
+                  <code>around …</code> &mdash;
+                  <span
+                    class="t"
+                    data-t="[html]help.wizard.combine.around"
+                  ></span>
+                </li>
+                <li>
+                  <code>global</code> &mdash;
+                  <span
+                    class="t"
+                    data-t="[html]help.wizard.combine.global"
+                  ></span>
+                </li>
+              </ul>
             </div>
             <h3 class="t" data-t="help.section.ide"></h3>
             <div>
@@ -316,6 +460,18 @@
                   <kbd>Ctrl</kbd>+<kbd>O</kbd> / <kbd>Ctrl</kbd>+<kbd>S</kbd>
                   &mdash;
                   <span class="t" data-t="help.ide.keyboard.load_save"></span>
+                </li>
+                <li>
+                  <kbd>Ctrl</kbd>+<kbd>E</kbd> &mdash;
+                  <span class="t" data-t="help.ide.keyboard.export"></span>
+                </li>
+                <li>
+                  <kbd>Ctrl</kbd>+<kbd>K</kbd> &mdash;
+                  <span class="t" data-t="help.ide.keyboard.styler"></span>
+                </li>
+                <li>
+                  <kbd>Ctrl</kbd>+<kbd>,</kbd> &mdash;
+                  <span class="t" data-t="help.ide.keyboard.settings"></span>
                 </li>
                 <li>
                   <kbd>Ctrl</kbd>+<kbd>H</kbd> &mdash;
@@ -425,181 +581,291 @@
         <section class="modal-card-body">
           <div class="box">
             <h3 class="subtitle t" data-t="settings.section.general"></h3>
-            <div class="field">
-              <label class="label" for="ui_language">
-                <span class="t" data-t="settings.ui_lang"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="ui_language"
-                  value=""
-                  id="ui_language"
-                />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label" for="server">
-                <span class="t" data-t="settings.server"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="server"
-                  value=""
-                  id="server"
-                />
-              </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="no_autorepair" />
-                  <span class="t" data-t="settings.disable_autorepair"></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="ui_language">
+                  <span class="t" data-t="settings.ui_lang"></span>
                 </label>
               </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <!-- options are filled in by onSettingsClick -->
+                      <select name="ui_language" id="ui_language"></select>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="disable_warning_huge_data" />
-                  <span
-                    class="t"
-                    data-t="settings.disable_warning_huge_data"
-                  ></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label t" for="theme" data-t="settings.theme">
+                  Theme
                 </label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select name="theme" id="theme">
+                        <option
+                          class="t"
+                          value="auto"
+                          data-t="settings.theme.auto"
+                        >
+                          auto
+                        </option>
+                        <option
+                          class="t"
+                          value="light"
+                          data-t="settings.theme.light"
+                        >
+                          light
+                        </option>
+                        <option
+                          class="t"
+                          value="dark"
+                          data-t="settings.theme.dark"
+                        >
+                          dark
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="server">
+                  <span class="t" data-t="settings.server"></span>
+                </label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      name="server"
+                      value=""
+                      id="server"
+                    />
+                  </div>
+                  <p class="help" id="server-info"></p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.autorepair"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="no_autorepair" />
+                      <span
+                        class="t"
+                        data-t="settings.disable_autorepair"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.warnings"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="disable_warning_huge_data" />
+                      <span
+                        class="t"
+                        data-t="settings.disable_warning_huge_data"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="box">
             <h3 class="subtitle t" data-t="settings.section.editor"></h3>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="use_rich_editor" />
-                  <span class="t" data-t="settings.enable_rich_editor"></span>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.rich_editor"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="use_rich_editor" />
+                      <span
+                        class="t"
+                        data-t="settings.enable_rich_editor"
+                      ></span>
+                    </label>
+                  </div>
+                  <p
+                    class="help t"
+                    data-t="settings.enable_rich_editor_expl"
+                  ></p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="editor_width">
+                  <span class="t" data-t="settings.editor_width"></span>
                 </label>
               </div>
-              <p class="help t" data-t="settings.enable_rich_editor_expl"></p>
-            </div>
-            <div class="field">
-              <label class="label" for="editor_width">
-                <span class="t" data-t="settings.editor_width"></span>
-              </label>
-              <div class="control">
-                <input
-                  type="text"
-                  class="input"
-                  name="editor_width"
-                  value=""
-                  id="editor_width"
-                />
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      type="text"
+                      class="input"
+                      name="editor_width"
+                      value=""
+                      id="editor_width"
+                    />
+                  </div>
+                  <p class="help t" data-t="settings.editor_width_expl"></p>
+                </div>
               </div>
-              <p class="help t" data-t="settings.editor_width_expl"></p>
             </div>
           </div>
           <div class="box">
             <h3 class="subtitle t" data-t="settings.section.map"></h3>
-            <div class="field">
-              <label class="label" for="tile_server">
-                <span class="t" data-t="settings.tile_server"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="tile_server"
-                  value=""
-                  id="tile_server"
-                />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label" for="background_opacity">
-                <span class="t" data-t="settings.tile_opacity"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="number"
-                  name="background_opacity"
-                  value=""
-                  id="background_opacity"
-                  min="0.0"
-                  max="1.0"
-                  step="0.1"
-                />
-              </div>
-              <p class="help t" data-t="settings.tile_opacity_expl"></p>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="enable_crosshairs" />
-                  <span class="t" data-t="settings.show_crosshairs"></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="tile_server">
+                  <span class="t" data-t="settings.tile_server"></span>
                 </label>
               </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="disable_poiomatic" />
-                  <span class="t" data-t="settings.disable_poiomatic"></span>
-                </label>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      name="tile_server"
+                      value=""
+                      id="tile_server"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="show_data_stats" />
-                  <span class="t" data-t="settings.show_data_stats"></span>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="background_opacity">
+                  <span class="t" data-t="settings.tile_opacity"></span>
                 </label>
               </div>
-            </div>
-          </div>
-          <div class="box">
-            <h3 class="subtitle t" data-t="settings.section.sharing"></h3>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="share_include_pos" />
-                  <span class="t" data-t="settings.include_map_state"></span>
-                </label>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="number"
+                      name="background_opacity"
+                      value=""
+                      id="background_opacity"
+                      min="0.0"
+                      max="1.0"
+                      step="0.1"
+                    />
+                  </div>
+                  <p class="help t" data-t="settings.tile_opacity_expl"></p>
+                </div>
               </div>
             </div>
-            <div class="field">
-              <label class="label" for="share_compression">
-                <span class="t" data-t="settings.compression"></span>
-              </label>
-              <div class="control">
-                <input
-                  class="input"
-                  type="text"
-                  name="share_compression"
-                  id="share_compression"
-                  value=""
-                />
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.crosshairs"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="enable_crosshairs" />
+                      <span class="t" data-t="settings.show_crosshairs"></span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="box">
-            <h3 class="subtitle t" data-t="settings.section.export"></h3>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="export_image_scale" />
-                  <span class="t" data-t="settings.export_image_scale"></span>
-                </label>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.pois"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="disable_poiomatic" />
+                      <span
+                        class="t"
+                        data-t="settings.disable_poiomatic"
+                      ></span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox" name="export_image_attribution" />
-                  <span class="t" data-t="settings.export_image_attr"></span>
-                </label>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <p class="label t" data-t="settings.label.data_stats"></p>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox" name="show_data_stats" />
+                      <span class="t" data-t="settings.show_data_stats"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label
+                  class="label t"
+                  for="editor_preference"
+                  data-t="settings.editor_preference"
+                  >Editor</label
+                >
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <div class="select">
+                      <select name="editor_preference" id="editor_preference">
+                        <option
+                          class="t"
+                          value="osmdotorg"
+                          data-t="settings.editor_preference.osmdotorg"
+                        >
+                          osm.org
+                        </option>
+                        <option
+                          class="t"
+                          value="josm"
+                          data-t="settings.editor_preference.josm"
+                        >
+                          JOSM (local)
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -614,6 +880,8 @@
                 >
                   <span class="t" data-t="dialog.reset">Reset</span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button
                   class="button is-success"
                   data-ide-handler="click:onSettingsSave"
@@ -623,6 +891,8 @@
                   </span>
                   <span class="t" data-t="dialog.save">Save</span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button class="button" data-ide-handler="click:onSettingsClose">
                   <span class="t" data-t="dialog.close">Close</span>
                 </button>
@@ -681,6 +951,8 @@
                   </span>
                   <span class="t" data-t="dialog.save"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button
                   class="button osm is-success"
                   data-ide-handler="click:onSaveOsmSumbit"
@@ -690,6 +962,8 @@
                   </span>
                   <span class="t" data-t="dialog.save-osm"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button
                   class="t button"
                   data-ide-handler="click:onSaveClose"
@@ -804,8 +1078,24 @@
           </div>
           <div class="panel">
             <p class="t panel-heading" data-t="export.section.map"></p>
-            <div class="panel-block">
+            <div class="panel-block is-block">
               <p class="t" data-t="[html]export.as_png"></p>
+              <label class="checkbox is-block">
+                <input
+                  type="checkbox"
+                  name="export_image_scale"
+                  data-ide-handler="change:onExportImageOptionsChange"
+                />
+                <span class="t" data-t="settings.export_image_scale"></span>
+              </label>
+              <label class="checkbox is-block">
+                <input
+                  type="checkbox"
+                  name="export_image_attribution"
+                  data-ide-handler="change:onExportImageOptionsChange"
+                />
+                <span class="t" data-t="settings.export_image_attr"></span>
+              </label>
             </div>
             <div class="panel-block">
               <p class="t" data-t="[html]export.as_interactive_map"></p>
@@ -979,7 +1269,7 @@
                   <input
                     type="checkbox"
                     name="include_coords"
-                    data-ide-handler="change:updateShareLink"
+                    data-ide-handler="change:onShareOptionsChange"
                   />
                   <span class="t" data-t="share.incl_map_state"></span>
                 </label>
@@ -995,6 +1285,26 @@
                   />
                   <span class="t" data-t="share.run_immediately"></span>
                 </label>
+              </div>
+            </div>
+            <div class="field">
+              <label
+                class="label t"
+                for="share_compression"
+                data-t="settings.compression"
+              ></label>
+              <div class="control">
+                <div class="select">
+                  <select
+                    name="share_compression"
+                    id="share_compression"
+                    data-ide-handler="change:onShareOptionsChange"
+                  >
+                    <option value="auto">auto</option>
+                    <option value="on">on</option>
+                    <option value="off">off</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -1108,6 +1418,8 @@
                   </span>
                   <span class="t" data-t="dialog.wizard_run"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button
                   class="button is-success"
                   data-ide-handler="click:onFfsBuild"
@@ -1117,6 +1429,8 @@
                   </span>
                   <span class="t" data-t="dialog.wizard_build"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button class="button" data-ide-handler="click:onFfsClose">
                   <span class="t" data-t="dialog.cancel">Cancel</span>
                 </button>
@@ -1201,6 +1515,8 @@
                   </span>
                   <span class="t" data-t="dialog.styler_run"></span>
                 </button>
+              </div>
+              <div class="level-item">
                 <button class="button" data-ide-handler="click:onStylerClose">
                   <span class="t" data-t="dialog.cancel">Cancel</span>
                 </button>
@@ -1262,7 +1578,7 @@
 
     <script src="node_modules/jquery/dist/jquery.js" type="module"></script>
     <script
-      src="node_modules/jquery-ui-dist/jquery-ui.js"
+      src="node_modules/jquery-ui/dist/jquery-ui.js"
       type="module"
     ></script>
     <script src="./js/index.ts" type="module"></script>

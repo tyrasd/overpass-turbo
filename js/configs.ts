@@ -1,11 +1,14 @@
+import type {OSMAuthOptions} from "osm-auth";
+
 export default {
   appname: "overpass-turbo",
   // used for localStorage and openstreetmap.org/api/0.6/user/preferences
   settingNamespace: "overpass-ide",
   defaultServer: "https://overpass-api.de/api/",
+  // the remaining suggestions are read from the wiki at runtime, see
+  // js/overpass-servers.ts — these two are the fallback when it is unreachable
   // https://wiki.openstreetmap.org/wiki/Overpass_API#Public_Overpass_API_instances
   suggestedServers: [
-    "https://overpass-api.de/api/",
     "https://overpass-api.de/api/",
     "https://maps.mail.ru/osm/tools/overpass/api/",
     "https://overpass.private.coffee/api/"
@@ -39,5 +42,5 @@ export default {
   osmAuth: {
     url: "https://www.openstreetmap.org",
     client_id: "lIifli2M7Enpi1LUqCxSNe3yDXhBHwf_n8HzJ03mKFg"
-  }
+  } as Partial<OSMAuthOptions>
 };

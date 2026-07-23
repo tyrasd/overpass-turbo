@@ -1,0 +1,191 @@
+import {beforeEach, describe, expect, it, vi} from "vite-plus/test";
+
+import {requestJson} from "../js/httpRequest";
+import {fetchInstances, parseInstances} from "../js/overpass-servers";
+
+vi.mock("../js/httpRequest", () => ({requestJson: vi.fn()}));
+
+/** wraps wikitext the way the MediaWiki API returns it */
+const apiResponse = (wikitext: string) => ({
+  query: {pages: [{revisions: [{slots: {main: {content: wikitext}}}]}]}
+});
+
+// an excerpt of https://wiki.openstreetmap.org/wiki/Overpass_API, including a
+// decoy table without an "API Endpoint" column and prose mentioning
+// `interpreter` outside of the tables
+const WIKITEXT = `== Public Overpass API instances==
+{{Note|Important: do not add <syntaxhighlight inline lang="">interpreter</syntaxhighlight>, Turbo does this automatically.}}
+
+{| class="wikitable"
+|-
+! scope="col" |Language
+! scope="col" |Library
+|-
+|Python
+|overpy
+|}
+
+=== Instances with global data coverage ===
+
+{| class="wikitable"
+|-
+! scope="col" |Name
+! scope="col" |API Endpoint
+! scope="col" |[[Attic Data|Attic data]]
+! scope="col" width="40%" |Usage policy
+|-
+|[https://overpass-api.de/ Main Overpass API instance]
+|<syntaxhighlight inline lang="">https://overpass-api.de/api/interpreter</syntaxhighlight>
+| {{yes}}
+|Less than 10,000 queries per day<ref>https://dev.overpass-api.de/</ref>.<br />Be sure to send a <syntaxhighlight inline lang="">User-Agent</syntaxhighlight> header. Ask [[User:Roland]] or {{User|someone|wiki=Someone}}.
+|-
+|[https://www.geofabrik.de/data/overpass-api.html Geofabrik Overpass]
+|<syntaxhighlight inline lang="">https://overpass.geofabrik.de/YOUR_API_KEY/api/interpreter</syntaxhighlight>
+| {{no}}
+|[https://www.geofabrik.de/data/overpass-api.html Payment required]
+|}
+
+=== Instances with data only for a specific region ===
+
+{| class="wikitable"
+|-
+! scope="col" |Name
+! scope="col" |Data coverage
+! scope="col" |API Endpoint
+! scope="col" |Hardware
+|-
+|[https://overpass.osm.ch/ Swiss Overpass API instance]
+|Switzerland
+|<syntaxhighlight inline lang="">https://overpass.osm.ch/api/interpreter</syntaxhighlight>
+|12 cores, 64 GB RAM
+|-
+|[https://overpass.atownsend.org.uk/ Britain and Ireland Overpass Instance]
+|Britain and Ireland
+|<syntaxhighlight inline lang="">https://overpass.atownsend.org.uk/api/</syntaxhighlight>
+|1 VM, 4 cores
+|}
+`;
+
+describe("overpass-servers", () => {
+  beforeEach(() => {
+    vi.mocked(requestJson).mockReset();
+  });
+
+  it("requests the wikitext through the CORS-enabled api.php", async () => {
+    vi.mocked(requestJson).mockResolvedValue(apiResponse(WIKITEXT));
+    await fetchInstances();
+    const url = vi.mocked(requestJson).mock.calls[0][0] as URL;
+    expect(url.origin + url.pathname).toBe(
+      "https://wiki.openstreetmap.org/w/api.php"
+    );
+    expect(Object.fromEntries(url.searchParams)).toMatchObject({
+      action: "query",
+      prop: "revisions",
+      rvprop: "content",
+      rvslots: "main",
+      titles: "Overpass_API",
+      // must stay a literal `*`, percent-encoding it breaks the CORS handshake
+      origin: "*"
+    });
+  });
+
+  it("returns no instances when the page has no content", async () => {
+    vi.mocked(requestJson).mockResolvedValue({});
+    expect(await fetchInstances()).toEqual([]);
+  });
+
+  it("parses both instance tables", async () => {
+    vi.mocked(requestJson).mockResolvedValue(apiResponse(WIKITEXT));
+    expect(await fetchInstances()).toEqual([
+      {
+        url: "https://overpass-api.de/api/",
+        scope: "global",
+        // footnote, templates and markup gone, link labels kept
+        usagePolicy:
+          "Less than 10,000 queries per day. Be sure to send a User-Agent header. Ask User:Roland or someone."
+      },
+      {
+        url: "https://overpass.geofabrik.de/YOUR_API_KEY/api/",
+        scope: "global",
+        usagePolicy:
+          "Payment required (https://www.geofabrik.de/data/overpass-api.html)"
+      },
+      // the regional table of the fixture has no usage policy column
+      {
+        url: "https://overpass.osm.ch/api/",
+        scope: "regional",
+        coverage: "Switzerland"
+      },
+      {
+        url: "https://overpass.atownsend.org.uk/api/",
+        scope: "regional",
+        coverage: "Britain and Ireland"
+      }
+    ]);
+  });
+
+  it("strips markup from the usage policy", () => {
+    // anybody can edit the wiki, so no markup may survive into the result
+    const [instance] = parseInstances(`{| class="wikitable"
+|-
+! scope="col" |API Endpoint
+! scope="col" |Usage policy
+|-
+|https://overpass-api.de/api/
+|<script>alert(1)</script><img src=x onerror=alert(1)/> Be '''nice'''.
+|}`);
+    expect(instance.usagePolicy).toBe("alert(1) Be nice.");
+    expect(instance.usagePolicy).not.toMatch(/[<>]/);
+  });
+
+  it("ignores tables without an API Endpoint column", () => {
+    expect(
+      parseInstances(`{| class="wikitable"
+|-
+! scope="col" |Name
+! scope="col" |Homepage
+|-
+|Main instance
+|https://overpass-api.de/
+|}`)
+    ).toEqual([]);
+  });
+
+  it("finds the endpoint column regardless of its position", () => {
+    expect(
+      parseInstances(`{| class="wikitable"
+|-
+! scope="col" |API Endpoint
+! scope="col" |Name
+|-
+|https://overpass-api.de/api/interpreter
+|Main instance
+|}`)
+    ).toEqual([{url: "https://overpass-api.de/api/", scope: "global"}]);
+  });
+
+  it("does not depend on the section headings", () => {
+    // with both headings renamed, only the "Data coverage" column still
+    // distinguishes the regional from the global table
+    const renamed = WIKITEXT.replace(/^=== .* ===$/gm, "=== Instances ===");
+    expect(parseInstances(renamed).map((i) => i.scope)).toEqual([
+      "global",
+      "global",
+      "regional",
+      "regional"
+    ]);
+  });
+
+  it("deduplicates repeated endpoints", () => {
+    expect(
+      parseInstances(`{| class="wikitable"
+|-
+! scope="col" |API Endpoint
+|-
+|https://overpass-api.de/api/interpreter
+|-
+|https://overpass-api.de/api/
+|}`)
+    ).toEqual([{url: "https://overpass-api.de/api/", scope: "global"}]);
+  });
+});

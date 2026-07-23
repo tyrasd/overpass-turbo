@@ -1,7 +1,11 @@
 // global i18n object
 import $ from "jquery";
 
+import en from "../locales/en.json";
 import settings from "./settings";
+
+/** the source language, used for keys a translation does not (yet) cover */
+const en_td: Record<string, string> = en;
 
 function browser_locale(): string {
   /* taken from https://github.com/maxogden/browser-locale by Max Ogden, BSD licensed */
@@ -74,7 +78,7 @@ export default class i18n {
   static td: Record<string, string> = {};
 
   static t(key: string) {
-    return this.td[key] || "/missing translation/";
+    return this.td[key] || en_td[key] || `/missing translation: ${key}/`;
   }
 
   static getSupportedLanguages() {
@@ -89,7 +93,7 @@ export default class i18n {
       // get user agent's language
       try {
         lng = browser_locale().toLowerCase();
-      } catch (e) {}
+      } catch {}
       // hardcode some language fallbacks
       if (lng === "nb") lng = "no"; // Norwegian Bokmål
       // sanitize inconsistent use of lower and upper case spelling
@@ -97,7 +101,8 @@ export default class i18n {
       if ((parts = lng.match(/(.*)-(.*)/)))
         lng = `${parts[1]}-${parts[2].toUpperCase()}`;
       // fall back to generic language file if no country-specific i18n is found
-      if ($.inArray(lng, supported_lngs) == -1) lng = lng.replace(/-.*/, "");
+      if (!(supported_lngs as string[]).includes(lng))
+        lng = lng.replace(/-.*/, "");
     }
     // the result is validated against supported_lngs by the callers
     return lng as Language;
@@ -109,7 +114,7 @@ export default class i18n {
   static translate(lng?: Language | string) {
     lng = this.getLanguage(lng);
 
-    if ($.inArray(lng, supported_lngs) == -1) {
+    if (!(supported_lngs as string[]).includes(lng)) {
       console.log(
         `unsupported language: ${lng} switching back to: ${default_lng}`
       );
@@ -120,7 +125,9 @@ export default class i18n {
     try {
       return import(`../locales/${lng}.json`).then(
         (data) => {
-          Object.assign(this.td, data.default);
+          // replace, don't merge: strings of a previously loaded language must
+          // not survive as a stand-in for keys the new one does not cover
+          this.td = data.default;
           this.translate_ui();
           // todo: nicer implementation
           return data.default;

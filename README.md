@@ -28,16 +28,33 @@ To download the latest translations from Transifex, run `tx pull --all` using th
 _overpass turbo_ can be linked from other applications by using [URL parameters](https://wiki.openstreetmap.org/wiki/Overpass_turbo/Development#URL_Parameters).
 For example, one can provide a query to load, set the initial map location, or instruct turbo to load a [template](https://wiki.openstreetmap.org/wiki/Overpass_turbo/Templates).
 
+### geocoding
+
+Two geocoders are used, both behind the common interface in `js/geocoding.ts`:
+
+- [Nominatim](https://nominatim.openstreetmap.org/) resolves the `{{geocodeId}}`, `{{geocodeArea}}`, `{{geocodeBbox}}` and `{{geocodeCoords}}` shortcuts
+- [osmnames](https://osmnames.org/) backs the autocompletion of the map search box, as the [Nominatim usage policy](https://operations.osmfoundation.org/policies/nominatim/) forbids autocomplete style querying
+
 ### git-branches
 
 Development is done in the _master_ branch, stable releases are marked with git tags, the _gh-pages_ branch contains static builds of the releases.
 
 ### install & run
 
-0. Use `corepack enable` to install [pnpm](https://pnpm.io/).
+0. Install [pnpm](https://pnpm.io/installation), e.g. via `npm install -g pnpm`.
 1. `pnpm install`
-2. `pnpm run start` for a Development server listening at http://localhost:5173
-3. `pnpm run build` for a minified build in `./dist`
+2. `pnpm dev` for a development server listening at http://localhost:5173
+3. `pnpm build` for a minified build in `./dist`
+4. `pnpm preview` to serve the production build locally
+
+### test & lint
+
+- `pnpm test` runs the [Vitest](https://vitest.dev/) test suite
+- `pnpm check` runs the format, lint, and type checks (as done in CI)
+- `pnpm format` formats the code in place, `pnpm lint` lints it
+
+Formatting is applied automatically to staged files by the pre-commit hook.
+Run `pnpm exec vp config` once after cloning to install it.
 
 ## See Also
 

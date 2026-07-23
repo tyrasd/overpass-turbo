@@ -1,4 +1,37 @@
-<!--## undeployed-->
+## Unreleased
+
+These changes are live on the development instance at <https://tyrasd.github.io/overpass-turbo/>, but are not yet part of a stable release and are not deployed to <https://overpass-turbo.eu/>.
+
+- Add support for Postpass / PostGIS SQL backends: `{{data:sql}}` as the query format signifier, SQL syntax highlighting, detection of GeoJSON and other JSON responses, and handling of backend error messages ([#788](https://github.com/tyrasd/overpass-turbo/issues/788))
+- Add a light/dark/auto theme setting, including dark mode styling for jQuery UI buttons and icons
+- Make favicon adaptive to light/dark color-scheme ([#780](https://github.com/tyrasd/overpass-turbo/issues/780))
+- Allow changing the default editor so items open in a JOSM instance running on the user's local machine instead of osm.org, with an error message if the local JOSM process is not reachable
+- Add `{{wsen}}` shortcut, like `{{bbox}}`
+- Add "older" keyword to the wizard ([#247](https://github.com/tyrasd/overpass-turbo/issues/247))
+- Accept abbreviated dates such as `2025`, `2025-12` or `2025-12-01` for the wizard's "newer"/"older" keywords ([#785](https://github.com/tyrasd/overpass-turbo/issues/785))
+- Document wizard conditions in help dialog
+- Add clear query button ([#787](https://github.com/tyrasd/overpass-turbo/issues/787))
+- Add `Ctrl+,` keyboard shortcut to open the settings dialog
+- Add setting to disable "huge data" warning ([#248](https://github.com/tyrasd/overpass-turbo/issues/248))
+- Add new Overpass QL keywords ([#749](https://github.com/tyrasd/overpass-turbo/issues/749))
+- Round `{{bbox}}`/`{{center}}` coordinates to 7 decimal places ([#832](https://github.com/tyrasd/overpass-turbo/issues/832))
+- Fall back to the English string for untranslated keys
+- Restore login to osm.org via popup
+- Suggest the servers listed on the [Overpass API wiki page](https://wiki.openstreetmap.org/wiki/Overpass_API#Public_Overpass_API_instances) in the settings dialog, and show the data coverage and usage policy of the selected server ([#854](https://github.com/tyrasd/overpass-turbo/pull/854))
+- Remove duplicate overpass-api.de entry from the suggested servers
+- Remove overpass.openstreetmap.ru instance ([#816](https://github.com/tyrasd/overpass-turbo/issues/816))
+- Update link for overpass.private.coffee instance
+- Lay the settings dialog out as a horizontal form, with every label in a left-hand column and short names for the checkboxes ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
+- Move the image scale and attribution options into the export dialog, and the map-state and compression options into the share dialog, next to the links they affect ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
+- Remember whether a share link includes the map state, instead of resetting the choice each time ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
+- Pick the UI language from a select instead of a free-text combobox, so typos can no longer fall back to the default unnoticed ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
+- Try to render results even if parsing fails for some reason
+- Fix freeze for certain URLs in tags ([#747](https://github.com/tyrasd/overpass-turbo/issues/747))
+- Fix selection of combobox in autostyler dialog
+- Fix missing `attribution` control object, which is required for PNG export ([#813](https://github.com/tyrasd/overpass-turbo/issues/813))
+- Fix "L is not defined" in production build
+- Rewrite the MapCSS style parser as ES6 classes, keeping selector matching, property assignment and style merging as they were ([#857](https://github.com/tyrasd/overpass-turbo/pull/857))
+- Type-check the whole codebase, on TypeScript 6 with `strict` enabled, and check it in CI ([#857](https://github.com/tyrasd/overpass-turbo/pull/857))
 
 ## 2024-11-03
 

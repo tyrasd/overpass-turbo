@@ -1,0 +1,51 @@
+# git-cliff configuration
+# Generates a draft CHANGELOG entry from commit subjects.
+# The output is a starting point, not a finished changelog: prune internal
+# churn and merge related commits by hand before committing.
+
+[changelog]
+header = ""
+body = """
+## {% if timestamp %}{{ timestamp | date(format="%Y-%m-%d") }}{% else %}{{ now() | date(format="%Y-%m-%d") }}{% endif %}
+{% for commit in commits %}
+- {{ commit.message | split(pat="\n") | first | trim }}
+{%- endfor %}
+"""
+trim = true
+
+[git]
+conventional_commits = false
+filter_commits = false
+sort_commits = "oldest"
+
+commit_preprocessors = [
+  # Leading "#123 foo" -> "foo ([#123](...))"
+  { pattern = '(?m)\A#([0-9]+)\s+(.*)', replace = "${2} ([#${1}](https://github.com/tyrasd/overpass-turbo/issues/${1}))" },
+  # "..., closes #123" / "fixes #123" -> markdown link
+  { pattern = '(?i),?\s+(closes|fixes)\s+#([0-9]+)', replace = " ([#${2}](https://github.com/tyrasd/overpass-turbo/issues/${2}))" },
+  # Render a trailing (#123) as a markdown link, matching the existing style
+  { pattern = '(?m)\s*\(#([0-9]+)\)\s*$', replace = " ([#${1}](https://github.com/tyrasd/overpass-turbo/issues/${1}))" }
+]
+
+commit_parsers = [
+  # Merge commits are never changelog entries
+  { message = "^Merge ", skip = true },
+
+  # Dependency, build and tooling maintenance
+  { message = "(?i)^(bump|upgrade|update|migrate to) ", skip = true },
+  { message = "(?i)^(lint|run prettier|apply formatter|oxlint)", skip = true },
+  { message = "(?i)(yarn\\.lock|pnpm-lock|package\\.json|corepack|node\\.js \\d+|vite\\+?|script names)", skip = true },
+  { message = "(?i)^(remove|replace) .*(dependency|lodash|jquery utility|corepack)", skip = true },
+
+  # Internal refactors with no user-visible effect
+  { message = "(?i)^(type|promisify|inline|extract|refactor|rename|move|simplify|deduplicate|import) ", skip = true },
+  { message = "(?i)^(add typescript types|fix i18n types|remove commented-out|use optional catch binding)", skip = true },
+  { message = "(?i)^(resolve modules|initialize|don't require|copy icons)", skip = true },
+
+  # Test- and translation-only changes
+  { message = "(?i)^(update translations|enable locales)", skip = true },
+  { message = "(?i)\\b(test|tests)\\b", skip = true },
+
+  # Everything else is a candidate changelog entry
+  { message = ".*", group = "changes" }
+]

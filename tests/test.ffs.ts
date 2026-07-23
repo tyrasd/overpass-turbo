@@ -4,24 +4,18 @@ import {ffs_construct_query} from "../js/ffs";
 import {setPresets} from "../js/ffs/free";
 
 describe("ide.ffs", () => {
-  function construct_query(search) {
-    return new Promise((resolve, reject) => {
-      ffs_construct_query(search, undefined, (err, result) => {
-        if (err) {
-          reject(err);
-        } else if (typeof result === "string") {
-          resolve(compact(result));
-        } else {
-          resolve(result);
-        }
-      });
-    });
+  async function construct_query(search: string) {
+    const result = await ffs_construct_query(search, undefined);
+    return typeof result === "string" ? compact(result) : result;
   }
 
   function compact(q) {
     q = q.replace(/\/\*[\s\S]*?\*\//g, "");
     q = q.replace(/\/\/.*/g, "");
-    q = q.replace(/\[out:json\]\[timeout:.*?\];/, "");
+    // keep any additional settings, such as `[date:…]`
+    q = q.replace(/\[out:json\]\[timeout:\d+\](.*?);/, (_, rest) =>
+      rest ? `${rest};` : ""
+    );
     q = q.replace(/\(\{\{bbox\}\}\)/g, "(bbox)");
     q = q.replace(/\{\{geocodeArea:([^}]*)\}\}/g, "area($1)");
     q = q.replace(/\{\{geocodeCoords:([^}]*)\}\}/g, "coords:$1");
@@ -243,6 +237,132 @@ describe("ide.ffs", () => {
         `node(newer:"date:1day")(bbox);${out_str}`
       );
     });
+    // abbreviated dates
+    it("short dates", async () => {
+      // year and month
+      let search = "newer:2025-12 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T00:00:00Z")(bbox);${out_str}`
+      );
+      // year, month and day
+      search = "newer:2025-12-01 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T00:00:00Z")(bbox);${out_str}`
+      );
+      // trailing Z without a time
+      search = "newer:2025-12-01Z and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T00:00:00Z")(bbox);${out_str}`
+      );
+      // date and time, missing seconds
+      search = 'newer:"2025-12-01T12:30" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T12:30:00Z")(bbox);${out_str}`
+      );
+      // date and time, space separated, missing trailing Z
+      search = 'newer:"2025-12-01 12:30:45" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T12:30:45Z")(bbox);${out_str}`
+      );
+      // full dates are left untouched
+      search = 'newer:"2025-12-01T12:30:45Z" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-12-01T12:30:45Z")(bbox);${out_str}`
+      );
+      // a bare year
+      search = "newer:2025 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"2025-01-01T00:00:00Z")(bbox);${out_str}`
+      );
+      // numbers outside of a plausible year range remain relative dates (days)
+      search = "newer:100 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"date:100")(bbox);${out_str}`
+      );
+      // an explicit unit still takes precedence over the year interpretation
+      search = 'newer:"2025 days" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"date:2025 days")(bbox);${out_str}`
+      );
+      // non-date values are passed through verbatim
+      search = 'newer:"whenever" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(newer:"whenever")(bbox);${out_str}`
+      );
+      // works for older, too
+      search = "older:2025-12-01 and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "2025-12-01T00:00:00Z")(bbox);${out_str}`
+      );
+    });
+    // older
+    it("older", async () => {
+      // regular
+      let search = 'older:"2000-01-01T01:01:01Z" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "2000-01-01T01:01:01Z")(bbox);${out_str}`
+      );
+      // relative
+      search = "older:1day and type:node";
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "date:1day")(bbox);${out_str}`
+      );
+      // relative, spaced and pluralized
+      search = 'older:"3 days" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "date:3 days")(bbox);${out_str}`
+      );
+      // relative, negative offset
+      search = 'older:"-1 year" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "date:-1 year")(bbox);${out_str}`
+      );
+      // non-date values are passed through verbatim
+      search = 'older:"tomorrow" and type:node';
+      await expect(construct_query(search)).resolves.to.equal(
+        `node(if: timestamp() <= "tomorrow")(bbox);${out_str}`
+      );
+      // combines with other conditions
+      search = 'older:"2000-01-01T01:01:01Z" and amenity=cafe';
+      await expect(construct_query(search)).resolves.to.equal(
+        `nwr(if: timestamp() <= "2000-01-01T01:01:01Z")["amenity"="cafe"](bbox);${out_str}`
+      );
+    });
+    // older combined with newer, i.e. a date range
+    it("older and newer", async () => {
+      const search = 'older:"1 month" and newer:"2 years" and type:way';
+      await expect(construct_query(search)).resolves.to.equal(
+        `way(if: timestamp() <= "date:1 month")(newer:"date:2 years")(bbox);${out_str}`
+      );
+    });
+    // date, i.e. attic data
+    it("date", async () => {
+      // absolute, abbreviated
+      let search = "date:2016-01-01 and amenity=cafe";
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"2016-01-01T00:00:00Z"];nwr["amenity"="cafe"](bbox);${out_str}`
+      );
+      // absolute, full
+      search = 'date:"2016-01-01T00:00:00Z" and amenity=cafe';
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"2016-01-01T00:00:00Z"];nwr["amenity"="cafe"](bbox);${out_str}`
+      );
+      // relative
+      search = 'date:"1 week" and amenity=cafe';
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"date:1 week"];nwr["amenity"="cafe"](bbox);${out_str}`
+      );
+      // on its own, i.e. all objects at the given date
+      search = "date:2016";
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"2016-01-01T00:00:00Z"];nwr(bbox);${out_str}`
+      );
+      // combines with other meta conditions
+      search = "date:2016-01-01 and type:node and user:foo";
+      await expect(construct_query(search)).resolves.to.equal(
+        `[date:"2016-01-01T00:00:00Z"];node(user:"foo")(bbox);${out_str}`
+      );
+    });
     // user
     it("user", async () => {
       // user name
@@ -336,7 +456,7 @@ describe("ide.ffs", () => {
 
     it("preset not found", async () => {
       const search = "foo";
-      await expect(construct_query(search)).rejects.to.throw(
+      await expect(construct_query(search)).rejects.toThrow(
         "unknown ffs string"
       );
     });

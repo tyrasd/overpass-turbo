@@ -10,6 +10,17 @@ type Query = {
   queries: Query[];
 };
 
+/** a single search condition, as produced by the ffs parser */
+type Condition = {
+  query: string;
+  key?: string;
+  /** a plain value, or `{regex, modifier}` for the matching queries */
+  val?;
+  meta?: string;
+  type?: string;
+  free?: string;
+};
+
 /* this converts a random boolean expression into a normalized form:
  * A∧B∧… ∨ C∧D∧… ∨ …
  * for example: A∧(B∨C) ⇔ (A∧B)∨(A∧C)
@@ -47,16 +58,50 @@ function normalize(query: Query): Query {
   };
 }
 
-function escRegexp(str) {
+function escRegexp(str: string): string {
   return str.replace(/([()[{*+.$^\\|?])/g, "\\$1");
 }
 
-export function ffs_construct_query(
+/* interprets the value of a `newer:`/`older:`/`date:` condition:
+ * abbreviated dates are expanded to the full `yyyy-mm-ddThh:mm:ssZ` format
+ * expected by the overpass API, e.g. `2025-12-01` → `2025-12-01T00:00:00Z`,
+ * while relative dates are turned into a `{{date:…}}` shortcut.
+ * a bare four digit number in a plausible year range is treated as a year,
+ * e.g. `2025` → `2025-01-01T00:00:00Z`, and not as a number of days.
+ * any other value is returned unchanged.
+ */
+function dateValue(val: string): string {
+  const [
+    ,
+    year,
+    month = "01",
+    day = "01",
+    hour = "00",
+    minute = "00",
+    second = "00"
+  ] =
+    val.match(
+      /^(\d{4})(?:-(\d{2})(?:-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?)?)?Z?$/
+    ) ?? [];
+  // a number of days is more likely intended outside of this range
+  if (year && +year >= 1900 && +year <= 2099)
+    return `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
+  if (
+    val.match(
+      /^-?\d+ ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?$/
+    )
+  )
+    return `{{date:${val}}}`;
+  return val;
+}
+
+export async function ffs_construct_query(
   search: string,
-  comment: string | false | undefined,
-  callback
-) {
-  function quote_comment_str(s) {
+  /** the comment to head the query with, `true` for the default one, or
+   * `false` to generate no comments at all */
+  comment: string | boolean | undefined
+): Promise<string> {
+  function quote_comment_str(s: string): string {
     // quote strings that are to be used within c-style comments
     // replace any comment-ending sequences in these strings that would break the resulting query
     return s.replace(/\*\//g, "[…]").replace(/\n/g, "\\n");
@@ -67,13 +112,27 @@ export function ffs_construct_query(
     ffs = ffs_parser.parse(search);
   } catch (e) {
     console.warn("ffs parse error", e);
-    return callback("ffs parse error");
+    throw new Error("ffs parse error");
+  }
+
+  ffs.query = normalize(ffs.query);
+
+  // `date:` is a global setting (attic data), not a per-object condition:
+  // take it out of the query clauses and put it into the settings line
+  let date_setting = "";
+  for (const and_query of ffs.query.queries) {
+    and_query.queries = and_query.queries.filter((cond_query: Condition) => {
+      if (cond_query.query !== "meta" || cond_query.meta !== "date")
+        return true;
+      date_setting = `[date:"${dateValue(cond_query.val)}"]`;
+      return false;
+    });
   }
 
   const query_parts = [];
   let bounds_part;
 
-  function add_comment(string) {
+  function add_comment(string: string): void {
     if (comment !== false) {
       query_parts.push(string);
     }
@@ -88,7 +147,7 @@ export function ffs_construct_query(
     add_comment(`“${quote_comment_str(search)}”`);
   }
   add_comment("*/");
-  query_parts.push("[out:json][timeout:25];");
+  query_parts.push(`[out:json][timeout:25]${date_setting};`);
 
   switch (ffs.bounds) {
     case "area":
@@ -109,11 +168,11 @@ export function ffs_construct_query(
       break;
     default:
       alert(`unknown bounds condition: ${ffs.bounds}`);
-      return false;
+      throw new Error(`unknown bounds condition: ${ffs.bounds}`);
   }
 
-  function get_query_clause(condition) {
-    function esc(str) {
+  function get_query_clause(condition: Condition): string | false {
+    function esc(str: string): string | undefined {
       if (typeof str !== "string") return;
       // see http://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL#Escaping
       return str
@@ -183,13 +242,9 @@ export function ffs_construct_query(
           case "id":
             return `(${val})`;
           case "newer":
-            if (
-              condition.val.match(
-                /^-?\d+ ?(seconds?|minutes?|hours?|days?|weeks?|months?|years?)?$/
-              )
-            )
-              return `(newer:"{{date:${val}}}")`;
-            return `(newer:"${val}")`;
+            return `(newer:"${dateValue(val)}")`;
+          case "older":
+            return `(if: timestamp() <= "${dateValue(val)}")`;
           case "user":
             return `(user:"${val}")`;
           case "uid":
@@ -206,67 +261,6 @@ export function ffs_construct_query(
         return false;
     }
   }
-  function get_query_clause_str(condition) {
-    function quotes(s) {
-      if (s.match(/^[a-zA-Z0-9_]+$/) === null)
-        return `"${s.replace(/"/g, '\\"')}"`;
-      return s;
-    }
-    function quoteRegex(s) {
-      if (s.regex.match(/^[a-zA-Z0-9_]+$/) === null || s.modifier)
-        return `/${s.regex.replace(/\//g, "\\/")}/${s.modifier || ""}`;
-      return s.regex;
-    }
-    switch (condition.query) {
-      case "key":
-        return quote_comment_str(`${quotes(condition.key)}=*`);
-      case "nokey":
-        return quote_comment_str(`${quotes(condition.key)}!=*`);
-      case "eq":
-        return quote_comment_str(
-          `${quotes(condition.key)}=${quotes(condition.val)}`
-        );
-      case "neq":
-        return quote_comment_str(
-          `${quotes(condition.key)}!=${quotes(condition.val)}`
-        );
-      case "like":
-        return quote_comment_str(
-          `${quotes(condition.key)}~${quoteRegex(condition.val)}`
-        );
-      case "likelike":
-        return quote_comment_str(
-          `~${quotes(condition.key)}~${quoteRegex(condition.val)}`
-        );
-      case "notlike":
-        return quote_comment_str(
-          `${quotes(condition.key)}!~${quoteRegex(condition.val)}`
-        );
-      case "substr":
-        return quote_comment_str(
-          `${quotes(condition.key)}:${quotes(condition.val)}`
-        );
-      case "meta":
-        switch (condition.meta) {
-          case "id":
-            return quote_comment_str(`id:${quotes(condition.val)}`);
-          case "newer":
-            return quote_comment_str(`newer:${quotes(condition.val)}`);
-          case "user":
-            return quote_comment_str(`user:${quotes(condition.val)}`);
-          case "uid":
-            return quote_comment_str(`uid:${quotes(condition.val)}`);
-          default:
-            return "";
-        }
-      case "free form":
-        return quote_comment_str(quotes(condition.free));
-      default:
-        return "";
-    }
-  }
-
-  ffs.query = normalize(ffs.query);
 
   let freeForm = false;
   for (const and_query of ffs.query.queries) {
@@ -279,80 +273,87 @@ export function ffs_construct_query(
   }
 
   // if we have a "free form" query part, need to load it before first use:
-  (freeForm ? ffs_free : (x) => x(null))((freeFormQuery) => {
-    add_comment("// gather results");
-    query_parts.push("(");
-    for (const and_query of ffs.query.queries) {
-      let types = ["node", "way", "relation"];
-      let clauses = [];
-      let clauses_str = [];
-      for (const cond_query of and_query.queries) {
-        // todo: looks like some code duplication here could be reduced by refactoring
-        if (cond_query.query === "free form") {
-          const ffs_clause = freeFormQuery.get_query_clause(cond_query);
-          if (ffs_clause === false) return callback("unknown ffs string");
-          // restrict possible data types
-          types = types.filter((t) => ffs_clause.types.indexOf(t) != -1);
-          // add clauses
-          clauses_str.push(get_query_clause_str(cond_query));
-          clauses = clauses.concat(
-            ffs_clause.conditions.map((condition) =>
-              get_query_clause(condition)
-            )
-          );
-        } else if (cond_query.query === "type") {
-          // restrict possible data types
-          types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
-        } else {
-          // add another query clause
-          clauses_str.push(get_query_clause_str(cond_query));
-          const clause = get_query_clause(cond_query);
-          if (clause === false) return false;
-          clauses.push(clause);
-        }
-      }
-      clauses_str = clauses_str.join(" and ");
+  const freeFormQuery = freeForm ? await ffs_free() : null;
 
-      // construct query
-      if (types.length === 3) {
-        types = ["nwr"];
-      }
-      for (const t of types) {
-        let buffer = `  ${t}`;
-        for (const c of clauses) buffer += c;
-        if (bounds_part) buffer += bounds_part;
-        buffer += ";";
-        query_parts.push(buffer);
+  add_comment("// gather results");
+  query_parts.push("(");
+  for (const and_query of ffs.query.queries) {
+    let types = ["node", "way", "relation"];
+    let clauses = [];
+    for (const cond_query of and_query.queries) {
+      // todo: looks like some code duplication here could be reduced by refactoring
+      if (cond_query.query === "free form") {
+        const ffs_clause = freeFormQuery.get_query_clause(cond_query);
+        if (ffs_clause === false) throw new Error("unknown ffs string");
+        // restrict possible data types
+        types = types.filter((t) => ffs_clause.types.indexOf(t) != -1);
+        // add clauses
+        clauses = clauses.concat(
+          ffs_clause.conditions.map((condition) => get_query_clause(condition))
+        );
+      } else if (cond_query.query === "type") {
+        // restrict possible data types
+        types = types.indexOf(cond_query.type) != -1 ? [cond_query.type] : [];
+      } else {
+        // add another query clause
+        const clause = get_query_clause(cond_query);
+        if (clause === false) throw new Error("unknown query clause");
+        clauses.push(clause);
       }
     }
 
-    if (query_parts.indexOf("(") === query_parts.length - 2) {
-      const idx = query_parts.indexOf("(");
-      query_parts.splice(idx, 1);
-      query_parts[idx] = query_parts[idx].substr(2);
-    } else {
-      query_parts.push(");");
+    // construct query
+    if (types.length === 3) {
+      types = ["nwr"];
     }
+    for (const t of types) {
+      let buffer = `  ${t}`;
+      for (const c of clauses) buffer += c;
+      if (bounds_part) buffer += bounds_part;
+      buffer += ";";
+      query_parts.push(buffer);
+    }
+  }
 
-    add_comment("// print results");
-    query_parts.push("out geom;");
+  if (query_parts.indexOf("(") === query_parts.length - 2) {
+    const idx = query_parts.indexOf("(");
+    query_parts.splice(idx, 1);
+    query_parts[idx] = query_parts[idx].substr(2);
+  } else {
+    query_parts.push(");");
+  }
 
-    callback(null, query_parts.join("\n"));
-  });
+  add_comment("// print results");
+  query_parts.push("out geom;");
+
+  return query_parts.join("\n");
+}
+
+/** raised when a query could not be parsed, but a correction was found */
+export class FfsRepairError extends Error {
+  readonly repaired: string[];
+
+  constructor(repaired: string[]) {
+    super("repairable query");
+    this.name = "FfsRepairError";
+    this.repaired = repaired;
+  }
 }
 
 /**
  * this is a "did you mean …" mechanism against typos in preset names
  */
-export function ffs_repair_search(search: string, callback) {
+export async function ffs_repair_search(
+  search: string
+): Promise<string[] | false> {
   let ffs;
   try {
     ffs = ffs_parser.parse(search);
-  } catch (e) {
-    return callback(false);
+  } catch {
+    return false;
   }
 
-  function quotes(s) {
+  function quotes(s: string): string {
     if (s.match(/^[a-zA-Z0-9_]+$/) === null)
       return `"${s.replace(/"/g, '\\"')}"`;
     return s;
@@ -361,36 +362,34 @@ export function ffs_repair_search(search: string, callback) {
   let search_parts = [];
   let repaired = false;
 
-  ffs_free((freeFormQuery) => {
-    ffs.query = normalize(ffs.query);
-    ffs.query.queries.forEach((q) => {
-      q.queries.forEach(validateQuery);
-    });
-    function validateQuery(cond_query) {
-      if (cond_query.query === "free form") {
-        const ffs_clause = freeFormQuery.get_query_clause(cond_query);
-        if (ffs_clause === false) {
-          // try to find suggestions for occasional typos
-          const fuzzy = freeFormQuery.fuzzy_search(cond_query);
-          let free_regex = null;
-          try {
-            free_regex = new RegExp(`['"]?${escRegexp(cond_query.free)}['"]?`);
-          } catch (e) {}
-          if (fuzzy && search.match(free_regex)) {
-            search_parts = search_parts.concat(search.split(free_regex));
-            search = search_parts.pop();
-            const replacement = quotes(fuzzy);
-            search_parts.push(replacement);
-            repaired = true;
-          }
+  const freeFormQuery = await ffs_free();
+  ffs.query = normalize(ffs.query);
+  ffs.query.queries.forEach((q) => {
+    q.queries.forEach(validateQuery);
+  });
+  function validateQuery(cond_query: Condition): void {
+    if (cond_query.query === "free form") {
+      const ffs_clause = freeFormQuery.get_query_clause(cond_query);
+      if (ffs_clause === false) {
+        // try to find suggestions for occasional typos
+        const fuzzy = freeFormQuery.fuzzy_search(cond_query);
+        let free_regex = null;
+        try {
+          free_regex = new RegExp(`['"]?${escRegexp(cond_query.free)}['"]?`);
+        } catch {}
+        if (fuzzy && search.match(free_regex)) {
+          search_parts = search_parts.concat(search.split(free_regex));
+          search = search_parts.pop();
+          const replacement = quotes(fuzzy);
+          search_parts.push(replacement);
+          repaired = true;
         }
       }
     }
-    search_parts.push(search);
+  }
+  search_parts.push(search);
 
-    if (!repaired) callback(false);
-    else callback(search_parts);
-  });
+  return repaired ? search_parts : false;
 }
 
 export function ffs_invalidateCache() {

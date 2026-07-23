@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -14,14 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v6
         with:
           node-version: "24"
-      - run: corepack enable
+          cache: pnpm
       - run: pnpm install
+      - run: pnpm check
       - run: pnpm test
       - run: pnpm build
+      # pull requests are only built, never published
       - name: Deploy to https://${{ github.actor }}.github.io/${{ github.event.repository.name }}/
+        if: github.event_name != 'pull_request'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

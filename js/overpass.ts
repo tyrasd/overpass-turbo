@@ -1,11 +1,12 @@
 // global overpass object
 import $ from "jquery";
-import "leaflet";
+import * as L from "leaflet";
 
 import configs from "./configs";
-import L_GeoJsonNoVanish from "./GeoJsonNoVanish";
+import L_GeoJsonNoVanish, {type RenderMode} from "./GeoJsonNoVanish";
+import {HttpError, request} from "./httpRequest";
 import ide from "./ide";
-import styleparser from "./jsmapcss";
+import {RuleSet, TextStyle} from "./jsmapcss";
 import {htmlentities} from "./misc";
 import L_OSM4Leaflet from "./OSM4Leaflet";
 import {featurePopupContent} from "./popup";
@@ -14,10 +15,81 @@ import settings from "./settings";
 
 export type QueryLang = "xml" | "OverpassQL" | "SQL";
 
+/** Leaflet's path options, plus overpass turbo's own MapCSS `render` property. */
+interface FeatureStyle extends L.PathOptions {
+  render?: RenderMode;
+}
+
+declare module "leaflet" {
+  interface Popup {
+    /** the layer this popup was opened for */
+    layer?: Layer;
+  }
+  interface Tooltip {
+    /** internal; overridden below to apply a MapCSS text style to the tooltip */
+    _initLayout(): void;
+    _container: HTMLElement;
+  }
+}
+
+/** an Overpass API (or SQL server) response, parsed according to its content type */
+interface QueryResponse {
+  status: number;
+  statusText: string;
+  /** the raw (unparsed) response body */
+  text: string;
+  /** set if the body could be parsed as XML */
+  xml?: Document;
+  /** set if the body could be parsed as JSON */
+  json?;
+}
+
+/**
+ * Parses the response body into XML or JSON, depending on the content type.
+ *
+ * Some servers don't announce the content type properly, so the body itself is
+ * sniffed as a fallback. Anything that can't be parsed is passed on as a string
+ * (typically an HTML formatted error page).
+ */
+function parseQueryResponse(
+  res: Response,
+  text: string
+): {response: QueryResponse; data} {
+  const contentType = res.headers.get("content-type") || "";
+  const response: QueryResponse = {
+    status: res.status,
+    statusText: res.statusText,
+    text
+  };
+  const trimmed = text.trimStart();
+  if (/\bjson\b/.test(contentType) || trimmed.startsWith("{")) {
+    try {
+      response.json = JSON.parse(text);
+      return {response, data: response.json};
+    } catch {}
+  }
+  if (
+    /\bxml\b/.test(contentType) ||
+    // not announced as XML, but looks like an OSM document rather than an error page
+    (res.status === 200 &&
+      !/text\/html/.test(contentType) &&
+      trimmed.startsWith("<?xml") &&
+      text.match(/<osm/))
+  ) {
+    const xml = new DOMParser().parseFromString(text, "application/xml");
+    // DOMParser doesn't throw on malformed input, but returns a <parsererror> document
+    if (!xml.querySelector("parsererror")) {
+      response.xml = xml;
+      return {response, data: response.xml};
+    }
+  }
+  return {response, data: text};
+}
+
 class Overpass {
   ajax_request_duration: number;
   ajax_request_start: number;
-  ajax_request;
+  ajax_request: AbortController = new AbortController();
   copyright;
   data;
   geojson;
@@ -33,30 +105,6 @@ class Overpass {
   private fire(name, ...handler_args) {
     if (typeof this.handlers[name] != "function") return undefined;
     return this.handlers[name].apply({}, handler_args);
-  }
-
-  init() {
-    // register mapcss extensions
-    /* own MapCSS-extension:
-     * added symbol-* properties
-     * TODO: implement symbol-shape = marker|square?|shield?|...
-     */
-    styleparser.PointStyle.prototype.properties.push(
-      "symbol_shape",
-      "symbol_size",
-      "symbol_stroke_width",
-      "symbol_stroke_color",
-      "symbol_stroke_opacity",
-      "symbol_fill_color",
-      "symbol_fill_opacity"
-    );
-    styleparser.PointStyle.prototype.symbol_shape = "";
-    styleparser.PointStyle.prototype.symbol_size = NaN;
-    styleparser.PointStyle.prototype.symbol_stroke_width = NaN;
-    styleparser.PointStyle.prototype.symbol_stroke_color = null;
-    styleparser.PointStyle.prototype.symbol_stroke_opacity = NaN;
-    styleparser.PointStyle.prototype.symbol_fill_color = null;
-    styleparser.PointStyle.prototype.symbol_fill_opacity = NaN;
   }
 
   // updates the map
@@ -89,19 +137,19 @@ class Overpass {
         overpass.ajax_request.abort();
         if (ide.getQueryLang() === "SQL") return callback();
         // try to abort Overpass API queries via kill_my_queries
-        $.get(`${server}kill_my_queries`)
-          .done(callback)
-          .fail(() => {
-            console.log("Warning: failed to kill query.");
+        request(`${server}kill_my_queries`).then(
+          () => callback(),
+          (error) => {
+            console.log("Warning: failed to kill query.", error);
             callback();
-          });
+          }
+        );
       }
     );
-    function onSuccessCb(data, textStatus, jqXHR) {
-      //textStatus is not needed in the successCallback, don't cache it
-      if (cache) cache[query] = [data, undefined, jqXHR];
+    function onSuccessCb(data, response: QueryResponse) {
+      if (cache) cache[query] = [data, response];
 
-      let data_amount = jqXHR.responseText.length;
+      let data_amount = response.text.length;
       let data_txt;
       // round amount of data
       const scale = Math.floor(Math.log(data_amount) / Math.log(10));
@@ -111,13 +159,13 @@ class Overpass {
       else if (data_amount < 1000000) data_txt = `${data_amount / 1000} kB`;
       else data_txt = `${data_amount / 1000000} MB`;
       let data_elements;
-      if (jqXHR.responseXML) {
-        data_elements = jqXHR.responseXML.childNodes[0].childElementCount;
-      } else if (jqXHR.responseJSON) {
+      if (response.xml) {
+        data_elements = response.xml.documentElement.childElementCount;
+      } else if (response.json) {
         data_elements = (
-          jqXHR.responseJSON.elements ||
-          jqXHR.responseJSON.features ||
-          jqXHR.responseJSON.result
+          response.json.elements ||
+          response.json.features ||
+          response.json.result
         ).length;
       }
       overpass.fire("onProgress", `received about ${data_txt} of data`);
@@ -153,34 +201,10 @@ class Overpass {
             Date.now() - overpass.ajax_request_start;
           overpass.fire("onProgress", "parsing data");
           setTimeout(() => {
-            // hacky firefox hack :( (it is not properly detecting json from the content-type header)
-            if (typeof data == "string" && data[0] == "{") {
-              // if the data is a string, but looks more like a json object
-              try {
-                data = $.parseJSON(data);
-              } catch (e) {}
-            }
-            // hacky firefox hack :( (it is not properly detecting xml from the content-type header)
-            if (
-              typeof data == "string" &&
-              data.substr(0, 5) == "<?xml" &&
-              jqXHR.status === 200 &&
-              !(jqXHR.getResponseHeader("content-type") || "").match(
-                /text\/html/
-              ) &&
-              data.match(/<osm/)
-            ) {
-              try {
-                jqXHR.responseXML = data;
-                data = $.parseXML(data);
-              } catch (e) {
-                delete jqXHR.responseXML;
-              }
-            }
             if (
               typeof data == "string" ||
               (typeof data == "object" &&
-                jqXHR.responseXML &&
+                response.xml &&
                 $("remark", data).length > 0) ||
               (typeof data == "object" && data.remark && data.remark.length > 0)
             ) {
@@ -196,7 +220,7 @@ class Overpass {
               is_error =
                 is_error ||
                 (typeof data == "object" &&
-                  jqXHR.responseXML &&
+                  response.xml &&
                   $("remark", data).length > 0);
               is_error =
                 is_error ||
@@ -224,11 +248,11 @@ class Overpass {
                     "[…]"
                   );
                 }
-                if (typeof data == "object" && jqXHR.responseXML)
-                  errmsg = `<p>${$.trim($("remark", data).html())}</p>`;
+                if (typeof data == "object" && response.xml)
+                  errmsg = `<p>${$("remark", data).html().trim()}</p>`;
                 if (typeof data == "object" && data.remark)
                   errmsg = `<p>${$("<div/>")
-                    .text($.trim(data.remark))
+                    .text(data.remark.trim())
                     .html()}</p>`;
                 console.log("Overpass API error", fullerrmsg || errmsg); // write (full) error message to console for easier debugging
                 overpass.fire("onQueryError", errmsg);
@@ -238,7 +262,7 @@ class Overpass {
                 for (const errline of errlines) {
                   overpass.fire(
                     "onQueryErrorLine",
-                    1 * errline.match(/\d+/)[0]
+                    Number(errline.match(/\d+/)[0])
                   );
                 }
               }
@@ -250,7 +274,7 @@ class Overpass {
               overpass.copyright = undefined;
               stats.data = {nodes: 0, ways: 0, relations: 0, areas: 0};
               //geojson = [{features:[]}, {features:[]}, {features:[]}];
-            } else if (typeof data == "object" && jqXHR.responseXML) {
+            } else if (typeof data == "object" && response.xml) {
               // xml data
               overpass.resultType = "xml";
               data_mode = "xml";
@@ -322,11 +346,11 @@ class Overpass {
               overpass.timestampAreas = data.osm3s.timestamp_areas_base;
               overpass.copyright = data.osm3s.copyright;
               stats.data = {
-                nodes: $.grep(data.elements, (d) => d.type == "node").length,
-                ways: $.grep(data.elements, (d) => d.type == "way").length,
-                relations: $.grep(data.elements, (d) => d.type == "relation")
+                nodes: data.elements.filter((d) => d.type == "node").length,
+                ways: data.elements.filter((d) => d.type == "way").length,
+                relations: data.elements.filter((d) => d.type == "relation")
                   .length,
-                areas: $.grep(data.elements, (d) => d.type == "area").length
+                areas: data.elements.filter((d) => d.type == "area").length
               };
               //// convert to geoJSON
               //geojson = overpass.overpassJSON2geoJSON(data);
@@ -354,7 +378,7 @@ class Overpass {
             overpass.rerender = function (userMapCSS) {
               // test user supplied mapcss stylesheet
               try {
-                const dummy_mapcss = new styleparser.RuleSet();
+                const dummy_mapcss = new RuleSet();
                 dummy_mapcss.parseCSS(userMapCSS);
                 try {
                   dummy_mapcss.getStyles(
@@ -366,17 +390,20 @@ class Overpass {
                         return [];
                       }
                     },
-                    [],
+                    {},
                     18
                   );
-                } catch (e) {
+                } catch {
                   throw new Error("MapCSS runtime error.");
                 }
               } catch (e) {
                 userMapCSS = "";
-                overpass.fire("onStyleError", `<p>${e.message}</p>`);
+                overpass.fire(
+                  "onStyleError",
+                  `<p>${e instanceof Error ? e.message : e}</p>`
+                );
               }
-              const mapcss = new styleparser.RuleSet();
+              const mapcss = new RuleSet();
               mapcss.parseCSS(
                 `` +
                   `node, way, relation {color:black; fill-color:black; opacity:1; fill-opacity: 1; width:10;} \n` +
@@ -462,19 +489,19 @@ class Overpass {
                         }));
                     }
                   },
-                  $.extend(
-                    feature.properties && feature.properties.tainted
+                  {
+                    ...(feature.properties && feature.properties.tainted
                       ? {":tainted": true}
-                      : {},
-                    feature.properties && feature.properties.geometry
+                      : {}),
+                    ...(feature.properties && feature.properties.geometry
                       ? {":placeholder": true}
-                      : {},
-                    feature.is_placeholder ? {":placeholder": true} : {},
-                    hasInterestingTags(feature.properties)
+                      : {}),
+                    ...(feature.is_placeholder ? {":placeholder": true} : {}),
+                    ...(hasInterestingTags(feature.properties)
                       ? {":tagged": true}
-                      : {":untagged": true},
-                    highlight ? {":active": true} : {},
-                    (function (tags, meta, id) {
+                      : {":untagged": true}),
+                    ...(highlight ? {":active": true} : {}),
+                    ...(function (tags, meta, id) {
                       const res = {"@id": id};
                       for (const key in meta) res[`@${key}`] = meta[key];
                       for (const key in tags)
@@ -485,7 +512,7 @@ class Overpass {
                       feature.properties.meta,
                       feature.properties.id
                     )
-                  ),
+                  },
                   18 /*restyle on zoom??*/
                 );
                 return s;
@@ -496,7 +523,6 @@ class Overpass {
                   overpass.fire("onProgress", "rendering geoJSON");
                 },
                 baseLayerClass: L_GeoJsonNoVanish,
-                query_lang: query_lang,
                 baseLayerOptions: {
                   threshold: 9 * Math.sqrt(2) * 2,
                   compress(feature) {
@@ -506,7 +532,7 @@ class Overpass {
                     else return render;
                   },
                   style(feature, highlight) {
-                    const stl: L.PathOptions = {};
+                    const stl: FeatureStyle = {};
                     const s = get_feature_style(feature, highlight);
                     // apply mapcss styles
                     function get_property(styles, properties) {
@@ -519,11 +545,10 @@ class Overpass {
                     let styles;
                     switch (feature.geometry.type) {
                       case "Point":
-                        styles = $.extend(
-                          {},
-                          s.shapeStyles["default"],
-                          s.pointStyles["default"]
-                        );
+                        styles = {
+                          ...s.shapeStyles["default"],
+                          ...s.pointStyles["default"]
+                        };
                         p = get_property(styles, [
                           "color",
                           "symbol_stroke_color"
@@ -637,7 +662,7 @@ class Overpass {
                       (text && (text = feature.properties.tags[text]))
                     ) {
                       const tooltip = new L.Tooltip({
-                        direction: stl["text_position"],
+                        direction: stl.text_position as L.Direction,
                         className: "text-tooltip",
                         permanent: true
                       });
@@ -646,9 +671,7 @@ class Overpass {
                         L.Tooltip.prototype._initLayout.call(this);
                         this._container.setAttribute(
                           "style",
-                          styleparser.TextStyle.prototype.textStyleAsCSS.call(
-                            stl
-                          )
+                          TextStyle.prototype.textStyleAsCSS.call(stl)
                         );
                       };
                       layer.bindTooltip(tooltip);
@@ -709,7 +732,7 @@ class Overpass {
                   // print raw data
                   overpass.fire("onProgress", "printing raw data");
                   setTimeout(() => {
-                    overpass.resultText = jqXHR.responseText;
+                    overpass.resultText = response.text;
                     overpass.fire("onRawDataPresent");
 
                     // todo: the following would profit from some unit testing
@@ -801,49 +824,64 @@ class Overpass {
         }
       );
     }
+    function onErrorCb(error: unknown) {
+      console.error("error during the Overpass API request", error);
+      overpass.fire("onProgress", "error during ajax call");
+      let errmsg = "";
+      if (error instanceof HttpError) {
+        overpass.resultText = error.body;
+        errmsg += `<p>Error-Code: ${htmlentities(error.statusText)} (${
+          error.status
+        })</p>`;
+      } else {
+        // the request didn't yield a response at all
+        errmsg +=
+          "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";
+      }
+      overpass.fire("onAjaxError", errmsg);
+      // closing wait spinner
+      overpass.fire("onDone");
+    }
     // eslint-disable-next-line no-prototype-builtins
     if (cache && cache.hasOwnProperty(query)) {
       onSuccessCb.apply(this, cache[query]);
     } else {
       overpass.ajax_request_start = Date.now();
-      overpass.ajax_request = $.ajax(`${server}interpreter`, {
-        type: "POST",
-        data: {data: query, options: options},
-        success: onSuccessCb,
-        error(jqXHR, textStatus) {
-          if (textStatus == "abort") return; // ignore aborted queries.
-          overpass.fire("onProgress", "error during ajax call");
-          if (
-            jqXHR.status == 400 ||
-            jqXHR.status == 504 ||
-            jqXHR.status == 429 ||
-            (jqXHR.status == 500 &&
-              jqXHR.responseText.match(/^(pq|sql): /) !== null) // postgresql error messages
-          ) {
-            // todo: handle those in a separate routine
-            // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
-            this.success(jqXHR.responseText, textStatus, jqXHR);
-            return;
-          }
-          overpass.resultText = jqXHR.resultText;
-          let errmsg = "";
-          if (jqXHR.state() == "rejected")
-            errmsg +=
-              "<p>Request rejected. (e.g. server not found, request blocked by browser addon, request redirected, internal server errors, etc.)</p>";
-          if (textStatus == "parsererror")
-            errmsg += "<p>Error while parsing the data (parsererror).</p>";
-          else if (textStatus != "error" && textStatus != jqXHR.statusText)
-            errmsg += `<p>Error-Code: ${textStatus}</p>`;
-          if (
-            (jqXHR.status != 0 && jqXHR.status != 200) ||
-            jqXHR.statusText != "OK" // note to me: jqXHR.status "should" give http status codes
-          )
-            errmsg += `<p>Error-Code: ${jqXHR.statusText} (${jqXHR.status})</p>`;
-          overpass.fire("onAjaxError", errmsg);
-          // closing wait spinner
-          overpass.fire("onDone");
+      overpass.ajax_request = new AbortController();
+      // jQuery.ajax used to serialize nested objects like this
+      const body = new URLSearchParams({data: query});
+      for (const [key, value] of Object.entries(options || {}))
+        body.set(`options[${key}]`, String(value));
+      void (async () => {
+        let res: Response;
+        let text: string;
+        try {
+          res = await fetch(`${server}interpreter`, {
+            method: "POST",
+            body,
+            signal: overpass.ajax_request.signal
+          });
+          text = await res.text();
+        } catch (error) {
+          if ((error as Error)?.name === "AbortError") return; // ignore aborted queries.
+          onErrorCb(error);
+          return;
         }
-      }); // getJSON
+        if (
+          res.ok ||
+          // todo: handle those in a separate routine
+          // pass 400 Bad Request errors to the standard result parser, as this is most likely going to be a syntax error in the query.
+          res.status == 400 ||
+          res.status == 504 ||
+          res.status == 429 ||
+          (res.status == 500 && text.match(/^(pq|sql): /) !== null) // postgresql error messages
+        ) {
+          const {response, data} = parseQueryResponse(res, text);
+          onSuccessCb(data, response);
+          return;
+        }
+        onErrorCb(new HttpError(res, text));
+      })();
     }
   }
 }

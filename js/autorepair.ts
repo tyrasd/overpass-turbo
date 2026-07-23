@@ -2,49 +2,53 @@
 import $ from "jquery";
 
 import {Base64} from "./misc";
+import type {QueryLang} from "./overpass";
 
-export default function autorepair(q, lng) {
-  const repair = {};
+/**
+ * Repairs obvious mistakes in a query, such as a missing recurse statement or
+ * an output format the OSM editors cannot consume.
+ *
+ * Each repair rewrites the query held by the instance, so several can be
+ * applied in turn before reading the result back with {@link getQuery}.
+ */
+export default class Autorepair {
+  /**
+   * The comments of the original query, keyed by the placeholder standing in
+   * for them, so that commented-out code is not itself repaired.
+   */
+  private readonly comments: Record<string, string> = {};
 
-  const comments = {};
-
-  (function init() {
-    // replace comments with placeholders
-    // (we do not want to autorepair stuff which is commented out.)
-    let cs, placeholder;
-    if (lng == "xml") {
-      cs = q.match(/<!--[\s\S]*?-->/g) || [];
-      for (const csi of cs) {
-        placeholder = `<!--${Base64.encode(Math.random().toString())}-->`; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(csi, placeholder);
-        comments[placeholder] = csi;
-      }
-    } else {
-      cs = q.match(/\/\*[\s\S]*?\*\//g) || []; // multiline comments: /*...*/
-      for (const csi of cs) {
-        placeholder = `/*${Base64.encode(Math.random().toString())}*/`; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(csi, placeholder);
-        comments[placeholder] = csi;
-      }
-      cs = q.match(/\/\/[^\n]*/g) || []; // single line comments: //...
-      for (const csi of cs) {
-        placeholder = `/*${Base64.encode(Math.random().toString())}*/`; //todo: use some kind of checksum or hash maybe?
-        q = q.replace(csi, placeholder);
-        comments[placeholder] = csi;
+  constructor(
+    private query: string,
+    private readonly lng: QueryLang
+  ) {
+    const pattern =
+      lng == "xml"
+        ? [/<!--[\s\S]*?-->/g] // <!--...-->
+        : [/\/\*[\s\S]*?\*\//g, /\/\/[^\n]*/g]; // /*...*/ and //...
+    for (const comments of pattern) {
+      for (const comment of this.query.match(comments) || []) {
+        //todo: use some kind of checksum or hash maybe?
+        const token = Base64.encode(Math.random().toString());
+        const placeholder = lng == "xml" ? `<!--${token}-->` : `/*${token}*/`;
+        this.query = this.query.replace(comment, placeholder);
+        this.comments[placeholder] = comment;
       }
     }
-  })();
+  }
 
-  repair.getQuery = () => {
-    // expand placeholded comments
-    for (const placeholder in comments) {
-      q = q.replace(placeholder, comments[placeholder]);
+  /** The query, with the repairs applied and its comments restored. */
+  getQuery(): string {
+    for (const placeholder in this.comments) {
+      this.query = this.query.replace(placeholder, this.comments[placeholder]);
     }
-    return q;
-  };
+    return this.query;
+  }
 
-  repair.recurse = () => {
-    if (lng == "xml") {
+  /** Makes each output statement also output the elements it references. */
+  recurse(): boolean {
+    let q = this.query;
+    if (this.lng == "xml") {
       // do some fancy mixture between regex magic and xml as html parsing :€
       const prints =
         q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g) || [];
@@ -84,11 +88,14 @@ export default function autorepair(q, lng) {
       for (let i = 0; i < outs.length; i++)
         q = q.replace(`<autorepair>${i}</autorepair>`, outs[i]);
     }
+    this.query = q;
     return true;
-  };
+  }
 
-  repair.editors = () => {
-    if (lng == "xml") {
+  /** Rewrites the query to the output format the OSM editors can consume. */
+  editors(): boolean {
+    let q = this.query;
+    if (this.lng == "xml") {
       // 1. fix <osm-script output=*
       const src = q.match(/<osm-script([^>]*)>/);
       if (src) {
@@ -174,49 +181,49 @@ export default function autorepair(q, lng) {
           q = q.replace(print, `${new_print}/*fixed by auto repair*/`);
       }
     }
+    this.query = q;
     return true;
-  };
-
-  return repair;
-}
-
-autorepair.detect = {};
-autorepair.detect.editors = (q, lng) => {
-  // todo: test this
-  // todo: move into autorepair "module" /// todo. done?
-  q = q.replace(/{{.*?}}/g, "");
-  const err = {};
-  if (lng == "xml") {
-    try {
-      const xml = $.parseXML(`<x>${q}</x>`);
-      const out = $("osm-script", xml).attr("output");
-      if (out !== undefined && out !== "xml") err.output = true;
-      $("print", xml).each((i, p) => {
-        if ($(p).attr("mode") !== "meta") err.meta = true;
-      });
-      $("print", xml).each((i, p) => {
-        if (
-          $(p)
-            .attr("geometry")
-            .match(/(center|bounds|full)/)
-        )
-          err.geometry = true;
-      });
-    } catch (e) {} // ignore xml syntax errors ?!
-  } else {
-    // ignore comments
-    q = q.replace(/\/\*[\s\S]*?\*\//g, "");
-    q = q.replace(/\/\/[^\n]*/g, "");
-    const out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]/);
-    if (out && out[1] != "xml") err.output = true;
-    const prints = q.match(/out([^:;]*);/g);
-    $(prints).each((i, p) => {
-      if (p.match(/\s(body|skel|ids|tags)/) || !p.match(/meta/))
-        err.meta = true;
-    });
-    $(prints).each((i, p) => {
-      if (p.match(/\s(center|bb|geom)/)) err.geometry = true;
-    });
   }
-  return $.isEmptyObject(err);
-};
+
+  /**
+   * Whether a query already produces output the OSM editors can consume, and
+   * so needs no repair by {@link editors}. The two belong together: this must
+   * report exactly the problems that one fixes.
+   *
+   * It is static, and strips comments rather than masking them the way the
+   * constructor does, because it only inspects a query — nothing is written
+   * back, so the comments just have to be kept from matching.
+   */
+  // todo: test this
+  static isEditorCompatible(q: string, lng: QueryLang): boolean {
+    q = q.replace(/{{.*?}}/g, ""); // ignore shortcuts
+    if (lng == "xml") {
+      try {
+        const xml = $.parseXML(`<x>${q}</x>`);
+        const output = $("osm-script", xml).attr("output");
+        if (output !== undefined && output !== "xml") return false;
+        const prints = $("print", xml).toArray();
+        if (prints.some((p) => $(p).attr("mode") !== "meta")) return false;
+        if (
+          prints.some((p) =>
+            $(p)
+              .attr("geometry")
+              .match(/(center|bounds|full)/)
+          )
+        )
+          return false;
+      } catch {} // ignore xml syntax errors ?!
+      return true;
+    }
+    // ignore comments
+    q = q.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+    const out = q.match(/\[\s*out\s*:\s*([^\]\s]+)\s*\]/);
+    if (out && out[1] != "xml") return false;
+    const prints = q.match(/out([^:;]*);/g) || [];
+    if (
+      prints.some((p) => p.match(/\s(body|skel|ids|tags)/) || !p.match(/meta/))
+    )
+      return false;
+    return !prints.some((p) => p.match(/\s(center|bb|geom)/));
+  }
+}

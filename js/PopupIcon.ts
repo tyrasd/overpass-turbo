@@ -5,7 +5,7 @@
  * @license WTFPL
  * @see github.com/MapBBCode/mapbbcode
  */
-import "leaflet";
+import * as L from "leaflet";
 
 const PopupIcon = L.Icon.extend({
   options: {
@@ -15,7 +15,8 @@ const PopupIcon = L.Icon.extend({
   },
 
   initialize(text, options) {
-    L.Icon.prototype.initialize.call(this, options);
+    // what L.Icon's own initialize does, and all it does
+    L.Util.setOptions(this, options);
     this._text = text;
   },
 

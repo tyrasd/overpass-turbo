@@ -3,9 +3,8 @@ import CodeMirror from "codemirror";
 import {default as colorbrewer} from "colorbrewer";
 import colormap from "colormap";
 import html2canvas from "html2canvas";
-import "leaflet";
 import $ from "jquery";
-import jQuery from "jquery";
+import * as L from "leaflet";
 // global ide object
 import debounce from "lodash/debounce";
 import togpx from "togpx";
@@ -14,19 +13,26 @@ import tokml from "tokml";
 import Autorepair from "./autorepair";
 //import { schemegroups as colorbrewer } from "colorbrewer";
 import configs from "./configs";
+import {type DialogButton, showDialog} from "./dialog";
 import {
   ffs_construct_query,
   ffs_invalidateCache,
-  ffs_repair_search
+  ffs_repair_search,
+  FfsRepairError
 } from "./ffs";
+import {requestJson, requestText} from "./httpRequest";
 import i18n from "./i18n";
+import * as josm from "./josmRemoteControl";
 import {Base64, htmlentities, lzw_encode, lzw_decode} from "./misc";
+import * as osmnames from "./osmnames";
 import overpass, {type QueryLang} from "./overpass";
+import {fetchInstances, type OverpassInstance} from "./overpass-servers";
 import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
-import sync from "./sync-with-osm";
 import {updateTableFromGeoJson, updateTableFromRawData} from "./table";
+import sync, {type SyncedQuery} from "./sync-with-osm";
+import {applyTheme, onThemeChange, type Theme} from "./theme";
 import urlParameters from "./urlParameters";
 
 declare module "leaflet" {
@@ -47,7 +53,12 @@ declare module "leaflet" {
 }
 
 declare global {
-  // the jQuery UI widgets used by the IDE ("jquery-ui-dist" ships no type definitions)
+  interface Window {
+    // leaflet.locationfilter registers itself on the global `L` object
+    L: typeof L;
+  }
+
+  // the jQuery UI widgets used by the IDE ("jquery-ui" ships no type definitions)
   interface JQuery<TElement = HTMLElement> {
     autocomplete(method: string, ...args: unknown[]): any;
     autocomplete(options: Record<string, unknown>): JQuery<TElement>;
@@ -64,18 +75,6 @@ type CopyData = Record<string, string>;
 
 /** an item of the autocomplete source lists used by {@link make_combobox} */
 type ComboboxItem = string | {value: string; label: string};
-
-/** a button of the modal dialogs created by {@link showDialog} */
-interface DialogButton {
-  name: string;
-  callback?: () => void;
-}
-
-/** a query saved in the user's OSM preferences (see {@link sync}) */
-interface OsmSavedQuery {
-  name: string;
-  query: string;
-}
 
 /** the `{{data:…}}` statement of a query, e.g. `{{data:overpass,server=…}}` */
 interface DataSource {
@@ -123,6 +122,15 @@ $(document).on("copy", (e) => {
   }
 });
 
+// the hardcoded servers, extended with the instances listed on the OSM wiki
+// once the settings dialog has been opened
+let suggestedServers = configs.suggestedServers;
+// what the wiki says about those instances, to describe the selected one
+let wikiInstances: OverpassInstance[] = [];
+// the wiki is queried once per session, on the first open of the settings
+// dialog; every later open reuses the result
+let instancesPromise: Promise<OverpassInstance[]> | undefined;
+
 function make_combobox(
   input: JQuery<HTMLElement>,
   options: ComboboxItem[],
@@ -167,8 +175,8 @@ function make_combobox(
     .attr("title", "show all items")
     .appendTo(wrapper)
     .button({
-      icons: {primary: "ui-icon-triangle-1-s"},
-      text: false
+      icon: "ui-icon-triangle-1-s",
+      showLabel: false
     })
     .removeClass("ui-corner-all")
     .addClass("ui-corner-right ui-combobox-toggle")
@@ -184,55 +192,6 @@ function make_combobox(
     });
   inputElement.is_combobox = true;
 } // make_combobox()
-
-function showDialog(
-  title: string,
-  content: string,
-  buttons: DialogButton[]
-): void {
-  const dialogContent = `\
-      <div class="modal is-active">\
-        <div class="modal-background"></div>\
-        <div class="modal-card">\
-          <header class="modal-card-head">\
-            <p class="modal-card-title">${title}</p>\
-            <button class="delete" aria-label="close"></button>\
-          </header>\
-          <section class="modal-card-body">\
-            ${content}\
-          </section>\
-          <footer class="modal-card-foot">\
-            <div class="level">\
-              <div class="level-right">\
-                <div class="level-item">\
-                </div>\
-              </div>\
-            </div>\
-          </footer>\
-        </div>\
-      </div>\
-    `;
-
-  // Create modal in body
-  const element = $(dialogContent);
-  // Handle close event
-  $(".delete", element).click(() => $(element).remove());
-
-  // Add all the buttons
-  for (const index in buttons) {
-    const button = buttons[index];
-    $(`<button class="button">${button.name}</button>`)
-      .click(() => {
-        button.callback?.();
-        // destroy modal dialog after callback, see #528
-        $(element).remove();
-      })
-      .appendTo($("footer .level-item", element));
-  }
-
-  // Add the element to the body
-  element.appendTo("body");
-}
 
 class IDE {
   // == private members ==
@@ -327,14 +286,15 @@ class IDE {
   init() {
     this.waiter.addInfo("ide starting up");
     $("#overpass-turbo-version").html(
-      `overpass-turbo <code>${GIT_VERSION}</code>` // eslint-disable-line no-undef
+      `overpass-turbo <code>${import.meta.env.VITE_GIT_VERSION}</code>`
     );
     $("#overpass-turbo-dependencies").html(
-      APP_DEPENDENCIES // eslint-disable-line no-undef
+      import.meta.env.VITE_APP_DEPENDENCIES
     );
     // (very raw) compatibility check <- TODO: put this into its own function
     if (
-      jQuery.support.cors != true ||
+      // the fetch API is used for all (cross origin) requests
+      typeof fetch !== "function" ||
       //typeof localStorage  != "object" ||
       typeof (function () {
         let ls = undefined;
@@ -342,7 +302,7 @@ class IDE {
           localStorage.setItem("startup_localstorage_quota_test", "123");
           localStorage.removeItem("startup_localstorage_quota_test");
           ls = localStorage;
-        } catch (e) {}
+        } catch {}
         return ls;
       })() != "object" ||
       false
@@ -354,6 +314,9 @@ class IDE {
     // load settings
     this.waiter.addInfo("load settings");
     settings.load();
+    // apply the color theme as early as possible to avoid a flash of the
+    // wrong scheme
+    applyTheme(settings.theme as Theme);
     // translate ui
     this.waiter.addInfo("translate ui");
     i18n.translate().then(() => this.initAfterI18n());
@@ -367,12 +330,12 @@ class IDE {
     }
   }
 
-  initAfterI18n() {
+  async initAfterI18n() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ide = this;
     // parse url string parameters
     ide.waiter.addInfo("parse url parameters");
-    const args = urlParameters();
+    const args = await urlParameters();
     // set appropriate settings
     if (args.has_coords) {
       // map center coords set via url
@@ -599,6 +562,14 @@ class IDE {
       mode: "javascript"
     });
 
+    // CodeMirror picks its theme via an option, so it cannot follow the
+    // `data-theme` attribute through CSS like the rest of the ui does
+    onThemeChange((theme) => {
+      const cmTheme = theme === "dark" ? "nord" : "default";
+      ide.codeEditor?.setOption?.("theme", cmTheme);
+      ide.dataViewer.setOption("theme", cmTheme);
+    });
+
     // init leaflet
     ide.map = new L.Map("map", {
       attributionControl: false,
@@ -696,7 +667,7 @@ class IDE {
               ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {
                 maxZoom: 18
               });
-            } catch (e) {}
+            } catch {}
             return false;
           },
           ide.map
@@ -731,7 +702,7 @@ class IDE {
                 );
                 ide.map.setView(pos, settings.coords_zoom);
               });
-            } catch (e) {}
+            } catch {}
             return false;
           },
           ide.map
@@ -862,52 +833,35 @@ class IDE {
         };
         // autocomplete functionality
         $(inp).autocomplete({
-          source(request, response) {
-            // ajax (GET) request to nominatim
-            $.ajax(
-              `https://search.osmnames.org/q/${encodeURIComponent(
-                request.term
-              )}.js?key=${configs.osmnamesApiKey}`,
-              {
-                success(data) {
-                  // hacky firefox hack :( (it is not properly detecting json from the content-type header)
-                  if (typeof data == "string") {
-                    // if the data is a string, but looks more like a json object
-                    try {
-                      data = $.parseJSON(data);
-                    } catch (e) {}
-                  }
-                  response(
-                    $.map(data.results.slice(0, 10), (item) => ({
-                      label: item.display_name,
-                      value: item.display_name,
-                      lat: item.lat,
-                      lon: item.lon,
-                      boundingbox: item.boundingbox
-                    }))
-                  );
-                },
-                error() {
-                  // todo: better error handling
-                  console.error(
-                    "An error occurred while contacting the search server osmnames.org :("
-                  );
-                }
-              }
-            );
+          async source(request, response) {
+            try {
+              const results = await osmnames.get(request.term);
+              response(
+                results.slice(0, 10).map((result) => ({
+                  label: result.name,
+                  value: result.name,
+                  result
+                }))
+              );
+            } catch (error) {
+              // todo: better error handling
+              console.error(error);
+              response([]);
+            }
           },
           minLength: 2,
           autoFocus: true,
           select(event, ui) {
-            if (ui.item.boundingbox && ui.item.boundingbox instanceof Array)
+            const {lat, lon, bounds} = ui.item.result;
+            if (bounds)
               ide.map.fitBounds(
                 L.latLngBounds([
-                  [ui.item.boundingbox[1], ui.item.boundingbox[0]],
-                  [ui.item.boundingbox[3], ui.item.boundingbox[2]]
+                  [bounds[0], bounds[1]],
+                  [bounds[2], bounds[3]]
                 ]),
                 {maxZoom: 18}
               );
-            else ide.map.panTo(new L.LatLng(ui.item.lat, ui.item.lon));
+            else ide.map.panTo(new L.LatLng(lat, lon));
             this.value = "";
             return false;
           },
@@ -930,7 +884,9 @@ class IDE {
       .appendTo("#map");
     if (settings.enable_crosshairs) $(".crosshairs").show();
 
-    ide.map.bboxfilter = new L.LocationFilter({
+    // leaflet.locationfilter augments the global `L` object, which the bundler
+    // does not reflect back into leaflet's ES module namespace
+    ide.map.bboxfilter = new window.L.LocationFilter({
       enable: !true,
       adjustButton: false,
       enableButton: false
@@ -953,9 +909,6 @@ class IDE {
           }); // for multipolygons!
       }
     });
-
-    // init overpass object
-    overpass.init();
 
     // event handlers for overpass object
     overpass.handlers["onProgress"] = function (msg, abortcallback) {
@@ -1177,7 +1130,7 @@ class IDE {
       ide.dataViewer.setOption("mode", overpass.resultType);
       try {
         ide.dataViewer.setValue(overpass.resultText);
-      } catch (e) {
+      } catch {
         ide.dataViewer.setOption("mode", "text");
         ide.dataViewer.setValue(overpass.resultText);
       }
@@ -1302,7 +1255,7 @@ class IDE {
             ide.map.fitBounds(overpass.osmLayer.getBaseLayer().getBounds(), {
               maxZoom: 18
             });
-          } catch (e) {}
+          } catch {}
           // todo: zoom only to specific zoomlevel if args.has_zoom is given
         };
       }
@@ -1377,7 +1330,9 @@ class IDE {
   }
   getQueryLang(): QueryLang {
     if (this.data_source && this.data_source.mode == "sql") return "SQL";
-    const q = $.trim(this.getRawQuery().replace(/{{.*?}}/g, ""));
+    const q = this.getRawQuery()
+      .replace(/{{.*?}}/g, "")
+      .trim();
     if (q.match(/^</)) return "xml";
     else return "OverpassQL";
   }
@@ -1386,7 +1341,7 @@ class IDE {
     // - preparations -
     const q = this.getRawQuery(), // get original query
       lng = this.getQueryLang();
-    const autorepair = Autorepair(q, lng);
+    const autorepair = new Autorepair(q, lng);
     // - repairs -
     if (repair == "no visible data") {
       // repair missing recurse statements
@@ -1414,7 +1369,9 @@ class IDE {
     if (typeof settings.saves[ex] != "undefined") {
       let query = settings.saves[ex].overpass;
       if (!/@name/.test(query)) {
-        query = `// @name ${ex}\n\n${query}`;
+        // SQL queries use `--` instead of `//` to start a comment
+        const comment = /{{data:\s*sql\b/i.test(query) ? "--" : "//";
+        query = `${comment} @name ${ex}\n\n${query}`;
       }
       this.setQuery(query);
     }
@@ -1439,16 +1396,15 @@ class IDE {
       )}: &quot;<i>${ex}</i>&quot;?</p>`;
     showDialog(i18n.t("dialog.delete_query.title"), content, dialog_buttons);
   }
-  removeExampleSync(query: OsmSavedQuery, self: HTMLElement): void {
+  removeExampleSync(query: SyncedQuery, self: HTMLElement): void {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
         callback() {
-          sync.delete(query.name, (err) => {
-            if (err) return console.error(err);
-
-            $(self).parent().remove();
-          });
+          sync
+            .delete(query.name)
+            .then(() => $(self).parent().remove())
+            .catch((err) => console.error(err));
         }
       },
       {
@@ -1522,7 +1478,7 @@ class IDE {
       }
     }
   }
-  loadOsmQueries() {
+  async loadOsmQueries(): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const ide = this;
     const ui = $("#load-dialog .panel.osm-queries");
@@ -1532,37 +1488,38 @@ class IDE {
       .text(i18n.t("load.saved_queries-osm-loading"))
       .appendTo(ui);
 
-    sync.load((err: unknown, queries: OsmSavedQuery[]) => {
-      if (err) {
-        ui.find(".panel-block").remove();
-        $('<div class="panel-block">')
-          .text(i18n.t("load.saved_queries-osm-error"))
-          .appendTo(ui);
-        return console.error(err);
-      }
+    let queries: SyncedQuery[];
+    try {
+      queries = await sync.load();
+    } catch (err) {
       ui.find(".panel-block").remove();
-      $("#logout").show();
-      $("#logout").appendTo($("#logout").parent());
-      queries.forEach((q) => {
-        $('<a class="panel-block">')
-          .attr("href", "#")
-          .text(q.name)
-          .on("click", () => {
-            ide.setQuery(lzw_decode(Base64.decode(q.query)));
-            $("#load-dialog").removeClass("is-active");
-            return false;
-          })
-          .append(
-            $('<button class="ml-auto">')
-              .attr("title", `${i18n.t("load.delete_query")}: ${q.name}`)
-              .addClass("delete")
-              .on("click", function (this: HTMLElement) {
-                ide.removeExampleSync(q, this);
-                return false;
-              })
-          )
-          .appendTo(ui);
-      });
+      $('<div class="panel-block">')
+        .text(i18n.t("load.saved_queries-osm-error"))
+        .appendTo(ui);
+      return console.error(err);
+    }
+    ui.find(".panel-block").remove();
+    $("#logout").show();
+    $("#logout").appendTo($("#logout").parent());
+    queries.forEach((q) => {
+      $('<a class="panel-block">')
+        .attr("href", "#")
+        .text(q.name)
+        .on("click", () => {
+          ide.setQuery(lzw_decode(Base64.decode(q.query)));
+          $("#load-dialog").removeClass("is-active");
+          return false;
+        })
+        .append(
+          $('<button class="ml-auto">')
+            .attr("title", `${i18n.t("load.delete_query")}: ${q.name}`)
+            .addClass("delete")
+            .on("click", function (this: HTMLElement) {
+              ide.removeExampleSync(q, this);
+              return false;
+            })
+        )
+        .appendTo(ui);
     });
   }
   onLoadClose() {
@@ -1595,18 +1552,17 @@ class IDE {
   onSaveOsmSumbit() {
     const name = $<HTMLInputElement>("#save-dialog input[name=save]")[0].value;
     const query = this.compose_share_link(this.getRawQuery(), true).slice(3);
-    sync.save(
-      {
+    sync
+      .save({
         name: name,
         query: query
-      },
-      (err) => {
-        if (err) return console.error(err);
+      })
+      .then(() => {
         $("#logout").show();
         $("#logout").appendTo($("#logout").parent());
         $("#save-dialog").removeClass("is-active");
-      }
-    );
+      })
+      .catch((err) => console.error(err));
   }
   onSaveClose() {
     $("#save-dialog").removeClass("is-active");
@@ -1698,13 +1654,18 @@ class IDE {
 
     // automatically minify urls if enabled
     if (configs.short_url_service != "") {
-      $.get(
-        configs.short_url_service + encodeURIComponent(share_link),
+      requestText(
+        configs.short_url_service + encodeURIComponent(share_link)
+      ).then(
         (data) => {
           $<HTMLAnchorElement>("div#share-dialog #share_link_a")[0].href = data;
           $<HTMLTextAreaElement>(
             "div#share-dialog #share_link_textarea"
           )[0].value = data;
+        },
+        (error) => {
+          // not fatal: the unshortened link stays in place
+          console.error("failed to shorten the share link", error);
         }
       );
     }
@@ -1713,8 +1674,21 @@ class IDE {
     $<HTMLInputElement>(
       "div#share-dialog input[name=include_coords]"
     )[0].checked = settings.share_include_pos;
+    $<HTMLSelectElement>(
+      "div#share-dialog select[name=share_compression]"
+    )[0].value = settings.share_compression;
     this.updateShareLink();
     $("#share-dialog").addClass("is-active");
+  }
+  onShareOptionsChange() {
+    settings.share_include_pos = $<HTMLInputElement>(
+      "div#share-dialog input[name=include_coords]"
+    )[0].checked;
+    settings.share_compression = $<HTMLSelectElement>(
+      "div#share-dialog select[name=share_compression]"
+    )[0].value;
+    settings.save();
+    this.updateShareLink();
   }
   onShareClose() {
     $("#share-dialog").removeClass("is-active");
@@ -1832,7 +1806,8 @@ class IDE {
     query_umap = query_umap.replace(/\n\s*/g, "");
     // replace bbox with south west north east
     query_umap = query_umap.replace(
-      new RegExp(shortcuts().bbox, "g"),
+      // the bbox shortcut is expanded to a string, unlike the async ones
+      new RegExp(shortcuts().bbox as string, "g"),
       "{south},{west},{north},{east}"
     );
     $("#export-text_umap .format").html(i18n.t("export.format_text_umap"));
@@ -1995,9 +1970,10 @@ class IDE {
       .unbind("click")
       .on("click", () => {
         const geoJSON_str = constructGeojsonString(overpass.geojson);
-        $.ajax("https://api.github.com/gists", {
+        requestJson("https://api.github.com/gists", {
           method: "POST",
-          data: JSON.stringify({
+          headers: {"content-type": "application/json"},
+          body: JSON.stringify({
             description: "data exported by overpass turbo", // todo:descr
             public: true,
             files: {
@@ -2007,8 +1983,8 @@ class IDE {
               }
             }
           })
-        })
-          .done((data) => {
+        }).then(
+          (data) => {
             const dialog_buttons = [{name: i18n.t("dialog.done")}];
             const content =
               `<p>${i18n.t("export.geoJSON_gist.gist")}&nbsp;<a href="${
@@ -2027,14 +2003,13 @@ class IDE {
               dialog_buttons
             );
             // data.html_url;
-          })
-          .fail((jqXHR) => {
+          },
+          (error) => {
             alert(
-              `an error occurred during the creation of the overpass gist:\n${JSON.stringify(
-                jqXHR
-              )}`
+              `an error occurred during the creation of the overpass gist:\n${error}`
             );
-          });
+          }
+        );
         return false;
       });
     // GPX format
@@ -2181,7 +2156,7 @@ class IDE {
         } else {
           try {
             raw_str = data.toString();
-          } catch (e) {
+          } catch {
             raw_str = "Error while exporting the data";
           }
         }
@@ -2269,7 +2244,7 @@ class IDE {
 
     // OSM editors
     // first check for possible mistakes in query.
-    const validEditorQuery = Autorepair.detect.editors(
+    const validEditorQuery = Autorepair.isEditorCompatible(
       this.getRawQuery(),
       this.getQueryLang()
     );
@@ -2320,44 +2295,41 @@ class IDE {
       .unbind("click")
       .on("click", () => {
         const export_dialog = $("#export-dialog");
-        function send_to_josm(query: string): void {
-          const JRC_url = "http://127.0.0.1:8111/";
-          $.getJSON(`${JRC_url}version`)
-            .done((d) => {
-              if (d.protocolversion.major == 1) {
-                $.get(`${JRC_url}import`, {
-                  // JOSM doesn't handle protocol-less links very well
-                  url: `${server.replace(
-                    /^\/\//,
-                    `${location.protocol}//`
-                  )}interpreter?data=${encodeURIComponent(query)}`
-                })
-                  .fail(() => {
-                    alert("Error: Unexpected JOSM remote control error.");
-                  })
-                  .done(() => {
-                    console.log("successfully invoked JOSM remote control");
-                  });
-              } else {
-                const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-                const content = `<p>${i18n.t("error.remote.incompat")}: ${
-                  d.protocolversion.major
-                }.${d.protocolversion.minor} :(</p>`;
-                showDialog(
-                  i18n.t("error.remote.title"),
-                  content,
-                  dialog_buttons
-                );
-              }
-            })
-            .fail(() => {
-              const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
-              const content = `<p>${i18n.t("error.remote.not_found")}</p>`;
-              showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
-            });
+        async function send_to_josm(query: string): Promise<void> {
+          let d;
+          try {
+            d = await josm.version();
+          } catch (error) {
+            console.error("JOSM remote control is not reachable", error);
+            const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+            const content = `<p>${i18n.t("error.remote.not_found")}</p>`;
+            showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
+            return;
+          }
+          if (d.protocolversion.major != 1) {
+            const dialog_buttons = [{name: i18n.t("dialog.dismiss")}];
+            const content = `<p>${i18n.t("error.remote.incompat")}: ${
+              d.protocolversion.major
+            }.${d.protocolversion.minor} :(</p>`;
+            showDialog(i18n.t("error.remote.title"), content, dialog_buttons);
+            return;
+          }
+          try {
+            await josm.importUrl(
+              // JOSM doesn't handle protocol-less links very well
+              `${server.replace(
+                /^\/\//,
+                `${location.protocol}//`
+              )}interpreter?data=${encodeURIComponent(query)}`
+            );
+            console.log("successfully invoked JOSM remote control");
+          } catch (error) {
+            console.error(error);
+            alert("Error: Unexpected JOSM remote control error.");
+          }
         }
         // first check for possible mistakes in query.
-        const valid = Autorepair.detect.editors(
+        const valid = Autorepair.isEditorCompatible(
           this.getRawQuery(),
           this.getQueryLang()
         );
@@ -2395,8 +2367,24 @@ class IDE {
           return false;
         }
       });
+    // image export options
+    $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_scale]"
+    )[0].checked = settings.export_image_scale;
+    $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_attribution]"
+    )[0].checked = settings.export_image_attribution;
     // open the export dialog
     $("#export-dialog").addClass("is-active");
+  }
+  onExportImageOptionsChange() {
+    settings.export_image_scale = $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_scale]"
+    )[0].checked;
+    settings.export_image_attribution = $<HTMLInputElement>(
+      "#export-dialog input[name=export_image_attribution]"
+    )[0].checked;
+    settings.save();
   }
   onExportDownloadClose() {
     $("#export-download-dialog").removeClass("is-active");
@@ -2502,7 +2490,7 @@ class IDE {
   onFfsBuild() {
     this.onFfsRun(false);
   }
-  onFfsRun(autorun: boolean): void {
+  async onFfsRun(autorun: boolean): Promise<void> {
     // Show loading spinner and hide all errors
     $("#ffs-dialog input[type=search]").removeClass("is-danger");
     $("#ffs-dialog #ffs-dialog-parse-error").hide();
@@ -2510,40 +2498,40 @@ class IDE {
     $("#ffs-dialog .loading").show();
 
     // Build query and run it immediately if autorun is set
-    this.update_ffs_query(undefined, (err, ffs_result) => {
+    try {
+      await this.update_ffs_query();
+    } catch (err) {
       $("#ffs-dialog .loading").hide();
-      if (!err) {
-        $("#ffs-dialog").removeClass("is-active");
-        if (autorun !== false) this.onRunClick();
+      $("#ffs-dialog input[type=search]").addClass("is-danger");
+      if (err instanceof FfsRepairError) {
+        // show a "did you mean …" correction
+        $("#ffs-dialog #ffs-dialog-parse-error").hide();
+        $("#ffs-dialog #ffs-dialog-typo").show();
+        const correction = err.repaired.join("");
+        const correction_html = err.repaired
+          .map((ffs_result_part, i) => {
+            if (i % 2 === 1) return `<b>${ffs_result_part}</b>`;
+            else return ffs_result_part;
+          })
+          .join("");
+        $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
+        $("#ffs-dialog #ffs-dialog-typo-correction")
+          .unbind("click")
+          .bind("click", function (e) {
+            $("#ffs-dialog input[type=search]").val(correction);
+            $(this).parent().hide();
+            e.preventDefault();
+          });
       } else {
-        if (Array.isArray(ffs_result)) {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-parse-error").hide();
-          $("#ffs-dialog #ffs-dialog-typo").show();
-          $("#ffs-dialog input[type=search]").addClass("is-danger");
-          const correction = ffs_result.join("");
-          const correction_html = ffs_result
-            .map((ffs_result_part, i) => {
-              if (i % 2 === 1) return `<b>${ffs_result_part}</b>`;
-              else return ffs_result_part;
-            })
-            .join("");
-          $("#ffs-dialog #ffs-dialog-typo-correction").html(correction_html);
-          $("#ffs-dialog #ffs-dialog-typo-correction")
-            .unbind("click")
-            .bind("click", function (e) {
-              $("#ffs-dialog input[type=search]").val(correction);
-              $(this).parent().hide();
-              e.preventDefault();
-            });
-        } else {
-          // show parse error message
-          $("#ffs-dialog #ffs-dialog-typo").hide();
-          $("#ffs-dialog #ffs-dialog-parse-error").show();
-          $("#ffs-dialog input[type=search]").addClass("is-danger");
-        }
+        // show parse error message
+        $("#ffs-dialog #ffs-dialog-typo").hide();
+        $("#ffs-dialog #ffs-dialog-parse-error").show();
       }
-    });
+      return;
+    }
+    $("#ffs-dialog .loading").hide();
+    $("#ffs-dialog").removeClass("is-active");
+    if (autorun !== false) this.onRunClick();
   }
   onStylerClick() {
     if (!overpass.geojson || overpass.geojson.features.length === 0) return;
@@ -2645,30 +2633,82 @@ class IDE {
     $("#styler-dialog").removeClass("is-active");
   }
   onSettingsClick() {
-    $<HTMLInputElement>("#settings-dialog input[name=ui_language]")[0].value =
-      settings.ui_language;
     const lngDescs = i18n.getSupportedLanguagesDescriptions();
-    make_combobox(
-      $("#settings-dialog input[name=ui_language]"),
-      ["auto"].concat(i18n.getSupportedLanguages()).map((lng) => ({
-        value: lng,
-        label: lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`
-      }))
+    const ui_language = $<HTMLSelectElement>(
+      "#settings-dialog select[name=ui_language]"
+    )[0];
+    ui_language.replaceChildren(
+      ...["auto"].concat(i18n.getSupportedLanguages()).map((lng) => {
+        const option = document.createElement("option");
+        option.value = lng;
+        option.text = lng == "auto" ? "auto" : `${lng} - ${lngDescs[lng]}`;
+        return option;
+      })
     );
+    ui_language.value = settings.ui_language;
+    if (!ui_language.value) {
+      // the stored language is not among the supported ones (any more), which
+      // would leave the select without a selection and save an empty value
+      ui_language.value = "auto";
+    }
+    $<HTMLSelectElement>("#settings-dialog select[name=theme]")[0].value =
+      settings.theme;
     $<HTMLInputElement>("#settings-dialog input[name=server]")[0].value =
       settings.server;
-    make_combobox(
-      $("#settings-dialog input[name=server]"),
-      configs.suggestedServers.concat(settings.customServers),
-      settings.customServers,
-      (server) => {
-        settings.customServers.splice(
-          settings.customServers.indexOf(server),
-          1
-        );
-        settings.save();
-      }
-    );
+    const make_server_combobox = (servers: string[]) =>
+      make_combobox(
+        $("#settings-dialog input[name=server]"),
+        servers.concat(settings.customServers),
+        settings.customServers,
+        (server) => {
+          settings.customServers.splice(
+            settings.customServers.indexOf(server),
+            1
+          );
+          settings.save();
+        }
+      );
+    make_server_combobox(suggestedServers);
+    // describes the server currently in the input, as far as the wiki knows it
+    const show_server_info = () => {
+      const server = $<HTMLInputElement>(
+        "#settings-dialog input[name=server]"
+      )[0].value;
+      const instance = wikiInstances.find(({url}) => url === server);
+      const coverage =
+        instance?.coverage &&
+        `${i18n.t("settings.server_coverage")}: ${instance.coverage}`;
+      // .text(), never .html(): this comes from a world-writable wiki
+      $("#settings-dialog #server-info").text(
+        [coverage, instance?.usagePolicy].filter(Boolean).join(" — ")
+      );
+    };
+    $("#settings-dialog input[name=server]")
+      // `show_server_info` is recreated on every open, so drop the previous
+      // handler first — namespaced, as the combobox listens on `input` too
+      .off(".server-info")
+      .on(
+        "input.server-info autocompleteselect.server-info autocompletechange.server-info",
+        // the combobox fills the input after the event, hence the deferral
+        () => setTimeout(show_server_info)
+      );
+    show_server_info();
+    // the instances listed on the OSM wiki trickle in afterwards, the combobox
+    // is rebuilt once they do. if the wiki cannot be reached, the hardcoded
+    // servers are kept
+    void (instancesPromise ??= fetchInstances())
+      .then((instances) => {
+        wikiInstances = instances;
+        suggestedServers = [
+          ...new Set([
+            ...configs.suggestedServers,
+            ...instances.map((instance) => instance.url)
+          ])
+        ];
+        make_server_combobox(suggestedServers);
+        show_server_info();
+      })
+      .catch(() => {});
     $<HTMLInputElement>(
       "#settings-dialog input[name=no_autorepair]"
     )[0].checked = settings.no_autorepair;
@@ -2681,18 +2721,6 @@ class IDE {
     )[0].checked = settings.use_rich_editor;
     $<HTMLInputElement>("#settings-dialog input[name=editor_width]")[0].value =
       settings.editor_width;
-    // sharing options
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=share_include_pos]"
-    )[0].checked = settings.share_include_pos;
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=share_compression]"
-    )[0].value = settings.share_compression;
-    make_combobox($("#settings-dialog input[name=share_compression]"), [
-      "auto",
-      "on",
-      "off"
-    ]);
     // map settings
     $<HTMLInputElement>("#settings-dialog input[name=tile_server]")[0].value =
       settings.tile_server;
@@ -2720,20 +2748,16 @@ class IDE {
     $<HTMLInputElement>(
       "#settings-dialog input[name=show_data_stats]"
     )[0].checked = settings.show_data_stats;
-    // export settings
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_scale]"
-    )[0].checked = settings.export_image_scale;
-    $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_attribution]"
-    )[0].checked = settings.export_image_attribution;
+    $<HTMLSelectElement>(
+      "#settings-dialog select[name=editor_preference]"
+    )[0].value = settings.editor_preference;
     // open dialog
     $("#settings-dialog").addClass("is-active");
   }
   onSettingsSave() {
     // save settings
-    const new_ui_language = $<HTMLInputElement>(
-      "#settings-dialog input[name=ui_language]"
+    const new_ui_language = $<HTMLSelectElement>(
+      "#settings-dialog select[name=ui_language]"
     )[0].value;
     // reload ui if language has been changed
     if (settings.ui_language != new_ui_language) {
@@ -2741,11 +2765,15 @@ class IDE {
       ffs_invalidateCache();
     }
     settings.ui_language = new_ui_language;
+    settings.theme = $<HTMLSelectElement>(
+      "#settings-dialog select[name=theme]"
+    )[0].value;
+    applyTheme(settings.theme as Theme);
     settings.server = $<HTMLInputElement>(
       "#settings-dialog input[name=server]"
     )[0].value;
     if (
-      configs.suggestedServers.indexOf(settings.server) === -1 &&
+      suggestedServers.indexOf(settings.server) === -1 &&
       settings.customServers.indexOf(settings.server) === -1
     ) {
       settings.customServers.push(settings.server);
@@ -2768,12 +2796,6 @@ class IDE {
       $("#editor").css("width", settings.editor_width);
       $("#dataviewer").css("left", settings.editor_width);
     }
-    settings.share_include_pos = $<HTMLInputElement>(
-      "#settings-dialog input[name=share_include_pos]"
-    )[0].checked;
-    settings.share_compression = $<HTMLInputElement>(
-      "#settings-dialog input[name=share_compression]"
-    )[0].value;
     const prev_tile_server = settings.tile_server;
     settings.tile_server = $<HTMLInputElement>(
       "#settings-dialog input[name=tile_server]"
@@ -2808,13 +2830,10 @@ class IDE {
     settings.show_data_stats = $<HTMLInputElement>(
       "#settings-dialog input[name=show_data_stats]"
     )[0].checked;
+    settings.editor_preference = $<HTMLSelectElement>(
+      "#settings-dialog select[name=editor_preference]"
+    )[0].value;
     $(".crosshairs").toggle(settings.enable_crosshairs); // show/hide crosshairs
-    settings.export_image_scale = $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_scale]"
-    )[0].checked;
-    settings.export_image_attribution = $<HTMLInputElement>(
-      "#settings-dialog input[name=export_image_attribution]"
-    )[0].checked;
     settings.save();
     $("#settings-dialog").removeClass("is-active");
   }
@@ -2908,6 +2927,17 @@ class IDE {
       event.preventDefault();
     }
 
+    if (
+      event.key == "," &&
+      (event.ctrlKey || event.metaKey) &&
+      !event.shiftKey &&
+      !event.altKey
+    ) {
+      // Ctrl+,
+      this.onSettingsClick();
+      event.preventDefault();
+    }
+
     if (event.key === "Escape") {
       // Escape
       $(".modal").removeClass("is-active");
@@ -2966,30 +2996,25 @@ class IDE {
     await this.getQuery();
     overpass.rerender(this.mapcss);
   }
-  update_ffs_query(
-    s: string | undefined,
-    callback: (err: unknown, ffs_result?: string[]) => void
-  ): void {
+  async update_ffs_query(s?: string): Promise<void> {
     const search = s || String($("#ffs-dialog input[type=search]").val() ?? "");
     const comment = $<HTMLInputElement>(
       "#ffs-dialog input[name='ffs.comments']"
     )[0].checked;
-    ffs_construct_query(search, comment, (err: unknown, query: string) => {
-      if (err) {
-        ffs_repair_search(search, (repaired: string[] | false) => {
-          if (repaired) {
-            callback("repairable query", repaired);
-          } else {
-            if (s) return callback(true);
-            // try to parse as generic ffs search
-            this.update_ffs_query(`"${search}"`, callback);
-          }
-        });
-      } else {
-        this.setQuery(query);
-        callback(null);
-      }
-    });
+    let query: string;
+    try {
+      query = await ffs_construct_query(search, comment);
+    } catch {
+      const repaired = await ffs_repair_search(search);
+      if (repaired) throw new FfsRepairError(repaired);
+      if (s) throw new Error("could not parse the wizard query");
+      // try to parse as generic ffs search
+      return this.update_ffs_query(`"${search}"`);
+    }
+    this.setQuery(query);
+  }
+  onClearClick() {
+    this.setQuery("");
   }
 }
 
