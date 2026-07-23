@@ -55,7 +55,7 @@ export function findArrayInObj(obj: any): any[] | null {
 export function renderTable(tableEl: HTMLElement, data: TableData) {
   let html = "<table><thead><tr>";
   for (const col of data.columns) {
-    html += "<th>" + htmlentities(col) + "</th>";
+    html += "<th scope=\"col\">" + htmlentities(col) + "</th>";
   }
   html += "</tr></thead><tbody>";
   for (const row of data.rows) {
