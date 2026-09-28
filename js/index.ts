@@ -23,6 +23,7 @@ import "leaflet.locationfilter/src/locationfilter.css";
 import "jquery-ui/dist/themes/base/jquery-ui.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "bulma/css/bulma.css";
+import "gridjs/dist/theme/mermaid.css";
 import "../css/default.css";
 import "../css/compact.css";
 // initialize ide on document ready
