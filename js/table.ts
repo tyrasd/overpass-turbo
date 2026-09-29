@@ -1,9 +1,9 @@
-import { Grid, h } from "gridjs";
+import {Grid, h} from "gridjs";
 import Papa from "papaparse";
 
 import i18n from "./i18n";
 
-export type TableData = { columns: string[]; rows: object[] };
+export type TableData = {columns: string[]; rows: object[]};
 
 /** Rows per page, once there are more rows than this. Below the limit, showing
  *  everything at once beats a row of pagination buttons. */
@@ -17,7 +17,7 @@ export function parseCSVText(text: string): TableData | null {
   if (result.errors.length > 0 || result.data.length === 0) return null;
   const columns = result.meta.fields ?? [];
   if (columns.length === 0) return null;
-  return { columns, rows: result.data as object[] };
+  return {columns, rows: result.data as object[]};
 }
 
 export function objectsToTable(arr: object[]): TableData {
@@ -27,7 +27,7 @@ export function objectsToTable(arr: object[]): TableData {
       for (const k of Object.keys(el)) colSet.add(k);
     }
   }
-  return { columns: Array.from(colSet), rows: arr };
+  return {columns: Array.from(colSet), rows: arr};
 }
 
 export function geoJsonToTable(features: any[]): TableData {
@@ -111,7 +111,7 @@ function toGridData(data: TableData) {
     // Styling the cell contents is left to the formatter on purpose: anything
     // other than a plain value would break sorting and searching.
     formatter: (cell: CellValue) =>
-      isEmpty(cell) ? h("em", { className: "table-null" }, "null") : cell,
+      isEmpty(cell) ? h("em", {className: "table-null"}, "null") : cell,
     sort: {
       // Grid.js' own comparator calls cells without a value equal to
       // everything else, which leaves the sort order up to the browser. Sort
@@ -131,12 +131,12 @@ function toGridData(data: TableData) {
     });
     return cells;
   });
-  return { columns, rows };
+  return {columns, rows};
 }
 
 function gridLanguage() {
   return {
-    search: { placeholder: i18n.t("table.search_placeholder") },
+    search: {placeholder: i18n.t("table.search_placeholder")},
     sort: {
       sortAsc: i18n.t("table.sort_asc"),
       sortDesc: i18n.t("table.sort_desc")
@@ -169,14 +169,14 @@ export function clearTable(tableEl: HTMLElement) {
 }
 
 export function renderTable(tableEl: HTMLElement, data: TableData) {
-  const { columns, rows } = toGridData(data);
+  const {columns, rows} = toGridData(data);
   const grid = new Grid({
     columns,
     data: rows,
-    sort: { multiColumn: false },
+    sort: {multiColumn: false},
     search: true,
     pagination:
-      rows.length > pageSize ? { limit: pageSize, buttonsCount: 5 } : false,
+      rows.length > pageSize ? {limit: pageSize, buttonsCount: 5} : false,
     language: gridLanguage()
   });
   clearTable(tableEl);

@@ -30,8 +30,8 @@ import {fetchInstances, type OverpassInstance} from "./overpass-servers";
 import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
-import {updateTableFromGeoJson, updateTableFromRawData} from "./table";
 import sync, {type SyncedQuery} from "./sync-with-osm";
+import {updateTableFromGeoJson, updateTableFromRawData} from "./table";
 import {applyTheme, onThemeChange, type Theme} from "./theme";
 import urlParameters from "./urlParameters";
 
@@ -1287,9 +1287,7 @@ class IDE {
 
   /* this returns the current query in the editor.
    * shortcuts are expanded. */
-  async getQuery(
-    _shortcuts: Record<string, Shortcut> = undefined
-  ): Promise<string> {
+  async getQuery(_shortcuts: Record<string, Shortcut>): Promise<string> {
     let query = this.getRawQuery();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
