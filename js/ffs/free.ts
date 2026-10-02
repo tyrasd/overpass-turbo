@@ -38,7 +38,7 @@ type FreeFormClause = {
 type FreeFormCondition = {free?: string};
 
 /** a preset name as it is translated upstream */
-type PresetTranslation = {name: string; terms?: string[]};
+type PresetTranslation = {name?: string; terms?: string[]};
 
 let presets: Presets = {};
 
@@ -94,9 +94,11 @@ export default async function ffs_free() {
           preset.translated = true;
           // save original preset name under alternative terms
           const oriPresetName = preset.name;
-          // save translated preset name
-          preset.nameCased = translation.name;
-          preset.name = translation.name.toLowerCase();
+          // save translated preset name (some translations only provide terms)
+          if (translation.name) {
+            preset.nameCased = translation.name;
+            preset.name = translation.name.toLowerCase();
+          }
           // add new terms
           if (translation.terms)
             preset.terms = translation.terms
