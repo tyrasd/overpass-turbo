@@ -75,8 +75,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       tag2link:
-        specifier: ^2026.6.26
-        version: 2026.6.26
+        specifier: ^2026.9.21
+        version: 2026.9.21
       togpx:
         specifier: tyrasd/togpx#4396a386fd179be6876f7443438909d524651eed
         version: https://codeload.github.com/tyrasd/togpx/tar.gz/4396a386fd179be6876f7443438909d524651eed
@@ -1302,8 +1302,8 @@ packages:
     resolution: {integrity: sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==}
     engines: {node: '>=12.0.0'}
 
-  tag2link@2026.6.26:
-    resolution: {integrity: sha512-3HXYkASxzeCidEnbY6b3LZ+oN6tKFOK1kHWgaxpLt2zONwn64r7EEInRxmBXGMreMJm2OJH0TMBFwqjdaIDNZA==}
+  tag2link@2026.9.21:
+    resolution: {integrity: sha512-PpRyVrkMzOVtZ5Sclsa71l+YZBUKWwB7tZDVKhhOgu1cstu+3mCt1gf658YXxErMoucKmbv7fUfQ8QzCLrAGAA==}
 
   tap@0.4.13:
     resolution: {integrity: sha512-DRPT9T2qqeUQ9nC8nwnZPQQnKA+bVhzaNrIDoFETFqWLXGOvil/JMhuWj5uO6XeNzIdvvPKLqPHQzIkJnjNnDQ==}
@@ -2396,7 +2396,7 @@ snapshots:
 
   svg-pathdata@6.0.3: {}
 
-  tag2link@2026.6.26: {}
+  tag2link@2026.9.21: {}
 
   tap@0.4.13:
     dependencies:
