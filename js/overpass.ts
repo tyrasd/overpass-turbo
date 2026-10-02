@@ -169,12 +169,18 @@ class Overpass {
         ).length;
       }
       overpass.ajax_request_duration = Date.now() - overpass.ajax_request_start;
+      // a remark (e.g. "Query timed out") means the data will be discarded anyway
+      const has_remark =
+        typeof data == "object" &&
+        ((response.xml && $("remark", data).length > 0) ||
+          (data.remark && data.remark.length > 0));
       overpass.fire("onProgress", `received about ${data_txt} of data`);
       overpass.fire(
         "onDataReceived",
         data_amount,
         data_txt,
         data_elements,
+        has_remark,
         () => {
           // abort callback
           overpass.fire("onAbort");

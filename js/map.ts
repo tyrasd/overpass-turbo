@@ -205,6 +205,7 @@ $(document).ready(() => {
     amount,
     txt,
     elements,
+    has_remark,
     abortCB,
     continueCB
   ) => {

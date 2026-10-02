@@ -1003,11 +1003,13 @@ class IDE {
       amount_bytes,
       amount_txt,
       amount_elements,
+      has_remark,
       abortCB,
       continueCB
     ) {
       if (
         (amount_elements > 5e3 || amount_bytes > 1e7) &&
+        !has_remark &&
         !settings.disable_warning_huge_data
       ) {
         ide.waiter.close();
