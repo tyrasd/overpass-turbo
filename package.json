@@ -12,7 +12,7 @@
     "check": "vp check",
     "lint": "vp lint .",
     "format": "vp fmt --write .",
-    "test": "vp test",
+    "test": "tsc && vp test",
     "changelog": "pnpm dlx git-cliff --config cliff.toml"
   },
   "dependencies": {
