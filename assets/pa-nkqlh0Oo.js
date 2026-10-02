@@ -1,2 +1,0 @@
-var e={presets:{fields:{address:{placeholders:{city:`ਸ਼ਹਿਰ`}},cuisine:{options:{indian:`ਭਾਰਤੀ`}},name:{label:`ਨਾਮ`}},presets:{"amenity/place_of_worship/muslim":{name:`ਮਸਜਿਦ`,aliases:`ਮਸੀਤ`}}}},t={pa:e};export{t as default,e as pa};
-//# sourceMappingURL=pa-nkqlh0Oo.js.map
