@@ -1863,13 +1863,11 @@ class IDE {
           generator: configs.appname,
           copyright: overpass.copyright,
           timestamp: overpass.timestamp,
-          features: geojson.features.map(
-            (feature): GeoJSON.Feature => ({
-              type: "Feature",
-              properties: feature.properties,
-              geometry: feature.geometry
-            })
-          ) // makes deep copy
+          features: geojson.features.map((feature): GeoJSON.Feature => ({
+            type: "Feature",
+            properties: feature.properties,
+            geometry: feature.geometry
+          })) // makes deep copy
         };
         gJ.features.forEach((f) => {
           const p = f.properties;
