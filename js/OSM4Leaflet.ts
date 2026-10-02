@@ -40,7 +40,7 @@ class OSM4Leaflet extends L.Layer {
       ? data
       : osmtogeojson(data, {flatProperties: false});
     this._resultData = geojson;
-    if (this.options.afterParse) this.options.afterParse();
+    this.options.afterParse?.();
     await new Promise((resolve) => setTimeout(resolve));
     // 2. add to baseLayer
     this._baseLayer.addData(geojson);
