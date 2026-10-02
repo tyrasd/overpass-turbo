@@ -38,7 +38,7 @@ type FreeFormClause = {
 type FreeFormCondition = {free?: string};
 
 /** a preset name as it is translated upstream */
-type PresetTranslation = {name: string; terms?: string};
+type PresetTranslation = {name: string; terms?: string[]};
 
 let presets: Presets = {};
 
@@ -100,7 +100,6 @@ export default async function ffs_free() {
           // add new terms
           if (translation.terms)
             preset.terms = translation.terms
-              .split(",")
               .map((term) => term.trim().toLowerCase())
               .concat(preset.terms);
           // add this to the front to allow exact (english) preset names to match before terms

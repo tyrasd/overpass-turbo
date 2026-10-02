@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
-    "@openstreetmap/id-tagging-schema": "^3.5.1",
+    "@openstreetmap/id-tagging-schema": "^7.2.0",
     "bulma": "^1.0.4",
     "canvg": "4.0.3",
     "codemirror": "~5.65.21",

@@ -24,8 +24,8 @@ importers:
         specifier: ^5.13.0
         version: 5.15.4
       '@openstreetmap/id-tagging-schema':
-        specifier: ^3.5.1
-        version: 3.5.1
+        specifier: ^7.2.0
+        version: 7.2.0
       bulma:
         specifier: ^1.0.4
         version: 1.0.4
@@ -150,8 +150,9 @@ packages:
     resolution: {integrity: sha512-tJaT+RbYGJYStt7wI3cq4Nl4SXxG8W7JDG5DMJu97V25RnbNg3QtQtf+KD+VLjNpWKYsRvXDNmNrBgEETr1ifA==}
     hasBin: true
 
-  '@openstreetmap/id-tagging-schema@3.5.1':
-    resolution: {integrity: sha512-CyTV9CpDzbEjHGLlBb9fQvWHN/yCNAk3ijkvxO4NTaUi+0p37wXZuUm4Da53fa1bcaRQ3usIn2TygeHTRB/9Fg==}
+  '@openstreetmap/id-tagging-schema@7.2.0':
+    resolution: {integrity: sha512-7hjV8Xl3CoaO0u+M/Po0u33YIRahL8jEJtOzho189VOqqQQB3L9UGv2o93o/T4G3I0z5sFvQhn0apOz6+j253w==}
+    engines: {node: '>=22'}
 
   '@oxc-project/runtime@0.151.0':
     resolution: {integrity: sha512-fNuliiqGTseerW2FTbxq6UOQavKL/NvNh9K3peJZZVNi1NbM4Ehscwp3MX9nu+9bfbSfmPUEivF779XQU5exiw==}
@@ -1531,7 +1532,7 @@ snapshots:
       get-stream: 6.0.1
       minimist: 1.2.8
 
-  '@openstreetmap/id-tagging-schema@3.5.1': {}
+  '@openstreetmap/id-tagging-schema@7.2.0': {}
 
   '@oxc-project/runtime@0.151.0': {}
 
