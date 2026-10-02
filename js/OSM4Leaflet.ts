@@ -26,25 +26,24 @@ class OSM4Leaflet extends L.Layer {
       this.options.baseLayerOptions
     );
     this._resultData = null;
-    // if data
-    if (data) this.addData(data);
+    if (data) {
+      void this.addData(data);
+    }
   }
-  addData(data, onDone?: () => void) {
-    setTimeout(() => {
-      // 1. convert to GeoJSON
-      const isGeoJSON =
-        typeof data === "object" && data?.type === "FeatureCollection";
-      const geojson = isGeoJSON
-        ? data
-        : osmtogeojson(data, {flatProperties: false});
-      this._resultData = geojson;
-      if (this.options.afterParse) this.options.afterParse();
-      setTimeout(() => {
-        // 2. add to baseLayer
-        this._baseLayer.addData(geojson);
-        if (onDone) onDone();
-      }, 1); //end setTimeout
-    }, 1); //end setTimeout
+  async addData(data): Promise<void> {
+    // yield to the browser, so that it can repaint between expensive steps
+    await new Promise((resolve) => setTimeout(resolve));
+    // 1. convert to GeoJSON
+    const isGeoJSON =
+      typeof data === "object" && data?.type === "FeatureCollection";
+    const geojson = isGeoJSON
+      ? data
+      : osmtogeojson(data, {flatProperties: false});
+    this._resultData = geojson;
+    if (this.options.afterParse) this.options.afterParse();
+    await new Promise((resolve) => setTimeout(resolve));
+    // 2. add to baseLayer
+    this._baseLayer.addData(geojson);
   }
   getGeoJSON() {
     return this._resultData;

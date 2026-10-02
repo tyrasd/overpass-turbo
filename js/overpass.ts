@@ -703,7 +703,7 @@ class Overpass {
               });
 
               setTimeout(() => {
-                overpass.osmLayer.addData(data, () => {
+                void overpass.osmLayer.addData(data).then(() => {
                   // save geojson and raw data
                   geojson = overpass.osmLayer.getGeoJSON();
                   overpass.geojson = geojson;
