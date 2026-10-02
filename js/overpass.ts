@@ -168,6 +168,7 @@ class Overpass {
           response.json.result
         ).length;
       }
+      overpass.ajax_request_duration = Date.now() - overpass.ajax_request_start;
       overpass.fire("onProgress", `received about ${data_txt} of data`);
       overpass.fire(
         "onDataReceived",
@@ -197,8 +198,6 @@ class Overpass {
               pois: number;
             };
           };
-          overpass.ajax_request_duration =
-            Date.now() - overpass.ajax_request_start;
           overpass.fire("onProgress", "parsing data");
           setTimeout(() => {
             if (
