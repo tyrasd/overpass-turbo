@@ -1,6 +1,8 @@
 import * as L from "leaflet";
 import osmtogeojson from "osmtogeojson";
 
+import {yieldToBrowser} from "./misc";
+
 interface Options extends L.LayerOptions {
   /** The GeoJSON layer class to render the result with. */
   baseLayerClass: typeof L.GeoJSON;
@@ -31,8 +33,7 @@ class OSM4Leaflet extends L.Layer {
     }
   }
   async addData(data): Promise<void> {
-    // yield to the browser, so that it can repaint between expensive steps
-    await new Promise((resolve) => setTimeout(resolve));
+    await yieldToBrowser();
     // 1. convert to GeoJSON
     const isGeoJSON =
       typeof data === "object" && data?.type === "FeatureCollection";
@@ -41,7 +42,7 @@ class OSM4Leaflet extends L.Layer {
       : osmtogeojson(data, {flatProperties: false});
     this._resultData = geojson;
     this.options.afterParse?.();
-    await new Promise((resolve) => setTimeout(resolve));
+    await yieldToBrowser();
     // 2. add to baseLayer
     this._baseLayer.addData(geojson);
   }

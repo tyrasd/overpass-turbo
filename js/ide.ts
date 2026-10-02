@@ -2964,7 +2964,7 @@ class IDE {
     if (typeof overpass.osmLayer != "undefined")
       this.map.removeLayer(overpass.osmLayer);
     await this.getQuery();
-    overpass.rerender(this.mapcss);
+    await overpass.rerender(this.mapcss);
   }
   async update_ffs_query(s?: string): Promise<void> {
     const search = s || String($("#ffs-dialog input[type=search]").val() ?? "");

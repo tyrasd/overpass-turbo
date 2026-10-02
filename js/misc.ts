@@ -256,6 +256,11 @@ export function htmlentities(str) {
     .replace(/"/g, "&quot;");
 }
 
+// yield to the browser, so that it can repaint between expensive steps
+export function yieldToBrowser() {
+  return new Promise((resolve) => setTimeout(resolve));
+}
+
 // Levenshtein Distance
 // from https://github.com/systemed/iD/blob/1e78ee5c87669aac407c69493f3f532c823346ef/js/id/util.js#L97-L115
 export function levenshteinDistance(a, b) {
