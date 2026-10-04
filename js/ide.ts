@@ -1289,7 +1289,9 @@ class IDE {
 
   /* this returns the current query in the editor.
    * shortcuts are expanded. */
-  async getQuery(_shortcuts: Record<string, Shortcut>): Promise<string> {
+  async getQuery(
+    _shortcuts: Record<string, Shortcut> = undefined
+  ): Promise<string> {
     let query = this.getRawQuery();
     // parse query and process shortcuts
     // special handling for global bbox in xml queries (which uses an OverpassQL-like notation instead of n/s/e/w parameters):
