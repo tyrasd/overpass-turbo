@@ -38,7 +38,7 @@ type FreeFormClause = {
 type FreeFormCondition = {free?: string};
 
 /** a preset name as it is translated upstream */
-type PresetTranslation = {name: string; terms?: string};
+type PresetTranslation = {name?: string; terms?: string[]};
 
 let presets: Presets = {};
 
@@ -73,43 +73,44 @@ export default async function ffs_free() {
   }
   // load preset translations
   async function loadPresetTranslations() {
-    let language: string = i18n.getLanguage();
+    const language: string = i18n.getLanguage();
     if (!language) return;
-    try {
-      let {default: data} = await import(
-        `../../node_modules/@openstreetmap/id-tagging-schema/dist/translations/${language}.json`
-      );
-      if (language.length > 2 && !data[language]?.presets?.presets) {
-        language = language.slice(0, 2);
-        const {default: data2} = await import(
-          `../../node_modules/@openstreetmap/id-tagging-schema/dist/translations/${language}.json`
-        );
-        data = data2;
+    // the presets carry no names: start with the English ones, then add the
+    // language and its regional variant, which only covers its differences
+    const languages = new Set(["en", language.replace(/-.*/, ""), language]);
+    for (const lng of languages) {
+      let data;
+      try {
+        ({default: data} = await import(
+          `../../node_modules/@openstreetmap/id-tagging-schema/dist/translations/${lng}.json`
+        ));
+      } catch (err) {
+        console.warn(`failed to load preset translations file: ${lng}`, err);
+        // not every language comes with preset translations (e.g. zh-Hans)
+        if (lng !== "en") continue;
+        throw new Error(`failed to load preset translations file: ${lng}`);
       }
-      data = data[language].presets.presets;
       // load translated names and terms into presets object
-      Object.entries(data as Record<string, PresetTranslation>).forEach(
-        ([presetName, translation]) => {
-          const preset = presets[presetName];
-          preset.translated = true;
-          // save original preset name under alternative terms
-          const oriPresetName = preset.name;
-          // save translated preset name
+      Object.entries(
+        (data[lng]?.presets?.presets ?? {}) as Record<string, PresetTranslation>
+      ).forEach(([presetName, translation]) => {
+        const preset = presets[presetName];
+        preset.translated = true;
+        // save original preset name under alternative terms
+        const oriPresetName = preset.name;
+        // save translated preset name (some translations only provide terms)
+        if (translation.name) {
           preset.nameCased = translation.name;
           preset.name = translation.name.toLowerCase();
-          // add new terms
-          if (translation.terms)
-            preset.terms = translation.terms
-              .split(",")
-              .map((term) => term.trim().toLowerCase())
-              .concat(preset.terms);
-          // add this to the front to allow exact (english) preset names to match before terms
-          if (oriPresetName) preset.terms.unshift(oriPresetName);
         }
-      );
-    } catch (err) {
-      console.warn(`failed to load preset translations file: ${language}`, err);
-      throw new Error(`failed to load preset translations file: ${language}`);
+        // add new terms
+        if (translation.terms)
+          preset.terms = translation.terms
+            .map((term) => term.trim().toLowerCase())
+            .concat(preset.terms);
+        // add this to the front to allow exact (english) preset names to match before terms
+        if (oriPresetName) preset.terms.unshift(oriPresetName);
+      });
     }
   }
 }

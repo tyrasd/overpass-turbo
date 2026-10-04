@@ -12,12 +12,12 @@
     "check": "vp check",
     "lint": "vp lint .",
     "format": "vp fmt --write .",
-    "test": "vp test",
+    "test": "tsc && vp test",
     "changelog": "pnpm dlx git-cliff --config cliff.toml"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
-    "@openstreetmap/id-tagging-schema": "^3.5.1",
+    "@openstreetmap/id-tagging-schema": "^7.2.0",
     "bulma": "^1.0.4",
     "canvg": "4.0.3",
     "codemirror": "~5.65.21",
@@ -36,7 +36,7 @@
     "papaparse": "^5.5.4",
     "rgbcolor": "^1.0.1",
     "stackblur": "^1.0.0",
-    "tag2link": "^2026.6.26",
+    "tag2link": "^2026.9.21",
     "togpx": "tyrasd/togpx#4396a386fd179be6876f7443438909d524651eed",
     "tokml": "^0.4.0"
   },
@@ -47,8 +47,8 @@
     "@types/leaflet": "^1.9.3",
     "@types/papaparse": "^5.5.2",
     "happy-dom": "^20.10.6",
-    "peggy": "^3.0.2",
-    "typescript": "^6.0.3",
+    "peggy": "^5.1.0",
+    "typescript": "^7.0.2",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   },

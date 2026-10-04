@@ -283,7 +283,7 @@ class IDE {
 
   // == public methods ==
 
-  init() {
+  async init() {
     this.waiter.addInfo("ide starting up");
     $("#overpass-turbo-version").html(
       `overpass-turbo <code>${import.meta.env.VITE_GIT_VERSION}</code>`
@@ -317,10 +317,6 @@ class IDE {
     // apply the color theme as early as possible to avoid a flash of the
     // wrong scheme
     applyTheme(settings.theme as Theme);
-    // translate ui
-    this.waiter.addInfo("translate ui");
-    i18n.translate().then(() => this.initAfterI18n());
-
     if (sync.enabled) {
       $("#load-dialog .osm").show();
       if (sync.authenticated()) {
@@ -328,6 +324,10 @@ class IDE {
         $("#logout").appendTo($("#logout").parent());
       }
     }
+    // translate ui
+    this.waiter.addInfo("translate ui");
+    await i18n.translate();
+    await this.initAfterI18n();
   }
 
   async initAfterI18n() {
@@ -468,53 +468,52 @@ class IDE {
         indentTags: ["osm-script", "query", "union", "foreach", "difference"]
       };
       const onCodeChange = debounce(
-        (e) => {
+        async (e) => {
           settings.code["overpass"] = e.getValue();
           settings.save();
-          ide.getQuery({}).then(() => {
-            const query_lang = ide.getQueryLang();
-            // update syntax highlighting mode
-            switch (query_lang) {
-              case "xml":
-                if (e.getOption("mode") != "xml+mustache") {
-                  e.setOption("autoCloseTags", autoCloseTagsOptions);
-                  e.setOption("matchBrackets", false);
-                  e.setOption("mode", "xml+mustache");
-                }
-                break;
-              case "SQL":
-                if (e.getOption("mode") != "sql+mustache") {
-                  e.setOption("autoCloseTags", false);
-                  e.setOption("matchBrackets", true);
-                  e.setOption("mode", "sql+mustache");
-                }
-                break;
-              default:
-                if (e.getOption("mode") != "ql+mustache") {
-                  e.setOption("autoCloseTags", false);
-                  e.setOption("matchBrackets", true);
-                  e.setOption("mode", "ql+mustache");
-                }
-            }
-            // check for inactive ui elements
-            const bbox_filter = $(".leaflet-control-buttons-bboxfilter");
-            if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
-              if (bbox_filter.hasClass("disabled")) {
-                bbox_filter.removeClass("disabled");
-                bbox_filter.attr("data-t", "[title]map_controlls.select_bbox");
-                i18n.translate_ui(bbox_filter[0]);
+          await ide.getQuery({});
+          const query_lang = ide.getQueryLang();
+          // update syntax highlighting mode
+          switch (query_lang) {
+            case "xml":
+              if (e.getOption("mode") != "xml+mustache") {
+                e.setOption("autoCloseTags", autoCloseTagsOptions);
+                e.setOption("matchBrackets", false);
+                e.setOption("mode", "xml+mustache");
               }
-            } else {
-              if (!bbox_filter.hasClass("disabled")) {
-                bbox_filter.addClass("disabled");
-                bbox_filter.attr(
-                  "data-t",
-                  "[title]map_controlls.select_bbox_disabled"
-                );
-                i18n.translate_ui(bbox_filter[0]);
+              break;
+            case "SQL":
+              if (e.getOption("mode") != "sql+mustache") {
+                e.setOption("autoCloseTags", false);
+                e.setOption("matchBrackets", true);
+                e.setOption("mode", "sql+mustache");
               }
+              break;
+            default:
+              if (e.getOption("mode") != "ql+mustache") {
+                e.setOption("autoCloseTags", false);
+                e.setOption("matchBrackets", true);
+                e.setOption("mode", "ql+mustache");
+              }
+          }
+          // check for inactive ui elements
+          const bbox_filter = $(".leaflet-control-buttons-bboxfilter");
+          if (ide.getRawQuery().match(/\{\{bbox\}\}/)) {
+            if (bbox_filter.hasClass("disabled")) {
+              bbox_filter.removeClass("disabled");
+              bbox_filter.attr("data-t", "[title]map_controlls.select_bbox");
+              i18n.translate_ui(bbox_filter[0]);
             }
-          });
+          } else {
+            if (!bbox_filter.hasClass("disabled")) {
+              bbox_filter.addClass("disabled");
+              bbox_filter.attr(
+                "data-t",
+                "[title]map_controlls.select_bbox_disabled"
+              );
+              i18n.translate_ui(bbox_filter[0]);
+            }
+          }
         },
         100,
         {leading: true, trailing: true}
@@ -1027,11 +1026,13 @@ class IDE {
       amount_bytes,
       amount_txt,
       amount_elements,
+      has_remark,
       abortCB,
       continueCB
     ) {
       if (
         (amount_elements > 5e3 || amount_bytes > 1e7) &&
+        !has_remark &&
         !settings.disable_warning_huge_data
       ) {
         ide.waiter.close();
@@ -1241,7 +1242,8 @@ class IDE {
 
     // run the query immediately, if the appropriate flag was set.
     if (ide.run_query_on_startup === true) {
-      ide.getQuery({}).then(ide.update_map.bind(this));
+      await ide.getQuery({});
+      void ide.update_map();
       // automatically zoom to data.
       if (
         !args.has_coords &&
@@ -1398,11 +1400,13 @@ class IDE {
     const dialog_buttons = [
       {
         name: i18n.t("dialog.delete"),
-        callback() {
-          sync
-            .delete(query.name)
-            .then(() => $(self).parent().remove())
-            .catch((err) => console.error(err));
+        async callback() {
+          try {
+            await sync.delete(query.name);
+            $(self).parent().remove();
+          } catch (err) {
+            console.error(err);
+          }
         }
       },
       {
@@ -1547,20 +1551,20 @@ class IDE {
     settings.save();
     $("#save-dialog").removeClass("is-active");
   }
-  onSaveOsmSumbit() {
+  async onSaveOsmSumbit() {
     const name = $<HTMLInputElement>("#save-dialog input[name=save]")[0].value;
     const query = this.compose_share_link(this.getRawQuery(), true).slice(3);
-    sync
-      .save({
+    try {
+      await sync.save({
         name: name,
         query: query
-      })
-      .then(() => {
-        $("#logout").show();
-        $("#logout").appendTo($("#logout").parent());
-        $("#save-dialog").removeClass("is-active");
-      })
-      .catch((err) => console.error(err));
+      });
+      $("#logout").show();
+      $("#logout").appendTo($("#logout").parent());
+      $("#save-dialog").removeClass("is-active");
+    } catch (err) {
+      console.error(err);
+    }
   }
   onSaveClose() {
     $("#save-dialog").removeClass("is-active");
@@ -1615,7 +1619,7 @@ class IDE {
       return "AAAAAAAA".substring(0, 9 - coords_cpr.length) + coords_cpr;
     }
   }
-  updateShareLink() {
+  async updateShareLink() {
     const baseurl = `${location.protocol}//${location.host}${location.pathname}`;
     const query = this.getRawQuery();
     const compress =
@@ -1652,20 +1656,19 @@ class IDE {
 
     // automatically minify urls if enabled
     if (configs.short_url_service != "") {
-      requestText(
-        configs.short_url_service + encodeURIComponent(share_link)
-      ).then(
-        (data) => {
-          $<HTMLAnchorElement>("div#share-dialog #share_link_a")[0].href = data;
-          $<HTMLTextAreaElement>(
-            "div#share-dialog #share_link_textarea"
-          )[0].value = data;
-        },
-        (error) => {
-          // not fatal: the unshortened link stays in place
-          console.error("failed to shorten the share link", error);
-        }
-      );
+      let data: string;
+      try {
+        data = await requestText(
+          configs.short_url_service + encodeURIComponent(share_link)
+        );
+      } catch (error) {
+        // not fatal: the unshortened link stays in place
+        console.error("failed to shorten the share link", error);
+        return;
+      }
+      $<HTMLAnchorElement>("div#share-dialog #share_link_a")[0].href = data;
+      $<HTMLTextAreaElement>("div#share-dialog #share_link_textarea")[0].value =
+        data;
     }
   }
   onShareClick() {
@@ -1675,7 +1678,7 @@ class IDE {
     $<HTMLSelectElement>(
       "div#share-dialog select[name=share_compression]"
     )[0].value = settings.share_compression;
-    this.updateShareLink();
+    void this.updateShareLink();
     $("#share-dialog").addClass("is-active");
   }
   onShareOptionsChange() {
@@ -1686,7 +1689,7 @@ class IDE {
       "div#share-dialog select[name=share_compression]"
     )[0].value;
     settings.save();
-    this.updateShareLink();
+    void this.updateShareLink();
   }
   onShareClose() {
     $("#share-dialog").removeClass("is-active");
@@ -1892,13 +1895,11 @@ class IDE {
           generator: configs.appname,
           copyright: overpass.copyright,
           timestamp: overpass.timestamp,
-          features: geojson.features.map(
-            (feature): GeoJSON.Feature => ({
-              type: "Feature",
-              properties: feature.properties,
-              geometry: feature.geometry
-            })
-          ) // makes deep copy
+          features: geojson.features.map((feature): GeoJSON.Feature => ({
+            type: "Feature",
+            properties: feature.properties,
+            geometry: feature.geometry
+          })) // makes deep copy
         };
         gJ.features.forEach((f) => {
           const p = f.properties;
@@ -2759,7 +2760,7 @@ class IDE {
     )[0].value;
     // reload ui if language has been changed
     if (settings.ui_language != new_ui_language) {
-      i18n.translate(new_ui_language);
+      void i18n.translate(new_ui_language);
       ffs_invalidateCache();
     }
     settings.ui_language = new_ui_language;
@@ -2992,7 +2993,7 @@ class IDE {
     if (typeof overpass.osmLayer != "undefined")
       this.map.removeLayer(overpass.osmLayer);
     await this.getQuery();
-    overpass.rerender(this.mapcss);
+    await overpass.rerender(this.mapcss);
   }
   async update_ffs_query(s?: string): Promise<void> {
     const search = s || String($("#ffs-dialog input[type=search]").val() ?? "");

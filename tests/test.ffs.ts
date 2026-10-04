@@ -1,4 +1,4 @@
-import {beforeEach, describe, expect, it} from "vite-plus/test";
+import {beforeEach, describe, expect, it, vi} from "vite-plus/test";
 
 import {ffs_construct_query} from "../js/ffs";
 import {setPresets} from "../js/ffs/free";
@@ -476,6 +476,35 @@ describe("ide.ffs", () => {
       const search = "Highway";
       await expect(construct_query(search)).resolves.to.equal(
         `way["highway"](bbox);${out_str}`
+      );
+    });
+  });
+
+  // free form, resolved against the bundled id-tagging-schema presets
+  describe.each(["en", "en-US", "de"])("free form (%s presets)", (language) => {
+    // fresh modules, as loading the presets modifies the cached preset data
+    async function construct_query(search: string) {
+      vi.resetModules();
+      const {default: settings} = await import("../js/settings");
+      settings.ui_language = language;
+      const {ffs_construct_query} = await import("../js/ffs");
+      return compact(await ffs_construct_query(search, undefined));
+    }
+
+    it("Hotel in Vienna", async () => {
+      const search = "Hotel in Vienna";
+      await expect(construct_query(search)).resolves.to.equal(
+        `area(Vienna)->.searchArea;` +
+          `nwr["tourism"="hotel"](area.searchArea);` +
+          `${out_str}`
+      );
+    });
+    it('"Drinking Water" in London', async () => {
+      const search = '"Drinking Water" in London';
+      await expect(construct_query(search)).resolves.to.equal(
+        `area(London)->.searchArea;` +
+          `node["amenity"="drinking_water"](area.searchArea);` +
+          `${out_str}`
       );
     });
   });

@@ -111,7 +111,7 @@ export default class i18n {
    * Determines the language, fetches the language pack and translates the UI
    * @return <Promise>
    */
-  static translate(lng?: Language | string) {
+  static async translate(lng?: Language | string) {
     lng = this.getLanguage(lng);
 
     if (!(supported_lngs as string[]).includes(lng)) {
@@ -122,21 +122,19 @@ export default class i18n {
     }
 
     // load language pack
+    let data;
     try {
-      return import(`../locales/${lng}.json`).then(
-        (data) => {
-          // replace, don't merge: strings of a previously loaded language must
-          // not survive as a stand-in for keys the new one does not cover
-          this.td = data.default;
-          this.translate_ui();
-          // todo: nicer implementation
-          return data.default;
-        },
-        (e) => console.log(`failed to load language file ${lng}`, e)
-      );
+      data = await import(`../locales/${lng}.json`);
     } catch (e) {
       console.log(`failed to load language file ${lng}`, e);
+      return;
     }
+    // replace, don't merge: strings of a previously loaded language must
+    // not survive as a stand-in for keys the new one does not cover
+    this.td = data.default;
+    this.translate_ui();
+    // todo: nicer implementation
+    return data.default;
   }
   static translate_ui(element?: string | HTMLElement) {
     // if a DOM object is provided, only translate that one, otherwise
