@@ -26,6 +26,7 @@ These changes are live on the development instance at <https://tyrasd.github.io/
 - Remember whether a share link includes the map state, instead of resetting the choice each time ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
 - Pick the UI language from a select instead of a free-text combobox, so typos can no longer fall back to the default unnoticed ([#858](https://github.com/tyrasd/overpass-turbo/pull/858))
 - Try to render results even if parsing fails for some reason
+- Render the table view with [Grid.js](https://gridjs.io/), which adds sortable columns, a row filter and pagination to large result sets
 - Fix freeze for certain URLs in tags ([#747](https://github.com/tyrasd/overpass-turbo/issues/747))
 - Fix selection of combobox in autostyler dialog
 - Fix missing `attribution` control object, which is required for PNG export ([#813](https://github.com/tyrasd/overpass-turbo/issues/813))
