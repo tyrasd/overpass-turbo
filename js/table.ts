@@ -134,6 +134,11 @@ function toGridData(data: TableData) {
         if (isEmpty(a) || isEmpty(b)) {
           return isEmpty(a) && isEmpty(b) ? 0 : isEmpty(a) ? 1 : -1;
         }
+        if (name === "@id") {
+          // sort osm id column numerically
+          a = +a.toString().replace(/(node|way|relation)\//, "");
+          b = +b.toString().replace(/(node|way|relation)\//, "");
+        }
         return a < b ? -1 : a > b ? 1 : 0;
       }
     }
