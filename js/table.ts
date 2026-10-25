@@ -2,6 +2,7 @@ import {Grid, h} from "gridjs";
 import Papa from "papaparse";
 
 import i18n from "./i18n";
+import {flattenProperties} from "./ide";
 
 export type TableData = {columns: string[]; rows: object[]};
 
@@ -20,22 +21,31 @@ export function parseCSVText(text: string): TableData | null {
   return {columns, rows: result.data as object[]};
 }
 
-export function objectsToTable(arr: object[]): TableData {
+export function objectsToTable(rows: object[]): TableData {
   const colSet = new Set<string>();
-  for (const el of arr) {
+  rows = rows.map((el) => {
     if (el && typeof el === "object") {
-      for (const k of Object.keys(el)) colSet.add(k);
+      for (const k in el) colSet.add(k);
     }
-  }
-  return {columns: Array.from(colSet), rows: arr};
+    return el;
+  });
+  return {columns: sortCols(colSet, rows), rows};
 }
 
-export function geoJsonToTable(features: any[]): TableData {
-  const rows = features.map((f) => {
+export function geoJsonToTable(features: GeoJSON.Feature[]): TableData {
+  const colSet = new Set<string>();
+  const rows = features.map((f: GeoJSON.Feature) => {
     const row: Record<string, any> = {};
-    row.coordinates = JSON.stringify(f.geometry?.coordinates ?? "");
-    const props = f.properties ?? {};
+    if (f.geometry.type === "GeometryCollection") {
+      row["@geometries"] = JSON.stringify(f.geometry.geometries);
+      colSet.add("@geometry");
+    } else {
+      row["@coordinates"] = JSON.stringify(f.geometry.coordinates);
+      colSet.add("@coordinates");
+    }
+    const props = flattenProperties(f.properties, false);
     for (const [k, v] of Object.entries(props)) {
+      colSet.add(k);
       if (typeof v === "object" && v !== null) {
         row[k] = JSON.stringify(v);
       } else {
@@ -44,7 +54,24 @@ export function geoJsonToTable(features: any[]): TableData {
     }
     return row;
   });
-  return objectsToTable(rows);
+  return {columns: sortCols(colSet, rows), rows};
+}
+
+function sortCols(colSet: Set<string>, rows: object[]) {
+  const vals = Array.from(colSet);
+  const counts: Record<string, number> = {};
+  for (const row of rows) {
+    for (const k in row) {
+      counts[k] = (counts[k] || 0) + 1;
+    }
+  }
+  return vals.sort((a, b) => {
+    const countDiff = counts[b] - counts[a];
+    if (countDiff != 0) return countDiff > 0 ? 1 : -1;
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
+  });
 }
 
 export function findArrayInObj(obj: any): any[] | null {

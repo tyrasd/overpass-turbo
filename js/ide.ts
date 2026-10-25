@@ -1899,30 +1899,11 @@ class IDE {
           timestamp: overpass.timestamp,
           features: geojson.features.map((feature): GeoJSON.Feature => ({
             type: "Feature",
-            properties: feature.properties,
+            id: `${feature.properties.type}/${feature.properties.id}`,
+            properties: flattenProperties(feature.properties),
             geometry: feature.geometry
           })) // makes deep copy
         };
-        gJ.features.forEach((f) => {
-          const p = f.properties;
-          f.id = `${p.type}/${p.id}`;
-          f.properties = {
-            "@id": f.id
-          };
-          // escapes tags beginning with an @ with another @
-          for (const m in p.tags || {})
-            f.properties[m.replace(/^@/, "@@")] = p.tags[m];
-          for (const m in p.meta || {}) f.properties[`@${m}`] = p.meta[m];
-          // expose internal properties:
-          // * tainted: indicates that the feature's geometry is incomplete
-          if (p.tainted) f.properties["@tainted"] = p.tainted;
-          // * geometry: indicates that the feature's geometry is approximated via the Overpass geometry types "center" or "bounds"
-          if (p.geometry) f.properties["@geometry"] = p.geometry;
-          // expose relation membership (complex data type)
-          if (p.relations && p.relations.length > 0)
-            f.properties["@relations"] = p.relations;
-          // todo: expose way membership for nodes?
-        });
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
       return geoJSON_str;
@@ -3022,3 +3003,28 @@ class IDE {
 const ide = new IDE();
 
 export default ide;
+
+export function flattenProperties(
+  p: GeoJSON.GeoJsonProperties,
+  includeInternals: boolean = true
+): Record<string, string> {
+  if (!p.tags) return p;
+  const result = p.id
+    ? {
+        "@id": p.type ? `${p.type}/${p.id}` : p.id
+      }
+    : {};
+  // escapes tags beginning with an @ with another @
+  for (const m in p.tags || {}) result[m.replace(/^@/, "@@")] = p.tags[m];
+  for (const m in p.meta || {}) result[`@${m}`] = p.meta[m];
+  if (!includeInternals) return result;
+  // expose internal properties:
+  // * tainted: indicates that the feature's geometry is incomplete
+  if (p.tainted) result["@tainted"] = p.tainted;
+  // * geometry: indicates that the feature's geometry is approximated via the Overpass geometry types "center" or "bounds"
+  if (p.geometry) result["@geometry"] = p.geometry;
+  // expose relation membership (complex data type)
+  if (p.relations && p.relations.length > 0) result["@relations"] = p.relations;
+  // todo: expose way membership for nodes?
+  return result;
+}

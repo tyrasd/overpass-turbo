@@ -23,7 +23,7 @@ afterEach(() => {
   clearTable(tableEl);
 });
 
-/** Grid.js throttles its data pipeline to 100ms and fills the table in from
+/** Grid.js throttles its data pipeline to 200ms and fills the table in from
  *  effects, so its contents are only there a moment after rendering. */
 async function settle() {
   await new Promise((resolve) => setTimeout(resolve, 200));
@@ -82,9 +82,9 @@ describe("geoJsonToTable", () => {
         geometry: {type: "Point", coordinates: [12.4, 41.8]}
       }
     ]);
-    expect(table.columns).toEqual(["coordinates", "name"]);
+    expect(table.columns).toEqual(["@coordinates", "name"]);
     expect(table.rows[0]).toEqual({
-      coordinates: "[12.4,41.8]",
+      "@coordinates": "[12.4,41.8]",
       name: "Cafe"
     });
   });
@@ -276,7 +276,7 @@ describe("updateTableFromRawData", () => {
       tableEl
     );
     await settle();
-    expect(renderedHeaders()).toEqual(["coordinates", "name"]);
+    expect(renderedHeaders()).toEqual(["@coordinates", "name"]);
     expect(renderedRows()).toEqual([["[12.4,41.8]", "Cafe"]]);
   });
 
@@ -307,7 +307,7 @@ describe("updateTableFromGeoJson", () => {
       tableEl
     );
     await settle();
-    expect(renderedHeaders()).toEqual(["coordinates", "name"]);
+    expect(renderedHeaders()).toEqual(["@coordinates", "name"]);
   });
 
   it("empties the table when there are no features", () => {
