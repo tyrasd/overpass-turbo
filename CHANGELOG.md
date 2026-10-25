@@ -2,6 +2,9 @@
 
 These changes are live on the development instance at <https://tyrasd.github.io/overpass-turbo/>, but are not yet part of a stable release and are not deployed to <https://overpass-turbo.eu/>.
 
+## 2026-10-25
+
+- Add possibility to view result data in form of a table ([#851](https://github.com/tyrasd/overpass-turbo/pull/851))
 - Add support for Postpass / PostGIS SQL backends: `{{data:sql}}` as the query format signifier, SQL syntax highlighting, detection of GeoJSON and other JSON responses, and handling of backend error messages ([#788](https://github.com/tyrasd/overpass-turbo/issues/788))
 - Add a light/dark/auto theme setting, including dark mode styling for jQuery UI buttons and icons
 - Make favicon adaptive to light/dark color-scheme ([#780](https://github.com/tyrasd/overpass-turbo/issues/780))
