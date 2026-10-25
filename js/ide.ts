@@ -31,6 +31,7 @@ import Query from "./query";
 import settings from "./settings";
 import shortcuts, {Shortcut} from "./shortcuts";
 import sync, {type SyncedQuery} from "./sync-with-osm";
+import {updateTableFromGeoJson, updateTableFromRawData} from "./table";
 import {applyTheme, onThemeChange, type Theme} from "./theme";
 import urlParameters from "./urlParameters";
 
@@ -607,16 +608,29 @@ class IDE {
     });
 
     // tabs
-    $("#dataviewer > div#data")[0].style.zIndex = "-1001";
+    const tabDivs = {Map: "#map", Data: "#data", Table: "#table"};
+    const activeTab = $(".tabs li.is-active");
+    const activeTabClass = Object.keys(tabDivs).find((c) =>
+      activeTab.hasClass(c)
+    );
+    for (const [name, sel] of Object.entries(tabDivs)) {
+      $(sel)[0].style.zIndex = name === activeTabClass ? "1001" : "-1001";
+    }
     $(".tabs li").bind("click", (e) => {
-      if ($(e.target).hasClass("is-active")) {
+      const $li = $(e.target).closest("li");
+      if ($li.hasClass("is-active")) {
         return;
-      } else {
-        $("#dataviewer > div#data")[0].style.zIndex = String(
-          -1 * +$("#dataviewer > div#data")[0].style.zIndex
-        );
-        $(".tabs li").toggleClass("is-active");
       }
+      const tabClass = (Object.keys(tabDivs) as (keyof typeof tabDivs)[]).find(
+        (c) => $li.hasClass(c)
+      );
+      if (tabClass) {
+        for (const [c, sel] of Object.entries(tabDivs)) {
+          $(sel)[0].style.zIndex = c === tabClass ? "1001" : "-1001";
+        }
+      }
+      $(".tabs li").removeClass("is-active");
+      $li.addClass("is-active");
     });
 
     // keyboard event listener
@@ -943,6 +957,16 @@ class IDE {
       // check if 'out' followed by any number of characters (non-greedy) and then 'count' is present in the query
       const isCountPresent = /out[^;]+?count/.test(query);
 
+      // helper: switch to table if it has rows, otherwise to data
+      function switchToTableOrData() {
+        const tableEl = document.getElementById("table");
+        if (tableEl && tableEl.querySelector("table")) {
+          ide.switchTab("Table");
+        } else {
+          ide.switchTab("Data");
+        }
+      }
+
       // show warning/info if only invisible data is returned and 'out...count' is not present in the query
       if (empty_msg == "no visible data") {
         if (!isCountPresent && !settings.no_autorepair) {
@@ -972,7 +996,7 @@ class IDE {
                   settings.no_autorepair = true;
                   settings.save();
                 }
-                ide.switchTab("Data");
+                switchToTableOrData();
               }
             }
           ];
@@ -982,15 +1006,15 @@ class IDE {
             dialog_buttons
           );
         } else if (isCountPresent) {
-          ide.switchTab("Data");
+          switchToTableOrData();
         }
       }
       // auto tab switching (if only areas are returned)
-      if (empty_msg == "only areas returned") ide.switchTab("Data");
+      if (empty_msg == "only areas returned") switchToTableOrData();
       // auto tab switching (if nodes without coordinates are returned)
-      if (empty_msg == "no coordinates returned") ide.switchTab("Data");
+      if (empty_msg == "no coordinates returned") switchToTableOrData();
       // auto tab switching (if unstructured data is returned)
-      if (data_mode == "unknown") ide.switchTab("Data");
+      if (data_mode == "unknown") switchToTableOrData();
       // display empty map badge
       $(
         `<div id="map_blank" style="z-index:700; display:block; position:relative; top:50px; width:100%; text-align:center; background-color:#eee; opacity: 0.8;">${i18n.t(
@@ -1111,10 +1135,17 @@ class IDE {
         ide.dataViewer.setOption("mode", "text");
         ide.dataViewer.setValue(overpass.resultText);
       }
+      const tableEl = document.getElementById("table");
+      if (tableEl.innerHTML === "" && overpass.resultText) {
+        updateTableFromRawData(overpass.resultText, tableEl);
+      }
     };
     overpass.handlers["onGeoJsonReady"] = function () {
       // show layer
       ide.map.addLayer(overpass.osmLayer);
+      // render table from geojson if available
+      const tableEl = document.getElementById("table");
+      updateTableFromGeoJson(overpass.geojson?.features, tableEl);
       // autorun callback (e.g. zoom to data)
       if (typeof ide.run_query_on_startup === "function") {
         ide.run_query_on_startup();
@@ -1332,7 +1363,7 @@ class IDE {
       this.codeEditor.removeLineClass(i, "background", "errorline");
   }
 
-  switchTab(tab: "Data" | "Map"): void {
+  switchTab(tab: "Data" | "Map" | "Table"): void {
     $(`.tabs li.${tab}`).click();
   }
 
@@ -1868,30 +1899,11 @@ class IDE {
           timestamp: overpass.timestamp,
           features: geojson.features.map((feature): GeoJSON.Feature => ({
             type: "Feature",
-            properties: feature.properties,
+            id: `${feature.properties.type}/${feature.properties.id}`,
+            properties: flattenProperties(feature.properties),
             geometry: feature.geometry
           })) // makes deep copy
         };
-        gJ.features.forEach((f) => {
-          const p = f.properties;
-          f.id = `${p.type}/${p.id}`;
-          f.properties = {
-            "@id": f.id
-          };
-          // escapes tags beginning with an @ with another @
-          for (const m in p.tags || {})
-            f.properties[m.replace(/^@/, "@@")] = p.tags[m];
-          for (const m in p.meta || {}) f.properties[`@${m}`] = p.meta[m];
-          // expose internal properties:
-          // * tainted: indicates that the feature's geometry is incomplete
-          if (p.tainted) f.properties["@tainted"] = p.tainted;
-          // * geometry: indicates that the feature's geometry is approximated via the Overpass geometry types "center" or "bounds"
-          if (p.geometry) f.properties["@geometry"] = p.geometry;
-          // expose relation membership (complex data type)
-          if (p.relations && p.relations.length > 0)
-            f.properties["@relations"] = p.relations;
-          // todo: expose way membership for nodes?
-        });
         geoJSON_str = JSON.stringify(gJ, undefined, 2);
       }
       return geoJSON_str;
@@ -2991,3 +3003,28 @@ class IDE {
 const ide = new IDE();
 
 export default ide;
+
+export function flattenProperties(
+  p: GeoJSON.GeoJsonProperties,
+  includeInternals: boolean = true
+): Record<string, string> {
+  if (!p.tags) return p;
+  const result = p.id
+    ? {
+        "@id": p.type ? `${p.type}/${p.id}` : p.id
+      }
+    : {};
+  // escapes tags beginning with an @ with another @
+  for (const m in p.tags || {}) result[m.replace(/^@/, "@@")] = p.tags[m];
+  for (const m in p.meta || {}) result[`@${m}`] = p.meta[m];
+  if (!includeInternals) return result;
+  // expose internal properties:
+  // * tainted: indicates that the feature's geometry is incomplete
+  if (p.tainted) result["@tainted"] = p.tainted;
+  // * geometry: indicates that the feature's geometry is approximated via the Overpass geometry types "center" or "bounds"
+  if (p.geometry) result["@geometry"] = p.geometry;
+  // expose relation membership (complex data type)
+  if (p.relations && p.relations.length > 0) result["@relations"] = p.relations;
+  // todo: expose way membership for nodes?
+  return result;
+}
