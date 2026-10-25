@@ -6,10 +6,6 @@ import {flattenProperties} from "./ide";
 
 export type TableData = {columns: string[]; rows: object[]};
 
-/** Rows per page, once there are more rows than this. Below the limit, showing
- *  everything at once beats a row of pagination buttons. */
-const pageSize = 100;
-
 export function parseCSVText(text: string): TableData | null {
   const result = Papa.parse(text.trim(), {
     header: true,
@@ -216,11 +212,18 @@ export function clearTable(tableEl: HTMLElement) {
 
 export function renderTable(tableEl: HTMLElement, data: TableData) {
   const {columns, rows} = toGridData(data);
+  // set pageSize to fill available height optimally
+  let pageSize = Math.max(
+    10,
+    Math.floor((tableEl.clientHeight - 44 - 32.8 - 31) / 26.8)
+  );
   const grid = new Grid({
     columns,
     data: rows,
     sort: {multiColumn: false},
     search: true,
+    resizable: true,
+    autoWidth: true,
     pagination:
       rows.length > pageSize ? {limit: pageSize, buttonsCount: 5} : false,
     language: gridLanguage()

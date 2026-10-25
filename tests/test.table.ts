@@ -216,9 +216,9 @@ describe("renderTable", () => {
     const rows = Array.from({length: 200}, (_, i) => ({a: i}));
     renderTable(tableEl, {columns: ["a"], rows});
     await settle();
-    // the first page holds 100 of the 200 rows, the rest sit behind the
+    // the first page holds 10 of the 200 rows, the rest sit behind the
     // pagination buttons
-    expect(renderedRows()).toHaveLength(100);
+    expect(renderedRows()).toHaveLength(10);
     expect(tableEl.querySelector(".gridjs-pagination")).not.toBeNull();
     expect(tableEl.querySelector(".gridjs-pagination").textContent).toContain(
       "200"
