@@ -32,6 +32,7 @@ const default_lng: Language = "en";
 const languages = {
   // translations found in locale/*.json
   ast: "Asturian",
+  be: "Belarusian",
   en: "English",
   "en-GB": "English (GB)",
   "en-US": "English (US)",
