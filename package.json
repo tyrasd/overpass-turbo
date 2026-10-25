@@ -46,7 +46,7 @@
     "@types/jquery": "^4.0.1",
     "@types/leaflet": "^1.9.3",
     "@types/papaparse": "^5.5.2",
-    "happy-dom": "^20.10.6",
+    "happy-dom": "^21.0.4",
     "peggy": "^5.1.0",
     "typescript": "^7.0.2",
     "vite": "catalog:",
