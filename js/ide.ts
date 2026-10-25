@@ -324,6 +324,9 @@ class IDE {
         $("#logout").appendTo($("#logout").parent());
       }
     }
+    if (!navigator.userAgent.includes("Mobile")) {
+      $(".mobile-only").hide();
+    }
     // translate ui
     this.waiter.addInfo("translate ui");
     await i18n.translate();
