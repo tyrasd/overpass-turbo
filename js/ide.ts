@@ -1205,16 +1205,19 @@ class IDE {
               )}: ${duration}ms<br>`;
             }
             if (overpass.timestamp) {
-              str +=
-                `${i18n.t("data_stats.lag")}: ${Math.floor(
-                  backlogOverpass / 1000
-                )}s` + ` <small>${i18n.t("data_stats.lag.expl")}</small>`;
+              const delta = new Intl.RelativeTimeFormat(
+                i18n.getLanguage()
+              ).format(-Math.round(backlogOverpass / 1000), "seconds");
+              str += `${i18n.t("data_stats.lag")}: ${delta}`;
             }
             if (overpass.timestampAreas) {
-              str +=
-                `<br>${i18n.t("data_stats.lag_areas")}: ${Math.floor(
-                  backlogOverpassAreas / 1000
-                )}s` + ` <small>${i18n.t("data_stats.lag.expl")}</small>`;
+              const delta = new Intl.RelativeTimeFormat(
+                i18n.getLanguage()
+              ).format(
+                -Math.round(backlogOverpassAreas / 100 / 3600) / 10,
+                "hours"
+              );
+              str += `<br>${i18n.t("data_stats.lag_areas")}: ${delta}`;
             }
             str += "</div>";
             return str;

@@ -311,7 +311,6 @@
   "data_stats.request_duration": "Overpass request took",
   "data_stats.lag": "Currentness of data",
   "data_stats.lag_areas": "Currentness of areas",
-  "data_stats.lag.expl": "behind main OSM db",
   "popup.tags": "Tags",
   "popup.metadata": "Metadata",
   "popup.coordinates": "Coordinates",
