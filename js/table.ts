@@ -112,6 +112,20 @@ function toGridData(data: TableData) {
     // other than a plain value would break sorting and searching.
     formatter: (cell: CellValue) =>
       isEmpty(cell) ? h("em", {className: "table-null"}, "null") : cell,
+    attributes: (
+      cell: CellValue,
+      row: any,
+      column: (typeof columns)[number]
+    ) => {
+      if (
+        row === null || // row is null for table header
+        cell !== null // cell has content
+      ) {
+        return {
+          title: column.name
+        };
+      }
+    },
     sort: {
       // Grid.js' own comparator calls cells without a value equal to
       // everything else, which leaves the sort order up to the browser. Sort

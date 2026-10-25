@@ -172,6 +172,7 @@ body {
   padding: 4px 8px;
   text-align: left;
   max-width: 300px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -179,12 +180,24 @@ body {
   background-color: var(--bulma-background-active);
   color: var(--bulma-text-strong);
   font-weight: bold;
-  position: sticky;
-  top: 0;
-  z-index: 1;
+  padding-top: 6px;
+  padding-bottom: 2px;
+  height: 32px;
 }
 #table th.gridjs-th-sort:hover {
   background-color: var(--bulma-scheme-main-ter);
+}
+#table th.gridjs-th .gridjs-th-content {
+  width: calc(100% + 1px);
+  font-size: 90%;
+  margin-left: -2px;
+}
+#table th.gridjs-th button.gridjs-sort {
+  position: absolute;
+  right: 0;
+  top: -2px;
+  background-position-y: center;
+  background-size: 9px auto;
 }
 /* Grid.js paints the cells themselves, so the row's own background would be
    hidden underneath them. */
