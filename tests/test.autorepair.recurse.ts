@@ -72,6 +72,34 @@ describe("ide.autorepair.recurse", () => {
     }
   });
 
+  // recurse down fully if the query was already repaired (#842)
+  it("recurse fully when repairing again", () => {
+    const examples = [
+      {
+        lang: "OverpassQL" as const,
+        inp: "relation(id:8956491);\n/*added by auto repair*/\n(._;>;);\n/*end of auto repair*/\nout;",
+        outp: "relation(id:8956491);\n/*added by auto repair*/\n(._;>;);\n/*end of auto repair*/\n/*added by auto repair*/\n(._;>>;);\n/*end of auto repair*/\nout;"
+      },
+      {
+        lang: "OverpassQL" as const,
+        inp: "relation(id:8956491)->.foo;\n/*added by auto repair*/\n(.foo;.foo >;)->.foo;\n/*end of auto repair*/\n.foo out;",
+        outp: "relation(id:8956491)->.foo;\n/*added by auto repair*/\n(.foo;.foo >;)->.foo;\n/*end of auto repair*/\n/*added by auto repair*/\n(.foo;.foo >>;)->.foo;\n/*end of auto repair*/\n.foo out;"
+      },
+      {
+        lang: "xml" as const,
+        inp: '<!-- added by auto repair -->\n<union>\n  <item/>\n  <recurse type="down"/>\n</union>\n<!-- end of auto repair -->\n<print/>',
+        outp: '<!-- added by auto repair -->\n<union>\n  <item/>\n  <recurse type="down"/>\n</union>\n<!-- end of auto repair -->\n<!-- added by auto repair -->\n<union>\n  <item/>\n  <recurse type="down-rel"/>\n</union>\n<!-- end of auto repair -->\n<print/>'
+      }
+    ];
+    for (const example of examples) {
+      vi.spyOn(ide, "getQueryLang").mockImplementation(() => example.lang);
+      const setQuery = vi.spyOn(ide, "setQuery").mockImplementation(() => {});
+      vi.spyOn(ide, "getRawQuery").mockImplementation(() => example.inp);
+      ide.repairQuery("no visible data");
+      expect(setQuery).toHaveBeenCalledWith(example.outp);
+    }
+  });
+
   // do not autocomplete in comments (xml query)
   it("do not autocomplete in comments (xml query)", () => {
     const examples = [

@@ -45,10 +45,19 @@ export default class Autorepair {
     return this.query;
   }
 
-  /** Makes each output statement also output the elements it references. */
+  /**
+   * Makes each output statement also output the elements it references.
+   *
+   * If the query was already repaired and still shows no data (e.g. a relation
+   * whose members are all relations), recurse down fully instead.
+   */
   recurse(): boolean {
     let q = this.query;
+    const repeated = Object.values(this.comments).some((comment) =>
+      comment.includes("added by auto repair")
+    );
     if (this.lng == "xml") {
+      const type = repeated ? "down-rel" : "down";
       // do some fancy mixture between regex magic and xml as html parsing :€
       const prints =
         q.match(/(\n?[^\S\n]*<print[\s\S]*?(\/>|<\/print>))/g) || [];
@@ -67,19 +76,20 @@ export default class Autorepair {
         }
         q = q.replace(
           prints[i],
-          `\n${ws}<!-- added by auto repair -->\n${ws}<union${add1}>\n${ws}  <item${add2}/>\n${ws}  <recurse${add3} type="down"/>\n${ws}</union>\n${ws}<!-- end of auto repair --><autorepair>${i}</autorepair>`
+          `\n${ws}<!-- added by auto repair -->\n${ws}<union${add1}>\n${ws}  <item${add2}/>\n${ws}  <recurse${add3} type="${type}"/>\n${ws}</union>\n${ws}<!-- end of auto repair --><autorepair>${i}</autorepair>`
         );
       }
       for (let i = 0; i < prints.length; i++)
         q = q.replace(`<autorepair>${i}</autorepair>`, prints[i]);
     } else {
       const outs = q.match(/(\n?[^\S\n]*(\.[^.;]+)?out[^:;"\]]*;)/g) || [];
+      const recurse = repeated ? ">>" : ">";
       for (let i = 0; i < outs.length; i++) {
         const ws = outs[i].match(/^\n?(\s*)/)[0]; // amount of whitespace
         const from = outs[i].match(/\.([^;.]+?)\s+out/);
         let add;
-        if (from) add = `(.${from[1]};.${from[1]} >;)->.${from[1]};`;
-        else add = "(._;>;);";
+        if (from) add = `(.${from[1]};.${from[1]} ${recurse};)->.${from[1]};`;
+        else add = `(._;${recurse};);`;
         q = q.replace(
           outs[i],
           `${ws}/*added by auto repair*/${ws}${add}${ws}/*end of auto repair*/<autorepair>${i}</autorepair>`
