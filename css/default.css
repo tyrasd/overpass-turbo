@@ -432,6 +432,11 @@ a.ui-button:active,
 .errorline {
   background: var(--bulma-danger-light) !important;
 }
+:root[data-theme="dark"] {
+  .errorline {
+    background: var(--bulma-danger-dark) !important;
+  }
+}
 
 .cm-mustache {
   color: #d83;
