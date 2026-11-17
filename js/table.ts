@@ -67,7 +67,7 @@ function sortCols(colSet: Set<string>, rows: object[]) {
     if (a < b) return -1;
     if (a > b) return 1;
     return 0;
-  });
+  }).slice(0, 100);
 }
 
 export function findArrayInObj(obj: any): any[] | null {
