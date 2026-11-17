@@ -2,6 +2,14 @@
 
 These changes are live on the development instance at <https://tyrasd.github.io/overpass-turbo/>, but are not yet part of a stable release and are not deployed to <https://overpass-turbo.eu/>.
 
+## 2026-11-17
+
+* Format element id's as links in table view ([#871](https://github.com/tyrasd/overpass-turbo/issues/871))
+* Render at most 100 columns in table view, fixing very sluggish loading when there are an extreme number of tag keys present in the result
+* Fix crash when there are geojson layers and small-features-as-poi enabled ([#872](https://github.com/tyrasd/overpass-turbo/issues/872))
+* Make error highlighting work in dark mode ([#875](https://github.com/tyrasd/overpass-turbo/pull/875))
+* Fix a crash that can cause the pagination not work in table view
+
 ## 2026-10-25
 
 - Add possibility to view result data in form of a table ([#851](https://github.com/tyrasd/overpass-turbo/pull/851))
