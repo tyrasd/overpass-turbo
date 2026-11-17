@@ -135,8 +135,22 @@ function toGridData(data: TableData) {
     data: (row: Record<string, CellValue>) => row[name],
     // Styling the cell contents is left to the formatter on purpose: anything
     // other than a plain value would break sorting and searching.
-    formatter: (cell: CellValue) =>
-      isEmpty(cell) ? h("em", {className: "table-null"}, "null") : cell,
+    formatter: (cell: CellValue) => {
+      if (isEmpty(cell)) {
+        return h("em", {className: "table-null"}, "null");
+      }
+      if (name === "@id") {
+        return h(
+          "a",
+          {
+            href: `https://openstreetmap.org/${cell}`,
+            target: "_blank"
+          },
+          cell
+        );
+      }
+      return cell;
+    },
     attributes: (
       cell: CellValue,
       row: any,
