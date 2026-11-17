@@ -228,6 +228,21 @@ export function renderTable(tableEl: HTMLElement, data: TableData) {
       rows.length > pageSize ? {limit: pageSize, buttonsCount: 5} : false,
     language: gridLanguage()
   });
+  // workaround for pagination when grid is slow to load
+  // source: https://github.com/grid-js/gridjs/issues/1458#issuecomment-3231766383
+  let gridInitialized = true;
+  grid.config.store.subscribe((state, prevState) => {
+    // GridJS status transitions: typically 0=init, 1=loading, 2=loaded, 3=rendered
+    // We wait for 2→3 transition to ensure grid is fully rendered before initializing
+    if (prevState.status === 2 && state.status === 3) {
+      if (gridInitialized) return;
+      gridInitialized = true;
+      setTimeout(() => {
+        console.log('Grid: Applying pagination fix');
+        grid.forceRender();
+      }, 100); // delay just in case
+    }
+  });
   clearTable(tableEl);
   grid.render(tableEl);
   grids.set(tableEl, grid);
