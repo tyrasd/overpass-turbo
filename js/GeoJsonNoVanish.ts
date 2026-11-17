@@ -98,6 +98,7 @@ class GeoJsonNoVanish extends L.GeoJSON {
       if (is_max_zoom && compress !== "point") return; // do not compress objects at max zoom, except if mapcss says always to render as points
       if (compress === "native") return; // do not compress if mapcss specifies not to
       const bounds = o.getBounds();
+      if (!bounds.isValid()) return; // invalid layer
       const d = this._sizeOnScreen(bounds);
       if (d > threshold && compress !== "point") return;
       const center = d <= threshold ? bounds.getCenter() : o.getCenter();
