@@ -61,13 +61,15 @@ function sortCols(colSet: Set<string>, rows: object[]) {
       counts[k] = (counts[k] || 0) + 1;
     }
   }
-  return vals.sort((a, b) => {
-    const countDiff = counts[b] - counts[a];
-    if (countDiff != 0) return countDiff > 0 ? 1 : -1;
-    if (a < b) return -1;
-    if (a > b) return 1;
-    return 0;
-  }).slice(0, 100);
+  return vals
+    .sort((a, b) => {
+      const countDiff = counts[b] - counts[a];
+      if (countDiff != 0) return countDiff > 0 ? 1 : -1;
+      if (a < b) return -1;
+      if (a > b) return 1;
+      return 0;
+    })
+    .slice(0, 100);
 }
 
 export function findArrayInObj(obj: any): any[] | null {
@@ -238,7 +240,7 @@ export function renderTable(tableEl: HTMLElement, data: TableData) {
       if (gridInitialized) return;
       gridInitialized = true;
       setTimeout(() => {
-        console.log('Grid: Applying pagination fix');
+        console.log("Grid: Applying pagination fix");
         grid.forceRender();
       }, 100); // delay just in case
     }
